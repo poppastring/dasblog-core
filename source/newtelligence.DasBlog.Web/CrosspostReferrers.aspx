@@ -1,0 +1,2 @@
+<%@ Page language="c#" validateRequest="true" Codebehind="CrosspostReferrers.aspx.cs" AutoEventWireup="False" Inherits="newtelligence.DasBlog.Web.CrosspostReferrers" %>
+<asp:placeholder id="contentPlaceHolder" runat="server"></asp:placeholder>

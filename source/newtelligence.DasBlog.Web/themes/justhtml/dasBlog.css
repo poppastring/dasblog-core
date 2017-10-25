@@ -1,0 +1,212 @@
+/* 
+	DasBlog
+	
+	These are all the DasBlog specific styles that you can
+	use to customize the look and feel fo the content
+*/
+
+.adminNavbarStyle {
+
+}
+
+.blogRollCellStyle {
+}
+
+.blogRollContainerStyle {
+}
+
+.blogRollDescriptionStyle {
+
+}
+
+.blogRollLinkStyle {
+}
+
+.blogRollNestedOutlineBodyTableStyle {
+
+}
+
+.blogRollNestedOutlineTitleCellStyle {
+}
+
+.blogRollTableStyle {
+}
+
+.blogRollXmlLinkStyle {
+}
+
+.bodyContentStyle {
+
+}
+
+.categoryListCellStyle {
+}
+
+.categoryListContainerStyle {
+}
+
+.categoryListExpanded {
+}
+
+.categoryListlinkstyle {
+}
+
+.categoryListNestedOutlineBadgeCellStyle {
+}
+
+.categoryListNestedOutlineBadgeStyle {
+}
+
+.categoryListNestedOutlineBodyTableStyle {
+
+}
+
+.categoryListNestedOutlineContainer {
+}
+
+.categoryListNestedOutlineTitleCellStyle {
+}
+
+.categoryListNestedOutlineTitleStyle {
+}
+
+.categoryListTableStyle {
+}
+
+.categoryListXmlLinkStyle {
+}
+
+.commentBoxFooterStyle {
+
+}
+
+.commentBoxStyle {
+
+}
+
+.commentDateStyle {
+
+}
+
+.date {
+
+}
+
+.description {
+
+}
+
+/*
+	ItemStyle
+*/
+.itemBodyStyle {
+
+}
+
+.itemBoxStyle {
+
+}
+
+.itemCategoryLinksStyle {
+
+}
+
+.itemFooterStyle {
+
+}
+
+.itemReadMoreStyle {
+
+}
+
+.itemTitleStyle {
+
+}
+
+.navigatorLinksCellStyle {
+}
+
+.navigatorLinksContainerStyle {
+}
+
+.navigatorLinksLinkStyle {
+}
+
+.navigatorLinksTableStyle {
+}
+
+.newsItems {
+}
+
+.pageTopic {
+
+}
+
+.side {
+
+}
+
+.sidetitle {
+
+}
+
+.signInPasswordTextBoxStyle {
+	
+}
+
+.signInTableStyle {
+}
+
+.signInUsernameTextBoxStyle {
+
+}
+
+.siteName, .siteName a, .siteName a:visited, .siteName a:hover {
+
+}
+
+.titleListCellStyle {
+}
+
+.titleListStyle {
+}
+
+.trackbackLinkStyle {
+}
+
+
+.commentViewBoxStyle input 
+{
+	border:1px solid #CCCCCC;
+}
+
+/* Paging */
+.post-paging {
+}
+.previous-posts{
+}
+.next-posts{
+}
+.clear {
+clear: both
+}
+
+/* Tag Cloud */
+.smallestTag { line-height: 110%; font-size: x-small; font-weight: normal; }
+.smallerTag { line-height: 110%; font-size: x-small; font-weight: bold; }
+.smallTag { line-height: 110%; font-size: small; font-weight: normal; }
+.mediumTag { line-height: 110%; font-size: medium; font-weight: normal; }
+.largeTag { line-height: 110%; font-size: large; font-weight: normal; }
+.largerTag { line-height: 110%; font-size: x-large; font-weight: normal; }
+.largestTag { line-height: 110%; font-size: x-large; font-weight: bold; }
+ 
+/* OpenID Support added in 2.2 */
+.openidtextbox {
+	background: #FFFFFF url('../../images/openid-icon-small.gif') no-repeat scroll 0pt 50%; 
+	padding-left: 18px; 
+}
+.openidtextboxwrap 
+{
+	padding-right: 18px;
+}
+

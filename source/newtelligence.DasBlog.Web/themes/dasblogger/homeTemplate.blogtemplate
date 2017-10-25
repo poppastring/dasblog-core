@@ -1,0 +1,147 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="author" content="<%authorName%>" />
+	<meta name="robots" CONTENT="ALL">
+	<meta name="keywords" content="dasBlog">
+	<meta name="description" content="<%subtitle%>" />
+	<meta name="revisit-after" CONTENT="1 days">
+	<meta name="classification" CONTENT="Blog">
+	<meta name="robots" CONTENT="ALL">
+	<meta name="distribution" CONTENT="Global">
+	<meta name="rating" CONTENT="General">
+	<meta name="copyright" content="Copyright (C) 2007, <%authorName%>. All rights reserved." />
+	<meta name="language" CONTENT="English">
+	<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+	<title><%title%></title>
+	<%styleSheet("dasblogger.css")%>
+</head>
+<body bgcolor="#000">
+			<!-- This is the top css corners for full screen - you can remove all css corners if desired -->
+			<!-- top css corners -->
+			<div class="page_cr">
+			<b class="r2top"><b class="r2b1"></b><b class="r2b2"></b><b class="r2b3"></b><b class="r2b4"></b>
+			<div class="r2boxcontent">
+			<!-- end top css corners -->
+<div id="master">
+<table cellpadding="0" cellspacing="0" width="100%" height="100%">
+<div id="container">&nbsp;
+	<tr>
+		<td height="88%" width="15%" valign="top">
+				<div id="topleft">&nbsp;
+				<div class="siteName"><%siteNameLink%></div>
+				<!--<h2><%siteNameLink%></h2> -->
+				<!-- top css corners -->
+				<div class="leftnav_cr">
+				<b class="top"><b class="b1"></b><b class="b2"></b><b class="b3"></b><b class="b4"></b></b>
+				<div class="boxcontent">
+				<!-- end top css corners -->
+					<div id="leftnavcontainer">
+						<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+
+					<p><h3>Statistics</h3><% blogStats()%></p>
+					</div> <!-- end leftnavcontainer -->
+					<!-- bottom css corners -->
+					</div>
+					<b class="bottom"><b class="b4b"></b><b class="b3b"></b><b class="b2b"></b><b class="b1b"></b></b>
+					</div>
+					<!-- end bottom  css corners-->
+								<br />
+								<!-- menu below dasblogger image -->
+								<%rssLink%>
+								<div class="box"><%newtelligence.search()%></div><!-- end search box -->
+									<br />
+									<h4>Admin</h4>
+									<%newtelligence.loginbox ()%>
+									<br />
+									<h4>Navigation</h4>
+									<%navigatorLinks%>
+									<br />
+									<h4>Recent Posts</h4>
+									<%RecentEntries%>
+									<br />
+									<h4><%localString("On this page....|DE:Auf dieser Seite...|AR:&#1601;&#1610; &#1607;&#1584;&#1607; &#1575;&#1604;&#1589;&#1601;&#1581;&#1577;...")%></h4>
+									<%titleList()%>
+									<br />
+									<h4>Archives</h4>
+									<a href="Archives.aspx">&nbsp;Full Archives By Category</a><br />
+									<a href="monthview.aspx?year=2007">&nbsp;2007 Calendar View</a><br />
+										<%newtelligence.drawArchiveMonths()%>
+										<%radio.weblog.drawcalendar ()%>
+										<br />
+										<h4><%localString("Categories|DE:Kategorien|AR:&#1571;&#1589;&#1606;&#1575;&#1601;")%></h4>
+										<%drawTagCloud()%>
+										<%newtelligence.DrawCategoriesWithoutFeed()%>
+										<!-- <%newtelligence.drawCategories()%> -->
+										<br />
+										<h4>Blogroll - Fav Blogs</h4>
+										<%radio.macros.blogroll ("siteConnfig/blogroll.opml")%>
+										<br />
+										<h4>Acknowledgments</h4>
+										DasBlog Theme Design by: <a href="http://www.tomwatts.com">Tom Watts</a>
+										<br />
+										E-mail: <%Mailto()%>
+										<br />
+										Theme Image by: <a href="http://www.dream-logic.com">dreamLogic</a><br /><br />
+										<a href="http://dasblog.info/"><IMG height=56 width=50 src="themes/dasblogger/dasBlogReflection50x56Gray_thumb.gif" title="blogging by dasBlog.info" border=0></a>
+										<h4>Disclaimer</h4>
+										The opinions expressed herein are my own personal opinions and do not represent	my employer's view in anyway.
+										<!-- To use disclaimer.format.html, uncomment below and remove the above -->
+										<!-- <%newtelligence.disclaimer()%> -->
+										<%newtelligence.aspnetcontrol("themecombo.ascx")%>
+										<br/ ><br/ >
+				</div><!-- end topleft -->
+		</td>
+		<td height="88%" width="85%" valign="top"><!-- Right content area -->
+				<!-- This is the top of the page, the subtitle is just above blog content -->
+				<h1><span><%subtitle%></span></h1>
+				 <%newtelligence.adminBar()%><!--When logged in, admin bar here-->
+				 <div id="content">
+				<%bodytext%> <!--Blog posts here-->
+
+				<div class="post-paging">
+					<div class="previous-posts">
+						<% DrawPostPagingPrevious() %>
+					</div>
+					<div class="next-posts">
+						<% DrawPostPagingNext() %>
+					</div>
+				</div>
+			</div><!--end content -->
+		</td>
+	</tr>
+	<tr>
+			<td height="5%" width="100%" colspan="2">&nbsp;<!-- footer cell/row -->
+					<!--FOOTER SECTION -->
+					<!-- top css corners -->
+					<div class="footer_cr">
+					<b class="rtop"><b class="rb1"></b><b class="rb2"></b><b class="rb3"></b><b class="rb4"></b></b></b>
+					<div class="rboxcontent">
+					<!-- end top css corners -->
+					<div id="footer">
+							<%localString("Page rendered at|DE:Seite aufbereitet um|AR: &#1578;&#1605; &#1593;&#1585;&#1590; &#1607;&#1584;&#1607; &#1575;&#1604;&#1589;&#1601;&#1581;&#1577; &#1601;&#1610;")%>&nbsp;<%now%><br />
+							&copy; Copyright <%year%> <%authorName%>; - All rights reserved.
+									This blog is Powered by: <%radioBadge%>.
+					</div><!-- end footer -->
+					<!-- bottom css corners -->
+					</div>
+					<b id="color_a">
+					<b class="rbottom"><b class="rb4b"></b><b class="rb3b"></b><b class="rb2b"></b><b class="rb1b"></b></b>
+					</div>
+					<!-- end bottom css corners -->
+				</td>
+		</div> <!-- end content -->
+</div><!-- end container -->
+	</tr>
+</table>
+</div><!--end master -->
+					<!-- This is the bottom css corners for full screen -->
+					<!-- botom css corners -->
+					</div>
+					<b class="r2bottom"><b class="r2b4b"></b><b class="r2b3b"></b><b class="r2b2b"></b><b class="r2b1b"></b></b>
+					</div>
+					<!-- end bottom css corners -->
+	</body>
+</html>

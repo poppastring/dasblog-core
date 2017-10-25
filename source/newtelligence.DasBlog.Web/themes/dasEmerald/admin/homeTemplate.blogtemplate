@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+	
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<title><%title%></title>
+<%styleSheet("\style.css")%>
+</head>
+<style type="text/css">
+#left {
+	margin-right: 0%;
+}
+</style>
+<body>
+<div id="wrap">
+	<div id="header">
+		<h1 class="Logo"><%siteNameLink%><span><%description%></span></h1>
+			<div id="menu">
+					<ul>
+						<li class="active"><a href="<%baseURL()%>"><span>Home</span></a></li>
+						<li><a href="http://dasblog.info" TARGET = "_blank">dasBlog</a></li>
+						<li><a href="http://www.codeplex.com/dasBlog" TARGET = "_blank">dasBlog CodePlex</a></li>
+						<li><a href="http://www.codeplex.com/dasBlog/Thread/List.aspx" TARGET = "_blank">dasBlog Forum</a></li>
+					</ul>
+			</div> <!-- end menu -->
+	</div>
+<%newtelligence.adminBar()%>
+<!-- BEGIN content -->
+<div id="content">
+	<!-- BEGIN #left -->
+	<div id="left">
+		<div class="column">
+			<%bodytext%> 
+		</div>
+	</div>
+	<!-- END #left -->
+	</div>
+<!-- END #content-->
+</body>
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="author" content="Tom Watts" />
+	<meta name="robots" content="all"/>
+	<meta name="keywords" content="dasBlog"/>
+	<meta name="description" content="newtelligence powered" />
+	<meta name="revisit-after" content="1 days"/>
+	<meta name="classification" content="Blog"/>
+	<meta name="robots" content="ALL"/>
+	<meta name="distribution" content="Global"/>
+	<meta name="rating" content="General"/>
+	<meta name="copyright" content="Copyright (C) 2006-2012, Tom Watts. All rights reserved." />
+	<meta name="language" content="English"/>
+	<title><%title%></title> <!-- updated 2-6-2012 -->
+	<%styleSheet("nautica022.css")%>
+</head>
+<body>
+			<div id="wrapper-menu-top">
+					<div id="menu-top">
+						<ul>
+							<li><a href="default.aspx" title="Home"><span>Home-Blog</span></a></li>
+							<li><a href="http://dasblog.codeplex.com/" title="dasBlog.codeplex"><span>dasBlog.codeplex</span></a></li>
+							<li><a href="http://dasblog.info" title="dasBlog.info"><span>dasBlog.info</span></a></li>
+						</ul>
+					</div><!--menu-top-->
+			</div><!--wrapper-menu-top-->
+				<div id="wrapper-header">
+					<div id="header">
+						<div id="wrapper-header2">
+							<div id="wrapper-header3">
+								<h1><span><%subtitle%></span></h1>
+							</div>
+						</div>
+					</div>
+				</div>
+		<div id="wrapper-content">
+			<div id="wrapper-menu-page">
+				<div id="menu-page"> 
+					<div class="side">
+					<%newtelligence.search()%>
+					<h3>Navigation</h3>
+					<%navigatorLinks%>
+						<div class="box">
+							<h3>ADMIN</h3>
+							<%newtelligence.loginbox ()%>
+						</div>
+						</div>
+						<br />
+						<p><img src="themes/nautica022/images/logo.png" width="165" height="110" alt="" /></p>
+						<div class="box">
+							<h3>On this page....</h3>	
+							<!--	<%localString("On this page....|DE:Auf dieser Seite...|AR:&#1601;&#1610; &#1607;&#1584;&#1607; &#1575;&#1604;&#1589;&#1601;&#1581;&#1577;...")%> --> 
+								<div class="side">	
+								<%titleList()%>
+							</div>
+						</div> 
+								<br />
+						<div class="box">				
+							<h3>Archives</h3>
+							<div class="side">
+								<a href="Archives.aspx">&nbsp;Full Archives By Category</a><br />
+								<a href="monthview.aspx?year=2005">&nbsp;2005 Calendar View</a><br />
+								<%newtelligence.drawArchiveMonths()%>
+							</div>
+						</div>
+								<%radio.weblog.drawcalendar ()%>
+									<br />
+						<div class="box">
+								<h3>Aggregate Me!</h3>
+							<div class="side"  style="text-align: center;">
+						<%rssLink%> | <%atomLink%> | <%CdfLink%>
+							</div>
+						</div>
+						<div class="box">
+								<h3>Categories</h3>
+								<!--	<%localString("Categories|DE:Kategorien|AR:&#1571;&#1589;&#1606;&#1575;&#1601;")%> -->
+							<div class="side">
+									<%newtelligence.drawCategories()%>
+							</div>
+						</div>
+						<div class="box">
+								<h3>DasBlog Links</h3>
+							<div class="side">
+								<a href="http://dasblog.info">dasBlog Legacy Documentation</a><br />
+								<a href="http://dasblog.codeplex.com/">dasBlog CodePlex</a>
+							</div>
+						</div>
+						<div class="box">	
+							<h3>Personal Links</h3>
+							<div class="side">
+								<a href="#">My Link</a>
+							</div>
+						</div>
+							<div class="box">
+								<h3>Blogroll - Fav Blogs</h3>
+							<div class="side">
+								<%radio.macros.blogroll ("siteConnfig/blogroll.opml")%>
+							</div>
+						</div>
+							<br />
+					<div class="box">
+						<div class="side">	
+						<br />
+								dasBlog Theme Design by: <a href="http://www.tomwatts.com">www.tomwatts.com</a><br />
+								CSS Design by: <a href="http://www.studio7designs.com">www.studio7designs.com</a><br />
+								Blog Engine by: <a href="http://www.dasblog.info" title="Go to DasBlog user page">dasBlog</a>
+								<br /><br />
+								<%radio.macros.mailTo ()%> E-mail
+								<%newtelligence.disclaimer()%>
+        <%newtelligence.aspnetcontrol("themecombo.ascx")%>
+						</div>
+					</div>
+				</div><!--menu-page-->
+			</div><!--wrapper-menu-page-->
+				<div id="content"> 
+						<div id="adminfront">
+								<%newtelligence.adminBar()%> <!--When logged in, admin bar here-->
+						</div>
+						<% DrawCategoryPaging() %> 
+						<%bodytext%> <!--Blog posts here-->
+							<div class="post-paging">
+								<div class="previous-posts">
+									<% DrawPostPagingPrevious() %>
+								</div>
+								<div class="next-posts">
+									<% DrawPostPagingNext() %>
+								</div>
+							</div>						
+				</div>
+							<div id="wrapper-footer">
+								<div id="footer">
+									&copy; Copyright <%year%> <%authorName%>; - All rights reserved.
+									This blog is Powered by: <%radioBadge%>.
+								</div>
+							</div>
+		</div><!-- wrapper-content-->					
+	</body>
+</html>

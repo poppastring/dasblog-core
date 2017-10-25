@@ -1,0 +1,315 @@
+/* Css originally by mejobloggs  Design by Aran @ stuio7designs.com */
+/* Minor mods-additions for dasblog layout - updated 2-6-2012 */
+@import url("items.css");
+@import url("admin.css");
+@import url("calendar.css");
+
+body {
+	font-family: trebuchet ms, verdana, arial, tahoma;
+	font-size: 90%;
+	color: #888;
+	background-color: white;
+	line-height: 180%;
+	margin: 0;
+	padding: 0;
+	text-align: center;
+}
+
+a img {border: 0;}
+a:link, a:visited { color: #5b8fbe;}
+a:hover{ color: #666; text-decoration: none; }
+
+pre 
+{ 
+overflow: scroll; 
+border: 1px solid #666; 
+padding: .5em; 
+margin: 1em 0 1em 0; 
+background-color: #e8e8e8; 
+width: 90%; 
+font-family: 'Courier New' , 'Courier' , sans-serif; 
+font-size: small; 
+color: #333; 
+} 
+
+/* Set the page width */
+#wrapper-menu-top, #header, #wrapper-content, #wrapper-footer {
+	width: 85%;
+	margin: 0 auto;
+	text-align: left;
+}
+
+#wrapper-menu-top {
+	background: white url('images/bg02-white-left.png') no-repeat left top;
+}
+
+#menu-top {
+	background: transparent url('images/bg02-white-right.png') no-repeat right top;
+	overflow: hidden; /* no idea why this works, but it fixes a FF problem */
+}
+
+#menu-top ul {
+	margin: 0 20px;
+	padding: 1em 0 0 0;
+	list-style: none;
+	font-size: 85%;
+	float: left;
+}
+
+#menu-top li {
+	display: inline;
+	float: left;
+}
+
+#menu-top a {
+	float: left;
+	background:url(images/menuleft.png) no-repeat left top;
+	margin:0;
+	padding:0 0 0 4px;
+	text-decoration:none;
+	line-height: 1.5em;
+}
+
+#menu-top a span {
+	background: transparent url(images/menuright.png) no-repeat right top;
+	padding:5px 15px 4px 6px;
+	color:#5b8fbe;
+	display: block;
+	float: left;
+	cursor: pointer; /* IE doesnt display the hand when you roll over the link for some reason. This fixes it */
+}
+
+ #menu-top a:hover { background-position:0% -42px; }
+ #menu-top a:hover span {	background-position:100% -42px; }
+
+#wrapper-header {
+	background: transparent url('images/bg.png') top center repeat-x;
+}
+
+#header {
+	background: #eee url('images/banner.jpg') no-repeat center top;
+}
+
+#wrapper-header2 {
+	background: transparent url('images/bg02-blue-left.png') top left no-repeat;
+}
+
+#wrapper-header3 {
+	background: transparent url('images/bg02-blue-right.png') top right no-repeat;
+}
+
+#header h1 {
+	margin: 0 20px;
+	padding: 0;
+	height: 192px;
+	line-height: 3em;
+	color: #000;
+	font-size: 130%;
+}
+
+#wrapper-content {
+	background: white url('images/bg02-white-left.png') no-repeat left top;
+}
+
+* html #wrapper-content { height: 1%; }
+
+#content {
+	background: transparent url('images/bg02-white-right.png') no-repeat right top;
+	padding: 5px 245px 5px 40px;
+}
+
+#wrapper-menu-page {
+	float: right;
+	width:180px;
+	margin: 20px 30px 3em 2em;
+	background: transparent url('images/menu.png') no-repeat;
+	text-align: left;
+	line-height: 140%;
+	font-family:"Lucida Grande","Lucida Sans Unicode",arial,sans-serif;
+}
+
+* html #wrapper-menu-page { margin-right: 15px; }
+
+#menu-page { padding-top: 5px; }
+
+#menu-page ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	font-size: 90%;
+}
+
+#menu-page h3 {
+	font-size: 75%;
+	text-transform: uppercase;
+	margin: 1em 0 0.3em 0;
+	color: #5b8fbe;
+	text-align: center;
+	font-weight: normal;
+	letter-spacing: 0.15em;
+}
+
+#menu-page a:link { color: #5b8fbe; } 
+#menu-page a:visited { color: #5b8fbe; }
+#menu-page a:hover { 
+color: #ffffff;
+background-color: #e8e8e8;
+}
+
+
+.box {
+margin:0 0 0 0;
+padding:1px;
+border:1px solid #c0c0c0;
+background-color:#fafbfc;
+color:#505050;
+line-height:1.5em;
+}
+
+#wrapper-footer {
+	margin-top: 1em;
+	text-align: center;
+}
+
+#footer {
+	margin: 0 20px;
+	background-color: #e5f0fc;
+	border: 1px solid #ccc;
+	border-bottom: 0;
+	clear: both;
+}
+
+h2 { font-size: 110%; }
+h3 { font-size: 100%; }
+
+
+
+#rightSide
+{
+	float: right;
+	width: 200px;
+	padding: 10px 20px 10px 0;
+	font: 8pt Verdana, arial, helvetica, sans-serif;  
+	font-size: 90%;
+	line-height: 1.5em;
+	text-align: left;
+}
+
+.side a, .side a:link, .side a:visited, .side a:active
+{
+	font-weight: bold;
+	font-size: 70%; 
+	text-decoration: none; 
+/*	color: DimGray; */
+    text-align: left;
+	padding:0px 0px 0px 5px;
+}
+
+.side a:hover
+{
+	color: white;
+	background: DimGray;
+}
+
+
+.sidetitle 
+{
+	padding: 2px;
+	margin-top: 10px;
+	border-bottom: 1px dotted;
+	font-weight: bold;
+	text-align: left;
+}
+
+.blogRollContainerStyle
+{
+	margin: 10px 0 10px -10px;
+	text-align: left;
+}
+
+.blogRollNestedOutlineBodyTableStyle
+{
+	border-left: 1px dashed #999;
+	margin-left: 13px;
+	margin-top: 5px;
+	margin-bottom: 10px;
+}
+
+.blogRollCellStyle
+{
+	position: relative;
+	display: block;
+	padding: 2px 0 0 0;
+}
+
+.blogRollNestedOutlineBodyTableStyle  .blogRollNestedOutlineHeaderTableStyle
+{
+	padding-top: 10px;
+	margin-bottom: 0;
+}
+
+.blogRollLinkStyle
+{
+	display: block;
+	width: 120px;
+	position: absolute; top: 0; left: 35px;
+}
+
+.blogRollXmlLinkStyle
+{
+	width 25px;
+	display: block;
+	position: absolute; top: 0; left: 5px;
+}
+
+.blogRollDescriptionStyle
+{
+	left: 30px;
+	color: #888;
+	width: 120px;
+	padding-left: 35px;
+	margin-bottom: 10px;
+}
+
+.searchButtonStyle
+{
+	font: 7pt Verdana, arial, helvetica, sans-serif;  
+	width: 55px
+}
+
+.searchTextBoxStyle
+{
+	font: 7pt Verdana, arial, helvetica, sans-serif;  
+	width: 105px;
+}
+	
+
+#rightwrapper {
+	background: transparent url('images/bg02-white-right.png') no-repeat right top;
+padding: 0px 0px 0px 0px; 
+
+}
+/* DrawPostPaging */
+.post-paging {
+	font-size: 1.25em;
+	margin-top: 0.5em;
+	margin-bottom: 1.5em;
+	text-align: center;
+	font-weight: bold;
+	color: #696969;
+	}
+.post-paging .previous-posts {
+	float: left;
+	}
+
+.post-paging .previous-posts span {
+	margin-right: 0.2em;
+	}
+
+.post-paging .next-posts {
+	float: right;
+	}
+
+.post-paging .next-posts span {
+	margin-left: 0.2em;
+	}

@@ -1,0 +1,14 @@
+<div class="item">    
+    <div class="itemContents">
+				<h1><%ItemTitle%></h1>
+        <div class="itemBody"><%ItemBody%></div>
+        <div class="categoryLinks"><%categoryLinks%></div>
+        <div class="itemFooter">
+            <%permalink%>&nbsp;
+            <%editButton%>&nbsp;
+            <%commentLink%> | 
+            <%trackbackLink%><br />
+      			<%trackbackList%>
+        </div>
+    </div>
+</div>

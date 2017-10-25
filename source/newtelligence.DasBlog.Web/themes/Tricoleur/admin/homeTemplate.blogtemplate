@@ -1,0 +1,29 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title><%title%></title>
+	<meta name="author" content="<%authorName%>" />
+	<meta name="copyright" content="<%authorName%>" />
+	<meta name="description" content="<%subtitle%>" />
+	<meta name="keywords" content="" />
+	<%styleSheet("style.css")%>
+    <script language="JavaScript" type="text">
+    	<!-- Begin hiding from older browsers
+    	//End hiding-->
+    </script>
+</head>
+<body>
+    <div id="header">
+    	<span class="siteName"><%siteNameLink%></span><br />
+	    <span class="description"><%subtitle%></span> 
+    </div>
+    <%newtelligence.adminBar()%>
+    <div id="content">
+        <div id="admin">
+            <div class="column">
+        	    <%bodytext%>
+        	</div>
+        </div>
+    </div>
+</body>
+</html>

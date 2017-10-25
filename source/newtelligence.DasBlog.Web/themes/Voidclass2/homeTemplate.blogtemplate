@@ -1,0 +1,69 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<%radio.macros.headLinks ()%>
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta http-equiv="content-language" content="utf-8" />
+<meta content="all" name="robots" />
+<meta name="author" content="<%authorName%>" />
+<meta name="copyright" content="Copyright (C) 2005, <%authorName%>. All rights reserved." />
+<meta name="description" content="<%subtitle%>" />
+<meta name="keywords" content="Voidclass, blog, weblog, Sean Lu, Sean, Programming, Live, Internet, Music, Photo" />
+<title><%title%></title>
+<%styleSheet("style.css")%>
+<script language="JavaScript" type="text">
+  <!-- Begin hiding from older browsers
+  //End hiding-->
+</script>
+</head>
+<body>
+<div id="centerColumn">
+	<div id="header">
+		<h1><%siteNameLink%></h1>
+		<h2><%subtitle%></h2>
+		<h2><%description%></h2>
+  </div>
+  <!--//end #headern//-->
+  <div id="fauxRightColumn">
+  	<h2>Navigation</h2>
+  	<p><%navigatorLinks%></p>
+  	<h2>Search</h2>
+  	<p><%newtelligence.search()%></p>
+  	<h2>Categories</h2>
+  	<p><%newtelligence.drawCategories()%></p>
+  	<h2>On this page</h2>
+  	<p><%titleList()%></p>
+  	<h2>Archive</h2>
+  	<p><%newtelligence.drawArchiveMonths()%></p>
+  	<h2><%localString("Blogroll|DE:Weblog Liste|AR:&#1602;&#1575;&#1574;&#1605;&#1577;&#1575;&#1604;&#1583;&#1601;&#1575;&#1578;&#1585;&#1575;&#1604;&#1575;&#1604;&#1603;&#1578;&#1585;&#1608;&#1606;&#1610;&#1577;")%></h2>
+  	<p><%radio.macros.blogroll("siteConfig/blogroll.opml")%></p>
+  	<p><%newtelligence.disclaimer()%></p>
+  	<p><%rssLink%> | <%atomLink%> | <%CdfLink%></p>
+  	<p><%radio.macros.mailTo()%> E-mail</p>
+  	<p><%blogStats()%></p>
+  	<p><%newtelligence.loginbox()%><br /><%newtelligence.aspnetcontrol("themecombo.ascx")%></p>
+  </div>
+  <!--//end #fauxRightColumn//-->
+  <%newtelligence.adminBar()%>
+  <% DrawCategoryPaging() %> 
+  <%bodytext%>
+			<div class="post-paging">
+				<div class="previous-posts">
+					<% DrawPostPagingPrevious() %>
+				</div>
+				<div class="next-posts">
+					<% DrawPostPagingNext() %>
+				</div>
+			</div>
+  <div id="footer" class="clear">
+  	<p>&copy; Copyright <%year%>, <%authorName%>. | <a href="http://validator.w3.org/" title="W3C HTML Validation">XHTML</a> | <a href="http://jigsaw.w3.org/css-validator/validator-uri.html" title="W3C CSS Validation">CSS</a> | <a href="http://www.w3.org/TR/WCAG10/" title="Web Content Accessibility Guidelines">WCAG</a> | <a href="http://www.csstinderbox.com">The CSS Tinderbox</a><br />
+    Theme Design by <a href="http://www.voidclass.com">Voidclass</a> with <%radioBadge%><br />
+    <%localString("Page rendered at|DE:Seite aufbereitet um|AR: &#1578;&#1605; &#1593;&#1585;&#1590; &#1607;&#1584;&#1607; &#1575;&#1604;&#1589;&#1601;&#1581;&#1577; &#1601;&#1610;")%>&nbsp;<%now%></p>
+
+  </div>
+  <!--//end #footer//-->
+</div>
+<!--//end #centerColumn//-->
+</body>
+</html>

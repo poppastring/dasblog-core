@@ -1,0 +1,361 @@
+/*******************************************************
+TITLE: Voidclass.v2
+DATE: 20060629
+AUTHOR: Voidclass - http://www.voidclass.com
+*******************************************************/
+
+body {
+margin:0;
+padding:15px;
+height:100%;
+background-color:#ffffff;
+background-image:url(img/body-bg.jpg);
+background-position:top;
+background-repeat:repeat-x;
+color:#000000;  
+text-align:center;
+font-family:Arial, Helvetica, sans-serif;
+font-size:12px;
+}
+
+a {
+color:#547699;
+text-decoration:underline;
+}
+
+a:hover {
+color:#999999;
+text-decoration:none;
+}
+
+img {
+border:none;
+}
+
+#centerColumn { 	
+margin:0 auto;
+padding:20px;
+width:90%;
+text-align:left;
+vertical-align: middle;	
+background-color:#ffffff;
+border:1px solid #bbd1e2;
+}
+
+#header {
+margin:0 0 20px 0;
+padding:0 0 0 0;
+height:130px;
+background-color:#ffffff;
+background-image:url(img/header-bg.jpg);
+background-position:bottom left;
+background-repeat:repeat-x;
+border:1px solid #ebcd48;
+}
+
+#header h1 {
+margin:15px 0 0 15px;
+padding:0 0 0 0;
+font-size:24px;
+color:#ffffff;
+text-transform: uppercase;
+}
+
+#header h1 a {
+color:#ffffff;
+text-decoration:none;
+}
+
+#header h1 a:hover {
+color:#ffffff;
+text-decoration:underline;
+}
+
+#header h2 {
+margin:5px 0 0 25px;
+padding:0 0 0 0;
+color:#333333;
+}
+
+#fauxRightColumn {
+position:relative;
+float:right;
+margin-left:10px;
+padding:0 5px 5px 5px;
+width:180px;
+background-color:#ffffff;
+border-top:5px solid #eeeeee;
+border-right:1px solid #eeeeee;
+}
+
+#fauxRightColumn h2 {
+font-size:14px;
+font-weight: bold;
+color:#da8619;
+border-bottom:1px dashed #979179;
+}
+
+#fauxRightColumn a {
+text-decoration:none;
+color:#559449;
+}
+
+#fauxRightColumn a:hover {
+text-decoration:none;
+color:#cccccc;
+}
+
+#footer {
+position:relative;
+bottom:0;
+margin:10px 0 0 0;
+padding:0;
+height:65px;
+text-align:center;
+font-size:10px;
+background-color:#ffffff;
+border-top:1px solid #eeeeee;
+}
+
+.adminNavbarStyle {
+padding-top: 0px; 
+padding-bottom: 5px;
+}
+.adminNavbarStyle ul {
+padding-right: 0px;
+padding-left: 0px;
+padding-bottom: 0px;
+margin: 0px;
+padding-top: 0px;
+text-align: center;
+}
+.adminNavbarStyle ul li {
+padding-right:8px;
+padding-left:8px;
+border-left:1px solid #999999;
+display: inline;
+list-style-type:none;
+font-size:10px;
+}
+.adminNavbarStyle ul li.first, .adminNavbarStyle ul li.firstHere {
+border-left: none;
+}
+
+.categoryLinks {}
+.categoryListCellStyle {}
+.categoryListContainerStyle {}
+.categoryListExpanded {}
+.categoryListlinkstyle {}
+.categoryListNestedOutlineBadgeCellStyle {}
+.categoryListNestedOutlineBadgeStyle {}
+.categoryListNestedOutlineBodyTableStyle {
+margin-left:3em;
+padding-left:1em;
+border-left:1px dashed #eeeeee;
+border-bottom:1px dashed #eeeeee;
+}
+.categoryListNestedOutlineContainer {}
+.categoryListNestedOutlineTitleCellStyle {}
+.categoryListNestedOutlineTitleStyle {}
+.categoryListTableStyle {}
+.categoryListXmlLinkStyle {}
+
+.dayHeader {
+margin-bottom:8px;
+border-bottom:1px dashed #979179;
+font-size:14px;
+font-weight:bold;
+color:#6b6754; 
+}
+
+.itemTitle {
+font-size:18px;
+font-weight: bold;
+color:#000000;
+}
+
+.itemTitle a {
+color:#000000;
+text-decoration:none;
+}
+
+.itemTitle a:hover {
+color:#999999;
+text-decoration:none;
+}
+
+.itemPostedon {
+margin-bottom:15px;
+font-size:10px;
+color: #a90000;
+}
+
+.itemFooter {
+text-align: right;
+padding:5px;
+margin-bottom:24px;
+background-color:#eeeeee;
+}
+
+.itemFooter img {
+vertical-align: text-bottom;
+}
+
+.commentBoxFooterStyle {
+width: 100%;
+margin-top: 5px;
+padding-top: 3px;
+border-top: 1px dashed #ddd;
+font-size: 12px;
+}
+.commentBoxStyle {
+padding: 15px 20px 15px 20px;
+margin-bottom: 25px;
+border-bottom: 1px solid #ddd;
+border-top: 1px solid #ddd;
+border-right: 1px solid #ddd;
+border-left: 1px solid #ddd;
+color: #333;
+background-color: #fcfcfc;
+font-weight: normal;
+font-size: 13px;
+text-decoration: none;
+}
+.commentDateStyle {
+width: 100%;
+border-bottom: 1px dashed #ddd;
+margin-bottom: 5px;
+padding-bottom: 3px;
+font-size: 12px;
+text-align: right;
+}
+
+.pageTopic {
+margin-bottom: 10px;
+padding-bottom: 5px;
+border-bottom: 1px solid #CC3300;
+color: #cc3300;
+font-weight: bold;
+font-size: large;
+}
+
+.statsTableColumnStyle {
+border: solid 1px gray;
+padding: 3px;
+margin-top: 3px;
+margin-bottom: 3px;
+}
+.statsTableDateColumnStyle {
+border: solid 1px gray;
+padding: 3px;
+margin-top: 3px;
+margin-bottom: 3px;
+width: 25%;
+text-align: left;
+}
+.statsTableFooterColumnStyle {
+border-left: solid 1px #ddd;
+border-right: solid 1px #ddd;
+border-bottom: solid 1px #ddd;
+border-top: solid 2px #ddd;
+padding: 3px;
+font-weight: bold;
+}
+.statsTableFooterNumColumnStyle {
+border-left: solid 1px #ddd;
+border-right: solid 1px #ddd;
+border-bottom: solid 1px #ddd;
+border-top: solid 2px #ddd;
+padding: 3px;
+width: 15%;
+font-weight: bold;
+text-align: right;
+}
+.statsTableHeaderColumnStyle {
+border-left: solid 1px #ddd;
+border-right: solid 1px #ddd;
+border-bottom: solid 2px #ddd;
+border-top: solid 1px #ddd;
+padding: 3px;
+font-weight: bold;
+}
+.statsTableNumColumnStyle {
+border: solid 1px gray;
+padding: 3px;
+margin-top: 3px;
+margin-bottom: 3px;
+width: 15%;
+text-align: right;
+}
+.statsTableStyle {
+margin-bottom: 15px;
+padding: 15px;
+background-color: #FCFCFC;
+border: 1px solid #ddd;
+width: 100%;
+background: White;
+border-collapse: collapse;
+}
+
+.configControlStyle {}
+.configLabelColumnStyle {
+vertical-align: top;
+}
+.configLabelStyle {
+margin-right: 10px;
+font-size: 10px;
+}
+.configSectionStyle {
+margin-bottom: 15px;
+padding: 15px;
+background-color: #fcfcfc;
+border: 1px solid #ddd;
+vertical-align: middle;
+}
+.configSectionTitleStyle {
+margin-bottom: 10px;
+padding-bottom: 5px;
+border-bottom: 1px solid #CC3300;
+color: #cc3300;
+font-weight: bold;
+font-size: medium;
+}
+
+.clear {
+clear: right;
+}
+
+.commentViewBoxStyle input 
+{
+	border:1px solid #CCCCCC;
+}
+
+/* Paging */
+.post-paging {
+}
+.previous-posts{
+}
+.next-posts{
+}
+.clear {
+clear: both
+}
+
+/* Tag Cloud */
+.smallestTag { line-height: 110%; font-size: x-small; font-weight: normal; }
+.smallerTag { line-height: 110%; font-size: x-small; font-weight: bold; }
+.smallTag { line-height: 110%; font-size: small; font-weight: normal; }
+.mediumTag { line-height: 110%; font-size: medium; font-weight: normal; }
+.largeTag { line-height: 110%; font-size: large; font-weight: normal; }
+.largerTag { line-height: 110%; font-size: x-large; font-weight: normal; }
+.largestTag { line-height: 110%; font-size: x-large; font-weight: bold; }
+ 
+/* OpenID Support added in 2.2 */
+.openidtextbox {
+	background: #FFFFFF url('../../images/openid-icon-small.gif') no-repeat scroll 0pt 50%; 
+	padding-left: 18px; 
+}
+.openidtextboxwrap 
+{
+	padding-right: 18px;
+}

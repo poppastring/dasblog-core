@@ -1,0 +1,88 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title><%title%></title>
+	<meta name="author" content="<%authorName%>" />
+	<meta name="copyright" content="<%authorName%>" />
+	<meta name="description" content="<%subtitle%>" />
+	<meta name="keywords" content="" />
+	<%styleSheet("style.css")%>
+    <script language="JavaScript" type="text">
+    	<!-- Begin hiding from older browsers
+    	//End hiding-->
+    </script>
+</head>
+<body>
+<div id="container">
+	<div id="header">
+		<span class="siteName"><%siteNameLink%></span><br />
+		<span class="description"><%subtitle%></span> 
+		<span class="description"><%description%></span> 
+	</div>
+	<div id="adminbar"><%newtelligence.adminBar()%></div>
+    <div id="content">
+        	    <%bodytext%>
+    </div>
+    <div id="right">
+    		<div class="sidebar">
+    			<div class="sidehead">Navigation</div>
+    			<div class="sidecontent"><%navigatorLinks%><br/>
+    			&nbsp;<%rssLink%> | <%atomLink%> | <%CdfLink%> | <%radio.macros.mailTo()%><br/><br/>
+    		</div>
+    		</div>
+    		<div class="sidebar">
+    			<div class="sidehead">On this page</div>
+    			<div class="sidecontent"><%titleList()%>&nbsp;</div>
+    		</div>
+    		<div class="sidebar">
+    			<div class="sidehead">Archive</div>
+    			<div class="sidecontent">
+    			<%radio.weblog.drawcalendar ()%> <br/>
+    			<%newtelligence.search()%>       <br/>
+    			<%newtelligence.drawArchiveMonths()%> <br/>
+    			<a href="monthview.aspx">Month View</a>
+    			</div>
+    		</div>
+    		<div class="sidebar">
+    			<div class="sidehead"><%localString("Categories|DE:Kategorien|AR:&#1571;&#1589;&#1606;&#1575;&#1601;")%></div>
+    			<div class="sidecontent"><%newtelligence.drawCategories()%></div>
+    		</div>
+    		<div class="sidebar">
+    			<div class="sidehead"><%localString("Blogroll|DE:Weblog Liste|AR:&#1602;&#1575;&#1574;&#1605;&#1577; &#1575;&#1604;&#1583;&#1601;&#1575;&#1578;&#1585; &#1575;&#1604;&#1575;&#1604;&#1603;&#1578;&#1585;&#1608;&#1606;&#1610;&#1577;")%></div>
+    			<div class="sidecontent"><p><%radio.macros.blogroll("siteConfig/blogroll.opml")%></p></div>
+    		</div>
+    <!-- PUT YOUR GOOGLE CODE HERE IF REQUIRED
+    		<div class="sidebar">
+    			<script type="text/javascript">
+    			google_ad_client = "pub-4515577251633420";
+    			google_alternate_ad_url = "http://www.jamessnape.me.uk/google_adsense_script.html";
+    			google_ad_width = 160;
+    			google_ad_height = 600;
+    			google_ad_format = "160x600_as";
+    			google_ad_channel ="";
+    			google_color_border = "FCFCFC";
+    			google_color_bg = "FCFCFC";
+    			google_color_link = "355EA0";
+    			google_color_url = "355EA0";
+    			google_color_text = "cc3300";
+    			</script>
+    			<script type="text/javascript"
+    			  src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+    			</script>
+    		</div>
+    -->
+    		<div class="sidebar">
+    			<div class="sidecontent">
+    				<%newtelligence.disclaimer()%>
+    				&copy; Copyright&nbsp;<%year%>&nbsp;<%authorName%><br/><br/>
+    				<%localString("Theme design by|DE:Design von|AR:&#1578;&#1589;&#1605;&#1610;&#1605; &#1571;&#1587;&#1604;&#1608;&#1576; &#1575;&#1604;&#1593;&#1585;&#1590; &#1576;&#1585;&#1575;&#1610;&#1575;&#1606; &#1576;&#1604; ")%> Jacob Hodges base on a theme by <a href="http://www.jamessnape.me.uk">James Snape</a>
+    				with <%radioBadge%><br/>
+    				<%newtelligence.loginbox()%><br>
+    			    <br/>
+    			</div>
+    		</div>
+    
+	</div>
+</div>
+</body>
+</html>

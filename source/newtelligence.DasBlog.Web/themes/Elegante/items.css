@@ -1,0 +1,169 @@
+/* 
+	Item Styles
+	
+	These are all the specific styles that you can
+	use to customize the look and feel of the daily blog items
+*/
+
+.itemBoxStyle, .commentBoxStyle, .commentViewBoxStyle 
+{
+	background: #eee url( "item_title_background.gif" ) repeat-x;
+	border: 1px solid #999;
+	background-color: #eee;
+	margin: 20px; 20px;
+	text-decoration: none;
+	position: relative;
+	padding-left: 15px;
+	padding-right: 15px;
+	height: 1%;
+}
+
+.commentBoxStyle, .commentViewBoxStyle 
+{
+	padding-top: 15px;
+	padding-bottom: 15px;
+}
+
+
+.postTitle
+{
+	float: left;
+	width: 380px;
+}
+.commentDateStyle
+{
+	padding-bottom: 10px;
+}
+
+/* 
+ * This item is used to protect against an IE bug called the Guillotine bug.
+ * for more info: 
+ */
+.postClose
+{
+	margin-top: -10px;
+	clear: both;
+}
+.postWidgets
+{
+	width: auto;
+	float: right;
+}
+
+.itemTitleStyle 
+{
+	margin: 0;
+	padding-top: 10px;
+	font-size: 1.2em;
+	line-height: 1.5em;
+	font-weight: bold; 
+	width: 440px;
+	position:relative;
+	padding-bottom: 0px;
+}
+
+
+.itemBodyStyle, .commentBodyStyle 
+{
+	padding-bottom: 1em;
+	font-weight: normal;
+}
+
+
+.itemFooterStyle, .commentBoxFooterStyle 
+{
+	padding-top: 8px;
+	padding-bottom: 10px;
+	margin-bottom: 0px;
+	font-weight: normal;
+	line-height: 1.4em;
+	text-align: right;
+}
+
+.commentViewControlStyle 
+{
+	width: 360px;
+}
+textarea.commentViewControlStyle 
+{
+	width: 430px;
+}
+
+.itemFooterDate
+{
+	clear: left;
+	font-size: 7pt;
+}
+
+.itemCategoryLinksStyle 
+{
+	padding-bottom: 5px;
+	margin-bottom: 0px;
+	margin-right: 15px;
+	text-align: right;
+	font-size: .8em;
+}
+
+.itemReadMoreStyle 
+{
+	width: 100%;
+	padding-top: 1em;
+	text-align: left;
+}
+.itemBoxStyle a, .itemBoxStyle a:link, .itemBoxStyle a:visited, .itemBoxStyle a:active, .commentBoxStyle a, .commentBoxStyle a:link, .commentBoxStyle a:visited, .commentBoxStyle a:active 
+{ 
+	font-weight: bold; 
+	text-decoration: none; 
+	color: black;
+}
+.itemBoxStyle a:hover, .commentBoxStyle a:hover
+{
+	color: white;
+	background: black;
+}
+
+.flickrTable
+{
+	border: none;
+	margin-top: 10px;
+}
+.flickrImgCell
+{
+	padding: 0px;
+	text-align: center;
+}
+.flickrDescCell
+{
+	padding: 0 0 0 10px;
+}
+.flickrImgBorder
+{
+	background-color: white;
+	border: 1px solid black;
+	padding: 5px;
+}
+.flickrCaption
+{
+}
+.flickrImg
+{
+	border: none;
+	padding: 0;
+}
+
+
+.commentViewBoxStyle input 
+{
+	border:1px solid #CCCCCC;
+}
+
+.openidtextbox {
+	background: #FFFFFF url('../../images/openid-icon-small.gif') no-repeat scroll 0pt 50%; 
+	padding-left: 18px; 
+}
+
+.openidtextboxwrap 
+{
+	padding-right: 18px;
+}
+

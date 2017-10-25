@@ -1,0 +1,257 @@
+/**
+ * @version: 1.4.0
+ * @author: Coolite Inc. http://www.coolite.com/
+ * @date: 12-Dec-2007
+ * @copyright: Copyright (c) 2006-2008, Coolite Inc. (http://www.coolite.com/). All rights reserved. Unauthorized use prohibited.
+ * @website: http://www.coolite.com/
+ */
+
+.basicdatepicker
+{
+	white-space: nowrap;
+}
+.bdpWrapper
+{
+	font: normal 11px Tahoma, Verdana, Arial, sans-serif;
+	border: 1px solid #7F9DB9;
+	background: white;
+}
+.bdpWrapper img
+{
+	border: 0;
+}
+.bdpNextPrev
+{
+	cursor: pointer;
+}
+.bdpPopUp { width: 151px; background: white; }
+.bdpPopUp td { padding: 4px; text-align: center; }
+.bdpPopUp td { text-align: center; }
+.bdpPopUp, 
+.bdpPopUp th, 
+.bdpPopUp td, 
+.bdpPopUp div
+{
+	font: normal 11px Tahoma, Verdana, Arial, sans-serif;
+}
+.bdpPopUp a, 
+.bdpPopUp a:link, 
+.bdpPopUp a:visited, 
+.bdpPopUp a:active, 
+.bdpPopUp a:hover
+{
+	font: normal 11px Tahoma, Verdana, Arial, sans-serif;
+	text-decoration: none;
+	color: black;
+	cursor: pointer;
+}
+.bdpTitle
+{
+	width: 100%;
+	background: #9EBEF5;
+	height: 15px;
+}
+.bdpTitle td
+{
+	height: 16px;
+	padding: 0px 5px 0px 6px;
+}
+.bdpTitle td img
+{
+	width: 5px;
+	height: 9px;
+}
+.bdpTitle th
+{
+	width: 100%;
+	font-weight: normal;
+	white-space: nowrap;
+}
+.bdpCalendar
+{
+	width: 120px;
+	margin: 1px auto 0 auto;
+}
+
+.bdpCalendar th 
+{
+	cursor: default;
+}
+
+.bdpCalendar td
+{
+	padding: 0;
+	text-align: center;
+}
+td.bdpDay
+{
+	color: #ACA899;
+	text-align: right;
+	padding-left: 1px;
+	height: 14px;
+	width: 13px;
+	border: 1px solid white;
+	cursor: default;
+}
+div.bdpFooter
+{
+	border-top: 1px solid #ACA899;
+	text-align: center;
+	margin: auto 15px auto 15px;
+}
+div.bdpFooter input
+{
+	font: normal 11px Tahoma, Verdana, Arial, sans-serif;
+	width: 48px;
+	margin: 5px 6px 5px 6px;
+}
+.bdpDayHeader
+{
+	padding-right: 3px;
+	font-weight: normal;
+	text-align: right;
+	border-bottom: 1px solid #ACA899;
+}
+td.bdpOtherMonthDay a, 
+td.bdpOtherMonthDay a:link, 
+td.bdpOtherMonthDay a:visited, 
+td.bdpOtherMonthDay a:active, 
+td.bdpOtherMonthDay a:hover
+{
+	color: #ACA899 !important;
+	cursor: pointer;
+}
+td.bdpSelectedDay
+{
+	background-color: #FBE694 !important;
+	border: 1px solid #FBE694;
+}
+td.bdpTodayDay
+{
+	border: 1px solid #BB5503;
+}
+td.bdpWeekNumber
+{
+	color: black;
+	font-size: 8px;
+	border-right: 1px solid #ACA899;
+	background: #CEDEFA;
+	text-align: right;
+	padding: 0 3px;
+}
+img.bdpButton
+{
+	vertical-align: top;
+	margin-top: 1px;
+	margin-left: 2px;
+	cursor: pointer;
+	border: 0;
+}
+a.bdpButton
+{
+	margin-left: 2px;
+}
+div.bdpFootNote
+{
+	font: normal 11px Tahoma, Verdana, Arial, sans-serif;
+	background: #EBEAE7;
+	padding: 2px;
+	text-align: center;
+	margin: 4px;
+}
+.bdpMonthSelector
+{
+	font: normal 11px Tahoma, Verdana, Arial, sans-serif;
+	border: 1px solid black;
+	background: white;
+	padding: 0px;
+	width: 74px;
+}
+.bdpYearSelector
+{
+	font: normal 11px Tahoma, Verdana, Arial, sans-serif;
+	border: 1px solid black;
+	background: white;
+	padding: 0px;
+	width: 43px;
+}
+.bdpYearSelector img
+{
+	width: 9px;
+	height: 5px;
+}
+.bdpMonthSelector a, .bdpYearSelector a
+{
+	padding: 1px 10px;
+}
+a.bdpMonthSelectorItem, 
+a.bdpMonthSelectorItem:link, 
+a.bdpMonthSelectorItem:visited, 
+a.bdpMonthSelectorItem:active
+{
+	display: block;
+	text-decoration: none;
+	color: black;
+	text-align: left;
+}
+a.bdpYearSelectorItem, 
+a.bdpYearSelectorItem:link, 
+a.bdpYearSelectorItem:visited, 
+a.bdpYearSelectorItem:active
+{
+	display: block;
+	text-decoration: none;
+	text-align: center;
+	color: black;
+}
+a.bdpMonthSelectorSelectedItem, 
+a.bdpMonthSelectorSelectedItem:link, 
+a.bdpMonthSelectorSelectedItem:visited, 
+a.bdpMonthSelectorSelectedItem:active, 
+a.bdpMonthSelectorSelectedItem:hover, 
+a.bdpMonthSelectorItem:hover
+{
+	display: block;
+	text-decoration: none;
+	color: white;
+	background: black;
+	text-align: left;
+}
+a.bdpYearSelectorSelectedItem, 
+a.bdpYearSelectorSelectedItem:link, 
+a.bdpYearSelectorSelectedItem:visited, 
+a.bdpYearSelectorSelectedItem:active, 
+a.bdpYearSelectorSelectedItem:hover, 
+a.bdpYearSelectorItem:hover
+{
+	display: block;
+	text-decoration: none;
+	text-align: center;
+	color: white;
+	background: black;
+}
+a.bdpYearSelectorImg
+{
+	display: block;
+	text-align: center;
+	background-color: white;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+
+a.bdpYearSelectorImg img
+{
+	border: 0;
+}
+
+td.bdpSpecialDate a, 
+td.bdpSpecialDate a:link, 
+td.bdpSpecialDate a:visited, 
+td.bdpSpecialDate a:active, 
+td.bdpSpecialDate a:hover,
+td.bdpSpecialDate a:visited:hover
+{
+	font-weight: bold;
+}
+/* Uncomment to view WeekendDay style */
+/* td.bdpWeekendDay { background: #EBEAE7; border: 1px solid #EBEAE7; } */

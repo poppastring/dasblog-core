@@ -1,0 +1,10 @@
+<table class="sharkfinTitle" cellpadding="0" cellspacing="0" border="0">
+	<tr>
+		<td><img class="corner-left" src="<%radio.macros.imageUrl('sharkfin-corner-left.gif')%>" border="0"/></td>
+		<td class="sharkfinTitleBar">
+			<div class="date"><%longDate%></div>
+		</td>
+		<td><img class="corner-right" src="<%radio.macros.imageUrl('sharkfin-corner-right.gif')%>" border="0"/></td>
+	</tr>
+</table>
+<div class="newsItems"><%items%></div>

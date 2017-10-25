@@ -1,0 +1,2 @@
+<div class="blogdateheader"><%archiveLink%>&nbsp;<%longDate%></div>
+<%items%>

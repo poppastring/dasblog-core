@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8" ?> 
+<theme name="orangeCream" title="orangeCream" templateDirectory="themes/orangeCream" imageDirectory="themes/orangeCream/images">
+	<image name="feed-icon-16x16" fileName="feed-icon-16x16.png" />
+	<image name="feedButton" fileName="feedButton.png" />
+</theme>	

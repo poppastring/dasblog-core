@@ -1,0 +1,86 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+<title><%title%></title>
+<%styleSheet("useit_style.css")%>
+</head>
+
+<body>
+
+<table bgcolor="#ffff66" width="100%" class="navbar">
+<tr>
+<td><small><strong><a href="<%radio.macros.weblogUrl()%>"><%title%></a>:</strong> <%subtitle%></small></td>
+<td align="right"><%newtelligence.search()%></td>
+</tr>
+</table>
+
+<h1><span class="useem"><%title%></span>: <%subtitle%></h1>
+
+<table width="100%" cellpadding="12" cellspacing="0">
+<tr>
+<td width="50%" valign="top" bgcolor="#FFFFDD">
+<h1><%description%></h1>
+<h2>Permanent Content</h2>
+
+<h4 style="margin-bottom: 0.05ex">On This Page</h4>
+<%titleList()%>
+
+<h4 style="margin-bottom: 0.05ex">Navigation</h4>
+<%navigatorLinks%>
+
+<h4 style="margin-bottom: 0.05ex">Categories</h4>
+<%newtelligence.drawCategories()%>
+
+<h4 style="margin-bottom: 0.05ex">Blogroll</h4>
+<%radio.macros.blogroll("siteConfig/blogroll.opml")%>
+
+<%newtelligence.adminBar()%>
+
+</td>
+
+<td width="50%" valign="top" bgcolor="#CCF6F6">
+
+<h2>Blog Entries</h2>
+
+<p style="margin-top: 1.2ex">
+<% DrawCategoryPaging() %> 
+<%bodytext%>
+			<div class="post-paging">
+				<div class="previous-posts">
+					<% DrawPostPagingPrevious() %>
+				</div>
+				<div class="next-posts">
+					<% DrawPostPagingNext() %>
+				</div>
+			</div>
+
+</td>
+</tr>
+</table>
+
+<p>
+
+<small>
+
+<table width="100%">
+<tr>
+<td width="50%">
+Powered by: <%radioBadge%> | <%rssLink%> | <%atomLink%> | <%cdfLink%><br>
+Contact: <%radio.macros.mailTo ()%> <%authorName%><br>
+</td>
+<td width="50%" align="right">
+<%newtelligence.loginbox()%><br>
+This theme is based on Jakob Nielson's <a href="http://www.useit.com">useit.com</a> website.<br>
+<%newtelligence.aspnetcontrol("themecombo.ascx")%>
+</td>
+</tr>
+</table>
+
+</small>
+
+</body>
+
+</html>
+
+

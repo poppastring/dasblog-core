@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta http-equiv="Page-Exit" content="progid:DXImageTransform.Microsoft.Fade(duration=.5)" /> 
+	<meta name="author" content="you" />
+	<meta name="robots" CONTENT="ALL">
+	<meta name="keywords" content="dasBlog">
+	<meta name="description" CONTENT="Blog">
+	<meta name="revisit-after" CONTENT="1 days">
+	<meta name="classification" CONTENT="Blog">
+	<meta name="robots" CONTENT="ALL">
+	<meta name="distribution" CONTENT="Global">
+	<meta name="rating" CONTENT="General">
+	<meta name="copyright" CONTENT="yourdomain.Com">
+	<meta name="language" CONTENT="English">
+	<title><%title%></title>
+	<script type="text/javascript" src="themes/tw/pngfix.js"></script>
+	<%styleSheet("nautica022.css")%>
+</head>
+<body>
+<div id="wrapper-menu-top">
+<div id="menu-top">
+	<ul>
+		<li><a href="default.aspx" title="Home"><span>Home-Blog</span></a></li>
+		<li><a href="http://dasblog.us" title="DasBlog.us"><span>DasBlog.us</span></a></li>
+		<li><a href="http://dasblog.info" title="DasBlog.info"><span>DasBlog.info</span></a></li>
+	</ul>
+</div><!--menu-top-->
+</div><!--wrapper-menu-top-->
+
+<div id="wrapper-header">
+<div id="header">
+<div id="wrapper-header2">
+<div id="wrapper-header3">
+	<h1><span><%subtitle%></span></h1>
+</div>
+</div>
+</div>
+</div>
+<div id="wrapper-content">
+	 <div id="rightwrapper">
+		  <div id="adminContent" style="clear: both">
+			       <%newtelligence.adminBar()%>
+			       <%bodytext%>
+		  </div>
+		           <div id="adminReturn">
+		                   <p>Return to <%siteNameLink%></p>
+		  </div>
+	 </div>	
+</div>
+
+<div id="wrapper-footer">
+<div id="footer">
+&copy; Copyright <%year%> <%authorName%>; - All rights reserved.
+This blog is Powered by: <%radioBadge%>.
+</div>
+</div>
+
+</body>
+</html>

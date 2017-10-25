@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<root>
+	<!-- General -->
+	<resource name = "Yes">是</resource>
+	<resource name = "No">否</resource>
+	<resource name = "0">0</resource>
+	<resource name = "1">1</resource>
+	<resource name = "2">2</resource>
+	<resource name = "3">3</resource>
+	<resource name = "4">4</resource>
+	<resource name = "5">5</resource>
+	<resource name = "6">6</resource>
+	<resource name = "7">7</resource>
+	<resource name = "8">8</resource>
+	<resource name = "9">9</resource>
+
+	
+	<!-- Main FTB Stuff -->
+	<resource name = "DesignModeTab">設計</resource>
+	<resource name = "HtmlModeTab">HTML</resource>
+	
+	<!-- Buttons -->
+	<resource name = "Bold">加粗</resource>
+	<resource name = "BulletedList">項目符號</resource>
+	<resource name = "Copy">複製</resource>
+	<resource name = "CreateLink">插入連結</resource>
+	<resource name = "Cut">剪下</resource>
+	<resource name = "Delete">刪除</resource>
+	<resource name = "Indent">增加縮排</resource>
+	<resource name = "InsertDate">插入日期</resource>
+	<resource name = "InsertImage">插入圖片</resource>
+	<resource name = "InsertRule">插入水平線</resource>
+	<resource name = "InsertTime">插入時間</resource>
+	<resource name = "Italic">斜體</resource>	
+	<resource name = "JustifyRight">靠右對齊</resource>	
+	<resource name = "JustifyCenter">置中對齊</resource>	
+	<resource name = "JustifyFull">左右對齊</resource>	
+	<resource name = "JustifyLeft">靠左對齊</resource>
+	<resource name = "NumberedList">編號</resource>	
+	<resource name = "Outdent">減少縮排</resource>	
+	<resource name = "Paste">貼上</resource>	
+	<resource name = "Print">列印</resource>	
+	<resource name = "Redo">取消復原</resource>	
+	<resource name = "RemoveFormat">刪除所有格式</resource>	
+	<resource name = "Save">儲存</resource>
+	<resource name = "StrikeThrough">刪除線</resource>
+	<resource name = "SuperScript">上標</resource>
+	<resource name = "SubScript">下標</resource>	
+	<resource name = "Underline">底線</resource>	
+	<resource name = "Undo">復原</resource>
+	<resource name = "Unlink">刪除連結</resource>
+	
+
+	<!-- DropDownLists -->
+	<resource name = "FontForeColorsMenu">字型顏色</resource>
+	<resource name = "FontBackColorsMenu">醒目提示</resource>
+	<resource name = "FontSizesMenu">字型大小</resource>
+	<resource name = "ParagraphMenu">段落</resource>
+	<resource name = "FontFacesMenu">字型</resource>
+	<resource name = "InsertHtmlMenu">插入Html</resource>
+	<resource name = "SymbolsMenu">符號</resource>
+	<resource name = "StylesMenu">樣式</resource>
+
+</root>

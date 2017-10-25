@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+<theme name="Voidclass2" title="Voidclass2" templateDirectory="themes/Voidclass2" imageDirectory="themes/Voidclass2/img">
+    <image name="xmlButton" fileName="xmlButton.png" />
+    <image name="rssButton" fileName="rssButton.gif" />
+    <image name="atomButton" fileName="atomButton.gif" />
+    <image name="cdfButton" fileName="cdfButton.gif" />
+    <image name="mailTo" fileName="mailTo.gif" />
+    <image name="dayLink" fileName="dayLink.gif" />
+    <image name="itemLink" fileName="itemLink.gif" />
+</theme>

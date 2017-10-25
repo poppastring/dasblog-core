@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+<manifest xmlns="http://schemas.microsoft.com/wlw/manifest/weblog">
+  <options>
+      <supportsEmbeds>Yes</supportsEmbeds>
+      <supportsMultipleCategories>Yes</supportsMultipleCategories>
+      <supportsPostAsDraft>Yes</supportsPostAsDraft> 
+      <supportsExcerpt>Yes</supportsExcerpt> 
+  </options>
+  <weblog>
+      <imageUrl>images/dasbloglogo-16x16.png</imageUrl>
+      <watermarkImageUrl>images/dasblogwatermark-84x84.png</watermarkImageUrl>
+      <homepageLinkText>View your blog</homepageLinkText>
+      <adminLinkText>Edit your blog</adminLinkText>  
+      <adminUrl><![CDATA[
+          {blog-homepage-url}Login.aspx
+      ]]></adminUrl>
+      <postEditingUrl><![CDATA[
+          {blog-homepage-url}EditEntry.aspx?guid={post-id}
+      ]]></postEditingUrl>
+  </weblog>
+  <buttons>
+      <button>
+      <id>1</id>
+      <text>Statistics</text>
+      <imageUrl>images/dasblogactivity-24x24.png</imageUrl>
+      <clickUrl><![CDATA[ 
+         {blog-homepage-url}Referrers.aspx
+      ]]></clickUrl>
+      <contentUrl><![CDATA[ 
+         {blog-homepage-url}Referrers.aspx
+      ]]></contentUrl>
+      <contentDisplaySize>480,300</contentDisplaySize>
+    </button>    
+  </buttons>
+</manifest>

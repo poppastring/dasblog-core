@@ -1,0 +1,23 @@
+
+<table cellpadding="5" cellspacing="0" border="0" width="100%">
+  <tr> 
+    <td valign="middle" width="5"> 
+      <%archiveLink%>
+    </td>
+    <td nowrap><b> 
+      <%longDate%>
+      </b></td>
+    <td width="100%">
+      <hr size="1">
+    </td>
+  </tr>
+</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="5">
+  <tr>
+    <td width="1">&nbsp;</td>
+    <td width="100%">
+      <%Items%>
+    </td>
+  </tr>
+</table>
+<br>

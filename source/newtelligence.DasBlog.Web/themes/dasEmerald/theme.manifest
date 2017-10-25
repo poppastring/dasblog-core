@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+<theme name="dasEmerald" title="dasEmerald" templateDirectory="themes/dasEmerald" imageDirectory="themes/dasEmerald/images">
+    <image name="dayLink" fileName="dayLink.gif" />
+</theme>

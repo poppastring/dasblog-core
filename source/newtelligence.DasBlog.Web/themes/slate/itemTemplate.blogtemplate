@@ -1,0 +1,24 @@
+<div class="itemBoxStyle">
+	<div class="itemTitleStyle">
+		<%ItemTitle%>
+	</div>
+	<div class="itemBodyStyle">
+		<%ItemBody%>
+	</div>
+	<div class="itemCategoryLinksStyle">
+			<%categoryLinks%>
+	</div>
+	<div class="itemFooterStyle">
+		<%formattedWhen(g)%>&nbsp;
+		<%permalink%>&nbsp;
+		<%editButton%>&nbsp;
+		<%disclaimerLink%>
+		&nbsp;|&nbsp;
+		<%commentLink%>
+		&nbsp;|&nbsp;
+		<%trackbackLink%>
+		<%trackbackList%>
+		<%enclosure%>
+		<br clear="all">
+	</div>
+</div>

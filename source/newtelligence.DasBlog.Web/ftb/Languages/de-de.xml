@@ -1,0 +1,81 @@
+<root>
+<!-- General -->
+<resource name="Yes">Ja</resource>
+<resource name="No">Nein</resource>
+<resource name="0">0</resource>
+<resource name="1">1</resource>
+<resource name="2">2</resource>
+<resource name="3">3</resource>
+<resource name="4">4</resource>
+<resource name="5">5</resource>
+<resource name="6">6</resource>
+<resource name="7">7</resource>
+<resource name="8">8</resource>
+<resource name="9">9</resource>
+<!-- Main FTB Stuff -->
+<resource name="DesignModeTab">Design</resource>
+<resource name="HtmlModeTab">HTML</resource>
+<!-- Buttons -->
+<resource name="Bold">fett</resource>
+<resource name="BulletedList">Aufzählungszeichen</resource>
+<resource name="Copy">kopieren</resource>
+<resource name="CreateLink">Link erstellen</resource>
+<resource name="Cut">ausschneiden</resource>
+<resource name="Delete">löschen</resource>
+<resource name="Indent">Einzug vergrößern</resource>
+<resource name="InsertDate">Datum einfügen</resource>
+<resource name="InsertImage">Bild einfügen</resource>
+<resource name="InsertRule">horizontalen Trenner einfügen</resource>
+<resource name="InsertTime">Zeit einfügen</resource>
+<resource name="Italic">kursiv</resource>
+<resource name="JustifyRight">rechtsbündig</resource>
+<resource name="JustifyCenter">zentriert</resource>
+<resource name="JustifyFull">Blocksatz</resource>
+<resource name="JustifyLeft">linksbündig</resource>
+<resource name="NumberedList">Nummerierung</resource>
+<resource name="Outdent">Einzug verkleinern</resource>
+<resource name="Paste">einfügen</resource>
+<resource name="Print">drucken</resource>
+<resource name="Redo">wiederherstellen</resource>
+<resource name="RemoveFormat">Formatierung entfernen</resource>
+<resource name="Save">speichern</resource>
+<resource name="StrikeThrough">durchgestrichen</resource>
+<resource name="SuperScript">hochgestellt</resource>
+<resource name="SubScript">tiefergestellt</resource>
+<resource name="Underline">unterstrichen</resource>
+<resource name="Undo">rückgängig</resource>
+<resource name="Unlink">Link entfernen</resource>
+<resource name="SelectAll">alles auswählen</resource>
+<resource name="Preview">Vorschaufenster</resource>
+<resource name="IeSpellCheck">Rechtschreibung mit IE Spell prüfen</resource>
+<resource name="NetSpell">Rechtschreibung mit Net Spell prüfen</resource>
+<resource name="InsertImageFromGallery">Bild aus Bildergalerie einfügen</resource>
+<resource name="WordClean">HTML aus MS Word bereinigen</resource>
+<!-- Table Functions -->
+<resource name="InsertTable">Tabelle einfügen</resource>
+<resource name="InsertTableRowAfter">Zeile darunter einfügen</resource>
+<resource name="InsertTableRowBefore">Zeile darüber einfügen</resource>
+<resource name="InsertTableColumnAfter">Spalte dahinter einfügen</resource>
+<resource name="InsertTableColumnBefore">Spalte davor einfügen</resource>
+<resource name="DeleteTableColumn">Spalte löschen</resource>
+<resource name="DeleteTableRow">Zeile löschen</resource>
+<!-- DropDownLists -->
+<resource name="FontForeColorsMenu">Schriftfarbe</resource>
+<resource name="FontBackColorsMenu">hervorheben</resource>
+<resource name="FontSizesMenu">Größe</resource>
+<resource name="ParagraphMenu">Paragraf</resource>
+<resource name="FontFacesMenu">Schriftart</resource>
+<resource name="InsertHtmlMenu">Html einfügen</resource>
+<resource name="SymbolsMenu">Symbole</resource>
+<resource name="StylesMenu">Textformat</resource>
+<!-- DropDownList Items -->
+<resource name="ParagraphMenu_Normal">Standard</resource>
+<resource name="ParagraphMenu_Heading1">Überschrift 1</resource>
+<resource name="ParagraphMenu_Heading2">Überschrift 2</resource>
+<resource name="ParagraphMenu_Heading3">Überschrift 3</resource>
+<resource name="ParagraphMenu_Heading4">Überschrift 4</resource>
+<resource name="ParagraphMenu_Heading5">Überschrift 5</resource>
+<resource name="ParagraphMenu_Heading6">Überschrift 6</resource>
+<resource name="ParagraphMenu_Formatted">formatiert</resource>
+<resource name="ParagraphMenu_Address">Adresse</resource>
+</root>

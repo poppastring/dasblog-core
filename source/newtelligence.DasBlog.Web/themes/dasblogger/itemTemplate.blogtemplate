@@ -1,0 +1,39 @@
+<div class="highlighted">
+<%PreviousLink("&laquo;&nbsp;",40)%><%MainPageentryLink("Main", "|")%><%NextLink("&nbsp;&raquo;",40)%>
+</div>
+	<div class="itemBoxStyle">
+		<div class="itemTitleStyle">
+			<%archiveLink%>&nbsp;<%longDate%><br />
+		<div class="postTitle">
+			<%itemTitle%>
+		</div>
+		<div class="postWidgets">
+			<%editButton%>	
+		</div>
+	</div>
+	<div class="itemBodyStyle">
+		<%itemBody%>
+	</div>
+	<div class="itemCategoryLinksStyle">
+			<%categoryLinks%>
+	</div>
+	<div class="itemFooterStyle">
+		<div class="itemFooterDate">
+		<%when%>	
+		</div>
+		<div class="itemFooterLinks">
+			<%permalink%>
+			&nbsp;|&nbsp;			
+			<%itemauthor%>
+			&nbsp;|&nbsp;
+			<%disclaimerLink%>
+			&nbsp;|&nbsp;
+			<%commentLink%>
+			&nbsp;|&nbsp;
+			<%trackbackLink%>
+			<%relatedPostList%>
+			<%trackbackList%>
+			<%enclosure%>
+		</div>
+	</div>
+</div>

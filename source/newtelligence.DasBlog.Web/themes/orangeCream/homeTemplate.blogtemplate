@@ -1,0 +1,233 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+	<head>
+		<title>
+			<%title%>
+		</title>
+		<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+		<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1" />
+        <meta name="Keywords" CONTENT="Dasblog ASP.NET blogs tool,top  blogs website">
+		<META NAME="description" CONTENT="Dasblog tool. Welcome to my Blog. The opinions expressed herein are my own personal opinions.">
+		<META NAME="Author" CONTENT="<%AuthorName()%>">
+		<META NAME="Classification" CONTENT="News">
+		<%radio.macros.headLinks ()%>
+		<link rel="stylesheet" type="text/css" href="themes/orangeCream/admin.css">
+			<style type="text/css">
+			body {
+    
+    			margin-top: 0px;
+    			margin-left: 20px;
+    			margin-right: 20px;
+			margin-bottom: 0px;
+			heigth;100%;
+    			background:#f2edd5 url('<%radio.macros.imageurl ("images/bg.gif")%>') repeat-y 50% 0;    
+			}
+
+  			#links {
+   			 float:left;
+   			 clear:left;
+  			 width:20%;
+   			 margin-left: 0px;
+  			 /* background:#FF9933; */
+			padding-right:15px;
+			padding-left:5px;				
+			border-left:1px dotted #FFF;
+			background:#FF9933 url('<%radio.macros.imageurl ("images/linksbg.gif")%>') repeat-y 50% 0;       
+			}
+
+
+			#banner {
+			 font-family:georgia, verdana, arial, sans-serif;
+   			 color:#ffffff;
+  			 font-size:26px;
+  			 font-weight:bold;
+  			 border-bottom: 1px solid #ffffff;	
+			 border-left: 1px solid #ffffff;	
+			 border-right: 1px solid #ffffff;	
+ 			 background:#746148 url('<%radio.macros.imageurl ("images/topbg.gif")%>') repeat-x ;
+  			 padding:0px;  
+ 			 width:100%; 
+ 			 height:100px;
+ 			 margin-left: 0px;
+			 text-align:left;
+ 		      	}
+
+
+ 			#footer {
+ 			   font-family:verdana, arial, sans-serif;
+			   color:#ffffff;
+ 			   font-size:10px;
+			   font-weight:normal;
+			   left:100px;
+			   width:62%;
+ 			   position:relative; 
+			   border: 0px solid #993300; 
+			   height:100px;
+		
+			}    
+
+			#copyrights {
+				background:#FFFFFF url('<%radio.macros.imageurl ("images/crbg.gif")%>') no-repeat 50% 0;  
+				height:18px;     
+			}
+			
+			#copyrights table tr td{
+			   font-family:verdana, arial, sans-serif;
+			   color:#000000;
+ 			   font-size:10px;
+			   font-weight:normal;
+			}
+
+
+			</style>
+			<script language="JavaScript" type="text">
+				<!-- Begin hiding from older browsers
+  //End hiding--></script>
+	</head>
+	<body>
+		<div id="wrapper">
+		<div id="banner" align="center">
+			<div id="dropshadow">
+				<%siteName%>
+				<div id="bannertext">
+				<%siteName%>
+				</div>
+			</div>
+				<div class="description">
+				<%description%>
+				</div>
+		
+			<div id="desc">
+               	       		 // display opinion here <br>
+   				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; weblog.write &nbsp;mind.output("thoughts" + now() ); 
+  			</div>
+		</div>
+     
+
+		<div id="links">
+			<h2 align="center" class="sidetitle">Recent Entries</h2>
+		       <div class="side">
+		            <%titleList(25)%>
+		       </div>
+               	       <h2 align="center" class="sidetitle">Archives</h2>
+		       <table border="0" cellspacing="0" cellpadding="8" align="center">
+				<tr>
+					<td align="center">
+						<%radio.weblog.drawcalendar ()%>
+						<br>
+						<%feedLink%>
+					</td>
+				</tr>
+			</table>
+			<h2 align="center" class="sidetitle">
+				Search</h2>
+			<div align="center" class="side">
+				<%newtelligence.search()%> </div>
+			<h2 align="center" class="sidetitle">Navigation</h2>
+			<div align="center" class="side">
+				<div align="left">
+				   <%navigatorLinks%>
+                                </div>
+			</div>
+			<h2 align="center" class="sidetitle">Categories</h2>
+			<div align="center" class="side">
+                               <div align="left">
+				 <%newtelligence.drawCategories()%>
+                               </div>
+			</div>
+			
+			<h2 align="center" class="sidetitle">Blogroll</h2>
+			<div align="center" class="side">
+				<div align="left">
+				 <%radio.macros.blogroll ("siteConfig/blogroll.opml")%>
+				</div>
+			</div>
+			<h2 align="center" class="sidetitle">Site listed on</h2>
+			<div align="center" class="side">
+				<div align="center">
+				<a href="http://www.blo.gs/" target="_blank"><img src="<%radio.macros.imageurl ("blogs.PNG")%>" border="0" width="80" height="15" alt="Blo.gs - blog directory"></a> 
+				 <br>
+				<a href="http://weblogs.com/" target="_blank"><img src="<%radio.macros.imageurl ("weblogs.PNG")%>" border="0" width="80" height="15" alt="weblogs.com"></a> 
+				 <br>
+				</div>
+			</div>
+                        
+			<h2 align="center" class="sidetitle">Disclaimer</h2>
+                        	<div align="center" class="side">
+					<font color="#993300"><%newtelligence.disclaimer()%></font>
+				</div> 
+
+			<h2 align="center" class="sidetitle">Contact</h2>
+			<div align="center" class="side">
+				<div align="center">
+				<a href="mailto:nameATgmailDOTcom"><img src="<%radio.macros.imageurl ("gmailme.gif")%>"  border="0" alt="Mail Me"></a>
+				<br>	
+				</div>
+			</div>			
+                                        
+			<h2 align="center" class="sidetitle">Login</h2>
+				<div align="center" class="side">
+					<%newtelligence.loginbox ()%>
+				</div>
+		<br>
+		<br>
+		<br>
+		</div>
+
+		<div id="content">
+		
+			<%radio.macros.editorsOnlyMenu ()%>
+			<div class="blogbody">
+			        <% DrawCategoryPaging() %> 
+					<%bodytext%>
+			<div class="post-paging">
+				<div class="previous-posts">
+					<% DrawPostPagingPrevious() %>
+				</div>
+				<div class="next-posts">
+					<% DrawPostPagingNext() %>
+				</div>
+			</div>					
+					<br>
+						<%radio.macros.editThisPageButton ()%>
+
+			</div>
+			<div id="footer" align="center">
+				<br>
+				<div id="copyrights" align="Center">
+					<table border="0" cellpadding="0" cellspacing="0">
+					<tr>
+					<td width="75" >&copy;</td>
+					<td align="center" width="275">Copyright&nbsp;<%year%>&nbsp;<%authorName%>&nbsp;&nbsp;</td>
+					</tr>
+					</table>
+				</div>
+				<div id="copyrights" align="Center">
+                           		<table border="0" cellpadding="0" cellspacing="0">
+					<tr>
+					<td width="75">Powered by</td>
+					<td align="center" width="275"><%radioBadge%></td>
+					</tr>
+					</table>
+				</div>
+				<div id="copyrights" align="Center">
+					<table border="0" cellpadding="0" cellspacing="0">
+					<tr>
+					<td align="center" width="350" >Theme by <a href="http://www.dhinakar.com/blogs/" target="_blank">Dhina</a></td>
+					</tr>
+					</table>
+				</div>
+				<div id="copyrights" align="Center">
+					<table border="0" cellpadding="0" cellspacing="0">
+					<tr>
+					<td align="center" width="350" >
+                        <%newtelligence.aspnetcontrol("themecombo.ascx")%>
+					</td>
+					</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+		</div>
+	</body>
+</html>

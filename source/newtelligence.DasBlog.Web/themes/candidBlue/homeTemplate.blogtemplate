@@ -1,0 +1,688 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+	<head>
+		<title>
+			<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+			<%title%>
+			</title>
+		<style type="text/css">
+			A { font-weight: bold; text-decoration: none; }
+
+			A:link {
+				color: #004183;
+				font-weight: bold;
+				text-decoration: none;
+			}
+
+			A:visited { color: #005BBA; text-decoration: none; }
+
+			A:hover { color: White; background: Black; }
+
+			A:active { color: #99CC66; }
+
+			a.radioMenuLink:link, a.radioMenuLink:visited { color: #634F84; text-decoration: none; }
+
+			a.radioMenuLink:hover {
+				color: Black;
+				text-decoration: none;
+				background:#14265B;
+			}
+
+			body {
+				margin: 0px 0px 0px 0px;
+				background-position: left;
+				background: #355EA0;
+				background-repeat: repeat-y;
+				font-size: 13px;
+			}
+
+			hr {
+				border-top: 0px solid Black;
+				border-bottom: 0px solid White;
+				border-left: 0px solid Black;
+				border-right: 0px solid Black;
+				background: Black;
+				height: 1px;
+			}
+
+			td {
+				font-family: 'Trebuchet MS', 'Lucida Grande', Verdana, Lucida, Geneva, Helvetica, Arial, sans-serif;
+				font-size: 13px;
+				font-weight: normal;
+				line-height: 150%;
+			}
+
+			.adminNavbarStyle
+						{ padding-top: 5px; padding-bottom: 10px; }
+
+			.adminNavbarStyle UL {
+				padding-right: 0px;
+				padding-left: 0px;
+				padding-bottom: 0px;
+				margin: 0px;
+				padding-top: 0px;
+				text-align: center;
+			}
+
+			.adminNavbarStyle UL LI {
+				padding-right: 0.25em;
+				padding-left: 0.25em;
+				border-left: Gray 1px solid;
+				display: inline;
+				list-style-type: none;
+			}
+
+			.adminNavbarStyle UL LI.first { border-left: none; }
+
+			.blogbody {
+				padding-left: 4%;
+				padding-right: 4%;
+				padding-top: 20px;
+				padding-bottom: 50px;
+				border-right: 1px solid #07398D;
+				color: #333;
+				background: White;
+				font-family: 'Trebuchet MS', 'Lucida Grande', Verdana, Lucida, Geneva, Helvetica, Arial, sans-serif;
+				font-size: 13px;
+				font-weight: normal;
+				line-height: 150%;
+			}
+
+			.blogbody input, .blogbody select {
+				font-family: 'Trebuchet MS', 'Lucida Grande', Verdana, Lucida, Geneva, Helvetica, Arial, sans-serif;
+			}
+
+			.blogRollDescriptionStyle
+						{
+				margin-left: 15px;
+				color: White;
+				font-weight: normal;
+				font-size: 7pt;
+			}
+
+			.blogRollNestedOutlineBodyTableStyle
+						{ margin-left: 20px; }
+
+			.blogs {
+				padding-left: 15px;
+				padding-top: 15px;
+				padding-right: 15px;
+				padding-bottom: 25px;
+			}
+
+			.bodyContentStyle
+						{ width: 100%; }
+
+			.categoryListNestedOutlineBodyTableStyle
+						{
+				width: 100%;
+				margin-left: 25px;
+				margin-bottom: 4px;
+			}
+
+			.commentBoxFooterStyle
+						{
+				width: 100%;
+				margin-top: 5px;
+				padding-top: 3px;
+				border-top: 1px dashed #ddd;
+				font-size: 12px;
+			}
+
+			.commentBoxStyle {
+				padding: 15px 20px 15px 20px;
+				margin-bottom: 25px;
+				border-bottom: 1px solid #ddd;
+				border-top: 1px solid #ddd;
+				border-right: 1px solid #ddd;
+				border-left: 1px solid #ddd;
+				color: #333;
+				background-color: #FCFCFC;
+				font-family: 'Trebuchet MS', 'Lucida Grande', Verdana, Lucida, Geneva, Helvetica, Arial, sans-serif;
+				font-weight: normal;
+				font-size: 13px;
+				text-decoration: none;
+			}
+
+			.commentDateStyle
+						{
+				width: 100%;
+				border-bottom: 1px dashed #ddd;
+				margin-bottom: 5px;
+				padding-bottom: 3px;
+				font-size: 12px;
+				text-align: right;
+			}
+
+			.configControlStyle { }
+
+			.configLabelColumnStyle { vertical-align: top; }
+
+			.configLabelStyle { margin-right: 10px; font-size: 9pt; }
+
+			.configSectionStyle {
+				border-right: 1px dashed Black;
+				padding-right: 10px;
+				border-top: 1px dashed;
+				padding-left: 10px;
+				margin-bottom: 15px;
+				padding-bottom: 10px;
+				border-left: 1px dashed;
+				padding-top: 10px;
+				border-bottom: 1px dashed;
+				vertical-align: middle;
+			}
+
+			.configSectionTitleStyle {
+				margin-bottom: 10px;
+				padding-bottom: 5px;
+				border-bottom: 1px solid Blue;
+				font-weight: bold;
+				font-size: 110%;
+			}
+
+			.date {
+				padding: 2px;
+				margin-top: 10px;
+				margin-bottom: 22px;
+				border-bottom: 1px solid #999;
+				color: White;
+				background: #CCC;
+				font-family: verdana, arial, sans-serif;
+				font-size: 12px;
+				font-weight: bold;
+				text-align: left;
+				line-height: 14px;
+				text-transform: uppercase;
+				letter-spacing: .2em;
+			}
+
+			.description {
+				color: #1A51AC;
+				font-family: 'Trebuchet MS', 'Lucida Grande', Verdana, Lucida, Geneva, Helvetica, Arial;
+				font-size: 80%;
+				font-weight: bold;
+				text-transform: none;
+			}
+
+			.dwsTableCell, .dwsTableCell a {
+				font-family: 'Trebuchet MS', verdana, arial, sans-serif;
+				font-size: 13px;
+				line-height: 1.1em;
+			}
+
+			.footer{
+				padding-top: 10px;
+				border-top: 1px solid #355EA0;
+				color: #36300C;
+				font-size: 90%;
+				font-weight: normal;
+				line-height: 130%;
+			}
+
+			.FreeTextboxStyle { color: #000000; }
+
+			.hCalendarDay
+							{ color: Black; font-weight: normal; }
+
+			.hCalendarDay A
+						{ color: White; font-weight: normal; }
+
+			.hCalendarDay A:visited, .hCalendarDay A:hover { color: White; font-weight: bold; }
+
+			.hCalendarDayCurrent, .dCalendarDayCurrent
+							{
+				color: #355EA0;
+				background-color: #294A7F;
+				font-weight: normal;
+				line-height: 100%;
+			}
+
+			.hCalendarDayNameRow, .dCalendarDayNameRow
+							{
+				border-bottom: 1px solid #14265B;
+				padding: 0px;
+				font-size: 10px;
+				font-weight: bold;
+				line-height: 100%;
+			}
+
+			.hCalendarMonthYearRow td, .dCalendarMonthYearRow td
+							{ font-weight: bold; }
+
+			.hCalendarMonthYearRow, .dCalendarMonthYearRow
+							{
+				padding: 0px;
+				border-bottom: 1px solid #14265B;
+				width: 100%;
+				color: White;
+				background: #294A7F;
+				font-size: 13px;
+				font-weight: bold;
+				line-height: 100%;
+			}
+
+			.hCalendarOtherMonthStyle
+						{ color: #999999; background-color: #395A8F; }
+
+			.hCalendarOtherMonthWeekendStyle
+						{ color: #777777; background-color: #2F5085; }
+
+			.hCalendarStyle td, .dCalendarStyle td
+							{ line-height: 120%; }
+
+			.hCalendarStyle, .dCalendarStyle
+							{
+				width: 180px;
+				color: #8ECAFF;
+				font-family: 'Trebuchet MS', 'Lucida Grande', Verdana, Lucida, Geneva, Helvetica, Arial, sans-serif;
+			}
+
+			.hCalendarWeekendStyle
+							{
+				color: #222222;
+				background-color: #294A7F;
+				font-weight: normal;
+			}
+
+			.itemBodyStyle {
+				padding-top: 10px;
+				padding-bottom: 10px;
+				padding-left: 10px;
+				padding-right: 10px;
+				margin-bottom: 0px;
+				color: Black;
+				background: White;
+				font-family: 'Trebuchet MS', 'Lucida Grande', Verdana, Lucida, Geneva, Helvetica, Arial, sans-serif;
+				font-size: 13px;
+				font-weight: normal;
+				text-align: justify;
+			}
+
+			.itemBoxStyle {
+				padding: 15px 20px 15px 20px;
+				margin-bottom: 25px;
+				border-bottom: 1px solid #ddd;
+				border-top: 1px solid #ddd;
+				border-right: 1px solid #ddd;
+				border-left: 1px solid #ddd;
+				color: #333;
+				font-family: 'Trebuchet MS', 'Lucida Grande', Verdana, Lucida, Geneva, Helvetica, Arial, sans-serif;
+				font-weight: normal;
+				font-size: 13px;
+				text-decoration: none;
+			}
+
+			.itemCategoryLinksStyle {
+				padding-left: 10px;
+				padding-right: 10px;
+				padding-bottom: 5px;
+				margin-bottom: 0px;
+				font-family: 'Trebuchet MS', 'Lucida Grande', Verdana, Lucida, Geneva, Helvetica, Arial, sans-serif;
+				font-weight: normal;
+				font-size: 13px;
+				text-align: right;
+			}
+
+			.itemFooterStyle {
+				border-top: 1px dotted #ddd;
+				padding-top: 5px;
+				padding-bottom: 0px;
+				padding-left: 10px;
+				padding-right: 10px;
+				margin-bottom: 0px;
+				color: Black;
+				background: White;
+				font-family: 'Trebuchet MS', 'Lucida Grande', Verdana, Lucida, Geneva, Helvetica, Arial, sans-serif;
+				font-size: 10px;
+				font-weight: normal;
+				line-height: 100%;
+				text-align: right;
+			}
+
+			.itemTitleStyle {
+				border-top: 1px solid #ddd;
+				border-right: 1px solid #ddd;
+				border-left: 1px solid #ddd;
+				padding-top: 8px;
+				padding-bottom: 5px;
+				padding-left: 10px;
+				padding-right: 10px;
+				margin-bottom: 0px;
+				color: Black;
+				background: White;
+				background-position: top left;
+				background-repeat: repeat-y;
+				font-family: 'Trebuchet MS', 'Lucida Grande', Verdana, Lucida, Geneva, Helvetica, Arial, sans-serif;
+				font-size: 15px;
+				font-weight: bold;
+				line-height: 100%;
+				text-align: left;
+			}
+
+			.pageTopic
+						{
+				width: 100%;
+				margin-top: 20px;
+				margin-bottom: 20px;
+				padding-top: 10px;
+				padding-bottom: 10px;
+				border-top: dashed 1px #ddd;
+				border-bottom: dashed 1px #ddd;
+				font-size: 15pt;
+				font-weight: bold;
+			}
+
+			.posted {
+				margin-bottom: 15px;
+				color: #003366;
+				font-family: verdana, arial, sans-serif;
+				font-size: 11px;
+			}
+
+			.radioMenuLink {
+				color: #634F84;
+				font-family: verdana, arial, sans-serif;
+				font-size: 13px;
+				font-weight: bold;
+			}
+
+			.radioMenuLinkFont {
+				color: #355EA0;
+				font-family: verdana, arial, sans-serif;
+				font-size: 13px;
+				font-weight: normal;
+			}
+
+			.radioMenuLinkFont {
+				font-family: 'Trebuchet MS', verdana, arial, sans-serif;
+				font-size: x-small;
+				line-height: 1.1em;
+			}
+
+			.side {
+				padding: 5px 5px 5px 5px;
+				padding-left: 40px;
+				margin-right: 20px;
+				color: Black;
+				font-family: 'Trebuchet MS', 'Lucida Grande', Verdana, Lucida, Geneva, Helvetica, Arial, sans-serif;
+				font-weight: normal;
+				font-size: 13px;
+				text-decoration: none;
+			}
+
+			.sideHome {
+				padding: 5px 5px 5px 5px;
+				margin-right: 20px;
+				border-bottom: 1px solid #14265B;
+				color: #72A6DE;
+				font-family: 'Trebuchet MS', 'Lucida Grande', Verdana, Lucida, Geneva, Helvetica, Arial, sans-serif;
+				font-weight: normal;
+				font-size: 10px;
+				line-height: 10px;
+				text-decoration: none;
+			}
+
+			.sidetitle {
+				border-bottom: 1px solid #14265B;
+				padding-top: 5px;
+				padding-bottom: 5px;
+				padding-left: 5px;
+				padding-right: 2%;
+				margin-right: 20px;
+				margin-top: 10px;
+				color: White;
+				background-position: top left;
+				background-repeat: repeat-y;
+				background: #294A7F;
+				font-family: 'Trebuchet MS', 'Lucida Grande', Verdana, Lucida, Geneva, Helvetica, Arial, sans-serif;
+				font-size: 10pt;
+				font-weight: bold;
+				text-align: left;
+			}
+
+			.signInTableStyle
+							{ color: White; }
+
+			.signInUsernameTextBoxStyle, .signInPasswordTextBoxStyle { width: 160px; }
+
+			.statsTableColumnStyle
+						{
+				border: solid 1px Black;
+				padding: 3px;
+				margin-top: 3px;
+				margin-bottom: 3px;
+			}
+
+			.statsTableDateColumnStyle {
+				border: solid 1px Black;
+				padding: 3px;
+				margin-top: 3px;
+				margin-bottom: 3px;
+				width: 25%;
+				text-align: left;
+			}
+
+			.statsTableFooterColumnStyle
+						{
+				border-left: solid 1px Black;
+				border-right: solid 1px Black;
+				border-bottom: solid 1px Black;
+				border-top: solid 2px Black;
+				padding: 3px;
+				font-weight: bold;
+			}
+
+			.statsTableFooterNumColumnStyle
+						{
+				border-left: solid 1px Black;
+				border-right: solid 1px Black;
+				border-bottom: solid 1px Black;
+				border-top: solid 2px Black;
+				padding: 3px;
+				width: 15%;
+				font-weight: bold;
+				text-align: right;
+			}
+
+			.statsTableHeaderColumnStyle
+						{
+				border-left: solid 1px Black;
+				border-right: solid 1px Black;
+				border-bottom: solid 2px Black;
+				border-top: solid 1px Black;
+				padding: 3px;
+				font-size: 105%;
+				font-weight: bold;
+			}
+
+			.statsTableNumColumnStyle
+						{
+				border: solid 1px Black;
+				padding: 3px;
+				margin-top: 3px;
+				margin-bottom: 3px;
+				width: 15%;
+				text-align: right;
+			}
+
+			.statsTableStyle {
+				margin-bottom: 10px;
+				border: solid 1px Black;
+				width: 100%;
+				background: White;
+				border-collapse: collapse;
+				border-spacing: 0px;
+			}
+
+			.title {
+				color: #333;
+				font-family: georgia, verdana, arial, sans-serif;
+				font-size: 150%;
+				font-weight: bold;
+				line-height: 150%;
+				text-align: left;
+			}
+
+			#banner {
+				padding-right: 0px;
+				padding-top: 10px;
+				padding-left: 0px;
+				padding-bottom: 15px;
+				margin-bottom: 15px;
+				border-bottom: 1px solid #355EA0;
+				color: #671603;
+				background: White;
+				background-position: top;
+				background-repeat: repeat-x;
+				font-family: 'Trebuchet MS', 'Lucida Grande', Verdana, Lucida, Geneva, Helvetica, Arial;
+				font-size: 19px;
+				font-style: italic;
+				font-weight: normal;
+			}
+
+			#banner a:hover { color: #671603; background: White; }
+
+			#content {
+				padding-right: 20px;
+				margin-right: 10px;
+				background: #355EA0;
+			}
+
+			#links {
+				padding-right: 0px;
+				padding-left: 0px;
+				padding-top: 20px;
+				margin-right: 0px;
+				color: #82BDFF;
+				font-family: 'Trebuchet MS', 'Lucida Grande', Verdana, Lucida, Geneva, Helvetica, Arial, sans-serif;
+			}
+
+			#links .small {
+				padding-right: 0px;
+				padding-left: 0px;
+				padding-top: 0px;
+				margin-right: 0px;
+				color: #82BDFF;
+				font-family: 'Trebuchet MS', 'Lucida Grande', Verdana, Lucida, Geneva, Helvetica, Arial, sans-serif;
+				line-height: 110%;
+			}
+
+			#links a {
+				color: #D6EDFF;
+				font-weight: bold;
+				text-decoration: none;
+			}
+
+			#links a:visited { color: #8ECAFF; }			
+
+.commentViewBoxStyle input 
+{
+	border:1px solid #CCCCCC;
+}
+
+/* Paging */
+.post-paging {
+}
+.previous-posts{
+}
+.next-posts{
+}
+.clear {
+clear: both
+}
+
+/* Tag Cloud */
+.smallestTag { line-height: 110%; font-size: x-small; font-weight: normal; }
+.smallerTag { line-height: 110%; font-size: x-small; font-weight: bold; }
+.smallTag { line-height: 110%; font-size: small; font-weight: normal; }
+.mediumTag { line-height: 110%; font-size: medium; font-weight: normal; }
+.largeTag { line-height: 110%; font-size: large; font-weight: normal; }
+.largerTag { line-height: 110%; font-size: x-large; font-weight: normal; }
+.largestTag { line-height: 110%; font-size: x-large; font-weight: bold; }
+ 
+/* OpenID Support added in 2.2 */
+.openidtextbox {
+	background: #FFFFFF url('../../images/openid-icon-small.gif') no-repeat scroll 0pt 50%; 
+	padding-left: 18px; 
+}
+.openidtextboxwrap 
+{
+	padding-right: 18px;
+}
+
+		</style>
+		<script language="JavaScript" type="text">
+			<!-- Begin hiding from older browsers
+			//End hiding-->
+			</script> 
+		</head>
+	<body>
+	    <table border="0"><tr><td width="75%" valign="top">
+		<div id="content">
+			<div class="blogbody">
+				<div id="banner">
+					<a href="<%radio.macros.weblogUrl ()%>" style="color:#07398D; line-height: 1em; font-size:22px; text-decoration:none;font-style: normal;font-weight:Bold;"><%siteName%></a><br>
+					<span class="description">
+						<%description%>
+						</span>
+				</div>
+				<%radio.macros.editorsOnlyMenu ()%>
+				<% DrawCategoryPaging() %> 
+				<%bodytext%>
+			<div class="post-paging">
+				<div class="previous-posts">
+					<% DrawPostPagingPrevious() %>
+				</div>
+				<div class="next-posts">
+					<% DrawPostPagingNext() %>
+				</div>
+			</div>				
+				<p class="footer">
+					<table cellpadding="10" cellspacing="0" border="0" align="right">
+						<tr>
+							<td>
+								<%radio.macros.editThisPageButton ()%>
+								</td>
+							</tr>
+						</table>
+					&copy; Copyright&nbsp;<%year%>&nbsp;<%authorName%><br>
+					<%localString("Theme design by|DE:Design von|AR:&#1578;&#1589;&#1605;&#1610;&#1605; &#1571;&#1587;&#1604;&#1608;&#1576; &#1575;&#1604;&#1593;&#1585;&#1590; &#1576;&#1585;&#1575;&#1610;&#1575;&#1606; &#1576;&#1604; ")%> <a href="http://www.bryanbell.com">Bryan Bell</a><br>
+					<br>   
+					<%radioBadge%><br><%feedLink%>&nbsp;&nbsp;<%radio.macros.mailTo ()%>&nbsp;|&nbsp;<%localString("Page rendered at|DE:Seite aufbereitet um|AR: &#1578;&#1605; &#1593;&#1585;&#1590; &#1607;&#1584;&#1607; &#1575;&#1604;&#1589;&#1601;&#1581;&#1577; &#1601;&#1610;")%>&nbsp;<%now%><br clear="right"><br>
+					<%newtelligence.aspnetcontrol("themecombo.ascx")%>
+				</p>
+			</div>
+	    </div>
+	    </td><td valign="top">
+		<div id="links">
+		    <h2 align="center" class="sidetitle"><%localString("On this page....|DE:Auf dieser Seite...|AR:&#1601;&#1610; &#1607;&#1584;&#1607; &#1575;&#1604;&#1589;&#1601;&#1581;&#1577;...")%></h2>
+				<div class="side">
+		            <%titleList()%>
+		        </div>
+		    <hr> 
+			<div style="margin-left:40px;">
+				<%radio.weblog.drawcalendar ()%><br>
+			</div>
+			<div class="sidetitle">
+				Search</div>
+			<div class="side">
+				<%newtelligence.search()%> </div>
+			<div class="sidetitle"><%localString("Navigation|DE:Navigation|AR:&#1605;&#1604;&#1575;&#1581;&#1577;")%></div>
+				<div class="side">
+					<%navigatorLinks%>
+			    </div>
+			<h2 class="sidetitle"><%localString("Categories|DE:Kategorien|AR:&#1571;&#1589;&#1606;&#1575;&#1601;")%></h2>
+				<div class="side">
+					<%newtelligence.drawCategories()%>
+			    </div>
+			<div class="sidetitle"><%localString("Blogroll|DE:Weblog Liste|AR:&#1602;&#1575;&#1574;&#1605;&#1577; &#1575;&#1604;&#1583;&#1601;&#1575;&#1578;&#1585; &#1575;&#1604;&#1575;&#1604;&#1603;&#1578;&#1585;&#1608;&#1606;&#1610;&#1577;")%></div>
+				<div class="side">
+					<%radio.macros.blogroll ("siteConfig/blogroll.opml")%>
+			    </div>
+			<hr>
+			<%newtelligence.loginbox ()%>
+		</div>
+		</td></tr></table>
+		</body>
+	</html>

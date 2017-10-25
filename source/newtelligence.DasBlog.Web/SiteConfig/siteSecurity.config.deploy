@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SiteSecurityConfig xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Users>
+    <!-- IMPORTANT: You will want to create an admin account for maintaining your blog.
+         It is highly recommended that you create a new Name and Password for this account.
+         Do not use your ISP, web host, or e-mail login information. The account should be unique to dasBlog.
+    -->
+         
+    <User>
+      <Name>admin</Name>
+      <!-- The default password is "admin" (without quotes) -->
+      <Password>19-A2-85-41-44-B6-3A-8F-76-17-A6-F2-25-01-9B-12</Password>
+      <Role>admin</Role>
+      <Ask>true</Ask>
+      <DisplayName>Your DisplayName here!</DisplayName>
+      <EmailAddress>myemail@myemail.com</EmailAddress>
+      <OpenIDUrl>http://www.example.com/blog/</OpenIDUrl>
+    </User>
+    
+    <!-- An example contributor account. Users with the contributor Role can post content, but cannot change configuration settings. -->
+    <!--
+    <User>
+      <Name>SomeOtherUser</Name>
+      <Password>blog-password</Password>
+      <Role>contributor</Role>
+      <Ask>true</Ask>
+      <DisplayName>Some Other User</DisplayName>
+      <EmailAddress>SomeOther@example.com</EmailAddress>
+      <OpenIDUrl>http://www.example.com/blog/</OpenIDUrl>
+    </User>
+      -->
+  </Users>
+</SiteSecurityConfig>

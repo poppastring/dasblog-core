@@ -1,0 +1,4 @@
+<div class="dayItems">
+<div class="dayHeader"><%archiveLink%>&nbsp;<%longDate%></div>
+<div class="items"><%Items%></div>
+</div>

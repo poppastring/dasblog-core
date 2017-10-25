@@ -1,0 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8" ?> 
+<theme name="slate" title="Slate" templateDirectory="themes/slate" imageDirectory="themes/slate">
+    <image name="dayLink" fileName="dayLink.gif" />
+</theme>

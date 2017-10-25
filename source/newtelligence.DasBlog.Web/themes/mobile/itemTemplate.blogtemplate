@@ -1,0 +1,16 @@
+<%PreviousLink("&laquo;&nbsp;",25)%><%MainPageentryLink("Main", "|")%><%NextLink("&nbsp;&raquo;",25)%><br/>
+<div class="itemBoxStyle">
+	<div class="itemTitleStyle">
+		<%ItemTitle%>
+	</div>
+	<div class="itemBodyStyle">
+		<%ItemBody%>
+	</div>
+	<div class="itemCategoryLinksStyle">
+			<%categoryLinks%>
+	</div>
+	<div class="itemFooterStyle">
+		<%FormattedWhenBare("u")%>&nbsp;<%permalink%>&nbsp;<%commentLink%><%enclosure%>
+		<br clear="all">
+	</div>
+</div>

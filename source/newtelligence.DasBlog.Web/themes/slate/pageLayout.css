@@ -1,0 +1,53 @@
+/*
+	PageLayout
+	
+	This controls the two column page layout of this theme
+*/
+
+#content {
+	clear: both;
+	line-height: 1.5em;
+	position:relative;
+	width: 100%;
+}
+
+#header {
+    border-bottom: 1px dotted;
+	border-top: 1px solid;
+	padding: 15px;
+	height: 60px;
+}
+
+#left {
+	margin-right: 30%;
+	margin-left: 15px;
+	font-size: 100%;
+	left: 0px;
+	position: relative;
+	z-index: 100;
+}
+
+#left .column {
+	border-left: 1px solid;
+	border-right: 1px solid;
+	padding: 35px 15px 30px 15px;
+}
+
+#right {
+	width: 30%;
+	font-size: 90%;
+	line-height: 1.5em;
+	position: absolute;
+	top: 0px;
+	margin-left: 70%;	
+	margin-right:-15px; /*hack for some browsers that will render a scroll bar for non existing off screen content*/
+	z-index: 0;
+}
+
+#right .column {
+	border-left: 1px solid;
+	border-right: 1px solid;
+	border-bottom: 1px solid;
+	padding: 20px 10px 15px 10px;
+	margin-right: 15px;
+}

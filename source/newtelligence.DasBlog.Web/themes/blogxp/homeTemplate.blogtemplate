@@ -1,0 +1,206 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+	
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+<meta name="description" content="<%siteName%>"></meta>
+<title><%title%></title>
+<link rel="stylesheet" type="text/css" href="themes/blogxp/base.css" />
+<script type="text/javascript" src="themes/blogxp/webparts.js"></script>
+</head>
+<body>
+
+<script type="text/javascript" language="javascript">
+
+// Define the images to be used for the web parts.
+var wp_img_expanded = '<%radio.macros.imageUrl('webpart-up.gif')%>';
+var wp_img_collapsed = '<%radio.macros.imageUrl('webpart-down.gif')%>';
+
+// Cache the images upfront.
+(new Image(15,15)).src = wp_img_expanded;
+(new Image(15,15)).src = wp_img_collapsed;
+
+</script>
+
+<div id="header">
+	<table cellpadding="0" cellspacing="0" width="100%" border="0">
+		<tr>
+			<td id="siteTitleLeft">
+				<div id="siteTitle"><%siteNameLink%></div>
+				<div id="siteSubtitle"><%subtitle%></div>
+			</td>
+			<td id="siteTitleRight"></td>
+		</tr>
+	</table>
+	<div id="headerLinks">
+		<a href="default.aspx">Home</a> | <a href="SyndicationService.asmx/GetRss">Syndication</a> | <%newtelligence.loginbox()%>
+	</div>
+</div>
+
+<%newtelligence.adminBar()%>
+
+<!-- BEGIN content -->
+<div id="content">
+	<!-- BEGIN #items -->
+	<div id="items">
+		<div class="column">
+		<% DrawCategoryPaging() %> 
+			<%bodytext%> 
+			<div class="post-paging">
+				<div class="previous-posts">
+					<% DrawPostPagingPrevious() %>
+				</div>
+				<div class="next-posts">
+					<% DrawPostPagingNext() %>
+				</div>
+			</div>
+			<div id="itemFooterStyle">
+				<p>Theme design by <a href="http://jelle.druyts.net">Jelle Druyts</a></p>
+				<p><%newtelligence.aspnetcontrol("themecombo.ascx")%></p>
+			</div>
+		</div>
+	</div>
+	<!-- END #items -->
+	<!-- BEGIN #sidebar -->
+	<div id="sidebar">
+		<div class="column">
+			<!-- Calendar -->
+			<table class="webpartTitle" cellpadding="0" cellspacing="0" border="0">
+				<tr>
+					<td><img class="corner-left" src="<%radio.macros.imageUrl('webpart-corner-left.gif')%>" border="0"/></td>
+					<td class="webpartTitleBar">
+						<div class="sidetitle">Calendar</div>
+					</td>
+					<td><a onClick="return webpartToggleExpansionStatus('calendar');" class="webpartToggleLink" href="#"><img id="calendarImage" title="Click to collapse or expand this item" src="<%radio.macros.imageUrl('webpart-up.gif')%>" border="0" /></a></td>
+				</tr>
+			</table>
+			<div id="calendarPanel" class="webpartExpanded">
+				<div class="side" align="center">
+					<%radio.weblog.drawcalendar ()%><br />
+					<%feedLink%>
+				</div>
+			</div>
+
+			<!-- Archives -->
+			<table class="webpartTitle" cellpadding="0" cellspacing="0" border="0">
+				<tr>
+					<td><img class="corner-left" src="<%radio.macros.imageUrl('webpart-corner-left.gif')%>" border="0"/></td>
+					<td class="webpartTitleBar">
+						<div class="sidetitle">Archives</div>
+					</td>
+					<td><a onClick="return webpartToggleExpansionStatus('archives');" class="webpartToggleLink" href="#"><img id="archivesImage" title="Click to collapse or expand this item" src="<%radio.macros.imageUrl('webpart-up.gif')%>" border="0" /></a></td>
+				</tr>
+			</table>
+			<div id="archivesPanel" class="webpartExpanded">
+				<div class="side">
+					<%newtelligence.drawArchiveMonths()%>
+				</div>
+			</div>
+
+			<!-- On this page -->
+			<table class="webpartTitle" cellpadding="0" cellspacing="0" border="0">
+				<tr>
+					<td><img class="corner-left" src="<%radio.macros.imageUrl('webpart-corner-left.gif')%>" border="0"/></td>
+					<td class="webpartTitleBar">
+						<div class="sidetitle">On this page</div>
+					</td>
+					<td><a onClick="return webpartToggleExpansionStatus('onthispage');" class="webpartToggleLink" href="#"><img id="onthispageImage" title="Click to collapse or expand this item" src="<%radio.macros.imageUrl('webpart-up.gif')%>" border="0" /></a></td>
+				</tr>
+			</table>
+			<div id="onthispagePanel" class="webpartExpanded">
+				<div class="side">
+					<%titleList()%>
+				</div>
+			</div>
+
+			<!-- Categories -->
+			<table class="webpartTitle" cellpadding="0" cellspacing="0" border="0">
+				<tr>
+					<td><img class="corner-left" src="<%radio.macros.imageUrl('webpart-corner-left.gif')%>" border="0"/></td>
+					<td class="webpartTitleBar">
+						<div class="sidetitle">categories</div>
+					</td>
+					<td><a onClick="return webpartToggleExpansionStatus('categories');" class="webpartToggleLink" href="#"><img id="categoriesImage" title="Click to collapse or expand this item" src="<%radio.macros.imageUrl('webpart-up.gif')%>" border="0" /></a></td>
+				</tr>
+			</table>
+			<div id="categoriesPanel" class="webpartExpanded">
+				<div class="side">
+					<%newtelligence.drawCategories()%>
+				</div>
+			</div>
+
+			<!-- Links -->
+			<table class="webpartTitle" cellpadding="0" cellspacing="0" border="0">
+				<tr>
+					<td><img class="corner-left" src="<%radio.macros.imageUrl('webpart-corner-left.gif')%>" border="0"/></td>
+					<td class="webpartTitleBar">
+						<div class="sidetitle">Links</div>
+					</td>
+					<td><a onClick="return webpartToggleExpansionStatus('links');" class="webpartToggleLink" href="#"><img id="linksImage" title="Click to collapse or expand this item" src="<%radio.macros.imageUrl('webpart-up.gif')%>" border="0" /></a></td>
+				</tr>
+			</table>
+			<div id="linksPanel" class="webpartExpanded">
+				<div class="side">
+					<%navigatorLinks%>
+				</div>
+			</div>
+
+			<!-- Blogroll -->
+			<table class="webpartTitle" cellpadding="0" cellspacing="0" border="0">
+				<tr>
+					<td><img class="corner-left" src="<%radio.macros.imageUrl('webpart-corner-left.gif')%>" border="0"/></td>
+					<td class="webpartTitleBar">
+						<div class="sidetitle">Blogroll <span class="xml"">OPML</span></div>
+					</td>
+					<td><a onClick="return webpartToggleExpansionStatus('blogroll');" class="webpartToggleLink" href="#"><img id="blogrollImage" title="Click to collapse or expand this item" src="<%radio.macros.imageUrl('webpart-up.gif')%>" border="0" /></a></td>
+				</tr>
+			</table>
+			<div id="blogrollPanel" class="webpartExpanded">
+				<div class="side">
+					<%radio.macros.blogroll ("siteConfig/blogroll.opml")%>
+				</div>
+			</div>
+
+			<!-- Search -->
+			<table class="webpartTitle" cellpadding="0" cellspacing="0" border="0">
+				<tr>
+					<td><img class="corner-left" src="<%radio.macros.imageUrl('webpart-corner-left.gif')%>" border="0"/></td>
+					<td class="webpartTitleBar">
+						<div class="sidetitle">Search</div>
+					</td>
+					<td><a onClick="return webpartToggleExpansionStatus('search');" class="webpartToggleLink" href="#"><img id="searchImage" title="Click to collapse or expand this item" src="<%radio.macros.imageUrl('webpart-up.gif')%>" border="0" /></a></td>
+				</tr>
+			</table>
+			<div id="searchPanel" class="webpartExpanded">
+				<div class="side">
+					<%newtelligence.search()%>
+				</div>
+			</div>
+
+			<!-- Disclaimer -->
+			<table class="webpartTitle" cellpadding="0" cellspacing="0" border="0">
+				<tr>
+					<td><img class="corner-left" src="<%radio.macros.imageUrl('webpart-corner-left.gif')%>" border="0"/></td>
+					<td class="webpartTitleBar">
+						<div class="sidetitle">Disclaimer</div>
+					</td>
+					<td><a onClick="return webpartToggleExpansionStatus('disclaimer');" class="webpartToggleLink" href="#"><img id="disclaimerImage" title="Click to collapse or expand this item" src="<%radio.macros.imageUrl('webpart-up.gif')%>" border="0" /></a></td>
+				</tr>
+			</table>
+			<div id="disclaimerPanel" class="webpartExpanded">
+				<div class="side">
+					<p>Powered by: <%radioBadge%></p>
+					<p>The opinions expressed herein are my own personal opinions and do 
+					not represent my employer&#39;s view in any way.</p>
+					<p>&copy; Copyright <%year%>, <%authorName%></p>
+					<p><%radio.macros.mailTo ()%> E-mail</p>
+					<%newtelligence.aspnetcontrol("themecombo.ascx")%>
+                </div>
+			</div>
+		</div>
+	</div>
+	<!-- END #sidebar -->
+</div>
+<!-- END #content-->
+</body>
+</html>

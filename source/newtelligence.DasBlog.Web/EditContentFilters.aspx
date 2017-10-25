@@ -1,0 +1,2 @@
+<%@ Page language="c#" ValidateRequest="false" Codebehind="EditContentFilters.aspx.cs" AutoEventWireup="False" Inherits="newtelligence.DasBlog.Web.EditContentFilters" %>
+<asp:placeholder id="contentPlaceHolder" runat="server"></asp:placeholder>

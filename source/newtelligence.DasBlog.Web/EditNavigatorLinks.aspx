@@ -1,0 +1,2 @@
+<%@ Page language="c#" validateRequest="true" Codebehind="EditNavigatorLinks.aspx.cs" AutoEventWireup="False" Inherits="newtelligence.DasBlog.Web.EditNavigatorLinks" %>
+<asp:placeholder id="contentPlaceHolder" runat="server"></asp:placeholder>

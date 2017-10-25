@@ -1,0 +1,397 @@
+A:link, A:visited {
+	color: #005BBA;
+	text-decoration: none;
+}
+
+A:hover { 
+	color: #3399FF;
+}
+
+A:active {
+	color: #99CC66;
+}
+
+body 
+{
+	background-color: #1e77d3;
+	background-image: url('./background.gif');
+	background-repeat: repeat-x;
+	font-size: 0.8em;
+	font-family: Tahoma, Lucida, Geneva, Helvetica, Arial, sans-serif;
+	text-align: center;
+}
+
+#container 
+{
+	position: relative;
+	width:95%;
+	margin-left: auto;
+	margin-right: auto;
+	background-color: #f1f1f1;
+	border: 1px solid #000000;
+	text-align: left;
+}
+
+.sidebar {
+	margin-bottom: 15px;
+	padding: 10px;
+	background-color: #FCFCFC;
+	border: 1px solid #ddd;
+}
+
+.sidehead 
+{
+	background-color: #006699;
+	border-left:5px solid #99CC00;
+	margin-bottom: 10px;
+	padding: 5px;
+	color: #FFFFFF;
+	font-weight: bold;
+	font-size: 1.2em;
+}
+
+.sidecontent {
+	font-size: 0.8em;
+}
+
+.navigatorLinksLinkStyle {
+	font-size: small;
+}
+
+.titleListLinkStyle {
+	font-size: small;
+}
+
+.hCalendarStyle {
+	font-size: small;
+}
+
+.hCalendarMonthYearRow {
+	font-size: small;
+}
+
+.lCalendarMonthYearRow {
+	font-size: small;
+}
+
+.lCalendarStyle {
+	font-size: small;
+}
+
+.archiveLinksLinkStyle {
+	font-size: small;
+}
+
+.categoryListLinkStyle {
+	font-size: small;
+}
+
+.blogRollCellStyle {
+	font-size: small;
+}
+
+.blogRollNestedOutlineTitleStyle {
+	font-size: small;
+}
+
+.signInLabelCellStyle {
+	font-size: small;
+}
+
+.siteName {
+	color: #CC3300;
+	font-weight: bold;
+	font-size: 1.5em;
+}
+
+#content {
+	margin: 3px 230px 3px 5px;
+	background-color: #FFFFFF;
+	line-height: 1.5em;
+	border: 1px solid #ddd;
+	padding: 3px;
+}
+
+#header 
+{
+	border-bottom: 2px solid #006699;
+	padding: 15px;
+	height: 40px;
+}
+
+#right 
+{
+	position: absolute;
+	width: 210px;
+	font-size: 90%;
+	line-height: 1.5em;
+	right: 0px;
+	top: 75px;
+	padding-right:5px;
+}
+
+
+.adminNavbarStyle {
+	padding-top: 5px; 
+	padding-bottom: 10px;
+}
+
+.adminNavbarStyle UL {
+	padding-right: 0px;
+	padding-left: 0px;
+	padding-bottom: 0px;
+	margin: 0px;
+	padding-top: 0px;
+	text-align: center;
+}
+
+.adminNavbarStyle UL LI {
+	padding-right: 0.25em;
+	padding-left: 0.25em;
+	border-left: Gray 1px solid;
+	display: inline;
+	list-style-type: none;
+	font-size: 8pt;
+}
+
+.adminNavbarStyle UL LI.first, .adminNavbarStyle UL LI.firstHere {
+	border-left: none;
+}
+
+.commentBoxFooterStyle {
+	width: 100%;
+	margin-top: 5px;
+	padding-top: 3px;
+	border-top: 1px dashed #ddd;
+	font-size: 12px;
+}
+
+.commentBoxStyle {
+	padding: 15px 20px 15px 20px;
+	margin-bottom: 25px;
+	border-bottom: 1px solid #ddd;
+	border-top: 1px solid #ddd;
+	border-right: 1px solid #ddd;
+	border-left: 1px solid #ddd;
+	color: #333;
+	background-color: #FCFCFC;
+	font-weight: normal;
+	font-size: 13px;
+	text-decoration: none;
+}
+
+.commentDateStyle {
+	width: 100%;
+	border-bottom: 1px dashed #ddd;
+	margin-bottom: 5px;
+	padding-bottom: 3px;
+	font-size: 12px;
+	text-align: right;
+}
+
+.configControlStyle { }
+
+.configLabelColumnStyle { vertical-align: top; }
+
+.configLabelStyle { margin-right: 10px; font-size: 9pt; }
+
+.configSectionStyle {
+	margin-bottom: 15px;
+	padding: 15px;
+	background-color: #FCFCFC;
+	border: 1px solid #ddd;
+	vertical-align: middle;
+}
+
+.configSectionTitleStyle {
+	margin-bottom: 10px;
+	padding-bottom: 5px;
+	border-bottom: 1px solid #CC3300;
+	color: #CC3300;
+	font-weight: bold;
+	font-size: medium;
+}
+
+.pageTopic {
+	width: 100%;
+	margin-bottom: 10px;
+	padding-bottom: 5px;
+	border-bottom: 1px solid #CC3300;
+	color: #CC3300;
+	font-weight: bold;
+	font-size: large;
+}
+
+.categoryLinks {
+	clear: both;
+	color: gray;
+	text-align: right;
+}
+
+.dayHeader {
+	color: #CC3300;
+}
+
+.dayItems {
+	padding-bottom: 2em;
+}
+
+.FreeTextboxStyle { 
+	color: #000000;
+}
+
+.item {
+	margin-top: 1em;
+	background-color: #ffffff;
+	border-bottom: 1px solid #ddd;
+}
+
+.item img {
+	display: inline;
+}
+
+.itemContents {
+	margin: 1em;
+	margin-top: 1.5em;
+	text-align: justify;
+	font-size: 1em;
+	background-color: #ffffff;
+}
+
+.itemFooter {
+	margin-top: 0.5em;
+	border-top: 1px solid #ddd;
+	font-size: x-small;
+	color: gray;
+	text-align: right;
+}
+
+.itemTitle, .dayHeader {
+	font-size: 1.3em;
+	font-family: Verdana, Lucida, Geneva, Helvetica, Arial, sans-serif;
+	font-weight: bold;
+}
+
+.side {
+	margin: 1em;
+	font-size: small;
+}
+
+.sideBar {
+	width: 15em;
+}
+
+.statsTableColumnStyle {
+	border: solid 1px gray;
+	padding: 3px;
+	margin-top: 3px;
+	margin-bottom: 3px;
+}
+
+.statsTableDateColumnStyle {
+	border: solid 1px gray;
+	padding: 3px;
+	margin-top: 3px;
+	margin-bottom: 3px;
+	width: 25%;
+	text-align: left;
+}
+
+.statsTableFooterColumnStyle {
+	border-left: solid 1px #ddd;
+	border-right: solid 1px #ddd;
+	border-bottom: solid 1px #ddd;
+	border-top: solid 2px #ddd;
+	padding: 3px;
+	font-weight: bold;
+}
+
+.statsTableFooterNumColumnStyle {
+	border-left: solid 1px #ddd;
+	border-right: solid 1px #ddd;
+	border-bottom: solid 1px #ddd;
+	border-top: solid 2px #ddd;
+	padding: 3px;
+	width: 15%;
+	font-weight: bold;
+	text-align: right;
+}
+
+.statsTableHeaderColumnStyle {
+	border-left: solid 1px #ddd;
+	border-right: solid 1px #ddd;
+	border-bottom: solid 2px #ddd;
+	border-top: solid 1px #ddd;
+	padding: 3px;
+	font-weight: bold;
+}
+
+.statsTableNumColumnStyle {
+	border: solid 1px gray;
+	padding: 3px;
+	margin-top: 3px;
+	margin-bottom: 3px;
+	width: 15%;
+	text-align: right;
+}
+
+.statsTableStyle {
+	margin-bottom: 15px;
+	padding: 15px;
+	background-color: #FCFCFC;
+	border: 1px solid #ddd;
+	width: 100%;
+	background: White;
+	border-collapse: collapse;
+}
+
+.geekcode {
+	padding-top: 5px;
+	padding-bottom: 0px;
+	margin-bottom: 0px;
+	color: #cc3300;
+	font-family: 'Courier New', 'Courier', sans-serif;
+	font-size: 10px;
+	font-weight: normal;
+	line-height: 100%;
+}
+
+/* Hides from IE5-mac \*/
+* html .itemBody {height: 1%;}
+/* End hide from IE5-mac */
+
+.commentViewBoxStyle input 
+{
+	border:1px solid #CCCCCC;
+}
+
+/* Paging */
+.post-paging {
+}
+.previous-posts{
+}
+.next-posts{
+}
+.clear {
+clear: both
+}
+
+/* Tag Cloud */
+.smallestTag { line-height: 110%; font-size: x-small; font-weight: normal; }
+.smallerTag { line-height: 110%; font-size: x-small; font-weight: bold; }
+.smallTag { line-height: 110%; font-size: small; font-weight: normal; }
+.mediumTag { line-height: 110%; font-size: medium; font-weight: normal; }
+.largeTag { line-height: 110%; font-size: large; font-weight: normal; }
+.largerTag { line-height: 110%; font-size: x-large; font-weight: normal; }
+.largestTag { line-height: 110%; font-size: x-large; font-weight: bold; }
+ 
+/* OpenID Support added in 2.2 */
+.openidtextbox {
+	background: #FFFFFF url('../../images/openid-icon-small.gif') no-repeat scroll 0pt 50%; 
+	padding-left: 18px; 
+}
+.openidtextboxwrap 
+{
+	padding-right: 18px;
+}
+

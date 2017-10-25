@@ -1,0 +1,67 @@
+BODY {font-family: Verdana, Arial, Helvetica, Geneva, SunSans-Regular, sans-serif ; background: white; color: black; }
+CODE {font-family: "Courier New", Courier, Monaco, monospace ; }
+PRE {font-family: "Courier New", Courier, Monaco, monospace ; }
+HR {color: gray ; }
+.navbar {font-size: 100%; font-family: Verdana, Arial, Helvetica, Geneva, SunSans-Regular, sans-serif; background: #FFFF66 ; border-style: none none solid none; border-width: thin; padding: 2px;}
+.navarea { background: #FFFF66 ; }
+.notrecommended {color: #666666 ; }
+.deemphasized {color: #666666 ; }
+TABLE.densetable {font-size: 80% ; }
+TR.summaryrow { font-size: 90%; background: #00FFFF ; }
+CAPTION {font-size: 100% ; }
+.embeddedfloat {float: right; margin-left: 3em}
+H1, H2, H3, H4, H5, H6 {font-family: Verdana, Arial, Helvetica, Geneva, SunSans-Regular, sans-serif ; }
+H4 {margin-bottom: 0.5em }
+H5, H6 {margin-bottom: 0.2em }
+UL.referencelist, .footnote {margin-left: 4em; text-indent: -4em ; font-size: 83%; font-family: Verdana, Arial, Helvetica, Geneva, SunSans-Regular, sans-serif; list-style: none ; }
+A:link, .simulatedlink {color: blue ; }
+A.old:link {color: #2222FF ; }
+A.new:link {color: #0000FF ; }
+A:visited {color: purple ; }
+A:active {color: red ; }
+A.notrecommended:link {color: #6666FF ; }
+A.notrecommended:visited {color: #CC66CC ; }
+A.deemphasized:link {color: #6666FF ; }
+A.deemphasized:visited {color: #CC66CC ; }
+.overline {font-family: Verdana, Arial, Helvetica, Geneva, SunSans-Regular, sans-serif; margin-bottom: -2ex ; }
+.updatecomment {font-size: 100%; background: #00FFFF ; }
+.outsidecomment {font-size: 100%; background: #E9E9E9 ; }
+.microtext {font-size: 10% ; }
+.useem {color: #CC0000 ;}
+.cssSmallGray	{ font-size: xx-small; color: #999999;  }
+
+.commentViewBoxStyle input 
+{
+	border:1px solid #CCCCCC;
+}
+
+/* Paging */
+.post-paging {
+}
+.previous-posts{
+}
+.next-posts{
+}
+.clear {
+clear: both
+}
+
+/* Tag Cloud */
+.smallestTag { line-height: 110%; font-size: x-small; font-weight: normal; }
+.smallerTag { line-height: 110%; font-size: x-small; font-weight: bold; }
+.smallTag { line-height: 110%; font-size: small; font-weight: normal; }
+.mediumTag { line-height: 110%; font-size: medium; font-weight: normal; }
+.largeTag { line-height: 110%; font-size: large; font-weight: normal; }
+.largerTag { line-height: 110%; font-size: x-large; font-weight: normal; }
+.largestTag { line-height: 110%; font-size: x-large; font-weight: bold; }
+ 
+/* OpenID Support added in 2.2 */
+.openidtextbox {
+	background: #FFFFFF url('../../images/openid-icon-small.gif') no-repeat scroll 0pt 50%; 
+	padding-left: 18px; 
+}
+.openidtextboxwrap 
+{
+	padding-right: 18px;
+}
+

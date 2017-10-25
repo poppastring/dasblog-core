@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<root>
+	<!-- General -->
+	<resource name = "Yes">Sim</resource>
+	<resource name = "No">Não</resource>
+	<resource name = "0">0</resource>
+	<resource name = "1">1</resource>
+	<resource name = "2">2</resource>
+	<resource name = "3">3</resource>
+	<resource name = "4">4</resource>
+	<resource name = "5">5</resource>
+	<resource name = "6">6</resource>
+	<resource name = "7">7</resource>
+	<resource name = "8">8</resource>
+	<resource name = "9">9</resource>
+
+	
+	<!-- Main FTB Stuff -->
+	<resource name = "DesignModeTab">Editor</resource>
+	<resource name = "HtmlModeTab">HTML</resource>
+	
+	<!-- Buttons -->
+	<resource name = "Bold">Negrito</resource>
+	<resource name = "BulletedList">Lista</resource>
+	<resource name = "Copy">Copiar</resource>
+	<resource name = "CreateLink">Inserir Link</resource>
+	<resource name = "Cut">Cortar</resource>
+	<resource name = "Delete">Apagar</resource>
+	<resource name = "Indent">Indentar</resource>
+	<resource name = "InsertDate">Inserir Data</resource>
+	<resource name = "InserirImage">Inserir Imagem</resource>
+	<resource name = "InserirRule">Inserir Régua</resource>
+	<resource name = "InserirTime">Inserir Hora</resource>
+	<resource name = "Italic">Itálico</resource>	
+	<resource name = "JustifyRight">Alinhar à Direita</resource>	
+	<resource name = "JustifyCenter">Alinhar ao Centro</resource>	
+	<resource name = "JustifyFull">Alinhamento Total</resource>	
+	<resource name = "JustifyLeft">Alinhar à Esquerda</resource>
+	<resource name = "NumberedList">Lista Numerada</resource>	
+	<resource name = "Outdent">Diminuir Indentação</resource>	
+	<resource name = "Paste">Colar</resource>	
+	<resource name = "Print">Imprimir</resource>	
+	<resource name = "Redo">Refazer</resource>	
+	<resource name = "RemoveFormat">Remover Toda a Formatação</resource>	
+	<resource name = "StrikeThrough">Riscar</resource>
+	<resource name = "SuperScript">Elevar</resource>
+	<resource name = "SubScript">Rebaixar</resource>	
+	<resource name = "Underline">Sublinhar</resource>	
+	<resource name = "Undo">Voltar Atrás</resource>
+	<resource name = "Unlink">Remover Link</resource>
+	
+
+	<!-- DropDownLists -->
+	<resource name = "FontForeColorsMenu">Cor</resource>
+	<resource name = "FontBackColorsMenu">Destacar</resource>
+	<resource name = "FontSizesMenu">Tamanho</resource>
+	<resource name = "ParagraphMenu">Parágrafo</resource>
+	<resource name = "FontFacesMenu">Tipo de Letra</resource>
+	<resource name = "InserirHtmlMenu">Inserir Html</resource>
+	<resource name = "SymbolsMenu">Símbolos</resource>
+
+</root>

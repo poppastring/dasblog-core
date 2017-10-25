@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+	<!-- <meta http-equiv="Page-Exit" content="progid:DXImageTransform.Microsoft.Fade(duration=.5)" /> -->
+	<meta name="author" content="Frank Caico" />
+	<title><%title%></title>
+
+	<!-- to correct the unsightly Flash of Unstyled Content. http://www.bluerobot.com/web/css/fouc.asp -->
+	<script type="text/javascript"></script>
+
+	<!--[if gte IE 5.5000]>
+	<script type="text/javascript" src="Themes/Elegante/pngfix.js"></script>
+	<![endif]-->
+	<%styleSheet("base.css")%>
+</head>
+<body>
+	<div id="pageContainer">
+		<div id="pageContent">
+			<div id="pageHeader">
+				<h1><span><%siteNameLink%></span></h1>
+				<h2><span><%subtitle%></span></h2>
+			</div>
+			<%newtelligence.adminBar()%>
+			<div id="leftSide">
+			<% DrawCategoryPaging() %> 
+				<%bodytext%>
+			<div class="post-paging">
+				<div class="previous-posts">
+					<% DrawPostPagingPrevious() %>
+				</div>
+				<div class="next-posts">
+					<% DrawPostPagingNext() %>
+				</div>
+			</div>
+			</div>
+			<div id="rightSide">
+				<div class="sidetitle">
+					Search
+				</div>
+				<div class="side">
+					<%newtelligence.search()%> 
+				</div>
+				<div class="sidetitle">
+					<%localString("Navigation|DE:Navigation|AR:&#1605;&#1604;&#1575;&#1581;&#1577;")%> 
+				</div>
+				<div class="side">
+					<%navigatorLinks%> 
+				</div>
+				<div class="sidetitle">
+					<%localString("On this page....|DE:Auf dieser Seite...|AR:&#1601;&#1610; &#1607;&#1584;&#1607; &#1575;&#1604;&#1589;&#1601;&#1581;&#1577;...")%>
+				</div>
+				<div class="side">
+					<%titleList()%>
+				</div>
+				<div class="sidetitle">
+					Archives
+				</div>
+				<div class="side" align="center">
+					<%radio.weblog.drawcalendar ()%>
+				</div>
+				<div class="sidetitle">
+					Aggregate Me!
+				</div>
+				<div class="side" align="center">
+					<%feedLink%>
+				</div>
+				<div class="sidetitle">
+					<%localString("Categories|DE:Kategorien|AR:&#1571;&#1589;&#1606;&#1575;&#1601;")%> 
+				</div>
+				<div class="side">
+					<%newtelligence.drawCategories()%> 
+				</div>
+				<div class="sidetitle">
+					Blogroll 
+				</div>
+				<div class="side">
+					<%radio.macros.blogroll ("siteConnfig/blogroll.opml")%> 
+				</div>
+				<div class="sidetitle">
+					Contact me
+				</div>
+				<div class="side">
+					<%radio.macros.mailTo ()%> E-mail
+				</div>
+				<div class="sidetitle">
+                    Themes
+				</div>
+				<div id="side">
+					<%newtelligence.aspnetcontrol("themecombo.ascx")%>
+				</div>
+				<div class="sidetitle">
+					Administration
+				</div>
+				<div id="loginBlock">
+					<%newtelligence.loginbox ()%>
+				</div>
+
+			</div> <!-- end Right Side -->
+		</div>
+			<div id="footer">
+				<div id="aboutBox">
+					<p>All content is &copy; Copyright <%year%>, <%authorName%></p>
+					<p>This blog is Powered by: <%radioBadge%>.</p>
+					<%newtelligence.disclaimer()%>
+				</div>
+			</div>
+            		
+
+	</div> <!-- end Page Container -->
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,55 @@
+/* 
+	PhotoAlbum
+	
+	These are all the specific styles that you can use to
+	customize the look and feel of the photo collection.
+*/
+
+.breadcrumb {
+	display: block;
+	padding-bottom: 5px;
+}
+
+.navigation {
+	display: block;
+	padding-bottom: 5px;
+}
+
+.content {}
+
+.listDescription { display: none; }
+
+.listTable {}
+
+a.listThumbnailLink:Hover {
+	border-bottom: none;
+}	
+
+.listThumbnailImage {
+	filter: progid:DXImageTransform.Microsoft.Shadow(color=#707070,direction=115,strength=5);
+}
+
+.listItemLink {}
+
+.listItemDate {
+	font-style: italic;
+}
+
+.listItemDescription {}
+
+.listItemCount {}
+
+.pictureTitle {
+	font-weight: bold;
+	display: block;
+}
+
+.pictureImage {
+	filter: progid:DXImageTransform.Microsoft.Shadow(color=#707070,direction=115,strength=5);
+}
+
+.pictureDate {
+	font-style: italic;
+}
+
+.pictureDescription {}

@@ -1,0 +1,19 @@
+/* 
+	Xml styles
+	
+	These are the styles to display xml icons.
+*/
+
+.xml, .xml:link, .xml:visited, .xml:active, .xml:hover {
+	font-family: arial, helvetica;
+	font-size: 8px;
+	font-weight: bold;
+	text-decoration: none;
+	border: 1px solid;
+	padding: 0px 2px 0px 2px;
+	margin: 0px;
+	vertical-align: middle;
+	color: white;
+	background-color: #FF6600;
+	border-color: #FFC8A4 #7D3302 #3F1A01 #FF9A57;
+}

@@ -1,0 +1,25 @@
+<fieldset class="itemBoxStyle">
+	<legend class="itemTitleStyle">
+		<%itemTitle%><%permalink%>
+	</legend>
+	<div class="itemContainerStyle">
+		<div class="itemBodyStyle">
+			<%itemBody%>
+		</div>
+		<div class="itemCategoryLinksStyle">
+			<%categoryLinks%>
+		</div>
+		<div class="itemFooterStyle">
+			<%when%>
+			<%permalink%>&nbsp;
+			<%editButton%>&nbsp;
+			<%commentLink%>
+			&nbsp;|&nbsp;
+			<%trackbackLink%>
+			<%trackbackList%>
+			<%enclosure%>
+			<br clear="all">
+			<p>&nbsp;</p>
+		</div>
+	</div>
+</fieldset>

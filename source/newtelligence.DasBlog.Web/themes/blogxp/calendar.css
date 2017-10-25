@@ -1,0 +1,72 @@
+/* 
+	Calendar Styles
+	
+	These are all the specific styles that you can
+	use to customize the look and feel of the Calendar
+	except for the Color
+*/
+ 
+.hCalendarDay {
+	font-weight: normal;
+}
+
+.hCalendarDay A {
+	font-weight: normal;
+}
+
+.hCalendarDay A:visited {
+	font-weight: bold;
+}
+
+.hCalendarDay A:hover {
+	font-weight: bold;
+}
+
+.hCalendarDayCurrent {
+	font-weight: normal;
+	line-height: 100%;
+}
+
+.hCalendarDayNameRow {
+	border-bottom: 1px solid;
+	padding: 0px;
+	font-size: 10px;
+	font-weight: bold;
+	line-height: 100%;
+}
+
+.hCalendarMonthYearRow {
+	padding: 0px;
+	border-bottom: 1px solid;
+	width: 100%;
+	font-weight: bold;
+	line-height: 100%;
+}
+
+.hCalendarMonthYearRow td {
+	font-weight: bold;
+}
+
+.hCalendarNextPrevStyle {
+}
+
+.hCalendarOtherMonthStyle {
+
+}
+
+.hCalendarOtherMonthWeekendStyle {
+}
+
+.hCalendarStyle {
+	width: 180px;
+	font-family: verdana, sans-serif;
+	font-size: 13px;
+}
+
+.hCalendarStyle td {
+	line-height: 120%;
+}
+
+.hCalendarWeekendStyle {
+	font-weight: normal;
+}

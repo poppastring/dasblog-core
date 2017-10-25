@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+    <theme name="DirectionalRedux" title="DirectionalRedux" templateDirectory="themes/directionalredux" imageDirectory="themes/directionalredux/images">
+    <image name="deleteButton" fileName="deleteButton.gif" />
+    <image name="editButton" fileName="editButton.gif" />
+    <image name="xmlButton" fileName="xmlButton.png" />
+    <image name="rssButton" fileName="rssButton.gif" />
+    <image name="feedButton" fileName="rssButton.gif" />
+</theme>

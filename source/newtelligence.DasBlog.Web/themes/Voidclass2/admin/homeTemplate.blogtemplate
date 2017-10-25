@@ -1,0 +1,39 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<%radio.macros.headLinks ()%>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta http-equiv="content-language" content="utf-8" />
+<meta content="all" name="robots" />
+<meta name="author" content="<%authorName%>" />
+<meta name="copyright" content="Copyright (C) 2005, <%authorName%>. All rights reserved." />
+<meta name="description" content="<%subtitle%>" />
+<meta name="keywords" content="Voidclass, blog, weblog, Sean Lu, Sean, Programming, Live, Internet, Music, Photo" />
+<title><%title%></title>
+<%styleSheet("style.css")%>
+<script language="JavaScript" type="text">
+  <!-- Begin hiding from older browsers
+  //End hiding-->
+</script>
+</head>
+<body>
+<div id="centerColumn">
+	<div id="header">
+		<h1><%siteNameLink%></h1>
+		<h2><%subtitle%></h2>
+		<h2><%description%></h2>
+  </div>
+  <!--//end #headern//-->
+  <%newtelligence.adminBar()%>
+  <%bodytext%>
+  <div id="footer" class="clear">
+  	<p>&copy; Copyright <%year%>, <%authorName%>. | <a href="http://validator.w3.org/" title="W3C HTML Validation">XHTML</a> | <a href="http://jigsaw.w3.org/css-validator/validator-uri.html" title="W3C CSS Validation">CSS</a> | <a href="http://www.w3.org/TR/WCAG10/" title="Web Content Accessibility Guidelines">WCAG</a> | <a href="http://www.csstinderbox.com">The CSS Tinderbox</a><br />
+    Theme Design by <a href="http://www.voidclass.com">Voidclass</a> with <%radioBadge%><br />
+    <%localString("Page rendered at|DE:Seite aufbereitet um|AR: &#1578;&#1605; &#1593;&#1585;&#1590; &#1607;&#1584;&#1607; &#1575;&#1604;&#1589;&#1601;&#1581;&#1577; &#1601;&#1610;")%>&nbsp;<%now%></p>
+    
+  </div>
+  <!--//end #footer//-->
+</div>
+<!--//end #centerColumn//-->
+</body>
+</html>

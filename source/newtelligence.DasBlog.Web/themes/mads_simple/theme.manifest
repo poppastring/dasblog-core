@@ -1,0 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8" ?> 
+<theme name="MadsSimple" title="MadsSimple" templateDirectory="themes/mads_simple" imageDirectory="themes/mads_simple">
+    <image name="xmlButton" fileName="xmlButton.gif" />
+</theme>

@@ -1,0 +1,388 @@
+/* commented backslash hack v2 \*/ 
+html, body{height:100%;} 
+/* end hack */ 
+
+/*reset padding and maring to 0 so they don't mess up the layout */
+html,body { margin: 0; padding: 0; }
+
+body {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 0.8em;
+	background: #0E4F93 url(images/bg.jpg) repeat-x;
+}
+
+p {line-height: 1.5em;}
+
+#container{
+	height:auto;
+	min-height:100%;
+	width:958px;
+	border-left:1px solid #DDDDDD;
+	border-right:1px solid #DDDDDD;
+	color: #000000;
+	text-align:left;
+	margin:auto;
+	background-color:#F1F1F1;
+	position:relative;
+}
+ 
+html>body #outer{height:auto;} /*for mozilla as IE treats height as min-height anyway*/
+
+#header{
+	position:absolute;
+	top:0;
+	width:948px;
+	height:92px;
+	background:#F1F1F1 url(images/headerbg.jpg) no-repeat;
+	border-bottom:1px solid #000;
+	overflow:hidden;
+	color: #000000;
+	z-index:100;
+	padding: 5px;
+}
+
+#adminBar {
+	position: absolute;
+	top: 104px;
+	width:958px;
+	height:25px;
+	background-color:#92C729;
+	border-bottom:1px solid #000;
+	overflow:hidden;
+	color: #000000;
+	z-index:101;
+}
+
+}
+#left {
+	position:relative;/*ie needs this to show float */
+	width:180px;
+	float:left;
+	padding-top:135px;/*needed to make room for header*/
+	padding:135px 10px 0px 10px; 
+}
+#left p {padding-left:3px;padding-right:2px}
+
+html>body #left{padding-top:135px; width: 180px;} /*for mozilla as the menu seem to be wrong*/
+
+#footer {
+	width:958px;
+	clear:both;
+	height:25px;
+	border-top:1px solid #000;
+	border-bottom:1px solid #000;
+	background-color: #0191C8;
+	color: #fff;
+	text-align:center;
+	left:0;
+	bottom:0;
+	position: absolute;
+}
+* html #footer{margin-bottom:-1px}/* ie rounding bug*/
+* html #footer {/*only ie gets this style*/
+	\height:27px;/* for ie5 */
+	he\ight:25px;/* for ie6 */
+}
+div,p  {margin-top:0}/*clear top margin for mozilla*/
+#centrecontent {
+	width:755px;
+	float:right;
+	padding-top:135px;/*make room for header*/
+}
+#centrecontent p {padding-left:10px}
+
+#clearfooter {width:100%;height:52px;clear:both} /* to clear footer */
+html >body #minHeight{float:left;width:0px;height:100%;margin-bottom:-52px;} /*safari wrapper */
+
+
+
+/********************************************************************************************/
+.description {color: #ffffff;}
+.siteName { color: #FFFFFF; font-weight: bold; font-size: 1.5em;}
+.siteName a:link, .siteName a:visited, .siteName a:active  {color:#efefef;}
+
+
+/********************************************************************************************/
+.sidebar {
+	margin-bottom: 15px;
+	padding: 10px;
+	background-color: #FCFCFC;
+	border: 1px solid #dddddd;}
+
+.sidehead 
+{
+	background-color: #EBE0DE;
+	border-bottom:1px solid #C83900;
+	margin-bottom: 10px;
+	padding: 5px;
+	color: #C83900;
+	font-weight: bold;
+	font-size: 1.2em;
+	height:1%;
+}
+.sidecontent {font-size: 0.8em;}
+.navigatorLinksLinkStyle {font-size: small;}
+.titleListLinkStyle {font-size: small;}
+.hCalendarStyle {font-size: 0.9em;}
+.hCalendarMonthYearRow {font-size: small;}
+.lCalendarMonthYearRow {font-size: small;}
+.lCalendarStyle {font-size: small;}
+.archiveLinksLinkStyle {font-size: small;}
+.categoryListLinkStyle {font-size: small;}
+.blogRollCellStyle {font-size: small;}
+.blogRollNestedOutlineTitleStyle {font-size: small;}
+.signInLabelCellStyle {font-size: small;}
+
+/********************************************************************************************/
+
+.dayItems {padding: 3px 3px 2em 5px; margin-bottom: 1em; border: 1px solid #DDDDDD; background-color: #fff;}
+.dayHeader {color: #75B22F;}
+.items{}
+.item {margin-top: 1em; background-color: #ffffff; border-bottom: 1px solid #DDDDDD;}
+.item img {display: inline;}
+.itemTitle, .dayHeader {
+	font-size: 1.3em;
+	font-family: Verdana, Lucida, Geneva, Helvetica, Arial, sans-serif;
+	font-weight: bold;
+}
+.TitleLinkStyle{}
+.itemContents {
+	margin: 1em;
+	margin-top: 1.5em;
+	text-align: justify;
+	font-size: 1em;
+	background-color: #ffffff;
+}
+.itemBody{}
+.itemFooter {
+	margin-top: 0.5em;
+	border-top: 1px solid #DDDDDD;
+	font-size: x-small;
+	color: #999999;
+	text-align: right;
+}
+
+.categoryLinks {
+	clear: both;
+	text-align: right;
+	font-size: x-small;
+	font-weight: bold;
+}
+
+/********************************************************************************************/
+.adminNavbarStyle {
+	padding-top: 5px; 
+	padding-bottom: 10px;
+}
+
+.adminNavbarStyle UL {
+	padding-right: 0px;
+	padding-left: 0px;
+	padding-bottom: 0px;
+	margin: 0px;
+	padding-top: 0px;
+	text-align: center;
+}
+
+.adminNavbarStyle UL LI {
+	padding-right: 0.25em;
+	padding-left: 0.25em;
+	border-left: #DDDDDD 1px solid;
+	display: inline;
+	list-style-type: none;
+	font-size: x-small;
+	font-weight: bold;
+}
+
+.adminNavbarStyle UL LI.first, .adminNavbarStyle UL LI.firstHere {
+	border-left: none;
+}
+
+.commentBoxFooterStyle {
+	width: 100%;
+	margin-top: 5px;
+	padding-top: 3px;
+	border-top: 1px dashed #ddd;
+	font-size: 12px;
+}
+
+.commentBoxStyle {
+	padding: 15px 20px 15px 20px;
+	margin-bottom: 25px;
+	border-bottom: 1px solid #ddd;
+	border-top: 1px solid #ddd;
+	border-right: 1px solid #ddd;
+	border-left: 1px solid #ddd;
+	color: #333;
+	background-color: #FCFCFC;
+	font-weight: normal;
+	font-size: 13px;
+	text-decoration: none;
+}
+
+.commentDateStyle {
+	width: 100%;
+	border-bottom: 1px dashed #ddd;
+	margin-bottom: 5px;
+	padding-bottom: 3px;
+	font-size: 12px;
+	text-align: right;
+}
+
+.configControlStyle { }
+
+.configLabelColumnStyle { vertical-align: top; }
+
+.configLabelStyle { margin-right: 10px; font-size: 9pt; }
+
+.configSectionStyle {
+	margin-bottom: 15px;
+	padding: 15px;
+	background-color: #FCFCFC;
+	border: 1px solid #ddd;
+	vertical-align: middle;
+}
+
+.configSectionTitleStyle {
+	margin-bottom: 10px;
+	padding-bottom: 5px;
+	border-bottom: 1px solid #92C729;
+	color: #92C729;
+	font-weight: bold;
+	font-size: medium;
+}
+
+.pageTopic {
+	width: 100%;
+	margin-bottom: 10px;
+	padding-bottom: 5px;
+	border-bottom: 1px solid #92C729;
+	color: #92C729;
+	font-weight: bold;
+	font-size: large;
+}
+
+.FreeTextboxStyle { 
+	color: #000000;
+}
+
+.statsTableColumnStyle {
+	border: solid 1px gray;
+	padding: 3px;
+	margin-top: 3px;
+	margin-bottom: 3px;
+}
+
+.statsTableDateColumnStyle {
+	border: solid 1px gray;
+	padding: 3px;
+	margin-top: 3px;
+	margin-bottom: 3px;
+	width: 25%;
+	text-align: left;
+}
+
+.statsTableFooterColumnStyle {
+	border-left: solid 1px #ddd;
+	border-right: solid 1px #ddd;
+	border-bottom: solid 1px #ddd;
+	border-top: solid 2px #ddd;
+	padding: 3px;
+	font-weight: bold;
+}
+
+.statsTableFooterNumColumnStyle {
+	border-left: solid 1px #ddd;
+	border-right: solid 1px #ddd;
+	border-bottom: solid 1px #ddd;
+	border-top: solid 2px #ddd;
+	padding: 3px;
+	width: 15%;
+	font-weight: bold;
+	text-align: right;
+}
+
+.statsTableHeaderColumnStyle {
+	border-left: solid 1px #ddd;
+	border-right: solid 1px #ddd;
+	border-bottom: solid 2px #ddd;
+	border-top: solid 1px #ddd;
+	padding: 3px;
+	font-weight: bold;
+}
+
+.statsTableNumColumnStyle {
+	border: solid 1px gray;
+	padding: 3px;
+	margin-top: 3px;
+	margin-bottom: 3px;
+	width: 15%;
+	text-align: right;
+}
+
+.statsTableStyle {
+	margin-bottom: 15px;
+	padding: 15px;
+	background-color: #FCFCFC;
+	border: 1px solid #ddd;
+	width: 100%;
+	background: White;
+	border-collapse: collapse;
+}
+
+.geekcode {
+	padding-top: 5px;
+	padding-bottom: 0px;
+	margin-bottom: 0px;
+	color: #92C729;
+	font-family: 'Courier New', 'Courier', sans-serif;
+	font-size: 10px;
+	font-weight: normal;
+	line-height: 100%;
+}
+
+/********************************************************************************************/
+A:link, A:visited {color: #0191C8; text-decoration: none;}
+A:hover {color: #C83900;}
+A:active {color: #C83900;}
+
+
+.commentViewBoxStyle input 
+{
+	border:1px solid #CCCCCC;
+}
+
+/* Paging */
+.post-paging {
+}
+.previous-posts{
+}
+.next-posts{
+}
+.clear {
+clear: both
+}
+
+/* Tag Cloud */
+.smallestTag { line-height: 110%; font-size: x-small; font-weight: normal; }
+.smallerTag { line-height: 110%; font-size: x-small; font-weight: bold; }
+.smallTag { line-height: 110%; font-size: small; font-weight: normal; }
+.mediumTag { line-height: 110%; font-size: medium; font-weight: normal; }
+.largeTag { line-height: 110%; font-size: large; font-weight: normal; }
+.largerTag { line-height: 110%; font-size: x-large; font-weight: normal; }
+.largestTag { line-height: 110%; font-size: x-large; font-weight: bold; }
+ 
+/* OpenID Support added in 2.2 */
+.openidtextbox {
+	background: #FFFFFF url('../../images/openid-icon-small.gif') no-repeat scroll 0pt 50%; 
+	padding-left: 18px; 
+}
+.openidtextboxwrap 
+{
+	padding-right: 18px;
+}
+
+
+
+
+

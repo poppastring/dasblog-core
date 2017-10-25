@@ -1,0 +1,19 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title><%title%></title>
+<link rel="stylesheet" type="text/css" href="themes/mobile/base.css">
+</head>
+<body>
+<div id="header">
+	<span class="siteName"><b><%siteNameLink%></b></span>
+</div>
+<div id="content">
+	<%bodytext%> 
+</div>
+	<span class="description">Feed: <%feedLink%></span>
+	<p>Powered by: <%radioBadge%>. The content of this site are my own personal opinions and do 
+	not represent my employer&#39;s view in anyway.</p>
+	<p>&copy; Copyright <%year%> <%radio.macros.mailTo ()%> <%authorName%></p>
+</body>
+</html>

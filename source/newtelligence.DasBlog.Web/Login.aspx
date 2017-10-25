@@ -1,0 +1,2 @@
+<%@ Page language="c#" validateRequest="true" Codebehind="Login.aspx.cs" AutoEventWireup="False" Inherits="newtelligence.DasBlog.Web.Login" %>
+<asp:placeholder id="contentPlaceHolder" runat="server"></asp:placeholder>

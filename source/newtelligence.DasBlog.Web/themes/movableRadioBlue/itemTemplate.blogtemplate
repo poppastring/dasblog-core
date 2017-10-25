@@ -1,0 +1,12 @@
+<table width="100%" cellpadding="1">
+  <tr>
+    <td valign="top">
+	<%ItemTitle%><br>
+      <br><%ItemText%><br><%categoryLinks%><br>
+      <font class="small" size="-1" color="gray"><%when%>&nbsp;&nbsp;<%permalink%>&nbsp;&nbsp;<%editButton%><%commentLink%>&nbsp;<%trackbackList%></font>
+      </td>
+    <td valign="top" align="right" nowrap>
+      <%enclosure%>
+      </td>
+    </tr>
+  </table>

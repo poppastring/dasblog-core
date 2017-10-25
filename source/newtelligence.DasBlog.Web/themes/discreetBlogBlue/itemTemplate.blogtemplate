@@ -1,0 +1,6 @@
+<b><%ItemTitle%></b><br>
+<%ItemText%><br>
+      <font class="small" size="-1" color="gray"><%when%>&nbsp;&nbsp;<%permalink%>&nbsp;&nbsp;<%editButton%>&nbsp;&nbsp;<%commentLink%>&nbsp;&nbsp;<%categoryLinks%><%trackbackList%></font>
+     
+      <%enclosure%><BR><BR>
+   

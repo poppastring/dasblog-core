@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<root>
+ <!-- General -->
+ <resource name = "Yes">Da</resource>
+ <resource name = "No">Nu</resource>
+ <resource name = "0">0</resource>
+ <resource name = "1">1</resource>
+ <resource name = "2">2</resource>
+ <resource name = "3">3</resource>
+ <resource name = "4">4</resource>
+ <resource name = "5">5</resource>
+ <resource name = "6">6</resource>
+ <resource name = "7">7</resource>
+ <resource name = "8">8</resource>
+ <resource name = "9">9</resource>
+
+ 
+ <!-- Main FTB Stuff -->
+ <resource name = "DesignModeTab">Design</resource>
+ <resource name = "HtmlModeTab">HTML</resource>
+ 
+ <!-- Buttons -->
+ <resource name = "Bold">Ingrosat</resource>
+ <resource name = "BulletedList">Lista</resource>
+ <resource name = "Copy">Copie</resource>
+ <resource name = "CreateLink">Creaza Link</resource>
+ <resource name = "Cut">Taie</resource>
+ <resource name = "Delete">Sterge</resource>
+ <resource name = "Indent">Indent</resource>
+ <resource name = "InsertDate">Introduceti Data</resource>
+ <resource name = "InsertImage">Introduceti Imagine</resource>
+ <resource name = "InsertRule">Introduceti Regula</resource>
+ <resource name = "InsertTime">Introduceti Timp</resource>
+ <resource name = "Italic">Italic</resource> 
+ <resource name = "JustifyRight">Justify Dreapta</resource> 
+ <resource name = "JustifyCenter">Justify Centru</resource> 
+ <resource name = "JustifyFull">Justify Tot</resource> 
+ <resource name = "JustifyLeft">Justify Stanga</resource>
+ <resource name = "NumberedList">Lista numerotata</resource> 
+ <resource name = "Outdent">Outdent</resource> 
+ <resource name = "Paste">Paste</resource> 
+ <resource name = "Print">Printeaza</resource> 
+ <resource name = "Redo">Inapoi</resource> 
+ <resource name = "RemoveFormat">Renunta la formatari</resource> 
+ <resource name = "Save">Salveaza</resource>
+ <resource name = "StrikeThrough">StrikeThrough</resource>
+ <resource name = "SuperScript">Superscris</resource>
+ <resource name = "SubScript">Subscris</resource> 
+ <resource name = "Underline">Subliniat</resource> 
+ <resource name = "Undo">Refa</resource>
+ <resource name = "Unlink">Renunta la link</resource>
+ 
+ <resource name = "IeSpellCheck">IE Verfificare</resource>
+ 
+
+ <!-- DropDownLists -->
+  <resource name = "ParagraphMenu_Normal">Normal</resource>
+
+ <resource name = "FontForeColorsMenu">Culoare</resource>
+ <resource name = "FontBackColorsMenu">Highlight</resource>
+ <resource name = "FontSizesMenu">Marime</resource>
+ <resource name = "ParagraphMenu">Paragraf</resource>
+ <resource name = "FontFacesMenu">Font</resource>
+ <resource name = "InsertHtmlMenu">Introduceti Html</resource>
+ <resource name = "SymbolsMenu">Simbol</resource>
+ <resource name = "StylesMenu">Stil</resource>
+
+</root>

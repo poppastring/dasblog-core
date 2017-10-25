@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+<theme name="nautica022" title="nautica022" templateDirectory="themes/nautica022" imageDirectory="themes/nautica022">
+    <image name="dayLink" fileName="dayLink.gif" />
+    <image name="deleteButton" fileName="deleteButton.gif" />
+    <image name="editButton" fileName="editButton.gif" />
+    <image name="itemLink" fileName="itemLink.gif" />
+    <image name="xmlButton" fileName="xmlButton.gif" />
+</theme>

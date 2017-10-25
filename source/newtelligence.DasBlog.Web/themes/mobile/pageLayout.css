@@ -1,0 +1,34 @@
+/*
+	PageLayout
+	
+	This controls the two column page layout of this theme
+*/
+
+#content {
+	clear: both;
+	position:relative;
+}
+
+#header {
+
+}
+
+#left {
+	margin-right: 240px;
+	left: 0px;
+	position:relative;
+}
+
+#left .column {
+
+}
+
+#right {
+	width: 240px;
+	position: absolute;
+	top: 0px;
+	right: 0px;
+}
+
+#right .column {
+}

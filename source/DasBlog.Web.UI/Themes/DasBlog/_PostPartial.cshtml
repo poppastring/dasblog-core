@@ -1,0 +1,12 @@
+﻿@model PostViewModel
+
+<div class="post">
+    <h2>@Model.Title</h2>
+    <div class="post-body">
+        @Html.Raw(@Model.Content)
+    </div>
+    <div class="post-footer">
+        @Model.Categories
+    </div>
+</div>
+<hr />

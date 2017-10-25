@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8" ?> 
+<theme name="discreetBlogBlue" title="Discreet Blog Blue" templateDirectory="themes/discreetBlogBlue"
+            imageDirectory="themes/discreetBlogBlue">
+    <image name="itemLink" fileName="images\bryanbell\discreetBlogBlue\bluePermaLink.gif" />
+    <image name="dayLink" fileName="images\bryanbell\discreetBlogBlue\bluePermaLink.gif" />
+</theme>
+        

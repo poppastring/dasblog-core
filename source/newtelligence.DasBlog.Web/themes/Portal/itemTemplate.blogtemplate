@@ -1,0 +1,19 @@
+<div class="itemBoxStyle">
+	<div class="itemTitleStyle"><%itemTitle%> by <%itemAuthor%></div>
+	<div class="itemBodyStyle">
+		<%itemBody%>
+		<div style="clear:both;"><!-- we need this embedded div since we may have floated an image in the item body --></div>
+	</div>
+	<div class="itemFooterStyle">
+		<%when%>&nbsp;
+		<%permalink%>&nbsp;
+		<%editButton%>&nbsp;
+		<%commentLink%>
+		&nbsp;
+		<%categoryLinks%>
+		&nbsp;|&nbsp;
+		<%trackbackLink%>
+		<%trackbackList%>
+		<%enclosure%>
+	</div>
+</div>

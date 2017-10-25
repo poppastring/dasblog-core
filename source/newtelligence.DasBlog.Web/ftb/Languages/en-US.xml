@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<root>
+	<!-- General -->
+	<resource name = "Yes">Yes</resource>
+	<resource name = "No">No</resource>
+	<resource name = "0">0</resource>
+	<resource name = "1">1</resource>
+	<resource name = "2">2</resource>
+	<resource name = "3">3</resource>
+	<resource name = "4">4</resource>
+	<resource name = "5">5</resource>
+	<resource name = "6">6</resource>
+	<resource name = "7">7</resource>
+	<resource name = "8">8</resource>
+	<resource name = "9">9</resource>
+	
+	<!-- Main FTB Stuff -->
+	<resource name = "DesignModeTab">Design</resource>
+	<resource name = "HtmlModeTab">HTML</resource>
+	
+	<!-- Buttons -->
+	<resource name = "Bold">Bold</resource>
+	<resource name = "BulletedList">Bulled List</resource>
+	<resource name = "Copy">Copy</resource>
+	<resource name = "CreateLink">Create Link</resource>
+	<resource name = "Cut">Cut</resource>
+	<resource name = "Delete">Delete</resource>
+	<resource name = "Indent">Indent</resource>
+	<resource name = "InsertDate">Insert Date</resource>
+	<resource name = "InsertImage">Insert Image</resource>
+	<resource name = "InsertRule">Insert Rule</resource>
+	<resource name = "InsertTime">Insert Time</resource>
+	<resource name = "Italic">Italic</resource>	
+	<resource name = "JustifyRight">Justify Right</resource>	
+	<resource name = "JustifyCenter">Justify Center</resource>	
+	<resource name = "JustifyFull">Justify Full</resource>	
+	<resource name = "JustifyLeft">Justify Left</resource>
+	<resource name = "NumberedList">Numbered List</resource>	
+	<resource name = "Outdent">Outdent</resource>	
+	<resource name = "Paste">Paste</resource>	
+	<resource name = "Print">Print</resource>	
+	<resource name = "Redo">Redo</resource>	
+	<resource name = "RemoveFormat">Remove All Formatting</resource>	
+	<resource name = "Save">Save</resource>
+	<resource name = "StrikeThrough">StrikeThrough</resource>
+	<resource name = "SuperScript">Superscript</resource>
+	<resource name = "SubScript">Subscript</resource>	
+	<resource name = "Underline">Underline</resource>	
+	<resource name = "Undo">Undo</resource>
+	<resource name = "Unlink">Remove Link</resource>
+	
+	<resource name = "IeSpellCheck">IE Spell Check</resource>
+	<resource name = "NetSpell">Net Spell Check</resource>
+	<resource name = "InsertImageFromGallery">Insert Image From Gallery</resource>
+	<resource name = "WordClean">Clean MS Word HTML</resource>
+	<resource name = "EditStyle">Edit Nearest Element Style</resource>
+	
+	<resource name = "Preview">Preview Window</resource>
+	<resource name = "SelectAll">Select All</resource>
+	<resource name = "FontForeColorPicker">Fore Color Picker</resource>
+	<resource name = "FontBackColorPicker">Background Color Picker</resource>	
+	<resource name = "InsertDiv">Insert DIV</resource>
+	
+	<!-- Table Functions -->
+	<resource name = "InsertTable">Insert Table</resource>
+	<resource name = "EditTable">Edit Table</resource>
+	<resource name = "InsertTableRowAfter">Insert Row After</resource>
+	<resource name = "InsertTableRowBefore">Insert Row Before</resource>
+	<resource name = "InsertTableColumnAfter">Insert Column After</resource>
+	<resource name = "InsertTableColumnBefore">Insert Column Before</resource>
+	<resource name = "DeleteTableColumn">Delete Column</resource>
+	<resource name = "DeleteTableRow">Delete Row</resource>
+
+	<!-- Form Functions -->
+	<resource name = "InsertForm">Insert Form</resource>
+	<resource name = "InsertDropDownList">Insert Select</resource>
+	<resource name = "InsertTextBox">Insert TextBox</resource>
+	<resource name = "InsertCheckBox">Insert CheckBox</resource>
+	<resource name = "InsertTextArea">Insert TextArea</resource>
+	<resource name = "InsertButton">Insert Button</resource>
+	<resource name = "InsertRadioButton">Insert Radio Button</resource>
+
+	<!-- DropDownLists -->
+	<resource name = "FontForeColorsMenu">Color</resource>
+	<resource name = "FontBackColorsMenu">Highlight</resource>
+	<resource name = "FontSizesMenu">Size</resource>
+	<resource name = "ParagraphMenu">Paragraph</resource>
+	<resource name = "FontFacesMenu">Font</resource>
+	<resource name = "InsertHtmlMenu">Insert Html</resource>
+	<resource name = "SymbolsMenu">Symbols</resource>
+	<resource name = "StylesMenu">Styles</resource>
+
+	<!-- DropDownList Items -->
+	<resource name = "ParagraphMenu_Normal">Normal</resource>
+	<resource name = "ParagraphMenu_Heading1">Heading 1</resource>
+	<resource name = "ParagraphMenu_Heading2">Heading 2</resource>
+	<resource name = "ParagraphMenu_Heading3">Heading 3</resource>
+	<resource name = "ParagraphMenu_Heading4">Heading 4</resource>
+	<resource name = "ParagraphMenu_Heading5">Heading 5</resource>
+	<resource name = "ParagraphMenu_Heading6">Heading 6</resource>
+	<resource name = "ParagraphMenu_Formatted">Formatted</resource>
+	<resource name = "ParagraphMenu_Address">Address</resource>
+</root>

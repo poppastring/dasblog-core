@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+<theme name="business" title="business" templateDirectory="themes/business" imageDirectory="themes/business/images" >
+	<image name="dayLink" fileName="blank.gif" />	
+</theme>

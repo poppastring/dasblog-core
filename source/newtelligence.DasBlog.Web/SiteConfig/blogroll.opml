@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<opml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <body>
+    <outline description="" title="Alexander Groß" xmlUrl="http://feeds.feedburner.com/alexandergross" htmlUrl="http://www.therightstuff.de/" />
+	<outline description="" title="Anthony Bouch" xmlUrl="http://www.58bits.com/blog/SyndicationService.asmx/GetRss" htmlUrl="http://www.58bits.com/blog/" />
+    <outline description="" title="Ben Scheirman" xmlUrl="http://feeds.feedburner.com/flux88" htmlUrl="http://www.flux88.com/" />
+    <outline description="" title="Clemens Vasters" xmlUrl="http://staff.newtelligence.net/clemensv/rss.ashx" htmlUrl="http://staff.newtelligence.net/clemensv/" />
+    <outline description="" title="Erv Walter" xmlUrl="http://blog.ewal.net/feed/" htmlUrl="http://blog.ewal.net/" />
+    <outline description="" title="Gray's Matter" xmlUrl="http://graysmatter.codivation.com/SyndicationService.asmx/GetRss" htmlUrl="http://graysmatter.codivation.com/" />
+    <outline description="" title="Harry Pierson" xmlUrl="http://feeds.feedburner.com/Devhawk" htmlUrl="http://www.devhawk.net/" />
+    <outline description="" title="James Snape " xmlUrl="http://feeds.feedburner.com/JamesSnape" htmlUrl="http://www.jamessnape.me.uk/blog/" />
+    <outline description="" title="John Forsythe " xmlUrl="http://feeds.feedburner.com/jforsythe" htmlUrl="http://www.jforsythe.com/jforsytheblog/" />
+    <outline description="" title="Joshua Flanagan" xmlUrl="http://www.flimflan.com/blog/rss.ashx" htmlUrl="http://www.flimflan.com/blog/" />
+    <outline description="" title="Kris van der Mast" xmlUrl="http://blog.krisvandermast.com/SyndicationService.asmx/GetRss" htmlUrl="http://blog.krisvandermast.com/" />
+    <outline description="" title="Mark Michaelis " xmlUrl="http://mark.michaelis.net/Blog/SyndicationService.asmx/GetRss" htmlUrl="http://mark.michaelis.net/Blog/" />
+    <outline description="" title="Michael Earls " xmlUrl="http://www.cerkit.com/cerkitBlog/SyndicationService.asmx/GetRss" htmlUrl="http://www.cerkit.com/cerkitBlog/default.aspx" />
+    <outline description="" title="Omar Shahine" xmlUrl="http://www.shahine.com/omar/rss.ashx" htmlUrl="http://www.shahine.com/omar/" />
+    <outline description="" title="Paulb  Vanbrenk" xmlUrl="feed://www.paulvanbrenk.com/blog/atom.ashx" htmlUrl="http://www.paulvanbrenk.com/blog/" />
+    <outline description="" title="Scott Hanselman" xmlUrl="http://www.hanselman.com/blog/rss.ashx" htmlUrl="http://www.hanselman.com/blog/" />
+    <outline description="" title="Stephen Forte" xmlUrl="http://www.stephenforte.net/owdasblog/rss.ashx" htmlUrl="http://www.stephenforte.net/owdasblog" />
+    <outline description="" title="Steven Rockarts" xmlUrl="http://www.stevenrockarts.com/blog/SyndicationService.asmx/GetRss" htmlUrl="http://stevenrockarts.com/blog/" />
+    <outline description="" title="Tom Mertens" xmlUrl="http://www.vsdotnet.be/blogs/tommer/rss.ashx" htmlUrl="http://www.vsdotnet.be/blogs/tommer/" />
+    <outline description="" title="Tom Watts" xmlUrl="http://www.tomwatts.com/SyndicationService.asmx/GetRss" htmlUrl="http://tomwatts.com/" />
+    <outline description="" title="Tony Bunce" xmlUrl="http://feeds.feedburner.com/TonyB" htmlUrl="http://www.tonybunce.com/" />
+    <outline description="" title="Vasanth Dharmaraj " xmlUrl="http://feeds.feedburner.com/vasanth" htmlUrl="http://www.vasanth.in/" />
+  </body>
+</opml>

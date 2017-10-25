@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="da">
+<head>
+	<title><%title%></title>
+	<%radio.macros.headLinks ()%>
+	<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+	<meta name="author" content="<%authorName%>" />
+	<meta name="copyright" content="<%authorName%>" />
+	<meta name="description" content="<%subtitle%>" />
+	<meta name="keywords" content="asp.net, c#, vb, vb.net" />
+	<link rel="shortcut icon" href="/blog/favicon.ico" />
+	<%styleSheet("style.css")%>
+</head>
+<body>
+	<div id="header">
+		<span class="siteName"><%siteNameLink%></span><br />
+		<span class="description"><%subtitle%></span> 
+	</div>
+	<%newtelligence.adminBar()%>
+	<div id="content">
+		<div id="left">
+			<div class="column">
+			    <% DrawCategoryPaging() %> 
+				<%bodytext%>
+			<div class="post-paging">
+				<div class="previous-posts">
+					<% DrawPostPagingPrevious() %>
+				</div>
+				<div class="next-posts">
+					<% DrawPostPagingNext() %>
+				</div>
+			</div>				
+				<p id="footer">
+					dasBlog theme by <a href="http://www.madskristensen.dk/blog/">Mads Kristensen</a>
+				</p>
+			</div>
+		</div>
+		<div id="right">
+			<div class="column">
+			<div class="sidebar">
+			<div class="sidehead">Blog Stats</div>
+			<p><%blogStats()%></p>
+			</div>
+				<div class="sidebar">
+					<div class="sidehead"><%localString("Categories|DE:Kategorien|AR:&#1571;&#1589;&#1606;&#1575;&#1601;")%></div>
+					<div class="sidecontent"><%newtelligence.drawCategories()%></div>
+				</div>
+				<div class="sidebar">
+					<div class="sidehead">Oldies but goodies</div>
+					<div class="sidecontent">
+					<a href="http://www.madskristensen.dk/blog/archives.aspx">Archive</a>	
+					<%newtelligence.search()%><br />					
+					<%newtelligence.drawArchiveMonths()%>
+					</div>
+				</div>		
+				<div class="sidebar">
+					<div class="sidehead">Friends of .NET slave</div>
+					<div class="sidecontent">
+						<%radio.macros.blogroll("siteConfig/blogroll.opml")%>
+					</div>	
+				</div>	 
+				<div class="sidebar"> 
+				    <div class="sidehead">Disclaimer</div>
+				    <div class="sidecontent">
+				        <%newtelligence.disclaimer()%><br /><br />
+					    &copy; Copyright&nbsp;<%year%>&nbsp;<%authorName%><br /><br />
+					    <%newtelligence.loginbox()%><br /><br />
+					    <%newtelligence.aspnetcontrol("themecombo.ascx")%>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

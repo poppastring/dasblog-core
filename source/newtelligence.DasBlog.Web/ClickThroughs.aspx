@@ -1,0 +1,2 @@
+<%@ Page language="c#" validateRequest="true" Codebehind="ClickThroughs.aspx.cs" AutoEventWireup="False" Inherits="newtelligence.DasBlog.Web.ClickThroughs" %>
+<asp:placeholder id="contentPlaceHolder" runat="server"></asp:placeholder>

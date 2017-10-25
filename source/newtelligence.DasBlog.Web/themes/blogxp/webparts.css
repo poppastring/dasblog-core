@@ -1,0 +1,55 @@
+/* Class for shark fin titles */
+.sharkfinTitle
+{
+	margin-top: 10px;
+}
+
+/* Class for shark fin title bars */
+.sharkfinTitleBar
+{
+	width: 100%;
+	background-image:url('sharkfin-background.gif');
+	background-repeat:repeat-x;
+}
+
+/* Class for web part titles */
+.webpartTitle
+{
+	width: 100%;
+	margin-top: 10px;
+}
+
+/* Class for web part title bars */
+.webpartTitleBar
+{
+	width: 100%;
+	white-space: nowrap;
+	background-image:url('webpart-background.gif');
+	background-repeat:repeat-x;
+}
+
+/* Class for web part links */
+a.webpartToggleLink:hover
+{
+	position: relative;
+	right:0px;
+	text-decoration: none;
+	border-bottom: none;
+}
+
+/* Class for expanded web parts */
+.webpartExpanded 
+{
+	width: 100%;
+	visibility: visible;
+	display: block;
+	border: solid 1px;
+}
+
+/* Class for collapsed web parts */
+.webpartCollapsed 
+{
+	width:100%;
+	visibility: hidden;
+	display: none;
+}

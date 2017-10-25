@@ -1,0 +1,291 @@
+/*
+	PageLayout
+	
+	This controls the 2 column layout
+	
+*/
+
+
+
+
+
+
+
+/* theme specific */
+/* /-/-/-/-/-/-/-/-/-/-/-/-/-/ */
+
+.access-aid {
+	display: none;
+}
+
+#container {
+	width: 100%;
+	float: left;
+	margin-right: -301px;
+	overflow: hidden;
+
+}
+
+
+#content {
+	margin-right: 302px;
+}
+
+
+#sidebar {
+	width: 281px;
+	float: right;
+	padding-left: 20px;
+	z-index: 100;
+	display: block;
+	position: relative;
+}
+
+
+
+.last {
+	margin-bottom: 0;
+}
+.clearing {
+	height: 0;
+	clear: both;
+}
+
+/* /-/-/-/-/-/-/-/-/-/-/-/-/-/ */
+
+
+
+/* header and footer area */
+
+#header 
+{
+	height: 83px;
+}
+
+#footer {
+
+width: 100%;
+}
+
+#footer p {
+	padding: 0px;
+	padding-left: 10px;
+}
+
+#header_logo, #footer_logo 
+{
+	float: right;
+}
+
+#navbar {
+
+}
+
+#navbar_top
+{
+	height: 7px;
+	border-bottom-width: 0px;
+	border-bottom-style: solid;
+	border-top-width: 1px;
+	border-top-style: solid;
+	padding: 0px;
+	margin: 0px;
+}
+
+.postnavigation {
+width: 100%;
+text-align: center;
+}
+
+.categoryPaging {
+border-bottom: 1px solid blue;
+padding-left: 15px;
+
+}
+
+.pageTopic {
+padding-left: 15px;
+}
+
+
+/* ---- */
+
+
+/* sidenav area */
+
+.blogFooter {
+	position: relative;
+	left: -8px;
+	padding: 10px;
+	margin-top: 10px;
+}
+
+/* -------- */
+
+
+
+/* login style */
+
+.signInContainerStyle {
+
+margin-top: 30px;
+margin-left: 30px;
+text-align: center;
+
+}
+
+
+
+/*  item specific */
+
+
+/* content */
+
+.itemBodyStyle img, .itemBodyStyle * img {
+border: 1px solid black;
+padding: 3px;
+text-align: left;
+vertical-align: text-top;
+}
+
+/* ----------- */
+
+
+
+/* older left-aligned flags
+.itemInfo {
+	position: absolute;
+    left: -152px;
+    top: -1px;
+    padding: 1em 0 0 5px;
+    width: 147px;
+	_top: 0;
+}
+
+*/
+
+.itemItem {
+	padding-left: 0px;
+	padding-right: 3px;
+	margin: 10px;
+}
+
+
+
+.itemBoxStyle {
+	clear: both;
+	position: relative;
+}
+
+
+
+
+.itemTitleBlock {
+	margin-right: -216px;
+}
+
+
+
+.itemTitleArea {
+	margin-right: 216px;
+}
+
+
+.itemTitleWhen {
+	width: 215px;
+	float: right;
+	position: relative;
+	height: 40px;
+	margin-top: 10px;
+	left: 14px;
+}
+
+.itemTitleStyle {
+	margin-right: 230px;
+	padding-top: 8px;
+	padding-bottom: 0px;
+	margin-bottom: 5px;
+	padding-left: 4px;
+}
+
+
+
+
+
+/* -------- */
+
+
+
+
+
+
+
+
+/*  comment specific */
+
+
+.commentBoxStyle {
+	border-top: 1px solid #000;
+	padding-bottom: 20px;
+	clear: both;
+	position: relative;
+	margin-left: 216px;
+}
+
+
+.commentBodyStyle {
+    min-height: 75px;
+    padding-bottom: 0.5em;
+	padding-left: 14px;
+}
+
+
+.commentBoxFooterStyle {
+	position: relative;
+	padding-left: 14px;
+	padding-top: 3px;
+}
+
+.commentBoxFooterStyle a {
+top: -6px;
+position: relative;
+}
+
+
+
+
+.commentDateStyle {
+	/* border-top: 1px dotted black; */
+	position: absolute;
+	float: left;
+    top: -1px;
+    padding: 1em 0 0 5px;
+	width: 215px;
+	left: -215px;
+	height: 40px;
+}
+
+
+.commentViewTableStyle {
+width: 80%;
+padding: 4px;
+
+}
+
+.commentGravatarBlock img {
+padding: 2px;
+margin: 2px;
+}
+
+
+textarea.commentViewControlStyle {
+ width: 97%;
+ padding: 4px;
+}
+
+#captcha {
+	padding: 3px;
+}
+
+
+/* -------- */

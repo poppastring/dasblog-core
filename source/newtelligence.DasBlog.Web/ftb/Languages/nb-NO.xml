@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<root>
+	<!-- General -->
+	<resource name = "Yes">Ja</resource>
+	<resource name = "No">Nei</resource>
+	<resource name = "0">0</resource>
+	<resource name = "1">1</resource>
+	<resource name = "2">2</resource>
+	<resource name = "3">3</resource>
+	<resource name = "4">4</resource>
+	<resource name = "5">5</resource>
+	<resource name = "6">6</resource>
+	<resource name = "7">7</resource>
+	<resource name = "8">8</resource>
+	<resource name = "9">9</resource>
+
+	
+	<!-- Main FTB Stuff -->
+	<resource name = "DesignModeTab">Design</resource>
+	<resource name = "HtmlModeTab">HTML</resource>
+	
+	<!-- Buttons -->
+	<resource name = "Bold">Fet</resource>
+	<resource name = "BulletedList">Punktmerking</resource>
+	<resource name = "Copy">Kopier</resource>
+	<resource name = "CreateLink">Lag Kobling</resource>
+	<resource name = "Cut">Klipp Ut</resource>
+	<resource name = "Delete">Slett</resource>
+	<resource name = "Indent">Øk Innrykk</resource>
+	<resource name = "InsertDate">Sett Inn Dato</resource>
+	<resource name = "InsertImage">Sett Inn Bilde</resource>
+	<resource name = "InsertRule">Sett Inn Horisontal Linje</resource>
+	<resource name = "InsertTime">Sett Inn Klokkeslett</resource>
+	<resource name = "Italic">Kursiv</resource>	
+	<resource name = "JustifyRight">Høyrejustering</resource>	
+	<resource name = "JustifyCenter">Midtstill</resource>	
+	<resource name = "JustifyFull">Blokkjustering</resource>	
+	<resource name = "JustifyLeft">Venstrejustering</resource>
+	<resource name = "NumberedList">Nummerert Liste</resource>	
+	<resource name = "Outdent">Minsk Innrykk</resource>	
+	<resource name = "Paste">Lim Inn</resource>	
+	<resource name = "Print">Skriv Ut</resource>	
+	<resource name = "Redo">Gjør Om</resource>	
+	<resource name = "RemoveFormat">Ta Bort All Formatering</resource>	
+	<resource name = "Save">Lagre</resource>
+	<resource name = "StrikeThrough">Gjennomstreking</resource>
+	<resource name = "SuperScript">Hevet</resource>
+	<resource name = "SubScript">Senket</resource>	
+	<resource name = "Underline">Understreking</resource>	
+	<resource name = "Undo">Angre</resource>
+	<resource name = "Unlink">Fjern Kobling</resource>
+	
+
+	<!-- DropDownLists -->
+	<resource name = "FontForeColorsMenu">Tekstfarge</resource>
+	<resource name = "FontBackColorsMenu">Bakgrunnsfarge</resource>
+	<resource name = "FontSizesMenu">Skriftstørrelse</resource>
+	<resource name = "ParagraphMenu">Hovedavsnitt</resource>
+	<resource name = "FontFacesMenu">Skrift</resource>
+	<resource name = "InsertHtmlMenu">Sett Inn HTML</resource>
+	<resource name = "SymbolsMenu">Symboler</resource>
+	<resource name = "StylesMenu">Stiler</resource>
+
+</root>

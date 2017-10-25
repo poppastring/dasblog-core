@@ -1,0 +1,78 @@
+/* 
+	admin
+	
+	These are all the DasBlog specific styles that you can
+	use to customize the look and feel of the admin content
+*/
+
+.adminNavbarStyle {
+	padding-top: 10px;
+	padding-left: 1%;
+	padding-right: 1%;
+	font-size: 11px;
+	font-weight: normal;
+	text-align: center;
+	height: 16px;
+	display: block;
+	z-index: 1;
+	position: relative;
+	border-bottom: 1px solid;
+}
+
+.adminNavbarStyle UL { 
+	white-space: nowrap;
+	margin: 0px;
+	padding: 0px;
+	display: inline;
+}
+
+.adminNavbarStyle UL LI { 
+	margin: 0px;
+	padding: 3px;
+	border-right: 1px solid;
+	border-top: 1px solid;
+	list-style: none;
+	display: inline;
+}
+
+.adminNavbarStyle UL LI a { 
+	
+}
+
+.adminNavbarStyle UL LI.first 
+{
+	border-left: 1px solid;
+}
+
+.adminNavbarStyle UL LI.here 
+{
+	border-bottom: 1px solid;
+	list-style: none;
+	display: inline;
+	z-index:2;
+	position:relative;
+}
+
+.adminNavbarStyle UL LI.firstHere 
+{
+	border-left: 1px solid;
+	border-bottom: 1px solid;
+	list-style: none;
+	display: inline;
+	z-index:3;
+	position:relative;
+}
+
+.adminNavbarStyle { border-color: #CCCCCC; }
+
+.adminNavbarStyle { border-bottom-color: #BBBBBB; }
+
+.adminNavbarStyle UL LI { border-color: #BBBBBB; background-color: #CCCCCC; }
+
+.adminNavbarStyle UL LI a { }
+
+.adminNavbarStyle UL LI.here { border-bottom-color: #EEEEEE; background-color: #EEEEEE; }
+
+.adminNavbarStyle UL LI.first { border-left-color: #BBBBBB; }
+
+.adminNavbarStyle UL LI.firstHere { border-left-color: #BBBBBB; border-bottom-color: #EEEEEE; background-color: #EEEEEE; }

@@ -1,0 +1,23 @@
+<div class="itemBoxStyle">
+	<div class="itemTitleStyle">
+		<%ItemTitle%>
+	</div>
+	<div class="itemBodyStyle">
+		<%ItemBody%>
+	</div>
+        <small>
+	<div class="itemCategoryLinksStyle">
+			<%categoryLinks%>
+	</div>
+	<div class="itemFooterStyle">
+		<%when%>&nbsp;
+		<%permalink%>&nbsp;
+		<%editButton%>&nbsp;
+		<%commentLink%>
+		<%trackbackList%>
+		<%enclosure%>
+		<br clear="all">
+	</div>
+        </small>
+	<hr width="25%" size="1" style="margin-top: 2ex; margin-bottom: 2ex">
+</div>

@@ -1,0 +1,303 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+	<head><title><%title%></title>
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />	
+<META HTTP-EQUIV="Expires" CONTENT="Mon, 01 Jan 1990 01:00:00 GMT"> <style type="text/css">
+			body
+				{
+				margin-top: 0px;
+				margin-left: 0px;
+				margin-right: 0px;
+				margin-bottom: 0px;
+				font-family: verdana, sans-serif;
+				font-size: 12px;
+				}
+			.bodyContentStyle
+			{
+			   width:100%;
+			}
+			td, p
+				{
+				font-family: verdana, sans-serif;
+				font-size: 12px;
+				}
+			h2
+				{  
+				font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 24px; font-weight: bold
+				}
+			.header
+				{
+				font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 30px; font-weight: bold
+				}
+			.realsmall
+				{
+				font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 9px; 
+				}
+			.small
+				{
+				font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 10px; 
+				}
+			a:hover
+				{
+				text-decoration: none;
+				}
+			.FreeTextboxStyle
+				{
+				color: #000000;
+				}
+			.newstext, .nav
+				{
+				line-height: 18px;
+				}
+			.hCalendarDayNameRow, .dCalendarDayNameRow
+				{
+				color: #666666;
+				font-weight: bold;
+				}
+			.hCalendarDay, .dCalendarDay
+				{
+				color: #000000;
+				}
+			.hCalendarDayLinked, .dCalendarDayLinked
+				{
+				color: #000000;
+				background-color: #FFFFFF;
+				}
+			.hCalendarDayCurrent, .dCalendarDayCurrent
+				{
+				color: #DCDCDC;
+				font-weight: bold;
+				background:url('<%radio.macros.imageurl("images/ciblueBG.gif")%>');
+				}
+			.sidetitle
+				{
+				font-weight:bold;
+				text-align:center;
+				}
+			.hCalendarOtherMonthStyle, .dCalendarOtherMonthStyle
+				{
+				color:#999999;
+				}
+			.hCalendarWeekendStyle, .dCalendarWeekendStyle
+				{
+				color:#999999;
+				}
+			.hCalendarOtherMonthWeekendStyle, .dCalendarOtherMonthWeekendStyle
+				{
+				color:#999999;
+				}
+			.hCalendarMonthYearRow, .dCalendarMonthYearRow
+				{
+				text-align: center;
+				font-weight:bold;
+				width:100%;
+				}
+			.blogRollNestedOutlineBodyTableStyle
+			{
+				margin-left: 12px;
+				border-left: solid 1px #003399;
+			}
+			.categoryListNestedOutlineBodyTableStyle
+			{
+				width:100%;
+				margin-left:9px;
+				margin-bottom:4px;
+			}
+			.blogRollDescriptionStyle
+			{
+				font-weight:normal;
+				font-size:7pt;
+				margin-left:15px;
+			}
+			.signInUsernameTextBoxStyle
+				{
+				width:160px;
+				}
+			.signInPasswordTextBoxStyle
+				{
+				width:160px;
+				}
+.commentViewBoxStyle input 
+{
+	border:1px solid #CCCCCC;
+}
+/* Paging */
+.post-paging {
+}
+.previous-posts{
+}
+.next-posts{
+}
+.clear {
+clear: both
+}
+
+/* Tag Cloud */
+.smallestTag { line-height: 110%; font-size: x-small; font-weight: normal; }
+.smallerTag { line-height: 110%; font-size: x-small; font-weight: bold; }
+.smallTag { line-height: 110%; font-size: small; font-weight: normal; }
+.mediumTag { line-height: 110%; font-size: medium; font-weight: normal; }
+.largeTag { line-height: 110%; font-size: large; font-weight: normal; }
+.largerTag { line-height: 110%; font-size: x-large; font-weight: normal; }
+.largestTag { line-height: 110%; font-size: x-large; font-weight: bold; }
+ 
+/* OpenID Support added in 2.2 */
+.openidtextbox {
+	background: #FFFFFF url('../../images/openid-icon-small.gif') no-repeat scroll 0pt 50%; 
+	padding-left: 18px; 
+}
+.openidtextboxwrap 
+{
+	padding-right: 18px;
+}
+
+	</style>
+	
+	<script language="JavaScript" type="text">
+	<!-- Begin hiding from older browsers
+	
+	//End hiding-->
+	</script> </head> 
+<body bgcolor="#FFFFFF" alink="#ccFFFF"  vlink="#4B0082" link="#00008B" text="#000000" background="<%radio.macros.imageurl ('images/ciblueBG.gif')%>" >
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+	<tr> 
+		<td background="<%radio.macros.imageurl ("images/ciblueHeaderBG001.gif")%>" valign="top"> 
+			<table width="400" border="0" cellspacing="0" cellpadding="0">
+				<tr> 
+					<td background="<%radio.macros.imageurl ("images/ciblueHeaderTitleBG.gif")%>"> 
+						<table width="545" border="0" cellspacing="0" cellpadding="0">
+							<tr> 
+								<td width="25" background="<%radio.macros.imageurl ("images/shim.gif")%>"><img src=<%radio.macros.imageurl ("images/shim.gif")%>  width="25", height="1"></img></td>
+								<td width="100%" background="<%radio.macros.imageurl ("images/shim.gif")%>"><img src=<%radio.macros.imageurl ("images/shim.gif")%>  width="400", height="1"></img></td>
+							</tr>
+							<tr> 
+								<td width="25" background="<%radio.macros.imageurl ("images/shim.gif")%>"><img src=<%radio.macros.imageurl ("images/shim.gif")%>  width="25", height="119"></img></td>
+								<td width="100%" background="<%radio.macros.imageurl ("images/shim.gif")%>" valign="top"> 
+									<table width="100%" border="0" cellspacing="0" cellpadding="0" height="67">
+										<tr> 
+											<td><img src=<%radio.macros.imageurl ("images/shim.gif")%>  width="10", height="40"></img></td>
+										</tr>
+										<tr> 
+											<td valign="top"><font size="+1" color="#000000"><b> 
+												<a href="<%radio.macros.weblogUrl ()%>" style="color:Black; text-decoration:none"><%siteName%></a> </b></font><br>
+												<font color="#ffffff"><i><%description%></i></font>
+												</td>
+										</tr>
+									</table>
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</table>
+		</td>
+		<td align="right" background="<%radio.macros.imageurl ("images/ciblueHeaderBG001.gif")%>"><%radio.macros.imageref ("images/ciblueHeader2.gif", height:1, class:"foo")%></td>
+	</tr>
+</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+	<tr> 
+		<td width="224" valign="top"> 
+			<table width="224" border="0" cellspacing="0" cellpadding="0">
+				<tr> 
+					<td><%radio.macros.imageref ("images/ciblueCurve2.gif")%></td>
+				</tr>
+				<tr> 
+					<td> 
+						<table width="224" border="0" cellspacing="0" cellpadding="7">
+							<tr> 
+								<td valign="top" align="center"> 
+									<hr size="1">
+									<div class="sidetitle">Navigation</div>
+				<div align="center" class="side">
+					<%navigatorLinks%>
+					</div>
+					<div class="sidetitle">Categories</div>
+				<div align="center" class="side">
+					<%newtelligence.drawCategories()%>
+					</div>
+									<hr size="1">
+									<br>
+									<%radio.macros.xmlCoffeeMug ()%>
+									<br><br>
+									<%feedLink%>
+									<br><br>
+									<%radio.macros.mailto ()%>
+								</td>
+								<td width="10">&nbsp;</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				<tr> 
+					<td><img src=<%radio.macros.imageurl ("images/shim.gif")%>  width="224", height="1"></img></tr>
+			</table>
+			<br>
+		</td>
+		<td width="100%" bgcolor="#FFFFFF" valign="top"> 
+			<table width="100%" border="0" cellspacing="0" cellpadding="2">
+				<tr>
+					<td>&nbsp;</td>
+				</tr>
+			</table>
+			<table width="100%" border="0" cellspacing="0" cellpadding="9">
+				<tr> 
+					<td valign="top" width="100%"> 
+					
+						<p>
+						    <%radio.macros.editorsOnlyMenu ()%>
+							<% DrawCategoryPaging() %> 
+							<%bodytext%>
+			<div class="post-paging">
+				<div class="previous-posts">
+					<% DrawPostPagingPrevious() %>
+				</div>
+				<div class="next-posts">
+					<% DrawPostPagingNext() %>
+				</div>
+			</div>							
+						<p></p>
+						<table cellpadding="10" cellspacing="0" border="0">
+							<tr> 
+								<td> 
+									<%radio.macros.editThisPageButton ()%>
+								</td>
+							</tr>
+						</table>
+						<hr size="1">
+						<table border="0" cellspacing="0" cellpadding="4" width="100%">
+							<tr> 
+								<td width="1"> 
+									</td>
+								<td width="100%">
+								&copy; Copyright&nbsp;<%year%>&nbsp;<%authorName%><br>
+									This theme is based on the <a href="http://theme31.weblogger.com/">SoundWaves 
+									(blue)</a> Manila theme.</font><br>
+									<%radioBadge%><br>
+									
+									<br><%newtelligence.aspnetcontrol("themecombo.ascx")%></td>
+								</tr>
+							</table>
+						
+					</td>
+					<td valign="top" width="250" align="center"> 
+					    
+						<%radio.weblog.drawcalendar ()%>
+						<br>
+						<hr>
+			
+		    <div class="sidetitle">Blogroll</div>
+				<div align="center" class="side">
+					<%radio.macros.blogroll ("siteConfig/blogroll.opml")%>
+					</div>
+					<hr>
+					<%newtelligence.loginbox ()%>
+						
+					</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+</table>
+<%radio.macros.staticSiteStatsImage ()%>
+</body>
+	</html>

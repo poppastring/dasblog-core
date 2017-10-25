@@ -1,0 +1,131 @@
+/**
+ * @version: 1.4.0
+ * @author: Coolite Inc. http://www.coolite.com/
+ * @date: 12-Dec-2007
+ * @copyright: Copyright (c) 2006-2008, Coolite Inc. (http://www.coolite.com/). All rights reserved. Unauthorized use prohibited.
+ * @website: http://www.coolite.com/
+ */
+
+.bdpLite
+{
+	white-space: nowrap;
+}
+
+.bdplPopUp
+{
+	font: normal 11px Tahoma, Verdana, Arial, sans-serif;
+	border: 1px solid #7F9DB9;
+	background: white;
+	width: 151px;
+}
+
+.bdplPopUp td
+{
+	padding: 4px;
+	text-align: center;
+}
+
+.bdplPopUp, 
+.bdplPopUp th, 
+.bdplPopUp td, 
+.bdplPopUp div
+{
+	font: normal 11px Tahoma, Verdana, Arial, sans-serif;
+}
+
+.bdplPopUp a, 
+.bdplPopUp a:link, 
+.bdplPopUp a:visited, 
+.bdplPopUp a:active, 
+.bdplPopUp a:hover
+{
+	text-decoration: none;
+	color: #000000;
+	cursor: pointer;
+}
+
+.bdplTitle
+{
+	width: 100%;
+	background: #9EBEF5;
+	height: 15px;
+}
+
+.bdplTitle td
+{
+	height: 16px;
+	padding: 0px 5px 0px 6px;
+	cursor: pointer;
+}
+.bdplTitle td img
+{
+	width: 5px;
+	height: 9px;
+}
+.bdplTitle th
+{
+	width: 100%;
+	font-weight: normal;
+	white-space: nowrap;
+}
+
+.bdplCalendar td
+{
+	padding: 0;
+	text-align: center;
+}
+
+.bdplCalendar
+{
+	width: 120px;
+	margin: 1px auto 8px auto;
+}
+
+td.bdplDay
+{
+	color: #ACA899;
+	text-align: right;
+	padding-left: 1px;
+	height: 14px;
+	width: 13px;
+	border: 1px solid #FFFFFF;
+	cursor: default;
+}
+
+.bdplDayHeader
+{
+	padding-right: 3px;
+	font-weight: normal;
+	text-align: right;
+	border-bottom: 1px solid #ACA899;
+}
+
+td.bdplOtherMonthDay a, 
+td.bdplOtherMonthDay a:link, 
+td.bdplOtherMonthDay a:visited, 
+td.bdplOtherMonthDay a:active, 
+td.bdplOtherMonthDay a:hover
+{
+	color: #ACA899 !important;
+	cursor: pointer;
+}
+
+td.bdplSelectedDay
+{
+	background-color: #FBE694 !important;
+	border: 1px solid #FBE694;
+}
+
+td.bdplTodayDay
+{
+	border: 1px solid #BB5503;
+}
+
+img.bdplButton
+{
+	vertical-align: top;
+	margin-top: 1px;
+	margin-left: 2px;
+	cursor: pointer;
+	border: 0;
+}

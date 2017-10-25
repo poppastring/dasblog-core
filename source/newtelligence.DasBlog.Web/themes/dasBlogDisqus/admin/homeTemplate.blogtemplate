@@ -1,0 +1,31 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+	
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<title><%title%></title>
+<%styleSheet("base.css")%>
+<style type="text/css">
+#left {
+	margin-right: 0%;
+}
+</style>
+</head>
+<body>
+<div id="header">
+	<span class="siteName"><%siteNameLink%></span><br />
+	<span class="description"><%description%></span> 
+</div>
+<%newtelligence.adminBar()%>
+<!-- BEGIN content -->
+<div id="content">
+	<!-- BEGIN #left -->
+	<div id="left">
+		<div class="column">
+			<%bodytext%> 
+		</div>
+	</div>
+	<!-- END #left -->
+	</div>
+<!-- END #content-->
+</body>
+</html>

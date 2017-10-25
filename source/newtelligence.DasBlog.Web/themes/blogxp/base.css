@@ -1,0 +1,45 @@
+/* 
+	Base styles
+	
+	These are all the base styles that control basic HTML tags.
+	All the referenced styles sheets are imported to control the UI
+	of the theme.
+*/
+
+@import url("calendar.css");
+@import url("pageLayout.css");
+@import url("dasBlog.css");
+@import url("colors.css");
+@import url("admin.css");
+@import url("webparts.css");
+@import url("xml.css");
+@import url("photoalbum.css");
+
+A, A:active, A:link, A:visited {
+	text-decoration: none;
+	font-weight: bold;
+}
+
+A:hover {
+	text-decoration: none;
+	border-bottom: 1px dashed;
+}
+
+/* The selectors below aren't supported by IE yet...*/
+A[target=_blank]:hover, A[rel=external]:hover {
+	text-decoration: underline;
+	border-bottom: none;
+}
+
+/* ...so we use a separate css class for the external links. */
+a.external:hover {
+	text-decoration: underline;
+	border-bottom: none;
+}
+
+body {
+	margin: 0;
+	padding: 0;
+	font-family: verdana, sans-serif;
+	font-size: 11px;
+}

@@ -1,0 +1,118 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+<head>
+	<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+	<title><%title%></title>	
+	<%styleSheet("theme.css")%>	
+</head>
+
+<body>
+
+<div class="header">
+	<div class="siteName"><%siteNameLink%></div>
+	<div class="subtitle"><%subtitle%>&nbsp;<%rssLink%></div>
+	<%newtelligence.search()%>	
+</div>
+<div class="headershadow"></div>
+
+<table cellspacing="0" cellpadding="0" width="100%" border="0">
+	<tr valign="top">
+		
+		<td class="mainbodyareaframe" width="100%">      
+			<%newtelligence.adminBar()%>
+			<% DrawCategoryPaging() %> 
+			<%bodytext%>
+			<div class="post-paging">
+				<div class="previous-posts">
+					<% DrawPostPagingPrevious() %>
+				</div>
+				<div class="next-posts">
+					<% DrawPostPagingNext() %>
+				</div>
+			</div>
+		</td>
+		
+		<td class="sidebarright">
+																																											
+			<div class="sideframeright">
+				<div class="sidetop">Navigation</div>					
+				<div class="side"><%navigatorLinks%></div>
+			</div>
+			<div class="sideframeshadow"></div>
+			
+			<div class="sideframeright">
+				<div class="sidetop"><%localString("Categories|DE:Kategorien|AR:&#1571;&#1589;&#1606;&#1575;&#1601;")%></div>				
+				<div class="side">
+					<%newtelligence.drawCategories()%>
+				</div>
+			</div>
+			<div class="sideframeshadow"></div>
+			
+			<div class="sideframeright">
+				<div class="sidetop">Archive</div>				
+				<div class="side">									
+					<%radio.weblog.drawcalendar ()%>
+				</div>
+			</div>
+			<div class="sideframeshadow"></div>
+								
+			<div class="sideframeright">
+				<div class="sidetop">Blogroll</div>				
+				<div class="side">									
+					<%radio.macros.blogroll ("siteConfig/blogroll.opml")%>
+				</div>
+			</div>
+			<div class="sideframeshadow"></div>
+																
+			<div class="sideframeright">
+				<div class="sidetop">About the author/Disclaimer</div>				
+				<div class="side"><%newtelligence.disclaimer()%>					
+					&copy; Copyright <%year%><br/> <%authorName%><br/>														
+						<%newtelligence.loginbox()%>	
+						<br/>
+				</div>
+			</div>
+			<div class="sideframeshadow"></div>
+			
+			<div class="sideframeright">
+				<div class="sidetop">Statistics</div>				
+				<div class="side">									
+					<% blogStats()%>
+				</div>
+			</div>
+			<div class="sideframeshadow"></div>
+			
+			<div class="sideframeright">
+				<div class="sidetop">Themes</div>				
+				<div class="side">									
+					<%newtelligence.aspnetcontrol("themecombo.ascx")%>
+				</div>
+			</div>
+
+
+
+			<div class="sideframeshadow"></div>
+			
+																																																																																						
+		</td>						
+	</tr>
+	
+	<tr>
+		<td colspan="2" class="mainbodyfooter">
+			All Content &copy <%year%>, <%authorName%>
+			<br/>
+			DasBlog theme 'Business' created by <a href="http://www.delarou.net">Christoph De Baene (delarou)</a>
+		</td>
+	</tr>
+	
+</table>
+
+<style>
+.statsTableRowStyleError { background-color:#bdae85; }
+.statsTableRowStyleSecurityFailure { background-color:#bd8585;}
+.statsTableRowStyleBlocked { background-color:#bdbc85; }
+</style>
+
+</body>
+</html>

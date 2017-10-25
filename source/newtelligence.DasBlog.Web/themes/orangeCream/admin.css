@@ -1,0 +1,523 @@
+/* 
+	admin
+	
+	These are all the DasBlog specific styles that you can
+	use to customize the look and feel of the admin content
+*/
+
+.adminNavbarStyle {
+	padding-top: 10px;
+	font-size: 11px;
+	font-weight: normal;
+	text-align: center;
+	height: 17px;
+	display: block;
+	z-index: 1;
+	position:relative;
+	background-color: #6C6457;
+}
+
+.adminNavbarStyle UL { 
+	white-space: nowrap;
+	margin: 0px;
+	padding: 0px;
+	display: inline;
+}
+
+.adminNavbarStyle UL LI { 
+	margin: 0px;
+	padding: 3px;
+	border-top: 1px dotted #333;
+	border-right: 1px dotted #333;
+	list-style: none;
+	display: inline;
+	background-color: #999;
+}
+
+.adminNavbarStyle UL LI.first { 
+	border-left: 1px dotted #333;
+}
+
+.adminNavbarStyle A:hover 
+{
+	
+}
+
+.adminNavbarStyle UL LI.here 
+{
+	background-color: White;
+	border-bottom:1px solid White;
+	list-style: none;
+	display: inline;
+	z-index:3;
+	position:relative;
+}
+
+.adminNavbarStyle UL LI.firstHere 
+{
+	background-color: White;
+	border-left: 1px dotted #333;
+	border-bottom:1px solid White;
+	list-style: none;
+	display: inline;
+	z-index:3;
+	position:relative;
+}
+
+.configControlStyle { font-size: 11px; font-family:Tahoma; }
+
+.configLabelColumnStyle { vertical-align: top; }
+
+.configLabelStyle { margin-right: 10px; font-size: 11px; }
+
+.configSectionStyle {
+	border: 1px dashed #999;
+	padding-right: 10px;
+	padding-left: 10px;
+	margin-bottom: 15px;
+	padding-bottom: 10px;
+	padding-top: 10px;
+	vertical-align: middle;
+}
+
+.configSectionTitleStyle {
+	margin-bottom: 10px;
+	padding-bottom: 5px;
+	border-bottom: 1px solid #999;
+	font-weight: bold;
+	font-size: 110%;
+}
+
+.statsTableColumnStyle {
+	border: solid 1px;
+	padding: 3px;
+	margin-top: 3px;
+	margin-bottom: 3px;
+}
+
+.statsTableDateColumnStyle {
+	border: solid 1px;
+	padding: 3px;
+	margin-top: 3px;
+	margin-bottom: 3px;
+	width: 25%;
+	text-align: left;
+}
+
+.statsTableFooterColumnStyle {
+	border-left: solid 1px;
+	border-right: solid 1px;
+	border-bottom: solid 1px;
+	border-top: solid 2px;
+	padding: 3px;
+	font-weight: bold;
+}
+
+.statsTableFooterNumColumnStyle {
+	border-left: solid 1px;
+	border-right: solid 1px;
+	border-bottom: solid 1px;
+	border-top: solid 2px;
+	padding: 3px;
+	width: 15%;
+	font-weight: bold;
+	text-align: right;
+}
+
+.statsTableHeaderColumnStyle {
+	border-left: solid 1px;
+	border-right: solid 1px;
+	border-bottom: solid 2px;
+	border-top: solid 1px;
+	padding: 3px;
+	font-size: 105%;
+	font-weight: bold;
+}
+
+.statsTableNumColumnStyle {
+	border: solid 1px;
+	padding: 3px;
+	margin-top: 3px;
+	margin-bottom: 3px;
+	width: 15%;
+	text-align: right;
+}
+
+.statsTableStyle {
+	margin-bottom: 10px;
+	border: solid 1px;
+	width: 100%;
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+
+
+   .bodyContentStyle
+   {
+      width:100%;
+   }
+  A {
+    color: #993300;
+    font-family: verdana, arial, sans-serif;
+    text-decoration: none;
+    } 
+  A:link {
+    color: #993300;
+    text-decoration: none;
+    } 
+  A:visited {
+    color: #993300;
+    text-decoration: none;
+    } 
+  A:active {
+    color: #FFCC66;
+    } 
+  A:hover {
+    color: #FFCC66;
+    } 
+    
+ .small 
+    {
+       font-family:arial,georgia, verdana, sans-serif;
+       text-decoration:none;
+       font-size:12px;
+       color:#c08454;
+     }    
+     
+#searchString{
+	background-color: #f0e3ca;
+    width:111px;
+    border: 1px solid #666666;
+
+ }
+ 
+ .searchButtonStyle 
+ {
+	width:48px;
+	background-color:#746148;
+	font-family: arial, verdana, ms sans serif; 
+	font-size:11px;
+	color:#ffffff; 
+    border: 1px solid #000000;
+ }
+ 
+#dropshadow {
+	 font-family:georgia,arial, sans-serif,verdana ;
+	 color: #000000;
+	 font-size:24px;
+ 	 font-weight:bold;
+	 position: relative; left: 5px; top: 25px;	
+ } 
+ 
+#bannertext {
+ font-family:georgia,arial, sans-serif,verdana ;
+	 color: #ffffff;	
+	 font-size:24px;
+ 	 font-weight:bold;
+	 position: absolute; left: -2px; top: -2px; 
+ } 
+ 
+
+  #desc 
+    {
+       font-family:verdana,georgia,arial, sans-serif;
+       text-decoration:none;
+       color:#f0e3ca;
+       font-size:9px;
+       position:relative;
+       top:40px;
+    }
+
+  .description {
+    font-family:verdana, arial, sans-serif;
+    color:#FFFFFF;
+    font-size:12px;
+    font-weight:bold;
+    background:#993300;  
+    text-transform:none;  
+    letter-spacing: .none;     
+    }      
+  .radioMenuLinkFont {
+    font-family:verdana, arial, sans-serif;
+    color:#993300;
+    font-size:10px;
+    font-weight:bold;     
+    }    
+  .radioMenuLink {
+    font-family:verdana, arial, sans-serif;
+    color:#993300;
+    font-size:10px;
+    font-weight:bold;     
+    } 
+  a.radioMenuLink:link
+    {
+    color: #993300;
+    text-decoration: none
+    }  
+  a.radioMenuLink:visited
+    {
+    color: #993300;
+    text-decoration: none
+    }
+  a.radioMenuLink:hover
+    {
+    color: #993300;
+    text-decoration: underline
+    }        
+  #content {
+    float:right;
+    clear:right; 
+    width:76%;
+    background:#FFFFFF; 
+    margin-bottom:20px;
+    margin-right: 0px;
+    border:0px dotted #333;
+	height:100%;
+    }
+
+  #wrapper {
+	
+    width:90%;
+    background:#FFFFFF; 
+    margin-left: 48px;
+    border:0px dotted #333;
+	height:100%;
+    }    
+  .blog {
+    padding:15px;
+	background:#FFF;        
+    }  
+  .blogbody {
+    font-family:verdana, arial, sans-serif;
+    color:#404040;
+    font-size:11px;
+    font-weight:normal;
+    background:#FFFFFF; 
+    line-height:14px;                    
+    padding:10px;
+
+ /* background:#FF9933 url('/blogs2/themes/themepro/images/contentbg.gif') repeat; */
+    }
+
+  #blogentry tr td {
+    padding:10px;
+  /*  border:0px solid #d2d2d2; */
+    border-bottom:1px dotted #FF9933;
+    }    
+  #blogentry {
+/*    background:#ffffff url('/blogs2/themes/themepro/images/lace.gif') no-repeat  0 0; */
+    }  
+    
+.blogimage{
+	background-color: #f5f5f5;
+	border: 1px solid #d1cfcf;
+    padding: 5px;
+
+    }  
+    
+  .title  { 
+    font-family: verdana, arial; 
+    font-size: 15px; 
+    color: #003366; 	
+	text-transform:uppercase;  
+    } 
+   
+
+  .editorialLink {
+    font-family:verdana, arial, sans-serif;
+    font-size:10px;
+    font-weight:normal;
+    background:#FF9933; 
+    }
+ #menu {
+    margin-bottom:15px;
+    background:#FFFFFF;
+	text-align:center;               
+    }    
+  .date  { 
+    font-family:verdana, arial, sans-serif; 
+    font-size: 11px; 
+    color: #666666; 
+    font-weight:bold;
+	border-bottom:1px solid #999;
+	margin-bottom:10px;  
+    }        
+  .FreeTextboxStyle {
+    color: #000000;
+    
+    }
+  .posted	{ 
+	font-family:verdana, arial, sans-serif; 
+	font-size: 11px; 
+	color: #003366; 
+	margin-bottom:25px;
+	}
+	   .pageTopic {
+		padding-bottom: 5px;
+		font-size: 12pt;
+		font-family: Georgia;
+		font-weight: bold;
+	}
+   .side {
+    font-family:verdana, arial, sans-serif;
+    color:#333333;
+    font-size:11px;
+    font-weight:normal;
+ /*   background:#FF9933; */
+    line-height:14px;
+    padding:2px;        
+    }  
+	.sidetitle {
+	font-family:verdana, arial, sans-serif;
+	color:#FFF;
+	font-size:11px;
+	font-weight:normal;
+	line-height:14px;
+	padding:2px;
+ 	margin-top:10px;
+	letter-spacing: .1em;
+	border-bottom:1px dotted #FFF;
+	text-align:center;		  					
+ /* 	background:#FF9933;		*/
+	}   
+  .hCalendarStyle, .dCalendarStyle
+	{
+    font-family:verdana, arial, sans-serif;
+	border:0px solid #FFF;
+	}
+  .hCalendarMonthYearRow, .dCalendarMonthYearRow
+    { 
+    color:#FFFFFF;
+    font-size:10px;
+    font-weight:bold;
+    line-height:14px;
+    padding:2px;
+	text-align:center;
+	width:100%;
+ /*   background:#FF9933;    */
+    }
+  .hCalendarMonthYearRow td, .dCalendarMonthYearRow td
+    {
+    color:#746148;
+    font-weight:bold;
+    }
+  .hCalendarNextPrevStyle a, .dCalendarNextPrevStyle a
+	{
+	color:#FFFFFF;
+	}
+  .hCalendarNextPrevStyle a:visited, .dCalendarNextPrevStyle a:visited
+	{
+	color:#FFFFFF;
+	}
+  .hCalendarDayNameRow, .dCalendarDayNameRow
+    {
+    color:#993300;
+    font-size:10px;
+    font-weight:bold;
+    line-height:14px;
+    padding:2px;   
+    }
+    
+  .hCalendarDay , .hCalendarOtherMonthStyle, .hCalendarWeekendStyle , .hCalendarOtherMonthWeekendStyle{
+    font-family:verdana, arial, sans-serif;
+    color:#746148;
+    font-size:12px;
+    font-weight:normal;
+    line-height:14px;   
+    } 
+  .hCalendarDay a, .dCalendarDay a
+    {
+    color:#FFFFFF;
+    }
+  .hCalendarDay a:visited, .dCalendarDay a:visited
+    {
+    color:#000000;
+    }
+  .hCalendarDayLinked, .dCalendarDayLinked
+    {
+    color:#666;
+    background-color: #D6802A;
+    font-size:10px;
+    font-weight:normal;
+    line-height:14px;
+    padding:2px;   
+    }
+  .hCalendarDayCurrent, .dCalendarDayCurrent
+    {
+    color:#FFFFFF;
+    background-color: #746148;
+    font-weight:normal;
+    line-height:14px;
+    border:1px solid #FFF;
+    }
+  .hCalendarDayCurrent a, .dCalendarDayCurrent a
+    {
+    color:#FFFFFF;
+    }
+  .hCalendarDayCurrent a:visited, .dCalendarDayCurrent a:visited
+    {
+    color:#000000;
+    }
+  td {
+    font-family:verdana, arial, sans-serif;
+    color:#404040;
+    font-size:12px;
+    font-weight:normal;
+    line-height:14px;   
+    } 
+  
+.blogRollNestedOutlineBodyTableStyle
+			{
+				margin-left: 25px;
+				
+			}
+			.categoryListNestedOutlineBodyTableStyle
+			{
+				width:100%;
+				margin-left:9px;
+				margin-bottom:4px;
+			}
+			.blogRollDescriptionStyle
+			{
+				font-weight:normal;
+				font-size:7pt;
+				margin-left:15px;
+			}
+
+
+.commentViewBoxStyle input 
+{
+	border:1px solid #CCCCCC;
+}
+
+/* Paging */
+.post-paging {
+}
+.previous-posts{
+}
+.next-posts{
+}
+.clear {
+clear: both
+}
+
+/* Tag Cloud */
+.smallestTag { line-height: 110%; font-size: x-small; font-weight: normal; }
+.smallerTag { line-height: 110%; font-size: x-small; font-weight: bold; }
+.smallTag { line-height: 110%; font-size: small; font-weight: normal; }
+.mediumTag { line-height: 110%; font-size: medium; font-weight: normal; }
+.largeTag { line-height: 110%; font-size: large; font-weight: normal; }
+.largerTag { line-height: 110%; font-size: x-large; font-weight: normal; }
+.largestTag { line-height: 110%; font-size: x-large; font-weight: bold; }
+ 
+/* OpenID Support added in 2.2 */
+.openidtextbox {
+	background: #FFFFFF url('../../images/openid-icon-small.gif') no-repeat scroll 0pt 50%; 
+	padding-left: 18px; 
+}
+.openidtextboxwrap 
+{
+	padding-right: 18px;
+}
+

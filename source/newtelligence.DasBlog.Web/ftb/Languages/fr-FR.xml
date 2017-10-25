@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<root>
+	<!-- General -->
+	<resource name = "Yes">OUI</resource>
+	<resource name = "No">NON</resource>
+	<resource name = "0">0</resource>
+	<resource name = "1">1</resource>
+	<resource name = "2">2</resource>
+	<resource name = "3">3</resource>
+	<resource name = "4">4</resource>
+	<resource name = "5">5</resource>
+	<resource name = "6">6</resource>
+	<resource name = "7">7</resource>
+	<resource name = "8">8</resource>
+	<resource name = "9">9</resource>
+	
+	<!-- Main FTB Stuff -->
+	<resource name = "DesignModeTab">Design</resource>
+	<resource name = "HtmlModeTab">HTML</resource>
+	
+	<!-- Buttons -->
+	<resource name = "Bold">Gras</resource>
+ <resource name = "BulletedList">Puces</resource>
+ <resource name = "Copy">Copier</resource>
+ <resource name = "CreateLink">Créer un lien</resource>
+ <resource name = "Cut">Couper</resource>
+ <resource name = "Delete">Effacer</resource>
+ <resource name = "Indent">Augmenter le retrait</resource>
+ <resource name = "InsertDate">Insérer la date</resource>
+ <resource name = "InsertImage">Insérer une image</resource>
+ <resource name = "InsertRule">Insérer une règle</resource>
+ <resource name = "InsertTime">Insérer l'heure</resource>
+ <resource name = "Italic">Italique</resource> 
+ <resource name = "JustifyRight">Aligner à droite</resource> 
+ <resource name = "JustifyCenter">Centrer</resource> 
+ <resource name = "JustifyFull">Justifier</resource> 
+ <resource name = "JustifyLeft">Aligner à gauche</resource>
+ <resource name = "NumberedList">Numérotation</resource> 
+ <resource name = "Outdent">Diminuer le retrait</resource> 
+ <resource name = "Paste">Coller</resource> 
+ <resource name = "Print">Imprimer</resource> 
+ <resource name = "Redo">Rétablir</resource> 
+ <resource name = "RemoveFormat">Supprimer tous les formattages</resource> 
+ <resource name = "StrikeThrough">Barre</resource>
+ <resource name = "SuperScript">Exposant</resource>
+ <resource name = "SubScript">Indice</resource> 
+ <resource name = "Underline">Souligner</resource> 
+ <resource name = "Undo">Annuler</resource>
+ <resource name = "Unlink">Supprimer le lien</resource>
+	
+	<resource name = "IeSpellCheck">IE Spell Check</resource>
+	<resource name = "NetSpell">Net Spell Check</resource>
+	
+	
+	<!-- Table Functions -->
+	<resource name = "InsertTable">Insérer un tableau</resource>
+	<resource name = "InsertTableRowAfter">Insérer une ligne en dessous</resource>
+	<resource name = "InsertTableRowBefore">Insérer une ligne au dessus</resource>
+	<resource name = "InsertTableColumnAfter">Insérer une colonne avant</resource>
+	<resource name = "InsertTableColumnBefore">Insérer une colonne apres</resource>
+	<resource name = "DeleteTableColumn">Supprimer une colonne</resource>
+	<resource name = "DeleteTableRow">Supprimer une ligne</resource>
+	
+
+	<!-- DropDownLists -->
+	<resource name = "FontForeColorsMenu">Couleur</resource>
+ <resource name = "FontBackColorsMenu">Surlignage</resource>
+ <resource name = "FontSizesMenu">Taille</resource>
+ <resource name = "ParagraphMenu">Style</resource>
+ <resource name = "FontFacesMenu">Police</resource>
+ <resource name = "InsertHtmlMenu">Inserer Code Html</resource>
+ <resource name = "SymbolsMenu">Symboles</resource>
+
+	<!-- DropDownList Items -->
+	<resource name = "ParagraphMenu_Normal">Normal</resource>
+	<resource name = "ParagraphMenu_Heading1">Entete 1</resource>
+	<resource name = "ParagraphMenu_Heading2">Entete 2</resource>
+	<resource name = "ParagraphMenu_Heading3">Entete 3</resource>
+	<resource name = "ParagraphMenu_Heading4">Entete 4</resource>
+	<resource name = "ParagraphMenu_Heading5">Entete 5</resource>
+	<resource name = "ParagraphMenu_Heading6">Entete 6</resource>
+	<resource name = "ParagraphMenu_Formatted">Formate</resource>
+	<resource name = "ParagraphMenu_Address">Addresse</resource>
+</root>

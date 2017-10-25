@@ -1,0 +1,11 @@
+<div class="itemBoxStyle">
+    <div class="itemTitleStyle"><%ItemTitle%></div>
+    <div class="itemBodyStyle"><%ItemBody%>
+       
+    </div>
+    <div class="itemCategoryLinksStyle"><%categoryLinks%></div>
+    <div class="itemFooterStyle">
+      <%when%>&nbsp;&nbsp;<%permalink%>&nbsp;&nbsp;<%editButton%>&nbsp;&nbsp;<%commentLink%><%trackbackLink%><%trackbackList%>
+     </div>
+ </div>
+   

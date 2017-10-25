@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<root>
+ <!-- General -->
+ <resource name = "Yes">Ja</resource>
+ <resource name = "No">Nee</resource>
+ <resource name = "0">0</resource>
+ <resource name = "1">1</resource>
+ <resource name = "2">2</resource>
+ <resource name = "3">3</resource>
+ <resource name = "4">4</resource>
+ <resource name = "5">5</resource>
+ <resource name = "6">6</resource>
+ <resource name = "7">7</resource>
+ <resource name = "8">8</resource>
+ <resource name = "9">9</resource>
+
+ 
+ <!-- Main FTB Stuff -->
+ <resource name = "DesignModeTab">Ontwerpen</resource>
+ <resource name = "HtmlModeTab">HTML</resource>
+ 
+ <!-- Buttons -->
+ <resource name = "Bold">Vet</resource>
+ <resource name = "BulletedList">Opsommingslijst</resource>
+ <resource name = "Copy">Kopiëren</resource>
+ <resource name = "CreateLink">Maak hyperlink</resource>
+ <resource name = "Cut">Knippen</resource>
+ <resource name = "Delete">Verwijderen</resource>
+ <resource name = "Indent">Inspringing vergroten</resource>
+ <resource name = "InsertDate">Datum invoegen</resource>
+ <resource name = "InsertImage">Afbeelding invoegen</resource>
+ <resource name = "InsertRule">Horizontale lijn invoegen</resource>
+ <resource name = "InsertTime">Tijd invoegen</resource>
+ <resource name = "Italic">Cursief</resource> 
+ <resource name = "JustifyRight">Rechts uitlijnen</resource> 
+ <resource name = "JustifyCenter">Centreren</resource> 
+ <resource name = "JustifyFull">Uitvullen</resource> 
+ <resource name = "JustifyLeft">Links uitlijnen</resource>
+ <resource name = "NumberedList">Genummerde lijst</resource> 
+ <resource name = "Outdent">Inspringing verkleinen</resource> 
+ <resource name = "Paste">Plakken</resource> 
+ <resource name = "Print">Printen</resource> 
+ <resource name = "Redo">Herhalen typen</resource> 
+ <resource name = "RemoveFormat">Verwijder alle opmaak</resource> 
+ <resource name = "Save">Bewaren</resource>
+ <resource name = "StrikeThrough">Doorhalen</resource>
+ <resource name = "SuperScript">Superscript</resource>
+ <resource name = "SubScript">Subscript</resource> 
+ <resource name = "Underline">Onderstrepen</resource> 
+ <resource name = "Undo">Ongedaan maken typen</resource>
+ <resource name = "Unlink">Verwijder hyperlink</resource>
+ 
+ <!-- DropDownLists -->
+ <resource name = "FontForeColorsMenu">Kleur</resource>
+ <resource name = "FontBackColorsMenu">Achtergrond kleur</resource>
+ <resource name = "FontSizesMenu">Grootte</resource>
+ <resource name = "ParagraphMenu">Paragraaf</resource>
+ <resource name = "FontFacesMenu">Lettertype</resource>
+ <resource name = "InsertHtmlMenu">Invoegen Html</resource>
+ <resource name = "SymbolsMenu">Symbolen</resource>
+
+</root>

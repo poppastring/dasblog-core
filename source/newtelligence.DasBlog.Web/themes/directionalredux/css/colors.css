@@ -1,0 +1,392 @@
+/*
+	Colors
+	
+	All of the colors of the theme are located here.
+	
+	formatted - JRF - 01/08/07
+	
+*/
+
+
+/* generic */
+
+A:link { 
+color: #000;
+}
+
+A:visited { 
+color: #000;
+}
+
+A:hover { 
+background-color: #FFFFCC;
+}
+
+A:active { 
+color: #000;
+}
+
+body {
+	background-color: #fff;
+}
+
+/* ---- */
+
+
+
+
+/* theme specific */
+/* /-/-/-/-/-/-/-/-/-/-/-/-/-/ */
+
+#wrapper {
+
+	background-image: url(../images/bg_right.gif);
+	background-repeat: repeat-y;
+	background-position: right top;
+}
+
+#container {
+
+}
+
+#content {
+	background-color: #fff;
+}
+
+#header {
+	background: #000;
+}
+
+#footer {
+	background-image: url(../images/ohslash.png);
+	background-repeat: repeat;
+	color: #000;
+}
+
+
+/* /-/-/-/-/-/-/-/-/-/-/-/-/-/ */
+
+
+/* header and footer area */
+
+.siteName, .siteName a, .siteName a:visited, .siteName a:hover, .siteName a:active, .siteName a:link 
+{ 
+	color: #ffc555;
+	background-color: #000;
+}
+
+
+.description { color: White; }
+
+
+#header_logo, #footer_logo {
+	height: 83px;
+	margin-top: 1px;
+	width: 124px;
+	margin-right: 10px;
+	background-image:url(../images/df_logo.jpg);
+	background-position: top left;
+	background-repeat: no-repeat;
+}
+
+
+#navbar_top {
+	background-color: #9a9a9a;
+	border-top-color: #000;
+	border-bottom-color: #3c3c3c;
+}
+
+
+/* ---- */
+
+
+
+
+
+/* sidenav area */
+
+#sidebar {
+/*
+	background-image: url(../images/ohslash.png);
+	background-repeat: repeat; */
+}
+
+.pageTopic { 
+color: black; 
+}
+
+.sidetitle { 
+border-bottom-color: #7F7F7F; 
+color: DimGray;
+}
+
+/* --------------------- */
+
+
+
+
+
+/*  admin sidenav options */
+
+.blogFooter {
+	background-color: DimGray;
+	color: #fff;
+}
+
+
+.blogFooter a, .blogFooter a:link, .blogFooter a:visited, .blogFooter a:hover {
+	color: #fff;
+	background-color: DimGray;
+}
+/* ---- */
+
+
+
+
+
+/*  item specific */
+
+	/* this should be a class */
+#moreitems {
+border: 1px solid DimGray;
+background-color: #fff;
+}
+
+
+.date { border-bottom-color: #CCCCCC; color: DimGray; }
+
+.itemBodyStyle, .commentSpamStateStyle { 
+color: Black; 
+background: White; 
+}
+
+.itemBoxStyle {
+
+	/* border-top: 1px solid black; */
+}
+
+/* older left flags
+.itemInfo {
+	-- comment border-top: 1px solid black; -- comment
+	background-image: url(../images/back_item2.gif);
+	background-position: top right;
+	background-repeat: no-repeat;
+	}
+
+*/
+
+
+
+.itemBar {
+
+}
+
+
+.itemFooterStyle {
+	border-color: #ffa600;
+	color: Black;
+	background: White;
+}
+
+.itemReadMoreStyle { color: Black; }
+
+.itemTitleStyle {
+/* background-color: DimGray; */
+color: #000; 
+}
+
+.itemTitleStyle a, .itemTitleStyle a:link, .itemTitleStyle a:visited {
+color: #000;
+background-color: #fff;
+}
+
+.itemTitleStyle a:hover {
+color: #000;
+background-color: #FFFFCC;
+}
+
+
+.itemCommentCountStyle a, .itemCommentCountStyle a:link, .itemCommentCountStyle a:visited {
+color: #000;
+
+}
+.itemCommentCountStyle a:hover {
+color: #000;
+}
+
+.itemCommentsStyle a:hover {
+background-color: #FFFFCC;
+}
+
+.itemWhenStyle {
+color: #fff;
+}
+
+.itemTimeStyle {
+color: #fff;
+}
+
+
+/* --------- */
+
+
+
+
+
+
+/*  comment specific */
+
+
+
+.commentBoxStyle, .commentViewBoxStyle {
+	border-color: #ccc;
+	background-color: White;
+}
+
+.commentBoxFooterStyle {
+	background-color: #EBEBEB;
+}
+
+.commentGravatarBlock img {
+	border: 1px solid black;
+}
+
+/* --------- */
+
+
+
+
+
+
+
+/* calendar widget */
+ 
+.hCalendarDay { color: Black; background-color: #CCCCCC; }
+.hCalendarDay A { color: White; }
+.hCalendarDay A:visited { color: White; }
+.hCalendarDay A:hover { color: White; }
+.hCalendarDayCurrent, .hCalendarDayCurrent A { color: White; background-color: DimGray; }
+.hCalendarDayNameRow { border-bottom-color: #7F7F7F; }
+.hCalendarMonthYearRow { border-bottom-color: #7F7F7F; color: DimGray; }
+.hCalendarNextPrevStyle { }
+.hCalendarOtherMonthStyle { color: DimGray; background-color: #BFBFBF; }
+.hCalendarOtherMonthWeekendStyle { color: DimGray; background-color: #AFAFAF; }
+.hCalendarStyle { color: DimGray; }
+.hCalendarStyle td { }
+.hCalendarWeekendStyle { background-color: #959595; }
+
+/* -------------- */
+
+
+
+
+
+
+/* stats widget */
+
+.statsTableColumnStyle { border-color: #CCCCCC; }
+.statsTableFooterColumnStyle { border-color: #CCCCCC; }
+.statsTableFooterNumColumnStyle { border-color: #CCCCCC; }
+.statsTableHeaderColumnStyle { border-color: #CCCCCC; }
+.statsTableNumColumnStyle, .statsTableDateColumnStyle { border-color: #CCCCCC; }
+.statsTableStyle { border-color: #CCCCCC; background: White; }
+
+/* -------------- */
+
+
+/* admin nav colors */
+
+.adminNavbarStyle { border-color: #CCCCCC; }
+.adminNavbarStyle { border-bottom-color: #BBBBBB; }
+.adminNavbarStyle UL LI { border-color: #BBBBBB; background-color: #fff; }
+.adminNavbarStyle UL LI a { }
+.adminNavbarStyle UL LI.here { border-bottom-color: #EEEEEE; background-color: #EEEEEE; }
+.adminNavbarStyle UL LI.first { border-left-color: #BBBBBB; }
+.adminNavbarStyle UL LI.firstHere { border-left-color: #BBBBBB; border-bottom-color: #EEEEEE; background-color: #EEEEEE; }
+
+/* -------------- */
+
+
+
+/* recent posts widget */
+.titleListStyle li a:hover{
+text-decoration: none;
+background-color: #FFFFCC;
+}
+/* -------------- */
+
+
+
+
+/* search widget */
+.searchContainerStyle {}
+.searchButtonStyle {
+	background-image: url(../images/searchbox_button.gif);
+	background-repeat: no-repeat;
+	background-position: left top;
+	border: 0px solid black;
+}	
+.searchTextBoxStyle {
+
+	background-image: url(../images/searchbox_bg.gif);
+	background-repeat: no-repeat;
+	background-position: left top;
+	border: 0px solid black;
+
+}
+
+/* --------------- */
+
+
+
+/* comment view box */
+
+.commentBodyStyle {
+	background-color: #EBEBEB;
+}
+
+td .commentViewControlStyle {
+	border: 1px solid #e0e0e0;
+}
+
+p span.commentViewControlStyle {
+background-image: none;
+}
+
+.commentViewTableStyle {
+
+border: 2px solid #e0e0e0;
+margin-right: 5px;
+
+}
+
+/* ---------------- */
+
+
+
+
+/* archived posts widget */
+.archiveLinksCellStyle a:hover {
+	text-decoration: none;
+	background-color: #FFFFCC;
+}
+/* -------------- */
+
+
+
+/* admin config page */
+
+.configSectionStyle { border-color: #CCCCCC; background-color: White;}
+.configSectionTitleStyle { border-bottom-color: DimGray; }
+
+/* --------------- */
+
+
+
+/* WYSIWYG specific */
+
+.FreeTextboxStyle { color: #000000; }
+
+/* --------------- */
+
+

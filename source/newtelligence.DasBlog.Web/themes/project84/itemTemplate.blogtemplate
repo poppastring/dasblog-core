@@ -1,0 +1,18 @@
+<div class="item">
+    <div class="itemTitle"><%ItemTitle%></div>
+    <div class="itemContents">
+        <div class="itemBody"><%ItemBody%></div>
+        <div class="categoryLinks"><%categoryLinks%></div>
+        <div class="itemFooter">
+            posted on <%when%>&nbsp;
+            <%permalink%>&nbsp;
+            <%editButton%>&nbsp;
+            <%commentLink%>
+            <%trackbackLink%><br>
+			<%RelatedPostList%>
+            <%trackbackList%>
+			<%ReferralList%>
+            <%enclosure%>
+        </div>
+    </div>
+</div>

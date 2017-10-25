@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<root>
+	<!-- General -->
+	<resource name = "Yes">Si</resource>
+	<resource name = "No">No</resource>
+	<resource name = "0">0</resource>
+	<resource name = "1">1</resource>
+	<resource name = "2">2</resource>
+	<resource name = "3">3</resource>
+	<resource name = "4">4</resource>
+	<resource name = "5">5</resource>
+	<resource name = "6">6</resource>
+	<resource name = "7">7</resource>
+	<resource name = "8">8</resource>
+	<resource name = "9">9</resource>
+
+	
+	<!-- Main FTB Stuff -->
+	<resource name = "DesignModeTab">Disegna</resource>
+	<resource name = "HtmlModeTab">HTML</resource>
+	
+	<!-- Buttons -->
+	<resource name = "Bold">Grassetto</resource>
+	<resource name = "BulletedList">Elenco puntato</resource>
+	<resource name = "Copy">Copia</resource>
+	<resource name = "CreateLink">Crea Collegamento</resource>
+	<resource name = "Cut">Copia</resource>
+	<resource name = "Delete">Cancella</resource>
+	<resource name = "Indent">Aumenta rientro</resource>
+	<resource name = "InsertDate">Inserisci Data</resource>
+	<resource name = "InsertImage">Inserisci Immagine</resource>
+	<resource name = "InsertRule">Inserisci Linea</resource>
+	<resource name = "InsertTime">Inserisci Orario</resource>
+	<resource name = "Italic">Corsivo</resource>
+	<resource name = "JustifyRight">Allinea a destra</resource>	
+	<resource name = "JustifyCenter">Centra</resource>	
+	<resource name = "JustifyFull">Giustifica</resource>	
+	<resource name = "JustifyLeft">Allinea a sinistra</resource>
+	<resource name = "NumberedList">Elenco numerato</resource>	
+	<resource name = "Outdent">Riduci rientro</resource>	
+	<resource name = "Paste">Incolla</resource>	
+	<resource name = "Print">Stampa</resource>	
+	<resource name = "Redo">Ripeti</resource>	
+	<resource name = "RemoveFormat">Togli tutti gli stili</resource>	
+	<resource name = "Save">Salva</resource>
+	<resource name = "StrikeThrough">Sbarra</resource>
+	<resource name = "SuperScript">Alza</resource>
+	<resource name = "SubScript">Abbassa</resource>	
+	<resource name = "Underline">Sottolinea</resource>	
+	<resource name = "Undo">Annulla</resource>
+	<resource name = "Unlink">Togli collegamento</resource>
+	
+
+	<!-- DropDownLists -->
+	<resource name = "FontForeColorsMenu">Colore</resource>
+	<resource name = "FontBackColorsMenu">Evidenzia</resource>
+	<resource name = "FontSizesMenu">Dimensione</resource>
+	<resource name = "ParagraphMenu">Paragrafo</resource>
+	<resource name = "FontFacesMenu">Carattere</resource>
+	<resource name = "InsertHtmlMenu">Inserisci Html</resource>
+	<resource name = "SymbolsMenu">Simboli</resource>
+	<resource name = "StylesMenu">Stili</resource>
+
+</root>

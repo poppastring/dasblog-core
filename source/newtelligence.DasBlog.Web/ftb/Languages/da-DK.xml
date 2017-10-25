@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+<root>
+	<!-- General -->
+	<resource name="Yes">Ja</resource>
+	<resource name="No">Nej</resource>
+	<resource name="0">0</resource>
+	<resource name="1">1</resource>
+	<resource name="2">2</resource>
+	<resource name="3">3</resource>
+	<resource name="4">4</resource>
+	<resource name="5">5</resource>
+	<resource name="6">6</resource>
+	<resource name="7">7</resource>
+	<resource name="8">8</resource>
+	<resource name="9">9</resource>
+	<!-- Main FTB Stuff -->
+	<resource name="DesignModeTab">Design</resource>
+	<resource name="HtmlModeTab">HTML</resource>
+	<!-- Buttons -->
+	<resource name="Bold">Fed</resource>
+	<resource name="BulletedList">Punktmarkering</resource>
+	<resource name="Copy">Kopier</resource>
+	<resource name="CreateLink">Hyperlink</resource>
+	<resource name="Cut">Klip</resource>
+	<resource name="Delete">Slet</resource>
+  <resource name="Indent">Forøg indrykning</resource>
+  <resource name="InsertDate">Indsæt dato</resource>
+  <resource name="InsertImage">Indsæt billede</resource>
+	<resource name="InsertRule">Indsæt horisontal linje</resource>
+	<resource name="InsertTime">Indsæt klokkeslet</resource>
+	<resource name="Italic">Kursiv</resource>
+	<resource name="JustifyRight">Højrejustering</resource>
+  <resource name="JustifyCenter">Centreret</resource>
+  <resource name="JustifyFull">Lige margener</resource>
+	<resource name="JustifyLeft">Venstrejustering</resource>
+  <resource name="NumberedList">Nummereret liste</resource>
+  <resource name="Outdent">Formindsk indrykning</resource>
+	<resource name="Paste">Sæt ind</resource>
+	<resource name="Print">Udskriv</resource>
+	<resource name="Redo">Gør om</resource>
+	<resource name="RemoveFormat">Fjern formatering</resource>
+	<resource name="Save">Gem</resource>
+  <resource name="StrikeThrough">Gennemstreget</resource>
+  <resource name="SuperScript">Hævet</resource>
+  <resource name="SubScript">Sænket</resource>
+  <resource name="Underline">Understreget</resource>
+  <resource name="Undo">Fortryd</resource>
+	<resource name="Unlink">Fjern hyperlink</resource>
+	<!-- DropDownLists -->
+	<resource name="FontForeColorsMenu">Tekstfarve</resource>
+	<resource name="FontBackColorsMenu">Baggrundsfarve</resource>
+	<resource name="FontSizesMenu">Skriftstørrelse</resource>
+  <resource name="ParagraphMenu">Afsnit</resource>
+  <resource name="FontFacesMenu">Skrifttype</resource>
+	<resource name="InsertHtmlMenu">Indsæt HTML</resource>
+	<resource name="SymbolsMenu">Symboler</resource>
+	<resource name="StylesMenu">Stil</resource>
+</root>

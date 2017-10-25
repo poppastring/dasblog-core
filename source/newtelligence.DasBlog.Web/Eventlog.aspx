@@ -1,0 +1,2 @@
+<%@ Page language="c#" validateRequest="true" Codebehind="Eventlog.aspx.cs" AutoEventWireup="False" Inherits="newtelligence.DasBlog.Web.Eventlog" %>
+<asp:placeholder id="contentPlaceHolder" runat="server"></asp:placeholder>

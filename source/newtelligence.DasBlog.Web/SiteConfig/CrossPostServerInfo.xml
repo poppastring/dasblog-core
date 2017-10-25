@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<ArrayOfCrossPostServerInfo xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <CrossPostServerInfo>
+        <Name>Blogger</Name>
+        <URL>http://www.blogger.com</URL>
+        <Service>0</Service>
+        <Host>api.blogger.com</Host>
+        <Endpoint>api</Endpoint>
+        <Port>80</Port>
+    </CrossPostServerInfo>
+    <CrossPostServerInfo>
+        <Name>DasBlog</Name>
+        <Service>1</Service>
+        <Endpoint>blogger.aspx</Endpoint>
+        <Port>80</Port>
+    </CrossPostServerInfo>
+    <CrossPostServerInfo>
+        <Name>.Text</Name>
+        <Service>1</Service>
+        <Endpoint>Services/Metablogapi.aspx</Endpoint>
+        <Port>80</Port>
+    </CrossPostServerInfo>
+    <CrossPostServerInfo>
+        <Name>Community Server</Name>
+        <Service>1</Service>
+        <Endpoint>metablog.ashx</Endpoint>
+        <Port>80</Port>
+    </CrossPostServerInfo>
+    <CrossPostServerInfo>
+        <Name>MovableType</Name>
+        <Service>0</Service>
+        <Endpoint>mt-xmlrpc.cgi</Endpoint>
+        <Port>80</Port>
+    </CrossPostServerInfo>
+    <CrossPostServerInfo>
+        <Name>BlogWorks XML</Name>
+        <Service>0</Service>
+        <Endpoint>admin_dir/listen.asp</Endpoint>
+        <Port>80</Port>
+    </CrossPostServerInfo>
+    <CrossPostServerInfo>
+        <Name>EraBlog.NET</Name>
+        <URL>http://EraBlog.NET</URL>
+        <Service>1</Service>
+        <Host>EraBlog.NET</Host>
+        <Endpoint>RPC2/erablog.xmlrpc</Endpoint>
+        <Port>80</Port>
+    </CrossPostServerInfo>
+    <CrossPostServerInfo>
+        <Name>LiveJournal</Name>
+        <URL>http://www.livejournal.com</URL>
+        <Service>1</Service>
+        <Host>www.livejournal.com</Host>
+        <Endpoint>interface/blogger</Endpoint>
+        <Port>80</Port>
+    </CrossPostServerInfo>
+    <CrossPostServerInfo>
+        <Name>pMachine </Name>
+        <Service>0</Service>
+        <Endpoint>pm/pmserver.php </Endpoint>
+        <Port>80</Port>
+    </CrossPostServerInfo>
+    <CrossPostServerInfo>
+        <Name>TypePad</Name>
+        <URL>http://www.typepad.com</URL>
+        <Service>1</Service>
+        <Host>www.typepad.com</Host>
+        <Endpoint>t/api</Endpoint>
+        <Port>80</Port>
+    </CrossPostServerInfo>
+</ArrayOfCrossPostServerInfo>

@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Language" content="en-us" />
+<meta name="ROBOTS" content="INDEX,FOLLOW" />
+<meta name="GOOGLEBOT" content="INDEX,FOLLOW" />
+<meta name="author" content="<%authorName%>" />
+<meta name="keywords" content="dasBlog" />
+<meta name="description" content="<%subtitle%>" />
+<meta name="revisit-after" CONTENT="10 days" />
+<meta name="classification" CONTENT="Blog" />
+<meta name="distribution" CONTENT="Global" />
+<meta name="rating" CONTENT="General" />
+<meta name="copyright" content="Copyright (C) 2007-2008, <%authorName%>. All rights reserved." />
+<meta name="language" CONTENT="English" />
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title><%title%></title>
+<%styleSheet("dasblueblog.css")%>
+<!--[if lte IE 6]>
+<style type="text/css">
+#menu_top ul {	margin: 5px 0 0 107px; 	padding: 0 0 0 0; 	list-style: none;  font: bold 1em "Trebuchet MS",sans-serif; float: left }
+</style> 
+<!--<![endif]-->
+<![if !IE]>
+ -->
+<![endif]>
+</head>
+<body>
+					<div id="top_nav">
+						<div id="menu_top">
+							<ul>
+								<li><a href="<%baseURL()%>"><span>Home</span></a></li> 
+								<li><a href="http://dasblog.info" title="www.dasBlog.info"><span>dasBlog</span></a></li>
+								<li><a href="http://forum.dasblog.info" title="forum.dasblog.info"><span>dasBlog Forums</span></a></li>
+								<li><a href="http://demo.dasblog.info/" title="demo.dasBlog.info"><span>Demo Blog</span></a></li>
+							</ul>
+						</div>
+					</div>
+					<h1><span><%subtitle%></span></h1>
+						<div id="page_content">
+							<div id="adminContent" style="clear: both">
+								<%newtelligence.adminBar()%><br />
+								<%bodytext%>
+						</div>
+					<div id="adminReturn">
+						<p>Return to <%siteNameLink%></p>
+					</div>
+					</div>
+					<div id="footer">
+						&copy; Copyright <%year%> <%authorName%>; - All rights reserved.
+						This blog is Powered by: <%radioBadge%>.
+					</div>
+</body>
+</html>

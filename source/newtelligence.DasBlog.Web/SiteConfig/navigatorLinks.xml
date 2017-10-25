@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<links xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<link>
+		<name>Home</name>
+		<url>default.aspx</url>
+	</link>
+	<link>
+		<name>dasBlog</name>
+		<url>http://dasblog.info/</url>
+	</link>
+	<link>
+		<name>CodePlex</name>
+		<url>http://codeplex.com/dasBlog/</url>
+	</link>
+	<link>
+		<name>newtelligence AG</name>
+		<url>http://www.newtelligence.com/</url>
+	</link>
+</links>

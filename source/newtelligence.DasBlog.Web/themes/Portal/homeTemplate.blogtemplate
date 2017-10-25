@@ -1,0 +1,328 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+	<head>
+		<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+		<title><%title%></title>
+		<link href="themes/Portal/style-default/theme.css" type="text/css" rel="stylesheet"/>
+	</head>
+	<body>		
+		<table cellspacing="0" cellpadding="0" width="100%" border="0">
+			<!--Start of Top bar-->
+			<tr>
+				<td width="100%" colspan="3">
+					<table class="pagebannerframe" cellspacing="0" cellpadding="0" width="100%" border="0">
+						<tr>
+							<td valign="middle" nowrap><a href="default.aspx"><img alt="Blog Home" src="<%radio.macros.imageurl ("logo.gif")%>" border="0"/></a>&nbsp;</td>
+							<td class="pagebanner" valign="middle" nowrap width="99%">
+								<a href="default.aspx">Home</a>
+							</td>
+							<td class="pagebanner" nowrap><%feedLink%>&nbsp;&nbsp;</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<!--End of Top Bar-->
+			<!--Start of Page Info Header-->
+			<tr>
+				<td class="pagetitleareaframe" colspan="3">
+					<div class="pagetitleareaframe">
+						<table class="pagetitleareaframe" cellspacing="0" cellpadding="0" width="100%" border="0">
+							<tr>
+								<td style="PADDING-BOTTOM: 0px">
+									<table style="PADDING-LEFT: 2px; PADDING-TOP: 0px" cellspacing="0" cellpadding="0" border="0">
+										<tr>
+											<td style="PADDING-BOTTOM: 2px; PADDING-TOP: 2px" nowrap align="center" width="190">
+												<img src="<%radio.macros.imageurl ("generic.gif")%>" height="49px" width="49px"/></td>
+											<td><img height="1" alt="" src="<%radio.macros.imageurl ("blank.gif")%>" width="22"/></td>
+											<td style="PADDING-TOP: 0px" nowrap width="100%">
+												<table cellspacing="0" cellpadding="0">
+													<tr>
+														<td class="pagetitle" nowrap><%title%></td>
+													</tr>
+													<tr>
+														<td class="pagetitlearea"><%subtitle%></td>
+													</tr>
+												</table>
+											</td>
+
+											<!-- Start of Search -->
+											<td align="right" valign="top">
+												<table cellpadding="0" cellspacing="0">
+													<tr>
+														<td class="searchcorner"><img src="<%radio.macros.imageurl ("blank.gif")%>" width="6px" alt=""/></td>
+														<td nowrap height="32px" class="searchform">
+																<img src="<%radio.macros.imageurl ("blank.gif")%>" width="2px" alt=""/>
+																<img src="<%radio.macros.imageurl ("magnify.gif")%>" alt=""/>
+																<img src="<%radio.macros.imageurl ("blank.gif")%>" width="4px" alt=""/>
+														</td>
+														<td nowrap height="32px" class="searchform">
+																<%newtelligence.search()%>
+														</td>
+														<td class='searchform'>&nbsp;</td>
+													</tr>
+												</table>
+											</td>
+											<!-- End of Search -->
+
+
+										</tr>
+									</table>
+									<table cellspacing="0" cellpadding="0" width="100%" border="0">
+										<tr>
+											<td class="pagetitlearealine" colspan="5"><img height="1" alt="" src="<%radio.macros.imageurl ("blank.gif")%>" width="1"/></td>
+										</tr>
+									</table>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</td>
+			</tr>
+			<!--End of Page Info Header-->
+
+
+			<!-- Start of Sidebar and Contents-->
+			<tr valign="top">
+				<td class="sidebar">
+
+
+					<!-- Start of Archive -->
+					<table class="sidebarsection" cellspacing="0" cellpadding="0" width="200" border="0">
+						<tr>
+							<td valign="top" class="ms-viewselect">
+								<table cellspacing="0" cellpadding="0" width="100%" border="0">
+									<tr>
+										<td style="PADDING-BOTTOM: 2px; PADDING-TOP: 2px"> Archive</td>
+									</tr>
+									<tr>
+										<td class="sidebarheaderline"><img height="1" alt="" src="<%radio.macros.imageurl ("blank.gif")%>" width="1"/></td>
+									</tr>
+								</table>
+								<!-- add views here -->
+								<table cellspacing="0" cellpadding="0" width="100%" border="0">
+									<tr>
+										<td class="sidebarsubitem" width="100%" colspan="2">
+											<table cellspacing="0" cellpadding="0">
+												<tr>
+													<td><img height="1" alt="" src="<%radio.macros.imageurl ("blank.gif")%>" width="9"/></td>
+													<td align=center>
+														<%radio.weblog.drawcalendar ()%>
+													</td>
+												</tr>
+											</table>
+										</td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+					</table>
+					<!-- End of  Archive -->
+					
+
+					<!-- Start of Navigation -->
+					<table class="sidebarsection" cellspacing="0" cellpadding="0" width="200" border="0">
+						<tr>
+							<td valign="top" class="ms-viewselect">
+								<table cellspacing="0" cellpadding="0" width="100%" border="0">
+									<tr>
+										<td style="PADDING-BOTTOM: 2px; PADDING-TOP: 2px"><%localString("Navigation|DE:Navigation|AR:&#1605;&#1604;&#1575;&#1581;&#1577;")%></td>
+									</tr>
+									<tr>
+										<td class="sidebarheaderline"><img height="1" alt="" src="<%radio.macros.imageurl ("blank.gif")%>" width="1"/></td>
+									</tr>
+								</table>
+								<!-- add views here -->
+								<table cellspacing="0" cellpadding="0" width="100%" border="0">
+									<tr>
+										<td class="sidebarsubitem" width="100%" colspan="2">
+											<table cellspacing="0" cellpadding="0">
+												<tr>
+													<td><img height="1" alt="" src="<%radio.macros.imageurl ("blank.gif")%>" width="9"/></td>
+													<td>
+														<%navigatorLinks%>
+													</td>
+												</tr>
+											</table>
+										</td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+					</table>
+					<!-- End of Navigation -->
+
+					<!-- Start of Users -->
+					<table class="sidebarsection" cellspacing="0" cellpadding="0" width="200" border="0">
+						<tr>
+							<td valign="top" class="ms-viewselect">
+								<table cellspacing="0" cellpadding="0" width="100%" border="0">
+									<tr>
+										<td style="PADDING-BOTTOM: 2px; PADDING-TOP: 2px">Users</td>
+									</tr>
+									<tr>
+										<td class="sidebarheaderline"><img height="1" alt="" src="<%radio.macros.imageurl ("blank.gif")%>" width="1"/></td>
+									</tr>
+								</table>
+								<!-- add views here -->
+								<table cellspacing="0" cellpadding="0" width="100%" border="0">
+									<tr>
+										<td class="sidebarsubitem" width="100%" colspan="2">
+											<table cellspacing="0" cellpadding="0">
+												<tr>
+													<td><img height="1" alt="" src="<%radio.macros.imageurl ("blank.gif")%>" width="9"/></td>
+													<td>
+														<%BlogTopPosters()%>
+													</td>
+												</tr>
+											</table>
+										</td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+					</table>
+					<!-- End of Categories -->
+
+
+
+					<!-- Start of Categories -->
+					<table class="sidebarsection" cellspacing="0" cellpadding="0" width="200" border="0">
+						<tr>
+							<td valign="top" class="ms-viewselect">
+								<table cellspacing="0" cellpadding="0" width="100%" border="0">
+									<tr>
+										<td style="PADDING-BOTTOM: 2px; PADDING-TOP: 2px"><%localString("Categories|DE:Kategorien|AR:&#1571;&#1589;&#1606;&#1575;&#1601;")%></td>
+									</tr>
+									<tr>
+										<td class="sidebarheaderline"><img height="1" alt="" src="<%radio.macros.imageurl ("blank.gif")%>" width="1"/></td>
+									</tr>
+								</table>
+								<!-- add views here -->
+								<table cellspacing="0" cellpadding="0" width="100%" border="0">
+									<tr>
+										<td class="sidebarsubitem" width="100%" colspan="2">
+											<table cellspacing="0" cellpadding="0">
+												<tr>
+													<td><img height="1" alt="" src="<%radio.macros.imageurl ("blank.gif")%>" width="9"/></td>
+													<td>
+														<%newtelligence.drawCategories()%>
+													</td>
+												</tr>
+											</table>
+										</td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+					</table>
+					<!-- End of Categories -->
+
+					
+					<!-- Start of Blogroll -->
+					<table class="sidebarsection" cellspacing="0" cellpadding="0" width="200" border="0">
+						<tr>
+							<td valign="top" class="ms-viewselect">
+								<table cellspacing="0" cellpadding="0" width="100%" border="0">
+									<tr>
+										<td style="PADDING-BOTTOM: 2px; PADDING-TOP: 2px"><%localString("Blogroll|DE:Weblog Liste|AR:&#1602;&#1575;&#1574;&#1605;&#1577; &#1575;&#1604;&#1583;&#1601;&#1575;&#1578;&#1585; &#1575;&#1604;&#1575;&#1604;&#1603;&#1578;&#1585;&#1608;&#1606;&#1610;&#1577;")%></td>
+									</tr>
+									<tr>
+										<td class="sidebarheaderline"><img height="1" alt="" src="<%radio.macros.imageurl ("blank.gif")%>" width="1"/></td>
+									</tr>
+								</table>
+								<!-- add views here -->
+								<table cellspacing="0" cellpadding="0" width="100%" border="0">
+									<tr>
+										<td class="sidebarsubitem" width="100%" colspan="2">
+											<table cellspacing="0" cellpadding="0">
+												<tr>
+													<td><img height="1" alt="" src="<%radio.macros.imageurl ("blank.gif")%>" width="9"/></td>
+													<td>
+														<%radio.macros.blogroll ("siteConfig/blogroll.opml")%>
+													</td>
+												</tr>
+											</table>
+										</td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+					</table>
+					<!-- End of Blogroll -->
+
+
+					<!-- Start of Contact -->
+					<table class="sidebarsection" cellspacing="0" cellpadding="0" width="200" border="0">
+						<tr>
+							<td valign="top" class="ms-viewselect">
+								<table cellspacing="0" cellpadding="0" width="100%" border="0">
+									<tr>
+										<td style="PADDING-BOTTOM: 2px; PADDING-TOP: 2px">Contact</td>
+									</tr>
+									<tr>
+										<td class="sidebarheaderline"><img height="1" alt="" src="<%radio.macros.imageurl ("blank.gif")%>" width="1"/></td>
+									</tr>
+								</table>
+								<!-- add views here -->
+								<table cellspacing="0" cellpadding="0" width="100%" border="0">
+									<tr>
+										<td class="sidebarsubitem" style="PADDING-TOP: 4px" width="100%" colspan="2">
+											<table cellspacing="0" cellpadding="0">
+												<tr>
+													<td><img height="1" alt="" src="<%radio.macros.imageurl ("blank.gif")%>" width="9"/></td>
+													<td>
+														<%radio.macros.mailTo()%> Email Me<br>
+														<%newtelligence.disclaimer()%>
+														<%newtelligence.loginbox()%>
+													</td>
+												</tr>
+											</table>
+										</td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+					</table>
+					<!-- End of Contact -->
+
+				</td>
+
+
+
+
+				<!-- Start of Body Contents Cell -->
+				<td class="mainbodyareaframe" width="100%">
+					<table cellspacing="0" cellpadding="0" width="100%">
+						<tr>
+							<td valign="top">
+								<!-- Start of Main Body -->
+								<%newtelligence.adminBar()%>
+								<% DrawCategoryPaging() %> 
+								<%bodytext%>
+			<div class="post-paging">
+				<div class="previous-posts">
+					<% DrawPostPagingPrevious() %>
+				</div>
+				<div class="next-posts">
+					<% DrawPostPagingNext() %>
+				</div>
+			</div>								
+								<!-- End of Main Body -->
+							</td>
+						</tr>
+						<tr> <!-- footer row -->
+							<td valign=bottom class="mainbodyfooter">
+								Copyright&nbsp;&copy;&nbsp;<%year%>&nbsp;<%authorName%>.  All rights reserved.<br>
+								DasBlog '<a href="http://johnnynine.com/blog/PermaLink,guid,990e80f0-7d04-44dd-81eb-6da988e4d691.aspx">Portal</a>' theme by <a href="http://johnnynine.com/blog/">Johnny Hughes</a>.
+									
+                                <br><%newtelligence.aspnetcontrol("themecombo.ascx")%>
+							</td>
+						</tr>
+					</table>
+				</td>
+				<!-- End of Body Contents Cell -->
+			</tr>
+			<!-- End of Sidebar and Contents-->
+		</table>
+	</body>
+</html>

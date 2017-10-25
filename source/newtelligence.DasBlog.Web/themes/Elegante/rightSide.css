@@ -1,0 +1,122 @@
+/* 
+	Right Side Styles
+	
+	These are all the specific styles that you can use to customize the look 
+	and feel of the items on the right side of the blog page.  Things like the search,
+	navigation, blogroll etc.
+*/
+
+#picOfDay
+{
+	margin: 10px 0 0px ;
+}
+
+#picOfDay img
+{
+	width: 100%;
+	height: 95%;
+	border: none;
+}
+
+#picOfDayBorder
+{
+	border: 1px solid black;
+	padding: 5px;
+	background-color: #fff;
+}
+
+#picOfDayCaption
+{
+	font-weight: bold;
+	text-align: center;
+	padding-bottom: 10px;
+}
+
+#picImg
+{
+	border: none;
+}
+
+.side a, .side a:link, .side a:visited, .side a:active
+{
+	font-weight: bold; 
+	text-decoration: none; 
+	color: DimGray;
+}
+
+.side a:hover
+{
+	color: white;
+	background: DimGray;
+}
+
+
+.sidetitle 
+{
+	padding: 2px;
+	margin-top: 10px;
+	border-bottom: 1px dotted;
+	font-weight: bold;
+}
+
+.blogRollContainerStyle
+{
+	margin: 10px 0 10px -10px;
+}
+
+.blogRollNestedOutlineBodyTableStyle
+{
+	border-left: 1px dashed #999;
+	margin-left: 13px;
+	margin-top: 5px;
+	margin-bottom: 10px;
+}
+
+.blogRollCellStyle
+{
+	position: relative;
+	display: block;
+	padding: 2px 0 0 0;
+}
+
+.blogRollNestedOutlineBodyTableStyle  .blogRollNestedOutlineHeaderTableStyle
+{
+	padding-top: 10px;
+	margin-bottom: 0;
+}
+
+.blogRollLinkStyle
+{
+	display: block;
+	width: 120px;
+	position: absolute; top: 0; left: 35px;
+}
+
+.blogRollXmlLinkStyle
+{
+	width 25px;
+	display: block;
+	position: absolute; top: 0; left: 5px;
+}
+
+.blogRollDescriptionStyle
+{
+	left: 30px;
+	color: #888;
+	width: 120px;
+	padding-left: 35px;
+	margin-bottom: 10px;
+}
+
+.searchButtonStyle
+{
+	font: 7pt Verdana, arial, helvetica, sans-serif;  
+	width: 60px
+}
+
+.searchTextBoxStyle
+{
+	font: 7pt Verdana, arial, helvetica, sans-serif;  
+	width: 105px;
+}	
+

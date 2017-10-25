@@ -1,0 +1,112 @@
+/* 
+	Base styles
+	
+	These are all the base styles that control basic HTML tags.
+	All the referenced styles sheets are imported to control the UI
+	of the theme.
+*/
+
+
+@import url("pageLayout.css");
+@import url("fonts.css");
+@import url("dasBlog.css");
+@import url("colors.css");
+@import url("admin.css");
+@import url("calendar.css");
+
+
+/* firefox scrollbar tweak */
+html {
+ height: 101%; 
+}
+
+
+
+body {
+	margin: auto auto;
+	padding: 0;
+	margin-bottom: 10px;
+	padding-bottom: 10px;
+	/* change this to the width you want 
+	
+	liquid example : width: 80%, leave the border for #wrapper.
+	fixed small example: width: 789px; leave the border for #wrapper
+	fullscreen stretchy: width: 100%, drop the border for #wrapper except for the bottom.
+	*/
+	width: 100%; 
+	clear: both;
+}
+
+
+
+#wrapper {
+/* good for liquid and fixed 
+border: 1px solid black;*/
+
+
+/* good for fullscreen stretchy */
+border-bottom: 1px solid black;
+
+}
+
+
+
+/* COMMENTS MACRO OPTIONS *?
+
+/* if you have a macro that just returns the number of comments, ie: 8 or 0 or 143 try using this.
+
+.itemTitleWhen {
+	background-image: url(../images/right_flag_smallcomment.gif);
+	background-position: top right;
+	background-repeat: no-repeat;
+}
+
+.itemCommentCountStyle {
+	text-align: left;
+	position: absolute;
+	top: 11px;
+	left: 175px;
+}
+ */
+/* ----- */
+
+
+/* built in comments macro (it kinda sux because it attaches text to the value ie: Comments [8] */
+
+.itemTitleWhen {
+	background-image: url(../images/right_flag_largecomment_sof.gif);
+	background-position: top right;
+	background-repeat: no-repeat;
+}
+
+.itemCommentCountStyle {
+	text-align: left;
+	position: absolute;
+	top: 11px;
+	left: 136px;
+}
+
+/* ----- */
+
+
+/* comments flag */
+
+.commentDateStyle { 
+border-bottom-color: #CCCCCC; 
+color: DimGray; 
+	background-image: url(../images/background_comment2_soft.gif);
+	background-position: top right;
+	background-repeat: no-repeat;
+}
+
+/*----------*/
+
+
+/* comment special author tag */
+/* useful if all you have is names */
+/* .commentBoxFooterStyle a:before {content: "Comment by ";} */
+/* ------------ */
+
+
+
+

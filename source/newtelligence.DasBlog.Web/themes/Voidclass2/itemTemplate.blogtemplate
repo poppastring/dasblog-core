@@ -1,0 +1,14 @@
+<div class="item">
+<div class="itemTitle"><%ItemTitle%></div>
+<div class="itemPostedon"><%when%> ( <%categoryLinks%> )</div>
+<div class="itemContents">
+<div class="itemBody"><%ItemBody%></div>
+<div class="itemFooter">
+<%commentLink%> | <%trackbackLink%> | <%permalink%>&nbsp;<%editButton%><br />
+<%RelatedPostList%>
+<%trackbackList%>
+<%ReferralList%>
+<%enclosure%>
+</div>
+</div>
+</div>

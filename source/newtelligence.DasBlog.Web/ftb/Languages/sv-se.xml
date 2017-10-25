@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<root>
+	<!-- General -->
+	<resource name = "Yes">Ja</resource>
+	<resource name = "No">Nej</resource>
+	<resource name = "0">0</resource>
+	<resource name = "1">1</resource>
+	<resource name = "2">2</resource>
+	<resource name = "3">3</resource>
+	<resource name = "4">4</resource>
+	<resource name = "5">5</resource>
+	<resource name = "6">6</resource>
+	<resource name = "7">7</resource>
+	<resource name = "8">8</resource>
+	<resource name = "9">9</resource>
+
+	
+	<!-- Main FTB Stuff -->
+	<resource name = "DesignModeTab">Design</resource>
+	<resource name = "HtmlModeTab">HTML</resource>
+	
+	<!-- Buttons -->
+	<resource name = "Bold">Fet</resource>
+	<resource name = "BulletedList">Punktmarkering</resource>
+	<resource name = "Copy">Kopiera</resource>
+	<resource name = "CreateLink">Lägg Till Länk</resource>
+	<resource name = "Cut">Klipp Ut</resource>
+	<resource name = "Delete">Tabort</resource>
+	<resource name = "Indent">Öka Indrag</resource>
+	<resource name = "InsertDate">Sätt In Datum</resource>
+	<resource name = "InsertImage">Sätt In Bild</resource>
+	<resource name = "InsertRule">Sätt In Horisontal Linje</resource>
+	<resource name = "InsertTime">Sätt In Klockslag</resource>
+	<resource name = "Italic">Kursiv</resource>	
+	<resource name = "JustifyRight">Högerjustering</resource>	
+	<resource name = "JustifyCenter">Centrera</resource>	
+	<resource name = "JustifyFull">Blockjustering</resource>	
+	<resource name = "JustifyLeft">Vänsterjustering</resource>
+	<resource name = "NumberedList">Numrerad Lista</resource>	
+	<resource name = "Outdent">Minska Indrag</resource>	
+	<resource name = "Paste">Klistra In</resource>	
+	<resource name = "Print">Skriv Ut</resource>	
+	<resource name = "Redo">Gör Om</resource>	
+	<resource name = "RemoveFormat">Ta Bort All Formatering</resource>	
+	<resource name = "Save">Spara</resource>
+	<resource name = "StrikeThrough">Genomstryk</resource>
+	<resource name = "SuperScript">Superscript</resource>
+	<resource name = "SubScript">SubScript</resource>	
+	<resource name = "Underline">Understryk</resource>	
+	<resource name = "Undo">Ångra</resource>
+	<resource name = "Unlink">Ta Bort Länk</resource>
+	
+
+	<!-- DropDownLists -->
+	<resource name = "FontForeColorsMenu">Teckenfärg</resource>
+	<resource name = "FontBackColorsMenu">Bakgrundsfärg</resource>
+	<resource name = "FontSizesMenu">Teckenstorlek</resource>
+	<resource name = "ParagraphMenu">Rubrik</resource>
+	<resource name = "FontFacesMenu">Font</resource>
+	<resource name = "InsertHtmlMenu">Sätt In HTML</resource>
+	<resource name = "SymbolsMenu">Symboler</resource>
+	<resource name = "StylesMenu">Stilar</resource>
+
+</root>

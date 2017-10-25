@@ -1,0 +1,13 @@
+﻿@model BlogPostingSchemaOrgViewModel
+
+<script type="application/ld+json">
+    {
+        "@@context": "http://schema.org",
+        "@@type": "BlogPosting",
+        "headline": "@Model.HeadLine",
+        "datePublished": "@Model.DatePublished",
+        "description": "@Model.Description",
+        "url": "@Model.Url",
+        "image": "@Model.Image"
+    }
+</script>

@@ -1,0 +1,411 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+	<head>
+		<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+		<title>
+			<%title%>
+		</title>
+		<%styleSheet("admin.css")%>
+			<style type="text/css">
+body {
+    margin:20px 20px 20px 20px;
+    background:#6C6457;    
+    }
+   .bodyContentStyle
+   {
+      width:100%;
+   }
+  A {
+    color: #993300;
+    font-family: verdana, arial, sans-serif;
+    text-decoration: none;
+    } 
+  A:link {
+    color: #993300;
+    text-decoration: none;
+    } 
+  A:visited {
+    color: #993300;
+    text-decoration: none;
+    } 
+  A:active {
+    color: #FFCC66;
+    } 
+  A:hover {
+    color: #FFCC66;
+    } 
+  #banner {
+    font-family:georgia, verdana, arial, sans-serif;
+    color:#FFFFFF;
+    font-size:26px;
+    font-weight:bold;
+	border-left:1px dotted #FFF;	
+	border-right:1px dotted #FFF;  		
+	border-top:1px dotted #FFF;  		
+  	background:#993300;
+  	padding:15px;          
+    }
+  #banner A
+    {
+       font-family:georgia, verdana, arial, sans-serif;
+       text-decoration:none;
+       color:#FFFFFF;
+    }
+  #banner A:visited
+    {
+       text-decoration:none;
+       color:#FFFFFF;
+    }
+  #banner A:hover
+    {
+       text-decoration:none;
+       color:#DDDDDD;
+    }
+  .description {
+    font-family:verdana, arial, sans-serif;
+    color:#FFFFFF;
+    font-size:12px;
+    font-weight:bold;
+    background:#993300;  
+    text-transform:none;  
+    letter-spacing: .none;     
+    }      
+  .radioMenuLinkFont {
+    font-family:verdana, arial, sans-serif;
+    color:#993300;
+    font-size:10px;
+    font-weight:bold;     
+    }    
+  .radioMenuLink {
+    font-family:verdana, arial, sans-serif;
+    color:#993300;
+    font-size:10px;
+    font-weight:bold;     
+    } 
+  a.radioMenuLink:link
+    {
+    color: #993300;
+    text-decoration: none
+    }  
+  a.radioMenuLink:visited
+    {
+    color: #993300;
+    text-decoration: none
+    }
+  a.radioMenuLink:hover
+    {
+    color: #993300;
+    text-decoration: underline
+    }        
+  #content {
+    float:left;
+    clear:left; 
+	
+    width:68%;
+    background:#FFFFFF;
+    margin-right:15px;
+    margin-bottom:20px;
+    margin-left: 1px;
+    border:1px dotted #333;
+    }
+  #links {
+    float:right;
+    clear:right;
+    width:27%;
+    background:#FF9933;
+	padding:15px;				
+	border:1px dotted #FFF;        
+    }
+  .blog {
+    padding:15px;
+	background:#FFF;        
+    }  
+  .blogbody {
+    font-family:verdana, arial, sans-serif;
+    color:#666666;
+    font-size:11px;
+    font-weight:normal;
+    background:#FFFFFF;
+    line-height:14px;                    
+    padding:10px;
+    
+    }
+  .body {
+    font-family:verdana, arial, sans-serif;
+    color:#666666;
+    font-size:11px;
+    font-weight:normal;
+    background:#FFFFFF;
+    line-height:14px;               
+    padding:10px;
+    }    
+  .title  { 
+    font-family: verdana, arial; 
+    font-size: 15px; 
+    color: #003366; 	
+	text-transform:uppercase;  
+    } 
+  .footer {
+    font-family:verdana, arial, sans-serif;
+    color:#666;
+    font-size:10px;
+    font-weight:normal;
+    background:#fff;
+    line-height:14px;                    
+    padding:10px; 
+    border-top:1px dotted #6C6457;  
+    }
+  .editorialLink {
+    font-family:verdana, arial, sans-serif;
+    font-size:10px;
+    font-weight:normal;
+    background:#FF9933; 
+    }
+ #menu {
+    margin-bottom:15px;
+    background:#FFFFFF;
+	text-align:center;               
+    }    
+  .date  { 
+    font-family:verdana, arial, sans-serif; 
+    font-size: 11px; 
+    color: #666666; 
+    font-weight:bold;
+	border-bottom:1px solid #999;
+	margin-bottom:10px;  
+    }        
+  .FreeTextboxStyle {
+    color: #000000;
+    }
+  .posted	{ 
+	font-family:verdana, arial, sans-serif; 
+	font-size: 11px; 
+	color: #003366; 
+	margin-bottom:25px;
+	}
+	   .pageTopic {
+		padding-bottom: 5px;
+		font-size: 12pt;
+		font-family: Georgia;
+		font-weight: bold;
+	}
+   .side {
+    font-family:verdana, arial, sans-serif;
+    color:#333333;
+    font-size:11px;
+    font-weight:normal;
+    background:#FF9933;
+    line-height:14px;
+    padding:2px;        
+    }  
+	.sidetitle {
+	font-family:verdana, arial, sans-serif;
+	color:#FFF;
+	font-size:11px;
+	font-weight:normal;
+	line-height:14px;
+	padding:2px;
+ 	margin-top:10px;
+	letter-spacing: .1em;
+	border-bottom:1px dotted #FFF;
+	text-align:center;		  					
+  	background:#FF9933;		
+	}   
+  .hCalendarStyle, .dCalendarStyle
+	{
+    font-family:verdana, arial, sans-serif;
+	border:1px dotted #FFF;
+	}
+  .hCalendarMonthYearRow, .dCalendarMonthYearRow
+    { 
+    color:#FFFFFF;
+    font-size:10px;
+    font-weight:bold;
+    line-height:14px;
+    padding:2px;
+	text-align:center;
+	width:100%;
+    background:#6C6457;    
+    }
+  .hCalendarMonthYearRow td, .dCalendarMonthYearRow td
+    {
+    color:#FFFFFF;
+    }
+  .hCalendarNextPrevStyle a, .dCalendarNextPrevStyle a
+	{
+	color:#FFFFFF;
+	}
+  .hCalendarNextPrevStyle a:visited, .dCalendarNextPrevStyle a:visited
+	{
+	color:#FFFFFF;
+	}
+  .hCalendarDayNameRow, .dCalendarDayNameRow
+    {
+    color:#993300;
+    font-size:10px;
+    font-weight:bold;
+    line-height:14px;
+    padding:2px;   
+    }
+  .hCalendarDay a, .dCalendarDay a
+    {
+    color:#FFFFFF;
+    }
+  .hCalendarDay a:visited, .dCalendarDay a:visited
+    {
+    color:#000000;
+    }
+  .hCalendarDayLinked, .dCalendarDayLinked
+    {
+    color:#666;
+    background-color: #D6802A;
+    font-size:10px;
+    font-weight:normal;
+    line-height:14px;
+    padding:2px;   
+    }
+  .hCalendarDayCurrent, .dCalendarDayCurrent
+    {
+    color:#FFFFFF;
+    background-color: #993300;
+    font-weight:normal;
+    line-height:14px;
+    }
+  .hCalendarDayCurrent a, .dCalendarDayCurrent a
+    {
+    color:#FFFFFF;
+    }
+  .hCalendarDayCurrent a:visited, .dCalendarDayCurrent a:visited
+    {
+    color:#000000;
+    }
+  td {
+    font-family:verdana, arial, sans-serif;
+    color:#666666;
+    font-size:12px;
+    font-weight:normal;
+    line-height:14px;   
+    } 
+.blogRollNestedOutlineBodyTableStyle
+			{
+				margin-left: 25px;
+				
+			}
+			.categoryListNestedOutlineBodyTableStyle
+			{
+				width:100%;
+				margin-left:9px;
+				margin-bottom:4px;
+			}
+			.blogRollDescriptionStyle
+			{
+				font-weight:normal;
+				font-size:7pt;
+				margin-left:15px;
+			}
+.commentViewBoxStyle input 
+{
+	border:1px solid #CCCCCC;
+}
+/* Paging */
+.post-paging {
+}
+.previous-posts{
+}
+.next-posts{
+}
+.clear {
+clear: both
+}
+
+/* Tag Cloud */
+.smallestTag { line-height: 110%; font-size: x-small; font-weight: normal; }
+.smallerTag { line-height: 110%; font-size: x-small; font-weight: bold; }
+.smallTag { line-height: 110%; font-size: small; font-weight: normal; }
+.mediumTag { line-height: 110%; font-size: medium; font-weight: normal; }
+.largeTag { line-height: 110%; font-size: large; font-weight: normal; }
+.largerTag { line-height: 110%; font-size: x-large; font-weight: normal; }
+.largestTag { line-height: 110%; font-size: x-large; font-weight: bold; }
+ 
+/* OpenID Support added in 2.2 */
+.openidtextbox {
+	background: #FFFFFF url('../../images/openid-icon-small.gif') no-repeat scroll 0pt 50%; 
+	padding-left: 18px; 
+}
+.openidtextboxwrap 
+{
+	padding-right: 18px;
+}
+</style>
+			<script language="JavaScript" type="text">
+				<!-- Begin hiding from older browsers
+  //End hiding--></script>
+	</head>
+	<body>
+		<div id="banner">
+			<a href="<%radio.macros.weblogUrl ()%>"><%siteName%></a>
+			<div class="description">
+				<%description%>
+			</div>
+		</div>
+		
+		<div id="links">
+			<table border="0" cellspacing="0" cellpadding="8" align="center">
+				<tr>
+					<td align="center">
+						<%radio.weblog.drawcalendar ()%>
+					</td>
+				</tr>
+			</table>
+			<h2 align="center" class="sidetitle">
+				Search</h2>
+			<div align="center" class="side">
+				<%newtelligence.search()%> </div>
+			<h2 align="center" class="sidetitle">Navigation</h2>
+			<div align="center" class="side">
+				<%navigatorLinks%>
+			</div>
+			<h2 align="center" class="sidetitle">Categories</h2>
+			<div align="center" class="side">
+				<%newtelligence.drawCategories()%>
+			</div>
+			<h2 align="center" class="sidetitle">Blogroll</h2>
+			<div align="center" class="side">
+				<%radio.macros.blogroll ("siteConfig/blogroll.opml")%>
+			</div>
+			<hr>
+				<div align="center" class="side">
+					<%newtelligence.loginbox ()%>
+				</div>
+		</div>
+		<div id="content">
+		
+			<%radio.macros.editorsOnlyMenu ()%>
+			<div class="blogbody">
+			<% DrawCategoryPaging() %> 
+					<%bodytext%>
+			<div class="post-paging">
+				<div class="previous-posts">
+					<% DrawPostPagingPrevious() %>
+				</div>
+				<div class="next-posts">
+					<% DrawPostPagingNext() %>
+				</div>
+			</div>					
+					<br>
+						<%radio.macros.editThisPageButton ()%>
+						<div class="footer">&copy; Copyright&nbsp;<%year%>&nbsp;<%authorName%><br>
+								<%radioBadge%>
+								<br><a href="http://jigsaw.w3.org/css-validator/">
+										<img style="border:0;width:88px;height:31px" src="http://jigsaw.w3.org/css-validator/images/vcss"
+											alt="Valid CSS!">
+									</a>
+									&nbsp;&nbsp;&nbsp;<%feedLink%>&nbsp;&nbsp;&nbsp;&nbsp;<%radio.macros.mailTo ()%>&nbsp;|&nbsp;Page rendered at <%now%><br>
+										<br>
+											<%newtelligence.aspnetcontrol("themecombo.ascx")%><br>
+                       </div>
+			</div>
+		</div>
+		
+	</body>
+</html>

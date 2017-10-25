@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!-- Korean ko-kr.xml -->
+<root>
+ <!-- General -->
+ <resource name = "Yes">예</resource>
+ <resource name = "No">아니요</resource>
+ <resource name = "0">0</resource>
+ <resource name = "1">1</resource>
+ <resource name = "2">2</resource>
+ <resource name = "3">3</resource>
+ <resource name = "4">4</resource>
+ <resource name = "5">5</resource>
+ <resource name = "6">6</resource>
+ <resource name = "7">7</resource>
+ <resource name = "8">8</resource>
+ <resource name = "9">9</resource>
+
+
+ <!-- Main FTB Stuff -->
+ <resource name = "DesignModeTab">디자인보기</resource>
+ <resource name = "HtmlModeTab">소스보기</resource>
+
+ <!-- Buttons -->
+ <resource name = "Bold">굵게</resource>
+ <resource name = "BulletedList">글머리 기호</resource>
+ <resource name = "Copy">복사</resource>
+ <resource name = "CreateLink">링크 만들기</resource>
+ <resource name = "Cut">잘라내기</resource>
+ <resource name = "Delete">삭제</resource>
+ <resource name = "Indent">들여쓰기</resource>
+ <resource name = "InsertDate">날짜 삽입</resource>
+ <resource name = "InsertImage">이미지 삽입</resource>
+ <resource name = "InsertRule">구분줄 삽입</resource>
+ <resource name = "InsertTime">시간 삽입</resource>
+ <resource name = "Italic">이탤릭</resource>
+ <resource name = "JustifyRight">오른쪽 맞춤</resource>
+ <resource name = "JustifyCenter">가운데 맞춤</resource>
+ <resource name = "JustifyFull">균등분할</resource>
+ <resource name = "JustifyLeft">왼쪽 맞춤</resource>
+ <resource name = "NumberedList">먼호매기기</resource>
+ <resource name = "Outdent">내어쓰기</resource>
+ <resource name = "Paste">붙여넣기</resource>
+ <resource name = "Print">인쇄</resource>
+ <resource name = "Redo">다시실행</resource>
+ <resource name = "RemoveFormat">서식제거</resource>
+ <resource name = "Save">저장</resource>
+ <resource name = "StrikeThrough">취소선</resource>
+ <resource name = "SuperScript">위첨자</resource>
+ <resource name = "SubScript">아래첨자</resource>
+ <resource name = "Underline">밑줄</resource>
+ <resource name = "Undo">실행 취소</resource>
+ <resource name = "Unlink">링크제거</resource>
+
+
+ <!-- DropDownLists -->
+ <resource name = "FontForeColorsMenu">글꼴색</resource>
+ <resource name = "FontBackColorsMenu">배경색</resource>
+ <resource name = "FontSizesMenu">글꼴 크기</resource>
+ <resource name = "ParagraphMenu">단락</resource>
+ <resource name = "FontFacesMenu">글꼴</resource>
+ <resource name = "InsertHtmlMenu">Html 삽입</resource>
+ <resource name = "SymbolsMenu">특수문자</resource>
+</root>

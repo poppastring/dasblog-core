@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<root>
+	<!-- General -->
+	<resource name = "Yes">Igen</resource>
+	<resource name = "No">Nem</resource>
+	<resource name = "0">0</resource>
+	<resource name = "1">1</resource>
+	<resource name = "2">2</resource>
+	<resource name = "3">3</resource>
+	<resource name = "4">4</resource>
+	<resource name = "5">5</resource>
+	<resource name = "6">6</resource>
+	<resource name = "7">7</resource>
+	<resource name = "8">8</resource>
+	<resource name = "9">9</resource>
+	
+	<!-- Main FTB Stuff -->
+	<resource name = "DesignModeTab">Design</resource>
+	<resource name = "HtmlModeTab">HTML</resource>
+	
+	<!-- Buttons -->
+	<resource name = "Bold">Félkövér</resource>
+	<resource name = "BulletedList">Felsorolás</resource>
+	<resource name = "Copy">Másolás</resource>
+	<resource name = "CreateLink">Hivatkozás beszúrása</resource>
+	<resource name = "Cut">Kivágás</resource>
+	<resource name = "Delete">Törlés</resource>
+	<resource name = "Indent">Behúzás növelése</resource>
+	<resource name = "InsertDate">Dátum beszúrása</resource>
+	<resource name = "InsertImage">Kép beszúrása</resource>
+	<resource name = "InsertRule">Vonal beszúrása</resource>
+	<resource name = "InsertTime">Idő beszúrása</resource>
+	<resource name = "Italic">Dőlt</resource>	
+	<resource name = "JustifyRight">Jobbra zárás</resource>	
+	<resource name = "JustifyCenter">Középre zárás</resource>	
+	<resource name = "JustifyFull">Sorkizárás</resource>	
+	<resource name = "JustifyLeft">Balra zárás</resource>
+	<resource name = "NumberedList">Számozás</resource>	
+	<resource name = "Outdent">Behúzás csökkentése</resource>	
+	<resource name = "Paste">Beillesztés</resource>	
+	<resource name = "Print">Nyomtatás</resource>	
+	<resource name = "Redo">Ismét</resource>	
+	<resource name = "RemoveFormat">Minden formázás leszedése</resource>	
+	<resource name = "Save">Mentés</resource>
+	<resource name = "StrikeThrough">Áthúzott</resource>
+	<resource name = "SuperScript">Felső index</resource>
+	<resource name = "SubScript">Alsó index</resource>	
+	<resource name = "Underline">Aláhúzott</resource>	
+	<resource name = "Undo">Visszavonás</resource>
+	<resource name = "Unlink">Hivatkozás törlése</resource>
+	
+	<resource name = "IeSpellCheck">IE nyelvi ellenőrzés</resource>
+	<resource name = "NetSpell">Net nyelvi ellenőrzés</resource>
+	<resource name = "InsertImageFromGallery">Kép beszúrása a galériából</resource>
+	<resource name = "WordClean">MS Word HTML kód tisztítása</resource>
+	<resource name = "EditStyle">Legközelebbi elem stílusának módosítása</resource>
+	
+	<resource name = "Preview">Előnézeti ablak</resource>
+	<resource name = "SelectAll">Összes kijelőlése</resource>
+	<resource name = "FontForeColorPicker">Betűszín választó</resource>
+	<resource name = "FontBackColorPicker">Kitöltőszín választó</resource>	
+	<resource name = "InsertDiv">DIV beszúrása</resource>
+	
+	<!-- Table Functions -->
+	<resource name = "InsertTable">Táblázat beszúrása</resource>
+	<resource name = "EditTable">Táblázat szerkesztése</resource>
+	<resource name = "InsertTableRowAfter">Sor beszúrása alulra</resource>
+	<resource name = "InsertTableRowBefore">Sor beszúrása fölülre</resource>
+	<resource name = "InsertTableColumnAfter">Oszlop beszúrása jobbra</resource>
+	<resource name = "InsertTableColumnBefore">Oszlop beszúrása balra</resource>
+	<resource name = "DeleteTableColumn">Oszlop törlése</resource>
+	<resource name = "DeleteTableRow">Sor törlése</resource>
+	
+	<!-- Form Functions -->
+	<resource name = "InsertForm">Form beszúrása</resource>
+	<resource name = "InsertDropDownList">Legördülő menü beszúrása</resource>
+	<resource name = "InsertTextBox">Szövegmező beszúrása</resource>
+	<resource name = "InsertCheckBox">Jelölőnégyzet beszúrása</resource>
+	<resource name = "InsertTextArea">Szövegterület beszúrása</resource>
+	<resource name = "InsertButton">Parancsgomb beszúrása</resource>
+	<resource name = "InsertRadioButton">Választó kapcsoló beszúrása</resource>
+
+	<!-- DropDownLists -->
+	<resource name = "FontForeColorsMenu">Betűszín</resource>
+	<resource name = "FontBackColorsMenu">Kitöltőszín</resource>
+	<resource name = "FontSizesMenu">Betűméret</resource>
+	<resource name = "ParagraphMenu">Bekezdés</resource>
+	<resource name = "FontFacesMenu">Betűtípus</resource>
+	<resource name = "InsertHtmlMenu">Html beszúrása</resource>
+	<resource name = "SymbolsMenu">Szimbólumok</resource>
+	<resource name = "StylesMenu">Stílusok</resource>
+	
+	<!-- DropDownList Items -->
+	<resource name = "ParagraphMenu_Normal">Normál</resource>
+	<resource name = "ParagraphMenu_Heading1">Címsor 1</resource>
+	<resource name = "ParagraphMenu_Heading2">Címsor 2</resource>
+	<resource name = "ParagraphMenu_Heading3">Címsor 3</resource>
+	<resource name = "ParagraphMenu_Heading4">Címsor 4</resource>
+	<resource name = "ParagraphMenu_Heading5">Címsor 5</resource>
+	<resource name = "ParagraphMenu_Heading6">Címsor 6</resource>
+	<resource name = "ParagraphMenu_Formatted">Formázott</resource>
+	<resource name = "ParagraphMenu_Address">Cím</resource>
+	
+</root>

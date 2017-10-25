@@ -1,0 +1,17 @@
+@model ListPostsViewModel
+
+<div id="content">
+
+    @if (Model.Posts.Count > 0)
+    {
+        foreach (var post in Model.Posts)
+        {
+            @Html.Partial("_PostPartial", post)
+        }
+    }
+    else
+    {
+        <p>No posts found!</p>
+    }
+
+</div>

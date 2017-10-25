@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<root>
+	<!-- General -->
+	<resource name="Yes">Ναι</resource>
+	<resource name="No">Όχι</resource>
+	<resource name="0">0</resource>
+	<resource name="1">1</resource>
+	<resource name="2">2</resource>
+	<resource name="3">3</resource>
+	<resource name="4">4</resource>
+	<resource name="5">5</resource>
+	<resource name="6">6</resource>
+	<resource name="7">7</resource>
+	<resource name="8">8</resource>
+	<resource name="9">9</resource>
+	
+	<!-- Main FTB Stuff -->
+	<resource name="DesignModeTab">Σχεδίαση</resource>
+	<resource name="HtmlModeTab">Κώδικας</resource>
+	
+	<!-- Buttons -->
+	<resource name="Bold">Έντονη γραφή</resource>
+	<resource name="BulletedList">Κουκκίδες</resource>
+	<resource name="Copy">Αντιγραφή</resource>
+	<resource name="CreateLink">Εισαγωγή υπερ-σύνδεσης</resource>
+	<resource name="Cut">Αποκοπή</resource>
+	<resource name="Delete">Διαγραφή</resource>
+	<resource name="Indent">Αύξηση εσοχής</resource>
+	<resource name="InsertDate">Εισαγωγή ημερομηνίας</resource>
+	<resource name="InsertImage">Εισαγωγή εικόνας</resource>
+	<resource name="InsertRule">Εισαγωγή οριζόντιας γραμμής</resource>
+	<resource name="InsertTime">Εισαγωγή ώρας</resource>
+	<resource name="Italic">Πλάγια γραφή</resource>
+	<resource name="JustifyRight">Στοίχιση δεξιά</resource>
+	<resource name="JustifyCenter">Στοίχιση στο κέντρο</resource>
+	<resource name="JustifyFull">Πλήρης στοίχιση</resource>
+	<resource name="JustifyLeft">Στοίχιση αριστερά</resource>
+	<resource name="NumberedList">Αρίθμισης</resource>
+	<resource name="Outdent">Μείωση εσοχής</resource>
+	<resource name="Paste">Επικόλληση</resource>
+	<resource name="Print">Εκτύπωση</resource>
+	<resource name="Redo">Ακύρωση αναίρεσης</resource>
+	<resource name="RemoveFormat">Κατάργηση μορφοποίησης</resource>
+	<resource name="Save">Αποθήκευση</resource>
+	<resource name="StrikeThrough">Διακριτή διαγραφή</resource>
+	<resource name="SuperScript">Εκθέτης</resource>
+	<resource name="SubScript">Δείκτης</resource>
+	<resource name="Underline">Υπογράμμιση</resource>
+	<resource name="Undo">Αναίρεση</resource>
+	<resource name="Unlink">Κατάργηση υπερ-σύνδεσης</resource>
+	<resource name="IeSpellCheck">Ορθογραφικός έλεγχος IE</resource>
+	<resource name="NetSpell">Χωρίς ορθογραφικό έλεγχο</resource>
+	<resource name="InsertImageFromGallery">Εισαγωγή Εικόνας από Gallery</resource>
+	<resource name="WordClean">Καθαρισμός MS Word HTML</resource>
+	<resource name="EditStyle">Edit Nearest Element Style</resource>
+	<resource name="Preview">Προεπισκόπηση</resource>
+	<resource name="SelectAll">Επιλογή όλων</resource>
+	<resource name="FontForeColorPicker">Χρώμα γραμματοσειράς</resource>
+	<resource name="FontBackColorPicker">Χρώμα φόντου</resource>
+	<resource name="InsertDiv">Εισαγωγή DIV</resource>
+	
+	<!-- Table Functions -->
+	<resource name="InsertTable">Εισαγωγή Πίνακα</resource>
+	<resource name="EditTable">Διόρθωση Πίνακα</resource>
+	<resource name="InsertTableRowAfter">Εισαγωγή Γραμμής Μετά</resource>
+	<resource name="InsertTableRowBefore">Εισαγωγή Γραμμής Πριν</resource>
+	<resource name="InsertTableColumnAfter">Εισαγωγή Στήλης Μετά</resource>
+	<resource name="InsertTableColumnBefore">Εισαγωγή Στήλης Πριν</resource>
+	<resource name="DeleteTableColumn">Διαγραφή Στήλης</resource>
+	<resource name="DeleteTableRow">Διαγραφή Γραμμής</resource>
+	
+	<!-- Form Functions -->
+	<resource name="InsertForm">Εισαγωγή Form</resource>
+	<resource name="InsertDropDownList">Εισαγωγή Select</resource>
+	<resource name="InsertTextBox">Εισαγωγή TextBox</resource>
+	<resource name="InsertCheckBox">Εισαγωγή CheckBox</resource>
+	<resource name="InsertTextArea">Εισαγωγή TextArea</resource>
+	<resource name="InsertButton">Εισαγωγή Button</resource>
+	<resource name="InsertRadioButton">Εισαγωγή Radio Button</resource>
+	
+	<!-- DropDownLists -->
+	<resource name="FontForeColorsMenu">Χρώμα γραμματοσειράς</resource>
+	<resource name="FontBackColorsMenu">Χρώμα φόντου</resource>
+	<resource name="FontSizesMenu">Μέγεθος</resource>
+	<resource name="ParagraphMenu">Παράγραφος</resource>
+	<resource name="FontFacesMenu">Γραμματοσειρά</resource>
+	<resource name="InsertHtmlMenu">Εισαγωγή HTML</resource>
+	<resource name="SymbolsMenu">Σύμβολα</resource>
+	<resource name="StylesMenu">Στυλ</resource>
+	
+	<!-- DropDownList Items -->
+	<resource name="ParagraphMenu_Normal">Κανονικό</resource>
+	<resource name="ParagraphMenu_Heading1">Επικεφαλίδα 1</resource>
+	<resource name="ParagraphMenu_Heading2">Επικεφαλίδα 2</resource>
+	<resource name="ParagraphMenu_Heading3">Επικεφαλίδα 3</resource>
+	<resource name="ParagraphMenu_Heading4">Επικεφαλίδα 4</resource>
+	<resource name="ParagraphMenu_Heading5">Επικεφαλίδα 5</resource>
+	<resource name="ParagraphMenu_Heading6">Επικεφαλίδα 6</resource>
+	<resource name="ParagraphMenu_Formatted">Μορφοποιημένο</resource>
+	<resource name="ParagraphMenu_Address">Διεύθυνση</resource>
+</root>

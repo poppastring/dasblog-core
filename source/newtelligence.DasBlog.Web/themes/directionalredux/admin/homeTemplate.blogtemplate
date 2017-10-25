@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+	
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<title><%title%></title>
+	<%styleSheet("css/base.css")%>
+</head>
+
+<body>
+
+<div id="header">
+	<div id="header_logo"></div>
+	<h1 class="siteName"><%siteNameLink%></h1>
+	<h2 class="description"><%Subtitle%></h2> 
+</div>
+
+<div id="navbar">
+  <div id="navbar_top"></div>
+</div>
+
+
+<!-- BEGIN content -->
+<div id="content" style="clear: both; margin: auto auto; width: 100%;">
+	<!-- BEGIN #left -->
+	<div id="left" style="clear: both; margin: auto auto; width: 80%;">
+		<div class="column">
+		
+			<%newtelligence.adminBar()%>
+			<%drawCategoryPaging()%>	
+			<%bodytext%> 
+			<%WorksInProgress()|jforsythe%>
+			
+			
+		</div>
+	</div>
+	<!-- END #left -->
+
+			<div id="footer">
+				<%newtelligence.disclaimer()%> 
+				<p>&copy; Copyright <%year%>, <%authorName%> - Powered by: <%radioBadge%></p>
+				<p>This theme by <a href="http://www.jforsythe.com" target="_blank">John Forsythe</a></p>
+			</div>
+				
+</div>
+<!-- END #content-->
+                    
+</body>
+</html>
+
+
+
+

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="windows-1256" ?>
+<root>
+	<!-- General -->
+	<resource name = "Yes">نعم</resource>
+	<resource name = "No">لا</resource>
+	<resource name = "0">0</resource>
+	<resource name = "1">1</resource>
+	<resource name = "2">2</resource>
+	<resource name = "3">3</resource>
+	<resource name = "4">4</resource>
+	<resource name = "5">5</resource>
+	<resource name = "6">6</resource>
+	<resource name = "7">7</resource>
+	<resource name = "8">8</resource>
+	<resource name = "9">9</resource>
+	
+	<!-- Main FTB Stuff -->
+	<resource name ="DesignModeTab">وضع التصميم</resource>
+	<resource name = "HtmlModeTab">HTML وضع </resource>
+	
+	<!-- Buttons -->
+	<resource name = "Bold">عريض</resource>
+	<resource name = "BulletedList">Bulled List</resource>
+	<resource name = "Copy">نسخ</resource>
+	<resource name = "CreateLink">انشاء وصلة</resource>
+	<resource name = "Cut">قص</resource>
+	<resource name = "Delete">حذف</resource>
+	<resource name = "Indent">ازالة</resource>
+	<resource name = "InsertDate">اضافة التاريخ</resource>
+	<resource name = "InsertImage">اضافة صورة</resource>
+	<resource name = "InsertRule">اضافة قاعدة</resource>
+	<resource name = "InsertTime">اضافة الوقت</resource>
+	<resource name = "Italic">خط مائل</resource>	
+	<resource name = "JustifyRight">محاذاة لليمين</resource>
+	<resource name = "JustifyCenter">محاذاة للوسط</resource>
+	<resource name = "JustifyFull">محاذاة كاملة</resource>
+	<resource name = "JustifyLeft">محاذاة لليسار</resource>
+	<resource name = "NumberedList">قائمة رقمية</resource>
+	<resource name = "Outdent">خارجي</resource>	
+	<resource name = "Paste">لصق</resource>	
+	<resource name = "Print">طباعة</resource>	
+	<resource name = "Redo">اعادة</resource>	
+	<resource name = "RemoveFormat">ازالة جميع التنسيقات</resource>	
+	<resource name = "Save">حفظ</resource>
+	<resource name = "StrikeThrough">خط بالوسط</resource>
+	<resource name = "SuperScript">سكربت قوي</resource>
+	<resource name = "SubScript">سكربت فرعي</resource>	
+	<resource name = "Underline">خط تحتي</resource>	
+	<resource name = "Undo">تراجع</resource>
+	<resource name = "Unlink">ازالة الوصلة</resource>
+	<resource name = "IeSpellCheck">التدقيق الاملائي</resource>
+	<resource name = "NetSpell">التقديد الاملائي للانترنت</resource>
+	<resource name = "InsertImageFromGallery">اضافة صورة من الالبوم</resource>
+	<resource name = "WordClean">حذف تنسيقات تطبيق MS Word</resource>
+	<resource name = "EditStyle">تحرير النسق الحالي</resource>	
+	<resource name = "Preview">نافذة العرض</resource>
+	<resource name = "SelectAll">تحديد الكل</resource>
+	<resource name = "FontForeColorPicker">اختيار لون الواجهة</resource>
+	<resource name = "FontBackColorPicker">اختيار لون الخلفية</resource>	
+	<resource name = "InsertDiv">اضافة عنصر (DIV)</resource>
+	
+	<!-- Table Functions -->
+	<resource name = "InsertTable">اضافة جدول</resource>
+	<resource name = "EditTable">تحرير الجدول</resource>
+	<resource name = "InsertTableRowAfter">اضافة صف بعدي</resource>
+	<resource name = "InsertTableRowBefore">اضافة صف قبلي</resource>
+	<resource name = "InsertTableColumnAfter">اضافة عمود بعدي</resource>
+	<resource name = "InsertTableColumnBefore">اضافة عمود قبلي</resource>
+	<resource name = "DeleteTableColumn">حذف عمود</resource>
+	<resource name = "DeleteTableRow">حذف صف</resource>
+
+	<!-- Form Functions -->
+	<resource name = "InsertForm">اضافة عنصر (Form)</resource>
+	<resource name = "InsertDropDownList">اضافة عنصر (Drop Down List)</resource>
+	<resource name = "InsertTextBox">اضافة عنصر (Text Box)</resource>
+	<resource name = "InsertCheckBox">اضافة عنصر (Check Box)</resource>
+	<resource name = "InsertTextArea">اضافة عنصر (Text Area)</resource>
+	<resource name = "InsertButton">اضافة عنصر (Button)</resource>
+	<resource name = "InsertRadioButton">اضافة عنصر (Radio Button)</resource>
+
+	<!-- DropDownLists -->
+	<resource name = "FontForeColorsMenu">الالوان</resource>
+	<resource name = "FontBackColorsMenu">تحديد</resource>
+	<resource name = "FontSizesMenu">الحجم</resource>
+	<resource name = "ParagraphMenu">فقرة</resource>
+	<resource name = "FontFacesMenu">الخط</resource>
+	<resource name = "InsertHtmlMenu">اضافة كود HTML</resource>
+	<resource name = "SymbolsMenu">رموز</resource>
+	<resource name = "StylesMenu">التنسيق</resource>
+
+	<!-- DropDownList Items -->
+	<resource name = "ParagraphMenu_Normal">عادي</resource>
+	<resource name = "ParagraphMenu_Heading1">ترويسة 1</resource>
+	<resource name = "ParagraphMenu_Heading2">ترويسة 2</resource>
+	<resource name = "ParagraphMenu_Heading3">ترويسة 3</resource>
+	<resource name = "ParagraphMenu_Heading4">ترويسة 4</resource>
+	<resource name = "ParagraphMenu_Heading5">ترويسة 5</resource>
+	<resource name = "ParagraphMenu_Heading6">ترويسة 6</resource>
+	<resource name = "ParagraphMenu_Formatted">منسق</resource>
+	<resource name = "ParagraphMenu_Address">العنوان</resource>
+</root>

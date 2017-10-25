@@ -1,0 +1,73 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+<title><%title%></title>
+<link rel="stylesheet" type="text/css" href="themes/justhtml/base.css">
+</head>
+
+<body>
+<div id="header">
+	<span class="siteName"><%siteNameLink%></span><br>
+	<span class="description"><%description%></span> 
+</div>
+<%newtelligence.adminBar()%>
+<!-- BEGIN content -->
+<div id="content">
+	<!-- BEGIN #left -->
+	<div id="left">
+		<div class="column">
+		    <% DrawCategoryPaging() %> 
+			<%bodytext%>
+			<div class="post-paging">
+				<div class="previous-posts">
+					<% DrawPostPagingPrevious() %>
+				</div>
+				<div class="next-posts">
+					<% DrawPostPagingNext() %>
+				</div>
+			</div>			
+		</div>
+		<%newtelligence.aspnetcontrol("themecombo.ascx")%>
+	</div>
+	<!-- END #left -->
+	<!-- BEGIN #right -->
+	<div id="right">
+		<div class="column">
+			<div class="sidetitle">
+				On this page ... </div>
+			<div class="side">
+				<%titleList()%> </div>
+			<div class="side" align="center">
+				<%radio.weblog.drawcalendar ()%><br>
+			</div>
+			<div class="sidetitle">
+				Navigation </div>
+			<div class="side">
+				<%navigatorLinks%> </div>
+			<div class="sidetitle">
+				Categories </div>
+			<div class="side">
+				<%newtelligence.drawCategories()%> </div>
+			<div class="sidetitle">
+				Blogroll </div>
+			<div class="side">
+				<%radio.macros.blogroll ("siteConfig/blogroll.opml")%> </div>
+			<div class="side">
+				<p>Powered by: <%radioBadge%></p>
+				<p><%feedLink%></p>
+				<p>The content of this site are my own personal opinions and do 
+				not represent my employer&#39;s view in anyway.</p>
+				<p>&copy; Copyright <%year%> <%radio.macros.mailTo ()%> <%authorName%></p>
+			</div>
+			<div class="side">
+				<%newtelligence.loginbox ()%>
+			</div>
+		</div>
+	</div>
+	<!-- END #right -->
+</div>
+<!-- END #content-->
+</body>
+</html>

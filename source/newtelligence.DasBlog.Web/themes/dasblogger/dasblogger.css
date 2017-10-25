@@ -1,0 +1,769 @@
+/*###############/DASBLOGGER  - WWW.ROBSAPIENT.COM/######################*/
+/*##############/ Not all CSS Classes used- some are for potential mods/##################*/
+/* ##################### BODY ##########################*/
+body{padding: 5px 5px 5px 5px;
+	font: 100.01%/1.3 Verdana,Arial,sans-serif;
+	text-align:left;	
+}
+h1{font: lighter 200% "Trebuchet MS",Arial sans-serif;color: #8C7364;}
+h1,p{margin:0;padding:10px 20px}
+h2 { margin: 10px 0 .5em 0;text-align:center; font: 18pt/26pt 'Impact', Verdana, Helvetica, sans-serif; overflow:hidden; }
+h3 { margin: 10px 0 .5em 0;font-size:21px; text-align:left; font-weight:bold; color:#8C7364; }
+h4 {font-weight:bold; padding:3px; background-color:#F4DDB1; color:#000; border:1px solid #b0b0b0; text-align:center;text-decoration:none;}
+
+A:link{ color:#275A78; text-decoration:none; }
+A:hover{ color:#333333; text-decoration:underline; }
+A:active{ color:#275A78; text-decoration:none; }
+A:active:hover{ color:#333333; text-decoration:underline; }
+A:visited{ color:#275A78; text-decoration:none; }
+A:visited:hover{ color:#333333; text-decoration:underline; }
+/* ##################### CSS CORNERS ##########################*/
+/*  ##### Minor Derivations of code samples @ http://cssplay.co.uk - Stu Nicholls  ###########*/
+/* ##################### CSS Corners LeftNav Menu ################### */
+.leftnav_cr {background: transparent; width:100%; margin:0 auto;}
+.leftnav_cr h1, .leftnav_cr p {margin:0 10px;}
+.leftnav_cr h1 {font-size:2em; color:#fff; letter-spacing:1px;}
+.leftnav_cr p {padding-bottom:0.5em;}
+
+.leftnav_cr .top, .leftnav_cr .bottom {display:block; background:transparent; font-size:1px;}
+.leftnav_cr .b1, .leftnav_cr .b2, .leftnav_cr .b3, .leftnav_cr .b4, .leftnav_cr .b1b, .leftnav_cr .b2b, .leftnav_cr .b3b, .leftnav_cr .b4b {display:block; overflow:hidden;}
+.leftnav_cr .b1, .leftnav_cr .b2, .leftnav_cr .b3, .leftnav_cr .b1b, .leftnav_cr .b2b, .leftnav_cr .b3b {height:1px;}
+.leftnav_cr .b2 {background:#F4DDB1; border-left:1px solid #fff; border-right:1px solid #eee;}
+.leftnav_cr .b3 {background:#F4DDB1; border-left:1px solid #fff; border-right:1px solid #ddd;}
+.leftnav_cr .b4 {background:#F4DDB1; border-left:1px solid #fff; border-right:1px solid #aaa;}
+.leftnav_cr .b4b {background:#F4DDB1; border-left:1px solid #eee; border-right:1px solid #999;}
+.leftnav_cr .b3b {background:#F4DDB1; border-left:1px solid #ddd; border-right:1px solid #999;}
+.leftnav_cr .b2b {background:#F4DDB1; border-left:1px solid #aaa; border-right:1px solid #999;}
+
+.leftnav_cr .b1 {margin:0 5px; background:#fff;}
+.leftnav_cr .b2, .leftnav_cr .b2b {margin:0 3px; border-width:0 2px;}
+.leftnav_cr .b3, .leftnav_cr .b3b {margin:0 2px;}
+.leftnav_cr .b4, .leftnav_cr .b4b {height:2px; margin:0 1px;}
+.leftnav_cr .b1b {margin:0 5px; background:#999;} 
+.leftnav_cr .boxcontent {display:block;  background:#F4DDB1; border-left:1px solid #fff; border-right:1px solid #999;}
+
+/* #################### CSS Corners Footer #################### */
+.footer_cr {background: transparent; width:75%;  margin:0 auto;}
+.footer_cr h1, .footer_cr p {margin:0 10px;}
+.footer_cr h1 {font-size:2em; color:#fff; letter-spacing:1px;}
+.footer_cr p {padding-bottom:0.5em;}
+
+.footer_cr .rtop, .footer_cr .rbottom {display:block; background:transparent; font-size:1px;}
+.footer_cr .rb1, .footer_cr .rb2, .footer_cr .rb3, .footer_cr .rb4, .footer_cr .rb1b, .footer_cr .rb2b, .footer_cr .rb3b, .footer_cr .rb4b {display:block; overflow:hidden;}
+.footer_cr .rb1, .footer_cr .rb2, .footer_cr .rb3, .footer_cr .rb1b, .footer_cr .rb2b, .footer_cr .rb3b {height:1px;}
+.footer_cr .rb2 {background:#F8EBD2; border-left:1px solid #fff; border-right:1px solid #eee;}
+.footer_cr .rb3 {background:#F8EBD2; border-left:1px solid #fff; border-right:1px solid #ddd;}
+.footer_cr .rb4 {background:#F8EBD2; border-left:1px solid #fff; border-right:1px solid #aaa;}
+.footer_cr .rb4b {background:#F8EBD2; border-left:1px solid #eee; border-right:1px solid #999;}
+.footer_cr .rb3b {background:#F8EBD2; border-left:1px solid #ddd; border-right:1px solid #999;}
+.footer_cr .rb2b {background:#F8EBD2; border-left:1px solid #aaa; border-right:1px solid #999;}
+
+.footer_cr .rb1 {margin:0 5px; background:#fff;}
+.footer_cr .rb2, .footer_cr .rb2b {margin:0 3px; border-width:0 2px;}
+.footer_cr .rb3, .footer_cr .rb3b {margin:0 2px;}
+.footer_cr .rb4, .footer_cr .rb4b {height:2px; margin:0 1px;}
+.footer_cr .rb1b {margin:0 5px; background:#999;} 
+.footer_cr .rboxcontent {display:block;  background:t#F8EBD2; border-left:1px solid #fff; border-right:1px solid #999;}
+
+/* #################### CSS Corners Main Page ####################*/
+.page_cr {background: transparent; width:99%; margin:0 auto;}
+.page_cr h1, .page_cr p {margin:0 10px;}
+.page_cr h1 {font-size:2em; color:#fff; letter-spacing:1px;}
+.page_cr p {padding-bottom:0.5em;}
+
+.page_cr .r2top, .page_cr .r2bottom {display:block; background:transparent; font-size:1px;}
+.page_cr .r2b1, .page_cr .r2b2, .page_cr .r2b3, .page_cr .r2b4, .page_cr .r2b1b, .page_cr .r2b2b, .page_cr .r2b3b, .page_cr .r2b4b {display:block; overflow:hidden;}
+.page_cr .r2b1, .page_cr .r2b2, .page_cr .r2b3, .page_cr .r2b1b, .page_cr .r2b2b, .page_cr .r2b3b {height:1px;}
+.page_cr .r2b2 {background:#F4DDB1; border-left:1px solid #fff; border-right:1px solid #eee;}
+.page_cr .r2b3 {background:#F4DDB1; border-left:1px solid #fff; border-right:1px solid #ddd;}
+.page_cr .r2b4 {background:#F4DDB1; border-left:1px solid #fff; border-right:1px solid #aaa;}
+.page_cr .r2b4b {background:#F4DDB1; border-left:1px solid #eee; border-right:1px solid #999;}
+.page_cr .r2b3b {background:#F4DDB1; border-left:1px solid #ddd; border-right:1px solid #999;}
+.page_cr .r2b2b {background:#F4DDB1; border-left:1px solid #aaa; border-right:1px solid #999;}
+
+.page_cr .r2b1 {margin:0 5px; background:#fff;}
+.page_cr .r2b2, .page_cr .r2b2b {margin:0 3px; border-width:0 2px;}
+.page_cr .r2b3, .page_cr .r2b3b {margin:0 2px;}
+.page_cr .r2b4, .page_cr .r2b4b {height:2px; margin:0 1px;}
+.page_cr .r2b1b {margin:0 5px; background:#999;} 
+.page_cr .r2boxcontent {display:block; background:#F4DDB1; border-left:1px solid #fff; border-right:1px solid #999;}
+
+/* ##################### MASTER CONTAINER ##########################*/
+#master
+{
+background:#F4DDB1;
+float:left;
+color:#000;
+font-size:10px;
+text-align:left;
+width:100%;
+}
+/* ##################### CONTAINER ##########################*/
+#container
+{
+float:left;
+background:#F4DDB1;
+text-align:left;	
+color: #333;
+line-height: 130%;
+}
+/* ##################### TOPLEFT ##########################*/
+#topleft
+{
+font-size:10px;
+background-color: #F8EBD2;
+width: 235px;
+margin-bottom:0px;
+margin-right:5px; 
+margin-left:5px;
+padding-top: 0px; 
+padding-bottom: 0px; 
+padding-right: 3px; 
+padding-left: 3px; 
+text-align:left;
+float:left;
+border:1px solid #D8D8D8;
+}
+#topleft h2 { margin: 5px 0 .5em 0;text-align:center; font: 18pt/26pt 'Impact', Verdana, Helvetica, sans-serif; overflow:hidden; }
+#topleft h4 {font-weight:bold; padding:3px; background-color:#F4DDB1; color:#000; border:1px solid #b0b0b0; text-align:center;text-decoration:none;}
+/* ##################### LEFTNAVCONTAINER ##########################*/
+#leftnavcontainer
+{
+background:url(headerbg.gif) no-repeat #F4DDB1 top center;
+font-size:10px;
+text-align:left;
+padding-right: 0px; 
+padding-left: 3px; 
+}
+/* ##################### NAVCONTAINER ##########################*/
+#navcontainer{
+font-size:10px;
+text-align:left;
+}
+/* ##################### CONTENT ##########################*/
+#content
+{
+width:99%;
+font-size:12px;
+margin-left: 0px;
+padding: 0;
+text-align:left;
+float:left;
+}
+#content h2 {text-align:center;font: Impact; }
+#content h3 { margin: 10px 0 .5em 0;font-size:21px; text-align:center; font-weight:bold; color:#8C7364; }
+#content h4 {font-weight:bold; padding:3px; background-color:#f0f0f0; color:#303030; border:1px solid #b0b0b0; text-align:center;text-decoration:underline;}
+
+/* ##################### FOOTER ##########################*/
+#footer
+{
+clear: both;
+text-align:center;
+font-size:10px;
+margin: 0;
+padding: 10px  0px 10px 0px;
+color: #000;
+background-color: #F8EBD2;
+}
+
+/* ########################## DASBLOG SPECIFIC####################################*/
+/* HEADER */
+/*###########################################################################*/
+.siteName, .siteName a, .siteName a:hover, .siteName a:visited, .siteName a:active .siteName a:link
+{	
+    font: 18pt/26pt 'Impact', Verdana, Helvetica, sans-serif; 
+	text-align: center;
+	text-transform: uppercase;
+	overflow:hidden;
+}
+
+.subtitle
+{
+	height:192px;	
+	text-align:left;
+	color: #F0F0F0;	
+	padding-left:10px;
+	font-weight:bold;
+	font-size:8pt;
+}
+
+.signInContainerStyle, signInTableStyle, signInLabelCellStyle, signInEditCellStyle
+{
+	font-size:8pt;
+}
+
+/*###########################################################################*/
+/* SEARCH */
+/*###########################################################################*/
+.searchContainerStyle
+{
+	text-align:right;
+	padding:3px;
+	padding-top:5px;
+}
+
+.searchTextBoxStyle
+{
+	width:150px;
+	height:20px;
+	font-size:10pt;	
+}
+
+.searchButtonStyle 
+{	
+	width:50px;
+	font-size:10pt;	
+	font-family:'trebuchet ms',helvetica,sans-serif;   
+	font-weight:bold;
+	background-color:#C0C0C0;
+	border-width:0px;	
+	filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=0,StartColorStr='#ffffffff',EndColorStr='#C0C0C0');*/
+}
+/*###########################################################################*/
+/* BLOG DATE HEADER
+/*###########################################################################*/
+
+.blogdateheader 
+{	
+   	color: #666666;
+    font-family: verdana, arial, helvetica, sans-serif;
+    font-size: 10pt;
+	font-weight: bold;
+	padding: 4px;
+/*	background-color:#EEEEEE; 
+	background-image: url(images/blogheader.gif); 
+	background-repeat:no-repeat;*/
+	border:1px solid #b0b0b0;
+}
+
+.archiveLinkImageStyle
+{
+	vertical-align:top;
+}
+/*###########################################################################*/
+/* BLOG ITEM
+/*###########################################################################*/
+
+.itemBoxStyle
+{  
+	/*float:left; */
+	text-align:left;	
+	margin-right: 5px;
+	margin-left: 5px;
+	margin-top: 10px;
+	margin-bottom:10px;
+	border: 1px solid #D8D8D8;
+	background-color: #F8EBD2;		
+	padding:3px;
+	position:relative;
+}
+
+.itemHeadStyle
+{	
+	border-bottom: 1px solid #D8D8D8;
+	padding-bottom:5px;
+}
+
+.itemAuthorStyle
+{
+	font-size:8pt;
+	float:right;
+}
+.itemTitleStyle 
+{
+	margin: 5px;
+	padding-top: 10px;
+	font-weight: normal; 
+	position:relative;
+	padding-bottom: 0px;
+}
+
+
+.itemTitleStyle a:link, .itemTitleStyle a:visited 
+{		
+    float:left;
+    font-weight: bold;    
+    color: #000066;
+}
+
+.itemTitleStyle a:hover, .itemTitleStyle a:visited:hover 
+{
+	color: #990000;
+}
+
+.itemBodyStyle 
+{	
+    padding-right: 0;
+	padding-top: 15px; 
+	padding-bottom: 10px;
+	border-bottom: 1px solid #D8D8D8;
+	text-align:left;	
+}
+
+.itemBodyStyle p 
+{
+	margin-top:0;  
+}
+
+.itemFooterStyle 
+{	
+    vertical-align: top;
+    padding-right: 0;    
+    color: gray;	
+    padding-top: 2px;
+    padding-bottom: 5px;
+}
+
+.permalinkImageStyle , .editLinkImageStyle, .deleteLinkImageStyle 
+{
+	vertical-align: middle; 
+}
+.postWidgets
+{
+	width: auto;
+	float: left;
+}
+.postTitle
+{
+	font-size: 1em;
+	font-weight: normal;
+	float: left;
+}
+
+/*###########################################################################*/
+/* COMMENTS
+/*###########################################################################*/
+
+.commentBoxStyle 
+{  		
+	background-color:white;
+	border: solid 1px #D8D8D8;
+	margin-top: 10px;
+	padding: 3px;
+	font-size:8pt;
+}
+
+.commentDateStyle 
+{	
+	color:gray;
+}
+
+.commentBodyStyle 
+{ 
+	font-size:8pt;
+	padding-top: 8px;
+	padding-bottom: 8px;
+}
+
+.commentViewBoxStyle input 
+{
+	border:1px solid #CCCCCC;
+}
+
+.openidtextbox {
+	background: #FFFFFF url('../../images/openid-icon-small.gif') no-repeat scroll 0pt 50%; 
+	padding-left: 18px; 
+}
+
+.openidtextboxwrap 
+{
+	padding-right: 18px;
+}
+
+/*###########################################################################*/
+/* ADD COMMENT
+/*###########################################################################*/
+
+.commentViewBoxStyle 
+{ 	
+	background-color:white;
+	margin-top: 10px;
+	padding:5px;
+	border: solid 1px #D8D8D8;	
+}
+
+/*###########################################################################*/
+/* CALENDAR
+/*###########################################################################*/
+ 
+.hCalendarStyle 
+{
+	width: 100%;
+border:1px solid #b0b0b0;	
+}
+ 
+.hCalendarDay 
+{
+	font-weight: normal;
+}
+
+.hCalendarDay a, .hCalendarDay a:active, .hCalendarDay a:visited 
+{
+	font-weight: bold;
+}
+
+.hCalendarDay a:hover, .hCalendarDay a:visited:hover 
+{
+	font-weight: bold;
+}
+
+.hCalendarDayCurrent 
+{
+	font-weight: bold;	
+	color: #FF0000;
+	margin:2px;
+}
+
+.hCalendarWeekendStyle 
+{
+	font-weight: normal;
+}
+
+.hCalendarWeekendStyle  a, .hCalendarWeekendStyle  a:active, .hCalendarWeekendStyle  a:visited 
+{
+	font-weight: bold;
+}
+
+.hCalendarWeekendStyle  a:hover, .hCalendarWeekendStyle  a:visited:hover {
+}
+
+.hCalendarDayNameRow
+{
+	padding: 0px;	
+	font-weight: bold;	
+	padding-top:5px;
+}
+
+.hCalendarMonthYearRow 
+{	
+	width: 100%;
+	font-weight: bold;	
+	margin-bottom:4px;	
+	border-bottom: dashed 1px #D8D8D8;	
+}
+
+.hCalendarMonthYearRow td 
+{
+	font-weight: bold;		
+	padding-bottom:8px;
+}
+
+.hCalendarNextPrevStyle 
+{
+	font-weight: bold;
+}
+
+.hCalendarOtherMonthStyle 
+{
+	color: gray;
+}
+
+.hCalendarOtherMonthWeekendStyle {
+	color: gray;
+}
+
+.hCalendarOtherMonthStyle a 
+{
+	font-weight: bold;
+}
+
+.hCalendarOtherMonthWeekendStyle a {
+	font-weight: bold;
+}
+
+/*###########################################################################*/
+/* CATEGORIES & BLOGROLL
+/*###########################################################################*/
+
+.categoryListNestedOutlineBodyTableStyle {
+	width:100%;
+	margin-left: 15px;
+	margin-top: 5px;
+	padding:2px;
+}
+.categoryListContainerStyle
+{
+padding:1px;
+border:1px solid #b0b0b0;
+}
+.categoryListTableStyle
+{
+padding:1px;
+}
+.categoryListCellStyle
+{
+padding:1px;
+}
+.categoryListLinkStyle
+{
+padding:1px;
+}
+
+.blogRollNestedOutlineBodyTableStyle
+{
+	margin-left: 12px;
+	border-left: solid 1px #003399;
+}
+
+.blogRollTableStyle
+{
+}
+
+.blogRollCellStyle
+{
+	padding:1px;
+}
+
+/*###########################################################################*/
+/* ADMIN
+/*###########################################################################*/
+
+.adminNavbarStyle 
+{
+    float:left; 
+	padding-top: 10px;
+	padding-left: 1%;
+	padding-right: 1%;
+	font-size: 11px;
+	font-weight: normal;
+	text-align: center;
+	height: 16px;
+	display: block;
+	z-index: 1;
+	position: relative;
+	border-bottom: 1px solid darkgray;
+	margin-top:10px;
+	margin-bottom:10px;
+}
+
+.adminNavbarStyle UL { 
+	white-space: nowrap;
+	margin: 0px;
+	padding: 0px;
+	display: inline;
+}
+
+.adminNavbarStyle UL LI { 
+	margin: 0px;
+	padding: 3px;
+	border-right: 1px solid darkgray;
+	border-top: 1px solid darkgray;
+	list-style: none;
+	display: inline;
+	background-color: #eaeaea;
+}
+
+.adminNavbarStyle UL LI a { 
+	
+}
+
+.adminNavbarStyle UL LI.first 
+{
+	border-left: 1px solid darkgray;
+}
+
+.adminNavbarStyle UL LI.here 
+{
+	border-bottom: 1px solid darkgray;
+	list-style: none;
+	display: inline;
+	z-index:2;
+	position:relative;
+	background-color: #dadada;
+}
+
+.adminNavbarStyle UL LI.firstHere 
+{
+	border-left: 1px solid darkgray;
+	border-bottom: 1px solid darkgray;
+	list-style: none;
+	display: inline;
+	z-index:3;
+	position:relative;
+	background-color: #dadada;
+}
+
+.configControlStyle 
+{ 
+	font-size: 8pt;	
+}
+
+.configLabelColumnStyle 
+{ 
+	vertical-align: top; 
+}
+
+.configLabelStyle 
+{ 
+	margin-right: 10px; 
+	font-size: 8pt; 
+}
+
+.configSectionStyle 
+{
+	border: 1px solid #D8D8D8;
+	padding:15px;
+	margin-bottom: 15px;
+	background-color: White;	
+}
+
+.page_crTopic
+{
+	padding-top:5px;
+	padding-bottom:5px;
+}
+
+.configSectionTitleStyle 
+{
+	margin-bottom: 10px;
+	padding-bottom: 5px;
+	border-bottom: 1px solid #D8D8D8;
+	font-weight: bold;
+	font-size: 110%;
+}
+
+.statsTableColumnStyle 
+{
+	border: solid 1px #D8D8D8;
+	padding: 3px;
+	margin-top: 3px;
+	margin-bottom: 3px;	
+}
+
+.statsTableDateColumnStyle 
+{
+	border: solid 1px #D8D8D8;
+	padding: 3px;
+	margin-top: 3px;
+	margin-bottom: 3px;
+	width: 25%;
+	text-align: left;	
+}
+
+.statsTableFooterColumnStyle 
+{
+	border-left: solid 1px #D8D8D8;
+	padding: 3px;
+	font-weight: bold;	
+}
+
+.statsTableFooterNumColumnStyle 
+{
+	border-left: solid 1px #D8D8D8;
+	padding: 3px;
+	width: 15%;
+	font-weight: bold;
+	text-align: right;	
+}
+
+.statsTableHeaderColumnStyle 
+{
+	border: solid 1px #D8D8D8;
+	padding: 3px;
+	font-size: 105%;
+	font-weight: bold;	
+}
+
+.statsTableNumColumnStyle 
+{
+	border: solid 1px #D8D8D8;
+	padding: 3px;
+	margin-top: 3px;
+	margin-bottom: 3px;
+	width: 15%;
+	text-align: right;	
+}
+
+.statsTableStyle 
+{
+	margin-bottom: 10px;
+	border: solid 1px #D8D8D8;
+	width: 100%;
+	border-collapse: collapse;
+	border-spacing: 0;	
+	background: White;
+}
+/*###########################################################################*/
+/*  TAG CLOUD  */
+/*###########################################################################*/
+.smallestTag { font-size: xx-small; }
+.smallerTag { font-size: x-small; }
+.smallTag { font-size: small; }
+.mediumTag { font-size: medium; }
+.largeTag { font-size: large; }
+.largerTag { font-size: x-large; }
+.largestTag { font-size: xx-large; }
+/*###########################################################################*/
+/* MISC CLASSES  */
+/*###########################################################################*/
+.center {
+text-align:center;
+}
+.small {
+font-size:0.8em;
+}
+.fontstandard {
+font-size:1.0em;
+}
+.large {
+font-size:1.3em;
+}
+.bold {
+font-weight:bold;
+}
+.clear {
+clear: both;
+}
+.highlighted {
+width: 90%;
+font-weight:bold;
+text-align:center;
+padding:5px;
+margin-right:5px;
+margin-left:5px;
+background-color:#f0f0f0;
+color:#303030;
+border:1px solid #b0b0b0;
+}
+.hide {
+display:none;
+}
+.box{width: auto;padding: 1px  1px 1px 1px;margin:0 auto;
+    color:#000;background-color:#f0f0f0;}
+/* DrawPostPaging */
+.post-paging {
+	font-size: 1.25em;
+	margin-top: 0.5em;
+	margin-bottom: 1.5em;
+	text-align: center;
+	font-weight: bold;
+	color: #696969;
+	}
+.post-paging .previous-posts {
+	float: left;
+	}
+
+.post-paging .previous-posts span {
+	margin-right: 0.2em;
+	}
+
+.post-paging .next-posts {
+	float: right;
+	}
+
+.post-paging .next-posts span {
+	margin-left: 0.2em;
+	}
+/* OpenID Support added in 2.2 */
+.openidtextbox {
+	background: #FFFFFF url('../../images/openid-icon-small.gif') no-repeat scroll 0pt 50%; 
+	padding-left: 18px; 
+}
+.openidtextboxwrap 
+{
+	padding-right: 18px;
+}	
+/* ##################### That's all folks ##################### */	
+
+
+

@@ -1,0 +1,14 @@
+<table id="blogentry" width="100%" cellpadding="1">
+  <tr>
+    <td valign="top">
+     <b><%itemTitle%></b><br><%itemText%><br><%categoryLinks%><br>
+      <div class="small"><%when%>&nbsp;&nbsp;<%permalink%>&nbsp;&nbsp;<%editButton%><%commentLink%>&nbsp;<%trackbackLink%>
+	<br>
+      <%trackbackList%></div>
+      </td>
+    <td valign="top" align="right" nowrap>
+      <%enclosure%>
+      </td>
+    </tr>
+<!--  <tr><td align="left"><img src="<%radio.macros.imageurl ("images/divider.gif")%>" border=0></img></td></tr> -->
+</table>

@@ -1,0 +1,2 @@
+<%@ Page language="c#" ValidateRequest="false" Codebehind="EditUser.aspx.cs" AutoEventWireup="False" Inherits="newtelligence.DasBlog.Web.EditUser" %>
+<asp:placeholder id="contentPlaceHolder" runat="server"></asp:placeholder>

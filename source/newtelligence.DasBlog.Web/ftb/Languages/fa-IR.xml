@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <!-- General -->
+  <resource name="Yes">بله</resource>
+  <resource name="No">خير</resource>
+  <resource name="0">0</resource>
+  <resource name="1">1</resource>
+  <resource name="2">2</resource>
+  <resource name="3">3</resource>
+  <resource name="4">4</resource>
+  <resource name="5">5</resource>
+  <resource name="6">6</resource>
+  <resource name="7">7</resource>
+  <resource name="8">8</resource>
+  <resource name="9">9</resource>
+  <!-- Main FTB Stuff -->
+  <resource name="DesignModeTab">طراحی</resource>
+  <resource name="HtmlModeTab">HTML</resource>
+  <!-- Buttons -->
+  <resource name="Bold">برجسته</resource>
+  <resource name="BulletedList">ليست گلوله‌ای</resource>
+  <resource name="Copy">رونوشت</resource>
+  <resource name="CreateLink">ايجاد پيوند</resource>
+  <resource name="Cut">برش</resource>
+  <resource name="Delete">حذف</resource>
+  <resource name="Indent">تو رفتگی</resource>
+  <resource name="InsertDate">درج تاريخ</resource>
+  <resource name="InsertImage">درج تصوير</resource>
+  <resource name="InsertRule">درج خط افقی</resource>
+  <resource name="InsertTime">درج زمان</resource>
+  <resource name="Italic">ايتاليک</resource>
+  <resource name="JustifyRight">هم‌ترازی راست</resource>
+  <resource name="JustifyCenter">هم‌ترازی مرکز</resource>
+  <resource name="JustifyFull">هم‌ترازی کامل</resource>
+  <resource name="JustifyLeft">هم‌ترازی چپ</resource>
+  <resource name="NumberedList">ليست عددی</resource>
+  <resource name="Outdent">بيرون رفتگی</resource>
+  <resource name="Paste">چسباندن</resource>
+  <resource name="Print">چاپ</resource>
+  <resource name="Redo">از نو</resource>
+  <resource name="RemoveFormat">حذف همه قالب‌بندی‌ها</resource>
+  <resource name="Save">ذخيره</resource>
+  <resource name="StrikeThrough">مشخص با خط</resource>
+  <resource name="SuperScript">بالا نويس</resource>
+  <resource name="SubScript">زير نويس</resource>
+  <resource name="Underline">خط زير</resource>
+  <resource name="Undo">واگرد</resource>
+  <resource name="Unlink">حذف پيوند</resource>
+  <resource name="IeSpellCheck">غلط ياب</resource>
+  <resource name="NetSpell">غلط ياب شبکه</resource>
+  <resource name="InsertImageFromGallery">درج تصوير از گالری</resource>
+  <resource name="WordClean">حذف اچ تی ام ال های Word</resource>
+  <resource name="EditStyle">ويرايش نزديکترين سبک عنصر</resource>
+  <resource name="Preview">پنجره پيش نمايش</resource>
+  <resource name="SelectAll">انتخاب همه</resource>
+  <resource name="FontForeColorPicker">جمع کننده رنگ قلم</resource>
+  <resource name="FontBackColorPicker">جمع کننده رنگ زمينه</resource>
+  <resource name="InsertDiv">درج DIV</resource>
+  <!-- Table Functions -->
+  <resource name="InsertTable">درج جدول</resource>
+  <resource name="EditTable">ويرايش جدول</resource>
+  <resource name="InsertTableRowAfter">درج سطر بعد از</resource>
+  <resource name="InsertTableRowBefore">درج سطر قبل از</resource>
+  <resource name="InsertTableColumnAfter">درج ستون بعد از</resource>
+  <resource name="InsertTableColumnBefore">درج ستون قبل از</resource>
+  <resource name="DeleteTableColumn">حذف ستون</resource>
+  <resource name="DeleteTableRow">حذف سطر</resource>
+  <!-- Form Functions -->
+  <resource name="InsertForm">درج برگه</resource>
+  <resource name="InsertDropDownList">درج SELECT</resource>
+  <resource name="InsertTextBox">درج جعبه متن</resource>
+  <resource name="InsertCheckBox">درج جعبه بررسی</resource>
+  <resource name="InsertTextArea">درج ناحيه متن</resource>
+  <resource name="InsertButton">درج دگمه</resource>
+  <resource name="InsertRadioButton">درج دگمه داديويی</resource>
+  <!-- DropDownLists -->
+  <resource name="FontForeColorsMenu">رنگ</resource>
+  <resource name="FontBackColorsMenu">مشخص</resource>
+  <resource name="FontSizesMenu">اندازه</resource>
+  <resource name="ParagraphMenu">پاراگراف</resource>
+  <resource name="FontFacesMenu">قلم</resource>
+  <resource name="InsertHtmlMenu">درج Html</resource>
+  <resource name="SymbolsMenu">نشانه‌ها</resource>
+  <resource name="StylesMenu">سبک‌ها</resource>
+  <!-- DropDownList Items -->
+  <resource name="ParagraphMenu_Normal">عادی</resource>
+  <resource name="ParagraphMenu_Heading1">عنوان 1</resource>
+  <resource name="ParagraphMenu_Heading2">عنوان 2</resource>
+  <resource name="ParagraphMenu_Heading3">عنوان 3</resource>
+  <resource name="ParagraphMenu_Heading4">عنوان 4</resource>
+  <resource name="ParagraphMenu_Heading5">عنوان 5</resource>
+  <resource name="ParagraphMenu_Heading6">عنوان 6</resource>
+  <resource name="ParagraphMenu_Formatted">قالب‌بندی شده</resource>
+  <resource name="ParagraphMenu_Address">نشانی</resource>
+</root>

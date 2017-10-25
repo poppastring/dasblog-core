@@ -1,0 +1,134 @@
+/*
+	Colors
+	
+	All of the colors of the theme are located here.
+*/
+
+A:link { color: DimGray; }
+
+A:visited { color: DimGray; }
+
+A:hover { color: White; background: Black; }
+
+A:active { color: Black; }
+
+body { background-color: #EEEEEE; }
+
+.adminNavbarStyle { border-color: #CCCCCC; }
+
+.adminNavbarStyle { border-bottom-color: #BBBBBB; }
+.adminNavbarStyle ul { border-color: #BBBBBB;  }
+/*.adminNavbarStyle ul li { border-color: #BBBBBB; background-color: #CCCCCC; } */
+
+.adminNavbarStyle ul li a, 
+.adminNavbarStyle ul li a:link, 
+.adminNavbarStyle ul li a:visited, 
+.adminNavbarStyle ul li a:active,
+.adminNavbarStyle ul li.first a, 
+.adminNavbarStyle ul li.first a:link, 
+.adminNavbarStyle ul li.first a:visited, 
+.adminNavbarStyle ul li.first a:active,
+.adminNavbarStyle ul li.here a, 
+.adminNavbarStyle ul li.here a:link, 
+.adminNavbarStyle ul li.here a:visited, 
+.adminNavbarStyle ul li.here a:active,
+.adminNavbarStyle ul li.firstHere a, 
+.adminNavbarStyle ul li.firstHere a:link, 
+.adminNavbarStyle ul li.firstHere a:visited, 
+.adminNavbarStyle ul li.firstHere a:active
+{background-color: #CCCCCC;
+ border-color: #BBBBBB;}
+
+.commentDateStyle { border-bottom-color: #CCCCCC; color: DimGray; }
+
+.configSectionStyle { border-color: #CCCCCC; background-color: White;}
+
+.configSectionTitleStyle { border-bottom-color: DimGray; }
+
+.date { border-bottom-color: #CCCCCC; color: DimGray; }
+
+.description { color: White; }
+
+.FreeTextboxStyle { color: #000000; }
+
+/* 
+	Calendar Colors
+*/
+ 
+.hCalendarDay { color: Black; background-color: #CCCCCC; }
+
+.hCalendarDay A { color: White; }
+
+.hCalendarDay A:visited { color: White; }
+
+.hCalendarDay A:hover { color: White; }
+
+.hCalendarDayCurrent, .hCalendarDayCurrent A { color: White; background-color: DimGray; }
+
+.hCalendarDayNameRow { border-bottom-color: #7F7F7F; }
+
+.hCalendarMonthYearRow { border-bottom-color: #7F7F7F; color: DimGray; }
+
+.hCalendarNextPrevStyle { }
+
+.hCalendarOtherMonthStyle { color: DimGray; background-color: #BFBFBF; }
+
+.hCalendarOtherMonthWeekendStyle { color: DimGray; background-color: #AFAFAF; }
+
+.hCalendarStyle { color: DimGray; }
+
+.hCalendarStyle td { }
+
+.hCalendarWeekendStyle { background-color: #959595; }
+
+.itemBodyStyle, .commentBodyStyle, .commentSpamStateStyle { color: Black; background: White; }
+
+.itemBoxStyle, .commentBoxStyle, .commentViewBoxStyle {
+	border-color: #CCCCCC;
+	background-color: White;
+}
+
+.itemFooterStyle, .commentBoxFooterStyle {
+	border-top-color: #CCCCCC;
+	color: Black;
+	background: White;
+}
+
+.itemReadMoreStyle { color: Black; }
+
+.itemTitleStyle { border-bottom-color: #CCCCCC; }
+
+.pageTopic { color: #7F7F7F; }
+
+.sidetitle { border-bottom-color: #7F7F7F; color: #7F7F7F; }
+
+.siteName, .siteName a, .siteName a:visited, .siteName a:hover, .siteName a:active, .siteName a:link 
+{ 
+	color: White; 
+}
+
+.statsTableColumnStyle { border-color: #CCCCCC; }
+
+.statsTableFooterColumnStyle { border-color: #CCCCCC; }
+
+.statsTableFooterNumColumnStyle { border-color: #CCCCCC; }
+
+.statsTableHeaderColumnStyle { border-color: #CCCCCC; }
+
+.statsTableNumColumnStyle, .statsTableDateColumnStyle { border-color: #CCCCCC; }
+
+.statsTableStyle { border-color: #CCCCCC; background: White; }
+
+#header {
+	border-bottom-color: DimGray;
+	border-top-color: DimGray;
+	background: #959595;
+}
+
+#left .column { border-left-color: #CCCCCC; }
+
+#right .column {
+	border-left-color: #CCCCCC;
+	border-right-color: #CCCCCC;
+	border-bottom-color: #CCCCCC;
+}

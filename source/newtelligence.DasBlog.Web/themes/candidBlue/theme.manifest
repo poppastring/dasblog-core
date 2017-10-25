@@ -1,0 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8" ?> 
+<theme name="candidBlue" title="Candid Blue" templateDirectory="themes/candidBlue" imageDirectory="themes/candidBlue">
+    <image name="feedButton" fileName="feedButton.gif" />
+</theme>

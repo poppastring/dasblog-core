@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title><%title%></title>
+<meta name="author" content="<%authorName%>" />
+<meta name="copyright" content="<%authorName%>" />
+<meta name="description" content="<%subtitle%>" />
+<meta name="keywords" content="" />
+<%styleSheet("style.css")%>
+<script language="JavaScript" type="text">
+	<!-- Begin hiding from older browsers
+	//End hiding-->
+</script>
+</head>
+
+<body>
+<div id="container">
+	<div id="centrecontent"> 
+    <!--centre content goes here -->
+    <%bodytext%>
+	<!-- centre content ends here -->
+  </div>
+  <div id="left"> 
+	<!-- Left hand menu -->	
+	<div class="sidebar">
+		<div class="sidehead">Navigation</div>
+		<div class="sidecontent"><%navigatorLinks%><br/>&nbsp;<%rssLink%> | <%atomLink%> | <%CdfLink%> | <%radio.macros.mailTo()%><br/><br/></div>
+	</div>
+	<div class="sidebar">
+		<div class="sidehead"><%localString("Categories|DE:Kategorien|AR:&#1571;&#1589;&#1606;&#1575;&#1601;")%></div>
+		<div class="sidecontent"><%newtelligence.drawCategories()%></div>
+	</div>
+	<!-- end menu stuff -->
+  </div>
+  <div id="clearfooter"></div>
+  <!-- ie needs this -->
+  <div id="header"> 
+  		<!-- Header starts here -->
+  		<span class="siteName"><%siteNameLink%></span><br />
+		<span class="description"><%subtitle%></span> 
+		<span class="description"><%description%></span>
+		<!-- Header ends here -->
+  </div>
+  <div id="adminBar"><%newtelligence.adminBar()%></div>
+  <div id="footer">
+  
+  </div>
+</div>
+</body>
+</html>

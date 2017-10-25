@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta http-equiv="Page-Exit" content="progid:DXImageTransform.Microsoft.Fade(duration=.5)" /> 
+	<meta name="author" content="<%authorName%>" />
+	<meta name="robots" CONTENT="ALL">
+	<meta name="keywords" content="dasBlog">
+	<meta name="description" content="<%subtitle%>" />
+	<meta name="revisit-after" CONTENT="1 days">
+	<meta name="classification" CONTENT="Blog">
+	<meta name="robots" CONTENT="ALL">
+	<meta name="distribution" CONTENT="Global">
+	<meta name="rating" CONTENT="General">
+	<meta name="copyright" content="Copyright (C) 2007, <%authorName%>. All rights reserved." />
+	<meta name="language" CONTENT="English">
+	<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+	<title><%title%></title>
+	<%styleSheet("dasblogger.css")%>
+</head>
+<body bgcolor="#F4DDB1">
+<table cellpadding="0" cellspacing="0" width="100%" height="100%">
+<div id="container">&nbsp; 
+	<tr>
+		<td height="88%" width="100%" valign="top"><!-- Right content area -->
+		    <div class="siteName"><%siteNameLink%></div>
+			<div id="content">
+			<h1><span><%subtitle%></span></h1>
+				<%newtelligence.adminBar()%> <!--When logged in, admin bar here-->
+				<%bodytext%>
+			</div><!--end content -->
+		</td>
+	</tr>
+	<tr>
+			<td height="5%" width="100%" colspan="2">&nbsp;<!-- footer cell/row -->
+					<!--FOOTER SECTION -->
+					<!-- top css corners -->
+					<div class="footer_cr">
+					<b class="rtop"><b class="rb1"></b><b class="rb2"></b><b class="rb3"></b><b class="rb4"></b></b></b>
+					<div class="rboxcontent">
+					<!-- end top css corners -->
+					<div id="footer">
+							<%localString("Page rendered at|DE:Seite aufbereitet um|AR: &#1578;&#1605; &#1593;&#1585;&#1590; &#1607;&#1584;&#1607; &#1575;&#1604;&#1589;&#1601;&#1581;&#1577; &#1601;&#1610;")%>&nbsp;<%now%><br />
+							&copy; Copyright <%year%> <%authorName%>; - All rights reserved.
+									This blog is Powered by: <%radioBadge%>.
+					</div><!-- end footer -->
+					<!-- bottom css corners -->
+					</div>
+					<b id="color_a">
+					<b class="rbottom"><b class="rb4b"></b><b class="rb3b"></b><b class="rb2b"></b><b class="rb1b"></b></b>
+					</div>
+					<!-- end bottom css corners -->
+				</td>
+		</div> <!-- end content -->
+</div><!-- end container -->
+	</tr>
+</table>
+<style>
+.statsTableRowStyleError { background-color:#bdae85; }
+.statsTableRowStyleSecurityFailure { background-color:#bd8585;}
+.statsTableRowStyleBlocked { background-color:#bdbc85; }
+</style>					
+	</body>
+</html>

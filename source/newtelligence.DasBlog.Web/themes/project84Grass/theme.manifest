@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+<theme name="Project84Grass" title="Project84Grass" templateDirectory="themes/Project84Grass" imageDirectory="themes/Project84Grass/images">
+    <image name="xmlButton" fileName="xmlButton.gif" />
+</theme>

@@ -1,0 +1,17 @@
+.style1 {
+	color: #FFFFFF;
+	font-size: 16pt;
+	font-weight: bold;
+}
+.smallcaps {
+	font-variant: small-caps;
+}
+.highlight {
+	background-color: #00FFFF;
+}
+body {
+	background-color: #FFFFFF;
+	color: #003300;
+	font-family: Verdana;
+	font-size: 10pt;
+}

@@ -1,0 +1,252 @@
+	
+	
+body {
+font-family: 'Trebuchet MS', 'Lucida Grande', Verdana, Lucida, Geneva, Helvetica, Arial, sans-serif;
+font-size: 0.7em;
+}
+
+A, A:link, A:visited, A:active  { 
+font-weight: bold; 
+text-decoration: none; 
+}
+
+
+/* edit this if you want smaller site title */
+#header {
+	font-size: 1.0em;
+	
+}
+
+/* i suggest using a logo */
+#header .siteName {
+	font-weight: normal;
+	letter-spacing: 14px;
+}	
+
+#footer p {
+   word-wrap:break-word;
+}
+
+.siteName, .siteName a, .siteName a:visited, .siteName A:hover , .siteName A:active , .siteName A:active {
+
+	/* font setup */
+	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+	word-spacing: normal;
+	text-align: left;
+	letter-spacing: -1px;
+	line-height: 1.5em;
+	font-size: 2em;
+}
+
+
+.categoryPaging {
+
+ font-size: 1.5em;
+ letter-spacing: -1px;
+}
+
+.bodyContentStyle p {
+ padding: 10px;
+ font-size: 1.2em;
+}
+
+.postnavigation {
+font-size: 1.2em;
+letter-spacing: 2px;
+}
+
+.description {
+	
+	/* font setup */
+	font-style: oblique; 
+}
+
+.pageTopic {
+	font-size: 2em;
+	font-weight: bold;
+}
+
+.date {
+	font-family: verdana, arial, sans-serif;
+	font-weight: bold;
+	text-align: left;
+	line-height: 14px;
+	text-transform: uppercase;
+	letter-spacing: .2em;
+}
+	
+
+.blogRollDescriptionStyle {
+	font-weight: normal;
+}
+	
+.sidetitle {
+	font-weight: bold;
+	text-transform: uppercase;
+	font-size: 1.1em;
+	line-height: 14px;
+	letter-spacing: .1em;
+}
+	
+.itemInfo {
+    font-size: 1.2em;
+}
+
+.itemTitleStyle a, .itemTitleStyle a:link, .itemTitleStyle a:visited, .itemTitleStyle a:hover {
+text-decoration: underline;
+font-weight: normal;
+font-stretch: semi-expanded;
+}
+
+
+.itemCommentCountStyle a, .itemCommentCountStyle a:link, .itemCommentCountStyle a:visited, .itemCommentCountStyle a:hover {
+text-decoration: none;
+font-size: 10px;
+font-weight: bold;
+}
+
+
+
+.itemCategoryLinksStyle {
+	font-size: 0px;
+}
+
+.itemCategoryLinksStyle a {
+	font-size: 10px;
+	font-weight: bold;
+}
+
+.itemBodyStyle {
+	font-family: verdana, arial, sans-serif;;
+	font-weight: normal;
+	font-size: 1.2em;
+    word-wrap:break-word;
+}
+	
+.commentBodyStyle {
+	font-weight: normal;
+	font-size: 1.2em;
+}
+
+.commentBoxFooterStyle  { 
+text-align: left; 
+}
+
+.itemFooterStyle {
+	font-family: Verdana;
+	font-weight: normal;
+	line-height: 100%;
+	text-align: right;
+}
+
+.itemReadMoreStyle {
+	text-align: left;
+	font-size: 1.2em;
+	line-height: 1.2em;
+}
+
+.itemTitleStyle {
+	text-align: left;
+	font-family: "trebuchet ms", Arial, Helvetica, serif;
+	word-spacing: normal;
+	line-height: 1.5em;
+	font-size: 2em;
+	font-weight: bold;
+}
+
+.itemWhenStyle {
+	text-align: left;	
+	word-spacing: normal;
+	letter-spacing: -1px;
+	font-weight: bolder;
+}
+
+
+#moreitems {
+    font-size: 90%;
+}
+
+
+/* comment special author tag */
+/* .commentBoxFooterStyle a:before {content: "Comment by ";} */
+
+
+.commentBoxFooterStyle {
+ 	font-size: 2em;
+}
+
+.commentBoxFooterStyle > span > a {
+ 	font-size: 0.5em;
+}
+
+
+.commentBoxFooterStyle a {
+	font-size: 1em;
+}
+
+/* ------------ */
+
+
+.commentDateStyle {
+    font-size: 90%;
+}
+
+
+.commentSpamStateStyle 
+{
+	font-style: italic;
+	font-size: smaller;
+}
+
+.commentViewTableStyle {
+
+}
+
+.commentViewControlStyle {
+	font-size: 1.2em;
+	font-weight: bolder;
+	color: #003366;
+}
+
+textarea.commentViewControlStyle {
+
+	font-size: 1.2em;
+}
+
+
+
+#captcha input {
+	font-size: 2em;
+}
+
+
+.smallestTag {
+	font-size: 0.8em;
+}
+.smallerTag  {
+	font-size: 1.0em;
+}
+.smallTag {
+	font-size: 1.2em;
+}
+.mediumTag {
+	font-size: 1.4em;
+}
+.largeTag {
+	font-size: 1.6em;
+}
+.largerTag {
+	font-size: 1.8em;
+}
+.largestTag {
+	font-size: 2.0em;
+}
+
+
+
+.commentViewLabelStyle code {
+font-size: 8px;
+font-family: "Courier New", Courier, mono;
+}
+
+

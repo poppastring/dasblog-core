@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+<theme name="dasblogger" title="dasblogger" templateDirectory="themes/dasblogger" imageDirectory="themes/dasblogger">
+    <image name="dayLink" fileName="dayLink.gif" />
+    <image name="deleteButton" fileName="deleteButton.gif" />
+    <image name="editButton" fileName="editButton.gif" />
+    <image name="itemLink" fileName="itemLink.gif" />
+    <image name="xmlButton" fileName="xmlButton.gif" />
+</theme>

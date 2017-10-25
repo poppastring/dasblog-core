@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" ?>
+<root>
+	<!-- General -->
+	<resource name = "Yes">Да</resource>
+	<resource name = "No">Нет</resource>
+	<resource name = "0">0</resource>
+	<resource name = "1">1</resource>
+	<resource name = "2">2</resource>
+	<resource name = "3">3</resource>
+	<resource name = "4">4</resource>
+	<resource name = "5">5</resource>
+	<resource name = "6">6</resource>
+	<resource name = "7">7</resource>
+	<resource name = "8">8</resource>
+	<resource name = "9">9</resource>
+
+	
+	<!-- Main FTB Stuff -->
+	<resource name = "DesignModeTab">Дизайн</resource>
+	<resource name = "HtmlModeTab">HTML</resource>
+	
+	<!-- Buttons -->
+	<resource name = "Bold">Жирный</resource>
+	<resource name = "BulletedList">Непронумерованный список</resource>
+	<resource name = "Copy">Скопировать</resource>
+	<resource name = "CreateLink">Создать ссылку</resource>
+	<resource name = "Cut">Вырезать</resource>
+	<resource name = "Delete">Удалить</resource>
+	<resource name = "Indent">Абзац</resource>
+	<resource name = "InsertDate">Вставить дату</resource>
+	<resource name = "InsertImage">Вставить изображение</resource>
+	<resource name = "InsertRule">Вставить горизонтальную линию</resource>
+	<resource name = "InsertTime">Вставить время</resource>
+	<resource name = "Italic">Курсив</resource>	
+	<resource name = "JustifyRight">Выравнить по правому краю</resource>	
+	<resource name = "JustifyCenter">Выравнить по центру</resource>	
+	<resource name = "JustifyFull">Выравнить по ширине</resource>	
+	<resource name = "JustifyLeft">Выравнить по левому краю</resource>
+	<resource name = "NumberedList">Пронумерованный список</resource>	
+	<resource name = "Outdent">Убрать абзац</resource>	
+	<resource name = "Paste">Вставить</resource>	
+	<resource name = "Print">Печать</resource>	
+	<resource name = "Redo">Сделать заново</resource>
+	<resource name = "RemoveFormat">Убрать форматирование</resource>	
+	<resource name = "StrikeThrough">Перечёркнутый</resource>
+	<resource name = "SuperScript">Верхний индекс</resource>
+	<resource name = "SubScript">Нижний индекс</resource>	
+	<resource name = "Underline">Подчёркнутый</resource>	
+	<resource name = "Undo">Отменить действие</resource>
+	<resource name = "Unlink">Удалить ссылку</resource>
+	
+
+	<!-- DropDownLists -->
+	<resource name = "FontForeColorsMenu">Цвет шрифта</resource>
+	<resource name = "FontBackColorsMenu">Цвет фона</resource>
+	<resource name = "FontSizesMenu">Размер</resource>
+	<resource name = "ParagraphMenu">Параграф</resource>
+	<resource name = "FontFacesMenu">Шрифт</resource>
+	<resource name = "InsertHtmlMenu">Вставить Html</resource>
+	<resource name = "SymbolsMenu">Символы</resource>
+
+</root>

@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title><%title%></title>
+<%radio.macros.headLinks ()%>
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+<meta name="author" content="<%authorName%>" />
+<meta name="copyright" content="<%authorName%>" />
+<meta name="description" content="<%subtitle%>" />
+<meta name="keywords" content="" />
+<%styleSheet("style.css")%>
+<script language="JavaScript" type="text">
+	<!-- Begin hiding from older browsers
+	//End hiding-->
+</script>
+</head>
+
+<body>
+<div id="container">
+	<div id="centrecontent"> 
+    <!--centre content goes here -->
+	<% DrawCategoryPaging() %> 
+    <%bodytext%>
+			<div class="post-paging">
+				<div class="previous-posts">
+					<% DrawPostPagingPrevious() %>
+				</div>
+				<div class="next-posts">
+					<% DrawPostPagingNext() %>
+				</div>
+			</div>	
+	<!-- centre content ends here -->
+  </div>
+  <div id="left"> 
+	<!-- Left hand menu -->
+	<div class="sidebar">
+		<div class="sidehead">Navigation</div>
+		<div class="sidecontent"><%navigatorLinks%><br/>
+		&nbsp;<%rssLink%> | <%radio.macros.mailTo()%><br/><br/></div>
+	</div>
+		<div class="sidebar">
+		<div class="sidehead"><%localString("Categories|DE:Kategorien|AR:&#1571;&#1589;&#1606;&#1575;&#1601;")%></div>
+		<div class="sidecontent"><%newtelligence.drawCategories()%></div>
+	</div>
+	<div class="sidebar">
+		<div class="sidehead"><%localString("Blogroll|DE:Weblog Liste|AR:&#1602;&#1575;&#1574;&#1605;&#1577; &#1575;&#1604;&#1583;&#1601;&#1575;&#1578;&#1585; &#1575;&#1604;&#1575;&#1604;&#1603;&#1578;&#1585;&#1608;&#1606;&#1610;&#1577;")%></div>
+		<div class="sidecontent"><p><%radio.macros.blogroll("siteConfig/blogroll.opml")%></p></div>
+	</div>
+	<div class="sidebar">
+		<div class="sidehead">Archive</div>
+		<div class="sidecontent">
+		<%radio.weblog.drawcalendar ()%> <br/>
+		<%newtelligence.search()%>       <br/>
+		<%newtelligence.drawArchiveMonths()%> <br/>
+		<a href="monthview.aspx">Month View</a>
+		</div>
+	</div>
+	<div class="sidebar">
+		<div class="sidecontent">
+			<%newtelligence.disclaimer()%>
+			&copy; Copyright&nbsp;<%year%>&nbsp;<%authorName%><br/><br/>
+			<%localString("Theme design by|DE:Design von|AR:&#1578;&#1589;&#1605;&#1610;&#1605; &#1571;&#1587;&#1604;&#1608;&#1576; &#1575;&#1604;&#1593;&#1585;&#1590; &#1576;&#1585;&#1575;&#1610;&#1575;&#1606; &#1576;&#1604; ")%> <a href="http://www.project84.net">Jacob Hodges</a>
+			with <%radioBadge%><br/>
+			<a href='http://www.colorcombos.com/combotester.html?color0=EFEFEF&color1=0191C8&color2=0E4F93&color3=92C729&color4=75B22F&color5=DDDDDD&color6=C83900&show_text=N'><img border=0 src='http://www.colorcombos.com/combo_image.php?color0=EFEFEF&color1=0191C8&color2=0E4F93&color3=92C729&color4=75B22F&color5=DDDDDD&color6=C83900&show_text=N&p_b=2&p_w=2&p_s=10'></a><br />
+			<%newtelligence.loginbox()%><br>
+			<%newtelligence.aspnetcontrol("themecombo.ascx")%>
+			<br/>
+		</div>
+	</div>
+	<!-- end menu stuff -->
+  </div>
+  <div id="clearfooter"></div>
+  <!-- ie needs this -->
+  <div id="header"> 
+  		<!-- Header starts here -->
+  		<span class="siteName"><%siteNameLink%></span><br />
+		<span class="description"><%subtitle%></span> 
+		<span class="description"><%description%></span>
+		<!-- Header ends here -->
+  </div>
+  <div id="adminBar"><%newtelligence.adminBar()%></div>
+  <div id="footer">
+	<p class="footer">
+		<%localString("Page rendered at|DE:Seite aufbereitet um|AR: &#1578;&#1605; &#1593;&#1585;&#1590; &#1607;&#1584;&#1607; &#1575;&#1604;&#1589;&#1601;&#1581;&#1577; &#1601;&#1610;")%>&nbsp;<%now%>
+	</p>
+  </div>
+</div>
+</body>
+</html>

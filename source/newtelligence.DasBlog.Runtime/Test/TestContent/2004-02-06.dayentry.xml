@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DayEntry xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="urn:newtelligence-com:dasblog:runtime:data">
+  <Date>2004-02-05T16:00:00.0000000-08:00</Date>
+  <Entries>
+    <Entry>
+      <Content>It is more important that a proposition be interesting than that it be true. This statement is almost a tautology. For the energy of operation of a proposition in an occasion of experience is its interest and is its importance. But of course a true proposition is more apt to be interesting than a false one.</Content>
+      <Created>2004-02-06T15:45:36.0000000-08:00</Created>
+      <Modified>2004-02-06T15:45:36.0000000-08:00</Modified>
+      <EntryId>0c805dc8-e389-4d05-9bd8-9a99a28d78f4</EntryId>
+      <Title>Interesting but not necessarily true.</Title>
+      <Categories>A Random Mathematical Quotation</Categories>
+      <Author>Alfred North Whitehead</Author>
+      <IsPublic>true</IsPublic>
+      <ShowOnFrontPage>true</ShowOnFrontPage>
+      <Crossposts />
+    </Entry>
+  </Entries>
+</DayEntry>

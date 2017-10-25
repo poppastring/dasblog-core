@@ -1,0 +1,26 @@
+/* 
+	Base styles
+	
+	These are all the base styles that control basic HTML tags.
+	All the referenced styles sheets are imported to control the UI
+	of the theme.
+*/
+
+@import url("calendar.css");
+@import url("pageLayout.css");
+@import url("dasBlog.css");
+@import url("colors.css");
+@import url("admin.css");
+
+A, A:link, A:visited, A:active  { font-weight: bold; text-decoration: none; }
+
+body {
+	margin: 0;
+	padding: 0;
+	font-family: verdana, sans-serif;
+	font-size: 0.7em;
+}
+
+/* pre { white-space: normal; overflow: auto; } */
+
+/*img {	filter: progid:DXImageTransform.Microsoft.Shadow(color="#141414",direction=135,strength=2);}*/

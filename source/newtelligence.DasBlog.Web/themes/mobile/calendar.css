@@ -1,0 +1,61 @@
+/* 
+	Calendar Styles
+	
+	These are all the specific styles that you can
+	use to customize the look and feel of the Calendar
+	except for the Color
+*/
+ 
+.hCalendarDay {
+
+}
+
+.hCalendarDay A {
+
+}
+
+.hCalendarDay A:visited {
+
+}
+
+.hCalendarDay A:hover {
+
+}
+
+.hCalendarDayCurrent {
+
+}
+
+.hCalendarDayNameRow {
+
+}
+
+.hCalendarMonthYearRow {
+
+}
+
+.hCalendarMonthYearRow td {
+
+}
+
+.hCalendarNextPrevStyle {
+}
+
+.hCalendarOtherMonthStyle {
+
+}
+
+.hCalendarOtherMonthWeekendStyle {
+}
+
+.hCalendarStyle {
+
+}
+
+.hCalendarStyle td {
+
+}
+
+.hCalendarWeekendStyle {
+
+}

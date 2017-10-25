@@ -1,0 +1,87 @@
+.hCalendarDay {
+	font-weight: normal;
+}
+
+.hCalendarDay A, .hCalendarDay A:visited, .hCalendarDay A:hover, .hCalendarWeekendStyle A {
+	font-weight: bold;
+}
+
+.hCalendarDayCurrent {
+	font-weight: normal;
+	line-height: 100%;
+}
+
+.hCalendarDayNameRow {
+	border-bottom: 1px solid;
+	padding: 0px;
+	font-size: 10px;
+	font-weight: bold;
+	line-height: 100%;
+}
+
+.hCalendarMonthYearRow {
+	padding: 0px;
+	border-bottom: 1px solid;
+	width: 100%;
+	font-weight: bold;
+	line-height: 100%;
+}
+
+.hCalendarMonthYearRow td {
+	font-weight: bold;
+}
+
+.hCalendarStyle {
+	width: 180px;
+	font-family: verdana, sans-serif;
+	font-size: 13px;
+}
+
+.hCalendarStyle td {
+	line-height: 120%;
+}
+
+.hCalendarWeekendStyle {
+	font-weight: normal;
+}
+
+.hCalendarDay {
+	color: Black;
+	background-color: #CCCCCC;
+}
+
+.hCalendarDay A, .hCalendarDay A:visited, .hCalendarDay A:hover, .hCalendarWeekendStyle A, .hCalendarWeekendStyle A:visited, .hCalendarWeekendStyle A:hover {
+	color: White;
+}
+
+.hCalendarDayCurrent, .hCalendarDayCurrent A {
+	color: White;
+	background-color: #A0A0A0;
+}
+
+.hCalendarDayNameRow {
+	border-bottom-color: #7F7F7F;
+}
+
+.hCalendarMonthYearRow {
+	border-bottom-color: #7F7F7F;
+	color: DimGray;
+}
+
+.hCalendarOtherMonthStyle {
+	color: DimGray;
+	background-color: #BFBFBF;
+}
+
+.hCalendarOtherMonthWeekendStyle {
+	color: DimGray;
+	background-color: #AFAFAF;
+}
+
+.hCalendarStyle {
+	color: DimGray;
+}
+
+.hCalendarWeekendStyle {
+	background-color: #BCBCBC;
+}

@@ -1,0 +1,441 @@
+a, abbr, acronym, address, b, bdo, big, blockquote, body, button, caption, center, cite, dd, del, dfn, dir, div, dl, dt, em, fieldset, font, h1, h2, h3, h4, h5, h6, hr, i, img, ins, isindex, kbd, label, legend, li, link, map, menu, meta, ol, option, p, pre, q, s, samp, select, small, strike, strong, style, sub, sup, table, td, textarea, th, tr, tt, u, ul, var, input {
+	font-size: 12px;
+	font-family: 'Trebuchet MS' , Arial;
+	color: #444444;
+}
+
+html {
+	overflow-x: hidden;
+}
+
+body {
+	background: #EEEEE7;
+	margin-top: 150px;
+}
+
+a {
+	color: #5C80B1;
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+strong{
+	color: #222222;
+}
+
+.sidebar {
+	margin-bottom: 15px;
+	padding: 15px;
+	background: url(/blog/themes/mads_simple/background.gif) repeat-x #FCFCFC;
+	border: 1px solid #D8D8D8;
+}
+
+.sidehead {
+	margin-bottom: 10px;
+	padding-bottom: 5px;
+	color: #999999;
+	font-weight: bold;
+	font-size: medium;
+	border-bottom: 1px solid #D8D8D8;
+}
+
+.siteName a {
+	font-weight: bold;
+	font-size: 80px;
+	color: White;
+	letter-spacing: 5px;
+}
+
+.siteName a:hover {
+	text-decoration: none;
+}
+
+.description {
+	letter-spacing: 4px;
+	color: Silver;
+}
+
+#content {
+	clear: both;
+	line-height: 19px;
+	position: relative;
+}
+
+#header {
+	text-align: right;
+	position: absolute;
+	right: 35px;
+	top: 10px;
+}
+
+#footer, #footer a{
+	font-size: 10px;
+	text-align: center;
+	margin: 0px;
+}
+
+table#author td {
+	vertical-align: top;
+}
+
+table#author img {
+	width: 85px;
+}
+
+a.archiveLinksLinkStyle{
+	text-transform: capitalize;
+}
+
+#left {
+	margin-right: 30%;
+	margin-left: 0px;
+	left: 0px;
+	position: relative;
+	z-index: 100;
+}
+
+#admin {
+	margin-left: 5px;
+}
+
+#admin .column {
+	padding: 45px 15px 30px 15px;
+}
+
+#left .column {
+	padding: 0px 15px 0px 15px;
+}
+
+#right {
+	width: 30%;
+	line-height: 1.5em;
+	position: absolute;
+	top: 19px;
+	margin-left: 70%;
+	margin-right: -15px; /*hack for some browsers that will render a scroll bar for non existing off screen content*/
+	z-index: 0;
+}
+
+#right .column {
+	padding: 20px 10px 15px 10px;
+	margin-right: 15px;
+}
+
+.adminNavbarStyle {
+	position: absolute;
+	top: 20px;
+	left: 20px;
+}
+
+#content .adminNavbarStyle {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	margin-bottom: 10px;
+}
+
+.adminNavbarStyle UL {
+	padding: 0px;
+	margin: 0px;
+	text-align: center;
+}
+
+.adminNavbarStyle UL LI {
+	padding-right: 0.25em;
+	padding-left: 0.25em;
+	border-left: Gray 1px solid;
+	display: inline;
+	list-style-type: none;
+	font-size: 8pt;
+}
+
+.adminNavbarStyle UL LI.first, .adminNavbarStyle UL LI.firstHere {
+	border-left: none;
+}
+
+.commentBoxFooterStyle {
+	width: 100%;
+	margin-top: 5px;
+	padding-top: 3px;
+	border-top: 1px dashed #ddd;
+	font-size: 12px;
+}
+
+.commentBoxStyle {
+	padding: 15px 20px 15px 20px;
+	margin: 0px 10px 25px 10px;
+	border: 1px solid #ddd;
+	color: #333;
+	background-color: #FCFCFC;
+	font-weight: normal;
+	font-size: 13px;
+	text-decoration: none;
+}
+
+table.commentViewTableStyle {
+	margin: 10px 0px 25px 10px;
+	padding-right: 20px;
+}
+
+textarea{
+	overflow: auto;
+	border: 1px solid #D8D8D8;
+	width: 100%;
+}
+
+input[type="text"]{
+	border: 1px solid #D8D8D8;
+	width: 100%;
+}
+
+.commentDateStyle {
+	width: 100%;
+	border-bottom: 1px dashed #ddd;
+	margin-bottom: 5px;
+	padding-bottom: 3px;
+	font-size: 12px;
+	text-align: right;
+}
+
+.configLabelColumnStyle {
+	vertical-align: top;
+}
+
+.configLabelStyle {
+	margin-right: 10px;
+	font-size: 9pt;
+}
+
+.configSectionStyle {
+	margin-bottom: 15px;
+	padding: 15px;
+	background-color: #FCFCFC;
+	border: 1px solid #ddd;
+	vertical-align: middle;
+}
+
+.configSectionTitleStyle {
+	margin-bottom: 10px;
+	padding-bottom: 5px;
+	border-bottom: 1px solid #CCCCCC;
+	color: #999999;
+	font-weight: bold;
+	font-size: medium;
+}
+
+.pageTopic {
+	width: 100%;
+	margin-bottom: 10px;
+	padding-bottom: 5px;
+	border-bottom: 1px solid #CCCCCC;
+	font-weight: bold;
+	font-size: large;
+}
+
+.categoryLinks {
+	clear: both;
+	text-align: right;
+}
+
+.categoryLinks a {
+	color: gray;
+}
+
+.dayHeader {
+	color: #999999;
+	font-size: 16px;
+	letter-spacing: 1px;
+}
+
+.dayHeader img{
+	display: none;
+}
+
+.dayItems {
+	padding-bottom: 2em;
+}
+
+.FreeTextboxStyle {
+	color: #000000;
+}
+
+.item {
+	margin-top: 1em;
+}
+
+.item img {
+	display: inline;
+}
+
+.itemContents {
+	margin: 1em;
+	margin-top: 1.5em;
+	text-align: left;
+	padding: 10px 10px 5px 10px;
+	background-color: #FCFCFC;
+	border: 1px solid #D8D8D8;
+	letter-spacing: 1px;
+	font-weight: normal;
+}
+
+.itemContents h1{
+	color: #5C80B1;
+	font-weight: bold;
+	font-size: 17px;
+	margin-top: 0px;
+}
+
+.itemContents span {
+	letter-spacing: normal;
+	line-height: normal;
+}
+
+.itemContents li {
+ list-style-type: square;
+}
+
+.itemFooter {
+	margin-top: 5px;
+	border-top: 1px solid #dddddd;
+	color: gray;
+	text-align: right;
+}
+
+a.TitleLinkStyle {
+	font-weight: bold;
+	font-size: 17px;
+}
+
+.side {
+	margin: 1em;
+}
+
+.sideBar {
+	width: 15em;
+}
+
+.statsTableColumnStyle {
+	border: solid 1px #ddd;
+	padding: 3px;
+	margin-top: 3px;
+	margin-bottom: 3px;
+}
+
+.statsTableDateColumnStyle {
+	border: solid 1px #ddd;
+	padding: 3px;
+	margin-top: 3px;
+	margin-bottom: 3px;
+	width: 25%;
+	text-align: left;
+}
+
+.statsTableFooterColumnStyle {
+	border: solid 1px #ddd;
+	border-top: solid 2px #ddd;
+	padding: 3px;
+	font-weight: bold;
+}
+
+.statsTableFooterNumColumnStyle {
+	border: solid 1px #ddd;
+	padding: 3px;
+	width: 15%;
+	font-weight: bold;
+	text-align: right;
+}
+
+.statsTableHeaderColumnStyle {
+	border: solid 1px #ddd;
+	padding: 3px;
+	font-weight: bold;
+}
+
+.statsTableNumColumnStyle {
+	border: solid 1px #ddd;
+	padding: 3px;
+	margin-top: 3px;
+	margin-bottom: 3px;
+	width: 15%;
+	text-align: right;
+}
+
+.statsTableStyle {
+	margin-bottom: 15px;
+	padding: 15px;
+	background-color: #FCFCFC;
+	border: 1px solid #ddd;
+	width: 100%;
+	background: White;
+	border-collapse: collapse;
+}
+
+.geekcode {
+	padding-top: 5px;
+	padding-bottom: 0px;
+	margin-bottom: 0px;
+	color: #cc3300;
+	font-family: 'Courier New' , 'Courier' , sans-serif;
+	font-weight: normal;
+	line-height: 100%;
+}
+
+/* Hides from IE5-mac \*/
+* html .itemBody {
+	height: 1%;
+}
+/* End hide from IE5-mac */
+
+/*------------------------
+					SEARCH
+-------------------------*/
+
+#searchString{
+	line-height: normal;
+	height: 14px;
+	width: 71%;
+}
+
+.searchButtonStyle{
+	height: 22px;
+	width: 23%;
+	margin-left: 5px;
+}
+
+.commentViewBoxStyle input 
+{
+	border:1px solid #CCCCCC;
+}
+
+/* Paging */
+.post-paging {
+}
+.previous-posts{
+}
+.next-posts{
+}
+.clear {
+clear: both
+}
+
+/* Tag Cloud */
+.smallestTag { line-height: 110%; font-size: x-small; font-weight: normal; }
+.smallerTag { line-height: 110%; font-size: x-small; font-weight: bold; }
+.smallTag { line-height: 110%; font-size: small; font-weight: normal; }
+.mediumTag { line-height: 110%; font-size: medium; font-weight: normal; }
+.largeTag { line-height: 110%; font-size: large; font-weight: normal; }
+.largerTag { line-height: 110%; font-size: x-large; font-weight: normal; }
+.largestTag { line-height: 110%; font-size: x-large; font-weight: bold; }
+ 
+/* OpenID Support added in 2.2 */
+.openidtextbox {
+	background: #FFFFFF url('../../images/openid-icon-small.gif') no-repeat scroll 0pt 50%; 
+	padding-left: 18px; 
+}
+.openidtextboxwrap 
+{
+	padding-right: 18px;
+}

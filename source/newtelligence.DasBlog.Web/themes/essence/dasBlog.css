@@ -1,0 +1,386 @@
+/*----- General Styles -----*/
+
+body {
+	font-family: Verdana, sans-serif;
+	margin: 15px 10% 15px 10%;
+	font-size: small;
+}
+
+/* Exceptions for Print */
+@media print {
+	body {
+		font-family: Georgia, Times New Roman, serif;
+		margin: 0;
+	}
+}
+
+h1, h2 {
+	font-size: medium;
+	font-weight: normal;
+}
+
+A, A:link, A:visited, A:hover {
+	text-decoration: none;
+	color: gray;
+}
+
+A:hover {
+	border-bottom: 1px dashed;
+}
+
+/* The selectors below aren't supported by IE yet...*/
+A[target=_blank]:hover, A[rel=external]:hover {
+	text-decoration: underline;
+	border-bottom: none;
+}
+
+/* So we use a separate css class for the external links. */
+A.external:hover {
+	text-decoration: underline;
+	border-bottom: none;
+}
+
+img {
+	border: none;
+}
+
+/*----- Header Styles -----*/
+
+#header {
+	border: 1px dashed #d0d0d0;
+	padding: 10px;
+	background-color: #f0f0f0;
+	font-variant: small-caps;
+	letter-spacing: 2px;
+}
+
+#header code {
+	font-variant: normal;
+	font-family: Courier;
+	letter-spacing: normal;
+}
+
+#skyline {
+	margin-bottom: 4px;
+	background-image: url(skyline.gif);
+	background-repeat: repeat-x;
+	background-position: center bottom;
+	height: 100px;
+}
+
+/* Exceptions for Print */
+@media print {
+	#skyline {
+		display: none;
+	}
+}
+
+#headerLinks {
+	display: inline;
+	position: absolute;
+	right: 11%;
+	text-align: right;
+	line-height: 190%;
+	width: 120%;
+}
+
+#headerLinks A {
+	padding-left: 4px;
+}
+
+#headerLinks A:hover {
+	text-decoration: none;
+	border-bottom: none;
+	border-left: 6px solid #d0d0d0;
+}
+
+#headerText {
+	padding: 10px;
+	background-color: #d0d0d0;
+	color: #f0f0f0;
+}
+
+/* Exceptions for Print */
+@media print {
+	#headerSearch {
+		display: none;
+	}
+}
+
+#siteNameLink, #siteSubtitle {
+	display: inline;
+}
+
+.searchContainerStyle {
+	display: inline;
+	position: absolute;
+	right: 11%;
+	margin: -4px 5px 0 0;
+}
+
+#searchString {
+	background-color: #f0f0f0;
+}
+
+/*----- Content Styles -----*/
+
+#content {
+	margin-top: 10px;
+}
+
+#bodyContainer {
+	float: right;
+	width: 75%;
+}
+
+/* Exceptions for Print */
+@media print {
+	#bodyContainer {
+		width: 100%;
+	}
+}
+
+#bodyColumn {
+}
+
+.pageTopic {
+	padding-bottom: 5px;
+	font-weight: bold;
+	font-size: larger;
+}
+
+.itemTitleStyle {
+}
+
+.itemBoxStyle {
+	margin-bottom: 20px;
+	-moz-border-radius: 10px; /* mozilla only */
+}
+
+legend {
+	color: blue;
+}
+
+.itemContainerStyle {
+	margin: 20px 20px 0 20px;
+	width: 90%;
+}
+
+.itemContainerStyle, pre {
+	overflow: auto;
+	overflow-x: auto;
+	overflow-y: visible;
+}
+
+/* Exceptions for Print */
+@media print {
+	.itemContainerStyle, pre {
+		overflow: visible;
+	}
+}
+
+pre {
+	width: 95%;
+	padding: 5px;
+	border: solid 1px #d0d0d0;
+	background-color: #f0f0f0;
+	color: #505050;
+}
+
+.bodyContentStyle {
+}
+
+.itemBodyStyle {
+	margin-bottom: 10px;
+	border-bottom: 1px solid #d0d0d0;
+}
+
+.itemCategoryLinksStyle, .itemFooterStyle {
+	text-align: right;
+	font-size: smaller;
+}
+
+.commentBoxStyle {
+	border: 1px dashed #d0d0d0;
+	background-color: #f0f0f0;
+	color: #505050;
+	margin-bottom: 10px;
+	padding: 5px;
+}
+
+.commentDateStyle {
+	background-color: #d0d0d0;
+	color: gray;
+	padding: 2px;
+	text-align: center;
+}
+
+.commentBodyStyle {
+	padding: 10px 0 10px 0;
+}
+
+.commentBoxFooterStyle {
+	border-top: 1px solid #d0d0d0;
+	padding-top: 10px;
+}
+
+.commentViewBoxStyle {
+	border: 1px solid #d0d0d0;
+	padding: 10px;
+}
+
+/* Exceptions for Print */
+@media print {
+	.commentViewBoxStyle {
+		display: none;
+	}
+}
+
+#bodyCopyright {
+	text-align: right;
+	font-size: smaller;
+	color: gray;
+}
+
+/*----- Sidebar Styles -----*/
+
+#metaContainer {
+	border: 1px dashed #d0d0d0;
+	background-color: #f0f0f0;
+	color: #505050;
+	font-size: smaller;
+	width: 24%;
+}
+
+/* Exceptions for Print */
+@media print {
+	#metaContainer {
+		display: none;
+	}
+}
+
+#metaColumn {
+	padding: 5px;
+}
+
+.sidetitle {
+	background-color: #d0d0d0;
+	color: gray;
+	padding: 2px;
+	text-align: center;
+}
+
+.side {
+	margin: 10px 0 10px 0;
+}
+
+.blogRollNestedOutlineBodyTableStyle {
+	margin-left: 20px;
+}
+
+.categoryListNestedOutlineBodyTableStyle {
+	margin-left: 25px;
+}
+
+.archiveLinksLinkStyle {
+	text-transform: capitalize;
+}
+
+/*----- Stats Styles -----*/
+
+.statsTableColumnStyle {
+	border: solid 1px;
+	padding: 3px;
+	margin-top: 3px;
+	margin-bottom: 3px;
+}
+
+.statsTableDateColumnStyle {
+	border: solid 1px;
+	padding: 3px;
+	margin-top: 3px;
+	margin-bottom: 3px;
+	width: 25%;
+	text-align: left;
+}
+
+.statsTableFooterColumnStyle {
+	border: solid 1px;
+	padding: 3px;
+	font-weight: bold;
+}
+
+.statsTableFooterNumColumnStyle {
+	border: solid 1px;
+	padding: 3px;
+	width: 15%;
+	font-weight: bold;
+	text-align: right;
+}
+
+.statsTableHeaderColumnStyle {
+	border: solid 1px;
+	padding: 3px;
+	font-weight: bold;
+}
+
+.statsTableNumColumnStyle {
+	border: solid 1px;
+	padding: 3px;
+	margin-top: 3px;
+	margin-bottom: 3px;
+	width: 15%;
+	text-align: right;
+}
+
+.statsTableStyle {
+	margin-bottom: 10px;
+	border: solid 1px;
+	width: 100%;
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+.statsTableColumnStyle, .statsTableFooterColumnStyle, .statsTableFooterNumColumnStyle, .statsTableHeaderColumnStyle, .statsTableNumColumnStyle, .statsTableDateColumnStyle {
+	border-color: #d0d0d0;
+}
+
+.statsTableStyle {
+	border-color: #d0d0d0;
+}
+
+.commentViewBoxStyle input 
+{
+	border:1px solid #CCCCCC;
+}
+
+/* Paging */
+.post-paging {
+}
+.previous-posts{
+}
+.next-posts{
+}
+.clear {
+clear: both
+}
+
+/* Tag Cloud */
+.smallestTag { line-height: 110%; font-size: x-small; font-weight: normal; }
+.smallerTag { line-height: 110%; font-size: x-small; font-weight: bold; }
+.smallTag { line-height: 110%; font-size: small; font-weight: normal; }
+.mediumTag { line-height: 110%; font-size: medium; font-weight: normal; }
+.largeTag { line-height: 110%; font-size: large; font-weight: normal; }
+.largerTag { line-height: 110%; font-size: x-large; font-weight: normal; }
+.largestTag { line-height: 110%; font-size: x-large; font-weight: bold; }
+ 
+/* OpenID Support added in 2.2 */
+.openidtextbox {
+	background: #FFFFFF url('../../images/openid-icon-small.gif') no-repeat scroll 0pt 50%; 
+	padding-left: 18px; 
+}
+.openidtextboxwrap 
+{
+	padding-right: 18px;
+}
+

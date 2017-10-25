@@ -1,0 +1,36 @@
+<div class="itemBoxStyle">
+	<div class="itemTitleStyle">
+		<div class="postTitle">
+			<%itemTitle%>
+		</div>
+		<div class="postWidgets">
+			<%editButton%>&nbsp;<%permalink%>	
+		</div>
+		<!-- This div is here as a stopgap to prevent the IE The Guillotine Bug. -->
+		<div class="postClose">&nbsp;</div>
+	</div>
+	<div class="itemBodyStyle">
+		<%itemBody%>
+	</div>
+	<div class="itemCategoryLinksStyle">
+			<%categoryLinks%>
+	</div>
+	<div class="itemFooterStyle">
+		<div class="itemFooterDate">
+		<%when%>	
+		</div>
+		<div class="itemFooterLinks">
+		
+			<%itemauthor%>
+			&nbsp;|&nbsp;
+			<%disclaimerLink%>
+			&nbsp;|&nbsp;
+			<%commentLink%>
+			&nbsp;|&nbsp;
+			<%trackbackLink%>
+			<%relatedPostList%>
+			<%trackbackList%>
+			<%enclosure%>
+		</div>
+	</div>
+</div>

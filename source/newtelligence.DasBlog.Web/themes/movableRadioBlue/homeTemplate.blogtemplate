@@ -1,0 +1,356 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+	<head>
+		<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+		<title>
+			<%title%>
+		</title>
+		<%styleSheet("admin.css")%>
+			<style type="text/css">
+  body {
+    margin:0px 0px 10px 0px;
+    background:#FFFFFF;    
+    }
+  .bodyContentStyle
+  {
+     width:100%;
+  }
+  A {
+    color: #0045AD; font-family: verdana, arial, sans-serif;
+    font-size:10px;
+    text-decoration: none;
+    font-weight:bold;
+    } 
+  A:link {
+    color: #0045AD;
+    text-decoration: none;
+    } 
+  A:visited {
+    color: #0066FF; text-decoration: none;
+    } 
+  A:active {
+    color: #99CC66;
+    } 
+  A:hover {
+    color: #99CC66;
+    }
+  
+  #banner {
+    font-family:verdana, arial, sans-serif;
+    color:#FFF;
+    font-size:20px;
+    font-weight:normal;
+    border-bottom:1px dotted #000000;
+    border-top:3px solid #0045AD;
+    background:#0066FF;
+    padding:15px; 
+    text-transform:uppercase;
+    letter-spacing: .2em;     
+    }
+   #banner A {
+    font-family:verdana, arial, sans-serif;
+    color:#FFF;
+    font-size:20px;
+    font-weight:normal;
+    text-transform:uppercase;
+    letter-spacing: .2em;     
+    text-decoration: none
+    }
+    
+   #banner A:visited {
+    color:#FFF;
+    text-decoration: none
+    }
+   #banner A:hover {
+    color:#EEE;
+    text-decoration: none
+    }
+   
+  .description {
+    font-family:verdana, arial, sans-serif;
+    color:#89B6FF;
+    font-size:12px;
+    font-weight:bold; 
+    text-transform:none;    
+    }   
+  .radioMenuLinkFont {
+    font-family:verdana, arial, sans-serif;
+    color:#0066ff;
+    font-size:10px;
+    font-weight:bold;     
+    }    
+  .radioMenuLink {
+    font-family:verdana, arial, sans-serif;
+    color:#0066ff;
+    font-size:10px;
+    font-weight:bold;     
+    } 
+  a.radioMenuLink:link
+    {
+    color: #0066ff;
+    text-decoration: none
+    }  
+  a.radioMenuLink:visited
+    {
+    color: #0066ff;
+    text-decoration: none
+    }
+  a.radioMenuLink:hover
+    {
+    color: #000000;
+    text-decoration: underline
+    }     
+  #content {
+    float:left;
+    width:65%;
+    background:#fff;
+    border-right:1px dotted #999;
+    margin-right:15px;
+    padding-bottom:20px;
+
+    }
+  #links {
+    background:#fff;
+    padding-right:15px;        
+    }
+  .blog {
+    padding-left:15px;
+    padding-top:15px;
+    padding-right:15px;      
+    }  
+  .blogbody {
+    font-family:georgia, verdana, arial, sans-serif;
+    color:#333;
+    font-size:13px;
+    font-weight:normal;
+    background:#FFF;
+    line-height:15px;
+    padding-left:10px;  
+    padding-right:10px;
+    padding-top:10px;    
+    }  
+  .title  { 
+    font-family: verdana, arial; 
+    font-size: 15px; 
+    color: #003366; 
+    text-transform: uppercase;
+    font-weight:bold;  
+    }  
+  .footer {
+    font-family:georgia, verdana, arial, sans-serif;
+    color:#333;
+    font-size:11px;
+    font-weight:normal;
+    line-height:11px;
+    padding-left:10px;  
+    padding-right:10px;
+    padding-top:10px;
+    border-top:1px dotted #999;
+    text-align:center;     
+    }
+  #menu {
+    margin-bottom:15px;
+    background:#FFF;                
+    }  
+  .date  { 
+    font-family:verdana, arial, sans-serif;
+    color:#666;
+    font-size:9px;
+    font-weight:bold;
+    text-align:center;
+    background:#EEE;
+    line-height:14px;
+    padding:2px;
+    margin-top:10px;
+    text-transform:uppercase;
+    letter-spacing: .2em;
+    }
+  .posted  { 
+    font-family:verdana, arial, sans-serif; 
+    font-size: 11px; 
+    color: #003366;
+    margin-bottom:15px; 
+    }
+
+  .FreeTextboxStyle {
+    color: #000000;
+    }
+	
+  .side {
+    font-family:verdana, arial, sans-serif;
+    color:#333;
+    font-size:11px;
+    font-weight:normal;
+    background:#FFF;
+    padding:2px;        
+    }
+   .pageTopic {
+		padding-bottom: 5px;
+		font-size: 12pt;
+		font-family: Georgia;
+		font-weight: bold;
+	}
+  .sidetitle {
+    font-family:verdana, arial, sans-serif;
+    color:#666;
+    font-size:9px;
+    font-weight:bold;
+    background:#EEE;
+    line-height:14px;
+    padding:2px;
+    margin-top:10px;
+    text-align:center;
+    text-transform:uppercase;
+    letter-spacing: .2em;            
+    } 
+  .hCalendarMonthYearRow, .dCalendarMonthYearRow
+    { 
+    font-family:verdana, arial, sans-serif;
+    color:#003366;
+    font-size:10px;
+    font-weight:bold;
+    line-height:14px;
+    padding:2px;
+    width:100%;
+    }
+  .hCalendarDayNameRow, .dCalendarDayNameRow
+    {
+    color:#666;
+    font-family:verdana, arial, sans-serif;
+    font-size:10px;
+    font-weight:bold;
+    line-height:14px;
+    padding:2px;   
+    }
+  .hCalendarDayRow, .dCalendarDayRow
+    {
+    color:#666;
+    font-family:verdana, arial, sans-serif;
+    font-size:10px;
+    font-weight:normal;
+    line-height:14px;
+    padding:2px;    
+    }
+  .hCalendarDayLinked, .dCalendarDayLinked
+    {
+    color:#666;
+    background-color: #EEEEEE;
+    font-family:verdana, arial, sans-serif;
+    font-size:10px;
+    font-weight:normal;
+    line-height:14px;
+    padding:2px;   
+    }
+  .hCalendarDayCurrent, .dCalendarDayCurrent
+    {
+    color: #FFFFFF;
+    background-color: #DCDCDC;
+    font-family:verdana, arial, sans-serif;
+    font-size:10px;
+    font-weight:normal;
+    line-height:14px;
+    padding:2px;   
+    }
+  td {
+    font-family:georgia, verdana, arial, sans-serif;
+    color:#333;
+    font-size:13px;
+    font-weight:normal;
+    line-height:15px;   
+    }  
+    .blogRollNestedOutlineBodyTableStyle
+			{
+				margin-left: 25px;
+				
+			}
+			.categoryListNestedOutlineBodyTableStyle
+			{
+				width:100%;
+				margin-left:9px;
+				margin-bottom:4px;
+			}
+			.blogRollDescriptionStyle
+			{
+				font-weight:normal;
+				font-size:7pt;
+				margin-left:15px;
+			}
+.commentViewBoxStyle input 
+{
+	border:1px solid #CCCCCC;
+}
+
+</style>
+			<script language="JavaScript" type="text">
+				<!-- Begin hiding from older browsers
+  //End hiding--></script>
+	</head>
+	<body>
+		<div id="banner">
+			<a href="<%radio.macros.weblogUrl ()%>"><%siteName%></a>
+			<div class="description">
+				<%description%>
+			</div>
+		</div>
+		<div>
+		<%newtelligence.adminBar()%>
+		</div>
+		<div id="content">
+			<div class="blogbody">
+			<% DrawCategoryPaging() %> 
+					<%bodytext%>
+			<div class="post-paging">
+				<div class="previous-posts">
+					<% DrawPostPagingPrevious() %>
+				</div>
+				<div class="next-posts">
+					<% DrawPostPagingNext() %>
+				</div>
+			</div>					
+					<br>
+						<%radio.macros.editThisPageButton ()%>
+						<div class="footer">&copy; Copyright&nbsp;<%year%>&nbsp;<%authorName%><br>
+								<%radioBadge%>
+								<br>
+									<a href="http://jigsaw.w3.org/css-validator/">
+										<img style="border:0;width:88px;height:31px" src="http://jigsaw.w3.org/css-validator/images/vcss"
+											alt="Valid CSS!"><%feedLink%>&nbsp;&nbsp;&nbsp;&nbsp;<%radio.macros.mailTo ()%>&nbsp;|&nbsp;Page rendered at <%now%><br>
+												<br>
+													<%newtelligence.aspnetcontrol("themecombo.ascx")%>
+									</a></p></div>
+			</div>
+		</div>
+		<div id="links">
+			<h2 align="center" class="sidetitle">This Blog In Time</h2>
+			<table border="0" cellspacing="0" cellpadding="8" align="center">
+				<tr>
+					<td>
+						<%radio.weblog.drawcalendar ()%>
+					</td>
+				</tr>
+			</table>
+			<h2 align="center" class="sidetitle">
+				Search</h2>
+			<div class="side">
+				<%newtelligence.search()%> </div>
+			<h2 class="sidetitle">Navigation</h2>
+			<div class="side">
+				<%navigatorLinks%>
+			</div>
+			<h2 class="sidetitle">Categories</h2>
+			<div class="side">
+				<%newtelligence.drawCategories()%>
+			</div>
+			
+			<h2 class="sidetitle">Blogroll</h2>
+			<div class="side">
+				<%radio.macros.blogroll ("siteConfig/blogroll.opml")%>
+			</div>
+			<div class="side">
+				<%newtelligence.loginbox ()%>
+			</div>
+		</div>
+		<%radio.macros.staticSiteStatsImage ()%>
+	</body>
+</html>

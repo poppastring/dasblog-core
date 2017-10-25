@@ -1,0 +1,233 @@
+/* 
+	Load in stylesheet settings for dasBlog specific items
+*/
+@import url("items.css");
+@import url("rightSide.css");
+@import url("menu.css");
+@import url("admin.css");
+@import url("calendar.css");
+
+/* 
+pre 
+{ 
+	white-space: normal; 
+	overflow: auto; 
+} 
+*/
+
+body
+{
+	margin: 0; 
+	padding: 0; 
+	background-color: #e6ebb0;
+	text-align: left;
+}
+
+#pageContainer
+{
+	width: 760px;
+	margin: 0 auto;
+	font: 8pt Verdana, arial, helvetica, sans-serif;  
+}
+
+#pageContent
+{
+	float: left;
+	width: 760px;
+	padding: 0 10px;
+	background: #fff url( "page_container_bg.gif" ) repeat-y;
+}
+
+/*
+ * the next four styles display the page header using a header graphic that you can 
+ * change as desired (the file is specified below as Header.jpg).  
+ * The drawback of using this header graphic is that the blog title is not
+ * automatically displayed from the site.config file.  The benefit is a slick header! ;-)
+ * if you wish to use a header graphic *AND* have text in front of it, you can do that too- 
+ * comment out the next four styles and then UNCOMMENT the four identically named styles after them.
+ * The new header used is HeaderClean.jpg (you can use anything you want , but I submitted that one 
+ * so you can play) and allows the blog title to come through.
+ */
+#pageHeader
+{
+	padding: 0;
+	margin: 0;
+	height: 105px;
+	width: 760px;
+	background: url( "Header.jpg" ) no-repeat; 
+}
+
+#pageHeader h1 
+{
+	margin: 0;
+	background-repeat: no-repeat;
+	background-position: left top;
+}
+
+#pageHeader h2
+{
+	margin: 0;
+	padding-left: 20px;
+	padding-top: 80px;
+	color: #fff;
+	font: 8pt Verdana, arial, helvetica, sans-serif;
+	font-weight: bold;
+}
+
+#pageHeader h1 span
+{
+	display: none; 
+}
+
+/*
+ * These are the four styles you may wish to uncomment if you want to retain the automatic
+ * blog titling from the site.config file. (see above)
+ */
+/*
+#pageHeader
+{
+	padding: 0;
+	margin: 0;
+	height: 105px;
+	width: 760px;
+	background: url( "HeaderClean.jpg" ) no-repeat; 
+}
+
+#pageHeader h1
+{
+	padding: 20px 0 0 20px;
+	margin: 0;
+	font: 32pt Tahoma, arial, helvetica, sans-serif;
+	font-weight: bold;
+}
+#pageHeader a, #pageHeader A:hover, #pageHeaderA:active, #pageHeaderA.active:link, #pageHeaderA.active:visited
+{
+	color: white;
+	text-decoration: none;
+}
+#pageHeader h2
+{
+	margin: 0;
+	padding: 5px 0 0 20px;
+	color: #fff;
+	font: 8pt Verdana, arial, helvetica, sans-serif;
+	font-weight: bold;
+}
+
+* Here is the end of the four styles which allow automatic blog titling from the site.config file
+*/
+
+#siteNavigation
+{
+	width: 760px;
+	background: white;
+}
+
+#leftSide
+{
+	float: left;
+	width: 510px;
+	padding: 10px 10px;
+	line-height: 1.5em;
+}
+
+#rightSide
+{
+	float: right;
+	width: 200px;
+	padding: 10px 20px 10px 0;
+	font: 8pt Verdana, arial, helvetica, sans-serif;  
+	font-size: 90%;
+	line-height: 1.5em;
+}
+
+
+#shadowBox
+{
+	width: 460px;
+}
+#leftSide .date
+{
+	font-size: 1.5em;
+	font-weight: bold;
+	margin: 10px 10px 0px 10px;
+	font-family: "Trebuchet MS", Verdana, arial, helvetica, sans-serif;  
+}
+
+.side 
+{
+	padding: 5px 5px 5px 5px;
+	padding-left: 10px;
+	margin-right: 10px;
+	line-height: 1.2em;
+}
+
+form
+{
+	margin: 0;
+	padding: 0;
+}
+
+.bodyContentStyle
+{
+	margin: 0;
+	padding: 0;
+}
+#footer
+{
+	padding: 15px;
+	background: url( "page_bottom_bg.gif" ) no-repeat; 
+	width: 780px;
+	clear: both;
+	background-color: #e6ebb0;
+	font-size: .8em;
+	position: relative;
+	height: 60px;
+}
+#aboutBox
+{
+	position: absolute;
+	width: 710px;
+	border: 1px solid black;
+	margin: 10px;
+	padding: 10px;
+	background-color: #eee;
+}
+#footer br
+{ 
+	display: none;
+}
+#footer p
+{
+	margin: 0;
+	padding: 0;
+}
+/* Paging */
+.post-paging {
+}
+.previous-posts{
+}
+.next-posts{
+}
+.clear {
+clear: both
+}
+
+/* Tag Cloud */
+.smallestTag { line-height: 110%; font-size: x-small; font-weight: normal; }
+.smallerTag { line-height: 110%; font-size: x-small; font-weight: bold; }
+.smallTag { line-height: 110%; font-size: small; font-weight: normal; }
+.mediumTag { line-height: 110%; font-size: medium; font-weight: normal; }
+.largeTag { line-height: 110%; font-size: large; font-weight: normal; }
+.largerTag { line-height: 110%; font-size: x-large; font-weight: normal; }
+.largestTag { line-height: 110%; font-size: x-large; font-weight: bold; }
+ 
+/* OpenID Support added in 2.2 */
+.openidtextbox {
+	background: #FFFFFF url('../../images/openid-icon-small.gif') no-repeat scroll 0pt 50%; 
+	padding-left: 18px; 
+}
+.openidtextboxwrap 
+{
+	padding-right: 18px;
+}

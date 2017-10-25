@@ -1,0 +1,67 @@
+<html>
+	<head>
+		<meta name="vs_targetSchema" content="http://schemas.microsoft.com/intellisense/ie5">
+		<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+		<title>DasBlog Configuration Error</title>
+		<style>
+<!--
+body         { font-family: Verdana; font-size: 10pt }
+h1           { font-family: Trebuchet MS; font-size: 18pt }
+h2           { font-family: Trebuchet MS; font-size: 14pt }
+-->
+		</style>
+	</head>
+	<body>
+		<h1>
+			dasBlog Configuration Error</h1>
+		<h2>
+			Summary</h2>
+		<P>
+			An error has been encountered while writing to your content folder. Most likely
+			this error is caused by a configuration error on your server. Contact your
+			hosting provider or check your permissions for
+		</P>
+		<UL>
+			<LI>
+				SiteConfig</LI>
+			<LI>
+				content</LI>
+			<LI>
+				logs</LI></UL>
+		<P>And ensure that the accounts below have Read/Write access to the above folders:</P>
+		<P>Windows 2000/XP</P>
+		<UL>
+			<LI>
+				ASP.NET Machine Account <b>&quot;{machinename}\ASPNET&quot;</b></LI></UL>
+		<P>Windows Server 2003</P>
+		<UL>
+			<LI>
+				ASP.NET Machine Account <b>&quot;{machinename}\ASPNET&quot;</b></LI>
+			<LI>
+				Network Service <b>&quot;NT AUTHORITY\NETWORK SERVICE&quot;</b></LI></UL>
+		<P>For more information see:</P>
+		<P>
+			<a href="http://dasblog.info/SetupInstall.aspx">
+				http://dasblog.info/SetupInstall.aspx</a></P>
+		<h2>Web Hosting Help</h2>
+		<p>If DasBlog is being hosted on an ASP.NET hosting provider, send them the
+			following information to configure DasBlog correctly:</p>
+		<blockquote>
+			<p><font face="Courier New">Please make the following configuration changes for my
+					ASP.NET application.</font></p>
+			<p><font face="Courier New">1) configure &lt;path to dasblog&gt; as an ASP.NET
+					Application Directory.</font></p>
+			<p><font face="Courier New">2) give Read/Write (and Modify) permission for &quot;ASP.NET Machine
+					Account&quot; and &quot;NT AUTHORITY\NETWORK SERVICE&quot; to:</font></p>
+			<ul>
+				<li>
+					<font face="Courier New">&lt;path to dasblog&gt;/SiteConfig/</font></li>
+				<li>
+					<font face="Courier New">&lt;path to dasblog&gt;/content/</font></li>
+				<li>
+					<font face="Courier New">&lt;path to dasblog&gt;/logs/</font><br />
+					&nbsp;</li>
+			</ul>
+		</blockquote>
+	</body>
+</html>

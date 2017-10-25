@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+<theme name="dasblueblog" title="dasblueblog" templateDirectory="themes/dasblueblog" imageDirectory="themes/dasblueblog">
+    <image name="dayLink" fileName="dayLink.gif" />
+</theme>

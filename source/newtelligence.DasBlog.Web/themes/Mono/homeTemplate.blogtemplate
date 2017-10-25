@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+	
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+<title><%title%></title>
+<link rel="stylesheet" type="text/css" href="themes/Mono/style.css" />
+<!--
+<script language="JavaScript">
+function togglecomments (postid, showHideid) { 
+
+   var whichpost = document.getElementById(postid); 
+   var showHide = document.getElementById(showHideid); 
+   
+   if (whichpost.className=="commentshown") { 
+      whichpost.className="commenthidden"; 
+      showHide.innerHTML = "show";
+   } 
+   else { 
+      whichpost.className="commentshown"; 
+      showHide.innerHTML = "hide";
+   } 
+} 
+</script>
+
+-->
+</head>
+
+<body>
+<div id="main">
+
+<!-- Blog Header -->
+<div id="blog-header">
+  <h1>
+    
+	<%siteNameLink%>
+	
+  </h1>
+  <br />
+	<span class="description"><%description%></span> 
+</div>
+
+<%newtelligence.adminBar()%>
+<!-- BEGIN content -->
+<div id="content">
+	<!-- BEGIN #left -->
+	<div id="left">
+		<div class="column">
+		     <% DrawCategoryPaging() %> 
+			<%bodytext%>
+			<div class="post-paging">
+				<div class="previous-posts">
+					<% DrawPostPagingPrevious() %>
+				</div>
+				<div class="next-posts">
+					<% DrawPostPagingNext() %>
+				</div>
+			</div>			
+		</div>
+	</div>
+	<!-- END #left -->
+	<!-- BEGIN #right -->
+	<div id="right">
+		<div class="column">
+			<div class="sidetitle">
+				Archives </div>
+			<div class="side" align="center">
+				<%radio.weblog.drawcalendar ()%><br />
+				<%feedLink%>
+			</div>
+			<div class="sidetitle">
+				Search</div>
+			<div class="side">
+				<%newtelligence.search()%> </div>
+			<div class="sidetitle">
+				<%localString("On this page....|DE:Auf dieser Seite...|AR:&#1601;&#1610; &#1607;&#1584;&#1607; &#1575;&#1604;&#1589;&#1601;&#1581;&#1577;...")%> </div>
+			<div class="side">
+				<%TitleList(35)%> </div>
+			<div class="sidetitle">
+				<%localString("Categories|DE:Kategorien|AR:&#1571;&#1589;&#1606;&#1575;&#1601;")%> </div>
+			<div class="side">
+				<%newtelligence.drawCategories()%> </div>
+			<div class="sidetitle">
+				Blogroll </div>
+			<div class="side">
+				<%radio.macros.blogroll ("siteConfig/blogroll.opml")%></div>
+			<div class="sidetitle">
+				Login </div>
+			<div class="side">
+			<%newtelligence.loginbox ()%>
+			</div>
+		</div>
+	</div>
+	<div class="clear">&nbsp;</div>
+	<!-- END #right -->
+</div>
+</div>
+<div id="footer" class="footer"><p>&copy; Copyright <%year%>, <%authorName%></p>
+            <br><%newtelligence.aspnetcontrol("themecombo.ascx")%>		
+</div>
+<!-- END #content-->
+</body>
+</html>

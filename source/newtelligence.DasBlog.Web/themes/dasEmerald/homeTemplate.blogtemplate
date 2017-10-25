@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<link rel="search" type="application/opensearchdescription+xml" href="opensearch.xml" title="<%title%>" />
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title><%title%></title>
+<link href="style.css" rel="stylesheet" type="text/css" />
+<%styleSheet("style.css")%>
+</head>
+<body>
+<div id="wrap">
+	<div id="header">
+		<h1 class="Logo"><%siteNameLink%><span><%description%></span></h1>
+			<div id="menu">
+					<ul>
+						<li class="active"><a href="<%baseURL()%>"><span>Home</span></a></li>
+						<li><a href="http://dasblog.info">dasBlog</a></li>
+						<li><a href="http://www.codeplex.com/dasBlog">dasBlog CodePlex</a></li>
+						<li><a href="http://www.codeplex.com/dasBlog/Thread/List.aspx">dasBlog Forum</a></li>
+						<li><a href="http://demo.dasblog.info">dasBlog Demo</a></li>
+					</ul>
+			</div> <!-- end menu -->
+	</div>
+	<div id="contents">
+		<div id="main">
+			<h1><a href="#"><%subtitle%></a> <span class="seo"><%radioBadge%></span></h1>
+				<p><img class="align_left" src="themes/dasEmerald/images/imagesample.png" width="205" height="184"></a></p>
+				<p>To learn about editing this theme click this link:</p>
+				<p><a href="http://dasblog.info/ThemesForDasBlog19Plus.aspx" TARGET = "_blank">www.dasblog.info</a><br /></P>
+				<p>____________________________________________________________</p>
+ 									<%newtelligence.adminBar()%><br/>
+									<%bodytext%>
+									<br />									
+									<% DrawCategoryPaging() %> 
+									<div class="post-paging">
+										<div class="previous-posts"><% DrawPostPagingPrevious() %></div>
+										<div class="next-posts"><% DrawPostPagingNext() %></div>
+										<div class="clear1">
+										</div>
+									</div>
+		</div> <!-- end main -->
+			<div id="sidebar">
+				<%rssLink%>
+				<%newtelligence.search()%>
+					<h2>Navigation</h2>
+						<ul>
+						    <li><%navigatorLinks%></li>
+						</ul>
+					<h2>Categories</h2>
+						<ul>
+							<li><%newtelligence.drawCategories()%></li>
+						</ul>
+					<h2>Archives</h2>
+						<ul>
+							<li><%newtelligence.drawArchiveMonths()%></li>
+						</ul>
+					<h2>Tag Cloud</h2>
+						<ul>
+							<li><%drawTagCloud()%></li>
+						</ul>
+					<h2>On this page..</h2>
+						<ul>
+							<li><%titleList()%></li>
+						</ul>
+					<h2>BlogRoll</h2>
+						<ul>
+							<li><%radio.macros.blogroll("siteConfig/blogroll.opml")%></li>
+						</ul>
+					<h2>Blog Stats</h2>
+						<ul>
+							<li><%blogStats()%></li>
+						</ul>
+					<h2>Other</h2>
+						<ul>
+							<li>This blog is Powered by: <%radioBadge%></li><br/>
+							<li><%newtelligence.disclaimer()%></li>
+							<%newtelligence.loginbox()%>
+							<%newtelligence.aspnetcontrol("themecombo.ascx")%>
+						</ul>
+			</div> <!-- end sidebar -->
+			<div class="clear"></div>
+	</div><!-- end contents -->
+		<div id="bottom">
+			&copy; Copyright <%year%>, <%authorName%> | <a href="http://validator.w3.org/" title="W3C HTML Validation">XHTML</a> | <a href="http://jigsaw.w3.org/css-validator/validator-uri.html" title="W3C CSS Validation">CSS</a> | <a href="http://www.w3.org/TR/WCAG10/" title="Web Content Accessibility Guidelines">WCAG</a> |Contact Us Here&nbsp;&nbsp;<%Mailto()%><br />
+			<p><%localString("Page rendered at|DE:Seite aufbereitet um|AR: &#1578;&#1605; &#1593;&#1585;&#1590; &#1607;&#1584;&#1607; &#1575;&#1604;&#1589;&#1601;&#1581;&#1577; &#1601;&#1610;")%>&nbsp;<%now%></p>
+		</div> <!-- end page bottom -->
+			<div id="footer">
+				<a href="http://www.ramblingsoul.com">CSS Template</a> by Rambling Soul | <a href="http://www.tomwatts.com">dasBlog Template</a> by TomWatts.com | Powered by: <%radioBadge%>
+			</div> <!-- end footer -->
+</div> <!-- end wrap -->
+</body>
+</html>

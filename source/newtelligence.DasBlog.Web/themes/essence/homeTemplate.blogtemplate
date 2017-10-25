@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta name="description" content="<%siteName%>">
+	<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+	<title><%title%></title>
+	<link rel="stylesheet" type="text/css" href="themes/essence/essence.css" />
+</head>
+<body>
+<div id="header">
+	<div id="skyline">
+		<div id="headerLinks">
+			<a href="default.aspx">Home</a><br />
+			<a href="SyndicationService.asmx/GetRss">Syndication</a><br />
+			<%newtelligence.loginbox()%>
+		</div>
+	</div>
+	<div id="headerText">
+		<h1 id="siteNameLink"><%siteNameLink%></h1>&nbsp;&middot;&nbsp;<h2 id="siteSubtitle"><%subtitle%></h2>
+		<span id="headerSearch"><%newtelligence.search()%></span>
+	</div>
+</div>
+<%newtelligence.adminBar()%>
+<!-- BEGIN #content -->
+<div id="content">
+	<!-- BEGIN #bodyContainer -->
+	<div id="bodyContainer">
+		<!-- BEGIN #bodyColumn -->
+		<div id="bodyColumn">
+		    <% DrawCategoryPaging() %> 
+			<%bodytext%>
+			<div class="post-paging">
+				<div class="previous-posts">
+					<% DrawPostPagingPrevious() %>
+				</div>
+				<div class="next-posts">
+					<% DrawPostPagingNext() %>
+				</div>
+			</div>			
+		<!-- END #bodyColumn -->
+		</div>
+		<div id="bodyCopyright">All content &copy; <%year%>, <%authorName%></div>
+	</div>
+	<!-- END #bodyContainer -->
+	<!-- BEGIN #metaContainer -->
+	<div id="metaContainer">
+		<!-- BEGIN #metaContent -->
+		<div id="metaColumn">
+			<div class="sidetitle">
+				On this page </div>
+			<div class="side">
+				<%titleList()%> </div>
+			<div class="sidetitle">
+				This site</div>
+			<div class="side">
+				<%feedLinkUrl("Syndicate")%></div>
+			<div class="sidetitle">
+				Calendar</div>
+			<div class="side" align="center">
+				<%radio.weblog.drawcalendar ()%>
+			</div>
+			<div class="sidetitle">
+				Archives</div>
+			<div class="side">
+				<a href="Archives.aspx">&nbsp;Full Archives By Category</a> <br />
+				<%newtelligence.drawArchiveMonths()%> </div>
+			<div class="sidetitle">
+				Sitemap</div>
+			<div class="side">
+				<%newtelligence.drawCategories()%> </div>
+			<div class="sidetitle">
+				Blogroll <span class="xml">OPML</span> </div>
+			<div class="side">
+				<%radio.macros.blogroll ("siteConfig/blogroll.opml")%> </div>
+			<div class="sidetitle">
+				Disclaimer</div>
+			<div class="side">
+				<p>Powered by: <%radioBadge%></p>
+				<p>The opinions expressed herein are my own personal opinions and do 
+				not represent my employer&#39;s view in any way.</p>
+				<p><%radio.macros.mailTo ()%> E-mail</p>
+				<p>Theme design by <a href="http://jelle.druyts.net">Jelle Druyts</a></p>
+                <br><%newtelligence.aspnetcontrol("themecombo.ascx")%>		
+			</div>
+		</div>
+		<!-- END #metaColumn -->
+	</div>
+	<!-- END #metaContainer -->
+</div>
+<!-- END #content-->
+</body>
+</html>

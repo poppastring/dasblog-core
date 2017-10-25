@@ -1,0 +1,140 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+
+<head>
+	<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+	<title><%title%></title>
+	<%styleSheet("base.css")%>
+</head>
+
+<body>
+
+	<table border="0" cellpadding="0" cellspacing="0" width="100%">
+		<tr>
+			<td class="Header" colspan="2" width="100%" valign="top">
+				<div class="Header">
+					<div class="Title"><a href="./"><%siteName%></a></div>
+					<div class="Subtitle"><%subTitle%></div>
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<td class="Body" width="75%" valign="top">
+				<table class="Body" width="100%" cellpadding="0" cellspacing="0">
+					<tr>
+						<td class="BodyText">
+						<% DrawCategoryPaging() %> 
+						<%bodytext%>
+							<div class="post-paging">
+								<div class="previous-posts">
+									<% DrawPostPagingPrevious() %>
+							</div>
+							<div class="next-posts">
+								<% DrawPostPagingNext() %>
+							</div>
+						</div>
+						</td>
+					</tr>
+					<tr>
+						<td class="Footer">
+							<div>Subscribe:&nbsp;<%feedLink%></div>
+							<div>Copyright&nbsp;<%year%>&nbsp;<%authorName%></div>
+							<div><%radioBadge%></div>
+						</td>
+					</tr>
+				</table>
+			</td>
+			<td class="Margin" width="25%" valign="top">
+
+				<table width="100%" border="0" cellpadding="0" cellspacing="0"><tr>
+					<td width="3%"></td>
+					<td width="94%">
+						<table class="MarginSection" width="100%" border="0" cellpadding="0" cellspacing="0">
+							<tr><td class="MarginSectionHeading">Search</td></tr>
+							<tr><td class="MarginSectionBody"><%newtelligence.search()%></td></tr>
+						</table>
+					</td>
+					<td width="3%"></td>
+				</tr></table>
+
+				<table width="100%" border="0" cellpadding="0" cellspacing="0"><tr>
+					<td width="3%"></td>
+					<td width="94%">
+						<table class="MarginSection" width="100%" border="0" cellpadding="0" cellspacing="0">
+							<tr><td class="MarginSectionHeading">Archive</td></tr>
+							<tr><td class="MarginSectionBody"><%newtelligence.drawArchiveMonths()%></td></tr>
+						</table>
+					</td>
+					<td width="3%"></td>
+				</tr></table>
+
+				<table width="100%" border="0" cellpadding="0" cellspacing="0"><tr>
+					<td width="3%"></td>
+					<td width="94%">
+						<table class="MarginSection" width="100%" border="0" cellpadding="0" cellspacing="0">
+							<tr><td class="MarginSectionHeading">Links</td></tr>
+							<tr><td class="MarginSectionBody"><%navigatorLinks%></td></tr>
+						</table>
+					</td>
+					<td width="3%"></td>
+				</tr></table>
+
+				<table width="100%" border="0" cellpadding="0" cellspacing="0"><tr>
+					<td width="3%"></td>
+					<td width="94%">
+						<table class="MarginSection" width="100%" border="0" cellpadding="0" cellspacing="0">
+							<tr><td class="MarginSectionHeading">Categories</td></tr>
+							<tr><td class="MarginSectionBody">
+								<div class="categoryListContainerStyle"><table class="categoryListTableStyle" border="0">
+									<tr><td class="categoryListCellStyle"><a class="categoryListXmlLinkStyle" href="./SyndicationService.asmx/GetRss"><img src="images/rssButton.gif" border="0" /></a>&nbsp;<a class="categoryListLinkStyle" href="./"><b>All Categories</b></a></td></tr></table></div>
+								<%newtelligence.drawCategories()%>
+							</td></tr>
+						</table>
+					</td>
+					<td width="3%"></td>
+				</tr></table>
+			
+				<table width="100%" border="0" cellpadding="0" cellspacing="0"><tr>
+					<td width="3%"></td>
+					<td width="94%">
+						<table class="MarginSection" width="100%" border="0" cellpadding="0" cellspacing="0">
+							<tr><td class="MarginSectionHeading">Admin Login</td></tr>
+							<tr><td class="MarginSectionBody" valign="center">
+								<%newtelligence.loginbox()%>
+								<div class="AdminMenu"><%radio.macros.editorsOnlyMenu()%></div>
+							</td></tr>
+						</table>
+					</td>
+					<td width="3%"></td>
+				</tr></table>
+
+				<table width="100%" border="0" cellpadding="0" cellspacing="0"><tr>
+					<td width="3%"></td>
+					<td width="94%">
+						<table class="MarginSection" width="100%" border="0" cellpadding="0" cellspacing="0">
+							<tr><td class="MarginSectionHeading">Blogroll</td></tr>
+							<tr><td class="MarginSectionBody"><%radio.macros.blogroll("siteConfig/blogroll.opml")%></td></tr>
+						</table>
+					</td>
+					<td width="3%"></td>
+				</tr></table>
+				
+
+				<table width="100%" border="0" cellpadding="0" cellspacing="0"><tr>
+					<td width="3%"></td>
+					<td width="94%">
+						<table class="MarginSection" width="100%" border="0" cellpadding="0" cellspacing="0">
+							<tr><td class="MarginSectionHeading">Themes</td></tr>
+							<tr><td class="MarginSectionBody"><%newtelligence.aspnetcontrol("themecombo.ascx")%></td></tr>
+						</table>
+					</td>
+					<td width="3%"></td>
+				</tr></table>
+				
+			</td>
+		</tr>
+	</table>
+	
+</body>
+
+</html>

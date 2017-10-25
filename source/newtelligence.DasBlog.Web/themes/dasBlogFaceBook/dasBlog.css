@@ -1,0 +1,276 @@
+/* 
+	DasBlog
+	
+	These are all the DasBlog specific styles that you can
+	use to customize the look and feel of the content
+*/
+
+.blogRollCellStyle { }
+
+.blogRollContainerStyle { }
+
+.blogRollDescriptionStyle {
+	margin-left: 15px;
+	font-weight: normal;
+}
+
+.blogRollLinkStyle { }
+
+.blogRollNestedOutlineBodyTableStyle { margin-left: 20px; }
+
+.blogRollNestedOutlineTitleCellStyle { }
+
+.blogRollTableStyle { }
+
+.blogRollXmlLinkStyle { }
+
+.bodyContentStyle { width: 100%; }
+
+.categoryListCellStyle { }
+
+.categoryListContainerStyle { }
+
+.categoryListExpanded { }
+
+.categoryListlinkstyle { }
+
+.categoryListNestedOutlineBadgeCellStyle { }
+
+.categoryListNestedOutlineBadgeStyle { }
+
+.categoryListNestedOutlineBodyTableStyle {
+	width: 100%;
+	margin-left: 25px;
+	margin-bottom: 4px;
+}
+
+.categoryListNestedOutlineContainer { }
+
+.categoryListNestedOutlineTitleCellStyle { }
+
+.categoryListNestedOutlineTitleStyle { }
+
+.categoryListTableStyle { }
+
+.categoryListXmlLinkStyle { }
+
+.commentBoxFooterStyle  { text-align: left; }
+
+.commentDateStyle {
+	width: 100%;
+	border-bottom: 1px dashed;
+	margin-bottom: 5px;
+	padding-bottom: 3px;
+	font-weight: bold;
+	text-align: right;
+}
+
+.date {
+	padding: 2px;
+	margin-top: 10px;
+	margin-bottom: 22px;
+	border-bottom: 1px dotted;
+	font-family: verdana, arial, sans-serif;
+	font-weight: bold;
+	text-align: left;
+	line-height: 14px;
+	text-transform: uppercase;
+	letter-spacing: .2em;
+}
+
+.description {font-style: oblique; }
+
+/*
+	ItemStyle
+*/
+.itemBodyStyle, .commentBodyStyle {
+	margin: 0px;
+	padding-bottom: 1em;
+	font-family: Verdana;
+	font-weight: normal;
+}
+
+.commentSpamStateStyle 
+{
+	margin-top: 1em;
+	font-style: italic;
+	font-size: smaller;
+}
+
+.itemBoxStyle, .commentBoxStyle, .commentViewBoxStyle {
+	border: 1px solid;
+	padding-top: 8px;
+	padding-bottom: 5px;
+	padding-left: 1em;
+	padding-right: 1em;
+	margin-bottom: 15px;
+	text-decoration: none;
+	/*filter: progid:DXImageTransform.Microsoft.Shadow(color=#707070,direction=115,strength=5);*/
+}
+
+
+.itemCategoryLinksStyle {
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-bottom: 5px;
+	margin-bottom: 0px;
+	font-family: verdana, sans-serif;
+	font-weight: normal;
+	text-align: right;
+}
+
+.itemFooterStyle, .commentBoxFooterStyle {
+	border-top: 1px dotted;
+	padding-top: 8px;
+	padding-bottom: 5px;
+	margin-bottom: 0px;
+	font-family: Verdana;
+	font-weight: normal;
+	line-height: 100%;
+	text-align: right;
+}
+
+.itemReadMoreStyle {
+	width: 100%;
+	padding-top: 1em;
+	text-align: left;
+}
+
+.itemTitleStyle {
+	padding-top: 8px;
+	padding-bottom: 5px;
+	margin-bottom: 0px;
+	border-bottom: 1px dashed;
+	font-family: Verdana;
+	font-weight: bold;
+	line-height: 100%;
+	text-align: left;
+}
+
+.navigatorLinksCellStyle { }
+
+.navigatorLinksContainerStyle { }
+
+.navigatorLinksLinkStyle { }
+
+.navigatorLinksTableStyle { }
+
+.newsItems { }
+
+.pageTopic {
+	padding-top: 5px;
+	padding-bottom: 5px;
+	font-family: Georgia;
+	font-weight: bold;
+}
+
+.searchButtonStyle {
+	
+}	
+
+.searchTextBoxStyle {
+}
+
+.side {
+	padding: 5px 5px 5px 5px;
+	padding-left: 10px;
+	margin-right: 10px;
+}
+
+.sidetitle {
+	padding: 2px;
+	margin-top: 10px;
+	border-bottom: 1px dotted;
+	font-family: verdana, sans-serif;
+	font-weight: bold;
+	line-height: 14px;
+	letter-spacing: .1em;
+}
+
+.signInPasswordTextBoxStyle { width: 160px; }
+
+.signInTableStyle { }
+
+.signInUsernameTextBoxStyle { width: 160px; }
+
+.siteName, .siteName a, .siteName a:visited, .siteName a:hover, .siteName a:active, .siteName a:link {
+	font-size: 1.5em;
+	font-weight: normal;
+	font-family: Georgia;
+	letter-spacing: .2em;
+	text-decoration: none;
+	text-transform: uppercase;
+}
+
+.titleListCellStyle { }
+
+.titleListStyle { }
+
+.trackbackLinkStyle { }
+
+.smallestTag {
+	font-size: 0.8em;
+}
+
+.smallerTag  {
+	font-size: 1.0em;
+}
+
+.smallTag {
+	font-size: 1.2em;
+}
+
+.mediumTag {
+	font-size: 1.4em;
+}
+
+.largeTag {
+	font-size: 1.6em;
+}
+
+.largerTag {
+	font-size: 1.8em;
+}
+
+.largestTag {
+	font-size: 2.0em;
+}
+
+.commentViewBoxStyle input 
+{
+	border:1px solid #CCCCCC;
+}
+
+.openidtextbox {
+	background: #FFFFFF url('../../images/openid-icon-small.gif') no-repeat scroll 0pt 50%; 
+	padding-left: 18px; 
+}
+
+.openidtextboxwrap 
+{
+	padding-right: 18px;
+}
+/* DrawPostPaging */
+.post-paging {
+	font-size: 1.25em;
+	margin-top: 0.5em;
+	margin-bottom: 1.5em;
+	text-align: center;
+	font-weight: bold;
+	color: #696969;
+	}
+.post-paging .previous-posts {
+	float: left;
+	}
+
+.post-paging .previous-posts span {
+	margin-right: 0.2em;
+	}
+
+.post-paging .next-posts {
+	float: right;
+	}
+
+.post-paging .next-posts span {
+	margin-left: 0.2em;
+	}

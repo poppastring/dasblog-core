@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<root>
+ <!-- General -->
+ <resource name = "Yes">כן</resource>
+ <resource name = "No">לא</resource>
+ <resource name = "0">0</resource>
+ <resource name = "1">1</resource>
+ <resource name = "2">2</resource>
+ <resource name = "3">3</resource>
+ <resource name = "4">4</resource>
+ <resource name = "5">5</resource>
+ <resource name = "6">6</resource>
+ <resource name = "7">7</resource>
+ <resource name = "8">8</resource>
+ <resource name = "9">9</resource>
+
+ <!-- Main FTB Stuff -->
+ <resource name = "DesignModeTab">עיצוב</resource>
+ <resource name = "HtmlModeTab">HTML</resource>
+ 
+ <!-- Buttons -->
+ <resource name = "Bold">מוגדש</resource>
+ <resource name = "BulletedList">רשימה עם תבליטים</resource>
+ <resource name = "Copy">העתק</resource>
+ <resource name = "CreateLink">צור היפר-קישור</resource>
+ <resource name = "Cut">גזור</resource>
+ <resource name = "Delete">מחק</resource>
+ <resource name = "Indent">כניסה</resource>
+ <resource name = "InsertDate">הוסף תאריך</resource>
+ <resource name = "InsertImage">הוספת תמונה</resource>
+ <resource name = "InsertRule">הוסף קו</resource>
+ <resource name = "InsertTime">הוסף שעה</resource>
+ <resource name = "Italic">נטוי</resource> 
+ <resource name = "JustifyRight">ישר פיסקה לימין</resource> 
+ <resource name = "JustifyCenter">ישר פיסקה למרכז</resource> 
+ <resource name = "JustifyFull">ישר לשני הצדדים</resource> 
+ <resource name = "JustifyLeft">ישר פיסקה לשמאל</resource>
+ <resource name = "NumberedList">רשימה ממוספרת</resource> 
+ <resource name = "Outdent">הסתה החוצה</resource> 
+ <resource name = "Paste">הדבק</resource> 
+ <resource name = "Print">הדפס</resource> 
+ <resource name = "Redo">בצע שוב</resource> 
+ <resource name = "RemoveFormat">הסר עיצוב</resource> 
+ <resource name = "StrikeThrough">קו חוצה</resource>
+ <resource name = "SuperScript">כתב עילי</resource>
+ <resource name = "SubScript">כתב תחתי</resource> 
+ <resource name = "Underline">מתח קו תחתון</resource> 
+ <resource name = "Undo">בטל</resource>
+ <resource name = "Unlink">בטל היפר-קישור</resource>
+
+ <!-- DropDownLists -->
+ <resource name = "FontForeColorsMenu">צבע קידמה</resource>
+ <resource name = "FontBackColorsMenu">צבע רקע</resource>
+ <resource name = "FontSizesMenu">גודל גופן</resource>
+ <resource name = "ParagraphMenu">פיסקה</resource>
+ <resource name = "FontFacesMenu">גופן</resource>
+ <resource name = "InsertHtmlMenu">הוסף HTML</resource>
+ <resource name = "SymbolsMenu">סמלים</resource>
+
+</root>

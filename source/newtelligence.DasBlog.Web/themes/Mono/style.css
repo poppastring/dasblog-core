@@ -1,0 +1,588 @@
+/* 
+	Base styles
+	
+	These are all the base styles that control basic HTML tags.
+	All the referenced styles sheets are imported to control the UI
+	of the theme.
+*/
+
+/* links */
+
+a:link {
+  color: #606fa0;
+  text-decoration:none;
+  }
+
+a:visited {
+  color: #606fa0;
+  text-decoration:none;
+  }
+
+a:hover {
+  color: #5B739C;
+  text-decoration:none; 
+  background-color:#DDDDDD;
+  }
+
+a:active {
+  color: #5B739C;
+  text-decoration: none;
+  }
+  
+  /* Layout */
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Courier New","Lucida Grande", "Trebuchet MS";
+  color: #000000;
+  background: #CCCCCC;
+  text-align:center;
+  }
+
+#content {
+margin-left: 4px;
+}
+
+#footer {
+  margin: 0;
+  padding: 0 0 0 0;
+  font-size: 85%;
+  color: #000000;
+  }
+
+#left {
+  float:left;
+  width: 561px;
+  margin: 0 0 4px 0;
+  padding: 0 0 0 0;
+  line-height: 1.5em;
+  background: #FFFFDD;
+  border: 1px solid #000000;
+}
+
+#main {
+  width: 847px;
+  text-align: left;
+  background: #7793AD;
+  border: 1px solid #000000;
+  margin: 4px 0 0 0;
+}
+
+#right 
+{
+  margin: 0 4px 0 563px;
+  padding: 0 0 0 0;
+  font-size: 85%;
+  line-height: 1.4em;
+  color: #999999;
+  background: #EEEEEE;
+  border: 1px solid #000000;
+  }
+  
+  /* ---( header and site name )--- */
+
+#blog-header {
+  margin: 0;
+  padding: 0;
+  font-family: "Courier New","Lucida Grande", "Trebuchet MS";
+  background: #7793AD;
+  }
+
+#blog-header h1 {
+  margin: 0;
+  padding: 15px 15px 15px 15px;
+  font-size: 200%;
+  color: #FFFFFF;
+  }
+
+#blog-header h1 a {
+  text-decoration: none;
+  color: #FFFFFF;
+  }
+
+#blog-header h1 a:hover {
+  color: #FFFFFF;
+  background: #7793AD;
+  }
+  
+.bookList
+{
+	list-style-type: none;
+}
+  
+  /*
+	ItemStyle
+*/
+.itemBodyStyle, .commentBodyStyle {
+	margin: 0px;
+	padding-bottom: 1em;
+	font-weight: normal;
+	text-align: left;
+}
+
+.itemBodyStyle img {
+  margin:0 0 5px 0;
+  padding:4px;
+  border:1px solid #cca;
+  }
+
+.itemBoxStyle, .commentViewBoxStyle {
+  margin: 0 0 1.5em 0;
+  padding: 0 14px 1.5em 14px;
+  border-bottom: 1px solid #DDDDDD;
+}
+
+.commentBoxStyle, .commentViewBoxStyle 
+{
+  padding: 0 10px 0 25px;
+  font-size: 90%;
+  line-height: 1.5em;
+  background:#FFFFFF;
+  border: 1px solid #7793AD;
+  margin: 0 5px 0 5px;
+}
+
+.itemCategoryLinksStyle {
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-bottom: 5px;
+	margin-bottom: 0px;
+	font-weight: normal;
+	font-size: 90%;
+	text-align: right;
+}
+
+.itemFooterStyle, .commentBoxFooterStyle {
+	border-top: 1px dotted;
+	padding-top: 8px;
+	padding-bottom: 5px;
+	margin-bottom: 0px;
+	font-size: 85%;
+	font-weight: normal;
+	line-height: 100%;
+	text-align: right;
+}
+
+.itemReadMoreStyle {
+	width: 100%;
+	padding-top: 1em;
+	text-align: left;
+}
+
+.itemTitleStyle {
+  margin-top: 0;
+  font-family: "Courier New","Lucida Grande", "Trebuchet MS";
+  font-weight:bold;
+  color: #882222;
+  width: 100%;
+  background: #EEEEEE;
+  border: 1px solid #CCCCCC;
+}
+
+.TitleLinkStyle 
+{
+	color: #882222;
+  color: #882222;
+  background: #EEEEEE;
+  font-weight:bold;
+}
+
+.clear { /* to fix IE6 padding-top issue */
+  clear: both;
+  height: 0;
+  }
+  
+  /* 
+	Calendar Styles
+	
+	These are all the specific styles that you can
+	use to customize the look and feel of the Calendar
+	except for the Color
+*/
+ 
+.hCalendarDay {
+	font-weight: normal;
+}
+
+.hCalendarDay A {
+	font-weight: normal;
+}
+
+.hCalendarDay A:visited {
+	font-weight: bold;
+}
+
+.hCalendarDay A:hover {
+	font-weight: bold;
+}
+
+.hCalendarDayCurrent {
+	font-weight: normal;
+	line-height: 100%;
+}
+
+.hCalendarDayNameRow {
+	border-bottom: 1px solid;
+	padding: 0px;
+	font-size: 10px;
+	font-weight: bold;
+	line-height: 100%;
+}
+
+.hCalendarMonthYearRow {
+	padding: 0px;
+	border-bottom: 1px solid;
+	width: 100%;
+	font-weight: bold;
+	line-height: 100%;
+}
+
+.hCalendarMonthYearRow td {
+	font-weight: bold;
+}
+
+.hCalendarNextPrevStyle {
+}
+
+.hCalendarOtherMonthStyle {
+
+}
+
+.hCalendarOtherMonthWeekendStyle {
+}
+
+.hCalendarStyle {
+	width: 180px;
+	font-size: 13px;
+}
+
+.hCalendarStyle td {
+	line-height: 120%;
+}
+
+.hCalendarWeekendStyle {
+	font-weight: normal;
+}
+
+/* Other Stuff */
+
+.blogRollCellStyle { }
+
+.blogRollContainerStyle { }
+
+.blogRollDescriptionStyle 
+{
+	margin-left:25px;
+}
+
+.blogRollLinkStyle { }
+
+.blogRollNestedOutlineBodyTableStyle { }
+
+.blogRollNestedOutlineTitleCellStyle { }
+
+.blogRollTableStyle { }
+
+.blogRollXmlLinkStyle { }
+
+.bodyContentStyle { }
+
+.categoryListCellStyle 
+{
+	padding-left:15px;
+}
+
+.categoryListContainerStyle { }
+
+.categoryListExpanded { }
+
+.categoryListlinkstyle { }
+
+.categoryListNestedOutlineBadgeCellStyle { }
+
+.categoryListNestedOutlineBadgeStyle { }
+
+.categoryListNestedOutlineBodyTableStyle {
+}
+
+.categoryListNestedOutlineContainer { }
+
+.categoryListNestedOutlineTitleCellStyle { }
+
+.categoryListNestedOutlineTitleStyle { }
+
+.categoryListTableStyle { }
+
+.categoryListXmlLinkStyle { }
+
+.commentBoxFooterStyle  { text-align: left; }
+
+.commentDateStyle {
+	width: 100%;
+	border-bottom: 1px dashed;
+	margin-bottom: 5px;
+	padding-bottom: 3px;
+	font-weight: bold;
+	text-align: right;
+}
+
+.date {
+	padding: 2px;
+	margin-top: 10px;
+	margin-bottom: 22px;
+	border-bottom: 1px dotted;
+	font-weight: bold;
+	text-align: left;
+	line-height: 14px;
+	text-transform: uppercase;
+	letter-spacing: .2em;
+}
+
+.description { font-size: 115%; font-style: oblique; }
+
+.navigatorLinksCellStyle { }
+
+.navigatorLinksContainerStyle { }
+
+.navigatorLinksLinkStyle { }
+
+.navigatorLinksTableStyle { }
+
+.newsItems { }
+
+.pageTopic {
+	padding-bottom: 5px;
+	font-weight: bold;
+}
+
+.searchButtonStyle {
+	
+}	
+
+.searchTextBoxStyle {
+}
+
+.side {
+	padding: 5px 5px 5px 5px;
+	padding-left: 10px;
+	margin-right: 10px;
+	font-size: 85%;
+}
+
+.sidetitle {
+	padding: 2px;
+	margin-top: 10px;
+	border-bottom: 1px dotted;
+	font-weight: bold;
+	line-height: 14px;
+	letter-spacing: .1em;
+	color:#333333;
+}
+
+.signInPasswordTextBoxStyle { width: 160px; }
+
+.signInTableStyle { }
+
+.signInUsernameTextBoxStyle { width: 160px; }
+
+.siteName, .siteName a, .siteName a:visited, .siteName a:hover, .siteName a:active, .siteName a:link {
+	font-size: 200%;
+	font-weight: normal;
+	letter-spacing: .2em;
+	text-decoration: none;
+	text-transform: uppercase;
+}
+
+.titleListCellStyle { }
+
+.titleListStyle { }
+
+.trackbackLinkStyle { }
+
+/* 
+	admin
+	
+	These are all the DasBlog specific styles that you can
+	use to customize the look and feel of the admin content.
+*/
+
+.adminNavbarStyle {
+	padding-top: 10px;
+	padding-left: 1%;
+	padding-right: 1%;
+	font-size: 11px;
+	font-weight: normal;
+	text-align: center;
+	height: 16px;
+	display: block;
+	z-index: 1;
+	position: relative;
+}
+
+.adminNavbarStyle UL { 
+	white-space: nowrap;
+	margin: 0px;
+	padding: 0px;
+	display: inline;
+}
+
+.adminNavbarStyle UL LI 
+{
+	background: #FFFFFF;
+	margin: 0px;
+	padding: 3px;
+	border-right: 1px solid;
+	border-top: 1px solid;
+	list-style: none;
+	display: inline;
+}
+
+.adminNavbarStyle UL LI a { 
+	
+}
+
+.adminNavbarStyle UL LI.first 
+{
+	border-left: 1px solid;
+}
+
+.adminNavbarStyle UL LI.here 
+{
+	border-bottom: 1px solid;
+	list-style: none;
+	display: inline;
+	z-index:2;
+	position:relative;
+}
+
+.adminNavbarStyle UL LI.firstHere 
+{
+	border-left: 1px solid;
+	border-bottom: 1px solid;
+	list-style: none;
+	display: inline;
+	z-index:3;
+	position:relative;
+}
+
+.configControlStyle { font-size: 11px; font-family:Tahoma; }
+
+.configLabelColumnStyle { vertical-align: top; }
+
+.configLabelStyle { margin-right: 10px; font-size: 11px; }
+
+.configSectionStyle {
+	border: 1px dashed;
+	padding-right: 10px;
+	padding-left: 10px;
+	margin-bottom: 15px;
+	padding-bottom: 10px;
+	padding-top: 10px;
+	vertical-align: middle;
+}
+
+.configSectionTitleStyle {
+	margin-bottom: 10px;
+	padding-bottom: 5px;
+	border-bottom: 1px solid;
+	font-weight: bold;
+	font-size: 110%;
+}
+
+.statsTableColumnStyle {
+	border: solid 1px;
+	padding: 3px;
+	margin-top: 3px;
+	margin-bottom: 3px;
+}
+
+.statsTableDateColumnStyle {
+	border: solid 1px;
+	padding: 3px;
+	margin-top: 3px;
+	margin-bottom: 3px;
+	width: 25%;
+	text-align: left;
+}
+
+.statsTableFooterColumnStyle {
+	border-left: solid 1px;
+	border-right: solid 1px;
+	border-bottom: solid 1px;
+	border-top: solid 2px;
+	padding: 3px;
+	font-weight: bold;
+}
+
+.statsTableFooterNumColumnStyle {
+	border-left: solid 1px;
+	border-right: solid 1px;
+	border-bottom: solid 1px;
+	border-top: solid 2px;
+	padding: 3px;
+	width: 15%;
+	font-weight: bold;
+	text-align: right;
+}
+
+.statsTableHeaderColumnStyle {
+	border-left: solid 1px;
+	border-right: solid 1px;
+	border-bottom: solid 2px;
+	border-top: solid 1px;
+	padding: 3px;
+	font-size: 105%;
+	font-weight: bold;
+}
+
+.statsTableNumColumnStyle {
+	border: solid 1px;
+	padding: 3px;
+	margin-top: 3px;
+	margin-bottom: 3px;
+	width: 15%;
+	text-align: right;
+}
+
+.statsTableStyle {
+	margin-bottom: 10px;
+	border: solid 1px;
+	width: 100%;
+	border-collapse: collapse;
+}
+
+.commentViewBoxStyle input 
+{
+	border:1px solid #CCCCCC;
+}
+
+/* Paging */
+.post-paging {
+}
+.previous-posts{
+}
+.next-posts{
+}
+.clear {
+clear: both
+}
+
+/* Tag Cloud */
+.smallestTag { line-height: 110%; font-size: x-small; font-weight: normal; }
+.smallerTag { line-height: 110%; font-size: x-small; font-weight: bold; }
+.smallTag { line-height: 110%; font-size: small; font-weight: normal; }
+.mediumTag { line-height: 110%; font-size: medium; font-weight: normal; }
+.largeTag { line-height: 110%; font-size: large; font-weight: normal; }
+.largerTag { line-height: 110%; font-size: x-large; font-weight: normal; }
+.largestTag { line-height: 110%; font-size: x-large; font-weight: bold; }
+ 
+/* OpenID Support added in 2.2 */
+.openidtextbox {
+	background: #FFFFFF url('../../images/openid-icon-small.gif') no-repeat scroll 0pt 50%; 
+	padding-left: 18px; 
+}
+.openidtextboxwrap 
+{
+	padding-right: 18px;
+}

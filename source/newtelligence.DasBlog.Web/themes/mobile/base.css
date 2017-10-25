@@ -1,0 +1,32 @@
+/* 
+	Base styles
+	
+	These are all the base styles that control basic HTML tags.
+	All the referenced styles sheets are imported to control the UI
+	of the theme.
+*/
+
+@import url("calendar.css");
+@import url("pageLayout.css");
+@import url("dasBlog.css");
+@import url("colors.css");
+
+A {
+
+}
+
+A:link {
+
+}
+
+A:visited {
+
+}
+
+body {
+
+}
+
+pre {
+
+}

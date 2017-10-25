@@ -1,0 +1,21 @@
+﻿<div class="itemBoxStyle">
+
+	<div class="itemHeadStyle">
+    <div class="itemTitleStyle"><%itemTitle%></div>
+	</div>	
+	<div class="itemBodyStyle">
+		<%itemBody%>
+		<div style="clear:both;"><!-- we need this embedded div since we may have floated an image in the item body --></div>
+	</div>
+	<div class="itemFooterStyle">
+		<%when%>&nbsp;
+		<%permalink%>&nbsp;
+		<%editButton%>&nbsp;
+		<%commentLink%> - <%trackbackLink%>
+		<br/>
+		<%categoryLinks%>
+		<br/>				
+		<%trackbackList%>
+		<%enclosure%>
+	</div>
+</div>

@@ -1,0 +1,137 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<title><%title%></title>
+	<!--- <script type="text/javascript" src="/df/themes/directionalredux/pngfix.js"></script> --->
+	<!---  The above removed because link was bad and unneeded giving page errors, also CSS backround PNGs not supported  by this js --->
+	<!---  http://homepage.ntlworld.com/bobosola/pnginfo.htm : Reseached by http://www.codeplex.com/dasBlog/WorkItem/View.aspx?WorkItemId=3517 --->
+	<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+	<%styleSheet("css/base.css")%>
+<!--[if IE]>
+	<%styleSheet("css/ie6.css")%> <![endif]-->
+</head>
+
+<body>
+
+
+
+<div id="header">
+	<div id="header_logo"></div>
+	<h1 class="siteName"><%siteNameLink%></h1>
+	<h2 class="description"><%Subtitle%></h2> 
+	
+	<h1 class="access-aid">Navigation for <%title%></h1>
+	<ol id="toc" class="access-aid">
+		<li><a href="#content" accesskey="1">Content</a></li>
+		<li><a href="#sidebar" accesskey="2">Sidebar</a></li>
+		<li><a href="#footer" accesskey="3">Footer</a></li>
+	</ol>
+</div>
+
+<div id="navbar"><div id="navbar_top"></div></div>
+
+
+<div id="wrapper">
+
+	<div id="container">
+		<div id="content"><a name="content"></a>
+			<%newtelligence.adminBar()%>
+			<%drawCategoryPaging()%>
+			<% DrawCategoryPaging() %> 
+			<%bodytext%> 
+			<div class="post-paging">
+				<div class="previous-posts">
+					<% DrawPostPagingPrevious() %>
+				</div>
+				<div class="next-posts">
+					<% DrawPostPagingNext() %>
+				</div>
+			</div>			
+		</div>
+	</div>
+	
+	
+	<div id="sidebar"><a name="sidebar"></a>
+	
+			
+			
+			<div class="sidetitle">
+				RSS/Subscribe</div>
+			<div class="side">
+				<%feedLink%> </div>
+			<div class="sidetitle">
+				Archives </div>
+			<div class="side">
+				<a href="monthview.aspx">All dates</a>
+				<br />
+				<a href="archives.aspx">All Posts</a>
+			</div>
+			
+			<div class="sidetitle">
+				<%localString("Search")%> </div>
+			<div class="side">
+				<%newtelligence.search()%>
+			</div>
+			<div class="sidetitle">
+				<%localString("Latest Posts")%> </div>
+			<div class="side">
+				<%RecentEntries%>
+			</div>
+			<div class="sidetitle">
+				<%localString("Categories|DE:Kategorien|AR:&#1571;&#1589;&#1606;&#1575;&#1601;")%> 
+			</div>
+			<div class="side">
+				<%drawTagCloud()%>
+			</div>
+			<div class="sidetitle">
+				Archives </div>
+			<div class="side" align="center">
+				<%newtelligence.drawArchiveMonths()%>
+			</div>
+			
+			<div class="sidetitle">
+				BlogRoll </div>
+			<div class="side">
+					<%radio.macros.blogroll("blogroll.opml")%>
+			</div>
+			
+		
+			<div class="sidetitle">
+				Categories</div>
+			<div class="side">
+					<%newtelligence.drawCategories()%>
+			</div>
+			
+			<div class="sidetitle">
+				Contact the Author</div>
+			<div class="side">
+					<%Mailto()%>
+			</div>
+
+			<div class="sidetitle">
+				Themes </div>
+			<div class="side" align="center">
+				<%newtelligence.ASPNETControl("ThemeCombo.ascx")%>
+			</div>
+			
+
+			<div class="blogFooter">
+				Admin <%newtelligence.loginbox ()%>
+			</div>
+
+	</div>
+
+	<div class="clearing">&nbsp;</div>
+
+	<div id="footer"><a name="footer"></a>
+					<%newtelligence.disclaimer()%> 
+					<p>&copy; Copyright <%year%>, <%authorName%> - Powered by: <%radioBadge%></p>
+					<p>DirectionalRedux theme by <a href="http://www.jforsythe.com" target="_blank">John Forsythe</a> and <a href="http://www.jonstovall.com" target="_blank">Jon Stovall</a></p>
+	</div>
+	
+</div>
+
+
+              
+</body>
+</html>

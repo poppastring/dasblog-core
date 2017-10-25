@@ -1,0 +1,94 @@
+/* 
+	Calendar Styles
+	
+	These are all the specific styles that you can
+	use to customize the look and feel of the Calendar
+	except for the Color
+*/
+ 
+.hCalendarDay 
+{
+	font-weight: normal;
+}
+
+.hCalendarStyle 
+{
+	width: 180px;
+	font-size: 9px;
+	color: DimGray;
+}
+
+.hCalendarStyle td 
+{
+	line-height: 120%;
+}
+
+.hCalendarWeekendStyle 
+{
+	font-weight: normal;
+}
+
+.hCalendarDayCurrent 
+{
+	font-weight: bold;
+	color: blue;
+	background-color: #DFDFDF;
+	border: 1px solid black;
+}
+
+.hCalendarDayCurrent a, .hCalendarDayCurrent a:link, .hCalendarDayCurrent a:visited, .hCalendarDayCurrent a:active
+{
+	font-weight: bold; 
+	text-decoration: none; 
+	color: blue;
+}
+
+.hCalendarDayCurrent a:hover
+{
+	font-weight: bold; 
+	text-decoration: none; 
+	color: white;
+	background-color: blue;
+}
+
+.hCalendarDayNameRow 
+{
+	border-bottom: 1px solid #7F7F7F;
+	font-size: 9px;
+	font-weight: normal;
+	line-height: 100%;
+}
+
+.hCalendarMonthYearRow 
+{
+	padding: 0px;
+	border-bottom: 1px solid #7F7F7F;
+	width: 100%;
+	font-weight: bold;
+	line-height: 100%;
+	color: DimGray;
+	background-color: #DFDFDF;
+}
+
+.hCalendarMonthYearRow td 
+{
+	font-weight: bold;
+}
+
+.hCalendarNextPrevStyle 
+{
+}
+
+.hCalendarOtherMonthStyle 
+{
+	background-color: #DFDFDF; 
+}
+
+.hCalendarOtherMonthWeekendStyle 
+{
+	background-color: #DFDFDF; 
+}
+
+
+
+

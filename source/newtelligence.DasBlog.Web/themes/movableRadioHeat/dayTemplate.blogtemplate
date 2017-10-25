@@ -1,0 +1,2 @@
+<div class="date"><%archiveLink%>&nbsp;<%longDate%></div>
+<div class="body"><%Items%></div>

@@ -1,0 +1,748 @@
+﻿	/* #########basic css elements  - dasBlog elements follow#########*/
+a {
+	color:#5b8fbe;
+}
+a:hover {
+	color:#000;
+}
+
+img {
+border:none;
+}
+
+h1 {
+	font-size: 20px;
+	margin-bottom: 4px;
+}
+
+h2	{
+	font-size: 18px;
+	margin: 0px;
+	margin-left: 5px;
+	padding-top: 5px;
+	color: #aaa;
+	cursor: default;
+}
+
+body {
+	padding: 0px;
+	color: #000;
+	margin: 0;
+	background-color: #fff;
+	width: 100%;
+	background: #0094D6 url(bg.gif) repeat-x top left;
+}
+
+	/*######### theme CSS layout #########*/
+#masthead {
+	position: absolute;
+	background:  #0094D6 url(bg.gif) repeat-x top left;
+	width: 100%;
+}
+
+#banner {
+	position: relative;
+	padding: 0px;
+	text-align: left;
+	width: 100%;
+	margin-top: 4px;
+	margin-left: 0px;
+	margin-left: 50px;
+}
+
+#banner img{
+	margin: 0px;
+	padding-left: 0px;
+	padding-right: 75px;
+}
+
+#top_nav {
+	position: relative;
+	margin-left: 0px;
+	padding-top: 69px;
+	height: 28px;
+}
+
+#container {
+	font-size: 14px;
+	width: 100%;
+	background: #FFF url(bgwhite.gif) repeat-x top left;
+}
+
+#left_col {
+	font-size: 14px;
+	font-family: Trebuchet MS, Lucida Sans Unicode, Calibri, Tahoma, Arial;
+	color:#5b8fbe;
+	padding: 5px;
+	padding-top: 10px;
+	width: 220px;
+}
+
+#page_content {
+	padding: 9px;
+	border-left: solid 1px #ddd; 
+	margin-left: 0px;
+	margin-right: 10px;
+	margin-bottom: 10px;
+}
+
+	/* #########page footer #########*/
+#footer {
+	background: #0094D6 url(footerbg.gif) repeat-x top left;
+	color: #FFF;
+	font-size: .7em;
+	line-height: 40px;
+	text-align: center;
+	margin: 0px;
+	padding: 0px:
+}
+#footer a {
+	color: #FFF;
+	text-decoration: none;
+}
+#footer a:hover {
+	color: #FFF;
+	text-decoration: underline;
+}
+
+	/*#########header menu #########*/
+#menu_top{
+	/*overflow: hidden; /* no idea why this works, but it fixes a FF problem */
+}
+
+#menu_top ul {
+	margin: 5px 0 0 233px;
+	padding: 0 0 0 0; 
+	list-style: none;
+	font: bold 1em "Trebuchet MS",sans-serif;
+	float: left;
+}
+
+#menu_top li {
+	display: inline;
+	float: left;
+}
+
+#menu_top a {
+	float: left;
+	background:url(menuleft.gif) no-repeat left top;
+	margin:0;
+	padding:0 1px 0 4px;
+	text-decoration:none;
+	line-height: 1.5em;
+}
+
+#menu_top a span {
+	background: url(menuright.gif) no-repeat right top;
+	padding:0px 6px 4px 6px;
+	color:#5b8fbe; 
+	display: block;
+	float: left;
+	cursor: pointer; /* IE doesnt display the hand when you roll over the link for some reason. This fixes it */
+}
+
+ #menu_top a:hover { background-position:0% 42px; color:#000; }
+ #menu_top a:hover span {	background-position:100% 42px; color:#000;}
+ 
+ 
+#box {
+	margin:1px;
+	margin-bottom: 5px;
+	padding-top: 1px;
+	padding-left: 10px;
+	padding-bottom: 5px;
+	border:1px solid #c0c0c0;
+	border-top:10px solid #5b8fbe;
+	background-color:#fafbfc;
+	color:#505050;
+	list-style: none;
+	line-height: 1em;
+}
+#box h2	{
+	font-size: 20px;
+	margin: 0px;
+	margin-left: 5px;
+	padding: 1px;
+	padding-top: 5px;
+	color: #000;
+	cursor: default;
+}
+
+/* main left */
+#leftside {
+
+}
+#leftside h1 {
+	border-bottom: 1px dashed #DDD;
+	color: #E73;
+	height: 20px;
+	font-size: 1.2em;
+	/* margin-top: 1.2em; */
+}
+#leftside ul {
+	padding: 0;
+	margin: 0;
+}
+#leftside li { 
+	/*border-bottom: 1px dashed #EEE; */
+	list-style: none;
+	margin: 0; 
+}
+#leftside li a {
+	font-size: 0.9em;
+	color: #777;
+	display: block;
+	padding: 0px 3px 3px 12px;
+	text-decoration: none; 
+}
+#leftside li a:hover {
+	color: #111;
+	background: url(arrow.gif) no-repeat;
+}
+
+	/*#########dasBlog CSS Support #########*/
+	
+/*################################################*/
+/* SEARCH */
+/* DasBlog Search CSS with button image - IE 5+ and FF 1.5+ */
+/* DasBlog  binaries write word "Search" on button, misdirected and hidden by CSS */
+/* By Tom Watts  - 03/16/07 - http://www.tomwatts.com  */
+/*################################################*/
+
+#search {
+	float: right;
+}
+.searchContainerStyle
+{
+	text-align: left;
+}
+
+.searchTextBoxStyle
+{
+	width:150px;
+	height:15px;
+	font-size:10pt;	
+}
+
+.searchButtonStyle  {
+    width: 24px; 
+    height: 24px; 
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent url(button.gif) no-repeat center;
+    text-align: right;
+	letter-spacing: -10px;
+	font-size: 1px;
+	text-indent: 100cm;
+	color: #8FB430;
+	overflow: hidden;	  
+    vertical-align: bottom;
+    cursor: pointer; /* hand-shaped cursor */
+    cursor: hand; /* IE 5.x */
+}
+	
+	/*######### dasBlog Comments #########*/
+.commentBoxStyle { 
+	margin-top: 20px;
+	margin-bottom: 20px;
+	background-color: #f8f8f8;
+	border-top: 1px solid #ddd;
+	border-bottom: 1px solid #ddd;
+	width: 500px;
+}
+.commentDateStyle { 
+	font-family: Arial, Helvetica, Sans-Serif;
+	font-size: 0.9em;
+	line-height: 1.5em;
+	padding-bottom: 10px;
+}
+.commentBoxFooterStyle {  
+	padding-top: 10px;
+}
+.commentViewControlStyle {  
+	padding-top: 1px;
+}
+.commentViewEntry {  
+	padding-top: 10px;
+}
+.commentViewBoxStyle {  
+	padding-top: 10px;
+}
+.commentViewTableStyle {  
+	padding-top: 10px;
+}
+.commentBoxAuthorStyle { 
+	padding-top: 1px;
+}
+	/*######### dasBlog tagcloud #########*/
+.smallestTag { font-size: xx-small; }
+.smallerTag { font-size: x-small; }
+.smallTag { font-size: small; }
+.mediumTag { font-size: medium; }
+.largeTag { font-size: large; }
+.largerTag { font-size: x-large; }
+.largestTag { font-size: xx-large; }
+ 
+	/* #########dasBlog title #########*/
+.siteName, .siteName a, .siteName a:visited, .siteName a:hover, .siteName a:active, .siteName a:link {
+	font-family: Trebuchet MS, Lucida Sans Unicode, Calibri, Tahoma, Arial;
+	font-size: 3.5em;
+	letter-spacing: -.1em;
+	line-height: 1.2em;
+	color: #fff;
+	text-decoration: none;
+	font-weight: bold;
+}
+
+/* location etc. for siteNameLink or siteName*/
+.toptitle{
+	/* float: left; */
+	margin-left: 180px;
+	margin-top: -65px;
+}
+
+	/* #########dasBlog misc #########*/
+.signInPasswordTextBoxStyle { width: 160px; }
+
+
+	/*#########	ItemStyle#########*/
+.itemBodyStyle, .commentBodyStyle {
+	margin: 0px;
+	padding-bottom: 1em;
+	font-family: Verdana;
+	font-weight: normal;
+}
+
+.commentSpamStateStyle 
+{
+	margin-top: 1em;
+	font-style: italic;
+	font-size: smaller;
+}
+
+.itemBoxStyle, .commentBoxStyle, .commentViewBoxStyle {
+	/*border: 1px solid; */
+	padding-top: 8px;
+	padding-bottom: 5px;
+	padding-left: 1em;
+	padding-right: 1em;
+	margin-bottom: 15px;
+	text-decoration: none; 
+	/*filter: progid:DXImageTransform.Microsoft.Shadow(color=#707070,direction=115,strength=5);*/
+}
+
+.itemCategoryLinksStyle {
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-bottom: 5px;
+	margin-bottom: 0px;
+	font-family: verdana, sans-serif;
+	font-weight: normal;
+	text-align: right;
+}
+
+.itemFooterStyle, .commentBoxFooterStyle {
+	border-top: 1px dotted;
+	padding-top: 8px;
+	padding-bottom: 5px;
+	margin-bottom: 0px;
+	font-family: Verdana;
+	font-weight: normal;
+	line-height: 100%;
+	text-align: right;
+}
+
+.itemReadMoreStyle {
+	width: 100%;
+	padding-top: 1em;
+	text-align: left;
+}
+
+.itemTitleStyle {
+	font-size: 150%;
+	text-decoration: none;
+	padding-top: 8px;
+	padding-bottom: 5px;
+	margin-bottom: 0px;
+	border-bottom: 1px dashed; 
+	font-family: Verdana;
+	font-weight: bold;
+	line-height: 100%;
+	text-align: left;
+}
+
+	/*#########	admin#########*/
+	/*	These are all the DasBlog specific styles that you can  */
+	/*	use to customize the look and feel of administrative content  */
+	/*#####################*/
+
+#adminContent
+{
+	line-height: 1.5em;
+}
+
+.pageTopic {
+	margin: 0;
+	font-size: 1.5em;
+	font-weight: bold;
+	font-family: "Trebuchet MS", Verdana, arial, helvetica, sans-serif;  
+	clear:left;
+}
+
+#adminReturn {
+	margin: 20px 20px;
+	text-align: center;
+	background-color: #bddcfb;
+	border: 1px solid #ccc;
+}
+
+.adminNavbarStyle {
+	margin: 0;
+	position: relative;
+}
+
+#adminContent .adminNavbarStyle {
+	padding-left: 15px;
+	font-size: 90%;
+}
+
+#adminfront .adminNavbarStyle {
+	padding: 0;
+	font-size: 80%;
+	width: auto;
+	margin: 0;
+	position:relative;
+}
+
+.adminNavbarStyle UL {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	border: none;
+}
+
+.adminNavbarStyle LI {
+	margin: 0;
+	padding: 0;
+	display: block;
+	float: left;
+	width: auto;
+}
+
+.adminNavbarStyle A {
+	color: #444;
+	display: block;
+	width: auto; 
+	text-decoration: none;
+	background: #DDDDDD;
+	margin: 0;
+	padding: 2px 15px;
+	border-left: 1px solid #fff;
+	border-top: 1px solid #fff;
+	border-right: 1px solid #aaa;	
+	border-bottom: 1px solid #aaa;
+}
+
+.adminNavbarStyle .here A, .adminNavbarStyle .firstHere A {
+	background: #fff;
+	border-left: 1px solid #aaa;
+	border-bottom: 1px solid #aaa;
+}
+
+.adminNavbarStyle A:hover, .adminNavbarStyle A:active  { 
+	background: #BBBBBB; 
+}
+
+.adminNavbarStyle A.active:link, .adminNavbarStyle A.active:visited{
+	position: relative;
+/*	z-index: 102; */
+	background: #BBBBBB;
+}
+
+.bodyContentStyle {
+	margin: 15px;
+}
+
+.configControlStyle { 
+	font-size: 11px; 
+	font-family:Tahoma; 
+}
+
+.configLabelColumnStyle { 
+	vertical-align: top; 
+}
+
+.configLabelStyle { 
+	margin-right: 10px; 
+	font-size: 11px; 
+}
+
+.configSectionStyle {
+	background-color: #bddcfb;
+	border: 1px dashed;
+	padding: 10px 10px 10px 10px;
+	margin: 10px 15px; 15px 10px;
+	}
+
+.configSectionTitleStyle {
+	margin-bottom: 5px; 
+	padding-bottom: 5px;
+	border-bottom: 1px solid;
+	font-weight: bold;
+	font-size: 110%;
+} 
+
+.statsTableColumnStyle {
+	border: solid 1px;
+	padding: 3px;
+	margin-top: 3px;
+	margin-bottom: 3px;
+}
+
+.statsTableDateColumnStyle {
+	border: solid 1px;
+	padding: 3px;
+	margin-top: 3px;
+	margin-bottom: 3px;
+	width: 25%;
+	text-align: left;
+}
+
+.statsTableFooterColumnStyle {
+	border-left: solid 1px;
+	border-right: solid 1px;
+	border-bottom: solid 1px;
+	border-top: solid 2px;
+	padding: 3px;
+	font-weight: bold;
+}
+
+.statsTableFooterNumColumnStyle {
+	border-left: solid 1px;
+	border-right: solid 1px;
+	border-bottom: solid 1px;
+	border-top: solid 2px;
+	padding: 3px;
+	width: 15%;
+	font-weight: bold;
+	text-align: right;
+}
+
+.statsTableHeaderColumnStyle {
+	border-left: solid 1px;
+	border-right: solid 1px;
+	border-bottom: solid 2px;
+	border-top: solid 1px;
+	padding: 3px;
+	font-size: 105%;
+	font-weight: bold;
+}
+
+.statsTableNumColumnStyle {
+	border: solid 1px;
+	padding: 3px;
+	margin-top: 3px;
+	margin-bottom: 3px;
+	width: 15%;
+	text-align: right;
+}
+
+.statsTableStyle {
+	margin-bottom: 20px;
+	border: solid 1px black;
+	width: 100%;
+	border-collapse: collapse;
+	border-spacing: 0;
+	background-color: #eee;
+}
+
+#loginBlock {
+	text-align: left;
+	padding: 5px 0 40px 20px;
+}
+
+#loginBlock a, #loginBlock a:link, #loginBlock a:visited, .signInContainerStyle a, .signInContainerStyle a:link, .signInContainerStyle a:visited, #loginBlock a:active, .signInContainerStyle a:active {
+	font-weight: bold; 
+	text-decoration: none;
+	color: DimGray;
+}
+
+#loginBlock a:hover, .signInContainerStyle a:hover {
+	font-weight: bold; 
+	text-decoration: none; 
+	color: white;
+	background-color: #000;
+}
+
+.signInContainerStyle {
+	margin: 20px;
+	border: 1px dashed black;
+	padding: 20px;
+}
+
+.signOutContainerStyle {
+	margin: 20px;
+}
+
+.signInUsernameTextBoxStyle {
+	width: 10em;
+}
+
+.signInPasswordTextBoxStyle {
+	width: 10em;
+}
+
+.signInButtonStyle {
+	width: 8em;
+}
+
+.signRememberCheckBoxStyle {
+
+}
+
+.signInLabelCellStyle {
+	width: 50%;
+	text-align: center;
+}
+
+.signInEditCellStyle {
+	width: 50%;
+	text-align: center;
+}
+
+.signInTableStyle {
+	width: 75%;
+}
+
+
+#loginBlock .signInContainerStyle {
+	text-align: left;
+	margin: 0;
+	padding: 0;
+	border: none;
+}
+#loginBlock .signInLabelCellStyle {
+	width: 100%;
+	text-align: left;
+}
+#loginBlock .signInTableStyle {
+	margin: 0;
+	padding: 0;
+	width: 100%;
+}
+
+.navigatorLinksContainerStyle {
+}
+.navigatorLinksTableStyle {
+}
+.navigatorLinksCellStyle {
+}
+.navigatorLinksLinkStyle {
+	/*color: #777; */
+	text-decoration: none; 
+}
+
+.navigatorLinksLinkStyle li { 
+	border-bottom: 1px dashed #EEE;
+	list-style: none;
+	margin: 0; 
+}
+
+.navigatorLinksLinkStyle li a {
+	font-size: 0.9em;
+	/*color: #777; */
+	display: block;
+	padding: 0px 5px 3px 17px;
+	text-decoration: none; 
+}
+
+.navigatorLinksLinkStyle li a:hover {
+	color: #000;
+	background: url(arrow.gif) no-repeat;
+}
+	/*####### blogroll#######*/
+
+.blogRollContainerStyle
+{
+	margin: 10px 0 10px -10px;
+	text-align: left;
+}
+
+.blogRollNestedOutlineBodyTableStyle
+{
+	border-left: 1px dashed #999;
+	margin-left: 13px;
+	margin-top: 5px;
+	margin-bottom: 10px;
+}
+
+.blogRollCellStyle
+{
+	position: relative;
+	display: block;
+	padding: 2px 0 0 0;
+}
+
+.blogRollNestedOutlineBodyTableStyle  .blogRollNestedOutlineHeaderTableStyle
+{
+	padding-top: 10px;
+	margin-bottom: 0;
+}
+
+.blogRollLinkStyle
+{
+	text-decoration: none; 
+	display: block;
+	width: 120px;
+	position: absolute; top: 0; left: 35px;
+}
+
+.blogRollLinkStyle li a:hover
+{
+	background: #888;
+}
+
+.blogRollXmlLinkStyle
+{
+	width 25px;
+	display: block;
+	position: absolute; top: 0; left: 5px;
+}
+
+.blogRollDescriptionStyle
+{
+	left: 30px;
+	color: #888;
+	width: 120px;
+	padding-left: 35px;
+	margin-bottom: 10px;
+}
+/* Paging */
+.post-paging {
+}
+.previous-posts{
+}
+.next-posts{
+}
+.clear {
+clear: both
+}
+/* Tag Cloud */
+.smallestTag { line-height: 110%; font-size: x-small; font-weight: normal; }
+.smallerTag { line-height: 110%; font-size: x-small; font-weight: bold; }
+.smallTag { line-height: 110%; font-size: small; font-weight: normal; }
+.mediumTag { line-height: 110%; font-size: medium; font-weight: normal; }
+.largeTag { line-height: 110%; font-size: large; font-weight: normal; }
+.largerTag { line-height: 110%; font-size: x-large; font-weight: normal; }
+.largestTag { line-height: 110%; font-size: x-large; font-weight: bold; } 
+/* OpenID Support added in 2.2 */
+.openidtextbox {
+	background: #FFFFFF url('../../images/openid-icon-small.gif') no-repeat scroll 0pt 50%; 
+	padding-left: 18px; 
+}
+
+.openidtextboxwrap 
+{
+	padding-right: 18px;
+}

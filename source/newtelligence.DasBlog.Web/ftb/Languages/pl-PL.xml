@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<root>
+	<!-- General -->
+	<resource name = "Yes">Tak</resource>
+	<resource name = "No">Nie</resource>
+	<resource name = "0">0</resource>
+	<resource name = "1">1</resource>
+	<resource name = "2">2</resource>
+	<resource name = "3">3</resource>
+	<resource name = "4">4</resource>
+	<resource name = "5">5</resource>
+	<resource name = "6">6</resource>
+	<resource name = "7">7</resource>
+	<resource name = "8">8</resource>
+	<resource name = "9">9</resource>
+	
+	<!-- Main FTB Stuff -->
+	<resource name = "DesignModeTab">Projekt</resource>
+	<resource name = "HtmlModeTab">HTML</resource>
+	
+	<!-- Buttons -->
+	<resource name = "Bold">Pogrubienie</resource>
+	<resource name = "BulletedList">Lista wypunktowana</resource>
+	<resource name = "Copy">Kopiuj</resource>
+	<resource name = "CreateLink">Utwórz link</resource>
+	<resource name = "Cut">Wytnij</resource>
+	<resource name = "Delete">Kasuj</resource>
+	<resource name = "Indent">Zwiększ wcięcie</resource>
+	<resource name = "InsertDate">Wstaw datę</resource>
+	<resource name = "InsertImage">Wstaw obraz</resource>
+	<resource name = "InsertRule">Wstaw linię</resource>
+	<resource name = "InsertTime">Wstaw czas</resource>
+	<resource name = "Italic">Kursywa</resource>	
+	<resource name = "JustifyRight">Wyrównaj do prawej</resource>	
+	<resource name = "JustifyCenter">Wyrównaj do środka</resource>	
+	<resource name = "JustifyFull">Wyjustuj</resource>	
+	<resource name = "JustifyLeft">Wyrównaj do lewej</resource>
+	<resource name = "NumberedList">Lista numerowana</resource>	
+	<resource name = "Outdent">Zmniejsz wcięcie</resource>	
+	<resource name = "Paste">Wklej</resource>	
+	<resource name = "Print">Drukuj</resource>	
+	<resource name = "Redo">Wykonaj ponownie</resource>	
+	<resource name = "RemoveFormat">Usuń formatowanie</resource>	
+	<resource name = "Save">Zapisz</resource>
+	<resource name = "StrikeThrough">Przekreślenie</resource>
+	<resource name = "SuperScript">Indeks górny</resource>
+	<resource name = "SubScript">Indeks dolny</resource>	
+	<resource name = "Underline">Podkreślenie</resource>	
+	<resource name = "Undo">Cofnij</resource>
+	<resource name = "Unlink">Usuń link</resource>
+	
+	<resource name = "IeSpellCheck">IE Spell Check</resource>
+	<resource name = "NetSpell">Net Spell Check</resource>
+	
+	
+	<!-- Table Functions -->
+	<resource name = "InsertTable">Wstaw tabelę</resource>
+	<resource name = "InsertTableRowAfter">Wstaw wiersz po</resource>
+	<resource name = "InsertTableRowBefore">Wstaw wiersz przed</resource>
+	<resource name = "InsertTableColumnAfter">Wstaw kolumnę po</resource>
+	<resource name = "InsertTableColumnBefore">Wstaw kolumnę przed</resource>
+	<resource name = "DeleteTableColumn">Skasuj kolumnę</resource>
+	<resource name = "DeleteTableRow">Skasuj wiersz</resource>
+	
+
+	<!-- DropDownLists -->
+	<resource name = "FontForeColorsMenu">Kolor</resource>
+	<resource name = "FontBackColorsMenu">Podświetlenie</resource>
+	<resource name = "FontSizesMenu">Rozmiar</resource>
+	<resource name = "ParagraphMenu">Paragraf</resource>
+	<resource name = "FontFacesMenu">Czcionka</resource>
+	<resource name = "InsertHtmlMenu">Wstaw HTML</resource>
+	<resource name = "SymbolsMenu">Symbole</resource>
+	<resource name = "StylesMenu">Style</resource>
+
+	<!-- DropDownList Items -->
+	<resource name = "ParagraphMenu_Normal">Normalny</resource>
+	<resource name = "ParagraphMenu_Heading1">Nagłówek 1</resource>
+	<resource name = "ParagraphMenu_Heading2">Nagłówek 2</resource>
+	<resource name = "ParagraphMenu_Heading3">Nagłówek 3</resource>
+	<resource name = "ParagraphMenu_Heading4">Nagłówek 4</resource>
+	<resource name = "ParagraphMenu_Heading5">Nagłówek 5</resource>
+	<resource name = "ParagraphMenu_Heading6">Nagłówek 6</resource>
+	<resource name = "ParagraphMenu_Formatted">Sformatowany</resource>
+	<resource name = "ParagraphMenu_Address">Adres</resource>
+</root>

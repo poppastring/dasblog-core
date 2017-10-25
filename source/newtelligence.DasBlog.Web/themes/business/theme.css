@@ -1,0 +1,629 @@
+/*###########################################################################*/
+/* GLOBAL */
+/*###########################################################################*/
+
+a, a:link, a:visited, a:active  { text-decoration: none; color: #000099; }
+a:hover, a:visited:hover { text-decoration: none; color: #990000;  }
+
+html, body, form 
+{
+	font-size:8pt;
+    margin: 15px;
+	padding: 0;			
+}
+
+body 
+{
+    font-family: verdana, arial, helvetica, sans-serif;     
+	font-size:8pt;
+	background-color: #EEEEEE;	
+	color: black;	
+}
+
+/*###########################################################################*/
+/* HEADER
+/*###########################################################################*/
+
+.siteName a, .siteName a:hover, .siteName a:visited, .siteName a:active
+{	
+	font-weight: bold;
+	font-size:28px;
+	color: #F0F0F0;	
+	text-decoration: none;
+	position:absolute;
+		
+	padding-top:20px;
+	padding-left:20px;	
+}
+
+.subtitle
+{	
+	color: #F0F0F0;	
+	position:absolute;
+	padding-top:55px;
+	padding-left:20px;
+	font-weight:normal;
+	font-size:12pt;
+}
+
+.searchContainerStyle
+{
+	text-align:right;
+	padding:15px;
+	padding-top:60px;
+}
+
+.header
+{		
+	width:100%;	
+	height:100px;				
+	background-color:#8492b0;
+	
+	background-image: url(images/headerrepeat.gif);
+	background-repeat:repeat-x;	
+}
+
+.headershadow
+{	
+	background-image: url(images/blockshadowlarge.gif);
+	background-repeat:no-repeat;	
+	height:25px;	
+}
+
+.signInContainerStyle, signInTableStyle, signInLabelCellStyle, signInEditCellStyle
+{
+	font-size:8pt;
+}
+
+/*###########################################################################*/
+/* SEARCH */
+/*###########################################################################*/
+
+.searchTextBoxStyle
+{
+	width:110px;
+	height:12px;
+	font-size:9pt;	
+}
+
+.searchButtonStyle 
+{	
+	font-size:84%;	
+	font-family:'trebuchet ms',helvetica,sans-serif;   
+	font-weight:bold;
+	background-color:#C0C0C0;
+	border-width:0px;
+	vertical-align:top;
+	filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=0,StartColorStr='#ffffffff',EndColorStr='#C0C0C0');*/
+	
+}
+
+/*###########################################################################*/
+/* SIDEBAR
+/*###########################################################################*/
+
+.sidebarright
+{
+	padding-left:10px;	
+	padding-top:40px;
+}
+
+.sideframeright
+{			
+	width:200px;
+
+	padding-left:12px;
+	padding-right:12px;
+	padding-top:5px;
+	padding-bottom:12px;
+
+	border: 1px solid #D8D8D8;		
+	background-color:white;
+	
+	
+	background-image: url(images/sidegradient.jpg);
+	background-repeat:repeat-y;	
+	
+}
+
+.sideframeshadow
+{
+	background-image: url(images/blockshadow.gif);
+	background-repeat:no-repeat;	
+	height:25px;
+}
+
+.sidetop
+{		
+	white-space:nowrap;	
+	font-size: 9pt;	
+	font-weight:bold;	
+	padding-top:6px;
+	padding-bottom:8px;	
+	border-bottom: 1px solid #D8D8D8;
+	color: #666666;		
+}
+
+.side
+{		
+	padding-top:5px;	
+}
+
+/*###########################################################################*/
+/* MAIN
+/*###########################################################################*/
+
+.mainbodyareaframe 
+{  
+	font-size:8pt;
+    vertical-align: top;		
+	padding-right: 15px;
+	padding-top:5px;	
+}
+
+.mainbodyareaframe a:hover, .mainbodyareaframe a:visited:hover 
+{
+	font-size:8pt;
+}
+
+.mainbodyfooter 
+{
+	font-size:8pt;
+	text-align: center;
+	vertical-align: bottom;
+	padding: 10px;	
+	color:#666666;
+}
+
+/*###########################################################################*/
+/* BLOG DATE HEADER
+/*###########################################################################*/
+
+.blogdateheader 
+{	
+    color: #666666;
+    font-family: verdana, arial, helvetica, sans-serif;
+    font-size: 10pt;
+	font-weight: bold;
+	padding: 4px;
+			
+	background-color:#EEEEEE;
+	background-image: url(images/blogheader.gif);
+	background-repeat:no-repeat;	
+}
+
+.archiveLinkImageStyle
+{
+	vertical-align:top;
+}
+
+/*###########################################################################*/
+/* BLOG ITEM
+/*###########################################################################*/
+
+.itemBoxStyle 
+{  
+	margin-top: 10px;
+	margin-bottom:10px;	
+	border: 1px solid #D8D8D8;
+	background-color:white;		
+	padding:15px;
+}
+
+.itemHeadStyle
+{	
+	width:100%;
+	border-bottom: 1px solid #D8D8D8;
+	padding-bottom:5px;
+}
+
+.itemAuthorStyle
+{
+	font-size:8pt;
+	float:right;
+}
+
+.itemTitleStyle, .itemTitleStyle a:link, .itemTitleStyle a:visited 
+{		
+    float:left;
+    font-weight: bold;    
+    color: #000066;            
+}
+
+.itemTitleStyle a:hover, .itemTitleStyle a:visited:hover 
+{
+	color: #990000;
+}
+
+.itemBodyStyle 
+{	
+    padding-right: 0;
+	padding-top: 15px; 
+	padding-bottom: 10px;
+	border-bottom: 1px solid #D8D8D8;
+}
+
+.itemBodyStyle p 
+{
+	margin-top:0;  
+}
+
+.itemFooterStyle 
+{	
+    vertical-align: top;
+    padding-right: 0;    
+    color: gray;	
+    padding-top: 2px;
+    padding-bottom: 5px;
+}
+
+.permalinkImageStyle , .editLinkImageStyle, .deleteLinkImageStyle 
+{
+	vertical-align: middle;
+}
+
+/*###########################################################################*/
+/* COMMENTS
+/*###########################################################################*/
+
+.commentBoxStyle 
+{  		
+	background-color:white;
+	border: solid 1px #D8D8D8;
+	margin-top: 10px;
+	padding: 15px;
+	font-size:8pt;
+}
+
+.commentDateStyle 
+{	
+	color:gray;
+}
+
+.commentBodyStyle 
+{ 
+	font-size:8pt;
+	padding-top: 8px;
+	padding-bottom: 8px;
+}
+
+/*###########################################################################*/
+/* ADD COMMENT
+/*###########################################################################*/
+
+.commentViewBoxStyle 
+{ 	
+	background-color:white;
+	margin-top: 10px;
+	padding:15px;
+	border: solid 1px #D8D8D8;	
+}
+
+
+.commentViewBoxStyle input 
+{
+	border:1px solid #CCCCCC;
+}
+
+.openidtextbox {
+	background: #FFFFFF url('../../images/openid-icon-small.gif') no-repeat scroll 0pt 50%; 
+	padding-left: 18px; 
+}
+
+.openidtextboxwrap 
+{
+	padding-right: 18px;
+	width: 100%;
+}
+
+/*###########################################################################*/
+/* CALENDAR
+/*###########################################################################*/
+ 
+.hCalendarStyle 
+{
+	width: 100%;	
+}
+ 
+.hCalendarDay 
+{
+	font-weight: normal;
+}
+
+.hCalendarDay a, .hCalendarDay a:active, .hCalendarDay a:visited 
+{
+	font-weight: bold;
+}
+
+.hCalendarDay a:hover, .hCalendarDay a:visited:hover 
+{
+	font-weight: bold;
+}
+
+.hCalendarDayCurrent 
+{
+	font-weight: bold;	
+	color: #660000;
+	margin:2px;
+}
+
+.hCalendarWeekendStyle 
+{
+	font-weight: normal;
+}
+
+.hCalendarWeekendStyle  a, .hCalendarWeekendStyle  a:active, .hCalendarWeekendStyle  a:visited 
+{
+	font-weight: bold;
+}
+
+.hCalendarWeekendStyle  a:hover, .hCalendarWeekendStyle  a:visited:hover {
+}
+
+.hCalendarDayNameRow
+{
+	padding: 0px;	
+	font-weight: bold;	
+	padding-top:5px;
+}
+
+.hCalendarMonthYearRow 
+{	
+	width: 100%;
+	font-weight: bold;	
+	margin-bottom:4px;	
+	border-bottom: dashed 1px #D8D8D8;	
+}
+
+.hCalendarMonthYearRow td 
+{
+	font-weight: bold;		
+	padding-bottom:8px;
+}
+
+.hCalendarNextPrevStyle 
+{
+	font-weight: bold;
+}
+
+.hCalendarOtherMonthStyle 
+{
+	color: gray;
+}
+
+.hCalendarOtherMonthWeekendStyle {
+	color: gray;
+}
+
+.hCalendarOtherMonthStyle a 
+{
+	font-weight: bold;
+}
+
+.hCalendarOtherMonthWeekendStyle a {
+	font-weight: bold;
+}
+
+/*###########################################################################*/
+/* CATEGORIES & BLOGROLL
+/*###########################################################################*/
+
+.categoryListNestedOutlineBodyTableStyle {
+	width:100%;
+	margin-left: 15px;
+	margin-top: 5px;
+	padding:2px;
+}
+.blogRollNestedOutlineBodyTableStyle
+{
+	margin-left: 12px;
+	border-left: solid 1px #003399;
+}
+
+.blogRollTableStyle
+{
+}
+
+.blogRollCellStyle
+{
+	padding:1px;
+}
+
+/*###########################################################################*/
+/* ADMIN
+/*###########################################################################*/
+
+.adminNavbarStyle 
+{
+	padding-top: 10px;
+	padding-left: 1%;
+	padding-right: 1%;
+	font-size: 11px;
+	font-weight: normal;
+	text-align: center;
+	height: 16px;
+	display: block;
+	z-index: 1;
+	position: relative;
+	border-bottom: 1px solid darkgray;
+	margin-top:10px;
+	margin-bottom:10px;
+}
+
+.adminNavbarStyle UL { 
+	white-space: nowrap;
+	margin: 0px;
+	padding: 0px;
+	display: inline;
+}
+
+.adminNavbarStyle UL LI { 
+	margin: 0px;
+	padding: 3px;
+	border-right: 1px solid darkgray;
+	border-top: 1px solid darkgray;
+	list-style: none;
+	display: inline;
+	background-color: #eaeaea;
+}
+
+.adminNavbarStyle UL LI a { 
+	
+}
+
+.adminNavbarStyle UL LI.first 
+{
+	border-left: 1px solid darkgray;
+}
+
+.adminNavbarStyle UL LI.here 
+{
+	border-bottom: 1px solid darkgray;
+	list-style: none;
+	display: inline;
+	z-index:2;
+	position:relative;
+	background-color: #dadada;
+}
+
+.adminNavbarStyle UL LI.firstHere 
+{
+	border-left: 1px solid darkgray;
+	border-bottom: 1px solid darkgray;
+	list-style: none;
+	display: inline;
+	z-index:3;
+	position:relative;
+	background-color: #dadada;
+}
+
+.configControlStyle 
+{ 
+	font-size: 8pt;	
+}
+
+.configLabelColumnStyle 
+{ 
+	vertical-align: top; 
+}
+
+.configLabelStyle 
+{ 
+	margin-right: 10px; 
+	font-size: 8pt; 
+}
+
+.configSectionStyle 
+{
+	border: 1px solid #D8D8D8;
+	padding:15px;
+	margin-bottom: 15px;
+	background-color: White;	
+}
+
+.pageTopic
+{
+	padding-top:5px;
+	padding-bottom:5px;
+}
+
+.configSectionTitleStyle 
+{
+	margin-bottom: 10px;
+	padding-bottom: 5px;
+	border-bottom: 1px solid #D8D8D8;
+	font-weight: bold;
+	font-size: 110%;
+}
+
+.statsTableColumnStyle 
+{
+	border: solid 1px #D8D8D8;
+	padding: 3px;
+	margin-top: 3px;
+	margin-bottom: 3px;	
+}
+
+.statsTableDateColumnStyle 
+{
+	border: solid 1px #D8D8D8;
+	padding: 3px;
+	margin-top: 3px;
+	margin-bottom: 3px;
+	width: 25%;
+	text-align: left;	
+}
+
+.statsTableFooterColumnStyle 
+{
+	border-left: solid 1px #D8D8D8;
+	padding: 3px;
+	font-weight: bold;	
+}
+
+.statsTableFooterNumColumnStyle 
+{
+	border-left: solid 1px #D8D8D8;
+	padding: 3px;
+	width: 15%;
+	font-weight: bold;
+	text-align: right;	
+}
+
+.statsTableHeaderColumnStyle 
+{
+	border: solid 1px #D8D8D8;
+	padding: 3px;
+	font-size: 105%;
+	font-weight: bold;	
+}
+
+.statsTableNumColumnStyle 
+{
+	border: solid 1px #D8D8D8;
+	padding: 3px;
+	margin-top: 3px;
+	margin-bottom: 3px;
+	width: 15%;
+	text-align: right;	
+}
+
+.statsTableStyle 
+{
+	margin-bottom: 10px;
+	border: solid 1px #D8D8D8;
+	width: 100%;
+	border-collapse: collapse;
+	border-spacing: 0;	
+	background: White;
+}
+
+/* Paging */
+.post-paging {
+}
+.previous-posts{
+}
+.next-posts{
+}
+.clear {
+clear: both
+}
+
+/* Tag Cloud */
+.smallestTag { line-height: 110%; font-size: x-small; font-weight: normal; }
+.smallerTag { line-height: 110%; font-size: x-small; font-weight: bold; }
+.smallTag { line-height: 110%; font-size: small; font-weight: normal; }
+.mediumTag { line-height: 110%; font-size: medium; font-weight: normal; }
+.largeTag { line-height: 110%; font-size: large; font-weight: normal; }
+.largerTag { line-height: 110%; font-size: x-large; font-weight: normal; }
+.largestTag { line-height: 110%; font-size: x-large; font-weight: bold; }
+ 
+/* OpenID Support added in 2.2 */
+.openidtextbox {
+	background: #FFFFFF url('../../images/openid-icon-small.gif') no-repeat scroll 0pt 50%; 
+	padding-left: 18px; 
+}
+.openidtextboxwrap 
+{
+	padding-right: 18px;
+}

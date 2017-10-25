@@ -1,0 +1,13 @@
+
+/* Class for expanded nested outlines */
+.blogRollExpanded 
+{
+	visibility: visible;
+	display: block;
+}
+/* Class for collapsed nested outlines */
+.blogRollCollapsed 
+{
+	visibility: hidden;
+	display: none;
+}

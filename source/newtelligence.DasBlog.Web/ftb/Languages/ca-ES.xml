@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<root>
+	<!-- General -->
+	<resource name = "Yes">Sí</resource>
+	<resource name = "No">No</resource>
+	<resource name = "0">0</resource>
+	<resource name = "1">1</resource>
+	<resource name = "2">2</resource>
+	<resource name = "3">3</resource>
+	<resource name = "4">4</resource>
+	<resource name = "5">5</resource>
+	<resource name = "6">6</resource>
+	<resource name = "7">7</resource>
+	<resource name = "8">8</resource>
+	<resource name = "9">9</resource>
+	
+	<!-- Main FTB Stuff -->
+	<resource name = "DesignModeTab">Disseny</resource>
+	<resource name = "HtmlModeTab">HTML</resource>
+	
+	<!-- Buttons -->
+	<resource name = "Bold">Negreta</resource>
+	<resource name = "BulletedList">Llista no numerada</resource>
+	<resource name = "Copy">Copia</resource>
+	<resource name = "CreateLink">Crea enllaç</resource>
+	<resource name = "Cut">Retalla</resource>
+	<resource name = "Delete">Suprimeix</resource>
+	<resource name = "Indent">Augmenta la sagnia</resource>
+	<resource name = "InsertDate">Insereix la data</resource>
+	<resource name = "InsertImage">Insereix una imatge</resource>
+	<resource name = "InsertRule">Insereix una línia</resource>
+	<resource name = "InsertTime">Insereix l'hora</resource>
+	<resource name = "Italic">Cursiva</resource>	
+	<resource name = "JustifyRight">Paràgraf a la dreta</resource>	
+	<resource name = "JustifyCenter">Paràgraf centrat</resource>	
+	<resource name = "JustifyFull">Justifica el paràgraf</resource>	
+	<resource name = "JustifyLeft">Paràgraf a l'esquerra</resource>
+	<resource name = "NumberedList">Llista numerada</resource>	
+	<resource name = "Outdent">Redueix la sagnia</resource>	
+	<resource name = "Paste">Enganxa</resource>	
+	<resource name = "Print">Imprimeix</resource>	
+	<resource name = "Redo">Refés</resource>	
+	<resource name = "RemoveFormat">Suprimeix el format</resource>	
+	<resource name = "Save">Desa</resource>
+	<resource name = "StrikeThrough">Ratlla</resource>
+	<resource name = "SuperScript">Superíndex</resource>
+	<resource name = "SubScript">Subíndex</resource>	
+	<resource name = "Underline">Subratlla</resource>	
+	<resource name = "Undo">Desfés</resource>
+	<resource name = "Unlink">Suprimeix enllaç</resource>
+	
+	<resource name = "IeSpellCheck">Verifica l'ortografia (IE)</resource>
+	<resource name = "NetSpell">Verifica l'ortografia (Net)</resource>
+	
+	
+	<!-- Table Functions -->
+	<resource name = "InsertTable">Insereix una taula</resource>
+	<resource name = "InsertTableRowAfter">Insereix una fila a baix</resource>
+	<resource name = "InsertTableRowBefore">Insereix una fila a dalt</resource>
+	<resource name = "InsertTableColumnAfter">Insereix una columna a la dreta</resource>
+	<resource name = "InsertTableColumnBefore">Insereix una columna a l'esquerra</resource>
+	<resource name = "DeleteTableColumn">Suprimeix columna</resource>
+	<resource name = "DeleteTableRow">Suprimeix fila</resource>
+	
+
+	<!-- DropDownLists -->
+	<resource name = "FontForeColorsMenu">Color</resource>
+	<resource name = "FontBackColorsMenu">Marca</resource>
+	<resource name = "FontSizesMenu">Mida</resource>
+	<resource name = "ParagraphMenu">Paràgraf</resource>
+	<resource name = "FontFacesMenu">Font</resource>
+	<resource name = "InsertHtmlMenu">Insereix Html</resource>
+	<resource name = "SymbolsMenu">Simbols</resource>
+	<resource name = "StylesMenu">Estils</resource>
+
+	<!-- DropDownList Items -->
+	<resource name = "ParagraphMenu_Normal">Normal</resource>
+	<resource name = "ParagraphMenu_Heading1">Títol 1</resource>
+	<resource name = "ParagraphMenu_Heading2">Títol 2</resource>
+	<resource name = "ParagraphMenu_Heading3">Títol 3</resource>
+	<resource name = "ParagraphMenu_Heading4">Títol 4</resource>
+	<resource name = "ParagraphMenu_Heading5">Títol 5</resource>
+	<resource name = "ParagraphMenu_Heading6">Títol 6</resource>
+	<resource name = "ParagraphMenu_Formatted">Formatejat</resource>
+	<resource name = "ParagraphMenu_Address">Adreça</resource>
+</root>

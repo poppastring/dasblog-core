@@ -1,0 +1,88 @@
+/*
+	PageLayout
+	
+	This controls the two column page layout of this theme
+*/
+
+#header {
+	width: 100%;
+}
+
+#siteTitleLeft {
+	width: 50%;
+}
+
+#siteTitleRight {
+	width: 50%;
+}
+
+#siteTitle, #siteTitle a, #siteTitle a:visited, #siteTitle a:hover {
+	font-size: 24px;
+	letter-spacing: .5em;
+	text-transform: uppercase;
+	margin: 15px 0px 15px 15px;
+}
+
+#siteSubtitle {
+	font-size: 16px;
+	font-style: oblique;
+	font-weight: bold;
+	letter-spacing: .3em;
+	position: absolute;
+	margin-left: 40px;
+	margin-top: -28px;
+}
+
+#headerLinks {
+	width: 100%;
+	font-size: 12px;
+	text-transform: lowercase;
+	text-decoration: none;
+	padding: 10px 0px 10px 25px;
+}
+
+#headerLinks a, #headerLinks a:visited, #headerLinks a:active {
+	padding: 1px 5px 3px 5px;
+}
+
+#headerLinks a:hover {
+	padding: 0px 4px 2px 4px;
+}
+
+#adminLinks {
+	position: absolute;
+	right: 13px;
+}
+
+#content {
+	clear: both;
+	line-height: 1.5em;
+	position:relative;
+	width: 100%;
+}
+
+#items {
+	font-size: 100%;
+	width: 75%;
+	margin-left: 25%;
+	position: absolute;
+	margin-right:-15px; /*hack for some browsers that will render a scroll bar for non existing off screen content*/
+}
+
+#items .column {
+	padding: 5px 15px 30px 0px;
+}
+
+#sidebar {
+	top: 0px;
+	font-size: 90%;
+	line-height: 1.5em;
+	width: 25%;
+	position: relative;
+	left: 0px;
+}
+
+#sidebar .column {
+	margin: 10px;
+	border: none;
+}

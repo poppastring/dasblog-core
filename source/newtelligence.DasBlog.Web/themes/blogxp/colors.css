@@ -1,0 +1,184 @@
+/*
+	Colors
+	
+	All of the colors of the theme are located here.
+*/
+
+.webpartExpanded {
+	color: Black;
+	border-color: #6699cc;
+}
+
+A:link { color: DimGray; }
+
+A:visited { color: DimGray; }
+
+A:active { color: Black; }
+
+a.external:hover {
+	color: #CEDFF6;
+	background-color: #6699cc;
+}
+
+body {
+	color: White;
+	background-color: #014E82;
+}
+
+.bodyContentStyle {
+}
+
+#header {
+	border-bottom-color: DimGray;
+	background-color: #6699cc;
+	color: White;
+}
+
+#siteTitleLeft {
+	filter:progid:DXImageTransform.Microsoft.Gradient(startColorStr='#4B92D9', endColorStr='#CEDFF6', gradientType='1');
+}
+
+#siteTitleRight {
+	filter:progid:DXImageTransform.Microsoft.Gradient(startColorStr='#CEDFF6', endColorStr='#1E77D3', gradientType='1');
+}
+
+#siteTitle, #siteTitle a, #siteTitle a:visited, #siteTitle:active, #siteTitle a:hover {
+	color: White;
+}
+
+#siteSubtitle {
+	color: #0A6CCE;
+}
+
+#headerLinks {
+	filter:progid:DXImageTransform.Microsoft.Gradient(startColorStr='#0A6CCE', endColorStr='#FFFFFF', gradientType='1');
+}
+
+#headerLinks a, #headerLinks a:visited, #headerLinks a:active {
+	color: #CEDFF6;
+}
+
+#headerLinks A:hover {
+	color: White;
+	background: #3484D7;
+	border: solid 1px #A1C6EB;
+}
+
+#adminLinks A:hover {
+	background: none;
+	border: none;
+}
+
+#left .column { }
+
+#left {
+	background: #014E82;
+}
+
+#sidebar .column {
+}
+
+#footer {
+	filter:progid:DXImageTransform.Microsoft.Gradient(startColorStr='#FFFFFF', endColorStr='#3F8CDA', gradientType='1');
+}
+
+.date {
+	color: White;
+}
+
+.side { background-color: #EEEEEE; }
+
+.sidetitle { color: white; }
+
+.adminNavbarStyle { border-color: #CCCCCC; }
+
+.adminNavbarStyle { border-bottom-color: #BBBBBB; }
+
+.adminNavbarStyle UL LI { border-color: #BBBBBB; background-color: #CCCCCC; }
+
+.adminNavbarStyle UL LI a { }
+
+.adminNavbarStyle UL LI.here { border-bottom-color: #EEEEEE; background-color: #EEEEEE; }
+
+.adminNavbarStyle UL LI.first { border-left-color: #BBBBBB; }
+
+.adminNavbarStyle UL LI.firstHere { border-left-color: #BBBBBB; border-bottom-color: #EEEEEE; background-color: #EEEEEE; }
+
+.commentDateStyle { border-bottom-color: #CCCCCC; color: DimGray; }
+
+.commentViewBoxStyle { color: Black; }
+
+.adminNavbarStyle, .configSectionStyle .sidetitle, .configLabelStyle { color: Black; }
+
+.configSectionStyle { color: Black; border-color: #CCCCCC; background-color: White;}
+
+.configSectionTitleStyle { border-bottom-color: DimGray; }
+
+.description { color: White; }
+
+/* 
+	Calendar Colors
+*/
+ 
+.hCalendarDay { color: Black; background-color: #CCCCCC; }
+
+.hCalendarDay A { color: White; }
+
+.hCalendarDay A:visited { color: White; }
+
+.hCalendarDay A:hover { color: White; }
+
+.hCalendarDayCurrent, .hCalendarDayCurrent A { color: White; background-color: #A0A0A0; }
+
+.hCalendarDayNameRow { border-bottom-color: #7F7F7F; }
+
+.hCalendarMonthYearRow { border-bottom-color: #7F7F7F; color: DimGray; }
+
+.hCalendarNextPrevStyle { }
+
+.hCalendarOtherMonthStyle { color: DimGray; background-color: #BFBFBF; }
+
+.hCalendarOtherMonthWeekendStyle { color: DimGray; background-color: #AFAFAF; }
+
+.hCalendarStyle { color: DimGray; }
+
+.hCalendarStyle td { }
+
+.hCalendarWeekendStyle { background-color: #BCBCBC; }
+
+.hCalendarWeekendStyle A { color: White; }
+
+.itemBodyStyle, .commentBodyStyle { color: Black; background: White; }
+
+.itemBoxStyle, .commentBoxStyle, .commentViewBoxStyle {
+	border-color: #CCCCCC;
+	background-color: White;
+}
+
+.itemFooterStyle, .commentBoxFooterStyle {
+	border-top-color: #CCCCCC;
+	color: Black;
+	background: White;
+}
+
+.itemReadMoreStyle { color: Black; }
+
+.itemTitleStyle { color: Black; border-bottom-color: #CCCCCC; }
+
+.pageTopic { color: White; }
+
+.statsTableColumnStyle { border-color: #CCCCCC; }
+
+.statsTableFooterColumnStyle { border-color: #CCCCCC; }
+
+.statsTableFooterNumColumnStyle { border-color: #CCCCCC; }
+
+.statsTableHeaderColumnStyle { border-color: #CCCCCC; }
+
+.statsTableNumColumnStyle, .statsTableDateColumnStyle { border-color: #CCCCCC; }
+
+.statsTableStyle {
+	border-color: #CCCCCC;
+	color: Black;
+	background: White;
+}

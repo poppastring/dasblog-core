@@ -1,0 +1,49 @@
+
+
+	<div class="itemBoxStyle">
+
+
+	
+	
+				<div class="itemItem">
+				
+					<div class="itemTitleBlock">
+					
+						<div class="itemTitleArea">
+							<div class="itemTitleWhen">
+								<div class="itemWhenStyle"><%FormattedWhenBare("MMMM d, yyyy")%></div>
+								<div class="itemTimeStyle">@ <%FormattedWhenBare("hh:mm tt")%></div>
+								<div class="itemCommentCountStyle"><%commentLink%></div>
+							</div>
+							<div class="itemTitleStyle"><%itemTitle%></div>				
+						</div>
+						
+
+					
+					</div>
+					
+					<div class="itemBodyStyle">
+						<%ItemBody%>
+						<br>
+						<%editButton%>&nbsp;
+					</div>
+		
+					<div class="itemFooterStyle">
+						Categories: <%categoryLinks%><br />
+						<%relatedPostListdiv()%>
+						<%trackbackList%>
+						<%enclosure%>
+						<br clear="all">
+					</div>
+			
+				</div>
+	
+	
+<div class="postnavigation">
+<%PreviousLink("&laquo;&nbsp;",40)%>
+<%MainPageEntryLink("Home","|")%>
+<%NextLink("&nbsp;&raquo;",40)%>
+</div>
+
+	
+	</div>

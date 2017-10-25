@@ -1,0 +1,32 @@
+flickr is online site devoted to storing, searching, sorting and sharing photographs on-line.
+It is getting to be very popular and the site's willingness to inter-operate with other technologies
+(such as user's own blogs) is, I'm sure, probably at least partly to blame for its popularity.
+If you have a flickr account (get one at www.flickr.com - they're free) you can blog photos (along 
+with a title and a description) directly into your blog from the flickr web site.
+
+You can even specify the html you want inserted into your blog.  I've done this for my dasBlog and 
+here is the formatting I use.  If you use these tags, this theme will format the pictures in a 
+nice way.  You can customize the CSS for these entries to your liking if you look at 
+the items.css file.
+
+<table class="flickrTable" cellspacing="0" cellpadding="0">
+  <tr>
+    <td valign="top" class="flickrImgCell">
+      <div class="flickrImgBorder">
+        <div class="flickrImg">
+	  <a href="{photo_url}" title="photo sharing">
+	    <img class="flickrImg" src="{photo_src_m}" alt="{photo_title}" /></a>
+        </div>
+	<span class="flickrCaption"><a href="{photo_url}">{photo_title}</a></span>
+      </div>
+    </td>
+    <td valign="top" class="flickrDescCell">
+      <div class="flickrDescription">
+        <p>{description}</p>
+      </div>
+    </td>
+  </tr>
+</table>
+
+Frank Caico
+frank@frankcaico.net

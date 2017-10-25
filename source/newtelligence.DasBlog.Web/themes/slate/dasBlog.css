@@ -1,0 +1,242 @@
+/* 
+	DasBlog
+	
+	These are all the DasBlog specific styles that you can
+	use to customize the look and feel of the content
+*/
+
+.blogRollCellStyle { }
+
+.blogRollContainerStyle { }
+
+.blogRollDescriptionStyle {
+	margin-left: 15px;
+	font-weight: normal;
+}
+
+.blogRollLinkStyle { }
+
+.blogRollNestedOutlineBodyTableStyle { margin-left: 20px; }
+
+.blogRollNestedOutlineTitleCellStyle { }
+
+.blogRollTableStyle { }
+
+.blogRollXmlLinkStyle { }
+
+.bodyContentStyle { width: 100%; }
+
+.categoryListCellStyle { }
+
+.categoryListContainerStyle { }
+
+.categoryListExpanded { }
+
+.categoryListlinkstyle { }
+
+.categoryListNestedOutlineBadgeCellStyle { }
+
+.categoryListNestedOutlineBadgeStyle { }
+
+.categoryListNestedOutlineBodyTableStyle {
+	width: 100%;
+	margin-left: 25px;
+	margin-bottom: 4px;
+}
+
+.categoryListNestedOutlineContainer { }
+
+.categoryListNestedOutlineTitleCellStyle { }
+
+.categoryListNestedOutlineTitleStyle { }
+
+.categoryListTableStyle { }
+
+.categoryListXmlLinkStyle { }
+
+.commentBoxFooterStyle  { text-align: left; }
+
+.commentDateStyle {
+	width: 100%;
+	border-bottom: 1px dashed;
+	margin-bottom: 5px;
+	padding-bottom: 3px;
+	font-weight: bold;
+	text-align: right;
+}
+
+.date {
+	padding: 2px;
+	margin-top: 10px;
+	margin-bottom: 22px;
+	border-bottom: 1px dotted;
+	font-family: verdana, arial, sans-serif;
+	font-weight: bold;
+	text-align: left;
+	line-height: 14px;
+	text-transform: uppercase;
+	letter-spacing: .2em;
+	height: 20px;
+}
+
+.description { font-style: oblique; }
+
+/*
+	ItemStyle
+*/
+.itemBodyStyle, .commentBodyStyle {
+	margin: 0px;
+	padding-bottom: 1em;
+	font-family: Verdana;
+	font-weight: normal;
+}
+
+.itemBoxStyle, .commentBoxStyle, .commentViewBoxStyle {
+	border: 1px solid;
+	padding-top: 8px;
+	padding-bottom: 5px;
+	padding-left: 1em;
+	padding-right: 1em;
+	margin-bottom: 15px;
+	text-decoration: none;
+}
+
+.itemCategoryLinksStyle {
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-bottom: 5px;
+	margin-bottom: 0px;
+	font-family: verdana, sans-serif;
+	font-weight: normal;
+	text-align: right;
+}
+
+.itemFooterStyle, .commentBoxFooterStyle {
+	border-top: 1px dotted;
+	padding-top: 8px;
+	padding-bottom: 5px;
+	margin-bottom: 0px;
+	font-family: Verdana;
+	font-weight: normal;
+	line-height: 100%;
+	text-align: right;
+}
+
+.itemReadMoreStyle {
+	width: 100%;
+	padding-top: 1em;
+	text-align: left;
+}
+
+.itemTitleStyle {
+	padding-top: 8px;
+	padding-bottom: 5px;
+	margin-bottom: 0px;
+	border-bottom: 1px dashed;
+	font-family: Verdana;
+	font-weight: bold;
+	line-height: 100%;
+	text-align: left;
+}
+
+.navigatorLinksCellStyle { }
+
+.navigatorLinksContainerStyle { }
+
+.navigatorLinksLinkStyle { }
+
+.navigatorLinksTableStyle { }
+
+.newsItems { }
+
+.pageTopic {
+	padding-top: 5px;
+	padding-bottom: 5px;
+	font-family: Georgia;
+	font-weight: bold;
+}
+
+.searchButtonStyle {
+	
+}	
+
+.searchTextBoxStyle {
+}
+
+.side {
+	padding: 5px 5px 5px 5px;
+	padding-left: 10px;
+	border-bottom: 1px solid;
+	border-left: 1px solid;
+	border-right: 1px solid;
+	
+}
+
+.sidetitle {
+	padding: 2px;
+	margin-top: 10px;
+	border-top: 1px solid;
+	border-left: 1px solid;
+	border-right: 1px solid;
+	font-family: verdana, sans-serif;
+	font-weight: bold;
+	line-height: 14px;
+	letter-spacing: .1em;
+}
+
+.signInPasswordTextBoxStyle { width: 160px; }
+
+.signInTableStyle { }
+
+.signInUsernameTextBoxStyle { width: 160px; }
+
+.siteName, .siteName a, .siteName a:visited, .siteName a:hover, .siteName a:active, .siteName a:link {
+	font-size: 1.5em;
+	font-weight: normal;
+	font-family: Georgia;
+	letter-spacing: .2em;
+	text-decoration: none;
+	text-transform: uppercase;
+}
+
+.titleListCellStyle { }
+
+.titleListStyle { }
+
+.trackbackLinkStyle { }
+
+.commentViewBoxStyle input 
+{
+	border:1px solid #CCCCCC;
+}
+
+/* Paging */
+.post-paging {
+}
+.previous-posts{
+}
+.next-posts{
+}
+.clear {
+clear: both
+}
+
+/* Tag Cloud */
+.smallestTag { line-height: 110%; font-size: x-small; font-weight: normal; }
+.smallerTag { line-height: 110%; font-size: x-small; font-weight: bold; }
+.smallTag { line-height: 110%; font-size: small; font-weight: normal; }
+.mediumTag { line-height: 110%; font-size: medium; font-weight: normal; }
+.largeTag { line-height: 110%; font-size: large; font-weight: normal; }
+.largerTag { line-height: 110%; font-size: x-large; font-weight: normal; }
+.largestTag { line-height: 110%; font-size: x-large; font-weight: bold; }
+ 
+/* OpenID Support added in 2.2 */
+.openidtextbox {
+	background: #FFFFFF url('../../images/openid-icon-small.gif') no-repeat scroll 0pt 50%; 
+	padding-left: 18px; 
+}
+.openidtextboxwrap 
+{
+	padding-right: 18px;
+}
+

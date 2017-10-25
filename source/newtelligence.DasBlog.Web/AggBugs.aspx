@@ -1,0 +1,2 @@
+<%@ Page language="c#" validateRequest="true" Codebehind="AggBugs.aspx.cs" AutoEventWireup="False" Inherits="newtelligence.DasBlog.Web.AggBugs" %>
+<asp:placeholder id="contentPlaceHolder" runat="server"></asp:placeholder>

@@ -1,0 +1,595 @@
+/* default theme */
+
+/**********************/
+/* global styles      */
+/**********************/
+
+a, a:link, a:visited, a:active  { text-decoration: none; color: #003399;}
+a:hover, a:visited:hover { text-decoration: underline; color: gray; }
+
+html, body, form {
+    margin: 0;
+	padding: 0;
+}
+body {
+    font-family: verdana, arial, helvetica, sans-serif; 
+	font-size: 0.7em;
+	background-color: white;
+	color: black;
+}
+
+
+/**********************/
+/* top of page banner */
+/**********************/
+
+.pagebannerframe {
+    background-image: url(topgrad.gif);
+    background-repeat: repeat-x;
+    background-color: #002d96;
+}
+.pagebanner {
+    color: white;
+    font-size: 8pt; 
+    font-family: verdana, arial, helvetica, sans-serif;
+}
+.pagebanner a:link, .pagebanner a:visited {
+    font-family: verdana, arial, helvetica, sans-serif;
+    font-size: 8pt; 
+    color: white;
+    font-weight: bold; 
+    text-decoration: none; 
+}
+
+
+/**********************************************************/
+/* title and subtitle area (under top of page banner)     */
+/**********************************************************/
+
+td.pagetitleareaframe {
+   color: black;
+}
+div.pagetitleareaframe {
+   border-top: 3px solid #FFDF8C; 
+}
+
+.pagetitle {
+    color: black; 
+    font-family: verdana, arial, helvetica, sans-serif; 
+    font-size: 14pt; 
+    font-weight: normal; 
+}
+
+.pagetitlearea { 
+    font-family: verdana, arial, helvetica, sans-serif;
+    font-size: 9pt; 
+}
+
+.pagetitlearealine {  /* line under the title area */
+    background-color: #FFDF8C;
+}
+
+/* search */
+.searchform {
+	background-color: #FFDF8C;
+	font-family: verdana, arial, helvetica, sans-serif;
+	font-size: 8pt; 
+}
+.searchcorner {           
+    background-color: white;
+    background-image: url(srchcrnr.gif); 
+    background-repeat: no-repeat;       
+    background-position: left top;
+}
+.searchButtonStyle {
+	border: 1px solid #e1ecfc;
+	background-color: #B9D1F4;
+	color: #003399;
+    background-image: url(partgrad.gif);
+    background-repeat: repeat-x;
+}
+
+
+/***************/
+/* sidebar nav */
+/***************/
+
+.sidebar td, .sidebar  {  /* entire sidebar */
+    font-family: verdana, arial, helvetica, sans-serif;
+    font-size: 8pt;
+	background: #e1ecfc;
+}
+.sidebar {
+	border-right: 1px solid darkgray;
+	padding: 6px;
+}
+.sidebar a {
+    font-family: verdana, arial, helvetica, sans-serif;
+    font-size: 8pt; 
+}
+.sidebarsection { /* sidebar section */
+    border-right: none; 
+    border-left: 0px;
+}
+
+/*
+.ms-viewselect a:link {
+    font-size: 8pt; 
+    font-family: verdana, arial, helvetica, sans-serif;
+}*/
+
+.sidebarheaderline { /* line under sidebar section header */
+    border-bottom: 1px solid darkgray;
+}
+
+.sidebarsubitem { /* unselected item in sidebar section item list, ie. under sidebar section line*/
+   /*border: 1px solid #e1ecfc;*/  /* use this line to put a box around the items, which doesn't really look very good in the current theme */
+   padding-top: 1px;
+   padding-bottom: 10px;
+}
+
+
+/*********************/
+/* main page body    */
+/*********************/
+
+.mainbodyareaframe {  /* main body section to the right of the sidebar and below the top header sections */
+	vertical-align: top;
+	padding-top: 2px;
+	padding-left: 10px;
+	padding-right: 10px;
+}
+.mainbodyareaframe a:hover, .mainbodyareaframe a:visited:hover {
+	color: #ff3300;  /* link hover color in main page body */
+}
+
+.mainbodyfooter {
+	text-align: center;
+	vertical-align: bottom;
+	padding-top: 10px;
+}
+
+
+/********************/
+/* blog date header */
+/********************/
+
+.blogdateheader {
+    color: black;
+    font-family: verdana, arial, helvetica, sans-serif;
+    font-size: 12pt;
+	font-weight: bold;
+	padding-top: 10px;
+	border-bottom: 2px solid #2254b1;
+}
+
+.archiveLinkImageStyle{
+	vertical-align: middle;  /* make the date/archive link image vertically centered with the date text next to it. */
+}
+
+
+/*************/
+/* blog item */
+/*************/
+
+.itemBoxStyle {  /* wraps around item title, body and footer */
+	margin-top: 10px;
+}
+
+.itemTitleStyle {  /* blog title header */
+    background-color: #b9d1f4;
+    background-image: url(partgrad.gif);
+    background-repeat: repeat-x;
+	
+    font-weight: bold; 
+    font-family: verdana, arial, helvetica, sans-serif; 
+    color: #003399;
+    padding-left: 6px; 
+    padding-right: 7px; 
+    padding-top: 2px;
+    padding-bottom: 2px;
+    font-size: 8pt; 
+}
+
+.itemBodyStyle {
+    font-family: verdana, arial, helvetica, sans-serif;
+    vertical-align: top;
+    padding-right: 0;
+	padding-top: 10px; 
+	padding-bottom: 10px;
+	border-bottom: 1px solid #b9d1f4;
+}
+
+.itemBodyStyle p {
+	margin-top:0;  /* remove the default top margin on <p> tags within the item body since they add to much room between the item title and the item body. */
+}
+
+.itemFooterStyle {
+    font-family: verdana, arial, helvetica, sans-serif;
+    vertical-align: top;
+    padding-right: 0;    
+	color: gray;
+	font-size: .9em;
+	padding-top: 2px;
+	padding-bottom: 5px;
+}
+
+.permalinkImageStyle {
+	vertical-align: middle;  /* make the permalink link image vertically centered with the date text next to it. */
+}
+.editLinkImageStyle {
+	vertical-align: middle;  /* make the edit link image vertically centered with the date text next to it. */
+}
+.deleteLinkImageStyle {
+	vertical-align: middle;  /* make the delete link image vertically centered with the date text next to it. */
+}
+
+.approveLinkImageStyle 
+{
+	vertical-align: middle;  /* make the approve link image vertically centered with the date text next to it. */
+}
+
+
+/************/
+/* Comments */
+/************/
+
+.commentBoxStyle {  /* wrapped around one entire comment */
+	border: dotted 2px #b9d1f4;
+	margin-top: 10px;
+	padding: 4px;
+}
+.commentDateStyle {  /* just the comment date */
+	color: gray;
+	font-size: .9em;
+}
+
+.commentBodyStyle {  /* The comment text */
+	padding-top: 8px;
+	padding-bottom: 8px;
+}
+
+.commentBoxFooterStyle {   /* wraps around comment author name/homepage/email */
+}
+
+.commentPermalinkStyle { /* comment author name and homepage link*/
+}
+
+.commentMailToStyle { /* comment author email link */
+}
+.commentViewBoxStyle input 
+{
+	border:1px solid #CCCCCC;
+}
+
+.openidtextbox {
+	background: #FFFFFF url('../../../images/openid-icon-small.gif') no-repeat scroll 0pt 50%; 
+	padding-left: 18px; 
+}
+
+.openidtextboxwrap 
+{
+	padding-right: 18px;
+}
+
+/****************/
+/* Add Comment  */
+/****************/
+
+.commentViewBoxStyle { /* wraps around add comment stuff */
+	margin-top: 10px;
+	border: dotted 2px #b9d1f4;
+	padding: 4px;
+}
+
+.commentViewLabelStyle { /* wraps around add comment labels */
+}
+
+.commentViewControlStyle { /* wraps around add comment controls */
+}
+
+
+/*********************/
+/*	Calendar Styles  */
+/*********************/
+ 
+.hCalendarDay {
+	font-weight: normal;
+}
+
+.hCalendarDay a, .hCalendarDay a:active, .hCalendarDay a:visited{
+	font-weight: bold;
+}
+
+.hCalendarDay a:hover, .hCalendarDay a:visited:hover{
+	font-weight: bold;
+}
+
+.hCalendarDayCurrent {
+	font-weight: normal;
+	line-height: 100%;
+	color: #ff3300;
+}
+
+.hCalendarDayCurrent a {
+	font-weight: bold;
+}
+
+.hCalendarWeekendStyle {
+	font-weight: normal;
+}
+
+.hCalendarWeekendStyle  a, .hCalendarWeekendStyle  a:active, .hCalendarWeekendStyle  a:visited {
+	font-weight: bold;
+}
+
+.hCalendarWeekendStyle  a:hover, .hCalendarWeekendStyle  a:visited:hover {
+}
+
+.hCalendarDayNameRow {
+	padding: 0px;
+	font-size: 10px;
+	font-weight: bold;
+	line-height: 100%;
+	border-bottom-color: #7F7F7F;
+}
+
+.hCalendarMonthYearRow {
+	padding: 0px;
+	width: 100%;
+	font-weight: bold;
+	line-height: 100%;
+	border-bottom-color: #7F7F7F;
+}
+
+.hCalendarMonthYearRow td {
+	font-weight: bold;
+}
+
+.hCalendarNextPrevStyle {
+	font-weight: bold;
+	color: #ff3399;
+}
+
+.hCalendarOtherMonthStyle {
+	color: gray;
+}
+
+.hCalendarOtherMonthWeekendStyle {
+	color: gray;
+}
+
+.hCalendarOtherMonthStyle a {
+	font-weight: bold;
+}
+
+.hCalendarOtherMonthWeekendStyle a {
+	font-weight: bold;
+}
+
+.hCalendarStyle {
+	width: 180px;
+	font-family: georgia, verdana, sans-serif;
+	font-size: 13px;
+}
+
+.hCalendarStyle td {
+	line-height: 120%;
+}
+
+
+/***********/
+/*	admin  */
+/***********/
+
+.adminNavbarStyle {
+	padding-top: 10px;
+	padding-left: 1%;
+	padding-right: 1%;
+	font-size: 11px;
+	font-weight: normal;
+	text-align: center;
+	height: 16px;
+	display: block;
+	z-index: 1;
+	position: relative;
+	border-bottom: 1px solid darkgray;
+}
+
+.adminNavbarStyle UL { 
+	white-space: nowrap;
+	margin: 0px;
+	padding: 0px;
+	display: inline;
+}
+
+.adminNavbarStyle UL LI { 
+	margin: 0px;
+	padding: 3px;
+	border-right: 1px solid darkgray;
+	border-top: 1px solid darkgray;
+	list-style: none;
+	display: inline;
+	background-color: #e1ecfc;
+}
+
+.adminNavbarStyle UL LI a { 
+	
+}
+
+.adminNavbarStyle UL LI.first 
+{
+	border-left: 1px solid darkgray;
+}
+
+.adminNavbarStyle UL LI.here 
+{
+	border-bottom: 1px solid darkgray;
+	list-style: none;
+	display: inline;
+	z-index:2;
+	position:relative;
+	background-color: #d1dcec;
+}
+
+.adminNavbarStyle UL LI.firstHere 
+{
+	border-left: 1px solid darkgray;
+	border-bottom: 1px solid darkgray;
+	list-style: none;
+	display: inline;
+	z-index:3;
+	position:relative;
+	background-color: #d1dcec;
+}
+
+.configControlStyle { font-size: 11px; font-family: verdana, arial, helvetica, sans-serif; }
+
+.configLabelColumnStyle { vertical-align: top; }
+
+.configLabelStyle { margin-right: 10px; font-size: 11px; }
+
+.configSectionStyle {
+	border: 1px dashed;
+	padding-right: 10px;
+	padding-left: 10px;
+	margin-bottom: 15px;
+	padding-bottom: 10px;
+	padding-top: 10px;
+	vertical-align: middle;
+	border-color: #CCCCCC;
+	background-color: White;
+}
+
+.configSectionTitleStyle {
+	margin-bottom: 10px;
+	padding-bottom: 5px;
+	border-bottom: 1px solid darkgray;
+	font-weight: bold;
+	font-size: 110%;
+}
+
+.statsTableColumnStyle {
+	border: solid 1px;
+	padding: 3px;
+	margin-top: 3px;
+	margin-bottom: 3px;
+	border-color: #CCCCCC;
+}
+
+.statsTableDateColumnStyle {
+	border: solid 1px;
+	padding: 3px;
+	margin-top: 3px;
+	margin-bottom: 3px;
+	width: 25%;
+	text-align: left;
+	border-color: #CCCCCC;
+}
+
+.statsTableFooterColumnStyle {
+	border-left: solid 1px;
+	border-right: solid 1px;
+	border-bottom: solid 1px;
+	border-top: solid 2px;
+	padding: 3px;
+	font-weight: bold;
+	border-color: #CCCCCC;
+}
+
+.statsTableFooterNumColumnStyle {
+	border-left: solid 1px;
+	border-right: solid 1px;
+	border-bottom: solid 1px;
+	border-top: solid 2px;
+	padding: 3px;
+	width: 15%;
+	font-weight: bold;
+	text-align: right;
+	border-color: #CCCCCC;
+}
+
+.statsTableHeaderColumnStyle {
+	border-left: solid 1px;
+	border-right: solid 1px;
+	border-bottom: solid 2px;
+	border-top: solid 1px;
+	padding: 3px;
+	font-size: 105%;
+	font-weight: bold;
+	border-color: #CCCCCC;
+}
+
+.statsTableNumColumnStyle {
+	border: solid 1px;
+	padding: 3px;
+	margin-top: 3px;
+	margin-bottom: 3px;
+	width: 15%;
+	text-align: right;
+	border-color: #CCCCCC;
+}
+
+.statsTableStyle {
+	margin-bottom: 10px;
+	border: solid 1px;
+	width: 100%;
+	border-collapse: collapse;
+	border-spacing: 0;
+	border-color: #CCCCCC;
+	background: White;
+}
+
+
+/* others */
+
+.itemReadMoreStyle {  }  /* unused? */
+
+.pageTopic { color: #7F7F7F; }
+
+.sidetitle { border-bottom-color: #7F7F7F; color: #7F7F7F; }
+
+.siteName, .siteName a, .siteName a:visited, .siteName a:hover, .siteName a:active, .siteName a:link {
+	color: White; 
+}
+
+.categoryListNestedOutlineBodyTableStyle {
+	width:100%;
+	margin-left: 15px;
+	margin-top: 3px;
+}
+.blogRollNestedOutlineBodyTableStyle
+{
+	margin-left: 12px;
+	border-left: solid 1px #003399;
+}
+
+/* Paging */
+.post-paging {
+}
+.previous-posts{
+}
+.next-posts{
+}
+.clear {
+clear: both
+}
+
+/* Tag Cloud */
+.smallestTag { line-height: 110%; font-size: x-small; font-weight: normal; }
+.smallerTag { line-height: 110%; font-size: x-small; font-weight: bold; }
+.smallTag { line-height: 110%; font-size: small; font-weight: normal; }
+.mediumTag { line-height: 110%; font-size: medium; font-weight: normal; }
+.largeTag { line-height: 110%; font-size: large; font-weight: normal; }
+.largerTag { line-height: 110%; font-size: x-large; font-weight: normal; }
+.largestTag { line-height: 110%; font-size: x-large; font-weight: bold; }
+ 
+/* OpenID Support added in 2.2 */
+.openidtextbox {
+	background: #FFFFFF url('../../images/openid-icon-small.gif') no-repeat scroll 0pt 50%; 
+	padding-left: 18px; 
+}
+.openidtextboxwrap 
+{
+	padding-right: 18px;
+}

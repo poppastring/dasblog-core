@@ -1,0 +1,40 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="author" content="Frank Caico" />
+	<title><%title%></title>
+	<!-- to correct the unsightly Flash of Unstyled Content. http://www.bluerobot.com/web/css/fouc.asp -->
+	<script type="text/javascript"></script>
+	<!-- Fix IE support for png files. -->
+	<!--[if gte IE 5.5000]>
+	<script type="text/javascript" src="Themes/Raised/pngfix.js"></script>
+	<![endif]-->
+	<%styleSheet("base.css")%>
+</head>
+<body>
+	<div id="pageContainer">
+		<div id="pageContent">
+			<div id="pageHeader">
+				<h1><span><%siteNameLink%></span></h1>
+				<h2><span><%subtitle%></span></h2>
+			</div>
+			<%newtelligence.adminBar()%>
+			<div id="adminContent" style="clear: both">
+				<%bodytext%>
+				<div id="adminReturn">
+					<p><%newtelligence.aspnetcontrol("themecombo.ascx")%></p>
+					<p>Return to <%siteNameLink%></p>
+				</div>	
+			</div>
+		</div>
+			<div id="footer">
+				<div id="aboutBox">
+					<p>All content is &copy; Copyright <%year%>, <%authorName%></p>
+					<p>This blog is Powered by: <%radioBadge%>.</p>
+					<%newtelligence.disclaimer()%>
+				</div>
+			</div>
+	</div>
+</body>
+</html>

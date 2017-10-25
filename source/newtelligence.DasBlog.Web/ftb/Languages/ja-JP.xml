@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<root>
+	<!-- General -->
+	<resource name = "Yes">はい</resource>
+	<resource name = "No">いいえ</resource>
+	<resource name = "0">0</resource>
+	<resource name = "1">1</resource>
+	<resource name = "2">2</resource>
+	<resource name = "3">3</resource>
+	<resource name = "4">4</resource>
+	<resource name = "5">5</resource>
+	<resource name = "6">6</resource>
+	<resource name = "7">7</resource>
+	<resource name = "8">8</resource>
+	<resource name = "9">9</resource>
+	
+	<!-- Main FTB Stuff -->
+	<resource name = "DesignModeTab">デザイン</resource>
+	<resource name = "HtmlModeTab">HTML</resource>
+	
+	<!-- Buttons -->
+	<resource name = "Bold">太字</resource>
+	<resource name = "BulletedList">箇条書き</resource>
+	<resource name = "Copy">コピー</resource>
+	<resource name = "CreateLink">ハイパーリンクの挿入</resource>
+	<resource name = "Cut">切り取り</resource>
+	<resource name = "Delete">削除</resource>
+	<resource name = "Indent">インデント</resource>
+	<resource name = "InsertDate">日付の挿入</resource>
+	<resource name = "InsertImage">イメージの挿入</resource>
+	<resource name = "InsertRule">水平線の挿入</resource>
+	<resource name = "InsertTime">時間の挿入</resource>
+	<resource name = "Italic">斜体</resource> 
+	<resource name = "JustifyRight">右揃え</resource> 
+	<resource name = "JustifyCenter">中央揃え</resource> 
+	<resource name = "JustifyFull">両端揃え</resource> 
+	<resource name = "JustifyLeft">左揃え</resource>
+	<resource name = "NumberedList">段落番号</resource> 
+	<resource name = "Outdent">インデント解除</resource> 
+	<resource name = "Paste">貼り付け</resource> 
+	<resource name = "Print">印刷</resource> 
+	<resource name = "Redo">やり直し</resource> 
+	<resource name = "RemoveFormat">書式の削除</resource> 
+	<resource name = "Save">保存</resource>
+	<resource name = "StrikeThrough">取り消し線</resource>
+	<resource name = "SuperScript">上付き</resource>
+	<resource name = "SubScript">下付き</resource> 
+	<resource name = "Underline">下線</resource> 
+	<resource name = "Undo">元に戻す</resource>
+	<resource name = "Unlink">リンクの解除</resource>
+	
+	<resource name = "IeSpellCheck">IE スペルチェック</resource>
+	<resource name = "NetSpell">Net スペルチェック</resource>
+	<resource name = "InsertImageFromGallery">ギャラリーからイメージを挿入</resource>
+	<resource name = "WordClean">MS Word HTMLをきれいにする</resource>
+	<resource name = "EditStyle">直近の要素スタイルを編集</resource>
+	
+	<resource name = "Preview">プレビュー</resource>
+	<resource name = "SelectAll">すべて選択</resource>
+	<resource name = "FontForeColorPicker">前景色選択</resource>
+	<resource name = "FontBackColorPicker">背景色選択</resource>	
+	<resource name = "InsertDiv">DIVの挿入</resource>
+	
+	<!-- Table Functions -->
+	<resource name = "InsertTable">テーブルの挿入</resource>
+	<resource name = "EditTable">テーブルの編集</resource>
+	<resource name = "InsertTableRowAfter">行の挿入(上)</resource>
+	<resource name = "InsertTableRowBefore">行の挿入(下)</resource>
+	<resource name = "InsertTableColumnAfter">列の挿入(前)</resource>
+	<resource name = "InsertTableColumnBefore">列の挿入(後)</resource>
+	<resource name = "DeleteTableColumn">列の削除</resource>
+	<resource name = "DeleteTableRow">行の削除</resource>
+
+	<!-- Form Functions -->
+	<resource name = "InsertForm">フォームの挿入</resource>
+	<resource name = "InsertDropDownList">ドロップダウンリストの挿入</resource>
+	<resource name = "InsertTextBox">テキストボックスの挿入</resource>
+	<resource name = "InsertCheckBox">チェックボックスの挿入</resource>
+	<resource name = "InsertTextArea">テキストエリアの挿入</resource>
+	<resource name = "InsertButton">ボタンの挿入</resource>
+	<resource name = "InsertRadioButton">ラジオボタンの挿入</resource>
+
+	<!-- DropDownLists -->
+	<resource name = "FontForeColorsMenu">フォントの色</resource>
+	<resource name = "FontBackColorsMenu">蛍光ペン</resource>
+	<resource name = "FontSizesMenu">サイズ</resource>
+	<resource name = "ParagraphMenu">スタイル</resource>
+	<resource name = "FontFacesMenu">フォント</resource>
+	<resource name = "InsertHtmlMenu">HTMLの挿入</resource>
+	<resource name = "SymbolsMenu">特殊文字</resource>
+
+	<!-- DropDownList Items -->
+	<resource name = "ParagraphMenu_Normal">標準</resource>
+	<resource name = "ParagraphMenu_Heading1">見出し 1</resource>
+	<resource name = "ParagraphMenu_Heading2">見出し 2</resource>
+	<resource name = "ParagraphMenu_Heading3">見出し 3</resource>
+	<resource name = "ParagraphMenu_Heading4">見出し 4</resource>
+	<resource name = "ParagraphMenu_Heading5">見出し 5</resource>
+	<resource name = "ParagraphMenu_Heading6">見出し 6</resource>
+	<resource name = "ParagraphMenu_Formatted">書式付き</resource>
+	<resource name = "ParagraphMenu_Address">アドレス</resource>
+</root>
