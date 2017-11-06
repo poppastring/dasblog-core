@@ -2,6 +2,17 @@
 The DasBlog Blogging Engine reintroduced with ASP.NET Core
 
 
+## Core Tenants - "This we believe"
+
+- We want to Pragmatically reuse core DasBlog projects where feasible.
+- Do not be afraid to abandon features/projects that are easily solved with a NuGet package (Pop3, CAPTCHA, Noda Time, etc.)
+- Let's use Razor for "Themes"
+- Port the custom logging solution to use .NET Core
+- DI all the things (avoid massive static objects)
+- WISH: Build on Linux (clone/build)
+
+
+
 ## Installing the development tools
 
 - Install [.NET Core SDK 2.0](https://aka.ms/dotnet-sdk-2.0.0-win-gs-x64)
