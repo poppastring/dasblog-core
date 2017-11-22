@@ -12,7 +12,16 @@ namespace DasBlog.Web.UI.Core
         ISiteConfig SiteConfiguration { get; }
         IMetaTags MetaTags { get; }
         ISiteSecurityConfig SecurityConfiguration { get; }
+
         string WebRootDirectory { get; }
+
+        string RssUrl { get; }
+        string CategoryUrl { get; }
+        string ArchiveUrl { get; }
+        string MicroSummaryUrl { get; }
+        string RsdUrl { get; }
+
+        string ShortCutIconUrl { get; }
 
         string RelativeToRoot(string relative);
         string GetBaseUrl();

@@ -21,9 +21,28 @@ namespace DasBlog.Web.UI.Settings
             this.SiteConfiguration = siteConfig.Value;
             this.MetaTags = metaTagsConfig.Value;
             this.SecurityConfiguration = siteSecurityConfig.Value;
+
+            this.RssUrl = this.RelativeToRoot("feed/rss");
+            this.CategoryUrl = this.RelativeToRoot("category");
+            this.ArchiveUrl = this.RelativeToRoot("archive");
+            this.MicroSummaryUrl = this.RelativeToRoot("microsummary");
+            this.RsdUrl = this.RelativeToRoot("feed/rsd");
+            this.ShortCutIconUrl = this.RelativeToRoot("icon.jpg");
         }
 
         public string WebRootDirectory { get; }
+
+        public string RssUrl { get; }
+
+        public string CategoryUrl { get; }
+
+        public string ArchiveUrl { get; }
+
+        public string MicroSummaryUrl { get; }
+
+        public string RsdUrl { get; }
+
+        public string ShortCutIconUrl { get; }
 
         public IMetaTags MetaTags { get; }
 

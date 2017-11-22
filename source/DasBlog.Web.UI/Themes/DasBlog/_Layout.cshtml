@@ -1,9 +1,26 @@
-﻿<!DOCTYPE html>
+﻿@inject IDasBlogSettings dasBlogSettings
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - DasBlog Theme</title>
+
+    <title>@ViewData["Title"]</title>
+
+    <meta name="description" content="@ViewData["Description"]" />
+    <meta name="keywords" content="@ViewData["Keywords"]" />
+    <link rel="canonical" href="@ViewData["Canonical"]" />
+    <meta name="author" content="@ViewData["Author"]" />
+
+    <base href="@dasBlogSettings.SiteConfiguration.Root" />
+    <meta name="copyright" content="@dasBlogSettings.SiteConfiguration.Copyright" />
+
+    <link rel="alternate" type="application/rss+xml" title="@dasBlogSettings.SiteConfiguration.Description" href="@dasBlogSettings.RssUrl" />
+    <link rel="EditURI" type="application/rsd+xml" title="RSD" href="@dasBlogSettings.RsdUrl" />
+    <link rel="microsummary" type="application/x.microsummary+xml" href="@dasBlogSettings.MicroSummaryUrl" />
+
+    <link rel="shortcut icon" href="@dasBlogSettings.ShortCutIconUrl" />
 
     <environment names="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
@@ -41,7 +58,7 @@
     <div class="container body-content">
         @RenderBody()
         <footer>
-            <p>&copy; 2017 - WebCoreApp</p>
+            <p>&copy; @DateTime.Now.Year - @dasBlogSettings.SiteConfiguration.Copyright</p>
         </footer>
     </div>
 
