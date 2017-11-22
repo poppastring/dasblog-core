@@ -44,7 +44,7 @@ namespace DasBlog.Web.UI.Controllers
                                     PermaLink = entry.Link,
                                     Title = entry.Title
                                 }).ToList();
-
+            MultiplePosts();
 
             return View(string.Format("/Themes/{0}/Page.cshtml", _dasBlogSettings.SiteConfiguration.Theme), lpvm);
         }
@@ -70,6 +70,8 @@ namespace DasBlog.Web.UI.Controllers
                         PermaLink = entry.Link,
                         Title = entry.Title}};
 
+                    SinglePost(lpvm.Posts.First());
+
                     return View(string.Format("/Themes/{0}/Page.cshtml", _dasBlogSettings.SiteConfiguration.Theme), lpvm);
                 }
                 else
@@ -91,8 +93,8 @@ namespace DasBlog.Web.UI.Controllers
             // Get post by GUID bbecae4b-e3a3-47a2-b6a6-b4cc405f8663
             Entry entry = _blogRepository.GetBlogPost(Id.ToString());
 
-            ListPostsViewModel lvpm = new ListPostsViewModel();
-            lvpm.Posts = new List<PostViewModel> {
+            ListPostsViewModel lpvm = new ListPostsViewModel();
+            lpvm.Posts = new List<PostViewModel> {
                     new PostViewModel
                     {
                         Author = entry.Author,
@@ -107,9 +109,9 @@ namespace DasBlog.Web.UI.Controllers
                     }
                 };
 
-            ViewData["Message"] = "Comment...";
-            
-            return View(string.Format("/Themes/{0}/Page.cshtml", _dasBlogSettings.SiteConfiguration.Theme), lvpm);
+            SinglePost(lpvm.Posts.First());
+
+            return View(string.Format("/Themes/{0}/Page.cshtml", _dasBlogSettings.SiteConfiguration.Theme), lpvm);
         }
 
         [Route("page")]
@@ -142,12 +144,15 @@ namespace DasBlog.Web.UI.Controllers
                                     PermaLink = entry.Link,
                                     Title = entry.Title
                                 }).ToList();
+            MultiplePosts();
 
             return View(string.Format("/Themes/{0}/Page.cshtml", _dasBlogSettings.SiteConfiguration.Theme), lpvm);
         }
 
         public IActionResult About()
         {
+            MultiplePosts();
+
             ViewData["Message"] = "Your application description page.";
 
             return View();
@@ -155,6 +160,8 @@ namespace DasBlog.Web.UI.Controllers
 
         public IActionResult Contact()
         {
+            MultiplePosts();
+
             ViewData["Message"] = "Your contact page.";
 
             return View();
@@ -163,6 +170,24 @@ namespace DasBlog.Web.UI.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        private void SinglePost(PostViewModel post)
+        {
+            ViewData["Title"] = post.Title;
+            ViewData["Description"] = post.Description;
+            ViewData["Keywords"] = post.Categories;
+            ViewData["Canonical"] = post.PermaLink;
+            ViewData["Author"] = post.Author;
+        }
+
+        private void MultiplePosts()
+        {
+            ViewData["Title"] = _dasBlogSettings.SiteConfiguration.Title;
+            ViewData["Description"] = _dasBlogSettings.SiteConfiguration.Description;
+            ViewData["Keywords"] = _dasBlogSettings.MetaTags.MetaKeywords;
+            ViewData["Canonical"] = _dasBlogSettings.SiteConfiguration.Root;
+            ViewData["Author"] = _dasBlogSettings.SiteConfiguration.Copyright;
         }
     }
 }

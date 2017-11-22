@@ -1,5 +1,9 @@
 ﻿@model PostViewModel
 
+@{
+    ViewData["Title"] = @Model.Title;
+}
+
 <div class="post">
     <h2>@Model.Title</h2>
     <div class="post-body">

@@ -24,7 +24,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\logs\" />
     <Folder Include="wwwroot\content\" />
   </ItemGroup>
 
