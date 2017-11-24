@@ -4,7 +4,7 @@ The DasBlog Blogging Engine reintroduced with ASP.NET Core
 
 ## Core Tenants - "This we believe"
 
-- We want to Pragmatically reuse core DasBlog projects where feasible.
+- We want to pragmatically reuse core DasBlog projects where feasible.
 - Do not be afraid to abandon features/projects that are easily solved with a NuGet package (Pop3, CAPTCHA, Noda Time, etc.)
 - Let's use Razor for "Themes"
 - Port the custom logging solution to use .NET Core
