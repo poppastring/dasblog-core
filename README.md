@@ -32,3 +32,14 @@ git clone https://github.com/poppastring/dasblog-core
 ```
 
 Change to the "source" directory and open the *DasBlog All.sln* and perform a build.
+
+## The story so far...
+- Upgraded all existing projects to 4.6.X (for .NET Standard 2 support)
+- Created a new ASP.NET Web Core 2 project that shows the blogs home page with posts
+- Integrated ViewLocationExpanders to support "Themes"
+- AddIISUrlRewrite middleware to support 301 redirects for static ".aspx" (archives.aspx, monthview.aspx, etc.)
+- Integrate existing dasBlog config (meta, security, site, etc)
+- Integrate with original DasBlog layer via repository pattern
+- Support for RSS and RSS by category
+- Support for Sitemap
+- Support for paging e.g. page/1, page/2, etc.
