@@ -84,6 +84,13 @@ namespace DasBlog.Web.UI.Controllers
             return NoContent();
         }
 
+        [HttpPost("blogger")]
+        public ActionResult Blogger(string xmlrpc)
+        {
+
+            return NoContent();
+        }
+
         public IActionResult Atom()
         {
             return NoContent();

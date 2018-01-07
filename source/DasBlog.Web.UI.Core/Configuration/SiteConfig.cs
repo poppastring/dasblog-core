@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Xml;
+﻿using System.Xml;
 using newtelligence.DasBlog.Runtime;
 using newtelligence.DasBlog.Web.Core;
 
@@ -9,10 +6,7 @@ namespace DasBlog.Web.UI.Core.Configuration
 {
     public class SiteConfig : ISiteConfig
     {
-        public SiteConfig()
-        {
-
-        }
+        public SiteConfig() { }
 
         public string Title { get; set; }
         public string Subtitle { get; set; }
