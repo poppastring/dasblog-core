@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DasBlog.Web.UI.Repositories.Interfaces
+namespace DasBlog.Web.Repositories.Interfaces
 {
     public interface ISiteRepository
     {

@@ -4,8 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using newtelligence.DasBlog.Runtime;
-using DasBlog.Web.UI.Core;
-using DasBlog.Web.UI.Repositories.Interfaces;
+using DasBlog.Web.Core;
+using DasBlog.Web.Repositories.Interfaces;
 using Microsoft.AspNetCore.Http;
 
 namespace DasBlog.Web.UI.Controllers

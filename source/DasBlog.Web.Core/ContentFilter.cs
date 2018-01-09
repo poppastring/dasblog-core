@@ -4,7 +4,7 @@ using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
 
-namespace DasBlog.Web.UI.Core
+namespace DasBlog.Web.Core
 {
     [Serializable]
     [XmlType(Namespace = "urn:newtelligence-com:dasblog:config")]

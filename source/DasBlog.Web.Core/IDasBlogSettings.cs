@@ -1,11 +1,11 @@
-﻿using DasBlog.Web.UI.Core.Configuration;
+﻿using DasBlog.Web.Core.Configuration;
 using newtelligence.DasBlog.Runtime;
 using newtelligence.DasBlog.Util;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace DasBlog.Web.UI.Core
+namespace DasBlog.Web.Core
 {
     public interface IDasBlogSettings
     {

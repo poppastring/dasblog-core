@@ -8,7 +8,7 @@ using newtelligence.DasBlog.Web.Services;
 using newtelligence.DasBlog.Web;
 using System.Reflection;
 
-namespace DasBlog.Web.UI.Core
+namespace DasBlog.Web.Core
 {
     [XmlRpcService(Name = "DasBlog Blogger Access Point", Description = "Implementation of Blogger XML-RPC Api")]
     public class BloggerAPI : XmlRpcService, MovableType.IMovableType

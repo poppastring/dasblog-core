@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DasBlog.Web.UI.Core.Configuration
+namespace DasBlog.Web.Core.Configuration
 {
     public class MetaTags : IMetaTags
     {

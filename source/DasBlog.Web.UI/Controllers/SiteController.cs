@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using DasBlog.Web.UI.Repositories.Interfaces;
+using DasBlog.Web.Repositories.Interfaces;
 
 namespace DasBlog.Web.UI.Controllers
 {

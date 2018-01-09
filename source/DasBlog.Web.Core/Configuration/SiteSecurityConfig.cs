@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Xml.Serialization;
 
-namespace DasBlog.Web.UI.Core.Configuration
+namespace DasBlog.Web.Core.Configuration
 {
     [Serializable]
     [XmlRoot("SiteSecurityConfig")]
