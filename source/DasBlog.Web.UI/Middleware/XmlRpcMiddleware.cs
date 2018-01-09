@@ -10,6 +10,7 @@ using DasBlog.Web.UI.Core;
 using newtelligence.DasBlog.Runtime;
 using System.Collections.Generic;
 using System.Reflection;
+using DasBlog.Web.UI.Core.Security;
 
 namespace DasBlog.Web.UI.Middleware
 {

@@ -11,12 +11,6 @@ namespace DasBlog.Web.UI.Core.Security
 
         bool IsInRole(string role);
 
-        void SetSecurity(SiteSecurityConfig ssc);
-
-        SiteSecurityConfig GetSecurity();
-
-        SiteSecurityConfig GetSecurity(string path);
-
         void AddUser(string userName, string password, string role, bool ask, string emailAddress);
 
         void AddUser(User user);

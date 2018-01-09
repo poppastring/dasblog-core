@@ -1,4 +1,5 @@
 ﻿using DasBlog.Web.UI.Core.Configuration;
+using DasBlog.Web.UI.Core.Security;
 using newtelligence.DasBlog.Runtime;
 using newtelligence.DasBlog.Util;
 using System;

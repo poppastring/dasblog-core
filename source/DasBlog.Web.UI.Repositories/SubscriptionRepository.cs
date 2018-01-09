@@ -11,6 +11,7 @@ using System.Globalization;
 using newtelligence.DasBlog.Util.Html;
 using DasBlog.Web.UI.Core.Configuration;
 using newtelligence.DasBlog.Web.Services.Rsd;
+using DasBlog.Web.UI.Core.Security;
 
 namespace DasBlog.Web.UI.Repositories
 {
