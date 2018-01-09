@@ -1,4 +1,4 @@
-﻿using DasBlog.Web.UI.Core.Configuration;
+﻿using DasBlog.Web.Core.Configuration;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.Extensions.Options;
 using System.Collections.Generic;

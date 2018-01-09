@@ -10,14 +10,14 @@ using Microsoft.AspNetCore.Rewrite;
 using DasBlog.Web.UI.Models;
 using Microsoft.AspNetCore.Mvc.Razor;
 using DasBlog.Web.UI.ViewsEngine;
-using DasBlog.Web.UI.Core;
+using DasBlog.Web.Core;
 using System.Security.Principal;
 using Microsoft.AspNetCore.Http;
-using DasBlog.Web.UI.Repositories.Interfaces;
-using DasBlog.Web.UI.Repositories;
+using DasBlog.Web.Repositories.Interfaces;
+using DasBlog.Web.Repositories;
 using Microsoft.Extensions.FileProviders;
 using System.Reflection;
-using DasBlog.Web.UI.Core.Configuration;
+using DasBlog.Web.Core.Configuration;
 using DasBlog.Web.UI.Settings;
 
 namespace DasBlog.Web.UI

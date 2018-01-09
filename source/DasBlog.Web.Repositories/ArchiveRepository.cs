@@ -1,12 +1,12 @@
-﻿using DasBlog.Web.UI.Repositories.Interfaces;
+﻿using DasBlog.Web.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using newtelligence.DasBlog.Runtime;
-using DasBlog.Web.UI.Core;
+using DasBlog.Web.Core;
 using System.Linq;
 
-namespace DasBlog.Web.UI.Repositories
+namespace DasBlog.Web.Repositories
 {
     public class ArchiveRepository : IArchiveRepository
     {

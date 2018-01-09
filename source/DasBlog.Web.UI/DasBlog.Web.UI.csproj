@@ -19,16 +19,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DasBlog.Web.UI.Core\DasBlog.Web.UI.Core.csproj" />
-    <ProjectReference Include="..\DasBlog.Web.UI.Repositories\DasBlog.Web.UI.Repositories.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Folder Include="wwwroot\content\" />
   </ItemGroup>
 
   <ItemGroup>
     <None Include="Config\site.config" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DasBlog.Web.Core\DasBlog.Web.Core.csproj" />
+    <ProjectReference Include="..\DasBlog.Web.Repositories\DasBlog.Web.Repositories.csproj" />
   </ItemGroup>
 
 </Project>
