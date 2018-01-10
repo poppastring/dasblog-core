@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using DasBlog.Web.UI.Repositories.Interfaces;
+using DasBlog.Web.Repositories.Interfaces;
 using newtelligence.DasBlog.Runtime;
 using Microsoft.AspNetCore.Http;
 

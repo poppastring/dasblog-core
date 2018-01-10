@@ -9,11 +9,11 @@ using newtelligence.DasBlog.Runtime;
 using newtelligence.DasBlog.Web.Core;
 using DasBlog.Web.UI.Models.BlogViewModels;
 using Microsoft.Extensions.Options;
-using DasBlog.Web.UI.Core;
-using DasBlog.Web.UI.Repositories.Interfaces;
+using DasBlog.Web.Core;
+using DasBlog.Web.Repositories.Interfaces;
 using newtelligence.DasBlog.Util;
 using Microsoft.Extensions.FileProviders;
-using DasBlog.Web.UI.Core.Configuration;
+using DasBlog.Web.Core.Configuration;
 
 namespace DasBlog.Web.UI.Controllers
 {

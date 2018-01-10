@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
-using DasBlog.Web.UI.Core;
+using DasBlog.Web.Core;
 using newtelligence.DasBlog.Runtime;
 
 namespace DasBlog.Web.UI.Routes

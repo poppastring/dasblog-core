@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.3
+VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "newtelligence.DasBlog.Web", "newtelligence.DasBlog.Web\newtelligence.DasBlog.Web.csproj", "{F33CF374-8610-434F-B4FB-915AE7CD17DA}"
 EndProject
@@ -26,9 +26,9 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "WebControlCaptcha", "WebCon
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DasBlog.Web.UI", "DasBlog.Web.UI\DasBlog.Web.UI.csproj", "{37817A48-6954-4DAF-A931-C540C5687579}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DasBlog.Web.UI.Repositories", "DasBlog.Web.UI.Repositories\DasBlog.Web.UI.Repositories.csproj", "{1B1D9871-A342-4F37-A2F2-D212A6445611}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DasBlog.Web.Repositories", "DasBlog.Web.Repositories\DasBlog.Web.Repositories.csproj", "{1B1D9871-A342-4F37-A2F2-D212A6445611}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DasBlog.Web.UI.Core", "DasBlog.Web.UI.Core\DasBlog.Web.UI.Core.csproj", "{F0DF11A5-78FC-4A74-8BF5-0CA619BAE3E9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DasBlog.Web.Core", "DasBlog.Web.Core\DasBlog.Web.Core.csproj", "{F0DF11A5-78FC-4A74-8BF5-0CA619BAE3E9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

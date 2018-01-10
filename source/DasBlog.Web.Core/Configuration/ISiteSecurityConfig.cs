@@ -1,7 +1,7 @@
 ﻿using DasBlog.Web.UI.Core.Security;
 using System.Collections.Generic;
 
-namespace DasBlog.Web.UI.Core.Configuration
+namespace DasBlog.Web.Core.Configuration
 {
     public interface ISiteSecurityConfig
     {

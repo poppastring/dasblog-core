@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 using newtelligence.DasBlog.Runtime;
-using DasBlog.Web.UI.Repositories.Interfaces;
-using DasBlog.Web.UI.Core;
+using DasBlog.Web.Repositories.Interfaces;
+using DasBlog.Web.Core;
 using newtelligence.DasBlog.Util;
 
-namespace DasBlog.Web.UI.Repositories
+namespace DasBlog.Web.Repositories
 {
     public class BlogRepository : IBlogRepository
     {

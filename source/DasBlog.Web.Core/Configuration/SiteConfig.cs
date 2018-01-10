@@ -2,7 +2,7 @@
 using newtelligence.DasBlog.Runtime;
 using newtelligence.DasBlog.Web.Core;
 
-namespace DasBlog.Web.UI.Core.Configuration
+namespace DasBlog.Web.Core.Configuration
 {
     public class SiteConfig : ISiteConfig
     {

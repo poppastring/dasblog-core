@@ -1,11 +1,11 @@
-﻿using DasBlog.Web.UI.Core;
-using DasBlog.Web.UI.Repositories.Interfaces;
+﻿using DasBlog.Web.Core;
+using DasBlog.Web.Repositories.Interfaces;
 using newtelligence.DasBlog.Runtime;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace DasBlog.Web.UI.Repositories
+namespace DasBlog.Web.Repositories
 {
     public class SiteRepository : ISiteRepository
     {
