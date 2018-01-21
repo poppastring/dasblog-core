@@ -72,25 +72,6 @@ namespace DasBlog.Web.UI.Controllers
             return Ok(rsd);
         }
 
-        [HttpGet("blogger")]
-        public ActionResult Blogger()
-        {
-            // https://www.poppastring.com/blog/blogger.aspx
-            // Implementation of Blogger XML-RPC Api
-            // blogger
-            // metaWebLog
-            // mt
-
-            return NoContent();
-        }
-
-        [HttpPost("blogger")]
-        public ActionResult Blogger(string xmlrpc)
-        {
-
-            return NoContent();
-        }
-
         public IActionResult Atom()
         {
             return NoContent();

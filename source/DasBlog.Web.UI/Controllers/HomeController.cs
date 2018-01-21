@@ -14,6 +14,7 @@ using DasBlog.Web.Repositories.Interfaces;
 using newtelligence.DasBlog.Util;
 using Microsoft.Extensions.FileProviders;
 using DasBlog.Web.Core.Configuration;
+using System.IO;
 
 namespace DasBlog.Web.UI.Controllers
 {
@@ -44,7 +45,7 @@ namespace DasBlog.Web.UI.Controllers
                                     PermaLink = entry.Link,
                                     Title = entry.Title
                                 }).ToList();
-            MultiplePosts();
+            DefaultPage();
 
             return View(string.Format("/Themes/{0}/Page.cshtml", _dasBlogSettings.SiteConfiguration.Theme), lpvm);
         }
@@ -144,14 +145,36 @@ namespace DasBlog.Web.UI.Controllers
                                     PermaLink = entry.Link,
                                     Title = entry.Title
                                 }).ToList();
-            MultiplePosts();
+            DefaultPage();
 
             return View(string.Format("/Themes/{0}/Page.cshtml", _dasBlogSettings.SiteConfiguration.Theme), lpvm);
         }
 
+        [HttpGet("blogger")]
+        public ActionResult Blogger()
+        {
+            // https://www.poppastring.com/blog/blogger.aspx
+            // Implementation of Blogger XML-RPC Api
+            // blogger
+            // metaWebLog
+            // mt
+
+            // return NoContent();
+
+            return View();
+        }
+
+        [Route("blogger")]
+        [HttpPost]
+        [Produces("text/xml")]
+        public IActionResult Blogger([FromBody] string xmlrpcpost)
+        {
+            return this.Content(_blogRepository.XmlRpcInvoke(this.HttpContext.Request.Body));
+        }
+
         public IActionResult About()
         {
-            MultiplePosts();
+            DefaultPage();
 
             ViewData["Message"] = "Your application description page.";
 
@@ -160,7 +183,7 @@ namespace DasBlog.Web.UI.Controllers
 
         public IActionResult Contact()
         {
-            MultiplePosts();
+            DefaultPage();
 
             ViewData["Message"] = "Your contact page.";
 
@@ -181,7 +204,7 @@ namespace DasBlog.Web.UI.Controllers
             ViewData["Author"] = post.Author;
         }
 
-        private void MultiplePosts()
+        private void DefaultPage()
         {
             ViewData["Title"] = _dasBlogSettings.SiteConfiguration.Title;
             ViewData["Description"] = _dasBlogSettings.SiteConfiguration.Description;

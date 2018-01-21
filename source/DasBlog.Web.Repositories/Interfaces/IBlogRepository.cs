@@ -1,6 +1,7 @@
 ﻿using newtelligence.DasBlog.Runtime;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 namespace DasBlog.Web.Repositories.Interfaces
@@ -12,5 +13,7 @@ namespace DasBlog.Web.Repositories.Interfaces
         EntryCollection GetFrontPagePosts();
 
         EntryCollection GetEntriesForPage(int pageIndex);
+
+        string XmlRpcInvoke(Stream blob);
     }
 }

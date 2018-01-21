@@ -1,4 +1,4 @@
-﻿using DasBlog.Web.UI.Core.Security;
+﻿using DasBlog.Web.Core.Security;
 using System.Collections.Generic;
 
 namespace DasBlog.Web.Core.Configuration
