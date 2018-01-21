@@ -19,6 +19,7 @@ using Microsoft.Extensions.FileProviders;
 using System.Reflection;
 using DasBlog.Web.Core.Configuration;
 using DasBlog.Web.UI.Settings;
+using DasBlog.Web.Core.Security;
 
 namespace DasBlog.Web.UI
 {
@@ -64,6 +65,7 @@ namespace DasBlog.Web.UI
             services.AddSingleton<IArchiveRepository, ArchiveRepository>();
             services.AddSingleton<ICategoryRepository, CategoryRepository>();
             services.AddSingleton<ISiteRepository, SiteRepository>();
+            services.AddSingleton<ISiteSecurityRepository, SiteSecurityRepository>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddTransient<IPrincipal>(provider =>
                         provider.GetService<IHttpContextAccessor>().HttpContext.User);

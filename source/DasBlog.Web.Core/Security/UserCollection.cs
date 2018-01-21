@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
 
-namespace DasBlog.Web.Core.Configuration
+namespace DasBlog.Web.Core.Security
 {
     [Serializable]
     public class UserCollection : Collection<User>

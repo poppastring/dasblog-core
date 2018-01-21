@@ -6,11 +6,11 @@ using newtelligence.DasBlog.Web.Services.Rss20;
 using newtelligence.DasBlog.Runtime;
 using DasBlog.Web.Core;
 using System.Xml;
-using newtelligence.DasBlog.Web.Core;
 using System.Globalization;
 using newtelligence.DasBlog.Util.Html;
-using DasBlog.Web.Core.Configuration;
+using DasBlog.Web.Core.Security;
 using newtelligence.DasBlog.Web.Services.Rsd;
+
 
 namespace DasBlog.Web.Repositories
 {

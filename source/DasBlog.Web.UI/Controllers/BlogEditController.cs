@@ -21,6 +21,7 @@ namespace DasBlog.Web.UI.Controllers
         {
             _archiveRepository = archiveRepository;
             _httpContextAccessor = httpContextAccessor;
+            
         }
     }
 }

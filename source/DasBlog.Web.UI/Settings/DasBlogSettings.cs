@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Hosting;
 using newtelligence.DasBlog.Runtime;
 using newtelligence.DasBlog.Util;
 using System.Collections.ObjectModel;
+using DasBlog.Web.Core.Security;
 
 namespace DasBlog.Web.UI.Settings
 {
@@ -26,7 +27,7 @@ namespace DasBlog.Web.UI.Settings
             this.CategoryUrl = this.RelativeToRoot("category");
             this.ArchiveUrl = this.RelativeToRoot("archive");
             this.MicroSummaryUrl = this.RelativeToRoot("microsummary");
-            this.RsdUrl = this.RelativeToRoot("feed/rsd");
+            this.RsdUrl = this.RelativeToRoot("rsd");
             this.ShortCutIconUrl = this.RelativeToRoot("icon.jpg");
         }
 
