@@ -64,8 +64,8 @@ namespace DasBlog.Web.UI
             services.AddSingleton<ISubscriptionRepository, SubscriptionRepository>();
             services.AddSingleton<IArchiveRepository, ArchiveRepository>();
             services.AddSingleton<ICategoryRepository, CategoryRepository>();
-            services.AddSingleton<ISiteRepository, SiteRepository>();
             services.AddSingleton<ISiteSecurityRepository, SiteSecurityRepository>();
+            services.AddSingleton<ISiteRepository, SiteRepository>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddTransient<IPrincipal>(provider =>
                         provider.GetService<IHttpContextAccessor>().HttpContext.User);
