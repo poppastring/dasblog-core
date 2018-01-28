@@ -30,6 +30,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DasBlog.Web.Repositories", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DasBlog.Web.Core", "DasBlog.Web.Core\DasBlog.Web.Core.csproj", "{F0DF11A5-78FC-4A74-8BF5-0CA619BAE3E9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DasBlog.Tests", "DasBlog.Tests\DasBlog.Tests.csproj", "{C439145F-28BF-4451-98CD-7FC404681426}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug - All|Any CPU = Debug - All|Any CPU
@@ -120,6 +122,12 @@ Global
 		{F0DF11A5-78FC-4A74-8BF5-0CA619BAE3E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F0DF11A5-78FC-4A74-8BF5-0CA619BAE3E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F0DF11A5-78FC-4A74-8BF5-0CA619BAE3E9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C439145F-28BF-4451-98CD-7FC404681426}.Debug - All|Any CPU.ActiveCfg = Debug|Any CPU
+		{C439145F-28BF-4451-98CD-7FC404681426}.Debug - All|Any CPU.Build.0 = Debug|Any CPU
+		{C439145F-28BF-4451-98CD-7FC404681426}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C439145F-28BF-4451-98CD-7FC404681426}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C439145F-28BF-4451-98CD-7FC404681426}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C439145F-28BF-4451-98CD-7FC404681426}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

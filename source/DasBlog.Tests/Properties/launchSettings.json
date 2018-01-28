@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "DasBlog.Tests": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "Hosting:Environment": "Development"
+      }
+    }
+  }
+}
