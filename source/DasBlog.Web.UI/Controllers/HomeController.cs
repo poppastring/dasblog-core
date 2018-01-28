@@ -43,7 +43,8 @@ namespace DasBlog.Web.UI.Controllers
                                     AllowComments = entry.AllowComments,
                                     IsPublic = entry.IsPublic,
                                     PermaLink = entry.Link,
-                                    Title = entry.Title
+                                    Title = entry.Title,
+                                    CreatedDateTime = entry.CreatedLocalTime
                                 }).ToList();
             DefaultPage();
 

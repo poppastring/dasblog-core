@@ -16,5 +16,6 @@ namespace DasBlog.Web.UI.Models.BlogViewModels
         public string Categories { get; set; }
         public bool AllowComments { get; set; }
         public bool IsPublic { get; set; }
+        public DateTime CreatedDateTime { get; set; }
     }
 }
