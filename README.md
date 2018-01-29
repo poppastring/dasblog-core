@@ -1,5 +1,5 @@
 # Dasblog
-The DasBlog Blogging Engine reintroduced with ASP.NET Core
+The [DasBlog Blogging Engine](https://msdn.microsoft.com/en-us/library/aa480016.aspx) reintroduced with ASP.NET Core
 
 
 ## Core Tenants - "This we believe"
@@ -10,7 +10,6 @@ The DasBlog Blogging Engine reintroduced with ASP.NET Core
 - Port the custom logging solution to use .NET Core
 - DI all the things (avoid massive static objects)
 - WISH: Build on Linux (clone/build)
-
 
 
 ## Installing the development tools
