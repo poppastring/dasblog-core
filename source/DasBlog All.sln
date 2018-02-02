@@ -30,12 +30,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DasBlog.Web.Repositories", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DasBlog.Web.Core", "DasBlog.Web.Core\DasBlog.Web.Core.csproj", "{F0DF11A5-78FC-4A74-8BF5-0CA619BAE3E9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DasBlog.Tests", "DasBlog.Tests\DasBlog.Tests.csproj", "{C439145F-28BF-4451-98CD-7FC404681426}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5D3AE6DF-0A71-4594-88C2-EECA5EF3E675}"
-	ProjectSection(SolutionItems) = preProject
-		.editorconfig = .editorconfig
-	EndProjectSection
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DasBlog.Tests", "DasBlog.Tests\DasBlog.Tests.csproj", "{C439145F-28BF-4451-98CD-7FC404681426}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
