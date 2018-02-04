@@ -15,5 +15,10 @@ namespace DasBlog.Web.UI.Helpers
 			output.Attributes.SetAttribute("href", $"Blogger/{Blog}/Edit"); //TODO: rest API subject to change
 			output.Content.SetHtmlContent("Edit this post");
 		}
+
+		public override Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
+		{
+			return Task.Run(() => Process(context, output));
+		}
 	}
 }
