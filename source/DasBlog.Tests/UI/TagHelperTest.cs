@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using DasBlog.Web.UI.Helpers;
 using Microsoft.AspNetCore.Razor.TagHelpers;
-using Moq;
 using Xunit;
 
 namespace DasBlog.Tests.UI
 {
-	public class TagHelper_Test
+	public class TagHelperTest
 	{
 		/// <summary>
 		/// All test methods should follow this naming pattern
@@ -20,10 +18,10 @@ namespace DasBlog.Tests.UI
 
 		}
 
-		[Fact]
-		public void EditPost_Html_RendersCorrectly()
+		[Theory]
+		[MemberData(nameof(DasBlogPostLinkTagHelperData))]
+		public void DasBlogTagHelper_GeneratedTagHelper_BlogPostRendersAsAnchorTag(TagHelper helper, string blogPost)
 		{
-			string blogPost = "theBlogPost";
 			var context = new TagHelperContext(new TagHelperAttributeList { { "Blog", blogPost } }, new Dictionary<object, object>(), Guid.NewGuid().ToString("N"));
 			var output = new TagHelperOutput("editpost", new TagHelperAttributeList(), (useCachedResult, htmlEncoder) =>
 			{
@@ -33,13 +31,18 @@ namespace DasBlog.Tests.UI
 			});
 
 
-			var helper = new EditPostTagHelper { Blog = blogPost };
 			helper.Process(context, output);
 
 			Assert.Same("a", output.TagName);
 			Assert.Same("href", output.Attributes[0].Name);
 			Assert.Contains(blogPost, output.Attributes[0].Value.ToString());
 		}
+
+		public static TheoryData<TagHelper, string> DasBlogPostLinkTagHelperData = new TheoryData<TagHelper, string>
+		{
+			{new EditPostTagHelper {Blog = "theBlogPost"}, "theBlogPost"},
+			{new CommentPostTagHelper {Blog = "theBlogPost"}, "theBlogPost" }
+		};
 	}
 }
 
