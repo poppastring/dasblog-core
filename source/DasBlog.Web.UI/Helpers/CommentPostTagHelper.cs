@@ -5,13 +5,13 @@ namespace DasBlog.Web.UI.Helpers
 {
 	public class CommentPostTagHelper : TagHelper
 	{
-		public string Blog { get; set; }
+		public string BlogPostId { get; set; }
 
 		public override void Process(TagHelperContext context, TagHelperOutput output)
 		{
 			output.TagName = "a";
 			output.TagMode = TagMode.StartTagAndEndTag;
-			output.Attributes.SetAttribute("href", $"Blogger/{Blog}/Comment"); //TODO: rest API subject to change
+			output.Attributes.SetAttribute("href", $"{BlogPostId}/Comment");
 			output.Content.SetHtmlContent("Comment on this post");
 		}
 

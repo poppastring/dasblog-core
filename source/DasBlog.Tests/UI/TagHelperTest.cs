@@ -15,14 +15,13 @@ namespace DasBlog.Tests.UI
 		[Fact]
 		public void UnitOfWork_StateUnderTest_ExpectedBehavior()
 		{
-
 		}
 
 		[Theory]
 		[MemberData(nameof(DasBlogPostLinkTagHelperData))]
 		public void DasBlogTagHelper_GeneratedTagHelper_BlogPostRendersAsAnchorTag(TagHelper helper, string blogPost)
 		{
-			var context = new TagHelperContext(new TagHelperAttributeList { { "Blog", blogPost } }, new Dictionary<object, object>(), Guid.NewGuid().ToString("N"));
+			var context = new TagHelperContext(new TagHelperAttributeList { { "BlogPostId", blogPost } }, new Dictionary<object, object>(), Guid.NewGuid().ToString("N"));
 			var output = new TagHelperOutput("editpost", new TagHelperAttributeList(), (useCachedResult, htmlEncoder) =>
 			{
 				var tagHelperContent = new DefaultTagHelperContent();
@@ -40,8 +39,8 @@ namespace DasBlog.Tests.UI
 
 		public static TheoryData<TagHelper, string> DasBlogPostLinkTagHelperData = new TheoryData<TagHelper, string>
 		{
-			{new EditPostTagHelper {Blog = "theBlogPost"}, "theBlogPost"},
-			{new CommentPostTagHelper {Blog = "theBlogPost"}, "theBlogPost" }
+			{new EditPostTagHelper {BlogPostId = "theBlogPost"}, "theBlogPost"},
+			{new CommentPostTagHelper {BlogPostId = "theBlogPost"}, "theBlogPost" }
 		};
 	}
 }
