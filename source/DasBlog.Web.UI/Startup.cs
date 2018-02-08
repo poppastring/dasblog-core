@@ -1,115 +1,145 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Security.Principal;
+using DasBlog.Web.Core;
+using DasBlog.Web.Core.Configuration;
+using DasBlog.Web.Repositories;
+using DasBlog.Web.Repositories.Interfaces;
+using DasBlog.Web.UI.Models.Identity;
+using DasBlog.Web.UI.Settings;
+using DasBlog.Web.UI.ViewsEngine;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Razor;
+using Microsoft.AspNetCore.Rewrite;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.Rewrite;
-using DasBlog.Web.UI.Models;
-using Microsoft.AspNetCore.Mvc.Razor;
-using DasBlog.Web.UI.ViewsEngine;
-using DasBlog.Web.Core;
-using System.Security.Principal;
-using Microsoft.AspNetCore.Http;
-using DasBlog.Web.Repositories.Interfaces;
-using DasBlog.Web.Repositories;
-using Microsoft.Extensions.FileProviders;
-using System.Reflection;
-using DasBlog.Web.Core.Configuration;
-using DasBlog.Web.UI.Settings;
-using DasBlog.Web.Core.Security;
 
 namespace DasBlog.Web.UI
 {
-    public class Startup
-    {
-        private IHostingEnvironment _hostingEnvironment;
+	public class Startup
+	{
+		private IHostingEnvironment _hostingEnvironment;
 
-        public Startup(IConfiguration configuration, IHostingEnvironment env)
-        {
-            var builder = new ConfigurationBuilder()
-            .SetBasePath(env.ContentRootPath)
-            .AddXmlFile(@"Config\site.config", optional: true, reloadOnChange: true)
-            .AddXmlFile(@"Config\metaConfig.xml", optional: true, reloadOnChange: true)
-            .AddXmlFile(@"Config\siteSecurity.config", optional: true, reloadOnChange: true)
-            .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-            .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
-            .AddEnvironmentVariables();
+		public Startup(IConfiguration configuration, IHostingEnvironment env)
+		{
+			var builder = new ConfigurationBuilder()
+			.SetBasePath(env.ContentRootPath)
+			.AddXmlFile(@"Config\site.config", optional: true, reloadOnChange: true)
+			.AddXmlFile(@"Config\metaConfig.xml", optional: true, reloadOnChange: true)
+			.AddXmlFile(@"Config\siteSecurity.config", optional: true, reloadOnChange: true)
+			.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+			.AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+			.AddEnvironmentVariables();
 
-            Configuration = builder.Build();
-            
-            _hostingEnvironment = env;
-        }
+			Configuration = builder.Build();
 
-        public IConfiguration Configuration { get; }
+			_hostingEnvironment = env;
+		}
 
-        // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
-        {
-            services.AddOptions();
-            services.AddMemoryCache();
+		public IConfiguration Configuration { get; }
 
-            services.Configure<SiteConfig>(Configuration);
-            services.Configure<MetaTags>(Configuration);
-            services.Configure<SiteSecurityConfig>(Configuration);
-            services.AddTransient<IDasBlogSettings, DasBlogSettings>();
+		// This method gets called by the runtime. Use this method to add services to the container.
+		public void ConfigureServices(IServiceCollection services)
+		{
+			services.AddOptions();
+			services.AddMemoryCache();
 
-            services.Configure<RazorViewEngineOptions>(rveo => {
-                rveo.ViewLocationExpanders.Add(new DasBlogLocationExpander(Configuration.GetSection("DasBlogSettings")["Theme"]));
-            });
+			services.Configure<SiteConfig>(Configuration);
+			services.Configure<MetaTags>(Configuration);
+			services.Configure<SiteSecurityConfig>(Configuration);
 
-            services.AddSingleton<IBlogRepository, BlogRepository>();
-            services.AddSingleton<ISubscriptionRepository, SubscriptionRepository>();
-            services.AddSingleton<IArchiveRepository, ArchiveRepository>();
-            services.AddSingleton<ICategoryRepository, CategoryRepository>();
-            services.AddSingleton<ISiteSecurityRepository, SiteSecurityRepository>();
-            services.AddSingleton<ISiteRepository, SiteRepository>();
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddTransient<IPrincipal>(provider =>
-                        provider.GetService<IHttpContextAccessor>().HttpContext.User);
+			services.AddIdentity<ApplicationUser, IdentityRole>()
+				.AddDefaultTokenProviders();
 
-            services.AddMvc();
-            services.AddMvc().AddXmlSerializerFormatters();
-        }
+			services.Configure<IdentityOptions>(options =>
+			{
+				// Password settings
+				options.Password.RequireDigit = true;
+				options.Password.RequiredLength = 8;
+				options.Password.RequireNonAlphanumeric = false;
+				options.Password.RequireUppercase = true;
+				options.Password.RequireLowercase = false;
+				options.Password.RequiredUniqueChars = 6;
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
-        {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-                app.UseBrowserLink();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
-            }
+				// Lockout settings
+				options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
+				options.Lockout.MaxFailedAccessAttempts = 10;
+				options.Lockout.AllowedForNewUsers = true;
 
-            app.UseStaticFiles();
+				// User settings
+				options.User.RequireUniqueEmail = true;
+			});
 
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    "Original Post Format",
-                    "{posttitle}.aspx",                           
-                    new { controller = "Home", action = "Post", posttitle = "" });
+			services.ConfigureApplicationCookie(options =>
+			{
+				// Cookie settings
+				options.Cookie.HttpOnly = true;
+				options.Cookie.Expiration = TimeSpan.FromDays(150);
+				options.LoginPath = "/Account/Login"; // If the LoginPath is not set here, ASP.NET Core will default to /Account/Login
+				options.LogoutPath = "/Account/Logout"; // If the LogoutPath is not set here, ASP.NET Core will default to /Account/Logout
+				options.AccessDeniedPath = "/Account/AccessDenied"; // If the AccessDeniedPath is not set here, ASP.NET Core will default to /Account/AccessDenied
+				options.SlidingExpiration = true;
+			});
 
-                routes.MapRoute(
-                    "New Post Format",
-                    "{posttitle}",
-                    new { controller = "Home", action = "Post", id = "" });
+			services.Configure<RazorViewEngineOptions>(rveo =>
+			{
+				rveo.ViewLocationExpanders.Add(new DasBlogLocationExpander(Configuration.GetSection("DasBlogSettings")["Theme"]));
+			});
 
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
-            });
+			services.AddTransient<IDasBlogSettings, DasBlogSettings>()
+				.AddSingleton<IBlogRepository, BlogRepository>()
+				.AddSingleton<ISubscriptionRepository, SubscriptionRepository>()
+				.AddSingleton<IArchiveRepository, ArchiveRepository>()
+				.AddSingleton<ICategoryRepository, CategoryRepository>()
+				.AddSingleton<ISiteSecurityRepository, SiteSecurityRepository>()
+				.AddSingleton<ISiteRepository, SiteRepository>()
+				.AddSingleton<IHttpContextAccessor, HttpContextAccessor>()
+				.AddTransient<IPrincipal>(provider => provider.GetService<IHttpContextAccessor>().HttpContext.User);
 
-            RewriteOptions options = new RewriteOptions()
-                 .AddIISUrlRewrite(env.ContentRootFileProvider, @"Config\IISUrlRewrite.xml");
+			services.AddMvc()
+				.AddXmlSerializerFormatters();
+		}
 
-            app.UseRewriter(options);
-        }
-    }
+		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+		public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+		{
+			if (env.IsDevelopment())
+			{
+				app.UseDeveloperExceptionPage();
+				app.UseBrowserLink();
+			}
+			else
+			{
+				app.UseExceptionHandler("/Home/Error");
+			}
+
+			app.UseStaticFiles();
+
+			app.UseAuthentication();
+
+			app.UseMvc(routes =>
+			{
+				routes.MapRoute(
+					"Original Post Format",
+					"{posttitle}.aspx",
+					new { controller = "Home", action = "Post", posttitle = "" });
+
+				routes.MapRoute(
+					"New Post Format",
+					"{posttitle}",
+					new { controller = "Home", action = "Post", id = "" });
+
+				routes.MapRoute(
+					name: "default",
+					template: "{controller=Home}/{action=Index}/{id?}");
+			});
+
+			RewriteOptions options = new RewriteOptions()
+				 .AddIISUrlRewrite(env.ContentRootFileProvider, @"Config\IISUrlRewrite.xml");
+
+			app.UseRewriter(options);
+		}
+	}
 }
