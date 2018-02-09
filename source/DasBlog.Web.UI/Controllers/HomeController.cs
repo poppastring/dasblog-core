@@ -48,10 +48,17 @@ namespace DasBlog.Web.UI.Controllers
                                 }).ToList();
             DefaultPage();
 
-            return View(string.Format("/Themes/{0}/Page.cshtml", _dasBlogSettings.SiteConfiguration.Theme), lpvm);
+            return ThemedView("Page", lpvm);
         }
 
-        public IActionResult Post(string posttitle)
+		//TODO: Maybe a helped for all?
+		private ViewResult ThemedView(string v, ListPostsViewModel lpvm)
+		{
+			return View(string.Format("/Themes/{0}/{1}.cshtml", 
+						_dasBlogSettings.SiteConfiguration.Theme, v), lpvm);
+		}
+
+		public IActionResult Post(string posttitle)
         {
             ListPostsViewModel lpvm = new ListPostsViewModel();
 
@@ -70,11 +77,13 @@ namespace DasBlog.Web.UI.Controllers
                         AllowComments = entry.AllowComments,
                         IsPublic = entry.IsPublic,
                         PermaLink = entry.Link,
-                        Title = entry.Title}};
+                        Title = entry.Title,
+						CreatedDateTime = entry.CreatedLocalTime
+						} };
 
                     SinglePost(lpvm.Posts.First());
 
-                    return View(string.Format("/Themes/{0}/Page.cshtml", _dasBlogSettings.SiteConfiguration.Theme), lpvm);
+					return ThemedView("Page", lpvm);
                 }
                 else
                 {
@@ -113,7 +122,7 @@ namespace DasBlog.Web.UI.Controllers
 
             SinglePost(lpvm.Posts.First());
 
-            return View(string.Format("/Themes/{0}/Page.cshtml", _dasBlogSettings.SiteConfiguration.Theme), lpvm);
+			return ThemedView("Page", lpvm);
         }
 
         [Route("page")]
@@ -148,7 +157,7 @@ namespace DasBlog.Web.UI.Controllers
                                 }).ToList();
             DefaultPage();
 
-            return View(string.Format("/Themes/{0}/Page.cshtml", _dasBlogSettings.SiteConfiguration.Theme), lpvm);
+			return ThemedView("Page", lpvm);
         }
 
         [HttpGet("blogger")]
