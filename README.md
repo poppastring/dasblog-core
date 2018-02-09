@@ -12,6 +12,7 @@ The [DasBlog Blogging Engine](https://msdn.microsoft.com/en-us/library/aa480016.
 - Port the custom logging solution to use .NET Core
 - DI all the things (avoid massive static objects)
 - WISH: Build on Linux (clone/build)
+- WISH: Docker version with XML files outside in volume mount
 
 
 ## Installing the development tools
