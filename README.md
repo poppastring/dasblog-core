@@ -1,8 +1,10 @@
+
 # Dasblog
 The [DasBlog Blogging Engine](https://msdn.microsoft.com/en-us/library/aa480016.aspx) reintroduced with ASP.NET Core
 
+[![Build status](https://ci.appveyor.com/api/projects/status/github/poppastring/dasblog-core?branch=master&svg=true)](https://ci.appveyor.com/project/poppastring/dasblog-core)
 
-## Core Tenants - "This we believe"
+## Core Tenets - "This we believe"
 
 - We want to pragmatically reuse core DasBlog projects where feasible (includes reusing existing config files).
 - Do not be afraid to abandon features/projects that are easily solved with a NuGet package (Pop3, CAPTCHA, Noda Time, etc.)
@@ -10,6 +12,7 @@ The [DasBlog Blogging Engine](https://msdn.microsoft.com/en-us/library/aa480016.
 - Port the custom logging solution to use .NET Core
 - DI all the things (avoid massive static objects)
 - WISH: Build on Linux (clone/build)
+- WISH: Docker version with XML files outside in volume mount
 
 
 ## Installing the development tools
