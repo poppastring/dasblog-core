@@ -50,7 +50,8 @@ namespace DasBlog.Web.UI
 			services.Configure<MetaTags>(Configuration);
 			services.Configure<SiteSecurityConfig>(Configuration);
 
-			services.AddIdentity<ApplicationUser, IdentityRole>()
+			// Add identity types
+			services.AddIdentity<DasBlogUser, IdentityRole>()
 				.AddDefaultTokenProviders();
 
 			services.Configure<IdentityOptions>(options =>
@@ -89,14 +90,16 @@ namespace DasBlog.Web.UI
 			});
 
 			services.AddTransient<IDasBlogSettings, DasBlogSettings>()
-				.AddSingleton<IBlogRepository, BlogRepository>()
+				.AddTransient<IUserStore<DasBlogUser>, DasBlogUserStore>()
+				.AddTransient<IPrincipal>(provider => provider.GetService<IHttpContextAccessor>().HttpContext.User);
+
+			services.AddSingleton<IBlogRepository, BlogRepository>()
 				.AddSingleton<ISubscriptionRepository, SubscriptionRepository>()
 				.AddSingleton<IArchiveRepository, ArchiveRepository>()
 				.AddSingleton<ICategoryRepository, CategoryRepository>()
 				.AddSingleton<ISiteSecurityRepository, SiteSecurityRepository>()
 				.AddSingleton<ISiteRepository, SiteRepository>()
-				.AddSingleton<IHttpContextAccessor, HttpContextAccessor>()
-				.AddTransient<IPrincipal>(provider => provider.GetService<IHttpContextAccessor>().HttpContext.User);
+				.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 			services.AddMvc()
 				.AddXmlSerializerFormatters();
