@@ -15,6 +15,8 @@ using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.Rewrite;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using AutoMapper;
+using DasBlog.Web.UI.Mappers;
 
 namespace DasBlog.Web.UI
 {
@@ -51,7 +53,8 @@ namespace DasBlog.Web.UI
 			services.Configure<SiteSecurityConfig>(Configuration);
 
 			// Add identity types
-			services.AddIdentity<DasBlogUser, IdentityRole>()
+			services
+				.AddIdentity<DasBlogUser, DasBlogRole>()
 				.AddDefaultTokenProviders();
 
 			services.Configure<IdentityOptions>(options =>
@@ -89,11 +92,15 @@ namespace DasBlog.Web.UI
 				rveo.ViewLocationExpanders.Add(new DasBlogLocationExpander(Configuration.GetSection("DasBlogSettings")["Theme"]));
 			});
 
-			services.AddTransient<IDasBlogSettings, DasBlogSettings>()
+			services
+				.AddTransient<IDasBlogSettings, DasBlogSettings>()
 				.AddTransient<IUserStore<DasBlogUser>, DasBlogUserStore>()
+				.AddTransient<IRoleStore<DasBlogRole>, DasBlogUserRoleStore>()
 				.AddTransient<IPrincipal>(provider => provider.GetService<IHttpContextAccessor>().HttpContext.User);
 
-			services.AddSingleton<IBlogRepository, BlogRepository>()
+			services
+				.AddSingleton<ISiteSecurityConfig, SiteSecurityConfig>()
+				.AddSingleton<IBlogRepository, BlogRepository>()
 				.AddSingleton<ISubscriptionRepository, SubscriptionRepository>()
 				.AddSingleton<IArchiveRepository, ArchiveRepository>()
 				.AddSingleton<ICategoryRepository, CategoryRepository>()
@@ -101,7 +108,9 @@ namespace DasBlog.Web.UI
 				.AddSingleton<ISiteRepository, SiteRepository>()
 				.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
-			services.AddMvc()
+			services
+				.AddAutoMapper(typeof(ProfileDasBlogUser))
+				.AddMvc()
 				.AddXmlSerializerFormatters();
 		}
 
@@ -119,7 +128,6 @@ namespace DasBlog.Web.UI
 			}
 
 			app.UseStaticFiles();
-
 			app.UseAuthentication();
 
 			app.UseMvc(routes =>

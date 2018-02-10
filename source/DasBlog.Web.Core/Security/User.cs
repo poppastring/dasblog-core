@@ -6,7 +6,7 @@ using System.Xml.Serialization;
 namespace DasBlog.Web.Core.Security
 {
 	[Serializable]
-	[XmlType("User")]
+	[XmlType(nameof(User))]
 	public class User : IEquatable<User>
 	{
 		public string Name { get; set; }

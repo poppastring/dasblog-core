@@ -1,12 +1,12 @@
 ﻿using System.Threading.Tasks;
+using AutoMapper;
 using DasBlog.Web.UI.Models.AccountViewModels;
 using DasBlog.Web.UI.Models.Identity;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 
 namespace DasBlog.Web.UI.Controllers
 {
@@ -16,15 +16,18 @@ namespace DasBlog.Web.UI.Controllers
 		private const string KEY_RETURNURL = "ReturnUrl";
 		private readonly UserManager<DasBlogUser> _userManager;
 		private readonly SignInManager<DasBlogUser> _signInManager;
+		private readonly IMapper _mapper;
 		private readonly ILogger _logger;
 
 		public AccountController(
 			UserManager<DasBlogUser> userManager,
 			SignInManager<DasBlogUser> signInManager,
+			IMapper mapper,
 			ILoggerFactory loggerFactory)
 		{
 			_userManager = userManager;
 			_signInManager = signInManager;
+			_mapper = mapper;
 			_logger = loggerFactory.CreateLogger<AccountController>();
 		}
 
@@ -32,7 +35,8 @@ namespace DasBlog.Web.UI.Controllers
 		[AllowAnonymous]
 		public async Task<IActionResult> Login(string returnUrl = null)
 		{
-			await HttpContext.Authentication.SignOutAsync(IdentityConstants.ExternalScheme);
+			// TODO: https://go.microsoft.com/fwlink/?linkid=845470
+			await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
 			ViewData[KEY_RETURNURL] = returnUrl;
 			return View();
@@ -50,6 +54,36 @@ namespace DasBlog.Web.UI.Controllers
 
 				if (result.Succeeded)
 				{
+					return RedirectToLocal(returnUrl);
+				}
+			}
+
+			return View(model);
+		}
+
+		[HttpGet]
+		[AllowAnonymous]
+		public async Task<IActionResult> Register(string returnUrl)
+		{
+			ViewData[KEY_RETURNURL] = returnUrl;
+
+			return View();
+		}
+
+		[HttpPost]
+		[AllowAnonymous]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> Register(RegisterViewModel model, string returnUrl = null)
+		{
+			ViewData[KEY_RETURNURL] = returnUrl;
+
+			if (ModelState.IsValid)
+			{
+				var user = _mapper.Map<DasBlogUser>(model);
+				var result = await _userManager.CreateAsync(user);
+				if (result.Succeeded)
+				{
+					await _signInManager.SignInAsync(user, isPersistent: false);
 					return RedirectToLocal(returnUrl);
 				}
 			}
