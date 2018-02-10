@@ -1,8 +1,8 @@
-
 # Dasblog
 The [DasBlog Blogging Engine](https://msdn.microsoft.com/en-us/library/aa480016.aspx) reintroduced with ASP.NET Core
 
 [![Build status](https://ci.appveyor.com/api/projects/status/github/poppastring/dasblog-core?branch=master&svg=true)](https://ci.appveyor.com/project/poppastring/dasblog-core)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fpoppastring%2Fdasblog-core.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fpoppastring%2Fdasblog-core?ref=badge_shield)
 
 ## Core Tenets - "This we believe"
 
@@ -45,3 +45,7 @@ Change to the "source" directory and open the *DasBlog All.sln* and perform a bu
 - Support for RSS and RSS by category
 - Support for Sitemap
 - Support for paging e.g. page/1, page/2, etc.
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fpoppastring%2Fdasblog-core.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fpoppastring%2Fdasblog-core?ref=badge_large)
