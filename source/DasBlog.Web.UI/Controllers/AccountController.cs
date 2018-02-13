@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using AutoMapper;
 using DasBlog.Web.UI.Models.AccountViewModels;
 using DasBlog.Web.UI.Models.Identity;
@@ -80,11 +81,18 @@ namespace DasBlog.Web.UI.Controllers
 			if (ModelState.IsValid)
 			{
 				var user = _mapper.Map<DasBlogUser>(model);
-				var result = await _userManager.CreateAsync(user);
+				var result = await _userManager.CreateAsync(user, model.Password);
 				if (result.Succeeded)
 				{
 					await _signInManager.SignInAsync(user, isPersistent: false);
 					return RedirectToLocal(returnUrl);
+				}
+				else
+				{
+					foreach (var item in result.Errors)
+					{
+						ModelState.AddModelError(item.Code, item.Description);
+					}
 				}
 			}
 

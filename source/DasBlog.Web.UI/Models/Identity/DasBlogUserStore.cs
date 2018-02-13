@@ -3,89 +3,213 @@ using System.Diagnostics.Contracts;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
+using DasBlog.Web.Core;
 using DasBlog.Web.Core.Configuration;
 using DasBlog.Web.Core.Security;
 using Microsoft.AspNetCore.Identity;
 
 namespace DasBlog.Web.UI.Models.Identity
 {
-	public class DasBlogUserStore : IUserStore<DasBlogUser>
+	public class DasBlogUserStore : IUserStore<DasBlogUser>, IUserPasswordStore<DasBlogUser>, IUserEmailStore<DasBlogUser>
 	{
-		private readonly ISiteSecurityConfig _siteSecurityConfig;
+		private readonly IDasBlogSettings _dasBlogSettings;
 		private readonly IMapper _mapper;
 
-		public DasBlogUserStore(ISiteSecurityConfig siteSecurityConfig, IMapper mapper)
+		public DasBlogUserStore(IDasBlogSettings dasBlogSettings, IMapper mapper)
 		{
-			_siteSecurityConfig = siteSecurityConfig;
+			_dasBlogSettings = dasBlogSettings;
 			_mapper = mapper;
 		}
+
+		#region IUserStore
 
 		public void Dispose()
 		{
 		}
 
-		public async Task<string> GetUserIdAsync(DasBlogUser user, CancellationToken cancellationToken)
+		public Task<string> GetUserIdAsync(DasBlogUser user, CancellationToken cancellationToken)
+		{
+			if (user == null)
+			{
+				throw new ArgumentNullException(nameof(user));
+			}
+
+			return Task.FromResult(user.UserName);
+		}
+
+		public Task<string> GetUserNameAsync(DasBlogUser user, CancellationToken cancellationToken)
+		{
+			if (user == null)
+			{
+				throw new ArgumentNullException(nameof(user));
+			}
+
+			return Task.FromResult(user.UserName);
+		}
+
+		public Task SetUserNameAsync(DasBlogUser user, string userName, CancellationToken cancellationToken)
 		{
 			throw new System.NotImplementedException();
 		}
 
-		public async Task<string> GetUserNameAsync(DasBlogUser user, CancellationToken cancellationToken)
-		{
-			var userName = _siteSecurityConfig.Users.Find(u => u.EmailAddress == user.Email)?.EmailAddress;
-			return await Task.FromResult(userName);
-		}
-
-		public async Task SetUserNameAsync(DasBlogUser user, string userName, CancellationToken cancellationToken)
+		public Task<string> GetNormalizedUserNameAsync(DasBlogUser user, CancellationToken cancellationToken)
 		{
 			throw new System.NotImplementedException();
 		}
 
-		public async Task<string> GetNormalizedUserNameAsync(DasBlogUser user, CancellationToken cancellationToken)
-		{
-			throw new System.NotImplementedException();
-		}
-
-		public async Task SetNormalizedUserNameAsync(DasBlogUser user, string normalizedName, CancellationToken cancellationToken)
-		{
-			throw new System.NotImplementedException();
-		}
-
-		public async Task<IdentityResult> CreateAsync(DasBlogUser user, CancellationToken cancellationToken)
+		public Task SetNormalizedUserNameAsync(DasBlogUser user, string normalizedName, CancellationToken cancellationToken)
 		{
 			cancellationToken.ThrowIfCancellationRequested();
-			Contract.Requires<ArgumentNullException>(user != null, $"{nameof(user)} is null");
+			if (user == null)
+			{
+				throw new ArgumentNullException(nameof(user));
+			}
 
-			var mappedUser = _mapper.Map<User>(user);
+			user.NormalizedUserName = normalizedName ?? throw new ArgumentNullException(nameof(normalizedName));
+			return Task.FromResult<object>(null);
+		}
+
+		public Task<IdentityResult> CreateAsync(DasBlogUser user, CancellationToken cancellationToken)
+		{
+			cancellationToken.ThrowIfCancellationRequested();
+			if (user == null)
+			{
+				throw new ArgumentNullException(nameof(user));
+			}
+
 			try
 			{
-				_siteSecurityConfig.Users.Add(mappedUser);
+				var mappedUser = _mapper.Map<User>(user);
+				_dasBlogSettings.SecurityConfiguration.Users.Add(mappedUser);
 			}
 			catch (Exception e)
 			{
-				return IdentityResult.Failed(new IdentityError { Description = e.Message });
+				return Task.FromResult(IdentityResult.Failed(new IdentityError { Description = e.Message }));
 			}
 
-			return await Task.FromResult(IdentityResult.Success);
+			return Task.FromResult(IdentityResult.Success);
 		}
 
-		public async Task<IdentityResult> UpdateAsync(DasBlogUser user, CancellationToken cancellationToken)
+		public Task<IdentityResult> UpdateAsync(DasBlogUser user, CancellationToken cancellationToken)
 		{
 			throw new System.NotImplementedException();
 		}
 
-		public async Task<IdentityResult> DeleteAsync(DasBlogUser user, CancellationToken cancellationToken)
+		public Task<IdentityResult> DeleteAsync(DasBlogUser user, CancellationToken cancellationToken)
 		{
 			throw new System.NotImplementedException();
 		}
 
-		public async Task<DasBlogUser> FindByIdAsync(string userId, CancellationToken cancellationToken)
+		public Task<DasBlogUser> FindByIdAsync(string userId, CancellationToken cancellationToken)
 		{
 			throw new System.NotImplementedException();
 		}
 
-		public async Task<DasBlogUser> FindByNameAsync(string normalizedUserName, CancellationToken cancellationToken)
+		public Task<DasBlogUser> FindByNameAsync(string normalizedUserName, CancellationToken cancellationToken)
 		{
-			throw new System.NotImplementedException();
+			cancellationToken.ThrowIfCancellationRequested();
+			if (normalizedUserName == null)
+			{
+				throw new ArgumentNullException(nameof(normalizedUserName));
+			}
+
+			var user = _dasBlogSettings.SecurityConfiguration.Users.Find(u => u.Name == normalizedUserName);
+			var dasBlogUser = _mapper.Map<DasBlogUser>(user);
+			return Task.FromResult(dasBlogUser);
 		}
+
+		#endregion
+
+		#region IUserEmailStore
+
+		public Task SetEmailAsync(DasBlogUser user, string email, CancellationToken cancellationToken)
+		{
+			throw new NotImplementedException();
+		}
+
+		public Task<string> GetEmailAsync(DasBlogUser user, CancellationToken cancellationToken)
+		{
+			cancellationToken.ThrowIfCancellationRequested();
+			if (user == null)
+			{
+				throw new ArgumentNullException(nameof(user));
+			}
+
+			return Task.FromResult(user.Email);
+		}
+
+		public Task<bool> GetEmailConfirmedAsync(DasBlogUser user, CancellationToken cancellationToken)
+		{
+			throw new NotImplementedException();
+		}
+
+		public Task SetEmailConfirmedAsync(DasBlogUser user, bool confirmed, CancellationToken cancellationToken)
+		{
+			throw new NotImplementedException();
+		}
+
+		public Task<DasBlogUser> FindByEmailAsync(string normalizedEmail, CancellationToken cancellationToken)
+		{
+			var user = _dasBlogSettings.SecurityConfiguration.Users.Find(u => u.EmailAddress.ToUpper() == normalizedEmail);
+			var dasBlogUser = _mapper.Map<DasBlogUser>(user);
+			return Task.FromResult(dasBlogUser);
+		}
+
+		public Task<string> GetNormalizedEmailAsync(DasBlogUser user, CancellationToken cancellationToken)
+		{
+			cancellationToken.ThrowIfCancellationRequested();
+			if (user == null)
+			{
+				throw new ArgumentNullException(nameof(user));
+			}
+
+			return Task.FromResult(user.NormalizedEmail);
+		}
+
+		public Task SetNormalizedEmailAsync(DasBlogUser user, string normalizedEmail, CancellationToken cancellationToken)
+		{
+			cancellationToken.ThrowIfCancellationRequested();
+			if (user == null)
+			{
+				throw new ArgumentNullException(nameof(user));
+			}
+
+			user.NormalizedEmail = normalizedEmail ?? throw new ArgumentNullException(nameof(normalizedEmail));
+			return Task.FromResult<object>(null);
+		}
+
+		#endregion
+
+		#region IUserPasswordStore
+
+		public Task SetPasswordHashAsync(DasBlogUser user, string passwordHash, CancellationToken cancellationToken)
+		{
+			cancellationToken.ThrowIfCancellationRequested();
+			if (user == null)
+			{
+				throw new ArgumentNullException(nameof(user));
+			}
+
+			user.PasswordHash = passwordHash ?? throw new ArgumentNullException(nameof(passwordHash));
+			return Task.FromResult<object>(null);
+		}
+
+		public Task<string> GetPasswordHashAsync(DasBlogUser user, CancellationToken cancellationToken)
+		{
+			cancellationToken.ThrowIfCancellationRequested();
+			if (user == null)
+			{
+				throw new ArgumentNullException(nameof(user));
+			}
+
+			return Task.FromResult(user.PasswordHash);
+		}
+
+		public Task<bool> HasPasswordAsync(DasBlogUser user, CancellationToken cancellationToken)
+		{
+			throw new NotImplementedException();
+		}
+
+		#endregion
 	}
 }

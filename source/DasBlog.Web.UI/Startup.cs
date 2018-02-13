@@ -99,7 +99,6 @@ namespace DasBlog.Web.UI
 				.AddTransient<IPrincipal>(provider => provider.GetService<IHttpContextAccessor>().HttpContext.User);
 
 			services
-				.AddSingleton<ISiteSecurityConfig, SiteSecurityConfig>()
 				.AddSingleton<IBlogRepository, BlogRepository>()
 				.AddSingleton<ISubscriptionRepository, SubscriptionRepository>()
 				.AddSingleton<IArchiveRepository, ArchiveRepository>()

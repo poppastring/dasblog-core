@@ -1,4 +1,5 @@
 ﻿using System;
+using DasBlog.Web.Core.Security;
 
 namespace DasBlog.Web.UI.Models.Identity
 {
@@ -6,6 +7,6 @@ namespace DasBlog.Web.UI.Models.Identity
 	{
 		public Guid Id { get; set; } = Guid.NewGuid();
 
-		public string Role { get; set; }
+		public Role Role { get; set; }
 	}
 }

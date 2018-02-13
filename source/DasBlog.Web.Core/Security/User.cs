@@ -11,7 +11,7 @@ namespace DasBlog.Web.Core.Security
 	{
 		public string Name { get; set; }
 
-		public string Role { get; set; }
+		public Role Role { get; set; }
 
 		public bool Ask { get; set; }
 
@@ -34,7 +34,7 @@ namespace DasBlog.Web.Core.Security
 		[XmlElement("Password")]
 		public string XmlPassword { get; set; }
 
-		public UserToken ToToken() => new UserToken(Name, Role);
+		public UserToken ToToken() => new UserToken(Name, Role.ToString());
 
 		public bool Equals(User other)
 		{

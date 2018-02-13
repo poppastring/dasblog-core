@@ -10,10 +10,17 @@ namespace DasBlog.Web.UI.Mappers
 		public ProfileDasBlogUser()
 		{
 			CreateMap<RegisterViewModel, DasBlogUser>()
-				.ForMember(dest => dest.Email, opt => opt.MapFrom(m => m.Email))
-				.ForMember(dest => dest.UserName, opt => opt.MapFrom(m => m.Email));
+				.ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
+				.ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Email));
 
-			CreateMap<DasBlogUser, User>();
+			CreateMap<DasBlogUser, User>()
+				.ForMember(dest => dest.Password, opt => opt.MapFrom(src => src.PasswordHash))
+				.ForMember(dest => dest.EmailAddress, opt => opt.MapFrom(src => src.Email));
+
+			CreateMap<User, DasBlogUser>()
+				.ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.EmailAddress))
+				.ForMember(dest => dest.PasswordHash, opt => opt.MapFrom(src => src.Password));
+
 		}
 	}
 }
