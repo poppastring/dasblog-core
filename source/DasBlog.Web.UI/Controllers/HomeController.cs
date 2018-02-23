@@ -50,6 +50,7 @@ namespace DasBlog.Web.UI.Controllers
 						_dasBlogSettings.SiteConfiguration.Theme, v), lpvm);
 		}
 
+		[HttpGet]
 		public IActionResult Post(string posttitle)
         {
             ListPostsViewModel lpvm = new ListPostsViewModel();
@@ -76,13 +77,13 @@ namespace DasBlog.Web.UI.Controllers
             }
         }
 
-        [Route("comment/{Id:guid}")]
-        public IActionResult Comment(Guid Id)
+		[Route("comment/{postid:guid}")]
+        public IActionResult Comment(Guid postid)
         {
             // ~/CommentView.aspx?title=GeneralPatternsusedtoDetectaLeak
 
             // Get post by GUID bbecae4b-e3a3-47a2-b6a6-b4cc405f8663
-            Entry entry = _blogRepository.GetBlogPost(Id.ToString());
+            Entry entry = _blogRepository.GetBlogPost(postid.ToString());
 
             ListPostsViewModel lpvm = new ListPostsViewModel();
             lpvm.Posts = new List<PostViewModel> { _mapper.Map<PostViewModel>(entry) };
@@ -126,9 +127,7 @@ namespace DasBlog.Web.UI.Controllers
             // metaWebLog
             // mt
 
-            // return NoContent();
-
-            return View();
+            return NoContent();
         }
 
         [Route("blogger")]

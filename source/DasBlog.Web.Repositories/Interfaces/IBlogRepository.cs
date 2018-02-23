@@ -14,6 +14,14 @@ namespace DasBlog.Web.Repositories.Interfaces
 
         EntryCollection GetEntriesForPage(int pageIndex);
 
-        string XmlRpcInvoke(Stream blob);
-    }
+		void SaveEntry(Entry entry);
+
+		void UpdateEntry(Entry entry);
+
+		void DeleteEntry(string postid);
+
+		CategoryCacheEntry GetCategories();
+
+		string XmlRpcInvoke(Stream blob);
+	}
 }

@@ -1,0 +1,53 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@model DasBlog.Web.UI.Models.BlogViewModels.PostViewModel
+@using DasBlog.Web.UI.Models.BlogViewModels
+
+
+<form asp-action="AddEditBook" role="form">
+    @* @await Html.PartialAsync("_ModalHeader", new ModalHeader { Heading = String.Format("{0} Book", @Model.Id == 0 ? "Add" : "Edit") }) *@
+
+    <div class="modal-body form-horizontal">
+        <div class="form-group">
+            <label asp-for="Title" class="col-lg-3 col-sm-3 control-label"></label>
+            <div class="col-lg-6">
+                <input asp-for="Title" class="form-control" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Content" class="col-lg-3 col-sm-3 control-label"></label>
+            <div class="col-lg-6">
+                @Html.EditorFor(x => x.Content)
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Description" class="col-lg-3 col-sm-3 control-label"></label>
+            <div class="col-lg-6">
+                @Html.EditorFor(x => x.Description)
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="AllowComments" class="col-lg-3 col-sm-3 control-label"></label>
+            <div class="col-lg-6">
+                @Html.CheckBoxFor(x => x.AllowComments)
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="IsPublic" class="col-lg-3 col-sm-3 control-label"></label>
+            <div class="col-lg-6">
+                @Html.CheckBoxFor(x => x.IsPublic)
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Syndicate" class="col-lg-3 col-sm-3 control-label"></label>
+            <div class="col-lg-6">
+                @Html.CheckBoxFor(x => x.Syndicate)
+            </div>
+        </div>
+    </div>
+    @* @await Html.PartialAsync("_ModalFooter", new ModalFooter { }) *@
+</form>
