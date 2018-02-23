@@ -99,7 +99,25 @@ namespace DasBlog.Web.Repositories
             return new EntryCollection();
         }
 
-        public string XmlRpcInvoke(Stream requestStream)
+		public void SaveEntry(Entry entry)
+		{
+			throw new NotImplementedException();
+		}
+
+		public void UpdateEntry(Entry entry)
+		{
+			Entry origEntry = _dataService.GetEntryForEdit(entry.EntryId);
+
+
+			throw new NotImplementedException();
+		}
+
+		public void DeleteEntry(string postid)
+		{
+			throw new NotImplementedException();
+		}
+
+		public string XmlRpcInvoke(Stream requestStream)
         {
             try
             {
@@ -932,5 +950,10 @@ namespace DasBlog.Web.Repositories
             post.categories = entry.GetSplitCategories();
             return post;
         }
-    }
+
+		public CategoryCacheEntry GetCategories()
+		{
+			throw new NotImplementedException();
+		}
+	}
 }
