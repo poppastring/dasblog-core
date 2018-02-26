@@ -27,11 +27,13 @@ namespace DasBlog.Web.Core
         string RelativeToRoot(string relative);
         string GetBaseUrl();
         string GetPermaLinkUrl(string entryId);
-        string GetTrackbackUrl(string entryId);
+		string GetPermaTitle(string title);
+		string GetTrackbackUrl(string entryId);
         string GetEntryCommentsRssUrl(string entryId);
         string GetCommentViewUrl(string entryId);
         string GetCategoryViewUrl(string category);
-        User GetUser(string userName);
+		string GetCategoryViewUrlName(string category);
+		User GetUser(string userName);
         TimeZone GetConfiguredTimeZone();
     }
 }

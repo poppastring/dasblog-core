@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Rewrite;
-using DasBlog.Web.UI.Models;
 using Microsoft.AspNetCore.Mvc.Razor;
 using DasBlog.Web.UI.ViewsEngine;
 using DasBlog.Web.Core;
@@ -15,15 +11,13 @@ using System.Security.Principal;
 using Microsoft.AspNetCore.Http;
 using DasBlog.Web.Repositories.Interfaces;
 using DasBlog.Web.Repositories;
-using Microsoft.Extensions.FileProviders;
-using System.Reflection;
 using DasBlog.Web.Core.Configuration;
 using DasBlog.Web.UI.Settings;
-using DasBlog.Web.Core.Security;
+using DasBlog.Web.UI.Mappers;
 
 namespace DasBlog.Web.UI
 {
-    public class Startup
+	public class Startup
     {
         private IHostingEnvironment _hostingEnvironment;
 
@@ -71,8 +65,19 @@ namespace DasBlog.Web.UI
                         provider.GetService<IHttpContextAccessor>().HttpContext.User);
 
             services.AddMvc();
-            services.AddMvc().AddXmlSerializerFormatters();
-        }
+			services.AddMvc().AddXmlSerializerFormatters();
+
+			// services.AddAutoMapper(typeof(ProfilePost));
+
+			services.AddAutoMapper(mapperConfig => mapperConfig.AddProfile(new ProfilePost(services.BuildServiceProvider().GetService<IDasBlogSettings>())));
+
+			//Mapper.Initialize(cfg =>
+			//{
+			//	cfg.AddProfile(new ProfilePost(services.BuildServiceProvider().GetService<IDasBlogSettings>()));
+			//});
+
+
+		}
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
