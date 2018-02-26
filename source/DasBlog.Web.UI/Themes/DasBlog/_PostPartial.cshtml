@@ -5,18 +5,20 @@
 }
 
 <div class="post">
-    <h2>@Model.Title</h2>
+    <h2><title-link post=@Model>somecss</title-link></h2>
     <div class="post-body">
         @Html.Raw(@Model.Content)
     </div>
     <div class="post-footer">
-        @Model.Categories
-    </div>
-    <div>
-        <post-created post=@Model>MMMM dd, yyyy</post-created>
-    </div>
-    <div>
-        <edit-post blog-post-id="@Model.EntryId"></edit-post>
+        <div>
+            <categories-list categories=@Model.Categories> </categories-list>
+        </div>
+        <div>
+            <post-created post=@Model>MMMM dd, yyyy</post-created>
+        </div>
+        <div>
+            <edit-post blog-post-id="@Model.EntryId"></edit-post>
+        </div>
     </div>
 </div>
 <hr />

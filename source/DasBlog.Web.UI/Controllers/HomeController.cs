@@ -15,6 +15,8 @@ using newtelligence.DasBlog.Util;
 using Microsoft.Extensions.FileProviders;
 using DasBlog.Web.Core.Configuration;
 using System.IO;
+using System.Text.RegularExpressions;
+using AutoMapper;
 
 namespace DasBlog.Web.UI.Controllers
 {
@@ -22,30 +24,20 @@ namespace DasBlog.Web.UI.Controllers
     {
         private readonly IBlogRepository _blogRepository;
         private readonly IDasBlogSettings _dasBlogSettings;
+		private readonly IMapper _mapper;
 
-        public HomeController(IBlogRepository blogRepository, IDasBlogSettings settings)
+		public HomeController(IBlogRepository blogRepository, IDasBlogSettings settings, IMapper mapper)
         {
             _blogRepository = blogRepository;
             _dasBlogSettings = settings;
-        }
+			_mapper = mapper;
+		}
 
         public IActionResult Index()
         {
-            ListPostsViewModel lpvm = new ListPostsViewModel();
+			ListPostsViewModel lpvm = new ListPostsViewModel();
             lpvm.Posts = _blogRepository.GetFrontPagePosts()
-                            .Select(entry => new PostViewModel
-                                {
-                                    Author = entry.Author,
-                                    Content = entry.Content,
-                                    Categories = entry.Categories,
-                                    Description = entry.Description,
-                                    EntryId = entry.EntryId,
-                                    AllowComments = entry.AllowComments,
-                                    IsPublic = entry.IsPublic,
-                                    PermaLink = entry.Link,
-                                    Title = entry.Title,
-                                    CreatedDateTime = entry.CreatedLocalTime
-                                }).ToList();
+                            .Select(entry => _mapper.Map<PostViewModel>(entry)).ToList();
             DefaultPage();
 
             return ThemedView("Page", lpvm);
@@ -64,22 +56,10 @@ namespace DasBlog.Web.UI.Controllers
 
             if (!string.IsNullOrEmpty(posttitle))
             {
-                var entry = _blogRepository.GetBlogPost(posttitle);
+                var entry = _blogRepository.GetBlogPost(posttitle.Replace(_dasBlogSettings.SiteConfiguration.TitlePermalinkSpaceReplacement,string.Empty));
                 if (entry != null)
                 {
-                    lpvm.Posts = new List<PostViewModel>() {
-                        new PostViewModel {
-                        Author = entry.Author,
-                        Content = entry.Content,
-                        Categories = entry.Categories,
-                        Description = entry.Description,
-                        EntryId = entry.EntryId,
-                        AllowComments = entry.AllowComments,
-                        IsPublic = entry.IsPublic,
-                        PermaLink = entry.Link,
-                        Title = entry.Title,
-						CreatedDateTime = entry.CreatedLocalTime
-						} };
+					lpvm.Posts = new List<PostViewModel>() {_mapper.Map<PostViewModel>(entry) };
 
                     SinglePost(lpvm.Posts.First());
 
@@ -105,20 +85,7 @@ namespace DasBlog.Web.UI.Controllers
             Entry entry = _blogRepository.GetBlogPost(Id.ToString());
 
             ListPostsViewModel lpvm = new ListPostsViewModel();
-            lpvm.Posts = new List<PostViewModel> {
-                    new PostViewModel
-                    {
-                        Author = entry.Author,
-                        Content = entry.Content,
-                        Categories = entry.Categories,
-                        Description = entry.Description,
-                        EntryId = entry.EntryId,
-                        AllowComments = entry.AllowComments,
-                        IsPublic = entry.IsPublic,
-                        PermaLink = entry.Link,
-                        Title = entry.Title
-                    }
-                };
+            lpvm.Posts = new List<PostViewModel> { _mapper.Map<PostViewModel>(entry) };
 
             SinglePost(lpvm.Posts.First());
 
@@ -143,18 +110,8 @@ namespace DasBlog.Web.UI.Controllers
 
             ListPostsViewModel lpvm = new ListPostsViewModel();
             lpvm.Posts = _blogRepository.GetEntriesForPage(index)
-                                .Select(entry => new PostViewModel
-                                {
-                                    Author = entry.Author,
-                                    Content = entry.Content,
-                                    Categories = entry.Categories,
-                                    Description = entry.Description,
-                                    EntryId = entry.EntryId,
-                                    AllowComments = entry.AllowComments,
-                                    IsPublic = entry.IsPublic,
-                                    PermaLink = entry.Link,
-                                    Title = entry.Title
-                                }).ToList();
+                                .Select(entry => _mapper.Map<PostViewModel>(entry)).ToList();
+
             DefaultPage();
 
 			return ThemedView("Page", lpvm);
@@ -188,7 +145,7 @@ namespace DasBlog.Web.UI.Controllers
 
             ViewData["Message"] = "Your application description page.";
 
-            return View();
+            return NoContent();
         }
 
         public IActionResult Contact()
@@ -197,7 +154,7 @@ namespace DasBlog.Web.UI.Controllers
 
             ViewData["Message"] = "Your contact page.";
 
-            return View();
+            return NoContent();
         }
 
         public IActionResult Error()

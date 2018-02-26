@@ -67,7 +67,19 @@ namespace DasBlog.Web.UI.Settings
             return RelativeToRoot("post/" + entryId);
         }
 
-        public string GetCommentViewUrl(string entryId)
+		public string GetPermaTitle(string title)
+		{
+			string titlePermalink = title.ToLower();
+
+			if (SiteConfiguration.EnableTitlePermaLink)
+			{
+				titlePermalink = titlePermalink.Replace("+", SiteConfiguration.TitlePermalinkSpaceReplacement);
+			}
+
+			return titlePermalink;
+		}
+
+		public string GetCommentViewUrl(string entryId)
         {
             //TODO: Old links vs new links
             return RelativeToRoot("comment/" + entryId);
@@ -90,7 +102,13 @@ namespace DasBlog.Web.UI.Settings
             return RelativeToRoot("category/" + category);
         }
 
-        public User GetUser(string userName)
+		public string GetCategoryViewUrlName(string category)
+		{
+
+			return string.Empty;
+		}
+
+		public User GetUser(string userName)
         {
             if (false == String.IsNullOrEmpty(userName))
             {

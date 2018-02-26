@@ -1,4 +1,4 @@
-#region Copyright (c) 2003, newtelligence AG. All rights reserved.
+﻿#region Copyright (c) 2003, newtelligence AG. All rights reserved.
 /*
 // Copyright (c) 2003, newtelligence AG. (http://www.newtelligence.com)
 // Original BlogX Source Code: Copyright (c) 2003, Chris Anderson (http://simplegeek.com)
@@ -333,7 +333,6 @@ namespace newtelligence.DasBlog.Runtime
 
 			StringBuilder retVal = new StringBuilder(titleParam.Length);
 
-			bool upper = false;
 			bool pendingSpace = false;
 			bool tag = false;
 
@@ -385,19 +384,11 @@ namespace newtelligence.DasBlog.Runtime
 							// The caller will strip '+' if !siteConfig.EnableTitlePermaLinkSpaces
 							retVal.Append("+");
 						}
-						upper = true;
+
 						pendingSpace = false;
 					}
 
-					if (upper)
-					{
-						retVal.Append(char.ToUpper(c));
-						upper = false;
-					}
-					else
-					{
-						retVal.Append(c);
-					}
+					retVal.Append(c);
 				}
 			}
 
