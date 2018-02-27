@@ -20,9 +20,9 @@ namespace DasBlog.Web.UI.Models.BlogViewModels
 
         public string EntryId { get; set; }
 
-        public string Categories { get; set; }
+        public IList<CategoryViewModel> Categories { get; set; }
 
-		[Display(Name = "Allow Comments")]
+        [Display(Name = "Allow Comments")]
 		public bool AllowComments { get; set; }
 
 		[Display(Name = "Is Public")]
