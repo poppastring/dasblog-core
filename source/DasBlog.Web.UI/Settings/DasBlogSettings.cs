@@ -103,6 +103,11 @@ namespace DasBlog.Web.UI.Settings
 			return RelativeToRoot("category/" + category);
 		}
 
+		public string GetCategoryViewUrlName(string category)
+		{
+			return string.Empty;
+		}
+
 		public User GetUser(string userName)
 		{
 			if (false == String.IsNullOrEmpty(userName))
@@ -124,6 +129,17 @@ namespace DasBlog.Web.UI.Settings
 			//{
 			//    return TimeZone.CurrentTimeZone as WindowsTimeZone;
 			//}
+		}
+
+		public void AddUser(User user)
+		{
+			SecurityConfiguration.Users.Add(user);
+			var ser = new XmlSerializer(typeof(SiteSecurityConfig));
+			var fileInfo = fileProvider.GetFileInfo(Startup.SITESECURITYCONFIG);
+			using (var writer = new StreamWriter(fileInfo.PhysicalPath))
+			{
+				ser.Serialize(writer, SecurityConfiguration);
+			}
 		}
 	}
 }
