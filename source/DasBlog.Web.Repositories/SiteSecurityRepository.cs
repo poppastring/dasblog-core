@@ -24,7 +24,7 @@ namespace DasBlog.Web.Repositories
 
 		public bool IsInRole(Role? role)
 		{
-			return _principal.IsInRole(role.ToString());
+			return _principal.IsInRole(role?.ToString());
 		}
 
 		public void AddUser(string userName, string password, Role? role, bool ask, string emailAddress)
@@ -36,7 +36,7 @@ namespace DasBlog.Web.Repositories
 			{
 				Name = userName,
 				Password = this.Encrypt(password),
-				Role = role ?? Role.Contrinutor,
+				Role = role ?? Role.Contributor,
 				Ask = ask,
 				EmailAddress = emailAddress
 			};
@@ -48,7 +48,7 @@ namespace DasBlog.Web.Repositories
 		{
 			if (user == null)
 			{
-				throw new ArgumentNullException("user");
+				throw new ArgumentNullException(nameof(user));
 			}
 
 			_dasBlogSettings.SecurityConfiguration.Users.Add(user);

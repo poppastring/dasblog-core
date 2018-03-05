@@ -80,7 +80,7 @@ namespace DasBlog.Web.UI.Models.Identity
 			try
 			{
 				var mappedUser = _mapper.Map<User>(user);
-				_dasBlogSettings.SecurityConfiguration.Users.Add(mappedUser);
+				_dasBlogSettings.AddUser(mappedUser);
 			}
 			catch (Exception e)
 			{

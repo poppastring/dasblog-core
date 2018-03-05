@@ -17,11 +17,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using AutoMapper;
 using DasBlog.Web.UI.Mappers;
+using Microsoft.Extensions.FileProviders;
 
 namespace DasBlog.Web.UI
 {
 	public class Startup
 	{
+		public const string SITESECURITYCONFIG = @"Config\siteSecurity.config";
 		private IHostingEnvironment _hostingEnvironment;
 
 		public Startup(IConfiguration configuration, IHostingEnvironment env)
@@ -30,7 +32,7 @@ namespace DasBlog.Web.UI
 			.SetBasePath(env.ContentRootPath)
 			.AddXmlFile(@"Config\site.config", optional: true, reloadOnChange: true)
 			.AddXmlFile(@"Config\metaConfig.xml", optional: true, reloadOnChange: true)
-			.AddXmlFile(@"Config\siteSecurity.config", optional: true, reloadOnChange: true)
+			.AddXmlFile(SITESECURITYCONFIG, optional: true, reloadOnChange: true)
 			.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
 			.AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
 			.AddEnvironmentVariables();
@@ -99,6 +101,7 @@ namespace DasBlog.Web.UI
 				.AddTransient<IPrincipal>(provider => provider.GetService<IHttpContextAccessor>().HttpContext.User);
 
 			services
+				.AddSingleton(_hostingEnvironment.ContentRootFileProvider)
 				.AddSingleton<IBlogRepository, BlogRepository>()
 				.AddSingleton<ISubscriptionRepository, SubscriptionRepository>()
 				.AddSingleton<IArchiveRepository, ArchiveRepository>()
