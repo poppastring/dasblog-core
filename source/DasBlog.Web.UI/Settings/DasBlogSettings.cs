@@ -68,6 +68,18 @@ namespace DasBlog.Web.UI.Settings
 			return RelativeToRoot("post/" + entryId);
 		}
 
+		public string GetPermaTitle(string title)
+		{
+			string titlePermalink = title.ToLower();
+
+			if (SiteConfiguration.EnableTitlePermaLink)
+			{
+				titlePermalink = titlePermalink.Replace("+", SiteConfiguration.TitlePermalinkSpaceReplacement);
+			}
+
+			return titlePermalink;
+		}
+
 		public string GetCommentViewUrl(string entryId)
 		{
 			//TODO: Old links vs new links
@@ -93,24 +105,14 @@ namespace DasBlog.Web.UI.Settings
 
 		public User GetUser(string userName)
 		{
-			if (false == string.IsNullOrEmpty(userName))
+			if (false == String.IsNullOrEmpty(userName))
 			{
-				return SecurityConfiguration.Users.Find(user => string.Compare(user.Name, userName, StringComparison.InvariantCultureIgnoreCase) == 0);
+				return this.SecurityConfiguration.Users.Find(delegate (User x)
+				{
+					return String.Compare(x.Name, userName, StringComparison.InvariantCultureIgnoreCase) == 0;
+				});
 			}
-
 			return null;
-		}
-
-		public void AddUser(User user)
-		{
-			SecurityConfiguration.Users.Add(user);
-			var ser = new XmlSerializer(typeof(SiteSecurityConfig));
-			var fileInfo = fileProvider.GetFileInfo(Startup.SITESECURITYCONFIG);
-			using (var writer = new StreamWriter(fileInfo.PhysicalPath))
-			{
-				ser.Serialize(writer, SecurityConfiguration);
-			}
-
 		}
 
 		public TimeZone GetConfiguredTimeZone()
