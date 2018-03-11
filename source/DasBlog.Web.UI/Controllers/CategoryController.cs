@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -36,7 +36,7 @@ namespace DasBlog.Web.UI.Controllers
 
             EntryCollection entries = _categoryRepository.GetEntries(category, languageFilter);
 
-            return View("Index.chtml");
+            return View("Index.cshtml");
         }
     }
 }

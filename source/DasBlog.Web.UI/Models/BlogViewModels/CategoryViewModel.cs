@@ -9,5 +9,6 @@ namespace DasBlog.Web.UI.Models.BlogViewModels
     {
 		public string Category { get; set; }
 		public string CategoryUrl { get; set; }
+		public bool Checked { get; set; }
 	}
 }

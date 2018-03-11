@@ -11,7 +11,7 @@ namespace DasBlog.Web.UI.Helpers
 		public IList<CategoryViewModel> Categories { get; set; }
 
 		private readonly IDasBlogSettings _dasBlogSettings;
-		private const string CATEGORY_ITEM_TEMPLATE = "<li><a href='{0}'>{1}<a></li>";
+		private const string CATEGORY_ITEM_TEMPLATE = "<li><a href='{0}'>{1}</a></li>";
 
 		public CategoriesListTagHelper(IDasBlogSettings dasBlogSettings)
 		{

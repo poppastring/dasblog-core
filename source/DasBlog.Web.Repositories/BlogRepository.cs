@@ -15,6 +15,7 @@ using System.IO;
 using CookComputing.XmlRpc;
 using System.Reflection;
 using System.Xml;
+using newtelligence.DasBlog.Web.Core;
 
 namespace DasBlog.Web.Repositories
 {
@@ -39,7 +40,12 @@ namespace DasBlog.Web.Repositories
             return _dataService.GetEntry(postid);
         }
 
-        public EntryCollection GetFrontPagePosts()
+		public Entry GetEntryForEdit(string postid)
+		{
+			return _dataService.GetEntryForEdit(postid);
+		}
+
+		public EntryCollection GetFrontPagePosts()
         {
             DateTime fpDayUtc;
             TimeZone tz;
@@ -99,22 +105,90 @@ namespace DasBlog.Web.Repositories
             return new EntryCollection();
         }
 
-		public void SaveEntry(Entry entry)
+		public EntrySaveState CreateEntry(Entry entry)
 		{
-			throw new NotImplementedException();
+			return InternalSaveEntry(entry, null, null);
 		}
 
-		public void UpdateEntry(Entry entry)
+		public EntrySaveState UpdateEntry(Entry entry)
 		{
-			Entry origEntry = _dataService.GetEntryForEdit(entry.EntryId);
-
-
-			throw new NotImplementedException();
+			return InternalSaveEntry(entry, null, null);
 		}
 
 		public void DeleteEntry(string postid)
 		{
-			throw new NotImplementedException();
+			_dataService.DeleteEntry(postid, null);
+		}
+
+		private EntrySaveState InternalSaveEntry(Entry entry, TrackbackInfoCollection trackbackList, CrosspostInfoCollection crosspostList)
+		{
+
+			EntrySaveState rtn = EntrySaveState.Failed;
+			// we want to prepopulate the cross post collection with the crosspost footer
+			if (_dasBlogSettings.SiteConfiguration.EnableCrossPostFooter && _dasBlogSettings.SiteConfiguration.CrossPostFooter != null 
+				&& _dasBlogSettings.SiteConfiguration.CrossPostFooter.Length > 0)
+			{
+				foreach (CrosspostInfo info in crosspostList)
+				{
+					info.CrossPostFooter = _dasBlogSettings.SiteConfiguration.CrossPostFooter;
+				}
+			}
+
+			// now save the entry, passign in all the necessary Trackback and Pingback info.
+			try
+			{
+				// if the post is missing a title don't publish it
+				if (entry.Title == null || entry.Title.Length == 0)
+				{
+					entry.IsPublic = false;
+				}
+
+				// if the post is missing categories, then set the categories to empty string.
+				if (entry.Categories == null)
+					entry.Categories = "";
+
+				rtn = _dataService.SaveEntry(entry, 
+					(_dasBlogSettings.SiteConfiguration.PingServices.Count > 0) ?
+						new WeblogUpdatePingInfo(_dasBlogSettings.SiteConfiguration.Title, _dasBlogSettings.GetBaseUrl(), _dasBlogSettings.GetBaseUrl(), _dasBlogSettings.RsdUrl, _dasBlogSettings.SiteConfiguration.PingServices) : null,
+					(entry.IsPublic) ?
+						trackbackList : null,
+					_dasBlogSettings.SiteConfiguration.EnableAutoPingback && entry.IsPublic ?
+						new PingbackInfo(
+							_dasBlogSettings.GetPermaLinkUrl(entry.EntryId),
+							entry.Title,
+							entry.Description,
+							_dasBlogSettings.SiteConfiguration.Title) : null,
+					crosspostList);
+
+				//TODO: SendEmail(entry, siteConfig, logService);
+
+			}
+			catch (Exception ex)
+			{
+				//TODO: Do something with this????
+				// StackTrace st = new StackTrace();
+				// logService.AddEvent(new EventDataItem(EventCodes.Error, ex.ToString() + Environment.NewLine + st.ToString(), ""));
+			}
+
+			// we want to invalidate all the caches so users get the new post
+			// TODO: BreakCache(entry.GetSplitCategories());
+
+			return rtn;
+		}
+
+		private void BreakCache(string[] categories)
+		{
+			DataCache cache = CacheFactory.GetCache();
+
+			// break the caching
+			cache.Remove("BlogCoreData");
+			cache.Remove("Rss::" + _dasBlogSettings.SiteConfiguration.RssDayCount.ToString() + ":" + _dasBlogSettings.SiteConfiguration.RssEntryCount.ToString());
+
+			foreach (string category in categories)
+			{
+				string CacheKey = "Rss:" + category + ":" + _dasBlogSettings.SiteConfiguration.RssDayCount.ToString() + ":" + _dasBlogSettings.SiteConfiguration.RssEntryCount.ToString();
+				cache.Remove(CacheKey);
+			}
 		}
 
 		public string XmlRpcInvoke(Stream requestStream)
@@ -951,9 +1025,9 @@ namespace DasBlog.Web.Repositories
             return post;
         }
 
-		public CategoryCacheEntry GetCategories()
+		public CategoryCacheEntryCollection GetCategories()
 		{
-			throw new NotImplementedException();
+			return _dataService.GetCategories();
 		}
 	}
 }

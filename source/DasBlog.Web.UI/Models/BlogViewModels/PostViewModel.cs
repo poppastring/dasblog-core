@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace DasBlog.Web.UI.Models.BlogViewModels
@@ -22,15 +23,20 @@ namespace DasBlog.Web.UI.Models.BlogViewModels
 
         public IList<CategoryViewModel> Categories { get; set; }
 
-        [Display(Name = "Allow Comments")]
+		public IList<CategoryViewModel> AllCategories { get; set; }
+
+		[Display(Name = "Allow Comments")]
 		public bool AllowComments { get; set; }
 
 		[Display(Name = "Is Public")]
 		public bool IsPublic { get; set; }
 
-		public bool Syndicate { get; set; }
+		public bool Syndicated { get; set; }
 
 		[Display(Name = "Date Created")]
 		public DateTime CreatedDateTime { get; set; }
-    }
+
+		[Display(Name = "Date Modified")]
+		public DateTime ModifiedDateTime { get; set; }
+	}
 }

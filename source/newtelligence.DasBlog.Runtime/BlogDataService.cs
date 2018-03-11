@@ -1,4 +1,4 @@
-#region Copyright (c) 2003, newtelligence AG. All rights reserved.
+﻿#region Copyright (c) 2003, newtelligence AG. All rights reserved.
 /*
 // Copyright (c) 2003, newtelligence AG. (http://www.newtelligence.com)
 // Original BlogX Source Code: Copyright (c) 2003, Chris Anderson (http://simplegeek.com)
@@ -1095,54 +1095,54 @@ namespace newtelligence.DasBlog.Runtime
             {
                 if (crosspostSites != null)
                 {
-                    foreach (Crosspost cp in currentEntry.Crossposts)
-                    {
-                        foreach (CrosspostSite site in crosspostSites)
-                        {
-                            if (site.ProfileName == cp.ProfileName)
-                            {
-                                try
-                                {
-                                    BloggerAPIClientProxy proxy = new BloggerAPIClientProxy();
-                                    UriBuilder uriBuilder = new UriBuilder("http", site.HostName, site.Port, site.Endpoint);
-                                    proxy.Url = uriBuilder.ToString();
-                                    proxy.UserAgent = this.UserAgent;
+                    //foreach (Crosspost cp in currentEntry.Crossposts)
+                    //{
+                    //    foreach (CrosspostSite site in crosspostSites)
+                    //    {
+                    //        if (site.ProfileName == cp.ProfileName)
+                    //        {
+                    //            try
+                    //            {
+                    //                BloggerAPIClientProxy proxy = new BloggerAPIClientProxy();
+                    //                UriBuilder uriBuilder = new UriBuilder("http", site.HostName, site.Port, site.Endpoint);
+                    //                proxy.Url = uriBuilder.ToString();
+                    //                proxy.UserAgent = this.UserAgent;
 
-                                    proxy.blogger_deletePost("", cp.TargetEntryId, site.Username, site.Password, true);
+                    //                proxy.blogger_deletePost("", cp.TargetEntryId, site.Username, site.Password, true);
 
-                                    if (loggingService != null)
-                                    {
-                                        loggingService.AddEvent(
-                                            new EventDataItem(EventCodes.CrosspostDeleted, currentEntry.Title, site.ProfileName));
-                                    }
-                                }
-                                catch (XmlRpcFaultException xrfe)
-                                {
-                                    ErrorTrace.Trace(TraceLevel.Error, xrfe);
-                                    if (loggingService != null)
-                                    {
-                                        loggingService.AddEvent(
-                                            new EventDataItem(EventCodes.Error,
-                                            xrfe.Message,
-                                            String.Format("Deleting cross-post entry {0} on {1}; Failed with server-fault code, {2} \"{3}\"", cp.TargetEntryId, cp.ProfileName, xrfe.FaultCode, xrfe.FaultString)));
-                                    }
-                                }
-                                catch (Exception e)
-                                {
-                                    ErrorTrace.Trace(TraceLevel.Error, e);
-                                    if (loggingService != null)
-                                    {
-                                        loggingService.AddEvent(
-                                            new EventDataItem(EventCodes.Error,
-                                            e.ToString().Replace("\n", "<br />"),
-                                            String.Format("Deleting cross-post entry {0} from {1}", cp.TargetEntryId, cp.ProfileName)));
-                                    }
-                                }
-                                break;
-                            }
+                    //                if (loggingService != null)
+                    //                {
+                    //                    loggingService.AddEvent(
+                    //                        new EventDataItem(EventCodes.CrosspostDeleted, currentEntry.Title, site.ProfileName));
+                    //                }
+                    //            }
+                    //            catch (XmlRpcFaultException xrfe)
+                    //            {
+                    //                ErrorTrace.Trace(TraceLevel.Error, xrfe);
+                    //                if (loggingService != null)
+                    //                {
+                    //                    loggingService.AddEvent(
+                    //                        new EventDataItem(EventCodes.Error,
+                    //                        xrfe.Message,
+                    //                        String.Format("Deleting cross-post entry {0} on {1}; Failed with server-fault code, {2} \"{3}\"", cp.TargetEntryId, cp.ProfileName, xrfe.FaultCode, xrfe.FaultString)));
+                    //                }
+                    //            }
+                    //            catch (Exception e)
+                    //            {
+                    //                ErrorTrace.Trace(TraceLevel.Error, e);
+                    //                if (loggingService != null)
+                    //                {
+                    //                    loggingService.AddEvent(
+                    //                        new EventDataItem(EventCodes.Error,
+                    //                        e.ToString().Replace("\n", "<br />"),
+                    //                        String.Format("Deleting cross-post entry {0} from {1}", cp.TargetEntryId, cp.ProfileName)));
+                    //                }
+                    //            }
+                    //            break;
+                    //        }
 
-                        }
-                    }
+                    //    }
+                    //}
                 }
 
                 day.Entries.Remove(currentEntry);
@@ -1282,58 +1282,58 @@ namespace newtelligence.DasBlog.Runtime
             {
                 foreach (object trackingInfo in trackingInfos)
                 {
-                    if (trackingInfo != null)
-                    {
-                        if (trackingInfo is WeblogUpdatePingInfo)
-                        {
-                            ThreadPool.QueueUserWorkItem(
-                                new WaitCallback(this.PingWeblogsWorker),
-                                (WeblogUpdatePingInfo)trackingInfo);
-                        }
-                        else if (trackingInfo is PingbackInfo)
-                        {
-                            PingbackJob pingbackJob = new PingbackJob((PingbackInfo)trackingInfo, entry);
+                    //if (trackingInfo != null)
+                    //{
+                    //    if (trackingInfo is WeblogUpdatePingInfo)
+                    //    {
+                    //        ThreadPool.QueueUserWorkItem(
+                    //            new WaitCallback(this.PingWeblogsWorker),
+                    //            (WeblogUpdatePingInfo)trackingInfo);
+                    //    }
+                    //    else if (trackingInfo is PingbackInfo)
+                    //    {
+                    //        PingbackJob pingbackJob = new PingbackJob((PingbackInfo)trackingInfo, entry);
 
-                            ThreadPool.QueueUserWorkItem(
-                                new WaitCallback(this.PingbackWorker),
-                                pingbackJob);
-                        }
-                        else if (trackingInfo is PingbackInfoCollection)
-                        {
-                            PingbackInfoCollection pic = trackingInfo as PingbackInfoCollection;
-                            foreach (PingbackInfo pi in pic)
-                            {
-                                PingbackJob pingbackJob = new PingbackJob(pi, entry);
+                    //        ThreadPool.QueueUserWorkItem(
+                    //            new WaitCallback(this.PingbackWorker),
+                    //            pingbackJob);
+                    //    }
+                    //    else if (trackingInfo is PingbackInfoCollection)
+                    //    {
+                    //        PingbackInfoCollection pic = trackingInfo as PingbackInfoCollection;
+                    //        foreach (PingbackInfo pi in pic)
+                    //        {
+                    //            PingbackJob pingbackJob = new PingbackJob(pi, entry);
 
-                                ThreadPool.QueueUserWorkItem(
-                                    new WaitCallback(this.PingbackWorker),
-                                    pingbackJob);
-                            }
-                        }
-                        else if (trackingInfo is TrackbackInfo)
-                        {
-                            ThreadPool.QueueUserWorkItem(
-                                new WaitCallback(this.TrackbackWorker),
-                                new TrackbackJob((TrackbackInfo)trackingInfo, entry));
-                        }
-                        else if (trackingInfo is TrackbackInfoCollection)
-                        {
-                            TrackbackInfoCollection tic = trackingInfo as TrackbackInfoCollection;
-                            foreach (TrackbackInfo ti in tic)
-                            {
-                                ThreadPool.QueueUserWorkItem(
-                                    new WaitCallback(this.TrackbackWorker),
-                                    new TrackbackJob(ti, entry));
-                            }
-                        }
-                        else if (trackingInfo is CrosspostInfo ||
-                            trackingInfo is CrosspostInfoCollection)
-                        {
-                            ThreadPool.QueueUserWorkItem(
-                                new WaitCallback(this.CrosspostWorker),
-                                new CrosspostJob(trackingInfo, entry, this));
-                        }
-                    }
+                    //            ThreadPool.QueueUserWorkItem(
+                    //                new WaitCallback(this.PingbackWorker),
+                    //                pingbackJob);
+                    //        }
+                    //    }
+                    //    else if (trackingInfo is TrackbackInfo)
+                    //    {
+                    //        ThreadPool.QueueUserWorkItem(
+                    //            new WaitCallback(this.TrackbackWorker),
+                    //            new TrackbackJob((TrackbackInfo)trackingInfo, entry));
+                    //    }
+                    //    else if (trackingInfo is TrackbackInfoCollection)
+                    //    {
+                    //        TrackbackInfoCollection tic = trackingInfo as TrackbackInfoCollection;
+                    //        foreach (TrackbackInfo ti in tic)
+                    //        {
+                    //            ThreadPool.QueueUserWorkItem(
+                    //                new WaitCallback(this.TrackbackWorker),
+                    //                new TrackbackJob(ti, entry));
+                    //        }
+                    //    }
+                    //    else if (trackingInfo is CrosspostInfo ||
+                    //        trackingInfo is CrosspostInfoCollection)
+                    //    {
+                    //        ThreadPool.QueueUserWorkItem(
+                    //            new WaitCallback(this.CrosspostWorker),
+                    //            new CrosspostJob(trackingInfo, entry, this));
+                    //    }
+                    //}
                 }
             }
             return found ? EntrySaveState.Updated : EntrySaveState.Added;
