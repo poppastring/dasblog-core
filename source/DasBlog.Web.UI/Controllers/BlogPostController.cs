@@ -8,6 +8,7 @@ using DasBlog.Web.Core;
 using DasBlog.Web.Repositories.Interfaces;
 using Microsoft.AspNetCore.Http;
 using DasBlog.Web.UI.Models.BlogViewModels;
+using AutoMapper;
 
 namespace DasBlog.Web.UI.Controllers
 {
@@ -17,11 +18,13 @@ namespace DasBlog.Web.UI.Controllers
 	{
 		private IBlogRepository _blogRepository;
 		private IHttpContextAccessor _httpContextAccessor;
+		private readonly IMapper _mapper;
 
-		public BlogPostController(IBlogRepository blogRepository, IHttpContextAccessor httpContextAccessor)
+		public BlogPostController(IBlogRepository blogRepository, IHttpContextAccessor httpContextAccessor, IMapper mapper)
 		{
 			_blogRepository = blogRepository;
 			_httpContextAccessor = httpContextAccessor;
+			_mapper = mapper;
 		}
 
 		[HttpGet]
@@ -32,27 +35,23 @@ namespace DasBlog.Web.UI.Controllers
 
 			if (!string.IsNullOrEmpty(postid.ToString()))
 			{
-				var entry = _blogRepository.GetBlogPost(postid.ToString());
+				var entry = _blogRepository.GetEntryForEdit(postid.ToString());
 				if (entry != null)
 				{
-					pvm = new PostViewModel {
-						Author = entry.Author,
-						Content = entry.Content,
-						Categories = entry.Categories,
-						Description = entry.Description,
-						EntryId = entry.EntryId,
-						AllowComments = entry.AllowComments,
-						IsPublic = entry.IsPublic,
-						PermaLink = entry.Link,
-						Title = entry.Title,
-						CreatedDateTime = entry.CreatedLocalTime
-						};
+					pvm = _mapper.Map<PostViewModel>(entry);
+					List <CategoryViewModel> allcategories = _mapper.Map<List<CategoryViewModel>>(_blogRepository.GetCategories());
+
+					foreach(var cat in allcategories)
+					{
+						if (pvm.Categories.Count(x => x.Category == cat.Category) > 0)
+						{
+							cat.Checked = true;
+						}
+					}
+
+					pvm.AllCategories = allcategories;
 
 					return View(pvm);
-				}
-				else
-				{
-					return NotFound();
 				}
 			}
 
@@ -65,38 +64,32 @@ namespace DasBlog.Web.UI.Controllers
 		{
 			try
 			{
-				Entry entry = new Entry();
-				entry.Initialize();
-
-				entry.Title = post.Title;
-				entry.Content = post.Content;
-				entry.Description = post.Description;
-				entry.Categories = post.Categories;
-				entry.CreatedLocalTime = post.CreatedDateTime;
-				entry.ModifiedLocalTime = DateTime.UtcNow;
-				entry.Author = "admin"; // Should we inject this?
+				Entry entry = _mapper.Map<Entry>(post);
+				
+				entry.Author = "admin"; //TODO: Need to integrate with context security 
+				entry.Language = "en-us"; //TODO: We inject this fron http context?
 				entry.Latitude = null;
-				entry.Longitude = null;
-				entry.Language = "en-us";
-				entry.IsPublic = post.IsPublic;
-				entry.Syndicated = post.Syndicate;
-				entry.AllowComments = post.AllowComments;
-
+				entry.Longitude = null; 
+				
 				_blogRepository.UpdateEntry(entry);
 			}
-			catch
+			catch(Exception e)
 			{
-				RedirectToAction("Some error location");
+				RedirectToAction("Error");
 			}
 
-			return RedirectToAction("Home/Index");
+			return View(post);
 		}
 
 		[HttpGet]
 		[Route("create")]
 		public IActionResult CreatePost()
 		{
-			return NotFound();
+			PostViewModel post = new PostViewModel();
+			post.CreatedDateTime = DateTime.UtcNow;  //TODO: Set to the timezone configured???
+			post.AllCategories = _mapper.Map<List<CategoryViewModel>>(_blogRepository.GetCategories());
+
+			return View(post);
 		}
 
 		[HttpPost]
@@ -105,38 +98,35 @@ namespace DasBlog.Web.UI.Controllers
 		{
 			try
 			{
-				// retrieve entry based on id
-				// compare to postviewmodel????
+				Entry entry = _mapper.Map<Entry>(post);
 
-				_blogRepository.SaveEntry(new Entry());
+				entry.Initialize();
+				entry.Author = "admin"; //TODO: Need to integrate with context security 
+				entry.Language = "en-us"; //TODO: We inject this fron http context?
+				entry.Latitude = null;
+				entry.Longitude = null;
+
+				_blogRepository.CreateEntry(entry);
 			}
-			catch
+			catch (Exception e)
 			{
-				RedirectToAction("Some error location");
+				RedirectToAction("Error");
 			}
 
-			return RedirectToAction("Home/Index");
+			return View("Views/BlogPost/EditPost.cshtml", post);
 		}
 
 		[HttpGet]
 		[Route("delete/{postid:guid}")]
 		public IActionResult DeletePost(Guid postid)
 		{
-						
-			return NotFound();
-		}
-
-		[HttpPost]
-		[Route("delete/{postid:guid}")]
-		public IActionResult DeletePost(Guid postid, PostViewModel post)
-		{
 			try
 			{
 				_blogRepository.DeleteEntry(postid.ToString());
 			}
-			catch
+			catch(Exception ex)
 			{
-				RedirectToAction("Some error location");
+				RedirectToAction("Error");
 			}
 
 			return RedirectToAction("Home/Index");

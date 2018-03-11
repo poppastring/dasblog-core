@@ -10,17 +10,19 @@ namespace DasBlog.Web.Repositories.Interfaces
     {
         Entry GetBlogPost(string postid);
 
-        EntryCollection GetFrontPagePosts();
+		Entry GetEntryForEdit(string postid);
+
+		EntryCollection GetFrontPagePosts();
 
         EntryCollection GetEntriesForPage(int pageIndex);
 
-		void SaveEntry(Entry entry);
+		EntrySaveState CreateEntry(Entry entry);
 
-		void UpdateEntry(Entry entry);
+		EntrySaveState UpdateEntry(Entry entry);
 
 		void DeleteEntry(string postid);
 
-		CategoryCacheEntry GetCategories();
+		CategoryCacheEntryCollection GetCategories();
 
 		string XmlRpcInvoke(Stream blob);
 	}

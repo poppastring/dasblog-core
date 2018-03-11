@@ -4,15 +4,14 @@
   <Entries>
     <Entry>
       <Content>
-		&lt;p&gt;After &lt;a href="Login.aspx"&gt;logging in&lt;/a&gt;, be sure to visit all the options under &lt;a href="EditConfig.aspx"&gt;Configuration&lt;/a&gt; in the Admin Menu Bar above. There are &lt;a href="http://dasblog.info/ThemeScreenShots.aspx"&gt;26 themes to choose from&lt;/a&gt;, and you can also &lt;a href="http://dasblog.info/ThemesAndMacros.aspx"&gt;create your own&lt;/a&gt;.&lt;/p&gt;
-		&lt;p&gt; &lt;/p&gt;
-</Content>
+&lt;p&gt;Test post! To be removed&lt;/p&gt;
+      </Content>
       <Created>2015-05-07T00:00:00.0000000-07:00</Created>
       <Modified>2015-05-07T23:10:18.9161264-07:00</Modified>
-      <EntryId>b705c37b-b47f-4e8d-8f8b-091efc4cb684</EntryId>
+      <EntryId>b705c37b-b47f-4e8d-8f8b-091efc4cb683</EntryId>
       <Description />
-      <Title>Congratulations, you've installed dasBlog!</Title>
-      <Categories>dasBlog</Categories>
+      <Title>Test post</Title>
+      <Categories>dasBlog;test1;test2</Categories>
       <Author>admin</Author>
       <IsPublic>true</IsPublic>
       <ShowOnFrontPage>true</ShowOnFrontPage>
