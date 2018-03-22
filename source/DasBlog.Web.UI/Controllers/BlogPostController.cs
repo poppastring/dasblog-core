@@ -62,6 +62,11 @@ namespace DasBlog.Web.UI.Controllers
 		[Route("edit")]
 		public IActionResult EditPost(PostViewModel post)
 		{
+			if (!ModelState.IsValid)
+			{
+				return View(post);
+			}
+
 			try
 			{
 				Entry entry = _mapper.Map<Entry>(post);
@@ -69,9 +74,14 @@ namespace DasBlog.Web.UI.Controllers
 				entry.Author = "admin"; //TODO: Need to integrate with context security 
 				entry.Language = "en-us"; //TODO: We inject this fron http context?
 				entry.Latitude = null;
-				entry.Longitude = null; 
-				
-				_blogRepository.UpdateEntry(entry);
+				entry.Longitude = null;
+
+				EntrySaveState sts = _blogRepository.UpdateEntry(entry);
+				if (sts != EntrySaveState.Updated)
+				{
+					ModelState.AddModelError("", "Failed to edit blog post");
+					return View(post);
+				}
 			}
 			catch(Exception e)
 			{
@@ -96,6 +106,11 @@ namespace DasBlog.Web.UI.Controllers
 		[Route("create")]
 		public IActionResult CreatePost(PostViewModel post)
 		{
+			if (!ModelState.IsValid)
+			{
+				return View(post);
+			}
+
 			try
 			{
 				Entry entry = _mapper.Map<Entry>(post);
@@ -106,7 +121,12 @@ namespace DasBlog.Web.UI.Controllers
 				entry.Latitude = null;
 				entry.Longitude = null;
 
-				_blogRepository.CreateEntry(entry);
+				EntrySaveState sts = _blogRepository.CreateEntry(entry);
+				if(sts != EntrySaveState.Added)
+				{
+					ModelState.AddModelError("", "Failed to create blog post");
+					return View(post);
+				}
 			}
 			catch (Exception e)
 			{
@@ -129,7 +149,7 @@ namespace DasBlog.Web.UI.Controllers
 				RedirectToAction("Error");
 			}
 
-			return RedirectToAction("Home/Index");
+			return RedirectToAction("Index", "Home");
 		}
 	}
 }

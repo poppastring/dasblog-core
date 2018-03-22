@@ -63,7 +63,6 @@ namespace DasBlog.Web.UI.Settings
 
         public string GetPermaLinkUrl(string entryId)
         {
-            //TODO: Old links vs new links
             return RelativeToRoot("post/" + entryId);
         }
 
@@ -81,19 +80,16 @@ namespace DasBlog.Web.UI.Settings
 
 		public string GetCommentViewUrl(string entryId)
         {
-            //TODO: Old links vs new links
             return RelativeToRoot("comment/" + entryId);
         }
 
         public string GetTrackbackUrl(string entryId)
         {
-            //TODO: Old links vs new links
             return RelativeToRoot("trackback/" + entryId);
         }
 
         public string GetEntryCommentsRssUrl(string entryId)
         {
-            //TODO: Old links vs new links
             return RelativeToRoot("feed/rss/comments/" + entryId);
         }
 
@@ -104,7 +100,6 @@ namespace DasBlog.Web.UI.Settings
 
 		public string GetCategoryViewUrlName(string category)
 		{
-
 			return string.Empty;
 		}
 
