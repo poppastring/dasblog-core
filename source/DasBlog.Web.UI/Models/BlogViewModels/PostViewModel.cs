@@ -6,7 +6,8 @@ namespace DasBlog.Web.UI.Models.BlogViewModels
 {
     public class PostViewModel
     {
-		[StringLength(60)]
+		[Required]
+		[StringLength(60, MinimumLength = 1)]
 		public string Title { get; set; }
 
 		[DataType(DataType.MultilineText)]
