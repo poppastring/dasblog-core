@@ -111,9 +111,13 @@ namespace DasBlog.Web.UI
 				.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 			services
-				.AddAutoMapper(typeof(ProfileDasBlogUser))
+				.AddAutoMapper(mapperConfig => {
+					mapperConfig.AddProfile(new ProfilePost(services.BuildServiceProvider().GetService<IDasBlogSettings>()));
+					mapperConfig.AddProfile(typeof(ProfileDasBlogUser));
+				})
 				.AddMvc()
 				.AddXmlSerializerFormatters();
+
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
