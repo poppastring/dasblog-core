@@ -43,13 +43,13 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">WebCoreApp</a>
+                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">@dasBlogSettings.SiteConfiguration.Title</a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
+                    <li><a asp-area="" asp-controller="Feed" asp-action="Rss">RSS Feed</a></li>
+                    <li><a asp-area="" asp-controller="Post" asp-action="Create">Create Post</a></li>
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")
             </div>

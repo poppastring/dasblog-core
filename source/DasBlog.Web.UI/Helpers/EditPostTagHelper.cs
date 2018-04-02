@@ -12,7 +12,7 @@ namespace DasBlog.Web.UI.Helpers
 		{
 			output.TagName = "a";
 			output.TagMode = TagMode.StartTagAndEndTag;
-			output.Attributes.SetAttribute("href", $"{BlogPostId}/Edit"); //TODO: rest API subject to change
+			output.Attributes.SetAttribute("href", $"post/edit/{BlogPostId}");
 			output.Content.SetHtmlContent("Edit this post");
 		}
 

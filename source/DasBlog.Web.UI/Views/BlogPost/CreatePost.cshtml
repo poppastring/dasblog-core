@@ -1,0 +1,82 @@
+﻿@model DasBlog.Web.UI.Models.BlogViewModels.PostViewModel
+@using DasBlog.Web.UI.Models.BlogViewModels
+
+<form asp-controller="post" asp-action="create" method="post">
+    <div class="modal-body form-horizontal">
+        <div class="form-group">
+            <div class="col-lg-6">
+                <div asp-validation-summary="All" class="text-danger"></div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Title" class="col-lg-3 col-sm-3 control-label"></label>
+            <div class="col-lg-6">
+                <input asp-for="Title" class="form-control" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="CreatedDateTime" class="col-lg-3 col-sm-3 control-label"></label>
+            <div class="col-lg-6">
+                <input asp-for="CreatedDateTime" class="form-control" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Content" class="col-lg-3 col-sm-3 control-label"></label>
+            <div class="col-lg-6">
+                @Html.EditorFor(x => x.Content)
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Description" class="col-lg-3 col-sm-3 control-label"></label>
+            <div class="col-lg-6">
+                @Html.EditorFor(x => x.Description)
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="AllowComments" class="col-lg-3 col-sm-3 control-label"></label>
+            <div class="col-lg-6">
+                @Html.CheckBoxFor(x => x.AllowComments)
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="IsPublic" class="col-lg-3 col-sm-3 control-label"></label>
+            <div class="col-lg-6">
+                @Html.CheckBoxFor(x => x.IsPublic)
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Syndicated" class="col-lg-3 col-sm-3 control-label"></label>
+            <div class="col-lg-6">
+                @Html.CheckBoxFor(x => x.Syndicated)
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Categories" class="col-lg-3 col-sm-3 control-label"></label>
+            <div class="col-lg-6">
+                @if (Model != null && Model.AllCategories != null)
+            {
+                for (int i = 0; i < Model.AllCategories.Count; i++)
+                {
+                    @* @Html.CheckBoxFor(m => m.AllCategories[i].Checked, new { id = "categories_" + i}) *@
+                    <input asp-for="@Model.AllCategories[i].Checked" type="checkbox" />
+                    <label asp-for="@Model.AllCategories[i].Category">@Model.AllCategories[i].Category</label>
+                    <input asp-for="@Model.AllCategories[i].Category" type="hidden" />
+                    <input asp-for="@Model.AllCategories[i].CategoryUrl" type="hidden" />
+            }
+        }
+
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-lg-6">
+                <button type="submit">Create</button>
+                <button asp-controller="Home" asp-action="Index" type="submit">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    @Html.HiddenFor(m => m.EntryId)
+    @Html.HiddenFor(m => m.Author)
+    @Html.HiddenFor(m => m.CreatedDateTime)
+
+</form>
