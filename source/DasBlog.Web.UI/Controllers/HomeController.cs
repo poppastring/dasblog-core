@@ -43,7 +43,7 @@ namespace DasBlog.Web.UI.Controllers
             return ThemedView("Page", lpvm);
         }
 
-		//TODO: Maybe a helped for all?
+		//TODO: Maybe a helper for all?
 		private ViewResult ThemedView(string v, ListPostsViewModel lpvm)
 		{
 			return View(string.Format("/Themes/{0}/{1}.cshtml", 
