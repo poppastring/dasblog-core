@@ -1,6 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@inject SignInManager<User> SignInManager
-@inject UserManager<User> UserManager
+@using DasBlog.Web.UI.Models.Identity
+@inject SignInManager<DasBlogUser> SignInManager
+@inject UserManager<DasBlogUser> UserManager
 
 @if (SignInManager.IsSignedIn(User))
 {

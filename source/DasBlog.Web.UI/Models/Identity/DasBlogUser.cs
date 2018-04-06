@@ -5,5 +5,6 @@ namespace DasBlog.Web.UI.Models.Identity
 {
 	public class DasBlogUser : IdentityUser<User>
 	{
+		public string Role { get; set; }
 	}
 }
