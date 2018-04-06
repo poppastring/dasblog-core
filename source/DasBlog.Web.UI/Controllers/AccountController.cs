@@ -27,6 +27,8 @@ namespace DasBlog.Web.UI.Controllers
 			ILoggerFactory loggerFactory)
 		{
 			_userManager = userManager;
+			_userManager.PasswordHasher = new DasBlogPasswordHasher();
+
 			_signInManager = signInManager;
 			_mapper = mapper;
 			_logger = loggerFactory.CreateLogger<AccountController>();

@@ -9,10 +9,11 @@ using DasBlog.Web.Repositories.Interfaces;
 using Microsoft.AspNetCore.Http;
 using DasBlog.Web.UI.Models.BlogViewModels;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DasBlog.Web.UI.Controllers
 {
-	//[Authorize] this needs to be enabled...
+	[Authorize]
 	[Route("post")]
 	public class BlogPostController : Controller
 	{
