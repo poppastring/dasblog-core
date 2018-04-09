@@ -1,7 +1,7 @@
-﻿using DasBlog.Web.Core.Security;
+﻿using DasBlog.Core.Security;
 using Microsoft.AspNetCore.Identity;
 
-namespace DasBlog.Web.UI.Models.Identity
+namespace DasBlog.Web.Models.Identity
 {
 	public class DasBlogUser : IdentityUser<User>
 	{

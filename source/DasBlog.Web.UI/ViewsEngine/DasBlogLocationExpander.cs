@@ -1,10 +1,8 @@
-﻿using DasBlog.Web.Core.Configuration;
-using Microsoft.AspNetCore.Mvc.Razor;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.AspNetCore.Mvc.Razor;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace DasBlog.Web.UI.ViewsEngine
+namespace DasBlog.Web.ViewsEngine
 {
     public class DasBlogLocationExpander : IViewLocationExpander
     {

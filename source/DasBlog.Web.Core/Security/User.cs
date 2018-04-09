@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Xml.Serialization;
 
-namespace DasBlog.Web.Core.Security
+namespace DasBlog.Core.Security
 {
 	[Serializable]
 	[XmlType(nameof(User))]

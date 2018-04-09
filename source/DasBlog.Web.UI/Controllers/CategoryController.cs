@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using DasBlog.Web.Repositories.Interfaces;
+using DasBlog.Managers.Interfaces;
 using newtelligence.DasBlog.Runtime;
 using Microsoft.AspNetCore.Http;
-using DasBlog.Web.Core;
-using DasBlog.Web.UI.Models.BlogViewModels;
+using DasBlog.Web;
+using DasBlog.Web.Models.BlogViewModels;
 using AutoMapper;
 
-namespace DasBlog.Web.UI.Controllers
+namespace DasBlog.Web.Controllers
 {
     public class CategoryController : Controller
     {

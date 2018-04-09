@@ -1,8 +1,8 @@
-﻿using DasBlog.Web.Core.Security;
+﻿using DasBlog.Core.Security;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace DasBlog.Web.Core.Configuration
+namespace DasBlog.Core.Configuration
 {
 	public interface ISiteSecurityConfig
 	{

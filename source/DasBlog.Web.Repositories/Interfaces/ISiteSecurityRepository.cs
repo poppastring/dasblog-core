@@ -1,9 +1,9 @@
-﻿using DasBlog.Web.Core.Security;
+﻿using DasBlog.Core.Security;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace DasBlog.Web.Repositories.Interfaces
+namespace DasBlog.Managers.Interfaces
 {
 	public interface ISiteSecurityRepository
 	{

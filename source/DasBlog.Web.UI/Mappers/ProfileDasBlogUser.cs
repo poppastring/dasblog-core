@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
-using DasBlog.Web.Core.Security;
-using DasBlog.Web.UI.Models.AccountViewModels;
-using DasBlog.Web.UI.Models.Identity;
+using DasBlog.Core.Security;
+using DasBlog.Web.Models.AccountViewModels;
+using DasBlog.Web.Models.Identity;
 
-namespace DasBlog.Web.UI.Mappers
+namespace DasBlog.Web.Mappers
 {
 	public class ProfileDasBlogUser : Profile
 	{

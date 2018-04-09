@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Security.Principal;
-using DasBlog.Web.Core;
-using DasBlog.Web.Core.Configuration;
-using DasBlog.Web.Repositories;
-using DasBlog.Web.Repositories.Interfaces;
-using DasBlog.Web.UI.Models.Identity;
-using DasBlog.Web.UI.Settings;
-using DasBlog.Web.UI.ViewsEngine;
+using DasBlog.Core.Configuration;
+using DasBlog.Managers;
+using DasBlog.Managers.Interfaces;
+using DasBlog.Web.Models.Identity;
+using DasBlog.Web.Settings;
+using DasBlog.Web.ViewsEngine;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -16,10 +15,10 @@ using Microsoft.AspNetCore.Rewrite;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using AutoMapper;
-using DasBlog.Web.UI.Mappers;
+using DasBlog.Web.Mappers;
 using Microsoft.Extensions.FileProviders;
 
-namespace DasBlog.Web.UI
+namespace DasBlog.Web
 {
 	public class Startup
 	{

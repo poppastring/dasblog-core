@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace DasBlog.Web.UI.Models.BlogViewModels
+namespace DasBlog.Web.Models.BlogViewModels
 {
     public class PostViewModel
     {

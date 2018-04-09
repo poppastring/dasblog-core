@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DasBlog.Web.Core.XmlRpc.Blogger
+namespace DasBlog.Core.XmlRpc.Blogger
 {
     public struct BlogInfo
     {

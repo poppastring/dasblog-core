@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using DasBlog.Web.Core;
-using DasBlog.Web.Core.Configuration;
-using DasBlog.Web.UI.Models.BlogViewModels;
+using DasBlog.Web;
+using DasBlog.Core.Configuration;
+using DasBlog.Web.Models.BlogViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using newtelligence.DasBlog.Runtime;
@@ -11,7 +11,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace DasBlog.Web.UI.Mappers
+namespace DasBlog.Web.Mappers
 {
     public class ProfilePost : Profile
     {

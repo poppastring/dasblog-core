@@ -1,18 +1,18 @@
-﻿using DasBlog.Web.Repositories.Interfaces;
+﻿using DasBlog.Managers.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using newtelligence.DasBlog.Web.Services.Rss20;
 using newtelligence.DasBlog.Runtime;
-using DasBlog.Web.Core;
+using DasBlog.Web;
 using System.Xml;
 using System.Globalization;
 using newtelligence.DasBlog.Util.Html;
-using DasBlog.Web.Core.Security;
+using DasBlog.Core.Security;
 using newtelligence.DasBlog.Web.Services.Rsd;
 
 
-namespace DasBlog.Web.Repositories
+namespace DasBlog.Managers
 {
     public class SubscriptionRepository : ISubscriptionRepository
     {

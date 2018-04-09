@@ -1,4 +1,4 @@
-﻿namespace DasBlog.Web.Core.Security
+﻿namespace DasBlog.Core.Security
 {
 	public enum Role
 	{

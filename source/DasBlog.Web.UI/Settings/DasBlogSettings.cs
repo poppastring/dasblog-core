@@ -1,15 +1,14 @@
 ﻿using System;
 using System.IO;
 using System.Xml.Serialization;
-using DasBlog.Web.Core;
-using DasBlog.Web.Core.Configuration;
-using DasBlog.Web.Core.Security;
+using DasBlog.Core.Configuration;
+using DasBlog.Core.Security;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Options;
 using newtelligence.DasBlog.Util;
 
-namespace DasBlog.Web.UI.Settings
+namespace DasBlog.Web.Settings
 {
 	public class DasBlogSettings : IDasBlogSettings
 	{

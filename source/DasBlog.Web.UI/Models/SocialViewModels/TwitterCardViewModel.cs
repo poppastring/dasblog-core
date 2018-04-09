@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace DasBlog.Web.UI.Models.SocialViewModels
+﻿
+namespace DasBlog.Web.Models.SocialViewModels
 {
     public class TwitterCardViewModel
     {

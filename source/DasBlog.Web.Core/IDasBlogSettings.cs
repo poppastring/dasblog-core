@@ -1,8 +1,8 @@
 ﻿using System;
-using DasBlog.Web.Core.Configuration;
-using DasBlog.Web.Core.Security;
+using DasBlog.Core.Configuration;
+using DasBlog.Core.Security;
 
-namespace DasBlog.Web.Core
+namespace DasBlog.Web
 {
 	public interface IDasBlogSettings
 	{

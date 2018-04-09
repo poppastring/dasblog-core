@@ -1,6 +1,6 @@
 using System;
 
-namespace DasBlog.Web.UI.Models
+namespace DasBlog.Web.Models
 {
     public class ErrorViewModel
     {

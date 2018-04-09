@@ -1,6 +1,6 @@
-﻿using DasBlog.Web.Core;
-using DasBlog.Web.Core.Configuration;
-using DasBlog.Web.UI.Settings;
+﻿using DasBlog.Web;
+using DasBlog.Core.Configuration;
+using DasBlog.Web.Settings;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;

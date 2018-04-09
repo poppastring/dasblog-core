@@ -1,7 +1,7 @@
 ﻿using System;
-using DasBlog.Web.Core.Security;
+using DasBlog.Core.Security;
 
-namespace DasBlog.Web.UI.Models.Identity
+namespace DasBlog.Web.Models.Identity
 {
 	public class DasBlogRole
 	{

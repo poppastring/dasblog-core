@@ -2,22 +2,20 @@
 using System.Collections.Generic;
 using System.Text;
 using newtelligence.DasBlog.Runtime;
-using DasBlog.Web.Repositories.Interfaces;
-using DasBlog.Web.Core;
+using DasBlog.Managers.Interfaces;
+using DasBlog.Web;
 using newtelligence.DasBlog.Util;
-using Blogger = DasBlog.Web.Core.XmlRpc.Blogger;
-using MoveableType = DasBlog.Web.Core.XmlRpc.MoveableType;
-using MetaWeblog = DasBlog.Web.Core.XmlRpc.MetaWeblog;
-using DasBlog.Web.Core.Security;
-using DasBlog.Web.Core.Exceptions;
+using Blogger = DasBlog.Core.XmlRpc.Blogger;
+using MoveableType = DasBlog.Core.XmlRpc.MoveableType;
+using MetaWeblog = DasBlog.Core.XmlRpc.MetaWeblog;
+using DasBlog.Core.Security;
+using DasBlog.Core.Exceptions;
 using System.Security;
 using System.IO;
 using CookComputing.XmlRpc;
 using System.Reflection;
-using System.Xml;
-using newtelligence.DasBlog.Web.Core;
 
-namespace DasBlog.Web.Repositories
+namespace DasBlog.Managers
 {
     [XmlRpcService(Name = "DasBlog Blogger Access Point", Description = "Implementation of Blogger XML-RPC Api")]
     public class BlogRepository : IBlogRepository, MoveableType.IMovableType, Blogger.IBlogger, MetaWeblog.IMetaWeblog
@@ -178,7 +176,7 @@ namespace DasBlog.Web.Repositories
 
 		private void BreakCache(string[] categories)
 		{
-			DataCache cache = CacheFactory.GetCache();
+			newtelligence.DasBlog.Web.Core.DataCache cache = newtelligence.DasBlog.Web.Core.CacheFactory.GetCache();
 
 			// break the caching
 			cache.Remove("BlogCoreData");
@@ -260,9 +258,9 @@ namespace DasBlog.Web.Repositories
         {
             if (!_dasBlogSettings.SiteConfiguration.EnableBloggerApi)
             {
-                throw new ServiceDisabledException();
+                throw new Core.Exceptions.ServiceDisabledException();
             }
-            UserToken token = _siteSecurity.Login(username, password);
+			Core.Security.UserToken token = _siteSecurity.Login(username, password);
             if (token == null)
             {
                 throw new SecurityException();
