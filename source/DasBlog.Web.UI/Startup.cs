@@ -101,12 +101,12 @@ namespace DasBlog.Web
 
 			services
 				.AddSingleton(_hostingEnvironment.ContentRootFileProvider)
-				.AddSingleton<IBlogRepository, BlogRepository>()
-				.AddSingleton<ISubscriptionRepository, SubscriptionRepository>()
-				.AddSingleton<IArchiveRepository, ArchiveRepository>()
-				.AddSingleton<ICategoryRepository, CategoryRepository>()
-				.AddSingleton<ISiteSecurityRepository, SiteSecurityRepository>()
-				.AddSingleton<ISiteRepository, SiteRepository>()
+				.AddSingleton<IBlogManager, BlogManager>()
+				.AddSingleton<ISubscriptionManager, SubscriptionManager>()
+				.AddSingleton<IArchiveManager, ArchiveManager>()
+				.AddSingleton<ICategoryManager, CategoryManager>()
+				.AddSingleton<ISiteSecurityManager, SiteSecurityManager>()
+				.AddSingleton<ISiteManager, SiteManager>()
 				.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 			services

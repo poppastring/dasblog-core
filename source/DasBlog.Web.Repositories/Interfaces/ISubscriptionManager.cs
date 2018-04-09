@@ -7,7 +7,7 @@ using System.Text;
 
 namespace DasBlog.Managers.Interfaces
 {
-    public interface ISubscriptionRepository
+    public interface ISubscriptionManager
     {
         RssRoot GetRss();
         RssRoot GetRssCategory(string categoryName);

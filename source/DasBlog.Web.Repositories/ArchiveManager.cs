@@ -8,13 +8,13 @@ using System.Linq;
 
 namespace DasBlog.Managers
 {
-    public class ArchiveRepository : IArchiveRepository
+    public class ArchiveManager : IArchiveManager
     {
         private IBlogDataService _dataService;
         private ILoggingDataService _loggingDataService;
         private readonly IDasBlogSettings _dasBlogSettings;
 
-        public ArchiveRepository(IDasBlogSettings settings)
+        public ArchiveManager(IDasBlogSettings settings)
         {
             _dasBlogSettings = settings;
             _loggingDataService = LoggingDataServiceFactory.GetService(_dasBlogSettings.WebRootDirectory + _dasBlogSettings.SiteConfiguration.LogDir);

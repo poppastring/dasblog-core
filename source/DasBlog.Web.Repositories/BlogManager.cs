@@ -18,14 +18,14 @@ using System.Reflection;
 namespace DasBlog.Managers
 {
     [XmlRpcService(Name = "DasBlog Blogger Access Point", Description = "Implementation of Blogger XML-RPC Api")]
-    public class BlogRepository : IBlogRepository, MoveableType.IMovableType, Blogger.IBlogger, MetaWeblog.IMetaWeblog
+    public class BlogManager : IBlogManager, MoveableType.IMovableType, Blogger.IBlogger, MetaWeblog.IMetaWeblog
     {
         private IBlogDataService _dataService;
         private ILoggingDataService _loggingDataService;
-        private ISiteSecurityRepository _siteSecurity;
+        private ISiteSecurityManager _siteSecurity;
         private readonly IDasBlogSettings _dasBlogSettings;
 
-        public BlogRepository(IDasBlogSettings settings, ISiteSecurityRepository siteSecurityRepository)
+        public BlogManager(IDasBlogSettings settings, ISiteSecurityManager siteSecurityRepository)
         {
             _dasBlogSettings = settings;
             _siteSecurity = siteSecurityRepository;

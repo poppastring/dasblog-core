@@ -17,11 +17,11 @@ namespace DasBlog.Web.Controllers
 	[Route("post")]
 	public class BlogPostController : Controller
 	{
-		private IBlogRepository _blogRepository;
+		private IBlogManager _blogRepository;
 		private IHttpContextAccessor _httpContextAccessor;
 		private readonly IMapper _mapper;
 
-		public BlogPostController(IBlogRepository blogRepository, IHttpContextAccessor httpContextAccessor, IMapper mapper)
+		public BlogPostController(IBlogManager blogRepository, IHttpContextAccessor httpContextAccessor, IMapper mapper)
 		{
 			_blogRepository = blogRepository;
 			_httpContextAccessor = httpContextAccessor;

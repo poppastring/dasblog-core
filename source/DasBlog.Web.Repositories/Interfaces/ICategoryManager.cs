@@ -5,7 +5,7 @@ using System.Text;
 
 namespace DasBlog.Managers.Interfaces
 {
-    public interface ICategoryRepository
+    public interface ICategoryManager
     {
         EntryCollection GetEntries();
 

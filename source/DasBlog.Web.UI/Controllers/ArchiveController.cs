@@ -13,10 +13,10 @@ namespace DasBlog.Web.Controllers
     [Route("archive")]
     public class ArchiveController : Controller
     {
-        private IArchiveRepository _archiveRepository;
+        private IArchiveManager _archiveRepository;
         private IHttpContextAccessor _httpContextAccessor;
 
-        public ArchiveController(IArchiveRepository archiveRepository, IHttpContextAccessor httpContextAccessor)
+        public ArchiveController(IArchiveManager archiveRepository, IHttpContextAccessor httpContextAccessor)
         {
             _archiveRepository = archiveRepository;
             _httpContextAccessor = httpContextAccessor;

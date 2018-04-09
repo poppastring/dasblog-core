@@ -5,7 +5,7 @@ using System.Text;
 
 namespace DasBlog.Managers.Interfaces
 {
-	public interface ISiteSecurityRepository
+	public interface ISiteSecurityManager
 	{
 		bool IsValidContributor { get; }
 

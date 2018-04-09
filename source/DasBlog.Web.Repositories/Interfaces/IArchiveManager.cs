@@ -5,7 +5,7 @@ using System.Text;
 
 namespace DasBlog.Managers.Interfaces
 {
-    public interface IArchiveRepository
+    public interface IArchiveManager
     {
         EntryCollection GetEntriesForDay(DateTime date, string acceptLanguages);
 

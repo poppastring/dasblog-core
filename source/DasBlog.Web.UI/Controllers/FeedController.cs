@@ -17,10 +17,10 @@ namespace DasBlog.Web.Controllers
     public class FeedController : Controller
     {
         private IMemoryCache _cache;
-        private ISubscriptionRepository _subscriptionRepository;
+        private ISubscriptionManager _subscriptionRepository;
         private const string RSS_CACHE_KEY = "RSS_CACHE_KEY";
 
-        public FeedController(ISubscriptionRepository subscriptionRepository, IHttpContextAccessor httpContextAccessor, IMemoryCache memoryCache)
+        public FeedController(ISubscriptionManager subscriptionRepository, IHttpContextAccessor httpContextAccessor, IMemoryCache memoryCache)
         {  
             _subscriptionRepository = subscriptionRepository;
             _cache = memoryCache;
