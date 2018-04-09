@@ -7,13 +7,13 @@ using System.Text;
 
 namespace DasBlog.Managers
 {
-    public class SiteRepository : ISiteRepository
+    public class SiteManager : ISiteManager
     {
         private IBlogDataService _dataService;
         private ILoggingDataService _loggingDataService;
         private readonly IDasBlogSettings _dasBlogSettings;
 
-        public SiteRepository(IDasBlogSettings settings)
+        public SiteManager(IDasBlogSettings settings)
         {
             _dasBlogSettings = settings;
             _loggingDataService = LoggingDataServiceFactory.GetService(_dasBlogSettings.WebRootDirectory + _dasBlogSettings.SiteConfiguration.LogDir);

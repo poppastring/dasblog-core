@@ -9,12 +9,12 @@ using System.Text;
 
 namespace DasBlog.Managers
 {
-	public class SiteSecurityRepository : ISiteSecurityRepository
+	public class SiteSecurityManager : ISiteSecurityManager
 	{
 		private IPrincipal _principal;
 		private IDasBlogSettings _dasBlogSettings;
 
-		public SiteSecurityRepository(IPrincipal principal, IDasBlogSettings dasBlogSettings)
+		public SiteSecurityManager(IPrincipal principal, IDasBlogSettings dasBlogSettings)
 		{
 			_dasBlogSettings = dasBlogSettings;
 			_principal = principal;

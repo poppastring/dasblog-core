@@ -22,11 +22,11 @@ namespace DasBlog.Web.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IBlogRepository _blogRepository;
+        private readonly IBlogManager _blogRepository;
         private readonly IDasBlogSettings _dasBlogSettings;
 		private readonly IMapper _mapper;
 
-		public HomeController(IBlogRepository blogRepository, IDasBlogSettings settings, IMapper mapper)
+		public HomeController(IBlogManager blogRepository, IDasBlogSettings settings, IMapper mapper)
         {
             _blogRepository = blogRepository;
             _dasBlogSettings = settings;

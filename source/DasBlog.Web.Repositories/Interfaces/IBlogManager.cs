@@ -6,7 +6,7 @@ using System.Text;
 
 namespace DasBlog.Managers.Interfaces
 {
-    public interface IBlogRepository
+    public interface IBlogManager
     {
         Entry GetBlogPost(string postid);
 

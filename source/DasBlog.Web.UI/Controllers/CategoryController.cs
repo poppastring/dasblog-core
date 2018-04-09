@@ -14,12 +14,12 @@ namespace DasBlog.Web.Controllers
 {
     public class CategoryController : Controller
     {
-        private ICategoryRepository _categoryRepository;
+        private ICategoryManager _categoryRepository;
         private IHttpContextAccessor _httpContextAccessor;
 		private readonly IDasBlogSettings _dasBlogSettings;
 		private readonly IMapper _mapper;
 
-		public CategoryController(ICategoryRepository categoryRepository, IDasBlogSettings settings, 
+		public CategoryController(ICategoryManager categoryRepository, IDasBlogSettings settings, 
 			IHttpContextAccessor httpContextAccessor, IMapper mapper)
         {
             _categoryRepository = categoryRepository;

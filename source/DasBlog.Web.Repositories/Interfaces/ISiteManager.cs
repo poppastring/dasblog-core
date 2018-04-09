@@ -4,7 +4,7 @@ using System.Text;
 
 namespace DasBlog.Managers.Interfaces
 {
-    public interface ISiteRepository
+    public interface ISiteManager
     {
         urlset GetGoogleSiteMap();
     }
