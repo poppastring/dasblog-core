@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace DasBlog.Web.UI.Views.Shared
+namespace DasBlog.Web.Views.Shared
 {
     public class _LoginPartialModel : PageModel
     {

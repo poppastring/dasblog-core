@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace DasBlog.Web.UI.Models.AccountViewModels
+namespace DasBlog.Web.Models.AccountViewModels
 {
 	public class RegisterViewModel
 	{

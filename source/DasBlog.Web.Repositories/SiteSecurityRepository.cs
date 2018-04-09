@@ -1,13 +1,13 @@
-﻿using DasBlog.Web.Core;
-using DasBlog.Web.Core.Security;
-using DasBlog.Web.Repositories.Interfaces;
+﻿using DasBlog.Web;
+using DasBlog.Core.Security;
+using DasBlog.Managers.Interfaces;
 using System;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Security.Principal;
 using System.Text;
 
-namespace DasBlog.Web.Repositories
+namespace DasBlog.Managers
 {
 	public class SiteSecurityRepository : ISiteSecurityRepository
 	{

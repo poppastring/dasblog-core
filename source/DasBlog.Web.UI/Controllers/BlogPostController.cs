@@ -4,14 +4,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using newtelligence.DasBlog.Runtime;
-using DasBlog.Web.Core;
-using DasBlog.Web.Repositories.Interfaces;
+using DasBlog.Web;
+using DasBlog.Managers.Interfaces;
 using Microsoft.AspNetCore.Http;
-using DasBlog.Web.UI.Models.BlogViewModels;
+using DasBlog.Web.Models.BlogViewModels;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 
-namespace DasBlog.Web.UI.Controllers
+namespace DasBlog.Web.Controllers
 {
 	[Authorize]
 	[Route("post")]

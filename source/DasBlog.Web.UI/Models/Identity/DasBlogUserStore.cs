@@ -6,12 +6,12 @@ using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
-using DasBlog.Web.Core;
-using DasBlog.Web.Core.Configuration;
-using DasBlog.Web.Core.Security;
+using DasBlog.Web;
+using DasBlog.Core.Configuration;
+using DasBlog.Core.Security;
 using Microsoft.AspNetCore.Identity;
 
-namespace DasBlog.Web.UI.Models.Identity
+namespace DasBlog.Web.Models.Identity
 {
 	public class DasBlogUserStore : IUserStore<DasBlogUser>, IUserPasswordStore<DasBlogUser>, IUserEmailStore<DasBlogUser>, IUserClaimStore<DasBlogUser>
 	{

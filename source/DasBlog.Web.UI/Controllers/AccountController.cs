@@ -1,15 +1,15 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using DasBlog.Web.UI.Models.AccountViewModels;
-using DasBlog.Web.UI.Models.Identity;
+using DasBlog.Web.Models.AccountViewModels;
+using DasBlog.Web.Models.Identity;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace DasBlog.Web.UI.Controllers
+namespace DasBlog.Web.Controllers
 {
 	[Authorize]
 	public class AccountController : Controller

@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using DasBlog.Web.UI.Models.Identity;
+using DasBlog.Web.Models.Identity;
 
-namespace DasBlog.Web.UI.Models.AccountViewModels
+namespace DasBlog.Web.Models.AccountViewModels
 {
 	public class LoginViewModel
 	{

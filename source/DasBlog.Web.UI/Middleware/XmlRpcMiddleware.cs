@@ -5,16 +5,16 @@
 //using System;
 //using System.IO;
 //using System.Threading.Tasks;
-//using DasBlog.Web.Core.XmlRpc.MoveableType;
+//using DasBlog.Web.XmlRpc.MoveableType;
 //using newtelligence.DasBlog.Runtime;
 //using System.Collections.Generic;
 //using System.Reflection;
-//using DasBlog.Web.Core;
-//using DasBlog.Web.Core.Exceptions;
-//using DasBlog.Web.Core.Security;
-//using DasBlog.Web.Core.XmlRpc;
+//using DasBlog.Web;
+//using DasBlog.Web.Exceptions;
+//using DasBlog.Web.Security;
+//using DasBlog.Web.XmlRpc;
 
-//namespace DasBlog.Web.UI.Middleware
+//namespace DasBlog.Web.Middleware
 //{
 //    public class XmlRpcMiddleware 
 //    {

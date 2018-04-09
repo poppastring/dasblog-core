@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
-using DasBlog.Web.UI.Models.BlogViewModels;
+using DasBlog.Web.Models.BlogViewModels;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 
-namespace DasBlog.Web.UI.Helpers
+namespace DasBlog.Web.Helpers
 {
 	public class EditPostTagHelper : TagHelper
 	{

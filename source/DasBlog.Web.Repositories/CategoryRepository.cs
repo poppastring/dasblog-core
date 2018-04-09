@@ -1,11 +1,11 @@
-﻿using DasBlog.Web.Repositories.Interfaces;
+﻿using DasBlog.Managers.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using newtelligence.DasBlog.Runtime;
-using DasBlog.Web.Core;
+using DasBlog.Web;
 
-namespace DasBlog.Web.Repositories
+namespace DasBlog.Managers
 {
     public class CategoryRepository : ICategoryRepository
     {

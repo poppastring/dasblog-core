@@ -31,9 +31,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DasBlog.Web.Core\DasBlog.Web.Core.csproj" />
-    <ProjectReference Include="..\DasBlog.Web.Repositories\DasBlog.Web.Repositories.csproj" />
-    <ProjectReference Include="..\DasBlog.Web.UI\DasBlog.Web.UI.csproj" />
+    <ProjectReference Include="..\DasBlog.Web.Core\DasBlog.Core.csproj" />
+    <ProjectReference Include="..\DasBlog.Web.Repositories\DasBlog.Managers.csproj" />
+    <ProjectReference Include="..\DasBlog.Web.UI\DasBlog.Web.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -4,21 +4,21 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using DasBlog.Web.UI.Models;
+using DasBlog.Web.Models;
 using newtelligence.DasBlog.Runtime;
-using newtelligence.DasBlog.Web.Core;
-using DasBlog.Web.UI.Models.BlogViewModels;
+using newtelligence.DasBlog.Web;
+using DasBlog.Web.Models.BlogViewModels;
 using Microsoft.Extensions.Options;
-using DasBlog.Web.Core;
-using DasBlog.Web.Repositories.Interfaces;
+using DasBlog.Web;
+using DasBlog.Managers.Interfaces;
 using newtelligence.DasBlog.Util;
 using Microsoft.Extensions.FileProviders;
-using DasBlog.Web.Core.Configuration;
+using DasBlog.Core.Configuration;
 using System.IO;
 using System.Text.RegularExpressions;
 using AutoMapper;
 
-namespace DasBlog.Web.UI.Controllers
+namespace DasBlog.Web.Controllers
 {
     public class HomeController : Controller
     {

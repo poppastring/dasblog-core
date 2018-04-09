@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace DasBlog.Web.Repositories.Interfaces
+namespace DasBlog.Managers.Interfaces
 {
     public interface IBlogRepository
     {

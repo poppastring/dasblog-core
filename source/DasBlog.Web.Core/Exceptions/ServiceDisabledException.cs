@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DasBlog.Web.Core.Exceptions
+namespace DasBlog.Core.Exceptions
 {
     public class ServiceDisabledException : Exception
     {

@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
-using DasBlog.Web.Core;
+using DasBlog.Web;
 using newtelligence.DasBlog.Runtime;
 
-namespace DasBlog.Web.UI.Routes
+namespace DasBlog.Web.Routes
 {
     public class BloggerApiRouteHandler : IRouteHandler
     {

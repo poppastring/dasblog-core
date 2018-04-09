@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DasBlog.Web.UI.Models.BlogViewModels
+namespace DasBlog.Web.Models.BlogViewModels
 {
     public class CategoryViewModel
     {
