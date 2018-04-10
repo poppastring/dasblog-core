@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using DasBlog.Core.Security;
 using DasBlog.Web.Models.AccountViewModels;
-using DasBlog.Web.Models.Identity;
+using DasBlog.Web.Identity;
 
 namespace DasBlog.Web.Mappers
 {

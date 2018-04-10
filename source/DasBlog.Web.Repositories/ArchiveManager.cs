@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using newtelligence.DasBlog.Runtime;
-using DasBlog.Web;
+using DasBlog.Core;
 using System.Linq;
 
 namespace DasBlog.Managers

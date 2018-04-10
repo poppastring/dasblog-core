@@ -2,20 +2,12 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using DasBlog.Web.Models;
 using newtelligence.DasBlog.Runtime;
-using newtelligence.DasBlog.Web;
 using DasBlog.Web.Models.BlogViewModels;
-using Microsoft.Extensions.Options;
-using DasBlog.Web;
+using DasBlog.Core;
 using DasBlog.Managers.Interfaces;
-using newtelligence.DasBlog.Util;
-using Microsoft.Extensions.FileProviders;
-using DasBlog.Core.Configuration;
-using System.IO;
-using System.Text.RegularExpressions;
 using AutoMapper;
 
 namespace DasBlog.Web.Controllers

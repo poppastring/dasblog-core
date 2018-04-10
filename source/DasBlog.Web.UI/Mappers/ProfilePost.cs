@@ -1,15 +1,10 @@
 ﻿using AutoMapper;
-using DasBlog.Web;
-using DasBlog.Core.Configuration;
+using DasBlog.Core;
 using DasBlog.Web.Models.BlogViewModels;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 using newtelligence.DasBlog.Runtime;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace DasBlog.Web.Mappers
 {

@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using AutoMapper;
 using DasBlog.Web.Models.AccountViewModels;
-using DasBlog.Web.Models.Identity;
+using DasBlog.Web.Identity;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;

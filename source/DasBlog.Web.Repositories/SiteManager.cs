@@ -1,4 +1,4 @@
-﻿using DasBlog.Web;
+﻿using DasBlog.Core;
 using DasBlog.Managers.Interfaces;
 using newtelligence.DasBlog.Runtime;
 using System;

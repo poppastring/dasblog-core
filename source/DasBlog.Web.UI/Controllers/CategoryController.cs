@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using DasBlog.Managers.Interfaces;
-using newtelligence.DasBlog.Runtime;
 using Microsoft.AspNetCore.Http;
-using DasBlog.Web;
+using DasBlog.Core;
 using DasBlog.Web.Models.BlogViewModels;
 using AutoMapper;
 

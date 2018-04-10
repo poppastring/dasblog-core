@@ -3,6 +3,7 @@ using System.IO;
 using System.Xml.Serialization;
 using DasBlog.Core.Configuration;
 using DasBlog.Core.Security;
+using DasBlog.Core;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Options;

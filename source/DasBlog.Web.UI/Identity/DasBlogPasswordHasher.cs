@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 
-namespace DasBlog.Web.Models.Identity
+namespace DasBlog.Web.Identity
 {
     public class DasBlogPasswordHasher : PasswordHasher<DasBlogUser>
 	{

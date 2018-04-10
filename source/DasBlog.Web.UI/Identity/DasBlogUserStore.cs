@@ -1,17 +1,14 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
-using DasBlog.Web;
-using DasBlog.Core.Configuration;
+using DasBlog.Core;
 using DasBlog.Core.Security;
 using Microsoft.AspNetCore.Identity;
 
-namespace DasBlog.Web.Models.Identity
+namespace DasBlog.Web.Identity
 {
 	public class DasBlogUserStore : IUserStore<DasBlogUser>, IUserPasswordStore<DasBlogUser>, IUserEmailStore<DasBlogUser>, IUserClaimStore<DasBlogUser>
 	{
