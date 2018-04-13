@@ -1,4 +1,4 @@
-﻿using DasBlog.Web;
+﻿using DasBlog.Core;
 using DasBlog.Core.Security;
 using DasBlog.Managers.Interfaces;
 using System;

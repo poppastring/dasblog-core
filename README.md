@@ -45,4 +45,4 @@ Change to the "source" directory and open the *DasBlog All.sln* and perform a bu
 - Support for RSS and RSS by category
 - Support for Sitemap
 - Support for paging e.g. page/1, page/2, etc.
-- Add/Edit/Create blog posts
+- Add/Edit/Delete blog posts

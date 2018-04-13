@@ -29,9 +29,9 @@ namespace DasBlog.Core.Security
 
 		public bool Active { get; set; }
 
+		[XmlElement("Password")]
 		public string Password { get; set; }
 
-		[XmlElement("Password")]
 		public string XmlPassword { get; set; }
 
 		public UserToken ToToken() => new UserToken(Name, Role.ToString());

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using newtelligence.DasBlog.Runtime;
 using DasBlog.Managers.Interfaces;
-using DasBlog.Web;
+using DasBlog.Core;
 using newtelligence.DasBlog.Util;
 using Blogger = DasBlog.Core.XmlRpc.Blogger;
 using MoveableType = DasBlog.Core.XmlRpc.MoveableType;

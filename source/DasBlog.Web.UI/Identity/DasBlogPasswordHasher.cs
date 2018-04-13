@@ -1,23 +1,33 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 
-namespace DasBlog.Web.Models.Identity
+namespace DasBlog.Web.Identity
 {
     public class DasBlogPasswordHasher : PasswordHasher<DasBlogUser>
 	{
 		public override string HashPassword(DasBlogUser user, string password)
 		{
-			return OldHash(password);
+			var sha512 = SHA512Managed.Create();
+			return HashPassword(sha512, password);
 		}
 
 		public override PasswordVerificationResult VerifyHashedPassword(DasBlogUser user, string hashedPassword, string providedPassword)
 		{
-			string hashprovidedpassword = OldHash(providedPassword);
+			HashAlgorithm ha = null;
+			string hashprovidedpassword = string.Empty;
+
+			if (IsThisMd5Hash(hashedPassword))
+			{
+				ha = MD5CryptoServiceProvider.Create();
+			}
+			else
+			{
+				ha = SHA512Managed.Create();
+			}
+
+			hashprovidedpassword = HashPassword(ha, providedPassword);
 
 			if (hashedPassword.Equals(hashprovidedpassword, StringComparison.InvariantCultureIgnoreCase))
 			{
@@ -27,14 +37,18 @@ namespace DasBlog.Web.Models.Identity
 			return PasswordVerificationResult.Failed;
 		}
 
-		private string OldHash(string password)
+		private string HashPassword(HashAlgorithm hashalgorithm, string password)
 		{
 			Byte[] clearBytes = Encoding.Unicode.GetBytes(password);
 
-			MD5 md5 = MD5CryptoServiceProvider.Create();
-			Byte[] hashedBytes = md5.ComputeHash(clearBytes);
+			Byte[] hashedBytes = hashalgorithm.ComputeHash(clearBytes);
 
 			return BitConverter.ToString(hashedBytes);
+		}
+
+		private bool IsThisMd5Hash(string hash)
+		{
+			return (hash.Length == 47 && hash.Replace("-", string.Empty).Length == 32);
 		}
 
 	}

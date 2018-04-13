@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
-namespace DasBlog.Web.Models.Identity
+namespace DasBlog.Web.Identity
 {
 	public class ApplicationDbContext : IdentityDbContext
 	{

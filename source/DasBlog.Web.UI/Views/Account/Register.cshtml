@@ -11,6 +11,14 @@
     <hr />
     <div asp-validation-summary="All" class="text-danger"></div>
     <div class="form-group">
+        <label asp-for="Name" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
         <label asp-for="Email" class="col-md-2 control-label"></label>
         <div class="col-md-10">
             <input asp-for="Email" class="form-control" />
@@ -31,6 +39,25 @@
             <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
         </div>
     </div>
+    <div class="form-group">
+        <label asp-for="NotifyOnOwnComment" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input asp-for="@Model.NotifyOnOwnComment" type="checkbox" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="NotifyOnAllComment" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input asp-for="@Model.NotifyOnAllComment" type="checkbox" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="NotifyOnNewPost" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input asp-for="@Model.NotifyOnNewPost" type="checkbox" />
+        </div>
+    </div>
+
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
             <button type="submit" class="btn btn-default">Register</button>

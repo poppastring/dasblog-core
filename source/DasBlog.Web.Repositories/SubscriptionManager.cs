@@ -1,10 +1,9 @@
 ﻿using DasBlog.Managers.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using newtelligence.DasBlog.Web.Services.Rss20;
 using newtelligence.DasBlog.Runtime;
-using DasBlog.Web;
+using DasBlog.Core;
 using System.Xml;
 using System.Globalization;
 using newtelligence.DasBlog.Util.Html;

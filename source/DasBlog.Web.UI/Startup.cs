@@ -3,7 +3,7 @@ using System.Security.Principal;
 using DasBlog.Core.Configuration;
 using DasBlog.Managers;
 using DasBlog.Managers.Interfaces;
-using DasBlog.Web.Models.Identity;
+using DasBlog.Web.Identity;
 using DasBlog.Web.Settings;
 using DasBlog.Web.ViewsEngine;
 using Microsoft.AspNetCore.Builder;
@@ -16,7 +16,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using AutoMapper;
 using DasBlog.Web.Mappers;
-using Microsoft.Extensions.FileProviders;
+using DasBlog.Core;
 
 namespace DasBlog.Web
 {

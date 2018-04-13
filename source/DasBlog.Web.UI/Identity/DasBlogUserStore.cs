@@ -1,26 +1,26 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
-using DasBlog.Web;
-using DasBlog.Core.Configuration;
+using DasBlog.Core;
 using DasBlog.Core.Security;
+using DasBlog.Managers.Interfaces;
 using Microsoft.AspNetCore.Identity;
 
-namespace DasBlog.Web.Models.Identity
+namespace DasBlog.Web.Identity
 {
 	public class DasBlogUserStore : IUserStore<DasBlogUser>, IUserPasswordStore<DasBlogUser>, IUserEmailStore<DasBlogUser>, IUserClaimStore<DasBlogUser>
 	{
 		private readonly IDasBlogSettings _dasBlogSettings;
+		private readonly ISiteSecurityManager _siteSecurityManager;
 		private readonly IMapper _mapper;
 
-		public DasBlogUserStore(IDasBlogSettings dasBlogSettings, IMapper mapper)
+		public DasBlogUserStore(IDasBlogSettings dasBlogSettings, ISiteSecurityManager siteSecurityManager, IMapper mapper)
 		{
 			_dasBlogSettings = dasBlogSettings;
+			_siteSecurityManager = siteSecurityManager;
 			_mapper = mapper;
 		}
 
@@ -83,6 +83,7 @@ namespace DasBlog.Web.Models.Identity
 			try
 			{
 				var mappedUser = _mapper.Map<User>(user);
+
 				_dasBlogSettings.AddUser(mappedUser);
 			}
 			catch (Exception e)
@@ -228,7 +229,7 @@ namespace DasBlog.Web.Models.Identity
 
 		private IList<Claim> DefineClaims(string role)
 		{
-			if (role.Equals("admin", StringComparison.InvariantCultureIgnoreCase))
+			if (!string.IsNullOrEmpty(role) && role.Equals("admin", StringComparison.InvariantCultureIgnoreCase))
 			{
 				return new List<Claim>()
 				{

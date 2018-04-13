@@ -2,7 +2,7 @@
 using DasBlog.Core.Configuration;
 using DasBlog.Core.Security;
 
-namespace DasBlog.Web
+namespace DasBlog.Core
 {
 	public interface IDasBlogSettings
 	{

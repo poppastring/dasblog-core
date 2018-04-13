@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using DasBlog.Web.Models.Identity;
+using DasBlog.Web.Identity;
 
 namespace DasBlog.Web.Models.AccountViewModels
 {
