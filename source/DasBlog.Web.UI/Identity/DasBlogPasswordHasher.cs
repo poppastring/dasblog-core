@@ -46,7 +46,7 @@ namespace DasBlog.Web.Identity
 			return BitConverter.ToString(hashedBytes);
 		}
 
-		public bool IsThisMd5Hash(string hash)
+		private bool IsThisMd5Hash(string hash)
 		{
 			return (hash.Length == 47 && hash.Replace("-", string.Empty).Length == 32);
 		}

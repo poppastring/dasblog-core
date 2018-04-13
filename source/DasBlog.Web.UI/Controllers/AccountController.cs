@@ -65,7 +65,6 @@ namespace DasBlog.Web.Controllers
 		}
 
 		[HttpGet]
-		[AllowAnonymous]
 		public async Task<IActionResult> Register(string returnUrl)
 		{
 			ViewData[KEY_RETURNURL] = returnUrl;
@@ -74,20 +73,16 @@ namespace DasBlog.Web.Controllers
 		}
 
 		[HttpPost]
-		[AllowAnonymous]
 		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> Register(RegisterViewModel model, string returnUrl = null)
 		{
-			ViewData[KEY_RETURNURL] = returnUrl;
-
 			if (ModelState.IsValid)
 			{
 				var user = _mapper.Map<DasBlogUser>(model);
 				var result = await _userManager.CreateAsync(user, model.Password);
 				if (result.Succeeded)
 				{
-					await _signInManager.SignInAsync(user, isPersistent: false);
-					return RedirectToLocal(returnUrl);
+					// Success Notification
 				}
 				else
 				{
