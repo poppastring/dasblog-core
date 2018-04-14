@@ -14,13 +14,13 @@ namespace DasBlog.Web.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IBlogManager _blogRepository;
+        private readonly IBlogManager _blogManager;
         private readonly IDasBlogSettings _dasBlogSettings;
 		private readonly IMapper _mapper;
 
-		public HomeController(IBlogManager blogRepository, IDasBlogSettings settings, IMapper mapper)
+		public HomeController(IBlogManager blogManager, IDasBlogSettings settings, IMapper mapper)
         {
-            _blogRepository = blogRepository;
+            _blogManager = blogManager;
             _dasBlogSettings = settings;
 			_mapper = mapper;
 		}
@@ -28,7 +28,7 @@ namespace DasBlog.Web.Controllers
         public IActionResult Index()
         {
 			ListPostsViewModel lpvm = new ListPostsViewModel();
-            lpvm.Posts = _blogRepository.GetFrontPagePosts()
+            lpvm.Posts = _blogManager.GetFrontPagePosts()
                             .Select(entry => _mapper.Map<PostViewModel>(entry)).ToList();
             DefaultPage();
 
@@ -49,7 +49,7 @@ namespace DasBlog.Web.Controllers
 
             if (!string.IsNullOrEmpty(posttitle))
             {
-                var entry = _blogRepository.GetBlogPost(posttitle.Replace(_dasBlogSettings.SiteConfiguration.TitlePermalinkSpaceReplacement,string.Empty));
+                var entry = _blogManager.GetBlogPost(posttitle.Replace(_dasBlogSettings.SiteConfiguration.TitlePermalinkSpaceReplacement,string.Empty));
                 if (entry != null)
                 {
 					lpvm.Posts = new List<PostViewModel>() {_mapper.Map<PostViewModel>(entry) };
@@ -75,7 +75,7 @@ namespace DasBlog.Web.Controllers
             // ~/CommentView.aspx?title=GeneralPatternsusedtoDetectaLeak
 
             // Get post by GUID bbecae4b-e3a3-47a2-b6a6-b4cc405f8663
-            Entry entry = _blogRepository.GetBlogPost(postid.ToString());
+            Entry entry = _blogManager.GetBlogPost(postid.ToString());
 
             ListPostsViewModel lpvm = new ListPostsViewModel();
             lpvm.Posts = new List<PostViewModel> { _mapper.Map<PostViewModel>(entry) };
@@ -102,7 +102,7 @@ namespace DasBlog.Web.Controllers
             ViewData["Message"] = string.Format("Page...{0}", index);
 
             ListPostsViewModel lpvm = new ListPostsViewModel();
-            lpvm.Posts = _blogRepository.GetEntriesForPage(index)
+            lpvm.Posts = _blogManager.GetEntriesForPage(index)
                                 .Select(entry => _mapper.Map<PostViewModel>(entry)).ToList();
 
             DefaultPage();
@@ -127,7 +127,7 @@ namespace DasBlog.Web.Controllers
         [Produces("text/xml")]
         public IActionResult Blogger([FromBody] string xmlrpcpost)
         {
-            return this.Content(_blogRepository.XmlRpcInvoke(this.HttpContext.Request.Body));
+            return this.Content(_blogManager.XmlRpcInvoke(this.HttpContext.Request.Body));
         }
 
         public IActionResult About()

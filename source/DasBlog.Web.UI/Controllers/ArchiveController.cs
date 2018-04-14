@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,12 +13,12 @@ namespace DasBlog.Web.Controllers
     [Route("archive")]
     public class ArchiveController : Controller
     {
-        private IArchiveManager _archiveRepository;
+        private IArchiveManager _archiveManager;
         private IHttpContextAccessor _httpContextAccessor;
 
-        public ArchiveController(IArchiveManager archiveRepository, IHttpContextAccessor httpContextAccessor)
+        public ArchiveController(IArchiveManager archiveManager, IHttpContextAccessor httpContextAccessor)
         {
-            _archiveRepository = archiveRepository;
+            _archiveManager = archiveManager;
             _httpContextAccessor = httpContextAccessor;
         }
 
@@ -34,7 +34,7 @@ namespace DasBlog.Web.Controllers
             DateTime dateTime = new DateTime(year, 1, 1);
             string languageFilter = _httpContextAccessor.HttpContext.Request.Headers["Accept-Language"];
 
-            var months = _archiveRepository.GetEntriesForYear(dateTime, languageFilter);
+            var months = _archiveManager.GetEntriesForYear(dateTime, languageFilter);
             return View("", months);
         }
 
@@ -44,7 +44,7 @@ namespace DasBlog.Web.Controllers
             DateTime dateTime = new DateTime(year, month, 1);
             string languageFilter = _httpContextAccessor.HttpContext.Request.Headers["Accept-Language"];
 
-            var months = _archiveRepository.GetEntriesForMonth(dateTime, languageFilter);
+            var months = _archiveManager.GetEntriesForMonth(dateTime, languageFilter);
             return View("", months);
         }
 
@@ -54,7 +54,7 @@ namespace DasBlog.Web.Controllers
             DateTime dateTime = new DateTime(year, month, day);
             string languageFilter = _httpContextAccessor.HttpContext.Request.Headers["Accept-Language"];
 
-            var months = _archiveRepository.GetEntriesForMonth(dateTime, languageFilter);
+            var months = _archiveManager.GetEntriesForMonth(dateTime, languageFilter);
             return View("", months);
         }
     }
