@@ -5,9 +5,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace DasBlog.Web.Repositories.Interfaces
+namespace DasBlog.Managers.Interfaces
 {
-    public interface ISubscriptionRepository
+    public interface ISubscriptionManager
     {
         RssRoot GetRss();
         RssRoot GetRssCategory(string categoryName);

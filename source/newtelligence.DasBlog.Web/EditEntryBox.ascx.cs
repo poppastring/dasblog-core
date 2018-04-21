@@ -1,4 +1,4 @@
-#region Copyright (c) 2003, newtelligence AG. All rights reserved.
+﻿#region Copyright (c) 2003, newtelligence AG. All rights reserved.
 
 /*
 // Copyright (c) 2003, newtelligence AG. (http://www.newtelligence.com)

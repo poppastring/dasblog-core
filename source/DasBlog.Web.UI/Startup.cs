@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Security.Principal;
-using DasBlog.Web.Core;
-using DasBlog.Web.Core.Configuration;
-using DasBlog.Web.Repositories;
-using DasBlog.Web.Repositories.Interfaces;
-using DasBlog.Web.UI.Models.Identity;
-using DasBlog.Web.UI.Settings;
-using DasBlog.Web.UI.ViewsEngine;
+using DasBlog.Core.Configuration;
+using DasBlog.Managers;
+using DasBlog.Managers.Interfaces;
+using DasBlog.Web.Identity;
+using DasBlog.Web.Settings;
+using DasBlog.Web.ViewsEngine;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -16,10 +15,10 @@ using Microsoft.AspNetCore.Rewrite;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using AutoMapper;
-using DasBlog.Web.UI.Mappers;
-using Microsoft.Extensions.FileProviders;
+using DasBlog.Web.Mappers;
+using DasBlog.Core;
 
-namespace DasBlog.Web.UI
+namespace DasBlog.Web
 {
 	public class Startup
 	{
@@ -102,12 +101,12 @@ namespace DasBlog.Web.UI
 
 			services
 				.AddSingleton(_hostingEnvironment.ContentRootFileProvider)
-				.AddSingleton<IBlogRepository, BlogRepository>()
-				.AddSingleton<ISubscriptionRepository, SubscriptionRepository>()
-				.AddSingleton<IArchiveRepository, ArchiveRepository>()
-				.AddSingleton<ICategoryRepository, CategoryRepository>()
-				.AddSingleton<ISiteSecurityRepository, SiteSecurityRepository>()
-				.AddSingleton<ISiteRepository, SiteRepository>()
+				.AddSingleton<IBlogManager, BlogManager>()
+				.AddSingleton<ISubscriptionManager, SubscriptionManager>()
+				.AddSingleton<IArchiveManager, ArchiveManager>()
+				.AddSingleton<ICategoryManager, CategoryManager>()
+				.AddSingleton<ISiteSecurityManager, SiteSecurityManager>()
+				.AddSingleton<ISiteManager, SiteManager>()
 				.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 			services

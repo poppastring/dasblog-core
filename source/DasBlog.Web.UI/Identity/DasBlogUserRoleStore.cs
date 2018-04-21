@@ -3,7 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 
-namespace DasBlog.Web.UI.Models.Identity
+namespace DasBlog.Web.Identity
 {
 	public class DasBlogUserRoleStore : IRoleStore<DasBlogRole>
 	{

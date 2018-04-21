@@ -2,31 +2,23 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using DasBlog.Web.UI.Models;
+using DasBlog.Web.Models;
 using newtelligence.DasBlog.Runtime;
-using newtelligence.DasBlog.Web.Core;
-using DasBlog.Web.UI.Models.BlogViewModels;
-using Microsoft.Extensions.Options;
-using DasBlog.Web.Core;
-using DasBlog.Web.Repositories.Interfaces;
-using newtelligence.DasBlog.Util;
-using Microsoft.Extensions.FileProviders;
-using DasBlog.Web.Core.Configuration;
-using System.IO;
-using System.Text.RegularExpressions;
+using DasBlog.Web.Models.BlogViewModels;
+using DasBlog.Core;
+using DasBlog.Managers.Interfaces;
 using AutoMapper;
 
-namespace DasBlog.Web.UI.Controllers
+namespace DasBlog.Web.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IBlogRepository _blogRepository;
+        private readonly IBlogManager _blogRepository;
         private readonly IDasBlogSettings _dasBlogSettings;
 		private readonly IMapper _mapper;
 
-		public HomeController(IBlogRepository blogRepository, IDasBlogSettings settings, IMapper mapper)
+		public HomeController(IBlogManager blogRepository, IDasBlogSettings settings, IMapper mapper)
         {
             _blogRepository = blogRepository;
             _dasBlogSettings = settings;
@@ -43,13 +35,14 @@ namespace DasBlog.Web.UI.Controllers
             return ThemedView("Page", lpvm);
         }
 
-		//TODO: Maybe a helped for all?
+		//TODO: Maybe a helper for all?
 		private ViewResult ThemedView(string v, ListPostsViewModel lpvm)
 		{
 			return View(string.Format("/Themes/{0}/{1}.cshtml", 
 						_dasBlogSettings.SiteConfiguration.Theme, v), lpvm);
 		}
 
+		[HttpGet]
 		public IActionResult Post(string posttitle)
         {
             ListPostsViewModel lpvm = new ListPostsViewModel();
@@ -76,13 +69,13 @@ namespace DasBlog.Web.UI.Controllers
             }
         }
 
-        [Route("comment/{Id:guid}")]
-        public IActionResult Comment(Guid Id)
+		[Route("comment/{postid:guid}")]
+        public IActionResult Comment(Guid postid)
         {
             // ~/CommentView.aspx?title=GeneralPatternsusedtoDetectaLeak
 
             // Get post by GUID bbecae4b-e3a3-47a2-b6a6-b4cc405f8663
-            Entry entry = _blogRepository.GetBlogPost(Id.ToString());
+            Entry entry = _blogRepository.GetBlogPost(postid.ToString());
 
             ListPostsViewModel lpvm = new ListPostsViewModel();
             lpvm.Posts = new List<PostViewModel> { _mapper.Map<PostViewModel>(entry) };
@@ -126,9 +119,7 @@ namespace DasBlog.Web.UI.Controllers
             // metaWebLog
             // mt
 
-            // return NoContent();
-
-            return View();
+            return NoContent();
         }
 
         [Route("blogger")]

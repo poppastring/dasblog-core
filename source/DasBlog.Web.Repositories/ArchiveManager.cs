@@ -1,20 +1,20 @@
-﻿using DasBlog.Web.Repositories.Interfaces;
+﻿using DasBlog.Managers.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using newtelligence.DasBlog.Runtime;
-using DasBlog.Web.Core;
+using DasBlog.Core;
 using System.Linq;
 
-namespace DasBlog.Web.Repositories
+namespace DasBlog.Managers
 {
-    public class ArchiveRepository : IArchiveRepository
+    public class ArchiveManager : IArchiveManager
     {
         private IBlogDataService _dataService;
         private ILoggingDataService _loggingDataService;
         private readonly IDasBlogSettings _dasBlogSettings;
 
-        public ArchiveRepository(IDasBlogSettings settings)
+        public ArchiveManager(IDasBlogSettings settings)
         {
             _dasBlogSettings = settings;
             _loggingDataService = LoggingDataServiceFactory.GetService(_dasBlogSettings.WebRootDirectory + _dasBlogSettings.SiteConfiguration.LogDir);

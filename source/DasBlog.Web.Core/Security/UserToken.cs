@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DasBlog.Web.Core.Security
+namespace DasBlog.Core.Security
 {
     public sealed class UserToken
     {

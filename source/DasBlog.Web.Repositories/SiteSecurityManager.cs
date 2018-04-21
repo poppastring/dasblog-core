@@ -1,20 +1,20 @@
-﻿using DasBlog.Web.Core;
-using DasBlog.Web.Core.Security;
-using DasBlog.Web.Repositories.Interfaces;
+﻿using DasBlog.Core;
+using DasBlog.Core.Security;
+using DasBlog.Managers.Interfaces;
 using System;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Security.Principal;
 using System.Text;
 
-namespace DasBlog.Web.Repositories
+namespace DasBlog.Managers
 {
-	public class SiteSecurityRepository : ISiteSecurityRepository
+	public class SiteSecurityManager : ISiteSecurityManager
 	{
 		private IPrincipal _principal;
 		private IDasBlogSettings _dasBlogSettings;
 
-		public SiteSecurityRepository(IPrincipal principal, IDasBlogSettings dasBlogSettings)
+		public SiteSecurityManager(IPrincipal principal, IDasBlogSettings dasBlogSettings)
 		{
 			_dasBlogSettings = dasBlogSettings;
 			_principal = principal;

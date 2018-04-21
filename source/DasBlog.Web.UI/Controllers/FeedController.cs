@@ -5,22 +5,22 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Primitives;
-using DasBlog.Web.Repositories.Interfaces;
+using DasBlog.Managers.Interfaces;
 using newtelligence.DasBlog.Web.Services.Rss20;
 using Microsoft.AspNetCore.Http;
 using newtelligence.DasBlog.Web.Services.Rsd;
 
-namespace DasBlog.Web.UI.Controllers
+namespace DasBlog.Web.Controllers
 {
     [Produces("text/xml")]
     [Route("feed")]
     public class FeedController : Controller
     {
         private IMemoryCache _cache;
-        private ISubscriptionRepository _subscriptionRepository;
+        private ISubscriptionManager _subscriptionRepository;
         private const string RSS_CACHE_KEY = "RSS_CACHE_KEY";
 
-        public FeedController(ISubscriptionRepository subscriptionRepository, IHttpContextAccessor httpContextAccessor, IMemoryCache memoryCache)
+        public FeedController(ISubscriptionManager subscriptionRepository, IHttpContextAccessor httpContextAccessor, IMemoryCache memoryCache)
         {  
             _subscriptionRepository = subscriptionRepository;
             _cache = memoryCache;

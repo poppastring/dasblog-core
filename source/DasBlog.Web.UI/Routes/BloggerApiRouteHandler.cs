@@ -1,13 +1,8 @@
 ﻿using Microsoft.AspNetCore.Routing;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
-using DasBlog.Web.Core;
-using newtelligence.DasBlog.Runtime;
+using DasBlog.Core;
 
-namespace DasBlog.Web.UI.Routes
+namespace DasBlog.Web.Routes
 {
     public class BloggerApiRouteHandler : IRouteHandler
     {

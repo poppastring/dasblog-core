@@ -1,6 +1,6 @@
 ﻿using CookComputing.XmlRpc;
 
-namespace DasBlog.Web.Core.XmlRpc.MetaWeblog
+namespace DasBlog.Core.XmlRpc.MetaWeblog
 {
     public struct MediaType
     {

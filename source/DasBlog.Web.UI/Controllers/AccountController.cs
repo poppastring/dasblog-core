@@ -1,15 +1,15 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using DasBlog.Web.UI.Models.AccountViewModels;
-using DasBlog.Web.UI.Models.Identity;
+using DasBlog.Web.Models.AccountViewModels;
+using DasBlog.Web.Identity;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace DasBlog.Web.UI.Controllers
+namespace DasBlog.Web.Controllers
 {
 	[Authorize]
 	public class AccountController : Controller
@@ -27,6 +27,8 @@ namespace DasBlog.Web.UI.Controllers
 			ILoggerFactory loggerFactory)
 		{
 			_userManager = userManager;
+			_userManager.PasswordHasher = new DasBlogPasswordHasher();
+
 			_signInManager = signInManager;
 			_mapper = mapper;
 			_logger = loggerFactory.CreateLogger<AccountController>();
@@ -63,7 +65,6 @@ namespace DasBlog.Web.UI.Controllers
 		}
 
 		[HttpGet]
-		[AllowAnonymous]
 		public async Task<IActionResult> Register(string returnUrl)
 		{
 			ViewData[KEY_RETURNURL] = returnUrl;
@@ -72,20 +73,16 @@ namespace DasBlog.Web.UI.Controllers
 		}
 
 		[HttpPost]
-		[AllowAnonymous]
 		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> Register(RegisterViewModel model, string returnUrl = null)
 		{
-			ViewData[KEY_RETURNURL] = returnUrl;
-
 			if (ModelState.IsValid)
 			{
 				var user = _mapper.Map<DasBlogUser>(model);
 				var result = await _userManager.CreateAsync(user, model.Password);
 				if (result.Succeeded)
 				{
-					await _signInManager.SignInAsync(user, isPersistent: false);
-					return RedirectToLocal(returnUrl);
+					// Success Notification
 				}
 				else
 				{

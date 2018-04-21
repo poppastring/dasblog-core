@@ -1,26 +1,25 @@
-﻿using DasBlog.Web.Repositories.Interfaces;
+﻿using DasBlog.Managers.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using newtelligence.DasBlog.Web.Services.Rss20;
 using newtelligence.DasBlog.Runtime;
-using DasBlog.Web.Core;
+using DasBlog.Core;
 using System.Xml;
 using System.Globalization;
 using newtelligence.DasBlog.Util.Html;
-using DasBlog.Web.Core.Security;
+using DasBlog.Core.Security;
 using newtelligence.DasBlog.Web.Services.Rsd;
 
 
-namespace DasBlog.Web.Repositories
+namespace DasBlog.Managers
 {
-    public class SubscriptionRepository : ISubscriptionRepository
+    public class SubscriptionManager : ISubscriptionManager
     {
         private IBlogDataService _dataService;
         private ILoggingDataService _loggingDataService;
         private readonly IDasBlogSettings _dasBlogSettings;
 
-        public SubscriptionRepository(IDasBlogSettings settings)
+        public SubscriptionManager(IDasBlogSettings settings)
         {
             _dasBlogSettings = settings;
             _loggingDataService = LoggingDataServiceFactory.GetService(_dasBlogSettings.WebRootDirectory + _dasBlogSettings.SiteConfiguration.LogDir);

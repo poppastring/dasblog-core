@@ -1,12 +1,10 @@
 ﻿using newtelligence.DasBlog.Runtime;
 using newtelligence.DasBlog.Web.Core;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
 
-namespace DasBlog.Web.Core.Configuration
+namespace DasBlog.Core.Configuration
 {
     public interface ISiteConfig
     {

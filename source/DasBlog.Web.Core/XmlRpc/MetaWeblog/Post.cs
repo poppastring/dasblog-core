@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace DasBlog.Web.Core.XmlRpc.MetaWeblog
+namespace DasBlog.Core.XmlRpc.MetaWeblog
 {
     [XmlRpcMissingMapping(MappingAction.Ignore)]
     public struct Post

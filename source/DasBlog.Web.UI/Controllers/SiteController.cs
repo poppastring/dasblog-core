@@ -1,20 +1,20 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using DasBlog.Web.Repositories.Interfaces;
+using DasBlog.Managers.Interfaces;
 
-namespace DasBlog.Web.UI.Controllers
+namespace DasBlog.Web.Controllers
 {
     [Produces("text/xml")]
     [Route("site")]
     public class SiteController : Controller
     {
-        private ISiteRepository _siteRepository;
+        private ISiteManager _siteRepository;
 
-        public SiteController(ISiteRepository siteRepository)
+        public SiteController(ISiteManager siteRepository)
         {
             _siteRepository = siteRepository;
         }

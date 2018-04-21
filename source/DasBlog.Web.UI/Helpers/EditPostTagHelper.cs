@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
-using DasBlog.Web.UI.Models.BlogViewModels;
+using DasBlog.Web.Models.BlogViewModels;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 
-namespace DasBlog.Web.UI.Helpers
+namespace DasBlog.Web.Helpers
 {
 	public class EditPostTagHelper : TagHelper
 	{
@@ -12,7 +12,7 @@ namespace DasBlog.Web.UI.Helpers
 		{
 			output.TagName = "a";
 			output.TagMode = TagMode.StartTagAndEndTag;
-			output.Attributes.SetAttribute("href", $"{BlogPostId}/Edit"); //TODO: rest API subject to change
+			output.Attributes.SetAttribute("href", $"post/edit/{BlogPostId}");
 			output.Content.SetHtmlContent("Edit this post");
 		}
 

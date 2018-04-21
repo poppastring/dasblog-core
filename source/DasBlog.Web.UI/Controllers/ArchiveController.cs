@@ -4,19 +4,19 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using newtelligence.DasBlog.Runtime;
-using DasBlog.Web.Core;
-using DasBlog.Web.Repositories.Interfaces;
+using DasBlog.Web;
+using DasBlog.Managers.Interfaces;
 using Microsoft.AspNetCore.Http;
 
-namespace DasBlog.Web.UI.Controllers
+namespace DasBlog.Web.Controllers
 {
     [Route("archive")]
     public class ArchiveController : Controller
     {
-        private IArchiveRepository _archiveRepository;
+        private IArchiveManager _archiveRepository;
         private IHttpContextAccessor _httpContextAccessor;
 
-        public ArchiveController(IArchiveRepository archiveRepository, IHttpContextAccessor httpContextAccessor)
+        public ArchiveController(IArchiveManager archiveRepository, IHttpContextAccessor httpContextAccessor)
         {
             _archiveRepository = archiveRepository;
             _httpContextAccessor = httpContextAccessor;

@@ -1,15 +1,15 @@
 ﻿using System;
 using System.IO;
 using System.Xml.Serialization;
-using DasBlog.Web.Core;
-using DasBlog.Web.Core.Configuration;
-using DasBlog.Web.Core.Security;
+using DasBlog.Core.Configuration;
+using DasBlog.Core.Security;
+using DasBlog.Core;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Options;
 using newtelligence.DasBlog.Util;
 
-namespace DasBlog.Web.UI.Settings
+namespace DasBlog.Web.Settings
 {
 	public class DasBlogSettings : IDasBlogSettings
 	{
@@ -62,11 +62,10 @@ namespace DasBlog.Web.UI.Settings
 			return new Uri(new Uri(SiteConfiguration.Root), relative).AbsoluteUri;
 		}
 
-		public string GetPermaLinkUrl(string entryId)
-		{
-			//TODO: Old links vs new links
-			return RelativeToRoot("post/" + entryId);
-		}
+        public string GetPermaLinkUrl(string entryId)
+        {
+            return RelativeToRoot("post/" + entryId);
+        }
 
 		public string GetPermaTitle(string title)
 		{
@@ -81,22 +80,19 @@ namespace DasBlog.Web.UI.Settings
 		}
 
 		public string GetCommentViewUrl(string entryId)
-		{
-			//TODO: Old links vs new links
-			return RelativeToRoot("comment/" + entryId);
-		}
+        {
+            return RelativeToRoot("comment/" + entryId);
+        }
 
-		public string GetTrackbackUrl(string entryId)
-		{
-			//TODO: Old links vs new links
-			return RelativeToRoot("trackback/" + entryId);
-		}
+        public string GetTrackbackUrl(string entryId)
+        {
+            return RelativeToRoot("trackback/" + entryId);
+        }
 
-		public string GetEntryCommentsRssUrl(string entryId)
-		{
-			//TODO: Old links vs new links
-			return RelativeToRoot("feed/rss/comments/" + entryId);
-		}
+        public string GetEntryCommentsRssUrl(string entryId)
+        {
+            return RelativeToRoot("feed/rss/comments/" + entryId);
+        }
 
 		public string GetCategoryViewUrl(string category)
 		{

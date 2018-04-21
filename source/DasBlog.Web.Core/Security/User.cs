@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Xml.Serialization;
 
-namespace DasBlog.Web.Core.Security
+namespace DasBlog.Core.Security
 {
 	[Serializable]
 	[XmlType(nameof(User))]
@@ -29,9 +29,9 @@ namespace DasBlog.Web.Core.Security
 
 		public bool Active { get; set; }
 
+		[XmlElement("Password")]
 		public string Password { get; set; }
 
-		[XmlElement("Password")]
 		public string XmlPassword { get; set; }
 
 		public UserToken ToToken() => new UserToken(Name, Role.ToString());

@@ -1,19 +1,19 @@
-﻿using DasBlog.Web.Core;
-using DasBlog.Web.Repositories.Interfaces;
+﻿using DasBlog.Core;
+using DasBlog.Managers.Interfaces;
 using newtelligence.DasBlog.Runtime;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace DasBlog.Web.Repositories
+namespace DasBlog.Managers
 {
-    public class SiteRepository : ISiteRepository
+    public class SiteManager : ISiteManager
     {
         private IBlogDataService _dataService;
         private ILoggingDataService _loggingDataService;
         private readonly IDasBlogSettings _dasBlogSettings;
 
-        public SiteRepository(IDasBlogSettings settings)
+        public SiteManager(IDasBlogSettings settings)
         {
             _dasBlogSettings = settings;
             _loggingDataService = LoggingDataServiceFactory.GetService(_dasBlogSettings.WebRootDirectory + _dasBlogSettings.SiteConfiguration.LogDir);

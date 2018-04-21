@@ -2,6 +2,12 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
+    <AssemblyName>DasBlog.Web</AssemblyName>
+    <RootNamespace>DasBlog.Web</RootNamespace>
+    <PackageId>DasBlog.Web</PackageId>
+    <Authors>Mark Downie</Authors>
+    <Company />
+    <Product>DasBlog Core</Product>
   </PropertyGroup>
 
   <ItemGroup>
@@ -30,8 +36,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DasBlog.Web.Core\DasBlog.Web.Core.csproj" />
-    <ProjectReference Include="..\DasBlog.Web.Repositories\DasBlog.Web.Repositories.csproj" />
+    <ProjectReference Include="..\DasBlog.Web.Core\DasBlog.Core.csproj" />
+    <ProjectReference Include="..\DasBlog.Web.Repositories\DasBlog.Managers.csproj" />
   </ItemGroup>
 
 </Project>

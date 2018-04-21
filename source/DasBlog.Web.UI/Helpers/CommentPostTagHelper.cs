@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 
-namespace DasBlog.Web.UI.Helpers
+namespace DasBlog.Web.Helpers
 {
 	public class CommentPostTagHelper : TagHelper
 	{

@@ -1,23 +1,26 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
+using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
-using DasBlog.Web.Core;
-using DasBlog.Web.Core.Configuration;
-using DasBlog.Web.Core.Security;
+using DasBlog.Core;
+using DasBlog.Core.Security;
+using DasBlog.Managers.Interfaces;
 using Microsoft.AspNetCore.Identity;
 
-namespace DasBlog.Web.UI.Models.Identity
+namespace DasBlog.Web.Identity
 {
-	public class DasBlogUserStore : IUserStore<DasBlogUser>, IUserPasswordStore<DasBlogUser>, IUserEmailStore<DasBlogUser>
+	public class DasBlogUserStore : IUserStore<DasBlogUser>, IUserPasswordStore<DasBlogUser>, IUserEmailStore<DasBlogUser>, IUserClaimStore<DasBlogUser>
 	{
 		private readonly IDasBlogSettings _dasBlogSettings;
+		private readonly ISiteSecurityManager _siteSecurityManager;
 		private readonly IMapper _mapper;
 
-		public DasBlogUserStore(IDasBlogSettings dasBlogSettings, IMapper mapper)
+		public DasBlogUserStore(IDasBlogSettings dasBlogSettings, ISiteSecurityManager siteSecurityManager, IMapper mapper)
 		{
 			_dasBlogSettings = dasBlogSettings;
+			_siteSecurityManager = siteSecurityManager;
 			_mapper = mapper;
 		}
 
@@ -80,6 +83,7 @@ namespace DasBlog.Web.UI.Models.Identity
 			try
 			{
 				var mappedUser = _mapper.Map<User>(user);
+
 				_dasBlogSettings.AddUser(mappedUser);
 			}
 			catch (Exception e)
@@ -113,7 +117,7 @@ namespace DasBlog.Web.UI.Models.Identity
 				throw new ArgumentNullException(nameof(normalizedUserName));
 			}
 
-			var user = _dasBlogSettings.SecurityConfiguration.Users.Find(u => u.Name == normalizedUserName);
+			var user = _dasBlogSettings.SecurityConfiguration.Users.Find(u => u.EmailAddress.Equals(normalizedUserName, StringComparison.InvariantCultureIgnoreCase));
 			var dasBlogUser = _mapper.Map<DasBlogUser>(user);
 			return Task.FromResult(dasBlogUser);
 		}
@@ -209,6 +213,60 @@ namespace DasBlog.Web.UI.Models.Identity
 		{
 			throw new NotImplementedException();
 		}
+
+		public Task<IList<Claim>> GetClaimsAsync(DasBlogUser user, CancellationToken cancellationToken)
+		{
+			cancellationToken.ThrowIfCancellationRequested();
+			if (user == null)
+			{
+				throw new ArgumentNullException(nameof(user));
+			}
+
+			IList<Claim> claims = DefineClaims(user.Role);
+
+			return Task.FromResult(claims);
+		}
+
+		private IList<Claim> DefineClaims(string role)
+		{
+			if (!string.IsNullOrEmpty(role) && role.Equals("admin", StringComparison.InvariantCultureIgnoreCase))
+			{
+				return new List<Claim>()
+				{
+					new Claim("http://dasblog.org/claims/addpost", "Add Post"),
+					new Claim("http://dasblog.org/claims/editpost", "Edit Post"),
+					new Claim("http://dasblog.org/claims/editsitesettings", "Edit Site Settings")
+				};
+			}
+
+			return new List<Claim>()
+				{
+					new Claim("http://dasblog.org/claims/addpost", "Add Post"),
+					new Claim("http://dasblog.org/claims/editpost", "Edit Post"),
+				};
+
+		}
+
+		public Task AddClaimsAsync(DasBlogUser user, IEnumerable<Claim> claims, CancellationToken cancellationToken)
+		{
+			throw new NotImplementedException();
+		}
+
+		public Task ReplaceClaimAsync(DasBlogUser user, Claim claim, Claim newClaim, CancellationToken cancellationToken)
+		{
+			throw new NotImplementedException();
+		}
+
+		public Task RemoveClaimsAsync(DasBlogUser user, IEnumerable<Claim> claims, CancellationToken cancellationToken)
+		{
+			throw new NotImplementedException();
+		}
+
+		public Task<IList<DasBlogUser>> GetUsersForClaimAsync(Claim claim, CancellationToken cancellationToken)
+		{
+			throw new NotImplementedException();
+		}
+
 
 		#endregion
 	}

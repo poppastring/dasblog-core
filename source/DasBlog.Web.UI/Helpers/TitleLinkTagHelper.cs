@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using DasBlog.Web.Core;
-using DasBlog.Web.UI.Models.BlogViewModels;
+using DasBlog.Core;
+using DasBlog.Web.Models.BlogViewModels;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 
-namespace DasBlog.Web.UI.Helpers
+namespace DasBlog.Web.Helpers
 {
     public class TitleLinkTagHelper : TagHelper
 	{
