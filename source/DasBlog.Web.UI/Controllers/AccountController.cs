@@ -112,7 +112,7 @@ namespace DasBlog.Web.Controllers
 				return LocalRedirect(returnUrl);
 			}
 
-			return LocalRedirect("Index", "Home");
+			return LocalRedirect(Url.Action("Index", "Home"));
 		}
 	}
 }
