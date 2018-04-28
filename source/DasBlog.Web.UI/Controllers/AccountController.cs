@@ -78,7 +78,7 @@ namespace DasBlog.Web.Controllers
 		{
 			ViewData[KEY_RETURNURL] = returnUrl;
 
-			return View();
+			return RedirectToAction("Index", "Home");
 		}
 
 		[HttpPost]
