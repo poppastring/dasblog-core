@@ -109,10 +109,10 @@ namespace DasBlog.Web.Controllers
 		{
 			if (Url.IsLocalUrl(returnUrl))
 			{
-				return Redirect(returnUrl);
+				return LocalRedirect(returnUrl);
 			}
 
-			return RedirectToAction("Index", "Home");
+			return LocalRedirect("Index", "Home");
 		}
 	}
 }
