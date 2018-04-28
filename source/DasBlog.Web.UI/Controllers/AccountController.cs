@@ -57,7 +57,7 @@ namespace DasBlog.Web.Controllers
 
 				if (result.Succeeded)
 				{
-					return RedirectToLocal(returnUrl);
+					return LocalRedirect(returnUrl ?? Url.Action("Index", "Home"));
 				}
 
 				ModelState.AddModelError(string.Empty, "The username and/or password is incorrect. Please try again.");
@@ -103,16 +103,6 @@ namespace DasBlog.Web.Controllers
 			}
 
 			return View(model);
-		}
-
-		private IActionResult RedirectToLocal(string returnUrl)
-		{
-			if (Url.IsLocalUrl(returnUrl))
-			{
-				return LocalRedirect(returnUrl);
-			}
-
-			return LocalRedirect(Url.Action("Index", "Home"));
 		}
 	}
 }
