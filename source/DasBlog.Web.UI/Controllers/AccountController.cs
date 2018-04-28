@@ -15,10 +15,10 @@ namespace DasBlog.Web.Controllers
 	public class AccountController : Controller
 	{
 		private const string KEY_RETURNURL = "ReturnUrl";
-		private readonly UserManager<DasBlogUser> _userManager;
-		private readonly SignInManager<DasBlogUser> _signInManager;
-		private readonly IMapper _mapper;
-		private readonly ILogger _logger;
+		private readonly ILogger logger;
+		private readonly IMapper mapper;
+		private readonly SignInManager<DasBlogUser> signInManager;
+		private readonly UserManager<DasBlogUser> userManager;
 
 		public AccountController(
 			UserManager<DasBlogUser> userManager,
@@ -26,12 +26,12 @@ namespace DasBlog.Web.Controllers
 			IMapper mapper,
 			ILoggerFactory loggerFactory)
 		{
-			_userManager = userManager;
-			_userManager.PasswordHasher = new DasBlogPasswordHasher();
+			this.signInManager = signInManager;
+			this.userManager = userManager;
+			this.userManager.PasswordHasher = new DasBlogPasswordHasher();
 
-			_signInManager = signInManager;
-			_mapper = mapper;
-			_logger = loggerFactory.CreateLogger<AccountController>();
+			this.mapper = mapper;
+			logger = loggerFactory.CreateLogger<AccountController>();
 		}
 
 		[HttpGet]
@@ -53,15 +53,24 @@ namespace DasBlog.Web.Controllers
 			ViewData[KEY_RETURNURL] = returnUrl;
 			if (ModelState.IsValid)
 			{
-				var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
+				var result = await signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
 
 				if (result.Succeeded)
 				{
 					return RedirectToLocal(returnUrl);
 				}
+
+				ModelState.AddModelError(string.Empty, "The username and/or password is incorrect. Please try again.");
 			}
 
 			return View(model);
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> Logout()
+		{
+			await signInManager.SignOutAsync();
+			return RedirectToAction("Index", "Home");
 		}
 
 		[HttpGet]
@@ -78,8 +87,8 @@ namespace DasBlog.Web.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				var user = _mapper.Map<DasBlogUser>(model);
-				var result = await _userManager.CreateAsync(user, model.Password);
+				var user = mapper.Map<DasBlogUser>(model);
+				var result = await userManager.CreateAsync(user, model.Password);
 				if (result.Succeeded)
 				{
 					// Success Notification
@@ -103,7 +112,7 @@ namespace DasBlog.Web.Controllers
 				return Redirect(returnUrl);
 			}
 
-			return RedirectToAction(nameof(HomeController.Index), "Home");
+			return RedirectToAction("Index", "Home");
 		}
 	}
 }
