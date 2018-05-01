@@ -116,6 +116,17 @@ namespace DasBlog.Web.Settings
 			return null;
 		}
 
+		public void AddUser(User user)
+		{
+			SecurityConfiguration.Users.Add(user);
+			var ser = new XmlSerializer(typeof(SiteSecurityConfig));
+			var fileInfo = fileProvider.GetFileInfo(Startup.SITESECURITYCONFIG);
+			using (var writer = new StreamWriter(fileInfo.PhysicalPath))
+			{
+				ser.Serialize(writer, SecurityConfiguration);
+			}
+		}
+
 		public TimeZone GetConfiguredTimeZone()
 		{
 			// Need to figure out how to handle time...

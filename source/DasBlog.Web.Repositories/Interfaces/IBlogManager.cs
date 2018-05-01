@@ -24,6 +24,12 @@ namespace DasBlog.Managers.Interfaces
 
 		CategoryCacheEntryCollection GetCategories();
 
+		CommentSaveState AddComment(string postid, Comment comment);
+
+		CommentSaveState DeleteComment(string postid, string commentid);
+
+		CommentSaveState ApproveComment(string postid, string commentid);
+
 		string XmlRpcInvoke(Stream blob);
 	}
 }

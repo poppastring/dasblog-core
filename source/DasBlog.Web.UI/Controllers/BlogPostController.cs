@@ -152,5 +152,69 @@ namespace DasBlog.Web.Controllers
 
 			return RedirectToAction("Index", "Home");
 		}
+
+		[AllowAnonymous]
+		[HttpPost]
+		[Route("{postid:guid}/comment")]
+		public IActionResult AddComment(Guid postid, CommentViewModel comment)
+		{
+			if (!ModelState.IsValid)
+			{
+				return BadRequest();
+			}
+
+			Comment commt = _mapper.Map<Comment>(comment);
+			CommentSaveState state = _blogManager.AddComment(postid.ToString(), commt);
+
+			if (state == CommentSaveState.Failed)
+			{
+				return StatusCode(500);
+			}
+
+			if (state == CommentSaveState.NotFound)
+			{
+				return NotFound();
+			}
+
+			return Ok();
+		}
+
+		[HttpDelete]
+		[Route("{postid:guid}/comment/{commentid:guid}")]
+		public IActionResult DeleteComment(Guid postid, Guid commentid)
+		{
+			CommentSaveState state = _blogManager.DeleteComment(postid.ToString(), commentid.ToString());
+
+			if (state == CommentSaveState.Failed)
+			{
+				return StatusCode(500);
+			}
+
+			if (state == CommentSaveState.NotFound)
+			{
+				return NotFound();
+			}
+
+			return Ok();
+		}
+
+		[HttpPatch]
+		[Route("{postid:guid}/comment/{commentid:guid}")]
+		public IActionResult ApproveComment(Guid postid, Guid commentid)
+		{
+			CommentSaveState state = _blogManager.ApproveComment(postid.ToString(), commentid.ToString());
+
+			if (state == CommentSaveState.Failed)
+			{
+				return StatusCode(500);
+			}
+
+			if (state == CommentSaveState.NotFound)
+			{
+				return NotFound();
+			}
+
+			return Ok();
+		}
 	}
 }

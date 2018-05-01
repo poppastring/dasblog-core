@@ -30,6 +30,7 @@ namespace DasBlog.Core
 		string GetCategoryViewUrl(string category);
 		string GetCategoryViewUrlName(string category);
 		User GetUser(string userName);
+		void AddUser(User user);
 		TimeZone GetConfiguredTimeZone();
 	}
 }
