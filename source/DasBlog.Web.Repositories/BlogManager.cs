@@ -14,6 +14,8 @@ using System.Security;
 using System.IO;
 using CookComputing.XmlRpc;
 using System.Reflection;
+using System.Xml.Serialization;
+using newtelligence.DasBlog.Web.Services.Rss20;
 
 namespace DasBlog.Managers
 {
@@ -234,7 +236,68 @@ namespace DasBlog.Managers
             }
         }
 
-        public XmlRpcResponse Invoke(XmlRpcRequest request)
+		public CommentSaveState AddComment(string postid, Comment comment)
+		{
+			CommentSaveState est = CommentSaveState.Failed;
+
+			Entry entry = _dataService.GetEntry(postid);
+
+			if (entry != null)
+			{
+				// Are comments allowed
+
+				_dataService.AddComment(comment);
+
+				est = CommentSaveState.Added;
+			}
+			else
+			{
+				est = CommentSaveState.NotFound;
+			}
+
+			return est;
+		}
+
+		public CommentSaveState DeleteComment(string postid, string commentid)
+		{
+			CommentSaveState est = CommentSaveState.Failed;
+
+			Entry entry = _dataService.GetEntry(postid);
+
+			if (entry != null && !string.IsNullOrEmpty(commentid))
+			{
+				_dataService.DeleteComment(postid, commentid);
+
+				est = CommentSaveState.Deleted;
+			}
+			else
+			{
+				est = CommentSaveState.NotFound;
+			}
+
+			return est;
+		}
+
+		public CommentSaveState ApproveComment(string postid, string commentid)
+		{
+			CommentSaveState est = CommentSaveState.Failed;
+			Entry entry = _dataService.GetEntry(postid);
+
+			if (entry != null && !string.IsNullOrEmpty(commentid))
+			{
+				_dataService.ApproveComment(postid, commentid);
+
+				est = CommentSaveState.Approved;
+			}
+			else
+			{
+				est = CommentSaveState.NotFound;
+			}
+
+			return est;
+		}
+
+		private XmlRpcResponse Invoke(XmlRpcRequest request)
         {
             MethodInfo methodInfo = null;
             methodInfo = (((object)request.mi == null) ? base.GetType().GetMethod(request.method) : request.mi);
