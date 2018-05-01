@@ -1,4 +1,24 @@
+@using Microsoft.AspNetCore.Identity
+@using DasBlog.Web.Identity
+@inject SignInManager<DasBlogUser> SignInManager
+@inject UserManager<DasBlogUser> UserManager
 
-<ul class="nav navbar-nav navbar-right">
-    <li><a asp-area="" asp-controller="Account" asp-action="Login">Log in</a></li>
-</ul>
+@if (SignInManager.IsSignedIn(User))
+{
+    <form asp-area="" asp-controller="account" asp-action="logout" method="post" id="logoutForm" class="navbar-right">
+        <ul class="nav navbar-nav navbar-right">
+            <li>
+                <a asp-area="" asp-controller="Manage" asp-action="Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
+            </li>
+            <li>
+                <button type="submit" class="btn btn-link navbar-btn navbar-link">Log off</button>
+            </li>
+        </ul>
+    </form>
+}
+else
+{
+    <ul class="nav navbar-nav navbar-right">
+        <li><a asp-area="" asp-controller="Account" asp-action="Login">Log in</a></li>
+    </ul>
+}
