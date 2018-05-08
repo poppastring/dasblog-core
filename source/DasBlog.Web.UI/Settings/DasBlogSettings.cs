@@ -116,17 +116,6 @@ namespace DasBlog.Web.Settings
 			return null;
 		}
 
-		public TimeZone GetConfiguredTimeZone()
-		{
-			// Need to figure out how to handle time...
-			return new UTCTimeZone();
-
-			//if (SiteConfiguration.AdjustDisplayTimeZone)
-			//{
-			//    return TimeZone.CurrentTimeZone as WindowsTimeZone;
-			//}
-		}
-
 		public void AddUser(User user)
 		{
 			SecurityConfiguration.Users.Add(user);
@@ -136,6 +125,17 @@ namespace DasBlog.Web.Settings
 			{
 				ser.Serialize(writer, SecurityConfiguration);
 			}
+		}
+
+		public TimeZone GetConfiguredTimeZone()
+		{
+			// Need to figure out how to handle time...
+			return new UTCTimeZone();
+
+			//if (SiteConfiguration.AdjustDisplayTimeZone)
+			//{
+			//    return TimeZone.CurrentTimeZone as WindowsTimeZone;
+			//}
 		}
 	}
 }

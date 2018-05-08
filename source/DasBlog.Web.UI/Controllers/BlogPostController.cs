@@ -17,13 +17,13 @@ namespace DasBlog.Web.Controllers
 	[Route("post")]
 	public class BlogPostController : Controller
 	{
-		private IBlogManager _blogRepository;
+		private IBlogManager _blogManager;
 		private IHttpContextAccessor _httpContextAccessor;
 		private readonly IMapper _mapper;
 
-		public BlogPostController(IBlogManager blogRepository, IHttpContextAccessor httpContextAccessor, IMapper mapper)
+		public BlogPostController(IBlogManager blogManager, IHttpContextAccessor httpContextAccessor, IMapper mapper)
 		{
-			_blogRepository = blogRepository;
+			_blogManager = blogManager;
 			_httpContextAccessor = httpContextAccessor;
 			_mapper = mapper;
 		}
@@ -36,11 +36,11 @@ namespace DasBlog.Web.Controllers
 
 			if (!string.IsNullOrEmpty(postid.ToString()))
 			{
-				var entry = _blogRepository.GetEntryForEdit(postid.ToString());
+				var entry = _blogManager.GetEntryForEdit(postid.ToString());
 				if (entry != null)
 				{
 					pvm = _mapper.Map<PostViewModel>(entry);
-					List <CategoryViewModel> allcategories = _mapper.Map<List<CategoryViewModel>>(_blogRepository.GetCategories());
+					List <CategoryViewModel> allcategories = _mapper.Map<List<CategoryViewModel>>(_blogManager.GetCategories());
 
 					foreach(var cat in allcategories)
 					{
@@ -77,7 +77,7 @@ namespace DasBlog.Web.Controllers
 				entry.Latitude = null;
 				entry.Longitude = null;
 
-				EntrySaveState sts = _blogRepository.UpdateEntry(entry);
+				EntrySaveState sts = _blogManager.UpdateEntry(entry);
 				if (sts != EntrySaveState.Updated)
 				{
 					ModelState.AddModelError("", "Failed to edit blog post");
@@ -98,7 +98,7 @@ namespace DasBlog.Web.Controllers
 		{
 			PostViewModel post = new PostViewModel();
 			post.CreatedDateTime = DateTime.UtcNow;  //TODO: Set to the timezone configured???
-			post.AllCategories = _mapper.Map<List<CategoryViewModel>>(_blogRepository.GetCategories());
+			post.AllCategories = _mapper.Map<List<CategoryViewModel>>(_blogManager.GetCategories());
 
 			return View(post);
 		}
@@ -122,7 +122,7 @@ namespace DasBlog.Web.Controllers
 				entry.Latitude = null;
 				entry.Longitude = null;
 
-				EntrySaveState sts = _blogRepository.CreateEntry(entry);
+				EntrySaveState sts = _blogManager.CreateEntry(entry);
 				if(sts != EntrySaveState.Added)
 				{
 					ModelState.AddModelError("", "Failed to create blog post");
@@ -143,7 +143,7 @@ namespace DasBlog.Web.Controllers
 		{
 			try
 			{
-				_blogRepository.DeleteEntry(postid.ToString());
+				_blogManager.DeleteEntry(postid.ToString());
 			}
 			catch(Exception ex)
 			{
@@ -151,6 +151,70 @@ namespace DasBlog.Web.Controllers
 			}
 
 			return RedirectToAction("Index", "Home");
+		}
+
+		[AllowAnonymous]
+		[HttpPost]
+		[Route("{postid:guid}/comment")]
+		public IActionResult AddComment(Guid postid, CommentViewModel comment)
+		{
+			if (!ModelState.IsValid)
+			{
+				return BadRequest();
+			}
+
+			Comment commt = _mapper.Map<Comment>(comment);
+			CommentSaveState state = _blogManager.AddComment(postid.ToString(), commt);
+
+			if (state == CommentSaveState.Failed)
+			{
+				return StatusCode(500);
+			}
+
+			if (state == CommentSaveState.NotFound)
+			{
+				return NotFound();
+			}
+
+			return Ok();
+		}
+
+		[HttpDelete]
+		[Route("{postid:guid}/comment/{commentid:guid}")]
+		public IActionResult DeleteComment(Guid postid, Guid commentid)
+		{
+			CommentSaveState state = _blogManager.DeleteComment(postid.ToString(), commentid.ToString());
+
+			if (state == CommentSaveState.Failed)
+			{
+				return StatusCode(500);
+			}
+
+			if (state == CommentSaveState.NotFound)
+			{
+				return NotFound();
+			}
+
+			return Ok();
+		}
+
+		[HttpPatch]
+		[Route("{postid:guid}/comment/{commentid:guid}")]
+		public IActionResult ApproveComment(Guid postid, Guid commentid)
+		{
+			CommentSaveState state = _blogManager.ApproveComment(postid.ToString(), commentid.ToString());
+
+			if (state == CommentSaveState.Failed)
+			{
+				return StatusCode(500);
+			}
+
+			if (state == CommentSaveState.NotFound)
+			{
+				return NotFound();
+			}
+
+			return Ok();
 		}
 	}
 }

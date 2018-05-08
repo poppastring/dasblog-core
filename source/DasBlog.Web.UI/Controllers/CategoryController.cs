@@ -10,15 +10,15 @@ namespace DasBlog.Web.Controllers
 {
     public class CategoryController : Controller
     {
-        private ICategoryManager _categoryRepository;
+        private ICategoryManager _categoryManager;
         private IHttpContextAccessor _httpContextAccessor;
 		private readonly IDasBlogSettings _dasBlogSettings;
 		private readonly IMapper _mapper;
 
-		public CategoryController(ICategoryManager categoryRepository, IDasBlogSettings settings, 
+		public CategoryController(ICategoryManager categoryManager, IDasBlogSettings settings, 
 			IHttpContextAccessor httpContextAccessor, IMapper mapper)
         {
-            _categoryRepository = categoryRepository;
+            _categoryManager = categoryManager;
 			_dasBlogSettings = settings;
 			_httpContextAccessor = httpContextAccessor;
 			_mapper = mapper;
@@ -31,7 +31,7 @@ namespace DasBlog.Web.Controllers
             string languageFilter = _httpContextAccessor.HttpContext.Request.Headers["Accept-Language"];
 
 			ListPostsViewModel lpvm = new ListPostsViewModel();
-            lpvm.Posts =_categoryRepository.GetEntries(cat, languageFilter)
+            lpvm.Posts =_categoryManager.GetEntries(cat, languageFilter)
 				.Select(entry => _mapper.Map<PostViewModel>(entry)).ToList(); ;
 
 			return ThemedView("Page", lpvm);

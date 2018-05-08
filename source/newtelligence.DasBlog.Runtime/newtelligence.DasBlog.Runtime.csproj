@@ -167,6 +167,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="CollectionFilter.cs" />
+    <Compile Include="CommentSaveState.cs" />
     <Compile Include="DayEntryCollectionFilter.cs" />
     <Compile Include="Comment.cs">
       <SubType>Code</SubType>
