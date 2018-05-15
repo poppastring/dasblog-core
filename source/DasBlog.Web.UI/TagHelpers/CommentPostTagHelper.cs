@@ -1,10 +1,9 @@
-﻿using System.Threading.Tasks;
-using DasBlog.Web.Models.BlogViewModels;
-using Microsoft.AspNetCore.Razor.TagHelpers;
+﻿using Microsoft.AspNetCore.Razor.TagHelpers;
+using System.Threading.Tasks;
 
-namespace DasBlog.Web.Helpers
+namespace DasBlog.Web.TagHelpers
 {
-	public class EditPostTagHelper : TagHelper
+	public class CommentPostTagHelper : TagHelper
 	{
 		public string BlogPostId { get; set; }
 
@@ -12,8 +11,8 @@ namespace DasBlog.Web.Helpers
 		{
 			output.TagName = "a";
 			output.TagMode = TagMode.StartTagAndEndTag;
-			output.Attributes.SetAttribute("href", $"post/edit/{BlogPostId}");
-			output.Content.SetHtmlContent("Edit this post");
+			output.Attributes.SetAttribute("href", $"{BlogPostId}/Comment");
+			output.Content.SetHtmlContent("Comment on this post");
 		}
 
 		public override Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
