@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using DasBlog.Web.Helpers;
+using DasBlog.Web.TagHelpers;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using Xunit;
 

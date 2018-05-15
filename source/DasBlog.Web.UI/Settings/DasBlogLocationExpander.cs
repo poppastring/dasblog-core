@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace DasBlog.Web.ViewsEngine
+namespace DasBlog.Web.Settings
 {
     public class DasBlogLocationExpander : IViewLocationExpander
     {

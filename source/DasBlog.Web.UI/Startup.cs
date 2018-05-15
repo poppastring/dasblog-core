@@ -5,7 +5,6 @@ using DasBlog.Managers;
 using DasBlog.Managers.Interfaces;
 using DasBlog.Web.Identity;
 using DasBlog.Web.Settings;
-using DasBlog.Web.ViewsEngine;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -79,9 +78,9 @@ namespace DasBlog.Web
 
 			services.ConfigureApplicationCookie(options =>
 			{
-				options.LoginPath = "/Account/Login"; // If the LoginPath is not set here, ASP.NET Core will default to /Account/Login
-				options.LogoutPath = "/Account/Logout"; // If the LogoutPath is not set here, ASP.NET Core will default to /Account/Logout
-				options.AccessDeniedPath = "/Account/AccessDenied"; // If the AccessDeniedPath is not set here, ASP.NET Core will default to /Account/AccessDenied
+				options.LoginPath = "/account/login"; // If the LoginPath is not set here, ASP.NET Core will default to /Account/Login
+				options.LogoutPath = "/account/logout"; // If the LogoutPath is not set here, ASP.NET Core will default to /Account/Logout
+				options.AccessDeniedPath = "/account/accessDenied"; // If the AccessDeniedPath is not set here, ASP.NET Core will default to /Account/AccessDenied
 				options.SlidingExpiration = true;
 				options.Cookie = new CookieBuilder
 				{
@@ -132,7 +131,7 @@ namespace DasBlog.Web
 			}
 			else
 			{
-				app.UseExceptionHandler("/Home/Error");
+				app.UseExceptionHandler("/home/error");
 			}
 
 			app.UseStaticFiles();
