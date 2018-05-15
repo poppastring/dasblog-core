@@ -17,7 +17,7 @@ The [DasBlog Blogging Engine](https://msdn.microsoft.com/en-us/library/aa480016.
 
 ## Installing the development tools
 
-- Install [.NET Core SDK 2.0](https://aka.ms/dotnet-sdk-2.0.0-win-gs-x64)
+- Install [.NET Core SDK 2.1](https://www.microsoft.com/net/download/dotnet-core/sdk-2.1.4)
 - Install [Visual Studio Community 2017](https://www.visualstudio.com/thank-you-downloading-visual-studio/?sku=Community&rel=15)
 
 You can find more specific installation steps for Windows development [here](https://www.microsoft.com/net/core#windowscmd)
@@ -27,7 +27,7 @@ You can find more specific installation steps for Windows development [here](htt
 
 In order to build the DasBlog Core, ensure that you have [Git](https://git-scm.com/downloads) installed.
 
-Clone a copy of the repo:
+Clone or fork a copy of the repo:
 
 ```bash
 git clone https://github.com/poppastring/dasblog-core
