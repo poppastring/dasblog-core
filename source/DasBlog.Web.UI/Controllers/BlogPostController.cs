@@ -156,7 +156,7 @@ namespace DasBlog.Web.Controllers
 		[AllowAnonymous]
 		[HttpPost]
 		[Route("{postid:guid}/comment")]
-		public IActionResult AddComment(Guid postid, CommentViewModel comment)
+		public IActionResult AddComment(Guid postid, AddCommentViewModel comment)
 		{
 			if (!ModelState.IsValid)
 			{

@@ -69,7 +69,7 @@ namespace DasBlog.Web.Controllers
             }
         }
 
-		[Route("comment/{postid:guid}")]
+		[HttpGet("comment/{postid:guid}")]
         public IActionResult Comment(Guid postid)
         {
             // ~/CommentView.aspx?title=GeneralPatternsusedtoDetectaLeak
