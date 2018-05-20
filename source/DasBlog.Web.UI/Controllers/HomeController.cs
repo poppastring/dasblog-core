@@ -72,15 +72,16 @@ namespace DasBlog.Web.Controllers
 		[HttpGet("comment/{postid:guid}")]
         public IActionResult Comment(Guid postid)
         {
-            // ~/CommentView.aspx?title=GeneralPatternsusedtoDetectaLeak
-
-            // Get post by GUID bbecae4b-e3a3-47a2-b6a6-b4cc405f8663
             Entry entry = _blogManager.GetBlogPost(postid.ToString());
 
-            ListPostsViewModel lpvm = new ListPostsViewModel();
+			ListPostsViewModel lpvm = new ListPostsViewModel();
             lpvm.Posts = new List<PostViewModel> { _mapper.Map<PostViewModel>(entry) };
 
-            SinglePost(lpvm.Posts.First());
+			CommentCollection comments = _blogManager.GetComments(postid.ToString(), false);
+			List<CommentViewModel> cmv = new List<CommentViewModel> { _mapper.Map<CommentViewModel>(comments) };
+			lpvm.Posts.First().Comments = cmv;
+
+			SinglePost(lpvm.Posts.First());
 
 			return ThemedView("Page", lpvm);
         }

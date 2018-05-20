@@ -40,6 +40,6 @@ namespace DasBlog.Web.Models.BlogViewModels
 		[Display(Name = "Date Modified")]
 		public DateTime ModifiedDateTime { get; set; }
 
-		public IList<CommentViewModel> Comments { get; set; }
+		public ListCommentsViewModel Comments { get; set; }
 	}
 }

@@ -20,5 +20,6 @@
             <edit-post blog-post-id="@Model.EntryId"></edit-post>
         </div>
     </div>
+    @Html.Partial("_CommentListPartial", @Model.Comments)
 </div>
 <hr />
