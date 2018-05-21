@@ -1,5 +1,29 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model DasBlog.Web.Models.BlogViewModels.CommentViewModel
+@using DasBlog.Web.Models.BlogViewModels
+
+<div class="modal-body form-horizontal">
+    <div class="form-group">
+        <label asp-for="Date" class="col-lg-3 col-sm-3 control-label"></label>
+        <div class="col-lg-6">
+            @Model.Date
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="Name" class="col-lg-3 col-sm-3 control-label"></label>
+        <div class="col-lg-6">
+            @Model.Name
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="UserImageUrl" class="col-lg-3 col-sm-3 control-label"></label>
+        <div class="col-lg-6">
+            @Model.UserImageUrl
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="Text" class="col-lg-3 col-sm-3 control-label"></label>
+        <div class="col-lg-6">
+            @Model.Text
+        </div>
+    </div>
+</div>

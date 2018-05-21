@@ -72,14 +72,15 @@ namespace DasBlog.Web.Controllers
 		[HttpGet("comment/{postid:guid}")]
         public IActionResult Comment(Guid postid)
         {
+			// TODO are comments enabled?
+
             Entry entry = _blogManager.GetBlogPost(postid.ToString());
 
 			ListPostsViewModel lpvm = new ListPostsViewModel();
             lpvm.Posts = new List<PostViewModel> { _mapper.Map<PostViewModel>(entry) };
 
 			CommentCollection comments = _blogManager.GetComments(postid.ToString(), false);
-			List<CommentViewModel> cmv = new List<CommentViewModel> { _mapper.Map<CommentViewModel>(comments) };
-			lpvm.Posts.First().Comments = cmv;
+			lpvm.Posts.First().Comments = _mapper.Map<ListCommentsViewModel>(comments);
 
 			SinglePost(lpvm.Posts.First());
 

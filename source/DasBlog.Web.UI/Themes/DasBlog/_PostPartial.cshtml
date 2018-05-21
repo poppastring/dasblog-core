@@ -19,7 +19,10 @@
         <div>
             <edit-post blog-post-id="@Model.EntryId"></edit-post>
         </div>
+        <div>
+            <comment-post blog-post-id="@Model.EntryId"></comment-post>
+        </div>
     </div>
-    @Html.Partial("_CommentListPartial", @Model.Comments)
+    @Html.Partial("_CommentBlockPartial", @Model.Comments)
 </div>
 <hr />
