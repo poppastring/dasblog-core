@@ -1,9 +1,13 @@
 ﻿@model DasBlog.Web.Models.BlogViewModels.AddCommentViewModel
-@using DasBlog.Web.Models.BlogViewModels
 
 <div class="post-new-comment">
-    <form asp-controller="post" asp-action="edit" method="post">
+    <form asp-controller="post" asp-action="comment" method="post">
         <div class="modal-body form-horizontal">
+            <div class="form-group">
+                <div class="col-lg-6">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                </div>
+            </div>
             <div class="form-group">
                 <label asp-for="Name" class="col-lg-3 col-sm-3 control-label"></label>
                 <div class="col-lg-6">
@@ -28,8 +32,17 @@
                     @Html.EditorFor(x => x.Comment)
                 </div>
             </div>
+            <div class="form-group">
+                <div class="col-lg-6">
+                    <button type="submit">Submit</button>
+                </div>
+            </div>
         </div>
 
         @Html.HiddenFor(m => m.TargetEntryId)
     </form>
+
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+    }
 </div>

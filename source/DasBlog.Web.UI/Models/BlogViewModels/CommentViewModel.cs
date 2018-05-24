@@ -11,5 +11,6 @@ namespace DasBlog.Web.Models.BlogViewModels
 		public string UserImageUrl { get; set; }
 		public string Text { get; set; }
 		public DateTime Date { get; set; }
+		public string HomePageUrl { get; set; }
 	}
 }

@@ -11,6 +11,7 @@ namespace DasBlog.Web.Models.BlogViewModels
 		[Required]
 		[Display(Name = "Email (will not be displayed or shared)")]
 		[StringLength(60, MinimumLength = 1)]
+		[EmailAddress(ErrorMessage = "Invalid email address")]
 		public string Email { get; set; }
 
 		[Display(Name = "Home page (optional)")]
@@ -22,6 +23,7 @@ namespace DasBlog.Web.Models.BlogViewModels
 		[StringLength(600, MinimumLength = 1)]
 		public string Comment { get; set; }
 
+		[Required]
 		public string TargetEntryId { get; set; }
 	}
 }

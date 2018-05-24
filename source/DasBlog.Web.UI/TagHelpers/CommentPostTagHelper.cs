@@ -11,7 +11,7 @@ namespace DasBlog.Web.TagHelpers
 		{
 			output.TagName = "a";
 			output.TagMode = TagMode.StartTagAndEndTag;
-			output.Attributes.SetAttribute("href", $"Comment/{BlogPostId}");
+			output.Attributes.SetAttribute("href", $"comment/{BlogPostId}");
 			output.Content.SetHtmlContent("Comment on this post");
 		}
 

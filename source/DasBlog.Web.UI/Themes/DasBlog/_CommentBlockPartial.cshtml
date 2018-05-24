@@ -1,19 +1,18 @@
-﻿
-@model ListCommentsViewModel
+﻿@model ListCommentsViewModel
 
 @if (Model != null && Model.Comments != null)
 { 
-    <div class="post-comments">
-        @Html.Partial("_CommentAddPartial")
+<div class="post-comments">
+    @Html.Partial("_CommentAddPartial", new AddCommentViewModel())
 
-        <div class="post-comments-list">
-            @if (Model.Comments.Count > 0)
+    <div class="post-comments-list">
+        @if (Model.Comments.Count > 0)
+        {
+            foreach (var comment in Model.Comments)
             {
-                foreach (var comment in Model.Comments)
-                {
-                    @Html.Partial("_CommentPartial", comment)
-                }
+                @Html.Partial("_CommentPartial", comment)
             }
-        </div>
+        }
     </div>
+</div>
 }

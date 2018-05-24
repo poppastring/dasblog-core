@@ -155,8 +155,8 @@ namespace DasBlog.Web.Controllers
 
 		[AllowAnonymous]
 		[HttpPost]
-		[Route("{postid:guid}/comment")]
-		public IActionResult AddComment(Guid postid, AddCommentViewModel comment)
+		[Route("comment")]
+		public IActionResult AddComment(AddCommentViewModel comment)
 		{
 			if (!ModelState.IsValid)
 			{
@@ -164,7 +164,7 @@ namespace DasBlog.Web.Controllers
 			}
 
 			Comment commt = _mapper.Map<Comment>(comment);
-			CommentSaveState state = _blogManager.AddComment(postid.ToString(), commt);
+			CommentSaveState state = _blogManager.AddComment(comment.TargetEntryId, commt);
 
 			if (state == CommentSaveState.Failed)
 			{
