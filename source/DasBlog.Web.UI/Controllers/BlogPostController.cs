@@ -72,7 +72,7 @@ namespace DasBlog.Web.Controllers
 			{
 				Entry entry = _mapper.Map<Entry>(post);
 				
-				entry.Author = "admin"; //TODO: Need to integrate with context security 
+				entry.Author = _httpContextAccessor.HttpContext.User.Identity.Name;
 				entry.Language = "en-us"; //TODO: We inject this fron http context?
 				entry.Latitude = null;
 				entry.Longitude = null;
@@ -117,7 +117,7 @@ namespace DasBlog.Web.Controllers
 				Entry entry = _mapper.Map<Entry>(post);
 
 				entry.Initialize();
-				entry.Author = "admin"; //TODO: Need to integrate with context security 
+				entry.Author = _httpContextAccessor.HttpContext.User.Identity.Name;
 				entry.Language = "en-us"; //TODO: We inject this fron http context?
 				entry.Latitude = null;
 				entry.Longitude = null;

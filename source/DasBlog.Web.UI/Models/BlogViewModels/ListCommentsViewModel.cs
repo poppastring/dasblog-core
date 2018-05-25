@@ -8,5 +8,7 @@ namespace DasBlog.Web.Models.BlogViewModels
     public class ListCommentsViewModel
     {
 		public IList<CommentViewModel> Comments { get; set; }
+
+		public string PostId { get; set; }
 	}
 }

@@ -11,30 +11,30 @@
             <div class="form-group">
                 <label asp-for="Name" class="col-lg-3 col-sm-3 control-label"></label>
                 <div class="col-lg-6">
-                    @Html.EditorFor(x => x.Name)
+                    <input asp-for="Name" class="form-control" />
                 </div>
             </div>
             <div class="form-group">
                 <label asp-for="Email" class="col-lg-3 col-sm-3 control-label"></label>
                 <div class="col-lg-6">
-                    @Html.EditorFor(x => x.Email)
+                    <input asp-for="Email" class="form-control" />
                 </div>
             </div>
             <div class="form-group">
                 <label asp-for="HomePage" class="col-lg-3 col-sm-3 control-label"></label>
                 <div class="col-lg-6">
-                    @Html.EditorFor(x => x.HomePage)
+                    <input asp-for="HomePage" class="form-control" />
                 </div>
             </div>
             <div class="form-group">
                 <label asp-for="Comment" class="col-lg-3 col-sm-3 control-label"></label>
                 <div class="col-lg-6">
-                    @Html.EditorFor(x => x.Comment)
+                    <input asp-for="Comment" class="form-control" />
                 </div>
             </div>
             <div class="form-group">
                 <div class="col-lg-6">
-                    <button type="submit">Submit</button>
+                    <button type="submit" class="btn btn-default">Add Comment</button>
                 </div>
             </div>
         </div>

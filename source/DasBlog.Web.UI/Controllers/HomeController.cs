@@ -82,7 +82,8 @@ namespace DasBlog.Web.Controllers
 			ListCommentsViewModel lcvm = new ListCommentsViewModel
 			{
 				Comments = _blogManager.GetComments(postid.ToString(), false)
-					.Select(comment => _mapper.Map<CommentViewModel>(comment)).ToList()
+					.Select(comment => _mapper.Map<CommentViewModel>(comment)).ToList(),
+				PostId = postid.ToString()
 			};
 
 			lpvm.Posts.First().Comments = lcvm;
