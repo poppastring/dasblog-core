@@ -147,7 +147,7 @@ namespace DasBlog.Web
 				routes.MapRoute(
 					"New Post Format",
 					"{posttitle}",
-					new { controller = "Home", action = "Post", id = "" });
+					new { controller = "Home", action = "Post", postitle = ""  });
 
 				routes.MapRoute(
 					name: "default",

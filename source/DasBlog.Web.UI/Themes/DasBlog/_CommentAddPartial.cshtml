@@ -38,11 +38,6 @@
                 </div>
             </div>
         </div>
-
         @Html.HiddenFor(m => m.TargetEntryId)
     </form>
-
-    @section Scripts {
-        @{await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
-    }
 </div>

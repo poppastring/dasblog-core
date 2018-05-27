@@ -1,31 +1,32 @@
-﻿using System;
+﻿using AutoMapper;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using DasBlog.Web.Models;
-using newtelligence.DasBlog.Runtime;
+using DasBlog.Web.Settings;
 using DasBlog.Web.Models.BlogViewModels;
 using DasBlog.Core;
 using DasBlog.Managers.Interfaces;
-using AutoMapper;
+using newtelligence.DasBlog.Runtime;
 
 namespace DasBlog.Web.Controllers
 {
-    public class HomeController : Controller
-    {
+    public class HomeController : DasBlogBaseController
+	{
         private readonly IBlogManager _blogManager;
         private readonly IDasBlogSettings _dasBlogSettings;
 		private readonly IMapper _mapper;
 
-		public HomeController(IBlogManager blogManager, IDasBlogSettings settings, IMapper mapper)
+		public HomeController(IBlogManager blogManager, IDasBlogSettings settings, IMapper mapper) : base(settings)
         {
             _blogManager = blogManager;
             _dasBlogSettings = settings;
 			_mapper = mapper;
 		}
 
-        public IActionResult Index()
+		public IActionResult Index()
         {
 			ListPostsViewModel lpvm = new ListPostsViewModel();
             lpvm.Posts = _blogManager.GetFrontPagePosts()
@@ -35,65 +36,33 @@ namespace DasBlog.Web.Controllers
             return ThemedView("Page", lpvm);
         }
 
-		//TODO: Maybe a helper for all?
-		private ViewResult ThemedView(string v, ListPostsViewModel lpvm)
-		{
-			return View(string.Format("/Themes/{0}/{1}.cshtml", 
-						_dasBlogSettings.SiteConfiguration.Theme, v), lpvm);
-		}
-
-		[HttpGet]
 		public IActionResult Post(string posttitle)
-        {
-            ListPostsViewModel lpvm = new ListPostsViewModel();
+		{
+			ListPostsViewModel lpvm = new ListPostsViewModel();
 
-            if (!string.IsNullOrEmpty(posttitle))
-            {
-                var entry = _blogManager.GetBlogPost(posttitle.Replace(_dasBlogSettings.SiteConfiguration.TitlePermalinkSpaceReplacement,string.Empty));
-                if (entry != null)
-                {
-					lpvm.Posts = new List<PostViewModel>() {_mapper.Map<PostViewModel>(entry) };
+			if (!string.IsNullOrEmpty(posttitle))
+			{
+				var entry = _blogManager.GetBlogPost(posttitle.Replace(_dasBlogSettings.SiteConfiguration.TitlePermalinkSpaceReplacement, string.Empty));
+				if (entry != null)
+				{
+					lpvm.Posts = new List<PostViewModel>() { _mapper.Map<PostViewModel>(entry) };
 
-                    SinglePost(lpvm.Posts.First());
+					SinglePost(lpvm.Posts.First());
 
 					return ThemedView("Page", lpvm);
-                }
-                else
-                {
-                    return NotFound();
-                }
-            }
-            else
-            {
-                return Index();
-            }
-        }
-
-		[HttpGet("comment/{postid:guid}")]
-        public IActionResult Comment(Guid postid)
-        {
-			// TODO are comments enabled?
-
-            Entry entry = _blogManager.GetBlogPost(postid.ToString());
-
-			ListPostsViewModel lpvm = new ListPostsViewModel();
-            lpvm.Posts = new List<PostViewModel> { _mapper.Map<PostViewModel>(entry) };
-
-			ListCommentsViewModel lcvm = new ListCommentsViewModel
+				}
+				else
+				{
+					return NotFound();
+				}
+			}
+			else
 			{
-				Comments = _blogManager.GetComments(postid.ToString(), false)
-					.Select(comment => _mapper.Map<CommentViewModel>(comment)).ToList(),
-				PostId = postid.ToString()
-			};
+				return RedirectToAction("Index", "Home");
+			}
+		}
 
-			lpvm.Posts.First().Comments = lcvm;
-
-			SinglePost(lpvm.Posts.First());
-
-			return ThemedView("Page", lpvm);
-        }
-
-        [Route("page")]
+		[Route("page")]
         public IActionResult Page()
         {
             return Index();
@@ -159,24 +128,6 @@ namespace DasBlog.Web.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
-
-        private void SinglePost(PostViewModel post)
-        {
-            ViewData["Title"] = post.Title;
-            ViewData["Description"] = post.Description;
-            ViewData["Keywords"] = post.Categories;
-            ViewData["Canonical"] = post.PermaLink;
-            ViewData["Author"] = post.Author;
-        }
-
-        private void DefaultPage()
-        {
-            ViewData["Title"] = _dasBlogSettings.SiteConfiguration.Title;
-            ViewData["Description"] = _dasBlogSettings.SiteConfiguration.Description;
-            ViewData["Keywords"] = _dasBlogSettings.MetaTags.MetaKeywords;
-            ViewData["Canonical"] = _dasBlogSettings.SiteConfiguration.Root;
-            ViewData["Author"] = _dasBlogSettings.SiteConfiguration.Copyright;
         }
     }
 }

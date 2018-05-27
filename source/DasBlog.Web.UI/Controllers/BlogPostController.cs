@@ -1,30 +1,33 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using AutoMapper;
+using DasBlog.Web.Models.BlogViewModels;
+using DasBlog.Managers.Interfaces;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using newtelligence.DasBlog.Runtime;
-using DasBlog.Web;
-using DasBlog.Managers.Interfaces;
-using Microsoft.AspNetCore.Http;
-using DasBlog.Web.Models.BlogViewModels;
-using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using DasBlog.Web.Settings;
+using DasBlog.Core;
 
 namespace DasBlog.Web.Controllers
 {
 	[Authorize]
 	[Route("post")]
-	public class BlogPostController : Controller
+	public class BlogPostController : DasBlogBaseController
 	{
 		private IBlogManager _blogManager;
 		private IHttpContextAccessor _httpContextAccessor;
+		private readonly IDasBlogSettings _dasBlogSettings;
 		private readonly IMapper _mapper;
 
-		public BlogPostController(IBlogManager blogManager, IHttpContextAccessor httpContextAccessor, IMapper mapper)
+		public BlogPostController(IBlogManager blogManager, IHttpContextAccessor httpContextAccessor, 
+									IDasBlogSettings settings, IMapper mapper) : base(settings)
 		{
 			_blogManager = blogManager;
 			_httpContextAccessor = httpContextAccessor;
+			_dasBlogSettings = settings;
 			_mapper = mapper;
 		}
 
@@ -154,9 +157,34 @@ namespace DasBlog.Web.Controllers
 		}
 
 		[AllowAnonymous]
+		[HttpGet("{postid:guid}/comment")]
+		public IActionResult Comment(Guid postid)
+		{
+			// TODO are comments enabled?
+
+			Entry entry = _blogManager.GetBlogPost(postid.ToString());
+
+			ListPostsViewModel lpvm = new ListPostsViewModel();
+			lpvm.Posts = new List<PostViewModel> { _mapper.Map<PostViewModel>(entry) };
+
+			ListCommentsViewModel lcvm = new ListCommentsViewModel
+			{
+				Comments = _blogManager.GetComments(postid.ToString(), false)
+					.Select(comment => _mapper.Map<CommentViewModel>(comment)).ToList(),
+				PostId = postid.ToString()
+			};
+
+			lpvm.Posts.First().Comments = lcvm;
+
+			SinglePost(lpvm.Posts.First());
+
+			return ThemedView("Page", lpvm);
+		}
+
+		[AllowAnonymous]
 		[HttpPost]
 		[Route("comment")]
-		public IActionResult AddComment(AddCommentViewModel comment)
+		public IActionResult AddComment([FromForm]AddCommentViewModel comment)
 		{
 			if (!ModelState.IsValid)
 			{
@@ -164,7 +192,7 @@ namespace DasBlog.Web.Controllers
 			}
 
 			Comment commt = _mapper.Map<Comment>(comment);
-			CommentSaveState state = _blogManager.AddComment(comment.TargetEntryId, commt);
+			CommentSaveState state = _blogManager.AddComment(comment.TargetEntryId.ToString(), commt);
 
 			if (state == CommentSaveState.Failed)
 			{
