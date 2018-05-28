@@ -26,9 +26,8 @@ namespace DasBlog.Web.Controllers
             _cache = memoryCache;
         }
 
-        [HttpGet]
         [Route("")]
-        [Route("rss")]
+        [HttpGet("rss")]
         public IActionResult Rss()
         {
             RssRoot rss = null; 

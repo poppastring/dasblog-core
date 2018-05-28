@@ -30,6 +30,8 @@ namespace DasBlog.Managers.Interfaces
 
 		CommentSaveState ApproveComment(string postid, string commentid);
 
+		CommentCollection GetComments(string postid, bool allComments);
+
 		string XmlRpcInvoke(Stream blob);
 	}
 }

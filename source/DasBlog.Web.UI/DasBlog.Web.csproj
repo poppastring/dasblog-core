@@ -28,10 +28,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\content\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="Config\site.config" />
   </ItemGroup>
 

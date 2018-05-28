@@ -297,6 +297,11 @@ namespace DasBlog.Managers
 			return est;
 		}
 
+		public CommentCollection GetComments(string postid, bool allComments)
+		{
+			return _dataService.GetCommentsFor(postid, allComments);
+		}
+
 		private XmlRpcResponse Invoke(XmlRpcRequest request)
         {
             MethodInfo methodInfo = null;

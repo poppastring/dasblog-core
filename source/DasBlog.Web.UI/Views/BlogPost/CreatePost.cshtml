@@ -1,5 +1,4 @@
 ﻿@model DasBlog.Web.Models.BlogViewModels.PostViewModel
-@using DasBlog.Web.Models.BlogViewModels
 
 <form asp-controller="post" asp-action="create" method="post">
     <div class="modal-body form-horizontal">
@@ -54,17 +53,15 @@
             <label asp-for="Categories" class="col-lg-3 col-sm-3 control-label"></label>
             <div class="col-lg-6">
                 @if (Model != null && Model.AllCategories != null)
-            {
-                for (int i = 0; i < Model.AllCategories.Count; i++)
                 {
-                    @* @Html.CheckBoxFor(m => m.AllCategories[i].Checked, new { id = "categories_" + i}) *@
-                    <input asp-for="@Model.AllCategories[i].Checked" type="checkbox" />
-                    <label asp-for="@Model.AllCategories[i].Category">@Model.AllCategories[i].Category</label>
-                    <input asp-for="@Model.AllCategories[i].Category" type="hidden" />
-                    <input asp-for="@Model.AllCategories[i].CategoryUrl" type="hidden" />
-            }
-        }
-
+                    for (int i = 0; i < Model.AllCategories.Count; i++)
+                    {
+                        <input asp-for="@Model.AllCategories[i].Checked" type="checkbox" />
+                        <label asp-for="@Model.AllCategories[i].Category">@Model.AllCategories[i].Category</label>
+                        <input asp-for="@Model.AllCategories[i].Category" type="hidden" />
+                        <input asp-for="@Model.AllCategories[i].CategoryUrl" type="hidden" />
+                    }
+                }
             </div>
         </div>
         <div class="form-group">

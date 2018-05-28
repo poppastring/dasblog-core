@@ -51,6 +51,21 @@ namespace DasBlog.Web.Mappers
 
 			CreateMap<CategoryViewModel, CategoryCacheEntry>()
 				.ForMember(dest => dest.DisplayName, opt => opt.MapFrom(src => src.Category));
+
+			CreateMap<Comment, CommentViewModel>()
+				.ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Author))
+				.ForMember(dest => dest.Text, opt => opt.MapFrom(src => src.Content))
+				.ForMember(dest => dest.UserImageUrl, opt => opt.MapFrom(src => src.AuthorEmail))
+				.ForMember(dest => dest.Date, opt => opt.MapFrom(src => src.CreatedLocalTime))
+				.ForMember(dest => dest.HomePageUrl, opt => opt.MapFrom(src => src.AuthorHomepage));
+
+			CreateMap<AddCommentViewModel, Comment>()
+				.ForMember(dest => dest.Author, opt => opt.MapFrom(src => src.Name))
+				.ForMember(dest => dest.Content, opt => opt.MapFrom(src => src.Comment))
+				.ForMember(dest => dest.AuthorEmail, opt => opt.MapFrom(src => src.Email))
+				.ForMember(dest => dest.TargetEntryId, opt => opt.MapFrom(src => src.TargetEntryId))
+				.ForMember(dest => dest.AuthorHomepage, opt => opt.MapFrom(src => src.HomePage));
+
 		}
 
 		private IList<CategoryViewModel> ConvertCategory(string category)

@@ -23,7 +23,7 @@ namespace DasBlog.Web.TagHelpers
 			string categorylist = string.Empty;
 			output.TagName = "ul";
 			output.TagMode = TagMode.StartTagAndEndTag;
-			output.Attributes.SetAttribute("class", "somecss");
+			output.Attributes.SetAttribute("class", "dasblog-ul-category");
 
 			var content = await output.GetChildContentAsync();
 			string format = content.GetContent();

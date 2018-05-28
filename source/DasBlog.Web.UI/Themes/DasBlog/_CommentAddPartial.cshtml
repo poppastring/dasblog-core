@@ -1,0 +1,43 @@
+﻿@model DasBlog.Web.Models.BlogViewModels.AddCommentViewModel
+
+<div class="post-new-comment">
+    <form asp-controller="post" asp-action="comment" method="post">
+        <div class="modal-body form-horizontal">
+            <div class="form-group">
+                <div class="col-lg-6">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="Name" class="col-lg-3 col-sm-3 control-label"></label>
+                <div class="col-lg-6">
+                    <input asp-for="Name" class="form-control" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="col-lg-3 col-sm-3 control-label"></label>
+                <div class="col-lg-6">
+                    <input asp-for="Email" class="form-control" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="HomePage" class="col-lg-3 col-sm-3 control-label"></label>
+                <div class="col-lg-6">
+                    <input asp-for="HomePage" class="form-control" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="Comment" class="col-lg-3 col-sm-3 control-label"></label>
+                <div class="col-lg-6">
+                    <input asp-for="Comment" class="form-control" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-lg-6">
+                    <button type="submit" class="btn btn-default">Add Comment</button>
+                </div>
+            </div>
+        </div>
+        @Html.HiddenFor(m => m.TargetEntryId)
+    </form>
+</div>
