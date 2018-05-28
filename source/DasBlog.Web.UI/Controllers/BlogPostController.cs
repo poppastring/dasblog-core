@@ -14,7 +14,6 @@ using DasBlog.Core;
 namespace DasBlog.Web.Controllers
 {
 	[Authorize]
-	[Route("post")]
 	public class BlogPostController : DasBlogBaseController
 	{
 		private IBlogManager _blogManager;
@@ -31,8 +30,34 @@ namespace DasBlog.Web.Controllers
 			_mapper = mapper;
 		}
 
-		[HttpGet]
-		[Route("edit/{postid:guid}")]
+		[AllowAnonymous]
+		public IActionResult Post(string posttitle)
+		{
+			ListPostsViewModel lpvm = new ListPostsViewModel();
+
+			if (!string.IsNullOrEmpty(posttitle))
+			{
+				var entry = _blogManager.GetBlogPost(posttitle.Replace(_dasBlogSettings.SiteConfiguration.TitlePermalinkSpaceReplacement, string.Empty));
+				if (entry != null)
+				{
+					lpvm.Posts = new List<PostViewModel>() { _mapper.Map<PostViewModel>(entry) };
+
+					SinglePost(lpvm.Posts.First());
+
+					return ThemedView("Page", lpvm);
+				}
+				else
+				{
+					return NotFound();
+				}
+			}
+			else
+			{
+				return RedirectToAction("Index", "Home");
+			}
+		}
+
+		[HttpGet("post/{postid:guid}/edit")]
 		public IActionResult EditPost(Guid postid)
 		{
 			PostViewModel pvm = new PostViewModel();
@@ -61,9 +86,8 @@ namespace DasBlog.Web.Controllers
 
 			return NotFound();
 		}
-
-		[HttpPost]
-		[Route("edit")]
+		
+		[HttpPost("post/edit")]
 		public IActionResult EditPost(PostViewModel post)
 		{
 			if (!ModelState.IsValid)
@@ -95,8 +119,7 @@ namespace DasBlog.Web.Controllers
 			return View(post);
 		}
 
-		[HttpGet]
-		[Route("create")]
+		[HttpGet("post/create")]
 		public IActionResult CreatePost()
 		{
 			PostViewModel post = new PostViewModel();
@@ -106,8 +129,7 @@ namespace DasBlog.Web.Controllers
 			return View(post);
 		}
 
-		[HttpPost]
-		[Route("create")]
+		[HttpPost("post/create")]
 		public IActionResult CreatePost(PostViewModel post)
 		{
 			if (!ModelState.IsValid)
@@ -140,8 +162,7 @@ namespace DasBlog.Web.Controllers
 			return View("Views/BlogPost/EditPost.cshtml", post);
 		}
 
-		[HttpGet]
-		[Route("delete/{postid:guid}")]
+		[HttpGet("post/{postid:guid}/delete")]
 		public IActionResult DeletePost(Guid postid)
 		{
 			try
@@ -157,7 +178,7 @@ namespace DasBlog.Web.Controllers
 		}
 
 		[AllowAnonymous]
-		[HttpGet("{postid:guid}/comment")]
+		[HttpGet("post/{postid:guid}/comment")]
 		public IActionResult Comment(Guid postid)
 		{
 			// TODO are comments enabled?
@@ -182,33 +203,44 @@ namespace DasBlog.Web.Controllers
 		}
 
 		[AllowAnonymous]
-		[HttpPost]
-		[Route("comment")]
-		public IActionResult AddComment([FromForm]AddCommentViewModel comment)
+		[HttpPost("post/comment")]
+		public IActionResult AddComment(AddCommentViewModel addcomment)
 		{
-			if (!ModelState.IsValid)
+			if(!_dasBlogSettings.SiteConfiguration.EnableComments)
 			{
 				return BadRequest();
 			}
 
-			Comment commt = _mapper.Map<Comment>(comment);
-			CommentSaveState state = _blogManager.AddComment(comment.TargetEntryId.ToString(), commt);
+			if (!ModelState.IsValid)
+			{
+				Comment(new Guid(addcomment.TargetEntryId));
+			}
+
+			Comment commt = _mapper.Map<Comment>(addcomment);
+			commt.AuthorIPAddress = HttpContext.Connection.RemoteIpAddress.ToString();
+			commt.AuthorUserAgent = HttpContext.Request.Headers["User-Agent"].ToString();
+			commt.CreatedUtc = commt.ModifiedUtc = DateTime.UtcNow;
+			commt.EntryId = Guid.NewGuid().ToString();
+			commt.IsPublic = !_dasBlogSettings.SiteConfiguration.CommentsRequireApproval;
+
+			CommentSaveState state = _blogManager.AddComment(addcomment.TargetEntryId, commt);
 
 			if (state == CommentSaveState.Failed)
 			{
+				ModelState.AddModelError("", "Comment failed");
 				return StatusCode(500);
 			}
 
 			if (state == CommentSaveState.NotFound)
 			{
+				ModelState.AddModelError("", "Invalid comment attempt");
 				return NotFound();
 			}
 
-			return Ok();
+			return Comment(new Guid(addcomment.TargetEntryId));
 		}
 
-		[HttpDelete]
-		[Route("{postid:guid}/comment/{commentid:guid}")]
+		[HttpDelete("post/{postid:guid}/comment/{commentid:guid}")]
 		public IActionResult DeleteComment(Guid postid, Guid commentid)
 		{
 			CommentSaveState state = _blogManager.DeleteComment(postid.ToString(), commentid.ToString());
@@ -226,8 +258,7 @@ namespace DasBlog.Web.Controllers
 			return Ok();
 		}
 
-		[HttpPatch]
-		[Route("{postid:guid}/comment/{commentid:guid}")]
+		[HttpPatch("post/{postid:guid}/comment/{commentid:guid}")]
 		public IActionResult ApproveComment(Guid postid, Guid commentid)
 		{
 			CommentSaveState state = _blogManager.ApproveComment(postid.ToString(), commentid.ToString());

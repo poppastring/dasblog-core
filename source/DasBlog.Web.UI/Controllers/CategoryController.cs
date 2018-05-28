@@ -24,8 +24,7 @@ namespace DasBlog.Web.Controllers
 			_mapper = mapper;
 		}
 
-		[HttpGet]
-		[Route("category/{cat}")]
+		[HttpGet("category/{cat}")]
 		public IActionResult Category(string cat)
         {
             string languageFilter = _httpContextAccessor.HttpContext.Request.Headers["Accept-Language"];

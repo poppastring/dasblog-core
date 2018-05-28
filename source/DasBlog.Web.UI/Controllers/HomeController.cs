@@ -36,39 +36,13 @@ namespace DasBlog.Web.Controllers
             return ThemedView("Page", lpvm);
         }
 
-		public IActionResult Post(string posttitle)
-		{
-			ListPostsViewModel lpvm = new ListPostsViewModel();
-
-			if (!string.IsNullOrEmpty(posttitle))
-			{
-				var entry = _blogManager.GetBlogPost(posttitle.Replace(_dasBlogSettings.SiteConfiguration.TitlePermalinkSpaceReplacement, string.Empty));
-				if (entry != null)
-				{
-					lpvm.Posts = new List<PostViewModel>() { _mapper.Map<PostViewModel>(entry) };
-
-					SinglePost(lpvm.Posts.First());
-
-					return ThemedView("Page", lpvm);
-				}
-				else
-				{
-					return NotFound();
-				}
-			}
-			else
-			{
-				return RedirectToAction("Index", "Home");
-			}
-		}
-
-		[Route("page")]
+		[HttpGet("page")]
         public IActionResult Page()
         {
             return Index();
         }
 
-        [Route("page/{index:int}")]
+        [HttpGet("page/{index:int}")]
         public IActionResult Page(int index)
         {
             if (index == 0)
@@ -99,10 +73,9 @@ namespace DasBlog.Web.Controllers
             return NoContent();
         }
 
-        [Route("blogger")]
-        [HttpPost]
         [Produces("text/xml")]
-        public IActionResult Blogger([FromBody] string xmlrpcpost)
+		[HttpPost("blogger")]
+		public IActionResult Blogger([FromBody] string xmlrpcpost)
         {
             return this.Content(_blogManager.XmlRpcInvoke(this.HttpContext.Request.Body));
         }
