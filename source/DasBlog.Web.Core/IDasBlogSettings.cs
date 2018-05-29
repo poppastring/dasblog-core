@@ -29,6 +29,7 @@ namespace DasBlog.Core
 		string GetCommentViewUrl(string entryId);
 		string GetCategoryViewUrl(string category);
 		string GetCategoryViewUrlName(string category);
+		string GetRssCategoryUrl(string category);
 		User GetUser(string userName);
 		void AddUser(User user);
 		TimeZone GetConfiguredTimeZone();

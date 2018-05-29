@@ -10,19 +10,23 @@ using DasBlog.Web.Models.BlogViewModels;
 using DasBlog.Core;
 using DasBlog.Managers.Interfaces;
 using newtelligence.DasBlog.Runtime;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Identity;
 
 namespace DasBlog.Web.Controllers
 {
     public class HomeController : DasBlogBaseController
 	{
         private readonly IBlogManager _blogManager;
-        private readonly IDasBlogSettings _dasBlogSettings;
+		private readonly IXmlRpcManager _xmlRpcManager;
+		private readonly IDasBlogSettings _dasBlogSettings;
 		private readonly IMapper _mapper;
 
-		public HomeController(IBlogManager blogManager, IDasBlogSettings settings, IMapper mapper) : base(settings)
+		public HomeController(IBlogManager blogManager, IDasBlogSettings settings, IXmlRpcManager rpcManager,IMapper mapper) : base(settings)
         {
-            _blogManager = blogManager;
-            _dasBlogSettings = settings;
+			_blogManager = blogManager;
+			_xmlRpcManager = rpcManager;
+			_dasBlogSettings = settings;
 			_mapper = mapper;
 		}
 
@@ -77,7 +81,9 @@ namespace DasBlog.Web.Controllers
 		[HttpPost("blogger")]
 		public IActionResult Blogger([FromBody] string xmlrpcpost)
         {
-            return this.Content(_blogManager.XmlRpcInvoke(this.HttpContext.Request.Body));
+			string blogger = _xmlRpcManager.Invoke(HttpContext.Request.Body);
+
+			return Content(blogger);
         }
 
         public IActionResult About()
