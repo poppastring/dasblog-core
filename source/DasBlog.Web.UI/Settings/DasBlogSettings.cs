@@ -69,13 +69,10 @@ namespace DasBlog.Web.Settings
 
 		public string GetPermaTitle(string title)
 		{
-			string titlePermalink = title.ToLower();
+			string titlePermalink = title.Trim().ToLower();
 
-			if (SiteConfiguration.EnableTitlePermaLink)
-			{
-				titlePermalink = titlePermalink.Replace("+", SiteConfiguration.TitlePermalinkSpaceReplacement);
-			}
-
+			titlePermalink = titlePermalink.Replace("+", SiteConfiguration.TitlePermalinkSpaceReplacement);
+			
 			return titlePermalink;
 		}
 
@@ -91,7 +88,7 @@ namespace DasBlog.Web.Settings
 
         public string GetEntryCommentsRssUrl(string entryId)
         {
-            return RelativeToRoot("feed/rss/comments/" + entryId);
+            return RelativeToRoot(RssUrl + "/comments/" + entryId);
         }
 
 		public string GetCategoryViewUrl(string category)
@@ -100,6 +97,11 @@ namespace DasBlog.Web.Settings
 		}
 
 		public string GetCategoryViewUrlName(string category)
+		{
+			return string.Empty;
+		}
+
+		public string GetRssCategoryUrl(string category)
 		{
 			return string.Empty;
 		}
