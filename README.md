@@ -17,7 +17,7 @@ The [DasBlog Blogging Engine](https://msdn.microsoft.com/en-us/library/aa480016.
 
 ## Installing the development tools
 
-- Install [.NET Core SDK 2.1.3-RC1](https://www.microsoft.com/net/download/dotnet-core/sdk-2.1.300-rc1)
+- Install [.NET Core SDK 2.1.300](https://www.microsoft.com/net/download/thank-you/dotnet-sdk-2.1.300-windows-x64-installer)
 - Install [Visual Studio Community 2017 (15.7.1 or newer)](https://www.visualstudio.com/thank-you-downloading-visual-studio/?sku=Community&rel=15)
 
 You can find more specific installation steps for Windows development [here](https://www.microsoft.com/net/core#windowscmd)
