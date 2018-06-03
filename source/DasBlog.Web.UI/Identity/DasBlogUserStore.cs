@@ -14,13 +14,11 @@ namespace DasBlog.Web.Identity
 	public class DasBlogUserStore : IUserStore<DasBlogUser>, IUserPasswordStore<DasBlogUser>, IUserEmailStore<DasBlogUser>, IUserClaimStore<DasBlogUser>
 	{
 		private readonly IDasBlogSettings _dasBlogSettings;
-		private readonly ISiteSecurityManager _siteSecurityManager;
 		private readonly IMapper _mapper;
 
-		public DasBlogUserStore(IDasBlogSettings dasBlogSettings, ISiteSecurityManager siteSecurityManager, IMapper mapper)
+		public DasBlogUserStore(IDasBlogSettings dasBlogSettings, IMapper mapper)
 		{
 			_dasBlogSettings = dasBlogSettings;
-			_siteSecurityManager = siteSecurityManager;
 			_mapper = mapper;
 		}
 

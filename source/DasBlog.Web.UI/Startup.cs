@@ -107,6 +107,7 @@ namespace DasBlog.Web
 				.AddSingleton<IArchiveManager, ArchiveManager>()
 				.AddSingleton<ICategoryManager, CategoryManager>()
 				.AddSingleton<ISiteSecurityManager, SiteSecurityManager>()
+				.AddSingleton<IXmlRpcManager, XmlRpcManager>()
 				.AddSingleton<ISiteManager, SiteManager>()
 				.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
