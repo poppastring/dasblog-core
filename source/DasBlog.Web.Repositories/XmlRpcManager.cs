@@ -21,13 +21,13 @@ namespace DasBlog.Managers
 	{
 		private IBlogDataService _dataService;
 		private ILoggingDataService _loggingDataService;
-		private ISiteSecurityManager _siteSecurity;
+		private ISiteSecurityManager _siteSecurityManager;
 		private readonly IDasBlogSettings _dasBlogSettings;
 
 		public XmlRpcManager(IDasBlogSettings settings, ISiteSecurityManager siteSecurityManager)
 		{
 			_dasBlogSettings = settings;
-			_siteSecurity = siteSecurityManager;
+			_siteSecurityManager = siteSecurityManager;
 			_loggingDataService = LoggingDataServiceFactory.GetService(_dasBlogSettings.WebRootDirectory + _dasBlogSettings.SiteConfiguration.LogDir);
 			_dataService = BlogDataServiceFactory.GetService(_dasBlogSettings.WebRootDirectory + _dasBlogSettings.SiteConfiguration.ContentDir, _loggingDataService);
 		}
@@ -102,11 +102,12 @@ namespace DasBlog.Managers
 			{
 				throw new ServiceDisabledException();
 			}
-			UserToken token = _siteSecurity.Login(username, password);
-			if (token == null)
+
+			if (!VerifyLogin(username, password))
 			{
 				throw new SecurityException();
 			}
+
 			return InternalGetCategoryList();
 		}
 
@@ -116,11 +117,12 @@ namespace DasBlog.Managers
 			{
 				throw new ServiceDisabledException();
 			}
-			UserToken token = _siteSecurity.Login(username, password);
-			if (token == null)
+
+			if (!VerifyLogin(username, password))
 			{
 				throw new SecurityException();
 			}
+
 			MoveableType.Category[] mcats = InternalGetCategoryList();
 			Entry entry = _dataService.GetEntry(postid);
 			if (entry != null)
@@ -161,11 +163,12 @@ namespace DasBlog.Managers
 			{
 				throw new ServiceDisabledException();
 			}
-			UserToken token = _siteSecurity.Login(username, password);
-			if (token == null)
+
+			if (!VerifyLogin(username, password))
 			{
 				throw new SecurityException();
 			}
+
 			EntryCollection entries = _dataService.GetEntriesForDay(DateTime.Now.ToUniversalTime(), TimeZone.CurrentTimeZone, null,
 				_dasBlogSettings.SiteConfiguration.RssDayCount, numberOfPosts, null);
 			List<MoveableType.PostTitle> arrayList = new List<MoveableType.PostTitle>();
@@ -208,8 +211,8 @@ namespace DasBlog.Managers
 			{
 				throw new ServiceDisabledException();
 			}
-			UserToken token = _siteSecurity.Login(username, password);
-			if (token == null)
+
+			if (!VerifyLogin(username, password))
 			{
 				throw new SecurityException();
 			}
@@ -223,11 +226,12 @@ namespace DasBlog.Managers
 			{
 				throw new ServiceDisabledException();
 			}
-			UserToken token = _siteSecurity.Login(username, password);
-			if (token == null)
+
+			if (!VerifyLogin(username, password))
 			{
 				throw new SecurityException();
 			}
+
 			Entry entry = _dataService.GetEntryForEdit(postid);
 			if (entry != null)
 			{
@@ -326,8 +330,7 @@ namespace DasBlog.Managers
 				throw new ServiceDisabledException();
 			}
 
-			UserToken token = _siteSecurity.Login(username, password);
-			if (token == null)
+			if (!VerifyLogin(username, password))
 			{
 				throw new SecurityException();
 			}
@@ -343,11 +346,12 @@ namespace DasBlog.Managers
 			{
 				throw new ServiceDisabledException();
 			}
-			UserToken token = _siteSecurity.Login(username, password);
-			if (token == null)
+
+			if (!VerifyLogin(username, password))
 			{
 				throw new SecurityException();
 			}
+
 			Entry entry = _dataService.GetEntryForEdit(postid);
 			if (entry != null)
 			{
@@ -366,11 +370,12 @@ namespace DasBlog.Managers
 			{
 				throw new ServiceDisabledException();
 			}
-			UserToken token = _siteSecurity.Login(username, password);
-			if (token == null)
+
+			if (!VerifyLogin(username, password))
 			{
 				throw new SecurityException();
 			}
+
 			List<Blogger.Category> arrayList = new List<Blogger.Category>();
 			CategoryCacheEntryCollection categories = _dataService.GetCategories();
 			if (categories.Count == 0)
@@ -402,8 +407,8 @@ namespace DasBlog.Managers
 			{
 				throw new ServiceDisabledException();
 			}
-			UserToken token = _siteSecurity.Login(username, password);
-			if (token == null)
+
+			if (!VerifyLogin(username, password))
 			{
 				throw new SecurityException();
 			}
@@ -427,8 +432,8 @@ namespace DasBlog.Managers
 			{
 				throw new ServiceDisabledException();
 			}
-			UserToken token = _siteSecurity.Login(username, password);
-			if (token == null)
+
+			if (!VerifyLogin(username, password))
 			{
 				throw new SecurityException();
 			}
@@ -451,11 +456,12 @@ namespace DasBlog.Managers
 			{
 				throw new ServiceDisabledException();
 			}
-			UserToken token = _siteSecurity.Login(username, password);
-			if (token == null)
+
+			if (!VerifyLogin(username, password))
 			{
 				throw new SecurityException();
 			}
+
 			return "";
 		}
 
@@ -465,13 +471,13 @@ namespace DasBlog.Managers
 			{
 				throw new ServiceDisabledException();
 			}
-			UserToken token = _siteSecurity.Login(username, password);
-			if (token == null)
+
+			if (!VerifyLogin(username, password))
 			{
 				throw new SecurityException();
 			}
 
-			User user = _siteSecurity.GetUser(username);
+			User user = _siteSecurityManager.GetUser(username);
 			Blogger.UserInfo userInfo = new Blogger.UserInfo();
 
 			userInfo.email = NoNull(user.EmailAddress);
@@ -488,8 +494,8 @@ namespace DasBlog.Managers
 			{
 				throw new ServiceDisabledException();
 			}
-			UserToken token = _siteSecurity.Login(username, password);
-			if (token == null)
+
+			if (!VerifyLogin(username, password))
 			{
 				throw new SecurityException();
 			}
@@ -509,8 +515,8 @@ namespace DasBlog.Managers
 			{
 				throw new ServiceDisabledException();
 			}
-			UserToken token = _siteSecurity.Login(username, password);
-			if (token == null)
+
+			if (!VerifyLogin(username, password))
 			{
 				throw new SecurityException();
 			}
@@ -521,7 +527,7 @@ namespace DasBlog.Managers
 			newPost.IsPublic = publish;
 			newPost.Syndicated = publish;
 
-			// SiteUtilities.SaveEntry(newPost, siteConfig, this.logService, this.dataService);
+			_dataService.SaveEntry(newPost);
 
 			return newPost.EntryId;
 		}
@@ -532,11 +538,12 @@ namespace DasBlog.Managers
 			{
 				throw new ServiceDisabledException();
 			}
-			UserToken token = _siteSecurity.Login(username, password);
-			if (token == null)
+
+			if (!VerifyLogin(username, password))
 			{
 				throw new SecurityException();
 			}
+
 			return false;
 		}
 
@@ -582,11 +589,12 @@ namespace DasBlog.Managers
 			{
 				throw new ServiceDisabledException();
 			}
-			UserToken token = _siteSecurity.Login(username, password);
-			if (token == null)
+
+			if (!VerifyLogin(username, password))
 			{
 				throw new SecurityException();
 			}
+
 			Entry entry = _dataService.GetEntryForEdit(postid);
 			if (entry != null)
 			{
@@ -607,8 +615,8 @@ namespace DasBlog.Managers
 			{
 				throw new ServiceDisabledException();
 			}
-			UserToken token = _siteSecurity.Login(username, password);
-			if (token == null)
+
+			if (!VerifyLogin(username, password))
 			{
 				throw new SecurityException();
 			}
@@ -647,8 +655,8 @@ namespace DasBlog.Managers
 			{
 				throw new ServiceDisabledException();
 			}
-			UserToken token = _siteSecurity.Login(username, password);
-			if (token == null)
+
+			if (!VerifyLogin(username, password))
 			{
 				throw new SecurityException();
 			}
@@ -670,8 +678,8 @@ namespace DasBlog.Managers
 			{
 				throw new ServiceDisabledException();
 			}
-			UserToken token = _siteSecurity.Login(username, password);
-			if (token == null)
+
+			if (!VerifyLogin(username, password))
 			{
 				throw new SecurityException();
 			}
@@ -692,8 +700,8 @@ namespace DasBlog.Managers
 			{
 				throw new ServiceDisabledException();
 			}
-			UserToken token = _siteSecurity.Login(username, password);
-			if (token == null)
+
+			if (!VerifyLogin(username, password))
 			{
 				throw new SecurityException();
 			}
@@ -718,8 +726,8 @@ namespace DasBlog.Managers
 			{
 				throw new ServiceDisabledException();
 			}
-			UserToken token = _siteSecurity.Login(username, password);
-			if (token == null)
+
+			if (!VerifyLogin(username, password))
 			{
 				throw new SecurityException();
 			}
@@ -855,6 +863,12 @@ namespace DasBlog.Managers
 			post.postid = entry.EntryId ?? "";
 			post.categories = entry.GetSplitCategories();
 			return post;
+		}
+
+		private bool VerifyLogin(string username, string password)
+		{
+			var user =_siteSecurityManager.GetUser(username);
+			return _siteSecurityManager.VerifyHashedPassword(user.Password, password);
 		}
 	}
 }
