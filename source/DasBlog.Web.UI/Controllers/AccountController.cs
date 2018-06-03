@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using DasBlog.Managers.Interfaces;
 
 namespace DasBlog.Web.Controllers
 {
@@ -24,11 +25,12 @@ namespace DasBlog.Web.Controllers
 			UserManager<DasBlogUser> userManager,
 			SignInManager<DasBlogUser> signInManager,
 			IMapper mapper,
+			ISiteSecurityManager siteSecurityManager,
 			ILoggerFactory loggerFactory)
 		{
 			this.signInManager = signInManager;
 			this.userManager = userManager;
-			this.userManager.PasswordHasher = new DasBlogPasswordHasher();
+			this.userManager.PasswordHasher = new DasBlogPasswordHasher(siteSecurityManager);
 
 			this.mapper = mapper;
 			logger = loggerFactory.CreateLogger<AccountController>();
