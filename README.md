@@ -1,4 +1,5 @@
 
+
 # Dasblog
 The [DasBlog Blogging Engine](https://msdn.microsoft.com/en-us/library/aa480016.aspx) reintroduced with ASP.NET Core
 
@@ -46,3 +47,5 @@ Change to the "source" directory and open the *DasBlog All.sln* and perform a bu
 - Support for Sitemap
 - Support for paging e.g. page/1, page/2, etc.
 - Add/Edit/Delete blog posts
+- Add Comments
+- Support for Live Writer
