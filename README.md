@@ -28,10 +28,10 @@ You can find more specific installation steps for Windows development [here](htt
 
 In order to build the DasBlog Core, ensure that you have [Git](https://git-scm.com/downloads) installed.
 
-Clone or fork a copy of the repo:
+Fork the repo:
 
 ```bash
-git clone https://github.com/poppastring/dasblog-core
+git clone https://github.com/[YOUR_GITHUB_ID]/dasblog-core
 ```
 
 Change to the "source" directory and open the *DasBlog All.sln* and perform a build.
