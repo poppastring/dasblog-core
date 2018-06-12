@@ -36,4 +36,16 @@
     <ProjectReference Include="..\DasBlog.Web.Repositories\DasBlog.Managers.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="Themes\_ViewImports.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Themes\_ViewStart.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\_ViewImports.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+  </ItemGroup>
+
 </Project>
