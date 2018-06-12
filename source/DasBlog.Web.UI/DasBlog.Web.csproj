@@ -11,7 +11,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="Config\metaConfig.xml" />
+    <Content Include="config\metaConfig.xml" />
+    <Content Include="content\2018-02-24.dayentry.xml" />
+    <Content Include="content\2018-02-24.dayfeedback.xml" />
+    <Content Include="logs\logs.txt" />
   </ItemGroup>
 
   <ItemGroup>
@@ -28,7 +31,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Config\site.config" />
+    <None Include="config\site.config" />
   </ItemGroup>
 
   <ItemGroup>

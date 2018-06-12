@@ -19,7 +19,7 @@ namespace DasBlog.Web.Settings
 		{
 			this.fileProvider = fileProvider;
 
-			WebRootDirectory = env.WebRootPath;
+			WebRootDirectory = env.ContentRootPath;
 			SiteConfiguration = siteConfig.Value;
 			SecurityConfiguration = siteSecurityConfig.Value;
 			MetaTags = metaTagsConfig.Value;
