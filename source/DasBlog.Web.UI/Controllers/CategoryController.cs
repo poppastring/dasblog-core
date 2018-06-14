@@ -5,19 +5,20 @@ using Microsoft.AspNetCore.Http;
 using DasBlog.Core;
 using DasBlog.Web.Models.BlogViewModels;
 using AutoMapper;
+using DasBlog.Web.Settings;
 
 namespace DasBlog.Web.Controllers
 {
-    public class CategoryController : Controller
-    {
+    public class CategoryController : DasBlogBaseController
+	{
         private ICategoryManager _categoryManager;
         private IHttpContextAccessor _httpContextAccessor;
 		private readonly IDasBlogSettings _dasBlogSettings;
 		private readonly IMapper _mapper;
 
 		public CategoryController(ICategoryManager categoryManager, IDasBlogSettings settings, 
-			IHttpContextAccessor httpContextAccessor, IMapper mapper)
-        {
+			IHttpContextAccessor httpContextAccessor, IMapper mapper) : base(settings)
+		{
             _categoryManager = categoryManager;
 			_dasBlogSettings = settings;
 			_httpContextAccessor = httpContextAccessor;
@@ -34,23 +35,6 @@ namespace DasBlog.Web.Controllers
 				.Select(entry => _mapper.Map<PostViewModel>(entry)).ToList(); ;
 
 			return ThemedView("Page", lpvm);
-		}
-
-		//TODO: Maybe a helper or base class?
-		private ViewResult ThemedView(string v, ListPostsViewModel lpvm)
-		{
-			return View(string.Format("/Themes/{0}/{1}.cshtml",
-						_dasBlogSettings.SiteConfiguration.Theme, v), lpvm);
-		}
-
-		//TODO: Maybe a helper or base class?
-		private void DefaultPage()
-		{
-			ViewData["Title"] = _dasBlogSettings.SiteConfiguration.Title;
-			ViewData["Description"] = _dasBlogSettings.SiteConfiguration.Description;
-			ViewData["Keywords"] = _dasBlogSettings.MetaTags.MetaKeywords;
-			ViewData["Canonical"] = _dasBlogSettings.SiteConfiguration.Root;
-			ViewData["Author"] = _dasBlogSettings.SiteConfiguration.Copyright;
 		}
 	}
 }
