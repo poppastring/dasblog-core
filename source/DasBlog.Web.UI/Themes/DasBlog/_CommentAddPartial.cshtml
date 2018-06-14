@@ -3,38 +3,38 @@
 <div class="post-new-comment">
     <form asp-controller="post" asp-action="comment" method="post">
         <div class="modal-body form-horizontal">
-            <div class="form-group">
-                <div class="col-lg-6">
+            <div class="row">
+                <div class="col-md-4 mb-2">
                     <div asp-validation-summary="All" class="text-danger"></div>
                 </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Name" class="col-lg-3 col-sm-3 control-label"></label>
-                <div class="col-lg-6">
+            <div class="row">
+                <div class="col-md-4 mb-2">
+                    <label asp-for="Name" class="control-label"></label>
                     <input asp-for="Name" class="form-control" />
                 </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Email" class="col-lg-3 col-sm-3 control-label"></label>
-                <div class="col-lg-6">
+            <div class="row">
+                <div class="col-md-4 mb-2">
+                    <label asp-for="Email" class="control-label"></label>
                     <input asp-for="Email" class="form-control" />
                 </div>
             </div>
-            <div class="form-group">
-                <label asp-for="HomePage" class="col-lg-3 col-sm-3 control-label"></label>
-                <div class="col-lg-6">
+            <div class="row">
+                <div class="col-md-8 mb-4">
+                    <label asp-for="HomePage" class="control-label"></label>
                     <input asp-for="HomePage" class="form-control" />
                 </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Comment" class="col-lg-3 col-sm-3 control-label"></label>
-                <div class="col-lg-6">
-                    <input asp-for="Comment" class="form-control" />
+            <div class="row">
+                <div class="col-md-8 mb-4">
+                    <label asp-for="Comment" class="control-label"></label>
+                    <textarea asp-for="Comment" rows="12" cols="60" class="form-control"></textarea>
                 </div>
             </div>
-            <div class="form-group">
-                <div class="col-lg-6">
-                    <button type="submit" class="btn btn-default">Add Comment</button>
+            <div class="row">
+                <div class="col-md-2 mb-1">
+                    <button type="submit" class="btn btn-primary btn-block">SAVE COMMENT</button>
                 </div>
             </div>
         </div>

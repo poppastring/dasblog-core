@@ -4,8 +4,6 @@
 @if (Model != null && Model.Comments != null)
 { 
 <div class="post-comments">
-    @Html.Partial("_CommentAddPartial", new AddCommentViewModel() { Comment = string.Empty, Email = string.Empty, HomePage = string.Empty, Name = string.Empty, TargetEntryId = Model.PostId})
-
     <div class="post-comments-list">
         @if (Model.Comments.Count > 0)
         {
@@ -15,5 +13,6 @@
             }
         }
     </div>
+    @Html.Partial("_CommentAddPartial", new AddCommentViewModel() { Comment = string.Empty, Email = string.Empty, HomePage = string.Empty, Name = string.Empty, TargetEntryId = Model.PostId })
 </div>
 }
