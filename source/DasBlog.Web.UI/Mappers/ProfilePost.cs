@@ -2,8 +2,11 @@
 using DasBlog.Core;
 using DasBlog.Web.Models.BlogViewModels;
 using newtelligence.DasBlog.Runtime;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace DasBlog.Web.Mappers
@@ -55,7 +58,7 @@ namespace DasBlog.Web.Mappers
 			CreateMap<Comment, CommentViewModel>()
 				.ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Author))
 				.ForMember(dest => dest.Text, opt => opt.MapFrom(src => src.Content))
-				.ForMember(dest => dest.UserImageUrl, opt => opt.MapFrom(src => src.AuthorEmail))
+				.ForMember(dest => dest.GravatarHashId, opt => opt.MapFrom(src => GetGravatarHash(src.AuthorEmail)))
 				.ForMember(dest => dest.Date, opt => opt.MapFrom(src => src.CreatedLocalTime))
 				.ForMember(dest => dest.HomePageUrl, opt => opt.MapFrom(src => src.AuthorHomepage));
 
@@ -75,5 +78,27 @@ namespace DasBlog.Web.Mappers
 												CategoryUrl = Regex.Replace(c.ToLower(), @"[^A-Za-z0-9_\.~]+", _dasBlogSettings.SiteConfiguration.TitlePermalinkSpaceReplacement) })
 												.ToList();
 		}
+
+		private string GetGravatarHash(string email)
+		{
+			string hash = string.Empty;
+			byte[] data, enc;
+
+			data = Encoding.Default.GetBytes(email.ToLowerInvariant());
+
+			using (MD5 md5 = new MD5CryptoServiceProvider())
+			{
+				enc = md5.TransformFinalBlock(data, 0, data.Length);
+				foreach (byte b in md5.Hash)
+				{
+					hash += Convert.ToString(b, 16).ToLower().PadLeft(2, '0');
+				}
+				md5.Clear();
+			}
+
+			return hash;
+		}
+
+
 	}
 }
