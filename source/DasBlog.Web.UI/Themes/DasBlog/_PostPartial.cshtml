@@ -6,21 +6,29 @@
 }
 
 <div class="post">
-    <h2><title-link post=@Model>somecss</title-link></h2>
-    <div class="post-body">
-        @Html.Raw(@Model.Content)
+    <div class="row post-title">
+        <div class="col-md-12 mb-6">
+            <h2><title-link post=@Model>somecss</title-link></h2>
+            @Model.CreatedDateTime.ToString("MMMM dd, yyyy H:mm")
+        </div>
     </div>
-    <div class="post-footer">
-        <div>
+    
+    <div class="row post-body">
+        <div class="col-md-12 mb-6">
+            @Html.Raw(@Model.Content)
+        </div>
+    </div>
+    <div class="row post-footer">
+        <div class="col-md-12 mb-6">
             <categories-list categories=@Model.Categories> </categories-list>
         </div>
-        <div>
-            <post-created post=@Model>MMMM dd, yyyy</post-created>
+        <div class="col-md-12 mb-6">
+            @Model.CreatedDateTime.ToString("MMMM dd, yyyy")
         </div>
-        <div>
+        <div class="col-md-12 mb-6">
             <edit-post blog-post-id="@Model.EntryId"></edit-post>
         </div>
-        <div>
+        <div class="col-md-12 mb-6">
             <comment-post blog-post-id="@Model.EntryId"></comment-post>
         </div>
     </div>
