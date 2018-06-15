@@ -9,6 +9,7 @@
     <div class="row post-title">
         <div class="col-md-12 mb-6">
             <h2><title-link post=@Model>somecss</title-link></h2>
+            @Model.CreatedDateTime.ToString("MMMM dd, yyyy H:mm")
         </div>
     </div>
     
@@ -22,7 +23,7 @@
             <categories-list categories=@Model.Categories> </categories-list>
         </div>
         <div class="col-md-12 mb-6">
-            <post-created post=@Model>MMMM dd, yyyy</post-created>
+            @Model.CreatedDateTime.ToString("MMMM dd, yyyy")
         </div>
         <div class="col-md-12 mb-6">
             <edit-post blog-post-id="@Model.EntryId"></edit-post>

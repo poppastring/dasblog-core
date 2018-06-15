@@ -4,8 +4,7 @@
   <Entries>
     <Entry xml:lang="en-us">
       <Content>
-&lt;p&gt;Welcome to the new &lt;strong&gt;DasBlog Core&lt;/strong&gt; blog engine reintroduced on the ASP.NET Core platform!&lt;/p&gt;
-&lt;p&gt;DasBlog Core is an open source application based on a fork of the &lt;a href="https://msdn.microsoft.com/en-us/library/aa480016.aspx"&gt;original DasBlog developed by newtelligence AG&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Welcome to the new &lt;strong&gt;DasBlog Core&lt;/strong&gt; blog engine reintroduced on the ASP.NET Core platform! DasBlog Core is an open source application based on a fork of the &lt;a href="https://msdn.microsoft.com/en-us/library/aa480016.aspx"&gt;original DasBlog developed by newtelligence AG&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;Be sure to visit our &lt;a href="https://github.com/poppastring/dasblog-core/wiki"&gt;wiki&lt;/a&gt; for more information on setup and configuration, you can also &lt;a href="https://github.com/poppastring/dasblog-core/issues"&gt;submit issues or request features here&lt;/a&gt;.&lt;/p&gt;
 </Content>
       <Created>2018-02-24T12:00:00-05:00</Created>
