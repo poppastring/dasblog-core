@@ -2,7 +2,5 @@
 @inject IDasBlogSettings dasBlogSettings
 
 @{
-    Layout = string.Format("/Themes/{0}/{1}",
-                dasBlogSettings.SiteConfiguration.Theme, "_Layout.cshtml");
-
+    Layout = string.Format("/Themes/{0}/{1}", dasBlogSettings.SiteConfiguration.Theme, "_Layout.cshtml");
 }
