@@ -50,7 +50,7 @@
                 <ul class="nav navbar-nav">
                     <li><a asp-area="" asp-controller="home" asp-action="index">Home</a></li>
                     <li><a asp-area="" asp-controller="feed" asp-action="rss">Subscribe</a></li>
-                    <li><a asp-area="" asp-controller="post" asp-action="create">Create Post</a></li>
+                    <li dasblog-authorized><a asp-area="" asp-controller="post" asp-action="create">Create Post</a></li>
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")
             </div>
