@@ -1,0 +1,16 @@
+﻿@model DasBlog.Web.Models.BlogViewModels.CategoryListViewModel
+
+@{
+    ViewData["Title"] = "Archives";
+}
+
+<div class="container">
+    <div class="row">
+        <p>
+            @foreach (var item in Model.Items)
+            {
+                <span>@item.Key (@item.Value.Count())&nbsp;&#9679;</span>
+            }
+        </p>
+    </div>
+</div>
