@@ -3,9 +3,8 @@
 @inject SignInManager<DasBlogUser> SignInManager
 @inject UserManager<DasBlogUser> UserManager
 
-@if (SignInManager.IsSignedIn(User))
-{
-    <form asp-area="" asp-controller="account" asp-action="logout" method="post" id="logoutForm" class="navbar-right">
+
+    <form dasblog-authorized asp-area="" asp-controller="account" asp-action="logout" method="post" id="logoutForm" class="navbar-right">
         <ul class="nav navbar-nav navbar-right">
             <li>
                 Hello @UserManager.GetUserName(User)!
@@ -15,10 +14,7 @@
             </li>
         </ul>
     </form>
-}
-else
-{
-    <ul class="nav navbar-nav navbar-right">
+
+    <ul dasblog-unauthorized class="nav navbar-nav navbar-right">
         <li><a asp-controller="account" asp-action="login">Log in</a></li>
     </ul>
-}
