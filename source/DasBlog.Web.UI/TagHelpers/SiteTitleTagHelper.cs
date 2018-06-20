@@ -18,7 +18,7 @@ namespace DasBlog.Web.TagHelpers
 		public override void Process(TagHelperContext context, TagHelperOutput output)
 		{
 			var title = dasBlogSettings?.SiteConfiguration?.Title ?? Title;
-			output.TagName = "span";
+			output.TagName = "";
 			output.TagMode = TagMode.StartTagAndEndTag;
 			output.Content.SetHtmlContent(title);
 		}
