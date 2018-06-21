@@ -279,10 +279,10 @@ namespace DasBlog.Web.Controllers
 		}
 
 		[AllowAnonymous]
-		[HttpGet("post/category/{category:string}")]
+		[HttpGet("post/category/{category}")]
 		public IActionResult GetCategory(string category)
 		{
-			if (!string.IsNullOrEmpty(category))
+			if (string.IsNullOrEmpty(category))
 			{
 				return RedirectToAction("Index", "Home");
 			}
