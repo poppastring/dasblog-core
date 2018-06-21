@@ -1,18 +1,18 @@
-﻿using AutoMapper;
-using DasBlog.Core;
-using DasBlog.Web.Models.BlogViewModels;
-using newtelligence.DasBlog.Runtime;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
+using AutoMapper;
+using DasBlog.Core;
+using DasBlog.Web.Models.BlogViewModels;
+using newtelligence.DasBlog.Runtime;
 
 namespace DasBlog.Web.Mappers
 {
-    public class ProfilePost : Profile
-    {
+	public class ProfilePost : Profile
+	{
 		private readonly IDasBlogSettings _dasBlogSettings;
 
 		public ProfilePost()
@@ -23,7 +23,7 @@ namespace DasBlog.Web.Mappers
 		{
 			_dasBlogSettings = dasBlogSettings;
 
-			CreateMap<Entry, PostViewModel >()
+			CreateMap<Entry, PostViewModel>()
 				.ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Title))
 				.ForMember(dest => dest.Content, opt => opt.MapFrom(src => src.Content))
 				.ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
@@ -68,15 +68,17 @@ namespace DasBlog.Web.Mappers
 				.ForMember(dest => dest.AuthorEmail, opt => opt.MapFrom(src => src.Email))
 				.ForMember(dest => dest.TargetEntryId, opt => opt.MapFrom(src => src.TargetEntryId))
 				.ForMember(dest => dest.AuthorHomepage, opt => opt.MapFrom(src => src.HomePage));
-
 		}
 
 		private IList<CategoryViewModel> ConvertCategory(string category)
 		{
-			return category.Split(";").ToList().Select(c => new CategoryViewModel {
-												Category = c,
-												CategoryUrl = Regex.Replace(c.ToLower(), @"[^A-Za-z0-9_\.~]+", _dasBlogSettings.SiteConfiguration.TitlePermalinkSpaceReplacement) })
-												.ToList();
+			return category
+				.Split(";")
+				.Select(c => new CategoryViewModel
+				{
+					Category = c,
+					CategoryUrl = Regex.Replace(c.ToLower(), @"[^A-Za-z0-9_\.~]+", _dasBlogSettings.SiteConfiguration.TitlePermalinkSpaceReplacement)
+				}).ToList();
 		}
 
 		private string GetGravatarHash(string email)
@@ -98,7 +100,5 @@ namespace DasBlog.Web.Mappers
 
 			return hash;
 		}
-
-
 	}
 }
