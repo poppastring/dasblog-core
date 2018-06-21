@@ -1,0 +1,46 @@
+﻿@model MonthViewViewModel
+
+@{
+    var previous = (DateTime)ViewBag.PreviousMonth;
+    var current = (DateTime)ViewBag.CurrentMonth;
+    var next = (DateTime)ViewBag.NextMonth;
+}
+<div class="month">
+    <ul>
+        <li class="prev"><a asp-controller="Archive" asp-action="Archive" asp-route-year="@previous.Year" asp-route-month="@previous.Month">&#10094;</a></li>
+        <li class="next"><a asp-controller="Archive" asp-action="Archive" asp-route-year="@next.Year" asp-route-month="@next.Month">&#10095;</a></li>
+        <li>@($"{current:MMMM}")</li>
+    </ul>
+    <ul class="weekdays">
+        <li>Sunday</li>
+        <li>Monday</li>
+        <li>Tuesday</li>
+        <li>Wednesday</li>
+        <li>Thursday</li>
+        <li>Friday</li>
+        <li>Saturday</li>
+    </ul>
+    <ul class="days">
+        @foreach (var dayEntry in Model.MonthEntries)
+        {
+            <li>
+                <div class="day">
+                    @if (dayEntry.Key.Day == 1)
+                    {
+                        @($"{dayEntry.Key:MMM d}")
+                    }
+                    else
+                    {
+                        @dayEntry.Key.Day
+                    }
+                </div>
+                <div>
+                    @foreach (var entry in dayEntry.Value)
+                    {
+                        <title-link post="@entry"></title-link>
+                    }
+                </div>
+            </li>
+        }
+    </ul>
+</div>

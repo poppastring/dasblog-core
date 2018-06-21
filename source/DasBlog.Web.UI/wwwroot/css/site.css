@@ -26,6 +26,71 @@
     margin: 15px;
 }
 
+/* Calendar */
+ul {
+    list-style-type: none;
+}
+
+.month {
+    display: block;
+    padding: 30px 15px;
+    text-align: center;
+}
+
+    .month ul {
+        margin: 0px;
+        padding: 0px;
+    }
+
+        .month ul li {
+            font-size: 14px;
+            text-transform: capitalize;
+        }
+
+    .month .prev {
+        float: left;
+        padding-top: 10px;
+    }
+
+    .month .next {
+        float: right;
+        padding-top: 10px;
+    }
+
+/* Weekdays (Mon-Sun) */
+.weekdays {
+    line-height: 56px;
+    text-align: center;
+}
+
+    .weekdays li {
+        display: inline-block;
+        padding-left: 10px;
+        padding-right: 10px;
+        width: 13.6%;
+        text-align: center;
+    }
+
+.days {
+    padding: 10px 0px;
+    margin: 0px;
+}
+
+    .days li {
+        list-style-type: none;
+        display: inline-flex;
+        height: 75px;
+        width: 13.6%;
+        margin-bottom: 5px;
+        font-size: 12px;
+        padding: 2px;
+    }
+
+        .days li > .day {
+            display: block;
+            padding-left: 30px;
+        }
+
 /* Hide/rearrange for smaller screens */
 @media screen and (max-width: 767px) {
     /* Hide captions */
