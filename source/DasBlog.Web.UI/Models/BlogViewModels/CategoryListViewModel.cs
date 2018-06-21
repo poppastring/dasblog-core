@@ -6,6 +6,8 @@ namespace DasBlog.Web.Models.BlogViewModels
 {
 	public class CategoryListViewModel
 	{
+		public Dictionary<string, List<CategoryPostItem>> Categories { get; set; } = new Dictionary<string, List<CategoryPostItem>>();
+
 		public Dictionary<string, List<CategoryListItem>> Items { get; protected set; } = new Dictionary<string, List<CategoryListItem>>();
 
 		public static CategoryListViewModel Create(EntryCollection entries)

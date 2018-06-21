@@ -69,6 +69,10 @@ namespace DasBlog.Web.Mappers
 				.ForMember(dest => dest.TargetEntryId, opt => opt.MapFrom(src => src.TargetEntryId))
 				.ForMember(dest => dest.AuthorHomepage, opt => opt.MapFrom(src => src.HomePage));
 
+			CreateMap<Entry, CategoryPostItem>()
+				.ForMember(dest => dest.BlogTitle, opt => opt.MapFrom(src => src.Title))
+				.ForMember(dest => dest.BlogId, opt => opt.MapFrom(src => src.EntryId));
+
 		}
 
 		private IList<CategoryViewModel> ConvertCategory(string category)
