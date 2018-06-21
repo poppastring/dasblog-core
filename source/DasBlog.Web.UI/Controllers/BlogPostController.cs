@@ -1,15 +1,15 @@
-﻿using AutoMapper;
-using DasBlog.Web.Models.BlogViewModels;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using AutoMapper;
+using DasBlog.Core;
 using DasBlog.Managers.Interfaces;
+using DasBlog.Web.Models.BlogViewModels;
+using DasBlog.Web.Settings;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using newtelligence.DasBlog.Runtime;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using DasBlog.Web.Settings;
-using DasBlog.Core;
 
 namespace DasBlog.Web.Controllers
 {
@@ -21,7 +21,7 @@ namespace DasBlog.Web.Controllers
 		private readonly IDasBlogSettings _dasBlogSettings;
 		private readonly IMapper _mapper;
 
-		public BlogPostController(IBlogManager blogManager, IHttpContextAccessor httpContextAccessor, 
+		public BlogPostController(IBlogManager blogManager, IHttpContextAccessor httpContextAccessor,
 									IDasBlogSettings settings, IMapper mapper) : base(settings)
 		{
 			_blogManager = blogManager;
@@ -44,7 +44,7 @@ namespace DasBlog.Web.Controllers
 
 					SinglePost(lpvm.Posts.First());
 
-					return ThemedView("Page", lpvm);
+					return View("Page", lpvm);
 				}
 				else
 				{
@@ -68,9 +68,9 @@ namespace DasBlog.Web.Controllers
 				if (entry != null)
 				{
 					pvm = _mapper.Map<PostViewModel>(entry);
-					List <CategoryViewModel> allcategories = _mapper.Map<List<CategoryViewModel>>(_blogManager.GetCategories());
+					List<CategoryViewModel> allcategories = _mapper.Map<List<CategoryViewModel>>(_blogManager.GetCategories());
 
-					foreach(var cat in allcategories)
+					foreach (var cat in allcategories)
 					{
 						if (pvm.Categories.Count(x => x.Category == cat.Category) > 0)
 						{
@@ -86,7 +86,7 @@ namespace DasBlog.Web.Controllers
 
 			return NotFound();
 		}
-		
+
 		[HttpPost("post/edit")]
 		public IActionResult EditPost(PostViewModel post)
 		{
@@ -98,7 +98,7 @@ namespace DasBlog.Web.Controllers
 			try
 			{
 				Entry entry = _mapper.Map<Entry>(post);
-				
+
 				entry.Author = _httpContextAccessor.HttpContext.User.Identity.Name;
 				entry.Language = "en-us"; //TODO: We inject this fron http context?
 				entry.Latitude = null;
@@ -111,7 +111,7 @@ namespace DasBlog.Web.Controllers
 					return View(post);
 				}
 			}
-			catch(Exception e)
+			catch (Exception e)
 			{
 				RedirectToAction("Error");
 			}
@@ -148,7 +148,7 @@ namespace DasBlog.Web.Controllers
 				entry.Longitude = null;
 
 				EntrySaveState sts = _blogManager.CreateEntry(entry);
-				if(sts != EntrySaveState.Added)
+				if (sts != EntrySaveState.Added)
 				{
 					ModelState.AddModelError("", "Failed to create blog post");
 					return View(post);
@@ -169,7 +169,7 @@ namespace DasBlog.Web.Controllers
 			{
 				_blogManager.DeleteEntry(postid.ToString());
 			}
-			catch(Exception ex)
+			catch (Exception ex)
 			{
 				RedirectToAction("Error");
 			}
@@ -199,14 +199,14 @@ namespace DasBlog.Web.Controllers
 
 			SinglePost(lpvm.Posts.First());
 
-			return ThemedView("Page", lpvm);
+			return View("Page", lpvm);
 		}
 
 		[AllowAnonymous]
 		[HttpPost("post/comment")]
 		public IActionResult AddComment(AddCommentViewModel addcomment)
 		{
-			if(!_dasBlogSettings.SiteConfiguration.EnableComments)
+			if (!_dasBlogSettings.SiteConfiguration.EnableComments)
 			{
 				return BadRequest();
 			}

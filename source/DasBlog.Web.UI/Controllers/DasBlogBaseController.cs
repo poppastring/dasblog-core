@@ -1,27 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using DasBlog.Core;
+﻿using DasBlog.Core;
 using DasBlog.Web.Models.BlogViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DasBlog.Web.Settings
 {
-    public class DasBlogBaseController : Controller
-    {
+	public abstract class DasBlogBaseController : Controller
+	{
 		private readonly IDasBlogSettings _dasBlogSettings;
 
-		public DasBlogBaseController(IDasBlogSettings settings)
+		protected DasBlogBaseController(IDasBlogSettings settings)
 		{
 			_dasBlogSettings = settings;
 		}
 
-		protected ViewResult ThemedView(string view, ListPostsViewModel listpostsviewmodel)
-		{
-			return View(string.Format("/Themes/{0}/{1}.cshtml",
-						_dasBlogSettings.SiteConfiguration.Theme, view), listpostsviewmodel);
-		}
+		//protected ViewResult ThemedView(string view, ListPostsViewModel listpostsviewmodel)
+		//{
+		//	return View($"/Themes/{_dasBlogSettings.SiteConfiguration.Theme}/{view}.cshtml", listpostsviewmodel);
+		//}
 
 		protected void SinglePost(PostViewModel post)
 		{
