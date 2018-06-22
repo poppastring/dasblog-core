@@ -77,13 +77,10 @@ namespace DasBlog.Web.Mappers
 
 		private IList<CategoryViewModel> ConvertCategory(string category)
 		{
-			return category
-				.Split(";")
-				.Select(c => new CategoryViewModel
-				{
-					Category = c,
-					CategoryUrl = Regex.Replace(c.ToLower(), @"[^A-Za-z0-9_\.~]+", _dasBlogSettings.SiteConfiguration.TitlePermalinkSpaceReplacement)
-				}).ToList();
+			return category.Split(";").ToList().Select(c => new CategoryViewModel {
+												Category = c,
+												CategoryUrl = Regex.Replace(c.ToLower(), @"[^A-Za-z0-9_\.~]+", _dasBlogSettings.SiteConfiguration.TitlePermalinkSpaceReplacement) })
+												.ToList();
 		}
 
 		private string GetGravatarHash(string email)
