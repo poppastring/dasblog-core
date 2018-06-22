@@ -1,4 +1,6 @@
-﻿@model DasBlog.Web.Models.BlogViewModels.CategoryListViewModel
+﻿@using DasBlog.Core;
+@inject IDasBlogSettings dasBlogSettings
+@model DasBlog.Web.Models.BlogViewModels.CategoryListViewModel
 
 @{
     ViewData["Title"] = "Archives";
@@ -7,10 +9,24 @@
 <div class="container">
     <div class="row">
         <p>
-            @foreach (var item in Model.Items)
+            @foreach (var item in Model.Categories)
             {
                 <span>@item.Key (@item.Value.Count())&nbsp;&#9679;</span>
             }
         </p>
     </div>
+    <hr />
+    <div class="row">
+        <p>
+            @foreach (var category in Model.Categories)
+            {
+                <h4>@category.Key (@category.Value.Count())</h4>
+                @foreach (var post in category.Value)
+                {
+                    <a href="@dasBlogSettings.RelativeToRoot(@dasBlogSettings.GetPermaTitle(post.BlogId))">@post.BlogTitle</a><br />
+                }
+            }
+        </p>
+    </div>
+
 </div>
