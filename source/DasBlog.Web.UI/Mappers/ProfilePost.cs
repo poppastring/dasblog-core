@@ -68,17 +68,19 @@ namespace DasBlog.Web.Mappers
 				.ForMember(dest => dest.AuthorEmail, opt => opt.MapFrom(src => src.Email))
 				.ForMember(dest => dest.TargetEntryId, opt => opt.MapFrom(src => src.TargetEntryId))
 				.ForMember(dest => dest.AuthorHomepage, opt => opt.MapFrom(src => src.HomePage));
+
+			CreateMap<Entry, CategoryPostItem>()
+				.ForMember(dest => dest.BlogTitle, opt => opt.MapFrom(src => src.Title))
+				.ForMember(dest => dest.BlogId, opt => opt.MapFrom(src => src.EntryId));
+
 		}
 
 		private IList<CategoryViewModel> ConvertCategory(string category)
 		{
-			return category
-				.Split(";")
-				.Select(c => new CategoryViewModel
-				{
-					Category = c,
-					CategoryUrl = Regex.Replace(c.ToLower(), @"[^A-Za-z0-9_\.~]+", _dasBlogSettings.SiteConfiguration.TitlePermalinkSpaceReplacement)
-				}).ToList();
+			return category.Split(";").ToList().Select(c => new CategoryViewModel {
+												Category = c,
+												CategoryUrl = Regex.Replace(c.ToLower(), @"[^A-Za-z0-9_\.~]+", _dasBlogSettings.SiteConfiguration.TitlePermalinkSpaceReplacement) })
+												.ToList();
 		}
 
 		private string GetGravatarHash(string email)

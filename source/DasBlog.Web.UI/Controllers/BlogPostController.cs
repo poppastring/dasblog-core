@@ -17,14 +17,16 @@ namespace DasBlog.Web.Controllers
 	public class BlogPostController : DasBlogBaseController
 	{
 		private IBlogManager _blogManager;
+		private readonly ICategoryManager _categoryManager;
 		private IHttpContextAccessor _httpContextAccessor;
 		private readonly IDasBlogSettings _dasBlogSettings;
 		private readonly IMapper _mapper;
 
 		public BlogPostController(IBlogManager blogManager, IHttpContextAccessor httpContextAccessor,
-									IDasBlogSettings settings, IMapper mapper) : base(settings)
+									IDasBlogSettings settings, IMapper mapper, ICategoryManager categoryManager) : base(settings)
 		{
 			_blogManager = blogManager;
+			_categoryManager = categoryManager;
 			_httpContextAccessor = httpContextAccessor;
 			_dasBlogSettings = settings;
 			_mapper = mapper;
@@ -53,7 +55,7 @@ namespace DasBlog.Web.Controllers
 			}
 			else
 			{
-				return RedirectToAction("Index", "Home");
+				return RedirectToAction("index", "home");
 			}
 		}
 
@@ -159,7 +161,7 @@ namespace DasBlog.Web.Controllers
 				RedirectToAction("Error");
 			}
 
-			return View("Views/BlogPost/EditPost.cshtml", post);
+			return View("views/blogpost/editPost.cshtml", post);
 		}
 
 		[HttpGet("post/{postid:guid}/delete")]
@@ -199,7 +201,7 @@ namespace DasBlog.Web.Controllers
 
 			SinglePost(lpvm.Posts.First());
 
-			return View("Page", lpvm);
+			return View("page", lpvm);
 		}
 
 		[AllowAnonymous]
@@ -274,6 +276,24 @@ namespace DasBlog.Web.Controllers
 			}
 
 			return Ok();
+		}
+
+		[AllowAnonymous]
+		[HttpGet("post/category/{category}")]
+		public IActionResult GetCategory(string category)
+		{
+			if (string.IsNullOrEmpty(category))
+			{
+				return RedirectToAction("Index", "Home");
+			}
+
+			ListPostsViewModel lpvm = new ListPostsViewModel();
+			lpvm.Posts = _categoryManager.GetEntries(category, _httpContextAccessor.HttpContext.Request.Headers["Accept-Language"])
+								.Select(entry => _mapper.Map<PostViewModel>(entry)).ToList();
+
+			DefaultPage();
+
+			return View("Page", lpvm);
 		}
 	}
 }

@@ -6,7 +6,7 @@ namespace DasBlog.Web.Models.BlogViewModels
 {
 	public class CategoryListViewModel
 	{
-		public Dictionary<string, List<CategoryListItem>> Items { get; protected set; } = new Dictionary<string, List<CategoryListItem>>();
+		public Dictionary<string, List<CategoryPostItem>> Categories { get; protected set; } = new Dictionary<string, List<CategoryPostItem>>();
 
 		public static CategoryListViewModel Create(EntryCollection entries)
 		{
@@ -16,38 +16,19 @@ namespace DasBlog.Web.Models.BlogViewModels
 				var categories = entry.GetSplitCategories();
 				foreach (var category in categories)
 				{
-					var archiveItem = CategoryListItem.CreateFromEntry(entry);
+					var archiveItem = CategoryPostItem.CreateFromEntry(entry);
 					archiveItem.Category = category;
-					if (viewModel.Items.ContainsKey(category))
+					if (viewModel.Categories.ContainsKey(category))
 					{
-						viewModel.Items[category].Add(archiveItem);
+						viewModel.Categories[category].Add(archiveItem);
 						continue;
 					}
 
-					viewModel.Items[category] = new List<CategoryListItem> { archiveItem };
+					viewModel.Categories[category] = new List<CategoryPostItem> { archiveItem };
 				}
 			}
 
 			return viewModel;
-		}
-
-		public class CategoryListItem
-		{
-			public string Category { get; set; }
-
-			public string BlogTitle { get; set; }
-
-			public string BlogId { get; set; }
-
-			public static CategoryListItem CreateFromEntry(Entry entry)
-			{
-				return new CategoryListItem
-				{
-					Category = entry.GetSplitCategories().FirstOrDefault(),
-					BlogTitle = entry.Title,
-					BlogId = entry.EntryId
-				};
-			}
 		}
 	}
 }
