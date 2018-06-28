@@ -68,7 +68,8 @@
     <WarningLevel>4</WarningLevel>
     <DebugType>full</DebugType>
     <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet></CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>
+    </CodeAnalysisRuleSet>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -93,10 +94,15 @@
     <WarningLevel>4</WarningLevel>
     <DebugType>none</DebugType>
     <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet></CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>
+    </CodeAnalysisRuleSet>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DasBlog.Services\DasBlog.Services.csproj">
+      <Project>{55ef05b0-06cb-4d6b-9b01-0590fac3ab0b}</Project>
+      <Name>DasBlog.Services</Name>
+    </ProjectReference>
     <ProjectReference Include="..\newtelligence.DasBlog.Web.Core\newtelligence.DasBlog.Web.Core.csproj">
       <Project>{38b69883-a9fb-498e-9cc7-95ab89dd7dc4}</Project>
       <Name>newtelligence.DasBlog.Web.Core</Name>

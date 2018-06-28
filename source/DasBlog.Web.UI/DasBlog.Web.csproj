@@ -21,6 +21,7 @@
     <PackageReference Include="AutoMapper" Version="6.2.2" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="3.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.8" />
+    <!--<PackageReference Include="Microsoft.AspNetCore.Http" Version="2.1.1" />-->
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Formatters.Xml" Version="2.0.4" />
     <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="2.0.2" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.4" />
@@ -35,6 +36,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DasBlog.Impl21\DasBlog.Impl21.csproj" />
+    <ProjectReference Include="..\DasBlog.Services\DasBlog.Services.csproj" />
     <ProjectReference Include="..\DasBlog.Web.Core\DasBlog.Core.csproj" />
     <ProjectReference Include="..\DasBlog.Web.Repositories\DasBlog.Managers.csproj" />
   </ItemGroup>

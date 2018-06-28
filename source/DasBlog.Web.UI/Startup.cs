@@ -16,11 +16,14 @@ using Microsoft.Extensions.DependencyInjection;
 using AutoMapper;
 using DasBlog.Web.Mappers;
 using DasBlog.Core;
+using DasBlog.Services;
+using DasBlog.Services.Interfaces;
 
 namespace DasBlog.Web
 {
 	public class Startup
 	{
+		private static int ctr = 0;
 		public const string SITESECURITYCONFIG = @"Config\siteSecurity.config";
 		private IHostingEnvironment _hostingEnvironment;
 
@@ -98,7 +101,8 @@ namespace DasBlog.Web
 				.AddTransient<IDasBlogSettings, DasBlogSettings>()
 				.AddTransient<IUserStore<DasBlogUser>, DasBlogUserStore>()
 				.AddTransient<IRoleStore<DasBlogRole>, DasBlogUserRoleStore>()
-				.AddTransient<IPrincipal>(provider => provider.GetService<IHttpContextAccessor>().HttpContext.User);
+				.AddTransient<IPrincipal>(provider => provider.GetService<IHttpContextAccessor>().HttpContext.User)
+				;
 
 			services
 				.AddSingleton(_hostingEnvironment.ContentRootFileProvider)
@@ -109,8 +113,10 @@ namespace DasBlog.Web
 				.AddSingleton<ISiteSecurityManager, SiteSecurityManager>()
 				.AddSingleton<IXmlRpcManager, XmlRpcManager>()
 				.AddSingleton<ISiteManager, SiteManager>()
-				.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-
+				.AddSingleton<IHttpContextAccessor, HttpContextAccessor>()
+				.AddSingleton<IPrincipalService, PrincipalService>()
+				;
+			//Microsoft.Extensions.DependencyInjection.HttpServiceCollectionExtensions.AddHttpContextAccessor(services);
 			services
 				.AddAutoMapper(mapperConfig =>
 				{
@@ -134,10 +140,17 @@ namespace DasBlog.Web
 			{
 				app.UseExceptionHandler("/home/error");
 			}
-
 			app.UseStaticFiles();
 			app.UseAuthentication();
+			//app.Use( async (context, next)  =>  {
+			//	if ( ctr == 0)
+			//	{
+			//		ctr++;
+			//		//System.Threading.Thread.Sleep(60000);
 
+			//	}
+			//	await next.Invoke();
+			//	});
 			app.UseMvc(routes =>
 			{
 				routes.MapRoute(

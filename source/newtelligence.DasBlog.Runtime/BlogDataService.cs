@@ -43,12 +43,15 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Web;
 using CookComputing.XmlRpc;
 using newtelligence.DasBlog.Runtime.Proxies;
+using DasBlog.Services.Interfaces;
+using System.Security.Claims;
 
 namespace newtelligence.DasBlog.Runtime
 {
@@ -65,7 +68,7 @@ namespace newtelligence.DasBlog.Runtime
         /// </summary>
         /// <param name="contentLocation"></param>
         /// <returns></returns>
-        public static IBlogDataService GetService(string contentLocation, ILoggingDataService loggingService)
+        public static IBlogDataService GetService(string contentLocation, ILoggingDataService loggingService, IPrincipalService principalService = null)
         {
             IBlogDataService service;
 
@@ -74,7 +77,7 @@ namespace newtelligence.DasBlog.Runtime
                 service = services[contentLocation.ToUpper()] as IBlogDataService;
                 if (service == null)
                 {
-                    service = new BlogDataServiceXml(contentLocation, loggingService);
+                    service = new BlogDataServiceXml(contentLocation, loggingService, principalService);
                     services.Add(contentLocation.ToUpper(), service);
                 }
             }
@@ -125,14 +128,18 @@ namespace newtelligence.DasBlog.Runtime
                 return "newtelligence dasBlog/" + version;
             }
         }
+		private IPrincipalService principalService;
 
         /// <summary>
         /// The BlogDataServiceXml constructor is entrypoint for the dasBlog Runtime.
         /// </summary>
         /// <param name="contentLocation">The path of the content directory</param>
         /// <param name="loggingService">The <see cref="ILoggingDataService"/></param>
-        internal BlogDataServiceXml(string contentLocation, ILoggingDataService loggingService)
+        internal BlogDataServiceXml(
+		  string contentLocation, ILoggingDataService loggingService
+		  ,IPrincipalService principalService)
         {
+			this.principalService = principalService;
             contentBaseDirectory = contentLocation;
             this.loggingService = loggingService;
             if (!Directory.Exists(contentBaseDirectory))
@@ -845,7 +852,9 @@ namespace newtelligence.DasBlog.Runtime
             // unless the user is in the "admin" role.
             if ((entryResult != null)
                 && (!entryResult.IsPublic)
-                && !Thread.CurrentPrincipal.IsInRole("admin"))
+                //&& !Thread.CurrentPrincipal.IsInRole("admin")
+				&& !(principalService.GetPrincipal() as ClaimsPrincipal).Claims.Any(c => c.Value.Equals("admin"))
+				)
             {
                 entryResult = null;
             }
@@ -1344,8 +1353,9 @@ namespace newtelligence.DasBlog.Runtime
             CategoryCacheEntryCollection result;
             CategoryCache cache = new CategoryCache();
             cache.Ensure(data);
-            if (Thread.CurrentPrincipal != null && Thread.CurrentPrincipal.IsInRole("admin"))
-            {
+            //if (Thread.CurrentPrincipal != null && Thread.CurrentPrincipal.IsInRole("admin"))
+			if ((principalService.GetPrincipal() as ClaimsPrincipal).Claims.Any(c => c.Value.Equals("admin")))
+			{
                 result = cache.Entries;
             }
             else

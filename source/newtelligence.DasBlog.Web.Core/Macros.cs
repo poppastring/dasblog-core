@@ -1,4 +1,4 @@
-#region Copyright (c) 2003, newtelligence AG. All rights reserved.
+﻿#region Copyright (c) 2003, newtelligence AG. All rights reserved.
 /*
 // Copyright (c) 2003, newtelligence AG. (http://www.newtelligence.com)
 // Original BlogX Source Code: Copyright (c) 2003, Chris Anderson (http://simplegeek.com)
@@ -1495,7 +1495,7 @@ namespace newtelligence.DasBlog.Web.Core
 
                 SiteConfig siteConfig = SiteConfig.GetSiteConfig();
                 ILoggingDataService logService = LoggingDataServiceFactory.GetService(SiteConfig.GetLogPathFromCurrentContext());
-                IBlogDataService dataService = BlogDataServiceFactory.GetService(SiteConfig.GetContentPathFromCurrentContext(), logService);
+                IBlogDataService dataService = BlogDataServiceFactory.GetService(SiteConfig.GetContentPathFromCurrentContext(), logService, null);
 
                 TrackingCollection leftTrackings = dataService.GetTrackingsFor(left.EntryId);
                 TrackingCollection rightTrackings = dataService.GetTrackingsFor(right.EntryId);

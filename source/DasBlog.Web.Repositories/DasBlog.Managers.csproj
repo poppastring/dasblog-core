@@ -1,10 +1,11 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DasBlog.Services\DasBlog.Services.csproj" />
     <ProjectReference Include="..\DasBlog.Web.Core\DasBlog.Core.csproj" />
     <ProjectReference Include="..\newtelligence.DasBlog.Runtime\newtelligence.DasBlog.Runtime.csproj" />
     <ProjectReference Include="..\newtelligence.DasBlog.Web.Core\newtelligence.DasBlog.Web.Core.csproj" />

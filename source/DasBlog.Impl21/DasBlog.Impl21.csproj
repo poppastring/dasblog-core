@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <!--<PackageReference Include="AutoMapper" Version="6.2.2" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="3.2.0" />-->
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.8" />
+    <!--<PackageReference Include="Microsoft.AspNetCore.Mvc.Formatters.Xml" Version="2.0.4" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="2.0.2" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.4" />-->
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DasBlog.Services\DasBlog.Services.csproj" />
+  </ItemGroup>
+
+</Project>

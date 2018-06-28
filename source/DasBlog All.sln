@@ -35,9 +35,14 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{800E3AC8-FF13-43CE-8C09-6F4A2867D445}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
+		MdamIssues.txt = MdamIssues.txt
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "newtelligence", "newtelligence", "{4383190A-97AC-435E-9FBB-E203AC4497ED}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DasBlog.Impl21", "DasBlog.Impl21\DasBlog.Impl21.csproj", "{D52CCF15-8AC3-432B-B933-54B6EB3DF757}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DasBlog.Services", "DasBlog.Services\DasBlog.Services.csproj", "{55EF05B0-06CB-4D6B-9B01-0590FAC3AB0B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -134,6 +139,18 @@ Global
 		{C439145F-28BF-4451-98CD-7FC404681426}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C439145F-28BF-4451-98CD-7FC404681426}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C439145F-28BF-4451-98CD-7FC404681426}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D52CCF15-8AC3-432B-B933-54B6EB3DF757}.Debug - All|Any CPU.ActiveCfg = Debug|Any CPU
+		{D52CCF15-8AC3-432B-B933-54B6EB3DF757}.Debug - All|Any CPU.Build.0 = Debug|Any CPU
+		{D52CCF15-8AC3-432B-B933-54B6EB3DF757}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D52CCF15-8AC3-432B-B933-54B6EB3DF757}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D52CCF15-8AC3-432B-B933-54B6EB3DF757}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D52CCF15-8AC3-432B-B933-54B6EB3DF757}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55EF05B0-06CB-4D6B-9B01-0590FAC3AB0B}.Debug - All|Any CPU.ActiveCfg = Debug|Any CPU
+		{55EF05B0-06CB-4D6B-9B01-0590FAC3AB0B}.Debug - All|Any CPU.Build.0 = Debug|Any CPU
+		{55EF05B0-06CB-4D6B-9B01-0590FAC3AB0B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55EF05B0-06CB-4D6B-9B01-0590FAC3AB0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55EF05B0-06CB-4D6B-9B01-0590FAC3AB0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55EF05B0-06CB-4D6B-9B01-0590FAC3AB0B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

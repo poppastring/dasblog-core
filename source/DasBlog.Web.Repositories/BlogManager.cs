@@ -16,6 +16,8 @@ using CookComputing.XmlRpc;
 using System.Reflection;
 using System.Xml.Serialization;
 using newtelligence.DasBlog.Web.Services.Rss20;
+using DasBlog.Services.Interfaces;
+
 
 namespace DasBlog.Managers
 {
@@ -26,11 +28,11 @@ namespace DasBlog.Managers
         private ISiteSecurityManager _siteSecurity;
         private readonly IDasBlogSettings _dasBlogSettings;
 
-        public BlogManager(IDasBlogSettings settings)
+        public BlogManager(IDasBlogSettings settings, IPrincipalService principalService = null)
         {
             _dasBlogSettings = settings;
             _loggingDataService = LoggingDataServiceFactory.GetService(_dasBlogSettings.WebRootDirectory + _dasBlogSettings.SiteConfiguration.LogDir);
-            _dataService = BlogDataServiceFactory.GetService(_dasBlogSettings.WebRootDirectory + _dasBlogSettings.SiteConfiguration.ContentDir, _loggingDataService);
+            _dataService = BlogDataServiceFactory.GetService(_dasBlogSettings.WebRootDirectory + _dasBlogSettings.SiteConfiguration.ContentDir, _loggingDataService, principalService);
         }
 
         public Entry GetBlogPost(string postid)

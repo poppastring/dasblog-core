@@ -99,6 +99,10 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DasBlog.Services\DasBlog.Services.csproj">
+      <Project>{55ef05b0-06cb-4d6b-9b01-0590fac3ab0b}</Project>
+      <Name>DasBlog.Services</Name>
+    </ProjectReference>
     <ProjectReference Include="..\newtelligence.DasBlog.Util\newtelligence.DasBlog.Util.csproj">
       <Project>{15c1672e-92a2-4faf-977a-d7ebc008ec42}</Project>
       <Name>newtelligence.DasBlog.Util</Name>

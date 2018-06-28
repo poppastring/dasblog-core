@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using DasBlog.Managers.Interfaces;
+using newtelligence.DasBlog.Web;
+using System.Security.Principal;
 
 namespace DasBlog.Web.Controllers
 {
@@ -56,7 +58,12 @@ namespace DasBlog.Web.Controllers
 			if (ModelState.IsValid)
 			{
 				var result = await signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
-
+				// https://davidpine.net/blog/principal-architecture-changes/
+				newtelligence.DasBlog.Web.UserToken token = new newtelligence.DasBlog.Web.UserToken(
+				  "admin", "admin");
+                GenericIdentity identity = new GenericIdentity(token.Name, "Custom");
+                GenericPrincipal principal = new GenericPrincipal(identity, new string[] { token.Role });
+                System.Threading.Thread.CurrentPrincipal = principal;
 				if (result.Succeeded)
 				{
 					return LocalRedirect(returnUrl ?? Url.Action("Index", "Home"));

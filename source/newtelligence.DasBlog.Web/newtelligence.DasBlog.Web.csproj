@@ -140,6 +140,10 @@
     <Reference Include="System.Xml">
       <Name>System.XML</Name>
     </Reference>
+    <ProjectReference Include="..\DasBlog.Services\DasBlog.Services.csproj">
+      <Project>{55ef05b0-06cb-4d6b-9b01-0590fac3ab0b}</Project>
+      <Name>DasBlog.Services</Name>
+    </ProjectReference>
     <ProjectReference Include="..\newtelligence.DasBlog.Runtime.Proxies\newtelligence.DasBlog.Runtime.Proxies.csproj">
       <Name>newtelligence.DasBlog.Runtime.Proxies</Name>
       <Project>{9BAD4DCD-3C05-4716-A406-8B561EF0633F}</Project>
