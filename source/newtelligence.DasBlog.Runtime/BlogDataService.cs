@@ -92,11 +92,11 @@ namespace newtelligence.DasBlog.Runtime
                 service = services[contentLocation.ToUpper()] as IBlogDataService;
                 if (service == null)
                 {
-					throw new NullReferenceException(
-					  @"BlogDataServiceFactory.CreateService must be called before this call.
-					    We currently rely on the home page's being displayed immediately upon
-						start up.  This shaky logic will be sorted when DI is implemented
-						throughout the codebase");
+                    throw new NullReferenceException(
+                        @"BlogDataServiceFactory.CreateService must be called before this call.
+                        We currently rely on the home page's being displayed immediately upon
+                        start up.  This shaky logic will be sorted when DI is implemented
+                        throughout the codebase");
                 }
             }
             return service;
@@ -146,7 +146,7 @@ namespace newtelligence.DasBlog.Runtime
                 return "newtelligence dasBlog/" + version;
             }
         }
-		private IPrincipalService principalService;
+        private IPrincipalService principalService;
 
         /// <summary>
         /// The BlogDataServiceXml constructor is entrypoint for the dasBlog Runtime.
@@ -154,10 +154,10 @@ namespace newtelligence.DasBlog.Runtime
         /// <param name="contentLocation">The path of the content directory</param>
         /// <param name="loggingService">The <see cref="ILoggingDataService"/></param>
         internal BlogDataServiceXml(
-		  string contentLocation, ILoggingDataService loggingService
-		  ,IPrincipalService principalService)
+        string contentLocation, ILoggingDataService loggingService
+        ,IPrincipalService principalService)
         {
-			this.principalService = principalService;
+            this.principalService = principalService;
             contentBaseDirectory = contentLocation;
             this.loggingService = loggingService;
             if (!Directory.Exists(contentBaseDirectory))
@@ -870,8 +870,8 @@ namespace newtelligence.DasBlog.Runtime
             // unless the user is in the "admin" role.
             if ((entryResult != null)
                 && (!entryResult.IsPublic)
-				&& !IsAdminUser()
-				)
+                && !IsAdminUser()
+                )
             {
                 entryResult = null;
             }
@@ -1370,8 +1370,8 @@ namespace newtelligence.DasBlog.Runtime
             CategoryCacheEntryCollection result;
             CategoryCache cache = new CategoryCache();
             cache.Ensure(data);
-			if (IsAdminUser())
-			{
+            if (IsAdminUser())
+            {
                 result = cache.Entries;
             }
             else
@@ -1803,9 +1803,9 @@ namespace newtelligence.DasBlog.Runtime
 
             return data.lastCommentUpdate;
         }
-		private bool IsAdminUser()
-		{
-			return principalService.GetPrincipal().Claims.Any(c => c.Value.Equals("admin"));
-		}
+        private bool IsAdminUser()
+        {
+            return principalService.GetPrincipal().Claims.Any(c => c.Value.Equals("admin"));
+        }
     }
 }

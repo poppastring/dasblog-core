@@ -1,5 +1,0 @@
-1.  can't easily mix singleton newtelligence objects into
-    MVC's transient pattern
-2.  can't easily integrate netcoreapp2.1 with framework 4.6
-3.  DasBlog.Managers takes a dependency on newtelligence so
-    cannot use for services

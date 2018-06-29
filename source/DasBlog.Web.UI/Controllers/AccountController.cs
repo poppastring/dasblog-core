@@ -55,8 +55,8 @@ namespace DasBlog.Web.Controllers
 			ViewData[KEY_RETURNURL] = returnUrl;
 			if (ModelState.IsValid)
 			{
-
 				var result = await signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
+
 				if (result.Succeeded)
 				{
 					return LocalRedirect(returnUrl ?? Url.Action("Index", "Home"));
