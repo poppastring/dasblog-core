@@ -1,6 +1,8 @@
 @using DasBlog.Web.Models.BlogViewModels;
 @model ListPostsViewModel
 
+<div id="content">
+
     @if (Model.Posts.Count > 0)
     {
         foreach (var post in Model.Posts)

@@ -9,8 +9,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using DasBlog.Managers.Interfaces;
-using newtelligence.DasBlog.Web;
-using System.Security.Principal;
 
 namespace DasBlog.Web.Controllers
 {
@@ -57,6 +55,7 @@ namespace DasBlog.Web.Controllers
 			ViewData[KEY_RETURNURL] = returnUrl;
 			if (ModelState.IsValid)
 			{
+
 				var result = await signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
 				if (result.Succeeded)
 				{

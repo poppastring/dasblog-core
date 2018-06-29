@@ -28,7 +28,7 @@ namespace DasBlog.Managers
         private ISiteSecurityManager _siteSecurity;
         private readonly IDasBlogSettings _dasBlogSettings;
 
-        public BlogManager(IDasBlogSettings settings, IPrincipalService principalService = null)
+        public BlogManager(IDasBlogSettings settings, IPrincipalService principalService)
         {
             _dasBlogSettings = settings;
             _loggingDataService = LoggingDataServiceFactory.GetService(_dasBlogSettings.WebRootDirectory + _dasBlogSettings.SiteConfiguration.LogDir);

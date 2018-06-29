@@ -23,7 +23,6 @@ namespace DasBlog.Web
 {
 	public class Startup
 	{
-		private static int ctr = 0;
 		public const string SITESECURITYCONFIG = @"Config\siteSecurity.config";
 		private IHostingEnvironment _hostingEnvironment;
 
@@ -114,8 +113,7 @@ namespace DasBlog.Web
 				.AddSingleton<IXmlRpcManager, XmlRpcManager>()
 				.AddSingleton<ISiteManager, SiteManager>()
 				.AddSingleton<IHttpContextAccessor, HttpContextAccessor>()
-				.AddSingleton<IPrincipalService, PrincipalService>()
-				;
+				.AddSingleton<IPrincipalService, PrincipalService>();
 			services
 				.AddAutoMapper(mapperConfig =>
 				{
@@ -141,15 +139,6 @@ namespace DasBlog.Web
 			}
 			app.UseStaticFiles();
 			app.UseAuthentication();
-			//app.Use( async (context, next)  =>  {
-			//	if ( ctr == 0)
-			//	{
-			//		ctr++;
-			//		//System.Threading.Thread.Sleep(60000);
-
-			//	}
-			//	await next.Invoke();
-			//	});
 			app.UseMvc(routes =>
 			{
 				routes.MapRoute(

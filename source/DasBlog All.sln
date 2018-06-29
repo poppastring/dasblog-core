@@ -35,14 +35,13 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{800E3AC8-FF13-43CE-8C09-6F4A2867D445}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
-		MdamIssues.txt = MdamIssues.txt
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "newtelligence", "newtelligence", "{4383190A-97AC-435E-9FBB-E203AC4497ED}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DasBlog.Impl21", "DasBlog.Impl21\DasBlog.Impl21.csproj", "{D52CCF15-8AC3-432B-B933-54B6EB3DF757}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DasBlog.Services", "DasBlog.Services\DasBlog.Services.csproj", "{55EF05B0-06CB-4D6B-9B01-0590FAC3AB0B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DasBlog.Services", "DasBlog.Services\DasBlog.Services.csproj", "{55EF05B0-06CB-4D6B-9B01-0590FAC3AB0B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

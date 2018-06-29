@@ -10,6 +10,8 @@ namespace DasBlog.Services.Interfaces
 	/// The service provides the Principal details.  Typically
 	/// used to detect whether the logged in user has
 	/// admin priveleges.
+	/// The Principal is guaranteed to be up-to-date for each request by
+	/// the time action methods are hit.
 	/// </summary>
     public interface IPrincipalService
     {
