@@ -68,7 +68,7 @@ namespace newtelligence.DasBlog.Runtime
         /// </summary>
         /// <param name="contentLocation"></param>
         /// <returns></returns>
-        public static IBlogDataService CreateService(string contentLocation, ILoggingDataService loggingService, IPrincipalService principalService = null)
+        public static IBlogDataService CreateService(string contentLocation, ILoggingDataService loggingService, IPrincipalService principalService)
         {
             IBlogDataService service;
 
