@@ -68,7 +68,7 @@ namespace newtelligence.DasBlog.Runtime
         /// </summary>
         /// <param name="contentLocation"></param>
         /// <returns></returns>
-        public static IBlogDataService GetService(string contentLocation, ILoggingDataService loggingService, IPrincipalService principalService = null)
+        public static IBlogDataService CreateService(string contentLocation, ILoggingDataService loggingService, IPrincipalService principalService = null)
         {
             IBlogDataService service;
 
@@ -79,6 +79,24 @@ namespace newtelligence.DasBlog.Runtime
                 {
                     service = new BlogDataServiceXml(contentLocation, loggingService, principalService);
                     services.Add(contentLocation.ToUpper(), service);
+                }
+            }
+            return service;
+        }
+        public static IBlogDataService GetService(string contentLocation, ILoggingDataService loggingService)
+        {
+            IBlogDataService service;
+
+            lock (services.SyncRoot)
+            {
+                service = services[contentLocation.ToUpper()] as IBlogDataService;
+                if (service == null)
+                {
+					throw new NullReferenceException(
+					  @"BlogDataServiceFactory.CreateService must be called before this call.
+					    We currently rely on the home page's being displayed immediately upon
+						start up.  This shaky logic will be sorted when DI is implemented
+						throughout the codebase");
                 }
             }
             return service;
@@ -852,8 +870,7 @@ namespace newtelligence.DasBlog.Runtime
             // unless the user is in the "admin" role.
             if ((entryResult != null)
                 && (!entryResult.IsPublic)
-                //&& !Thread.CurrentPrincipal.IsInRole("admin")
-				&& !(principalService.GetPrincipal() as ClaimsPrincipal).Claims.Any(c => c.Value.Equals("admin"))
+				&& !IsAdminUser()
 				)
             {
                 entryResult = null;
@@ -917,7 +934,7 @@ namespace newtelligence.DasBlog.Runtime
             {
                 day.Load(data);
 
-                foreach (Entry entry in day.GetEntries(entryCriteria))
+                foreach (Entry entry in day.GetEntries(entryCriteria, IsAdminUser()))
                 {
                     if (entryCount < maxEntries)
                     {
@@ -1045,7 +1062,7 @@ namespace newtelligence.DasBlog.Runtime
 
 
                         day.Load(data);
-                        entry = day.GetEntries(entryCriteria)[detail.EntryId];
+                        entry = day.GetEntries(entryCriteria, IsAdminUser())[detail.EntryId];
                         if (entry != null)
                         {
                             entryList.Add(entry);
@@ -1067,7 +1084,7 @@ namespace newtelligence.DasBlog.Runtime
 
             foreach (DayEntry dayEntry in dayEntries)
             {
-                foreach (Entry entry in dayEntry.GetEntries(entryCriteria))
+                foreach (Entry entry in dayEntry.GetEntries(entryCriteria, IsAdminUser()))
                     entries.Add(entry);
             }
 
@@ -1353,8 +1370,7 @@ namespace newtelligence.DasBlog.Runtime
             CategoryCacheEntryCollection result;
             CategoryCache cache = new CategoryCache();
             cache.Ensure(data);
-            //if (Thread.CurrentPrincipal != null && Thread.CurrentPrincipal.IsInRole("admin"))
-			if ((principalService.GetPrincipal() as ClaimsPrincipal).Claims.Any(c => c.Value.Equals("admin")))
+			if (IsAdminUser())
 			{
                 result = cache.Entries;
             }
@@ -1787,5 +1803,9 @@ namespace newtelligence.DasBlog.Runtime
 
             return data.lastCommentUpdate;
         }
+		private bool IsAdminUser()
+		{
+			return principalService.GetPrincipal().Claims.Any(c => c.Value.Equals("admin"));
+		}
     }
 }

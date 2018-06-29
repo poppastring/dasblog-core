@@ -1495,7 +1495,7 @@ namespace newtelligence.DasBlog.Web.Core
 
                 SiteConfig siteConfig = SiteConfig.GetSiteConfig();
                 ILoggingDataService logService = LoggingDataServiceFactory.GetService(SiteConfig.GetLogPathFromCurrentContext());
-                IBlogDataService dataService = BlogDataServiceFactory.GetService(SiteConfig.GetContentPathFromCurrentContext(), logService, null);
+                IBlogDataService dataService = BlogDataServiceFactory.GetService(SiteConfig.GetContentPathFromCurrentContext(), logService);
 
                 TrackingCollection leftTrackings = dataService.GetTrackingsFor(left.EntryId);
                 TrackingCollection rightTrackings = dataService.GetTrackingsFor(right.EntryId);

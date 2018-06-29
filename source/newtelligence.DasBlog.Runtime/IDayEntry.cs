@@ -1,4 +1,4 @@
-#region Copyright (c) 2003, newtelligence AG. All rights reserved.
+﻿#region Copyright (c) 2003, newtelligence AG. All rights reserved.
 /*
 // Copyright (c) 2003, newtelligence AG. (http://www.newtelligence.com)
 // Original BlogX Source Code: Copyright (c) 2003, Chris Anderson (http://simplegeek.com)
@@ -47,7 +47,7 @@ namespace newtelligence.DasBlog.Runtime
 		/// Return EntryCollection excluding the private entries if the caller
 		/// is not in the admin role.
 		/// </summary>
-		EntryCollection GetEntries();
+		EntryCollection GetEntries(bool isAdminUser);
 
 		/// <summary>
 		/// Returns all the entries that meet the include delegates criteria.  

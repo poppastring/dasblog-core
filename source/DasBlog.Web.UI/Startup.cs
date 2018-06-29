@@ -116,7 +116,6 @@ namespace DasBlog.Web
 				.AddSingleton<IHttpContextAccessor, HttpContextAccessor>()
 				.AddSingleton<IPrincipalService, PrincipalService>()
 				;
-			//Microsoft.Extensions.DependencyInjection.HttpServiceCollectionExtensions.AddHttpContextAccessor(services);
 			services
 				.AddAutoMapper(mapperConfig =>
 				{

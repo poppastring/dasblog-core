@@ -1,15 +1,6 @@
 @using DasBlog.Web.Models.BlogViewModels;
 @model ListPostsViewModel
 
-<div id="content">
-    <div class="form-check tm-6">
-        <label class="form-check-label">
-            <input class="form-check-input" type="checkbox" value=""/>
-            Show unpublished posts in addition to published ones
-        </label>
-    </div>
-    <hr />
-
     @if (Model.Posts.Count > 0)
     {
         foreach (var post in Model.Posts)

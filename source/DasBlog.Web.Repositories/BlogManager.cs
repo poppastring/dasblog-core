@@ -32,7 +32,7 @@ namespace DasBlog.Managers
         {
             _dasBlogSettings = settings;
             _loggingDataService = LoggingDataServiceFactory.GetService(_dasBlogSettings.WebRootDirectory + _dasBlogSettings.SiteConfiguration.LogDir);
-            _dataService = BlogDataServiceFactory.GetService(_dasBlogSettings.WebRootDirectory + _dasBlogSettings.SiteConfiguration.ContentDir, _loggingDataService, principalService);
+            _dataService = BlogDataServiceFactory.CreateService(_dasBlogSettings.WebRootDirectory + _dasBlogSettings.SiteConfiguration.ContentDir, _loggingDataService, principalService);
         }
 
         public Entry GetBlogPost(string postid)
