@@ -223,3 +223,6 @@ source/newtelligence.DasBlog.Web/content/**
 /source/DasBlog.Web.UI/wwwroot/content/2016-05-18.dayfeedback.xml
 /source/DasBlog.Web.UI/wwwroot/content/2016-05-18.dayentry.xml
 /source/DasBlog.Web.UI/wwwroot/content/2016-05-12.dayentry.xml
+
+# Rider iDE
+.idea/
