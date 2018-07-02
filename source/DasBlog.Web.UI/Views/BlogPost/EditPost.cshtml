@@ -65,13 +65,15 @@
                         <input asp-for="@Model.AllCategories[i].CategoryUrl" type="hidden" />
                     }
                 }
+                <input asp-for="@Model.NewCategory" type="text" value="@Model.NewCategory"/>
+                <input value="Add" class="btn" type="submit" name="submit"/>
 
             </div>
         </div>
         <div class="form-group">
             <div class="col-lg-6">
-                <button type="submit">Edit</button>
-                <button asp-controller="Home" asp-action="Index" type="submit">Cancel</button>
+                <input type="submit" name="submit" value="Edit"/>
+                <input asp-controller="Home" asp-action="Index" type="submit" name="submit" value="Cancel"/>
             </div>
         </div>
     </div>
