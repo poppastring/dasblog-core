@@ -322,7 +322,8 @@ namespace DasBlog.Web.Controllers
 			if (string.IsNullOrWhiteSpace(post.NewCategory))
 			{
 				ModelState.AddModelError("NewCategory"
-				  ,"To add a category you must enter some text in the box next to the 'Add' button before clicking 'Add'");
+				  ,"To add a category " +
+				   "you must enter some text in the box next to the 'Add' button before clicking 'Add'");
 				return View(post);
 			}
 			var newCategory = post.NewCategory?.Trim();
