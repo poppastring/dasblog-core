@@ -102,6 +102,12 @@ namespace DasBlog.Web.Controllers
 				return View(post);
 			}
 
+			if (!string.IsNullOrWhiteSpace(post.NewCategory))
+			{
+				ModelState.AddModelError(nameof(post.NewCategory)
+				  , $"Please click 'Add' to add the category, \"{post.NewCategory}\" or clear the text before continuing");
+				return View(post);
+			}
 			try
 			{
 				Entry entry = _mapper.Map<Entry>(post);
@@ -145,6 +151,12 @@ namespace DasBlog.Web.Controllers
 			}
 			if (!ModelState.IsValid)
 			{
+				return View(post);
+			}
+			if (!string.IsNullOrWhiteSpace(post.NewCategory))
+			{
+				ModelState.AddModelError(nameof(post.NewCategory)
+					, $"Please click 'Add' to add the category, \"{post.NewCategory}\" or clear the text before continuing");
 				return View(post);
 			}
 
@@ -307,14 +319,22 @@ namespace DasBlog.Web.Controllers
 		private IActionResult HandleNewCategory(PostViewModel post)
 		{
 			ModelState.ClearValidationState("");
-			if (post.AllCategories.Any(c => c.Category == post.NewCategory))
+			if (string.IsNullOrWhiteSpace(post.NewCategory))
+			{
+				ModelState.AddModelError("NewCategory"
+				  ,"To add a category you must enter some text in the box next to the 'Add' button before clicking 'Add'");
+				return View(post);
+			}
+			var newCategory = post.NewCategory?.Trim();
+			if (post.AllCategories.Any(c => c.Category == newCategory))
 			{
 				ModelState.AddModelError(nameof(post.NewCategory), $"The category, {post.NewCategory}, already exists");
 			}
 			else
 			{
 				post.AllCategories.Add(
-					new CategoryViewModel {Category = post.NewCategory, CategoryUrl = post.NewCategory, Checked = true});
+					new CategoryViewModel {Category = newCategory
+					, CategoryUrl = System.Net.WebUtility.UrlEncode(newCategory), Checked = true});
 				post.NewCategory = "";
 			}
 

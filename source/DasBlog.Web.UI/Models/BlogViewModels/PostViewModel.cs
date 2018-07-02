@@ -38,13 +38,6 @@ namespace DasBlog.Web.Models.BlogViewModels
 
 		public string NewCategory { get; set; }
 
-		private IList<CategoryViewModel> _createdCategories = new List<CategoryViewModel>();
-		public IList<CategoryViewModel> CreatedCategories
-		{
-			get { return _createdCategories;}
-			set { _createdCategories = value; }
-		}
-
 		[Display(Name = "Allow Comments")]
 		public bool AllowComments { get; set; }
 
