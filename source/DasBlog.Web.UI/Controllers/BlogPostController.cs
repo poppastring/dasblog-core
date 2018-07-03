@@ -11,6 +11,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using newtelligence.DasBlog.Runtime;
+using Remotion.Linq.Parsing.Structure.IntermediateModel;
+using static DasBlog.Web.Common.Utils;
 
 namespace DasBlog.Web.Controllers
 {
@@ -321,25 +323,30 @@ namespace DasBlog.Web.Controllers
 			ModelState.ClearValidationState("");
 			if (string.IsNullOrWhiteSpace(post.NewCategory))
 			{
-				ModelState.AddModelError("NewCategory"
+				ModelState.AddModelError(nameof(post.NewCategory)
 				  ,"To add a category " +
 				   "you must enter some text in the box next to the 'Add' button before clicking 'Add'");
 				return View(post);
 			}
+
 			var newCategory = post.NewCategory?.Trim();
-			if (post.AllCategories.Any(c => c.Category == newCategory))
+			var newCategoryDisplayName = newCategory;
+			var newCategoryUrl = EncodeCategoryUrl(newCategory, _dasBlogSettings.SiteConfiguration.TitlePermalinkSpaceReplacement );
+			if (post.AllCategories.Any(c => c.CategoryUrl == newCategoryUrl))
 			{
 				ModelState.AddModelError(nameof(post.NewCategory), $"The category, {post.NewCategory}, already exists");
 			}
 			else
 			{
 				post.AllCategories.Add(
-					new CategoryViewModel {Category = newCategory
-					, CategoryUrl = System.Net.WebUtility.UrlEncode(newCategory), Checked = true});
+				  new CategoryViewModel {
+				  Category = newCategoryDisplayName
+				  , CategoryUrl = newCategoryUrl, Checked = true});
 				post.NewCategory = "";
 			}
 
 			return View(post);
 		}
+
 	}
 }
