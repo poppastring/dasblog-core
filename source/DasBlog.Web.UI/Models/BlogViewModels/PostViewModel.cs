@@ -4,8 +4,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace DasBlog.Web.Models.BlogViewModels
 {
-    public class PostViewModel
-    {
+	public class PostViewModel
+	{
 		[Required]
 		[StringLength(60, MinimumLength = 1)]
 		public string Title { get; set; }
@@ -16,15 +16,27 @@ namespace DasBlog.Web.Models.BlogViewModels
 		[DataType(DataType.MultilineText)]
 		public string Description { get; set; }
 
-        public string Author { get; set; }
+		public string Author { get; set; }
 
-        public string PermaLink { get; set; }
+		public string PermaLink { get; set; }
 
-        public string EntryId { get; set; }
+		public string EntryId { get; set; }
 
-        public IList<CategoryViewModel> Categories { get; set; }
+		private IList<CategoryViewModel> _categories = new List<CategoryViewModel>();
+		public IList<CategoryViewModel> Categories
+		{
+			get { return _categories;}
+			set { _categories = value; }
+		}
 
-		public IList<CategoryViewModel> AllCategories { get; set; }
+		private IList<CategoryViewModel> _allCategories = new List<CategoryViewModel>();
+		public IList<CategoryViewModel> AllCategories
+		{
+			get { return _allCategories;}
+			set { _allCategories = value; }
+		}
+
+		public string NewCategory { get; set; }
 
 		[Display(Name = "Allow Comments")]
 		public bool AllowComments { get; set; }

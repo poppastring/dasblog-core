@@ -62,12 +62,17 @@
                         <input asp-for="@Model.AllCategories[i].CategoryUrl" type="hidden" />
                     }
                 }
+                <input asp-for="@Model.NewCategory" type="text" value="@Model.NewCategory"/>
+                <input value="Add" class="btn" type="submit" name="submit"/>
             </div>
+         </div>
+        <div class="col-lg-offset-3 col-sm-offset-3 ">
+            <span asp-validation-for="@Model.NewCategory" class="text-danger"></span>               
         </div>
-        <div class="form-group">
+       <div class="form-group">
             <div class="col-lg-6">
-                <button type="submit">Create</button>
-                <button asp-controller="Home" asp-action="Index" type="submit">Cancel</button>
+                <input type="submit" name="submit" value="Create"/>
+                <input asp-controller="Home" asp-action="Index" type="submit" name="submit" value="Cancel"/>
             </div>
         </div>
     </div>

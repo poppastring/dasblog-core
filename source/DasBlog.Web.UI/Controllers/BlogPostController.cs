@@ -4,12 +4,15 @@ using System.Linq;
 using AutoMapper;
 using DasBlog.Core;
 using DasBlog.Managers.Interfaces;
+using DasBlog.Web.Common;
 using DasBlog.Web.Models.BlogViewModels;
 using DasBlog.Web.Settings;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using newtelligence.DasBlog.Runtime;
+using Remotion.Linq.Parsing.Structure.IntermediateModel;
+using static DasBlog.Web.Common.Utils;
 
 namespace DasBlog.Web.Controllers
 {
@@ -90,13 +93,23 @@ namespace DasBlog.Web.Controllers
 		}
 
 		[HttpPost("post/edit")]
-		public IActionResult EditPost(PostViewModel post)
+		public IActionResult EditPost(PostViewModel post, string submit)
 		{
+			if (submit == Constants.BlogPostAddCategoryAction)
+			{
+				return HandleNewCategory(post);
+			}
 			if (!ModelState.IsValid)
 			{
 				return View(post);
 			}
 
+			if (!string.IsNullOrWhiteSpace(post.NewCategory))
+			{
+				ModelState.AddModelError(nameof(post.NewCategory)
+				  , $"Please click 'Add' to add the category, \"{post.NewCategory}\" or clear the text before continuing");
+				return View(post);
+			}
 			try
 			{
 				Entry entry = _mapper.Map<Entry>(post);
@@ -132,10 +145,20 @@ namespace DasBlog.Web.Controllers
 		}
 
 		[HttpPost("post/create")]
-		public IActionResult CreatePost(PostViewModel post)
+		public IActionResult CreatePost(PostViewModel post, string submit)
 		{
+			if (submit == Constants.BlogPostAddCategoryAction)
+			{
+				return HandleNewCategory(post);
+			}
 			if (!ModelState.IsValid)
 			{
+				return View(post);
+			}
+			if (!string.IsNullOrWhiteSpace(post.NewCategory))
+			{
+				ModelState.AddModelError(nameof(post.NewCategory)
+					, $"Please click 'Add' to add the category, \"{post.NewCategory}\" or clear the text before continuing");
 				return View(post);
 			}
 
@@ -295,5 +318,35 @@ namespace DasBlog.Web.Controllers
 
 			return View("Page", lpvm);
 		}
+		private IActionResult HandleNewCategory(PostViewModel post)
+		{
+			ModelState.ClearValidationState("");
+			if (string.IsNullOrWhiteSpace(post.NewCategory))
+			{
+				ModelState.AddModelError(nameof(post.NewCategory)
+				  ,"To add a category " +
+				   "you must enter some text in the box next to the 'Add' button before clicking 'Add'");
+				return View(post);
+			}
+
+			var newCategory = post.NewCategory?.Trim();
+			var newCategoryDisplayName = newCategory;
+			var newCategoryUrl = EncodeCategoryUrl(newCategory, _dasBlogSettings.SiteConfiguration.TitlePermalinkSpaceReplacement );
+			if (post.AllCategories.Any(c => c.CategoryUrl == newCategoryUrl))
+			{
+				ModelState.AddModelError(nameof(post.NewCategory), $"The category, {post.NewCategory}, already exists");
+			}
+			else
+			{
+				post.AllCategories.Add(
+				  new CategoryViewModel {
+				  Category = newCategoryDisplayName
+				  , CategoryUrl = newCategoryUrl, Checked = true});
+				post.NewCategory = "";
+			}
+
+			return View(post);
+		}
+
 	}
 }

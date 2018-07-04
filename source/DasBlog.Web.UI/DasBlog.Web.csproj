@@ -1,5 +1,4 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
-
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <AssemblyName>DasBlog.Web</AssemblyName>
@@ -9,14 +8,12 @@
     <Company />
     <Product>DasBlog Core</Product>
   </PropertyGroup>
-
   <ItemGroup>
     <Content Include="config\metaConfig.xml" />
     <Content Include="content\2018-02-24.dayentry.xml" />
     <Content Include="content\2018-02-24.dayfeedback.xml" />
     <Content Include="logs\logs.txt" />
   </ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="6.2.2" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="3.2.0" />
@@ -25,20 +22,16 @@
     <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="2.0.2" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.4" />
   </ItemGroup>
-
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
   </ItemGroup>
-
   <ItemGroup>
     <None Include="config\site.config" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\DasBlog.Web.Core\DasBlog.Core.csproj" />
     <ProjectReference Include="..\DasBlog.Web.Repositories\DasBlog.Managers.csproj" />
   </ItemGroup>
-
   <ItemGroup>
     <Content Update="Themes\_ViewImports.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
@@ -50,5 +43,4 @@
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
   </ItemGroup>
-
 </Project>

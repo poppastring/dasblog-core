@@ -8,6 +8,7 @@ using AutoMapper;
 using DasBlog.Core;
 using DasBlog.Web.Models.BlogViewModels;
 using newtelligence.DasBlog.Runtime;
+using static DasBlog.Web.Common.Utils;
 
 namespace DasBlog.Web.Mappers
 {
@@ -79,7 +80,8 @@ namespace DasBlog.Web.Mappers
 		{
 			return category.Split(";").ToList().Select(c => new CategoryViewModel {
 												Category = c,
-												CategoryUrl = Regex.Replace(c.ToLower(), @"[^A-Za-z0-9_\.~]+", _dasBlogSettings.SiteConfiguration.TitlePermalinkSpaceReplacement) })
+												CategoryUrl = EncodeCategoryUrl(c, _dasBlogSettings.SiteConfiguration.TitlePermalinkSpaceReplacement) })
+//												CategoryUrl = Regex.Replace(c.ToLower(), @"[^A-Za-z0-9_\.~]+", _dasBlogSettings.SiteConfiguration.TitlePermalinkSpaceReplacement) })
 												.ToList();
 		}
 
