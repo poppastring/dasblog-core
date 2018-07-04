@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using AutoMapper;
 using DasBlog.Core;
 using DasBlog.Managers.Interfaces;
@@ -24,15 +25,18 @@ namespace DasBlog.Web.Controllers
 		private IHttpContextAccessor _httpContextAccessor;
 		private readonly IDasBlogSettings _dasBlogSettings;
 		private readonly IMapper _mapper;
+		private readonly IFileSystemBinaryManager _binaryManager;
 
 		public BlogPostController(IBlogManager blogManager, IHttpContextAccessor httpContextAccessor,
-									IDasBlogSettings settings, IMapper mapper, ICategoryManager categoryManager) : base(settings)
+		  IDasBlogSettings settings, IMapper mapper, ICategoryManager categoryManager
+		  ,IFileSystemBinaryManager binaryManager) : base(settings)
 		{
 			_blogManager = blogManager;
 			_categoryManager = categoryManager;
 			_httpContextAccessor = httpContextAccessor;
 			_dasBlogSettings = settings;
 			_mapper = mapper;
+			_binaryManager = binaryManager;
 		}
 
 		[AllowAnonymous]
@@ -150,6 +154,11 @@ namespace DasBlog.Web.Controllers
 			if (submit == Constants.BlogPostAddCategoryAction)
 			{
 				return HandleNewCategory(post);
+			}
+
+			if (submit == Constants.UploadImageAction)
+			{
+				return HandleImageUpload(post);
 			}
 			if (!ModelState.IsValid)
 			{
@@ -347,6 +356,18 @@ namespace DasBlog.Web.Controllers
 
 			return View(post);
 		}
+		
+		private IActionResult HandleImageUpload(PostViewModel post)
+		{
+			ModelState.ClearValidationState("");
+			String fileName = post.Image.FileName;
+			using (var s = post.Image.OpenReadStream())
+			{
+				_binaryManager.SaveFile(s, ref fileName);
+			}
+			return View(post);
+		}
+
 
 	}
 }
