@@ -1,4 +1,4 @@
-#region Copyright (c) 2003, newtelligence AG. All rights reserved.
+﻿#region Copyright (c) 2003, newtelligence AG. All rights reserved.
 /*
 // Copyright (c) 2003, newtelligence AG. (http://www.newtelligence.com)
 // Original BlogX Source Code: Copyright (c) 2003, Chris Anderson (http://simplegeek.com)
@@ -111,27 +111,27 @@ namespace newtelligence.DasBlog.Runtime
 		/// Return EntryCollection excluding the private entries if the caller
 		/// is not in the admin role.
 		/// </summary>
-		public EntryCollection GetEntries()
+		public EntryCollection GetEntries(bool isAdminUser)
 		{
-			return GetEntries(null);
+			return GetEntries(null, isAdminUser);
 		}
 
         /// <summary>
         /// Return EntryCollection with the number of entries limited by <see paramref="maxResults" />  
         /// excluding the private entries if the caller is not in the admin role.
         /// </summary>
-        public EntryCollection GetEntries(int maxResults)
+        public EntryCollection GetEntries(int maxResults, bool isAdminUser)
         {
-            return GetEntries(null, maxResults);
+            return GetEntries(null, maxResults, isAdminUser);
         }
 
         /// <summary>
         /// Returns the entries that meet the include delegates criteria.
         /// </summary>
         /// <param name="include">The delegate indicating which items to include.</param>
-        public EntryCollection GetEntries(Predicate<Entry> include)
+        public EntryCollection GetEntries(Predicate<Entry> include, bool isAdminUser)
         {
-			return GetEntries(include, Int32.MaxValue);
+			return GetEntries(include, Int32.MaxValue, isAdminUser);
         }
 
 
@@ -140,20 +140,13 @@ namespace newtelligence.DasBlog.Runtime
         /// with the number of entries limited by <see paramref="maxResults" />.
 		/// </summary>
 		/// <param name="include">The delegate indicating which items to include.</param>
-		public EntryCollection GetEntries(Predicate<Entry> include, int maxResults)
+		public EntryCollection GetEntries(Predicate<Entry> include, int maxResults, bool isAdminUser)
 		{
 			lock(entriesLock)
 			{
 				Predicate<Entry> filter = null;
 
-                if (System.Threading.Thread.CurrentPrincipal != null)
-                {
-                    if (!System.Threading.Thread.CurrentPrincipal.IsInRole("admin"))
-                    {
-                        filter += EntryCollectionFilter.DefaultFilters.IsPublic();
-                    }
-                }
-                else
+                if (!isAdminUser)
                 {
                     filter += EntryCollectionFilter.DefaultFilters.IsPublic();
                 }

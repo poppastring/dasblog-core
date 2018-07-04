@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 
 namespace newtelligence.DasBlog.Runtime
 {
@@ -32,7 +32,7 @@ namespace newtelligence.DasBlog.Runtime
 		/// <param name="entryId"></param>
 		/// <remarks>
 		/// By default, Entries where IsPublic is set to false will not be returned unless
-		/// the CurrentPrincipal is in the "admin" role
+		/// the logged in user is in the "admin" role
 		/// </remarks>
 		/// <returns></returns>
 		Entry GetEntry( string entryId );
@@ -43,7 +43,7 @@ namespace newtelligence.DasBlog.Runtime
 //		/// <param name="entryId"></param>
 //		/// <remarks>
 //		/// By default, Entries where IsPublic is set to false will not be returned unless
-//		/// the CurrentPrincipal is in the "admin" role
+		/// the logged in user is in the "admin" role
 //		/// </remarks>
 //		/// <returns></returns>
 //		string GetEntryTitle( string entryId );
@@ -54,7 +54,7 @@ namespace newtelligence.DasBlog.Runtime
 		/// <param name="entryId"></param>
 		/// <remarks>
 		/// By default, Entries where IsPublic is set to false will not be returned unless
-		/// the CurrentPrincipal is in the "admin" role
+		/// the logged in user is in the "admin" role
 		/// </remarks>
 		/// <returns></returns>
 		Entry GetEntryForEdit( string entryId );
