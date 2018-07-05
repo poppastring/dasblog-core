@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Security.Principal;
 using DasBlog.Core.Configuration;
 using DasBlog.Managers;
@@ -17,6 +18,12 @@ using Microsoft.Extensions.DependencyInjection;
 using AutoMapper;
 using DasBlog.Web.Mappers;
 using DasBlog.Core;
+<<<<<<< HEAD
+=======
+using DasBlog.Services;
+using DasBlog.Services.Interfaces;
+using Microsoft.Extensions.FileProviders;
+>>>>>>> 037ecdd... show images in posts on home page
 
 namespace DasBlog.Web
 {
@@ -24,6 +31,7 @@ namespace DasBlog.Web
 	{
 		public const string SITESECURITYCONFIG = @"Config\siteSecurity.config";
 		private IHostingEnvironment _hostingEnvironment;
+		private string _binariesPath;
 
 		public Startup(IConfiguration configuration, IHostingEnvironment env)
 		{
@@ -40,6 +48,7 @@ namespace DasBlog.Web
 			Configuration = builder.Build();
 
 			_hostingEnvironment = env;
+			_binariesPath = Configuration.GetValue<string>("binariesDir", "/").TrimStart('~').TrimEnd('/');
 		}
 
 		public IConfiguration Configuration { get; }
@@ -139,6 +148,11 @@ namespace DasBlog.Web
 			}
 
 			app.UseStaticFiles();
+			app.UseStaticFiles(new StaticFileOptions()
+			{
+				FileProvider = new PhysicalFileProvider(Path.Combine(env.ContentRootPath, "content", "binary")),
+				RequestPath = _binariesPath
+			});
 			app.UseAuthentication();
 
 			app.UseMvc(routes =>

@@ -13,42 +13,26 @@ namespace DasBlog.Managers
 		private IBinaryDataService _dataService;
 		private ILoggingDataService _loggingDataService;
 		private ISiteSecurityManager _siteSecurity;
-		private readonly IDasBlogSettings _dasBlogSettings;
-
+		private string _virtBinaryPathRelativeToContentRoot;
 		public FileSystemBinaryManager(IDasBlogSettings settings)
 		{
-			_dasBlogSettings = settings;
-			var siteConfig = _dasBlogSettings.SiteConfiguration;
-			string binaryPath = MapPath(siteConfig.BinariesDir, _dasBlogSettings.WebRootDirectory);
-			Uri binaryRootUrl = new Uri(binaryPath);
-			_loggingDataService = LoggingDataServiceFactory.GetService(_dasBlogSettings.WebRootDirectory + _dasBlogSettings.SiteConfiguration.LogDir);
-			_dataService = BinaryDataServiceFactory.GetService(binaryPath, binaryRootUrl ,_loggingDataService);
+			var siteConfig = settings.SiteConfiguration;
+			_virtBinaryPathRelativeToContentRoot = siteConfig.BinariesDir.TrimStart('~', '/'); // s/be "content/binary"
+			string physBinaryPath = Path.Combine(settings.WebRootDirectory,_virtBinaryPathRelativeToContentRoot);  // s/be "c:\...\DaBlog.Web.UI\content\binary"
+					// WebRootDirectory is a misnomer.  It should be called ContentRootDirectory
+					// ContentRootDirectory is not "c:\...\DasBlog.Web.UI\contnet".  It is actually "c:\...\DasBlog.Web.UI"
+					// WebRootDirectory is "wwwroot".
+			Uri physBinaryPathUrl = new Uri(physBinaryPath);
+			_loggingDataService = LoggingDataServiceFactory.GetService(settings.WebRootDirectory + settings.SiteConfiguration.LogDir);
+			_dataService = BinaryDataServiceFactory.GetService(physBinaryPath, physBinaryPathUrl ,_loggingDataService);
 		}
 
-		private string MapPath(string binariesPath, string webRootDirectory)
+		public string SaveFile(Stream inputFile, string fileName)
 		{
-			string trimmedRelative = binariesPath.TrimStart('~', '/');
-			return Path.Combine(webRootDirectory, trimmedRelative);
-		}
-
-		public string SaveFile(Stream inputFile, ref string fileName)
-		{
-/*
-			string type = fileInput.PostedFile.ContentType;
-			numBytes = fileInput.PostedFile.InputStream.Length;
-
-			SharedBasePage requestPage = this.Page as SharedBasePage;
-
-			string postedFileName = Path.GetFileName(fileInput.PostedFile.FileName);
-
-			string filename = Path.Combine(entryId ?? "", postedFileName);
-
-*/
-			string savedFileName;
-			string absUrl = _dataService.SaveFile(inputFile, ref fileName);
-			savedFileName = Path.GetFileName(fileName);
-
-			return absUrl;
+			_dataService.SaveFile(inputFile, ref fileName);
+			string newPathAndFileName = fileName;			// "c:\...\DasBlog.Web.UI\content/bianry/my-image.jpg"
+			string newFileName = Path.GetFileName(newPathAndFileName);		// might be same as original or maybe different
+			return Path.Combine(_virtBinaryPathRelativeToContentRoot, newFileName);  // s/be "/Content/binary/mypic-etc.jpg"
 		}
 	}
 }

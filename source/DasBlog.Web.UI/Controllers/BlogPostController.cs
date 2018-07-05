@@ -361,10 +361,30 @@ namespace DasBlog.Web.Controllers
 		{
 			ModelState.ClearValidationState("");
 			String fileName = post.Image.FileName;
-			using (var s = post.Image.OpenReadStream())
+			string relativePath = null;
+			try
 			{
-				_binaryManager.SaveFile(s, ref fileName);
+				using (var s = post.Image.OpenReadStream())
+				{
+					relativePath = _binaryManager.SaveFile(s, fileName);
+				}
 			}
+			catch (Exception e)
+			{
+				ModelState.AddModelError(nameof(post.Image), $"An error occurred while uploading image ({e.Message})");
+				return View(post);
+			}
+
+			if (string.IsNullOrEmpty(relativePath))
+			{
+				ModelState.AddModelError(nameof(post.Image)
+				  ,"Failed to upload file - reason unknown");
+				return View(post);
+			}
+			string linkText = String.Format("<img border=\"0\" src=\"{0}\">",
+				relativePath);
+			post.Content += linkText;
+			ModelState.Remove(nameof(post.Content));	// ensure that model change is included in response
 			return View(post);
 		}
 

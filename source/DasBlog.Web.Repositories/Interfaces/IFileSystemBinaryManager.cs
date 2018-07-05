@@ -1,7 +1,9 @@
-﻿namespace DasBlog.Managers.Interfaces
+﻿using System.IO;
+
+namespace DasBlog.Managers.Interfaces
 {
 	public interface IFileSystemBinaryManager
 	{
-		string SaveFile(System.IO.Stream inputFile, ref string fileName);
+		string SaveFile(Stream inputFile, string fileName);
 	}
 }
