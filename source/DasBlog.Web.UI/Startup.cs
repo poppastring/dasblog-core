@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Security.Principal;
+using System.Threading;
+using System.Threading.Tasks;
 using DasBlog.Core.Configuration;
 using DasBlog.Managers;
 using DasBlog.Managers.Interfaces;
@@ -137,7 +139,7 @@ namespace DasBlog.Web
 
 			app.UseStaticFiles();
 			app.UseAuthentication();
-
+			app.Use(PopulateThreadCurrentPrincipalForMvc);
 			app.UseMvc(routes =>
 			{
 				routes.MapRoute(
@@ -159,6 +161,32 @@ namespace DasBlog.Web
 				 .AddIISUrlRewrite(env.ContentRootFileProvider, @"Config\IISUrlRewrite.xml");
 
 			app.UseRewriter(options);
+		}
+		/// <summary>
+		/// BlogDataService and DayEntry rely on the thread's CurrentPrincipal and its role to determine if users
+		/// should be allowed edit and add posts.
+		/// Unfortunately the asp.net team no longer favour an approach involving the current thread so
+		/// much as I am loath to stick values on globalish type stuff going up and down the stack
+		/// this is a light touch way of including the functionality and actually looks fairly safe.
+		/// Hopefully, in the fullness of time we will beautify the legacy code and this can go.
+		/// </summary>
+		/// <param name="context">provides the user data</param>
+		/// <param name="next">standdard middleware - in this case MVC iteelf</param>
+		/// <returns></returns>
+		private Task PopulateThreadCurrentPrincipalForMvc(HttpContext context, Func<Task> next)
+		{
+			IPrincipal existingThreadPrincipal = null;
+			try
+			{
+				existingThreadPrincipal = Thread.CurrentPrincipal;
+				Thread.CurrentPrincipal = context.User;
+				var rtn = next();
+				return rtn;
+			}
+			finally
+			{
+				Thread.CurrentPrincipal = existingThreadPrincipal;
+			}
 		}
 	}
 }

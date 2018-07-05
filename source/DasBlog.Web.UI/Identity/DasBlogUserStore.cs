@@ -217,6 +217,7 @@ namespace DasBlog.Web.Identity
 					new Claim("http://dasblog.org/claims/addpost", "Add Post"),
 					new Claim("http://dasblog.org/claims/editpost", "Edit Post"),
 					new Claim("http://dasblog.org/claims/editsitesettings", "Edit Site Settings")
+					,new Claim(ClaimTypes.Role, "admin")
 				};
 			}
 
