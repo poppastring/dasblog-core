@@ -18,12 +18,7 @@ using Microsoft.Extensions.DependencyInjection;
 using AutoMapper;
 using DasBlog.Web.Mappers;
 using DasBlog.Core;
-<<<<<<< HEAD
-=======
-using DasBlog.Services;
-using DasBlog.Services.Interfaces;
 using Microsoft.Extensions.FileProviders;
->>>>>>> 037ecdd... show images in posts on home page
 
 namespace DasBlog.Web
 {

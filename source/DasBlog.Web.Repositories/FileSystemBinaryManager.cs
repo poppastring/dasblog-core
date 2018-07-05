@@ -2,7 +2,6 @@
 using System.IO;
 using DasBlog.Core;
 using DasBlog.Managers.Interfaces;
-using DasBlog.Services.Interfaces;
 using newtelligence.DasBlog.Runtime;
 using newtelligence.DasBlog.Web.Core;
 
