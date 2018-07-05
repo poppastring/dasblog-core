@@ -56,8 +56,6 @@ namespace DasBlog.Web.Models.BlogViewModels
 
 		public ListCommentsViewModel Comments { get; set; }
 		
-		public string ImageName { get; set; }
-		
 		public IFormFile Image { get; set; }
 	}
 }

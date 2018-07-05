@@ -103,6 +103,10 @@ namespace DasBlog.Web.Controllers
 			{
 				return HandleNewCategory(post);
 			}
+			if (submit == Constants.UploadImageAction)
+			{
+				return HandleImageUpload(post);
+			}
 			if (!ModelState.IsValid)
 			{
 				return View(post);
@@ -360,7 +364,13 @@ namespace DasBlog.Web.Controllers
 		private IActionResult HandleImageUpload(PostViewModel post)
 		{
 			ModelState.ClearValidationState("");
-			String fileName = post.Image.FileName;
+			String fileName = post.Image?.FileName;
+			if (string.IsNullOrEmpty(fileName))
+			{
+				ModelState.AddModelError(nameof(post.Image)
+					,$"You must select a file before clicking \"{Constants.UploadImageAction}\" to upload it");
+				return View(post);
+			}
 			string relativePath = null;
 			try
 			{
@@ -381,7 +391,7 @@ namespace DasBlog.Web.Controllers
 				  ,"Failed to upload file - reason unknown");
 				return View(post);
 			}
-			string linkText = String.Format("<img border=\"0\" src=\"{0}\">",
+			string linkText = String.Format("<p><img border=\"0\" src=\"{0}\"></p>",
 				relativePath);
 			post.Content += linkText;
 			ModelState.Remove(nameof(post.Content));	// ensure that model change is included in response
