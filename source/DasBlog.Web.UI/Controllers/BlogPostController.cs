@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using AutoMapper;
 using DasBlog.Core;
@@ -10,6 +11,7 @@ using DasBlog.Web.Settings;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using newtelligence.DasBlog.Runtime;
 using Remotion.Linq.Parsing.Structure.IntermediateModel;
 using static DasBlog.Web.Common.Utils;
@@ -140,6 +142,7 @@ namespace DasBlog.Web.Controllers
 			PostViewModel post = new PostViewModel();
 			post.CreatedDateTime = DateTime.UtcNow;  //TODO: Set to the timezone configured???
 			post.AllCategories = _mapper.Map<List<CategoryViewModel>>(_blogManager.GetCategories());
+			post.Languages = GetAlllanguages();
 
 			return View(post);
 		}
@@ -347,6 +350,52 @@ namespace DasBlog.Web.Controllers
 
 			return View(post);
 		}
+		private IEnumerable<SelectListItem> GetAlllanguages()
+		{
+			CultureInfo[] cultures = CultureInfo.GetCultures(CultureTypes.AllCultures);
 
+			// setup temp store for listitem items, for sorting
+			List<SelectListItem> cultureList = new List<SelectListItem>(cultures.Length);
+
+			foreach (CultureInfo ci in cultures)
+			{
+				string langName = (ci.NativeName != ci.EnglishName) ? ci.NativeName + " / " + ci.EnglishName : ci.NativeName;
+
+				if (langName.Length > 55)
+				{
+					langName = langName.Substring(0, 55) + "...";
+				}
+
+				cultureList.Add(new SelectListItem{ Value = ci.Name, Text = langName});
+			}
+
+			// setup the sort culture
+			//string rssCulture = requestPage.SiteConfig.RssLanguage;
+
+			CultureInfo sortCulture;
+
+			try
+			{
+//				sortCulture = (rssCulture != null && rssCulture.Length > 0 ? new CultureInfo(rssCulture) : CultureInfo.CurrentCulture);
+				sortCulture = CultureInfo.CurrentCulture;
+			}
+			catch (ArgumentException)
+			{
+				// default to the culture of the server
+				sortCulture = CultureInfo.CurrentCulture;
+			}
+
+			// sort the list
+			cultureList.Sort(delegate(SelectListItem x, SelectListItem y)
+			{
+				// actual comparison
+				return String.Compare(x.Text, y.Text, true, sortCulture);
+			});
+			// add to the languages listbox
+
+			SelectListItem[] cultureListItems = cultureList.ToArray();
+
+			return cultureListItems;
+		}
 	}
 }
