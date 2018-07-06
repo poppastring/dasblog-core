@@ -61,66 +61,11 @@ namespace DasBlog.Web.Models.BlogViewModels
 		public IFormFile Image { get; set; }
 		public string Language { get; set; }
 
+		public IEnumerable<SelectListItem> _languages = new List<SelectListItem>();
 		public IEnumerable<SelectListItem> Languages
 		{
-			get
-			{
-				return GetLanguages();
-			}
-		}
-
-		private IEnumerable<SelectListItem> GetLanguages()
-		{
-			CultureInfo[] cultures = CultureInfo.GetCultures(CultureTypes.AllCultures);
-
-			// setup temp store for listitem items, for sorting
-			List<SelectListItem> cultureList = new List<SelectListItem>(cultures.Length);
-
-			foreach (CultureInfo ci in cultures)
-			{
-				string langName = (ci.NativeName != ci.EnglishName) ? ci.NativeName + " / " + ci.EnglishName : ci.NativeName;
-
-				if (langName.Length > 55)
-				{
-					langName = langName.Substring(0, 55) + "...";
-				}
-
-				cultureList.Add(new SelectListItem{ Value = ci.Name, Text = langName});
-			}
-
-			// setup the sort culture
-			//string rssCulture = requestPage.SiteConfig.RssLanguage;
-
-			CultureInfo sortCulture;
-
-			try
-			{
-//				sortCulture = (rssCulture != null && rssCulture.Length > 0 ? new CultureInfo(rssCulture) : CultureInfo.CurrentCulture);
-				sortCulture = CultureInfo.CurrentCulture;
-			}
-			catch (ArgumentException)
-			{
-				// default to the culture of the server
-				sortCulture = CultureInfo.CurrentCulture;
-			}
-
-			// sort the list
-			cultureList.Sort(delegate(SelectListItem x, SelectListItem y)
-			{
-				// actual comparison
-				return String.Compare(x.Text, y.Text, true, sortCulture);
-			});
-			// add to the languages listbox
-
-			SelectListItem[] cultureListItems = cultureList.ToArray();
-
-
-			return cultureListItems;
-/*
-			listLanguages.Items.AddRange(cultureListItems);
-
-			listLanguages.SelectedValue = "";
-*/
+			get { return _languages; }
+			set { _languages = value; }
 		}
 	}
 }
