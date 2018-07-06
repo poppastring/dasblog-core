@@ -79,6 +79,7 @@ namespace DasBlog.Web.Controllers
 				if (entry != null)
 				{
 					pvm = _mapper.Map<PostViewModel>(entry);
+					pvm.Languages = GetAlllanguages();
 					List<CategoryViewModel> allcategories = _mapper.Map<List<CategoryViewModel>>(_blogManager.GetCategories());
 
 					foreach (var cat in allcategories)
@@ -101,6 +102,8 @@ namespace DasBlog.Web.Controllers
 		[HttpPost("post/edit")]
 		public IActionResult EditPost(PostViewModel post, string submit)
 		{
+			// languages does not get posted as part of form
+			post.Languages = GetAlllanguages();
 			if (submit == Constants.BlogPostAddCategoryAction)
 			{
 				return HandleNewCategory(post);
