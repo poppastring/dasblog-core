@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Http;
-using Microsoft.WindowsAzure.Storage.Blob.Protocol;
-using System.Globalization;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace DasBlog.Web.Models.BlogViewModels
