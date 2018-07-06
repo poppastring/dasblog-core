@@ -161,6 +161,7 @@ namespace DasBlog.Web.Controllers
 		[HttpPost("post/create")]
 		public IActionResult CreatePost(PostViewModel post, string submit)
 		{
+			post.Languages = GetAlllanguages();
 			if (submit == Constants.BlogPostAddCategoryAction)
 			{
 				return HandleNewCategory(post);
@@ -422,7 +423,7 @@ namespace DasBlog.Web.Controllers
 
 				if (string.IsNullOrEmpty(ci.Name))
 				{
-					langName = "";		// invariant language (invariant country)
+					langName = string.Empty;		// invariant language (invariant country)
 				}
 
 				cultureList.Add(new SelectListItem{ Value = ci.Name, Text = langName});
