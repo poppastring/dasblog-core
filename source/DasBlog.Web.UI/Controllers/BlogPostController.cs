@@ -369,6 +369,11 @@ namespace DasBlog.Web.Controllers
 					langName = langName.Substring(0, 55) + "...";
 				}
 
+				if (string.IsNullOrEmpty(ci.Name))
+				{
+					langName = "";		// invariant language (invariant country)
+				}
+
 				cultureList.Add(new SelectListItem{ Value = ci.Name, Text = langName});
 			}
 
