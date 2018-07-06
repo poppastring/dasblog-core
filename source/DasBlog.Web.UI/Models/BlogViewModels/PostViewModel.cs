@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Http;
 using Microsoft.WindowsAzure.Storage.Blob.Protocol;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace DasBlog.Web.Models.BlogViewModels
 {
@@ -57,5 +58,19 @@ namespace DasBlog.Web.Models.BlogViewModels
 		public ListCommentsViewModel Comments { get; set; }
 		
 		public IFormFile Image { get; set; }
+		public string Language { get; set; }
+
+		public IEnumerable<SelectListItem> Languages
+		{
+			get
+			{
+				return new List<SelectListItem>
+				{
+					new SelectListItem { Value = "MS", Text = "mmike-speak" }
+					,new SelectListItem { Value = "LS", Text = "laurelai-speak" }
+					,new SelectListItem { Value = "JS", Text = "jane-speak" }
+				};
+			}
+		}
 	}
 }
