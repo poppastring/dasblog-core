@@ -11,6 +11,7 @@ using DasBlog.Web.Settings;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using newtelligence.DasBlog.Runtime;
 using Remotion.Linq.Parsing.Structure.IntermediateModel;
 using static DasBlog.Web.Common.Utils;
@@ -356,6 +357,7 @@ namespace DasBlog.Web.Controllers
 				  Category = newCategoryDisplayName
 				  , CategoryUrl = newCategoryUrl, Checked = true});
 				post.NewCategory = "";
+				ModelState.Remove(nameof(post.NewCategory));	// ensure response refreshes page with view model's value
 			}
 
 			return View(post);
