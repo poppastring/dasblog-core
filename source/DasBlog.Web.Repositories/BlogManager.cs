@@ -19,24 +19,24 @@ using newtelligence.DasBlog.Web.Services.Rss20;
 
 namespace DasBlog.Managers
 {
-    public class BlogManager : IBlogManager
-    {
-        private IBlogDataService _dataService;
-        private ILoggingDataService _loggingDataService;
-        private ISiteSecurityManager _siteSecurity;
-        private readonly IDasBlogSettings _dasBlogSettings;
+	public class BlogManager : IBlogManager
+	{
+		private IBlogDataService _dataService;
+		private ILoggingDataService _loggingDataService;
+		private ISiteSecurityManager _siteSecurity;
+		private readonly IDasBlogSettings _dasBlogSettings;
 
-        public BlogManager(IDasBlogSettings settings)
-        {
-            _dasBlogSettings = settings;
-            _loggingDataService = LoggingDataServiceFactory.GetService(_dasBlogSettings.WebRootDirectory + _dasBlogSettings.SiteConfiguration.LogDir);
-            _dataService = BlogDataServiceFactory.GetService(_dasBlogSettings.WebRootDirectory + _dasBlogSettings.SiteConfiguration.ContentDir, _loggingDataService);
-        }
+		public BlogManager(IDasBlogSettings settings)
+		{
+			_dasBlogSettings = settings;
+			_loggingDataService = LoggingDataServiceFactory.GetService(_dasBlogSettings.WebRootDirectory + _dasBlogSettings.SiteConfiguration.LogDir);
+			_dataService = BlogDataServiceFactory.GetService(_dasBlogSettings.WebRootDirectory + _dasBlogSettings.SiteConfiguration.ContentDir, _loggingDataService);
+		}
 
-        public Entry GetBlogPost(string postid)
-        {
-            return _dataService.GetEntry(postid);
-        }
+		public Entry GetBlogPost(string postid)
+		{
+			return _dataService.GetEntry(postid);
+		}
 
 		public Entry GetEntryForEdit(string postid)
 		{
@@ -44,65 +44,64 @@ namespace DasBlog.Managers
 		}
 
 		public EntryCollection GetFrontPagePosts(string acceptLanguageHeader)
-        {
-            DateTime fpDayUtc;
-            TimeZone tz;
+		{
+			DateTime fpDayUtc;
+			TimeZone tz;
 
-            //Need to insert the Request.Headers["Accept-Language"];
-	        string languageFilter = acceptLanguageHeader;
-//            string languageFilter = "en-US"; // Request.Headers["Accept-Language"];
-            fpDayUtc = DateTime.UtcNow.AddDays(_dasBlogSettings.SiteConfiguration.ContentLookaheadDays);
+			//Need to insert the Request.Headers["Accept-Language"];
+			string languageFilter = acceptLanguageHeader;
+			fpDayUtc = DateTime.UtcNow.AddDays(_dasBlogSettings.SiteConfiguration.ContentLookaheadDays);
 
-            if (_dasBlogSettings.SiteConfiguration.AdjustDisplayTimeZone)
-            {
-                tz = WindowsTimeZone.TimeZones.GetByZoneIndex(_dasBlogSettings.SiteConfiguration.DisplayTimeZoneIndex);
-            }
-            else
-            {
-                tz = new UTCTimeZone();
-            }
+			if (_dasBlogSettings.SiteConfiguration.AdjustDisplayTimeZone)
+			{
+				tz = WindowsTimeZone.TimeZones.GetByZoneIndex(_dasBlogSettings.SiteConfiguration.DisplayTimeZoneIndex);
+			}
+			else
+			{
+				tz = new UTCTimeZone();
+			}
 
-            return _dataService.GetEntriesForDay(fpDayUtc, TimeZone.CurrentTimeZone,
-                                languageFilter,
-                                _dasBlogSettings.SiteConfiguration.FrontPageDayCount, _dasBlogSettings.SiteConfiguration.FrontPageEntryCount, string.Empty);
-        }
+			return _dataService.GetEntriesForDay(fpDayUtc, TimeZone.CurrentTimeZone,
+								languageFilter,
+								_dasBlogSettings.SiteConfiguration.FrontPageDayCount, _dasBlogSettings.SiteConfiguration.FrontPageEntryCount, string.Empty);
+		}
 
-        public EntryCollection GetEntriesForPage(int pageIndex, string acceptLanguageHeader)
-        {
-            Predicate<Entry> pred = null;
+		public EntryCollection GetEntriesForPage(int pageIndex, string acceptLanguageHeader)
+		{
+			Predicate<Entry> pred = null;
 
-            //Shallow copy as we're going to modify it...and we don't want to modify THE cache.
-            EntryCollection cache = _dataService.GetEntries(null, pred, Int32.MaxValue, Int32.MaxValue);
+			//Shallow copy as we're going to modify it...and we don't want to modify THE cache.
+			EntryCollection cache = _dataService.GetEntries(null, pred, Int32.MaxValue, Int32.MaxValue);
 
-            // remove the posts from the front page
-            EntryCollection fp = GetFrontPagePosts(acceptLanguageHeader);
+			// remove the posts from the front page
+			EntryCollection fp = GetFrontPagePosts(acceptLanguageHeader);
 
-            cache.RemoveRange(0, fp.Count);
+			cache.RemoveRange(0, fp.Count);
 
-            int entriesPerPage = _dasBlogSettings.SiteConfiguration.EntriesPerPage;
+			int entriesPerPage = _dasBlogSettings.SiteConfiguration.EntriesPerPage;
 
-            // compensate for frontpage
-            if ((pageIndex - 1) * entriesPerPage < cache.Count)
-            {
-                // Remove all entries before the current page's first entry.
-                int end = (pageIndex - 1) * entriesPerPage;
-                cache.RemoveRange(0, end);
+			// compensate for frontpage
+			if ((pageIndex - 1) * entriesPerPage < cache.Count)
+			{
+				// Remove all entries before the current page's first entry.
+				int end = (pageIndex - 1) * entriesPerPage;
+				cache.RemoveRange(0, end);
 
-                // Remove all entries after the page's last entry.
-                if (cache.Count - entriesPerPage > 0)
-                {
-                    cache.RemoveRange(entriesPerPage, cache.Count - entriesPerPage);
-                    // should match
-                    bool postCount = cache.Count <= entriesPerPage;
-                }
+				// Remove all entries after the page's last entry.
+				if (cache.Count - entriesPerPage > 0)
+				{
+					cache.RemoveRange(entriesPerPage, cache.Count - entriesPerPage);
+					// should match
+					bool postCount = cache.Count <= entriesPerPage;
+				}
 
-                return _dataService.GetEntries(null, EntryCollectionFilter.DefaultFilters.IsInEntryIdCacheEntryCollection(cache),
-                    Int32.MaxValue,
-                    Int32.MaxValue);
-            }
+				return _dataService.GetEntries(null, EntryCollectionFilter.DefaultFilters.IsInEntryIdCacheEntryCollection(cache),
+					Int32.MaxValue,
+					Int32.MaxValue);
+			}
 
-            return new EntryCollection();
-        }
+			return new EntryCollection();
+		}
 
 		public EntrySaveState CreateEntry(Entry entry)
 		{
