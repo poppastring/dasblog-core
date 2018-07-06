@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Security.Principal;
 using System.Threading;
 using System.Threading.Tasks;
@@ -18,6 +20,7 @@ using Microsoft.Extensions.DependencyInjection;
 using AutoMapper;
 using DasBlog.Web.Mappers;
 using DasBlog.Core;
+using Microsoft.Extensions.FileProviders;
 
 namespace DasBlog.Web
 {
@@ -25,6 +28,7 @@ namespace DasBlog.Web
 	{
 		public const string SITESECURITYCONFIG = @"Config\siteSecurity.config";
 		private IHostingEnvironment _hostingEnvironment;
+		private string _binariesPath;
 
 		public Startup(IConfiguration configuration, IHostingEnvironment env)
 		{
@@ -35,11 +39,13 @@ namespace DasBlog.Web
 			.AddXmlFile(SITESECURITYCONFIG, optional: true, reloadOnChange: true)
 			.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
 			.AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
-			.AddEnvironmentVariables();
+			.AddEnvironmentVariables()
+			;
 
 			Configuration = builder.Build();
 
 			_hostingEnvironment = env;
+			_binariesPath = Configuration.GetValue<string>("binariesDir", "/").TrimStart('~').TrimEnd('/');
 		}
 
 		public IConfiguration Configuration { get; }
@@ -111,8 +117,9 @@ namespace DasBlog.Web
 				.AddSingleton<ISiteSecurityManager, SiteSecurityManager>()
 				.AddSingleton<IXmlRpcManager, XmlRpcManager>()
 				.AddSingleton<ISiteManager, SiteManager>()
-				.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-
+				.AddSingleton<IHttpContextAccessor, HttpContextAccessor>()
+				.AddSingleton<IFileSystemBinaryManager, FileSystemBinaryManager>()
+				;
 			services
 				.AddAutoMapper(mapperConfig =>
 				{
@@ -138,6 +145,11 @@ namespace DasBlog.Web
 			}
 
 			app.UseStaticFiles();
+			app.UseStaticFiles(new StaticFileOptions()
+			{
+				FileProvider = new PhysicalFileProvider(Path.Combine(env.ContentRootPath, "content", "binary")),
+				RequestPath = _binariesPath
+			});
 			app.UseAuthentication();
 			app.Use(PopulateThreadCurrentPrincipalForMvc);
 			app.UseMvc(routes =>

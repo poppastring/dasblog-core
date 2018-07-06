@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Http;
+using Microsoft.WindowsAzure.Storage.Blob.Protocol;
 
 namespace DasBlog.Web.Models.BlogViewModels
 {
@@ -53,5 +55,7 @@ namespace DasBlog.Web.Models.BlogViewModels
 		public DateTime ModifiedDateTime { get; set; }
 
 		public ListCommentsViewModel Comments { get; set; }
+		
+		public IFormFile Image { get; set; }
 	}
 }

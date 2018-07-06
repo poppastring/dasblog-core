@@ -1,7 +1,8 @@
 ﻿@model DasBlog.Web.Models.BlogViewModels.PostViewModel
+@using DasBlog.Web.Common
 @using DasBlog.Web.Models.BlogViewModels
 
-<form asp-controller="post" asp-action="edit" method="post">
+<form asp-controller="post" asp-action="edit" method="post" enctype="multipart/form-data">
 
     <div class="modal-body form-horizontal">
         <div class="form-group">
@@ -72,6 +73,10 @@
         </div>
         <div class="col-lg-offset-3 col-sm-offset-3 ">
             <span asp-validation-for="@Model.NewCategory" class="text-danger"></span>               
+        </div>
+        <div class="col-lg-offset-3 col-sm-offset-3 ">
+            <input type="file" name="Image" accept="image/jpeg,image/gif,image/png" /> 
+            <input type="submit" name="submit" value="@Constants.UploadImageAction" class="btn"/>
         </div>
         <div class="form-group">
             <div class="col-lg-6">
