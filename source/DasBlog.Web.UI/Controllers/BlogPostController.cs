@@ -181,7 +181,7 @@ namespace DasBlog.Web.Controllers
 
 				entry.Initialize();
 				entry.Author = _httpContextAccessor.HttpContext.User.Identity.Name;
-				entry.Language = "en-us"; //TODO: We inject this fron http context?
+				entry.Language = post.Language;
 				entry.Latitude = null;
 				entry.Longitude = null;
 

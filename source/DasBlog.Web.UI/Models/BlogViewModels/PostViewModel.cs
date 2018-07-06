@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Http;
 using Microsoft.WindowsAzure.Storage.Blob.Protocol;
+using System.Globalization;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace DasBlog.Web.Models.BlogViewModels
@@ -64,13 +65,62 @@ namespace DasBlog.Web.Models.BlogViewModels
 		{
 			get
 			{
-				return new List<SelectListItem>
-				{
-					new SelectListItem { Value = "MS", Text = "mmike-speak" }
-					,new SelectListItem { Value = "LS", Text = "laurelai-speak" }
-					,new SelectListItem { Value = "JS", Text = "jane-speak" }
-				};
+				return GetLanguages();
 			}
+		}
+
+		private IEnumerable<SelectListItem> GetLanguages()
+		{
+			CultureInfo[] cultures = CultureInfo.GetCultures(CultureTypes.AllCultures);
+
+			// setup temp store for listitem items, for sorting
+			List<SelectListItem> cultureList = new List<SelectListItem>(cultures.Length);
+
+			foreach (CultureInfo ci in cultures)
+			{
+				string langName = (ci.NativeName != ci.EnglishName) ? ci.NativeName + " / " + ci.EnglishName : ci.NativeName;
+
+				if (langName.Length > 55)
+				{
+					langName = langName.Substring(0, 55) + "...";
+				}
+
+				cultureList.Add(new SelectListItem{ Value = ci.Name, Text = langName});
+			}
+
+			// setup the sort culture
+			//string rssCulture = requestPage.SiteConfig.RssLanguage;
+
+			CultureInfo sortCulture;
+
+			try
+			{
+//				sortCulture = (rssCulture != null && rssCulture.Length > 0 ? new CultureInfo(rssCulture) : CultureInfo.CurrentCulture);
+				sortCulture = CultureInfo.CurrentCulture;
+			}
+			catch (ArgumentException)
+			{
+				// default to the culture of the server
+				sortCulture = CultureInfo.CurrentCulture;
+			}
+
+			// sort the list
+			cultureList.Sort(delegate(SelectListItem x, SelectListItem y)
+			{
+				// actual comparison
+				return String.Compare(x.Text, y.Text, true, sortCulture);
+			});
+			// add to the languages listbox
+
+			SelectListItem[] cultureListItems = cultureList.ToArray();
+
+
+			return cultureListItems;
+/*
+			listLanguages.Items.AddRange(cultureListItems);
+
+			listLanguages.SelectedValue = "";
+*/
 		}
 	}
 }

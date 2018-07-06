@@ -43,13 +43,14 @@ namespace DasBlog.Managers
 			return _dataService.GetEntryForEdit(postid);
 		}
 
-		public EntryCollection GetFrontPagePosts()
+		public EntryCollection GetFrontPagePosts(string acceptLanguageHeader)
         {
             DateTime fpDayUtc;
             TimeZone tz;
 
             //Need to insert the Request.Headers["Accept-Language"];
-            string languageFilter = "en-US"; // Request.Headers["Accept-Language"];
+	        string languageFilter = acceptLanguageHeader;
+//            string languageFilter = "en-US"; // Request.Headers["Accept-Language"];
             fpDayUtc = DateTime.UtcNow.AddDays(_dasBlogSettings.SiteConfiguration.ContentLookaheadDays);
 
             if (_dasBlogSettings.SiteConfiguration.AdjustDisplayTimeZone)
@@ -66,7 +67,7 @@ namespace DasBlog.Managers
                                 _dasBlogSettings.SiteConfiguration.FrontPageDayCount, _dasBlogSettings.SiteConfiguration.FrontPageEntryCount, string.Empty);
         }
 
-        public EntryCollection GetEntriesForPage(int pageIndex)
+        public EntryCollection GetEntriesForPage(int pageIndex, string acceptLanguageHeader)
         {
             Predicate<Entry> pred = null;
 
@@ -74,7 +75,7 @@ namespace DasBlog.Managers
             EntryCollection cache = _dataService.GetEntries(null, pred, Int32.MaxValue, Int32.MaxValue);
 
             // remove the posts from the front page
-            EntryCollection fp = GetFrontPagePosts();
+            EntryCollection fp = GetFrontPagePosts(acceptLanguageHeader);
 
             cache.RemoveRange(0, fp.Count);
 

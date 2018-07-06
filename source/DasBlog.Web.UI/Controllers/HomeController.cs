@@ -28,7 +28,7 @@ namespace DasBlog.Web.Controllers
 		public IActionResult Index()
 		{
 			ListPostsViewModel lpvm = new ListPostsViewModel();
-			lpvm.Posts = _blogManager.GetFrontPagePosts()
+			lpvm.Posts = _blogManager.GetFrontPagePosts(Request.Headers["Accept-Language"])
 							.Select(entry => _mapper.Map<PostViewModel>(entry)).ToList();
 			DefaultPage();
 
@@ -52,7 +52,7 @@ namespace DasBlog.Web.Controllers
 			ViewData["Message"] = string.Format("Page...{0}", index);
 
 			ListPostsViewModel lpvm = new ListPostsViewModel();
-			lpvm.Posts = _blogManager.GetEntriesForPage(index)
+			lpvm.Posts = _blogManager.GetEntriesForPage(index, Request.Headers["Accept-Language"])
 								.Select(entry => _mapper.Map<PostViewModel>(entry)).ToList();
 
 			DefaultPage();
