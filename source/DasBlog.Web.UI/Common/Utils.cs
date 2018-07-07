@@ -4,6 +4,7 @@ namespace DasBlog.Web.Common
 {
 	internal static class Utils
 	{
+		/// DUPLICATE of newtelligence.DasBlog.Util.HtmlHelper.EncodeCategoryUrl
 		/// <summary>
 		/// converts a category display text to a safe url using separator (typically '-') to replace
 		/// dangwerous characters
