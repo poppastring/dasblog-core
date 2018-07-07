@@ -147,7 +147,7 @@ namespace DasBlog.Web
 			app.UseStaticFiles();
 			app.UseStaticFiles(new StaticFileOptions()
 			{
-				FileProvider = new PhysicalFileProvider(Path.Combine(env.ContentRootPath, "content", "binary")),
+				FileProvider = new PhysicalFileProvider(Path.Combine(env.ContentRootPath, _binariesPath.TrimStart('/'))),
 				RequestPath = _binariesPath
 			});
 			app.UseAuthentication();
