@@ -23,6 +23,8 @@ using DasBlog.Core;
 using DasBlog.Core.Services;
 using DasBlog.Core.Services.Interfaces;
 using Microsoft.Extensions.FileProviders;
+using DasBlog.Web.Services;
+using DasBlog.Web.Services.Interfaces;
 
 namespace DasBlog.Web
 {
@@ -38,7 +40,7 @@ namespace DasBlog.Web
 			.SetBasePath(env.ContentRootPath)
 			.AddXmlFile(@"Config\site.config", optional: true, reloadOnChange: true)
 			.AddXmlFile(@"Config\metaConfig.xml", optional: true, reloadOnChange: true)
-			.AddXmlFile(SITESECURITYCONFIG, optional: true, reloadOnChange: true)
+			//.AddXmlFile(SITESECURITYCONFIG, optional: true, reloadOnChange: true)
 			.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
 			.AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
 			.AddEnvironmentVariables()
@@ -60,8 +62,8 @@ namespace DasBlog.Web
 
 			services.Configure<SiteConfig>(Configuration);
 			services.Configure<MetaTags>(Configuration);
-			services.Configure<SiteSecurityConfig>(Configuration);
-
+//			services.Configure<SiteSecurityConfig>(Configuration);
+			services.Configure<LocalUserDataOptions>(options => options.Path = "");
 			// Add identity types
 			services
 				.AddIdentity<DasBlogUser, DasBlogRole>()
@@ -123,6 +125,7 @@ namespace DasBlog.Web
 				.AddSingleton<ISiteManager, SiteManager>()
 				.AddSingleton<IHttpContextAccessor, HttpContextAccessor>()
 				.AddSingleton<IFileSystemBinaryManager, FileSystemBinaryManager>()
+				.AddSingleton<ILocalUserDataService, LocalUserDataService>()
 				;
 			services
 				.AddAutoMapper(mapperConfig =>
