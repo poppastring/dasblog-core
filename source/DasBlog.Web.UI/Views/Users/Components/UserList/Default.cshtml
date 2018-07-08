@@ -1,0 +1,61 @@
+﻿@using System.Reflection.Metadata.Ecma335
+@model System.Collections.Generic.IEnumerable<DasBlog.Core.Security.User>
+
+@functions
+{
+
+    string ElideTitle(string title)
+    {
+        const int maxLen = 30;
+        if (title.Length > maxLen)
+        {
+            return title.Substring(0, maxLen - 3) + "...";
+        }
+        else
+        {
+            return title;
+        }
+    }
+
+}
+
+
+<div>
+    @*
+    <form asp-action="Create" asp-controller="NoteManager">
+        <button type="submit" class="btn btn-primary">Create</button>
+    </form>
+*@
+    <a asp-action="Create" asp-controller="Users">Create New</a>
+</div>
+<div style="max-height: 500px; overflow-y: scroll">
+    <table class="table">
+        <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model) {
+            <tr>
+                <td>
+                    @ElideTitle(item.Name)
+                </td>
+                <td>
+                    @*
+                    <a class="btn btn-sm" asp-action="Edit" asp-controller="Users" asp-route-id="@item.Id" aria-label="Edit">
+                        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                    </a>
+                    <a class="btn btn-sm" asp-action="Delete" asp-controller="Users" asp-route-id="@item.Id" aria-label="Delete">
+                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                    </a>
+                *@
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

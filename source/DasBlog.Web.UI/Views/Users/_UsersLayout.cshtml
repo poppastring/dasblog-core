@@ -3,5 +3,15 @@
     ViewBag.Title = "title";
     Layout = "_Layout";
 }
-
-@RenderBody()
+<nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+    <div class="navbar-header">
+        <a class="navbar-brand"  href="/">My Notes</a>
+    </div>
+    <div class="navbar-default sidebar" role="navigation">
+        @await Component.InvokeAsync("UserList")
+    </div>
+</nav>
+<div id="page-wrapper">
+    @*<div class="container body-content">*@
+    @RenderBody()
+</div>
