@@ -1,0 +1,17 @@
+﻿@model DasBlog.Web.Models.UsersViewModel
+
+@{
+    ViewBag.Title = "User Maintenance";
+    Layout = "_UsersLayout";
+}
+
+
+<p>View is: @ViewBag.SubViewName</p>
+
+<h2>@ViewBag.Title</h2>
+
+@Html.Partial((string)ViewBag.SubViewName, Model)
+        @*subview name is Edit or Delete or possibly something else*@
+
+
+
