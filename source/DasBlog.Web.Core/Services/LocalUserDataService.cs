@@ -1,16 +1,19 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
-using DasBlog.Core.Security;
-//using Microsoft.AspNetCore.Server.Kestrel.Transport.Libuv.Internal.Networking;
 using Microsoft.Extensions.Options;
-//using SQLitePCL;
-
-// rather annoyingly this takes a dependency on the Asp.Net Sdk
+using System.IO;
+using System.Xml.Serialization;
+using User = DasBlog.Core.Security.User;
 
 namespace DasBlog.Core.Services
 {
 	public class LocalUserDataService : Interfaces.ILocalUserDataService
 	{
+		public class SiteSecurityData
+		{
+			public List<User> Users { get; set; } = new List<User>();
+		}
 		private LocalUserDataOptions options;
 		public LocalUserDataService(IOptions<LocalUserDataOptions> optionsAccessor)
 		{
@@ -18,39 +21,23 @@ namespace DasBlog.Core.Services
 		}
 		public IEnumerable<User> LoadUsers()
 		{
-			return new List<User>
+			SiteSecurityData ssd;
+			var ser = new XmlSerializer(typeof(SiteSecurityData));
+//			var fileInfo = fileProvider.GetFileInfo(Startup.SITESECURITYCONFIG);
+			using (var reader = new StreamReader(options.Path))
 			{
-				new User
+				try
 				{
-					Name = "mike",
-					Role = Role.Admin,
-					Ask = true,
-					EmailAddress = "mike@com.com",
-					Active = true,
-					DisplayName = "Mike May The Adminsitrator",
-					NotifyOnAllComment = true,
-					NotifyOnNewPost = true,
-					NotifyOnOwnComment = true,
-					OpenIDUrl = "mike.com",
-					Password = "19-A2-85-41-44-B6-3A-8F-76-17-A6-F2-25-01-9B-12",
-					XmlPassword = ""
+					ssd = (SiteSecurityData)ser.Deserialize(reader);
 				}
-				,new User
+				catch (Exception e)
 				{
-					Name = "bob",
-					Role = Role.Contributor,
-					Ask = true,
-					EmailAddress = "bob@com.com",
-					Active = true,
-					DisplayName = "Bob The Contributor",
-					NotifyOnAllComment = true,
-					NotifyOnNewPost = true,
-					NotifyOnOwnComment = true,
-					OpenIDUrl = "mike.com",
-					Password = "19-A2-85-41-44-B6-3A-8F-76-17-A6-F2-25-01-9B-12",
-					XmlPassword = ""
+					Console.WriteLine(e);
+					throw;
 				}
-			};
+			}
+
+			return ssd.Users;
 		}
 	}
 

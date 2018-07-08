@@ -18,7 +18,7 @@ namespace DasBlog.Tests.Services
 			  new Options<LocalUserDataOptions>{ Value = new LocalUserDataOptions{Path = string.Empty}});
 			List<User> users = service.LoadUsers().ToList();
 
-			Assert.Single(users, u => u.Name == "bob");
+			Assert.Single(users, u => u.Name == "admin");
 		}
 	}
 

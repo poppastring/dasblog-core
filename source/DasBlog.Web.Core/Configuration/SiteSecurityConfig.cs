@@ -8,6 +8,10 @@ namespace DasBlog.Core.Configuration
 	[Serializable]
 	public class SiteSecurityConfig : ISiteSecurityConfig
 	{
+		public SiteSecurityConfig()
+		{
+			
+		}
 		public SiteSecurityConfig(ILocalUserDataService userDataService)
 		{
 			Users.AddRange(userDataService.LoadUsers());

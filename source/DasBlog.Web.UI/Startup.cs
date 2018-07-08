@@ -45,7 +45,7 @@ namespace DasBlog.Web
 			.AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
 			.AddEnvironmentVariables()
 			;
-
+			
 			Configuration = builder.Build();
 
 			_hostingEnvironment = env;
@@ -63,7 +63,8 @@ namespace DasBlog.Web
 			services.Configure<SiteConfig>(Configuration);
 			services.Configure<MetaTags>(Configuration);
 //			services.Configure<SiteSecurityConfig>(Configuration);
-			services.Configure<LocalUserDataOptions>(options => options.Path = "");
+			services.Configure<LocalUserDataOptions>(options
+			  => options.Path = Path.Combine(_hostingEnvironment.ContentRootPath, SITESECURITYCONFIG));
 			// Add identity types
 			services
 				.AddIdentity<DasBlogUser, DasBlogRole>()
