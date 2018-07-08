@@ -15,13 +15,13 @@ namespace DasBlog.Web.Settings
 	{
 		private readonly IFileProvider fileProvider;
 
-		public DasBlogSettings(IHostingEnvironment env, IOptions<SiteConfig> siteConfig, IOptions<MetaTags> metaTagsConfig, IOptions<SiteSecurityConfig> siteSecurityConfig, IFileProvider fileProvider)
+		public DasBlogSettings(IHostingEnvironment env, IOptions<SiteConfig> siteConfig, IOptions<MetaTags> metaTagsConfig, ISiteSecurityConfig siteSecurityConfig, IFileProvider fileProvider)
 		{
 			this.fileProvider = fileProvider;
 
 			WebRootDirectory = env.ContentRootPath;
 			SiteConfiguration = siteConfig.Value;
-			SecurityConfiguration = siteSecurityConfig.Value;
+			SecurityConfiguration = siteSecurityConfig;
 			MetaTags = metaTagsConfig.Value;
 
 			RssUrl = RelativeToRoot("feed/rss");

@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using DasBlog.Core.Security;
-using Microsoft.AspNetCore.Server.Kestrel.Transport.Libuv.Internal.Networking;
+//using Microsoft.AspNetCore.Server.Kestrel.Transport.Libuv.Internal.Networking;
 using Microsoft.Extensions.Options;
-using SQLitePCL;
+//using SQLitePCL;
 
 // rather annoyingly this takes a dependency on the Asp.Net Sdk
 
-namespace DasBlog.Web.Services
+namespace DasBlog.Core.Services
 {
 	public class LocalUserDataService : Interfaces.ILocalUserDataService
 	{

@@ -2,8 +2,8 @@
 using System.Runtime.InteropServices;
 using DasBlog.Core.Security;
 using Xunit;
-using DasBlog.Web.Services;
-using DasBlog.Web.Services.Interfaces;
+using DasBlog.Core.Services;
+using DasBlog.Core.Services.Interfaces;
 using Microsoft.Extensions.Options;
 using System.Linq;
 

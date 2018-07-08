@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using DasBlog.Core.Security;
 
-namespace DasBlog.Web.Services.Interfaces
+namespace DasBlog.Core.Services.Interfaces
 {
 	public interface ILocalUserDataService
 	{

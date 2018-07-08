@@ -23,8 +23,8 @@ using DasBlog.Core;
 using DasBlog.Core.Services;
 using DasBlog.Core.Services.Interfaces;
 using Microsoft.Extensions.FileProviders;
-using DasBlog.Web.Services;
-using DasBlog.Web.Services.Interfaces;
+using DasBlog.Core.Services;
+using DasBlog.Core.Services.Interfaces;
 
 namespace DasBlog.Web
 {
@@ -112,6 +112,7 @@ namespace DasBlog.Web
 				.AddTransient<IRoleStore<DasBlogRole>, DasBlogUserRoleStore>()
 				.AddTransient<IPrincipal>(provider => provider.GetService<IHttpContextAccessor>().HttpContext.User)
 				.AddTransient<ISiteRepairer, SiteRepairer>()
+				.AddSingleton<ISiteSecurityConfig, SiteSecurityConfig>()
 				;
 
 			services
