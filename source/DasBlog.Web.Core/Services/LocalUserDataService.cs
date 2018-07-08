@@ -27,7 +27,22 @@ namespace DasBlog.Core.Services
 					Ask = true,
 					EmailAddress = "mike@com.com",
 					Active = true,
-					DisplayName = "Mike May",
+					DisplayName = "Mike May The Adminsitrator",
+					NotifyOnAllComment = true,
+					NotifyOnNewPost = true,
+					NotifyOnOwnComment = true,
+					OpenIDUrl = "mike.com",
+					Password = "19-A2-85-41-44-B6-3A-8F-76-17-A6-F2-25-01-9B-12",
+					XmlPassword = ""
+				}
+				,new User
+				{
+					Name = "bob",
+					Role = Role.Contributor,
+					Ask = true,
+					EmailAddress = "bob@com.com",
+					Active = true,
+					DisplayName = "Bob The Contributor",
 					NotifyOnAllComment = true,
 					NotifyOnNewPost = true,
 					NotifyOnOwnComment = true,
