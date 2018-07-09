@@ -28,7 +28,7 @@
     </form>
 *@
     <form asp-action="CreateEditDelete" asp-controller="Users" method="get">
-        <input type="submit" class="btn" value="@Constants.UsersCreateAction"/>
+        <input type="submit" class="btn" name="submit" value="@Constants.UsersCreateAction"/>
     </form>
 </div>
 <div style="max-height: 500px; overflow-y: scroll">
@@ -45,7 +45,7 @@
         @foreach (var item in Model) {
             <tr>
                 <td>
-                    @ElideTitle(item.Name)
+                    <a href="/users/CreateEditDelete/@item.EmailAddress">@ElideTitle(item.EmailAddress)</a>
                 </td>
                 <td>
                     @*
