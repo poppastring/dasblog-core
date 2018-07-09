@@ -16,8 +16,8 @@ namespace DasBlog.Managers
 		public FileSystemBinaryManager(IDasBlogSettings settings)
 		{
 			var siteConfig = settings.SiteConfiguration;
-			_virtBinaryPathRelativeToContentRoot = siteConfig.BinariesDir.TrimStart('~', '/'); // s/be "content/binary"
-			string physBinaryPath = Path.Combine(settings.WebRootDirectory,_virtBinaryPathRelativeToContentRoot);  // s/be "c:\...\DaBlog.Web.UI\content\binary"
+			_virtBinaryPathRelativeToContentRoot = siteConfig.BinariesDir.TrimStart('~'); // => "/content/binary"
+			string physBinaryPath = Path.Combine(settings.WebRootDirectory,_virtBinaryPathRelativeToContentRoot.TrimStart('/'));  // => "c:\...\DaBlog.Web.UI\content/binary"
 					// WebRootDirectory is a misnomer.  It should be called ContentRootDirectory
 					// ContentRootDirectory is not "c:\...\DasBlog.Web.UI\contnet".  It is actually "c:\...\DasBlog.Web.UI"
 					// WebRootDirectory is "wwwroot".
