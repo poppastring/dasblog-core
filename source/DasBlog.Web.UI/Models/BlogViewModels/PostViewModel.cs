@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Http;
-using Microsoft.WindowsAzure.Storage.Blob.Protocol;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace DasBlog.Web.Models.BlogViewModels
 {
@@ -57,5 +57,13 @@ namespace DasBlog.Web.Models.BlogViewModels
 		public ListCommentsViewModel Comments { get; set; }
 		
 		public IFormFile Image { get; set; }
+		public string Language { get; set; }
+
+		public IEnumerable<SelectListItem> _languages = new List<SelectListItem>();
+		public IEnumerable<SelectListItem> Languages
+		{
+			get { return _languages; }
+			set { _languages = value; }
+		}
 	}
 }
