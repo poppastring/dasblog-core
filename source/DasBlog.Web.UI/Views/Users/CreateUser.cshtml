@@ -6,7 +6,8 @@
     <div class="col-md-9">
         <form asp-action="CreateEditDelete">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" name="email" asp-for="EmailAddress" />        // will be null for create
+            <input type="hidden" name="originalEmail" value="@Model.EmailAddress" />        
+            @* will be null for create *@
             <div class="form-group form-inline">
                 <label asp-for="Name" class="control-label" ></label>
                 <input asp-for="Name" type="text" class="form-control"/>

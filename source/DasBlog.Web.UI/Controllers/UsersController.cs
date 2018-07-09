@@ -49,9 +49,27 @@ namespace DasBlog.Web.Controllers
 		}
 
 		[HttpPost("/users/CreateEditDelete/{email?}")]
-		public IActionResult CreateEditDelete(string submit, string email, UsersViewModel uvm)
+		public IActionResult CreateEditDelete(string submit, string originalEmail, UsersViewModel uvm)
 		{
+			if (submit == Constants.CancelAction)
+			{
+				return Index();
+			}
+			if (!ModelState.IsValid)
+			{
+				return View("Maintenance", uvm);
+			}
+
+			SaveNewUser(uvm);
 			return Index();
+		}
+
+		private void SaveNewUser(UsersViewModel uvm)
+		{
+			User user = _mapper.Map<User>(uvm);
+			List<User> users = _userService.LoadUsers().ToList();
+			users.Add(user);
+			_userService.SaveUsers(users);
 		}
 
 		private IActionResult EditDeleteView(string submit, string email)
