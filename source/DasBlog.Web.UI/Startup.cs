@@ -20,6 +20,8 @@ using Microsoft.Extensions.DependencyInjection;
 using AutoMapper;
 using DasBlog.Web.Mappers;
 using DasBlog.Core;
+using DasBlog.Core.Services;
+using DasBlog.Core.Services.Interfaces;
 using Microsoft.Extensions.FileProviders;
 
 namespace DasBlog.Web
@@ -106,7 +108,9 @@ namespace DasBlog.Web
 				.AddTransient<IDasBlogSettings, DasBlogSettings>()
 				.AddTransient<IUserStore<DasBlogUser>, DasBlogUserStore>()
 				.AddTransient<IRoleStore<DasBlogRole>, DasBlogUserRoleStore>()
-				.AddTransient<IPrincipal>(provider => provider.GetService<IHttpContextAccessor>().HttpContext.User);
+				.AddTransient<IPrincipal>(provider => provider.GetService<IHttpContextAccessor>().HttpContext.User)
+				.AddTransient<ISiteRepairer, SiteRepairer>()
+				;
 
 			services
 				.AddSingleton(_hostingEnvironment.ContentRootFileProvider)
@@ -128,12 +132,12 @@ namespace DasBlog.Web
 				})
 				.AddMvc()
 				.AddXmlSerializerFormatters();
-
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
 		public void Configure(IApplicationBuilder app, IHostingEnvironment env)
 		{
+			(var siteOk, string siteError) = RepairSite(app);
 			if (env.IsDevelopment())
 			{
 				app.UseDeveloperExceptionPage();
@@ -144,6 +148,11 @@ namespace DasBlog.Web
 				app.UseExceptionHandler("/home/error");
 			}
 
+			if (!siteOk)
+			{
+				app.Run(async context => await context.Response.WriteAsync(siteError));
+				return;
+			}
 			app.UseStaticFiles();
 			app.UseStaticFiles(new StaticFileOptions()
 			{
@@ -199,6 +208,11 @@ namespace DasBlog.Web
 			{
 				Thread.CurrentPrincipal = existingThreadPrincipal;
 			}
+		}
+		private static (bool result, string errorMessage) RepairSite(IApplicationBuilder app)
+		{
+			var sr = app.ApplicationServices.GetService<ISiteRepairer>();
+			return sr.RepairSite();
 		}
 	}
 }
