@@ -7,6 +7,9 @@
 		public static readonly string BlogPostAddCategoryAction = "Add";
 		public static readonly string BlogPostEditAction = "Edit";
 		public static readonly string UploadImageAction = "Upload Image";
-		
+		public static readonly string UsersCreateAction = "Create";
+		public static readonly string UsersEditAction = "Edit";
+		public static readonly string UsersDeleteAction = "Delete";
+
 	}
 }

@@ -1,4 +1,5 @@
-﻿@model DasBlog.Web.Models.UsersViewModel
+﻿@using DasBlog.Web.Common
+@model DasBlog.Web.Models.UsersViewModel
 
 @{
     ViewBag.Title = "User Maintenance";
@@ -6,7 +7,10 @@
 }
 
 
-<p>View is: @ViewBag.SubViewName</p>
+<form asp-action="CreateEditDelete" asp-controller="Users" method="get">
+    <input type="submit" class="btn" name="submit" value="@Constants.UsersEditAction"/>
+    <input type="submit" class="btn" name="submit" value="@Constants.UsersDeleteAction"/>
+</form>
 
 <h2>@ViewBag.Title</h2>
 
