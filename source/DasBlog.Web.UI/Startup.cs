@@ -117,9 +117,13 @@ namespace DasBlog.Web
 				.AddTransient<IDasBlogSettings, DasBlogSettings>()
 				.AddTransient<IUserStore<DasBlogUser>, DasBlogUserStore>()
 				.AddTransient<IRoleStore<DasBlogRole>, DasBlogUserRoleStore>()
+<<<<<<< HEAD
 				.AddTransient<IPrincipal>(provider => provider.GetService<IHttpContextAccessor>().HttpContext.User)
 				.AddTransient<ISiteRepairer, SiteRepairer>()
 				.AddSingleton<ISiteSecurityConfig, SiteSecurityConfig>()
+=======
+//				.AddTransient<IPrincipal>(provider => provider.GetService<IHttpContextAccessor>().HttpContext.User)
+>>>>>>> user creation substantially complete
 				;
 
 			services
@@ -134,12 +138,15 @@ namespace DasBlog.Web
 				.AddSingleton<IHttpContextAccessor, HttpContextAccessor>()
 				.AddSingleton<IFileSystemBinaryManager, FileSystemBinaryManager>()
 				.AddSingleton<ILocalUserDataService, LocalUserDataService>()
+				.AddSingleton<ISiteSecurityConfig, SiteSecurityConfig>()
 				;
 			services
 				.AddAutoMapper(mapperConfig =>
 				{
-					mapperConfig.AddProfile(new ProfilePost(services.BuildServiceProvider().GetService<IDasBlogSettings>()));
-					mapperConfig.AddProfile(typeof(ProfileDasBlogUser));
+					var serviceProvider = services.BuildServiceProvider();
+					mapperConfig.AddProfile(new ProfilePost(serviceProvider.GetService<IDasBlogSettings>()));
+//					mapperConfig.AddProfile<ProfileDasBlogUser>();
+					mapperConfig.AddProfile(new ProfileDasBlogUser(serviceProvider.GetService<ISiteSecurityManager>()));
 				})
 				.AddMvc()
 				.AddXmlSerializerFormatters();

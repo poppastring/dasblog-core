@@ -1,6 +1,8 @@
 ﻿using DasBlog.Core.Security;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
 using DasBlog.Core.Services.Interfaces;
 
 namespace DasBlog.Core.Configuration
@@ -8,14 +10,18 @@ namespace DasBlog.Core.Configuration
 	[Serializable]
 	public class SiteSecurityConfig : ISiteSecurityConfig
 	{
-		public SiteSecurityConfig()
+		private readonly ILocalUserDataService _localUserDataService;
+		public SiteSecurityConfig(ILocalUserDataService localUserDataService)
 		{
-			
+			_localUserDataService = localUserDataService;
+			Refresh();
 		}
-		public SiteSecurityConfig(ILocalUserDataService userDataService)
+
+		public void Refresh()
 		{
-			Users.AddRange(userDataService.LoadUsers());
+			Users = _localUserDataService.LoadUsers().ToList();
 		}
+
 		public List<User> Users { get; set; } = new List<User>();
 	}
 }

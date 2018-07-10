@@ -1,12 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
+using DasBlog.Core.Configuration;
 using DasBlog.Core.Security;
 using Microsoft.AspNetCore.Mvc;
 using DasBlog.Core.Services.Interfaces;
 using DasBlog.Web.Common;
 using DasBlog.Web.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Server.Kestrel.Transport.Libuv.Internal.Networking;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace DasBlog.Web.Controllers
@@ -16,10 +18,12 @@ namespace DasBlog.Web.Controllers
 	{
 		private readonly ILocalUserDataService _userService;
 		private readonly IMapper _mapper;
-		public UsersController(ILocalUserDataService userService, IMapper mapper)
+		private readonly ISiteSecurityConfig _siteSecurityConfig;
+		public UsersController(ILocalUserDataService userService, IMapper mapper, ISiteSecurityConfig siteSecurityConfig)
 		{
 			_userService = userService;
 			_mapper = mapper;
+			_siteSecurityConfig = siteSecurityConfig;
 		}
 		[Route("users")]
 		public IActionResult Index()
@@ -60,18 +64,35 @@ namespace DasBlog.Web.Controllers
 				return View("Maintenance", uvm);
 			}
 
-			SaveNewUser(uvm);
-			return Index();
+			return SaveNewUser(uvm);
 		}
 
-		private void SaveNewUser(UsersViewModel uvm)
+		private IActionResult SaveNewUser(UsersViewModel uvm)
 		{
 			User user = _mapper.Map<User>(uvm);
 			List<User> users = _userService.LoadUsers().ToList();
+			if (!ValidateUser(users, uvm, user))
+			{
+				return View("Maintenance", uvm);
+			}
 			users.Add(user);
 			_userService.SaveUsers(users);
+			_siteSecurityConfig.Refresh();
+			return Index();
 		}
 
+		private bool ValidateUser(List<User> users, UsersViewModel uvm, User user)
+		{
+			if (users.Any(u => u.EmailAddress == user.EmailAddress))
+			{
+				ModelState.AddModelError(nameof(uvm.EmailAddress)
+				  ,"This email address already exists - emails must be unique");
+				return false;
+			}
+
+			return true;
+
+		}
 		private IActionResult EditDeleteView(string submit, string email)
 		{
 			List<User> users = _userService.LoadUsers().ToList();

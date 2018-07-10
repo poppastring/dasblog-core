@@ -3,13 +3,16 @@ using System.Collections.Generic;
 using System.IO;
 using Microsoft.Extensions.Options;
 using System.IO;
+using System.Linq;
 using System.Xml.Serialization;
+using DasBlog.Core.Configuration;
 using User = DasBlog.Core.Security.User;
 
 namespace DasBlog.Core.Services
 {
 	public class LocalUserDataService : Interfaces.ILocalUserDataService
 	{
+		private readonly ISiteSecurityConfig _siteSecurityConfig;
 		public class SiteSecurityData
 		{
 			public List<User> Users { get; set; } = new List<User>();
@@ -37,7 +40,6 @@ namespace DasBlog.Core.Services
 					throw;
 				}
 			}
-
 			return ssd.Users;
 		}
 

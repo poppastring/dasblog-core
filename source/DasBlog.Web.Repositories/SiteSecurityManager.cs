@@ -12,18 +12,17 @@ namespace DasBlog.Managers
 	public class SiteSecurityManager : ISiteSecurityManager
 	{
 		private HashAlgorithm _hashAlgorithm;
-		private IPrincipal _principal;
 		private IDasBlogSettings _dasBlogSettings;
 
-		public SiteSecurityManager(IPrincipal principal, IDasBlogSettings dasBlogSettings)
+		public SiteSecurityManager( IDasBlogSettings dasBlogSettings)
 		{
 			_dasBlogSettings = dasBlogSettings;
-			_principal = principal;
 			_hashAlgorithm = SHA512Managed.Create();
 		}
 
 		public string HashPassword(string password)
 		{
+			_hashAlgorithm = MD5CryptoServiceProvider.Create();
 			byte[] clearBytes = Encoding.Unicode.GetBytes(password);
 
 			byte[] hashedBytes = _hashAlgorithm.ComputeHash(clearBytes);
