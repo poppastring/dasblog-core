@@ -27,8 +27,16 @@
         <button type="submit" class="btn btn-primary">Create</button>
     </form>
 *@
-    <form asp-action="CreateEditDelete" asp-controller="Users" method="get">
-        <input type="submit" class="btn" name="submit" value="@Constants.UsersCreateAction"/>
+    <form asp-action="CreateEditDeleteView" asp-controller="Users" method="get">
+        @if (ViewBag.SubViewName == Constants.ViewUserSubView)
+        {
+            <input type="submit" class="btn" name="submit" value="@Constants.UsersCreateAction"/>
+        }
+        else
+        {
+            <input type="submit" class="btn" name="submit" value="@Constants.UsersCreateAction" disabled/>
+            
+        }
     </form>
 </div>
 <div style="max-height: 500px; overflow-y: scroll">
@@ -36,7 +44,7 @@
         <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                Users
             </th>
             <th></th>
         </tr>
@@ -45,7 +53,7 @@
         @foreach (var item in Model) {
             <tr>
                 <td>
-                    <a href="/users/CreateEditDelete/@item.EmailAddress">@ElideTitle(item.EmailAddress)</a>
+                    <a href="/users/CreateEditDeleteView/@item.EmailAddress?submit=@Constants.UsersViewAction"> @ElideTitle(item.EmailAddress)</a>
                 </td>
                 <td>
                     @*

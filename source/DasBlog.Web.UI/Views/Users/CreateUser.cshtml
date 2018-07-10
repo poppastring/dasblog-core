@@ -4,7 +4,7 @@
 <hr />
 <div class="row">
     <div class="col-md-9">
-        <form asp-action="CreateEditDelete">
+        <form asp-action="CreateEditDeleteView">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" name="originalEmail" value="@Model.EmailAddress" />        
             @* will be null for create *@
@@ -69,8 +69,8 @@
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" name="submit" value="@Constants.SaveAction" class="btn btn-defult"/>
-                <input type="submit" name="submit" value="@Constants.CancelAction" class="btn"/>
+                <input type="submit" name="submit" value="@Constants.SaveAction" class="btn btn-default btn-primary"/>
+                <input type="submit" name="submit" value="@Constants.CancelAction" class="btn cancel"/>
             </div>
         </form>
     </div>

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata;
 using AutoMapper;
 using DasBlog.Core.Configuration;
 using DasBlog.Core.Security;
@@ -8,8 +9,6 @@ using DasBlog.Core.Services.Interfaces;
 using DasBlog.Web.Common;
 using DasBlog.Web.Models;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Server.Kestrel.Transport.Libuv.Internal.Networking;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace DasBlog.Web.Controllers
 {
@@ -28,22 +27,30 @@ namespace DasBlog.Web.Controllers
 		[Route("users")]
 		public IActionResult Index()
 		{
-			ViewBag.SubViewName = "ViewUser";
+			ViewBag.SubViewName = Constants.ViewUserSubView;
+			ViewBag.Writability = "readonly";
+			ViewBag.Clickability = "disabled";
 			List<User> users = _userService.LoadUsers().ToList();
 			UsersViewModel uvm = _mapper.Map<UsersViewModel>(new User());
-			if (users.Count > 0)
+			if (users.Count == 0)
 			{
-				uvm = _mapper.Map<UsersViewModel>(users[0]);			
+				return RedirectToPage($"/users/CreateEditDeleteView?submit={Constants.UsersCreateAction}");
+						// might as weel encourage admin to start creating users
+			}
+			else
+			{
+				uvm = _mapper.Map<UsersViewModel>(users[0]);
 			}
 			return View("Maintenance", uvm);
 		}
-		[HttpGet("/users/CreateEditDelete/{email?}")]
-		public IActionResult CreateEditDelete(string submit, string email)
+		[HttpGet("/users/CreateEditDeleteView/{email?}")]
+		public IActionResult CreateEditDeleteView(string submit, string email)
 		{
 			submit = submit ?? Constants.UsersViewAction;
 			if (submit == Constants.UsersCreateAction)
 			{
-				ViewBag.SubViewName = "CreateUser";
+				ViewBag.SubViewName = Constants.CreateUserSubView;
+				ViewBag.CreateEditDeleteInProgress = true;
 				return View("Maintenance", _mapper.Map<UsersViewModel>(new User()));
 			}
 			else
@@ -51,38 +58,79 @@ namespace DasBlog.Web.Controllers
 				return EditDeleteView(submit, email);
 			}
 		}
-
-		[HttpPost("/users/CreateEditDelete/{email?}")]
-		public IActionResult CreateEditDelete(string submit, string originalEmail, UsersViewModel uvm)
+		[ValidateAntiForgeryToken]
+		[HttpPost("/users/CreateEditDeleteView/{email?}")]
+		public IActionResult CreateEditDeleteView(string submit, string originalEmail, UsersViewModel uvm)
 		{
+			ModelState.Remove(nameof(UsersViewModel.Password));
+					// make sure that the password is not echoed back if validation fails
+			var userAction = originalEmail == null ? Constants.UsersCreateAction : Constants.UsersEditAction;
+			originalEmail = originalEmail ?? string.Empty;
 			if (submit == Constants.CancelAction)
 			{
-				return Index();
+				return RedirectToAction(nameof(Index));
 			}
 			if (!ModelState.IsValid)
 			{
+				ViewBag.SubViewName = ActionToSubView(userAction);
 				return View("Maintenance", uvm);
 			}
-
-			return SaveNewUser(uvm);
+			switch (userAction)
+			{
+				case Constants.UsersCreateAction:
+				case Constants.UsersEditAction:
+					return SaveCreateOrEditUser(userAction, uvm, originalEmail);
+				case Constants.UsersDeleteAction:
+					ViewBag.SubViewName = Constants.DeleteUserSubView;
+					return RedirectToAction(nameof(Index));
+			}
+			return View("Maintenance", uvm);
 		}
 
-		private IActionResult SaveNewUser(UsersViewModel uvm)
+		private IActionResult SaveCreateOrEditUser(string userAction, UsersViewModel uvm, string originalEmail)
 		{
 			User user = _mapper.Map<User>(uvm);
 			List<User> users = _userService.LoadUsers().ToList();
-			if (!ValidateUser(users, uvm, user))
+			if (!ValidateUser(userAction, originalEmail, users, uvm, user))
 			{
+				ViewBag.SubViewName = ActionToSubView(userAction);
 				return View("Maintenance", uvm);
 			}
-			users.Add(user);
+
+			var index = users.FindIndex(u => u.EmailAddress == originalEmail);
+			if (index == -1)
+			{
+				users.Add(user);
+			}
+			else
+			{
+				users[index] = user;
+			}
 			_userService.SaveUsers(users);
 			_siteSecurityConfig.Refresh();
-			return Index();
+			return RedirectToAction(nameof(Index));
 		}
 
-		private bool ValidateUser(List<User> users, UsersViewModel uvm, User user)
+		/// <summary>
+		/// validate user after initial creation or subsequent edit
+		/// </summary>
+		/// <param name="userAction">Either UserCreateAction or UserEditAction </param>
+		/// <param name="originalEmail">"" for creation, existing value on users for edit</param>
+		/// <param name="users">all the users in the repo</param>
+		/// <param name="uvm"></param>
+		/// <param name="user">the user that has just been created or edited by the client</param>
+		/// <returns>true if the user can be saved to the repo, otherwise false</returns>
+		private bool ValidateUser(string userAction, string originalEmail, List<User> users, UsersViewModel uvm, User user)
 		{
+			System.Diagnostics.Debug.Assert(userAction == Constants.UsersCreateAction
+			  || userAction == Constants.UsersEditAction);
+			System.Diagnostics.Debug.Assert(
+			  userAction == Constants.UsersCreateAction && originalEmail == string.Empty
+			  || userAction == Constants.UsersEditAction && originalEmail != string.Empty);
+			if (user.EmailAddress == originalEmail)
+			{
+				return true;
+			}
 			if (users.Any(u => u.EmailAddress == user.EmailAddress))
 			{
 				ModelState.AddModelError(nameof(uvm.EmailAddress)
@@ -95,6 +143,10 @@ namespace DasBlog.Web.Controllers
 		}
 		private IActionResult EditDeleteView(string submit, string email)
 		{
+			System.Diagnostics.Debug.Assert(
+				submit == Constants.UsersEditAction
+				|| submit == Constants.UsersDeleteAction
+				|| submit == Constants.UsersViewAction);
 			List<User> users = _userService.LoadUsers().ToList();
 			var user = users.FirstOrDefault(u => u.EmailAddress == email);
 			UsersViewModel uvm;
@@ -105,21 +157,36 @@ namespace DasBlog.Web.Controllers
 			}
 			else
 			{
-				uvm = _mapper.Map<UsersViewModel>(user);				
+				uvm = _mapper.Map<UsersViewModel>(user);
 			}
-			switch (submit)
+
+			ViewBag.SubViewName = ActionToSubView(submit);
+			if (ViewBag.SubView == Constants.ViewUserSubView)
 			{
-				case Constants.UsersViewAction:
-					ViewBag.SubViewName = Constants.ViewUserSubView;
-					break;
-				case Constants.UsersEditAction:
-					ViewBag.SubViewName = Constants.EditUserSubView;
-					break;
-				case Constants.UsersDeleteAction:
-					ViewBag.SubViewName = Constants.DeleteUserSubView;
-					break;
+				ViewBag.Writability = "readonly";
+				ViewBag.Clickability = "disabled";
+				ViewBag.CreateEditDeleteInProgress = false;
+			}
+			else
+			{
+				ViewBag.CreateEditDeleteInProgress = true;
 			}
 			return View("Maintenance", uvm);
 		}
+		
+		private IDictionary<string, string> mapActionToView = new Dictionary<string, string>
+		{
+			{Constants.UsersCreateAction, Constants.CreateUserSubView}
+			,{Constants.UsersEditAction, Constants.EditUserSubView}
+			,{Constants.UsersDeleteAction, Constants.DeleteUserSubView}
+			,{Constants.UsersViewAction, Constants.ViewUserSubView}
+		};
+
+		/// <summary>
+		/// simple mapping
+		/// </summary>
+		/// <param name="Action">e.g. UsersEditAction</param>
+		/// <returns>EditUsersSubView</returns>
+		private string ActionToSubView(string action) => mapActionToView[action];
 	}
 }

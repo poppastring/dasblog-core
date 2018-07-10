@@ -40,5 +40,7 @@ namespace DasBlog.Web.Models
 		
 		[Required]
 		public string Password { get; set; }
+
+		public string Writability { get; set; }
 	}
 }

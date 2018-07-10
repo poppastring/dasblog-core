@@ -1,46 +1,73 @@
-﻿@model DasBlog.Web.Models.UsersViewModel
+﻿@using DasBlog.Web.Common
+@model DasBlog.Web.Models.UsersViewModel
 
 <hr />
 <div class="row">
-    <div class="col-md-8">
-        <div class="col-md-3">Name</div>
-        <div class="col-md-3">@Model.Name</div>
-    </div>
-    <div class="col-md-8">
-        <div class="col-md-3">Role</div>
-        <div class="col-md-3">@Model.Role</div>
-    </div>
-    <div class="col-md-8">
-        <div class="col-md-3">Ask</div>
-        <input type="checkbox" class="col-md-3" disabled="disabled" checked="@Model.Ask"/>
-    </div>
-    <div class="col-md-8">
-        <div class="col-md-3">Email</div>
-        <div class="col-md-3">@Model.EmailAddress</div>
-    </div>
-    <div class="col-md-8">
-        <div class="col-md-3">Display Name</div>
-        <div class="col-md-3">@Model.DisplayName</div>
-    </div>
-    <div class="col-md-8">
-        <div class="col-md-3">Open Id Url</div>
-        <div class="col-md-3">@Model.OpenIDUrl</div>
-    </div>
-    <div class="col-md-8">
-        <div class="col-md-3">Notify On New Post</div>
-        <input type="checkbox" class="col-md-3" disabled="disabled" checked="@Model.NotifyOnNewPost"/>
-    </div>
-    <div class="col-md-8">
-        <div class="col-md-3">Notify On All Comments</div>
-        <input type="checkbox" class="col-md-3" disabled="disabled" checked="@Model.NotifyOnAllComment"/>
-    </div>
-    <div class="col-md-8">
-        <div class="col-md-3">Notify On Own Comment</div>
-        <input type="checkbox" class="col-md-3" disabled="disabled" checked="@Model.NotifyOnOwnComment"/>
-    </div>
-    <div class="col-md-8">
-        <div class="col-md-3">Active</div>
-        <input type="checkbox" class="col-md-3" disabled="disabled" checked="@Model.Active"/>
+    <div class="col-md-9">
+        <form asp-action="CreateEditDeleteView">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" name="originalEmail" value="@Model.EmailAddress" />        
+            @* will be null for create *@
+            <div class="form-group form-inline">
+                <label asp-for="Name" class="control-label" ></label>
+                <input name="Name" value="@Model.Name" type="text" class="form-control" @ViewBag.Writability/>
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group form-inline">
+                <label asp-for="Role" class="control-label" ></label>
+                <input name="Role" value="@Model.Role" type="text" class="form-control" @ViewBag.Writability/>
+                <span asp-validation-for="Role" class="text-danger"></span>
+            </div>
+            <div class="form-group form-inline">
+                <label asp-for="Ask" class="control-label" ></label>
+                <input name="Ask" value="@Model.Ask" type="checkbox" class="form-control" @ViewBag.Clickability/>
+                <span asp-validation-for="Ask" class="text-danger"></span>
+            </div>
+            <div class="form-group form-inline">
+                <label asp-for="EmailAddress" class="control-label" ></label>
+                <input name="EmailAddress" value="@Model.EmailAddress" type="text" class="form-control" @ViewBag.Writability/>
+                <span asp-validation-for="EmailAddress" class="text-danger"></span>
+            </div>
+            <div class="form-group form-inline">
+                <label asp-for="DisplayName" class="control-label" ></label>
+                <input name="DisplayName" value="@Model.DisplayName" type="text" class="form-control" @ViewBag.Writability/>
+                <span asp-validation-for="DisplayName" class="text-danger"></span>
+            </div>
+            <div class="form-group form-inline">
+                <label asp-for="OpenIDUrl" class="control-label" ></label>
+                <input name="OpenIDUrl" value="@Model.OpenIDUrl" type="text" class="form-control" @ViewBag.Writability/>
+                <span asp-validation-for="OpenIDUrl" class="text-danger"></span>
+            </div>
+            <div class="form-group form-inline">
+                <label asp-for="NotifyOnAllComment" class="control-label" ></label>
+                <input name="NotifyOnAllComment" value="@Model.NotifyOnAllComment" type="checkbox" class="form-control" @ViewBag.Clickability/>
+                <span asp-validation-for="NotifyOnAllComment" class="text-danger"></span>
+            </div>
+            <div class="form-group form-inline">
+                <label asp-for="NotifyOnOwnComment" class="control-label" ></label>
+                <input name="NotifyOnOwnComment" value="@Model.NotifyOnOwnComment" type="checkbox" class="form-control" @ViewBag.Clickability/>
+                <span asp-validation-for="NotifyOnOwnComment" class="text-danger"></span>
+            </div>
+            <div class="form-group form-inline">
+                <label asp-for="NotifyOnNewPost" class="control-label" ></label>
+                <input name="NotifyOnNewPost" value="@Model.NotifyOnNewPost" type="checkbox" class="form-control" @ViewBag.Clickability/>
+                <span asp-validation-for="NotifyOnNewPost" class="text-danger"></span>
+            </div>
+            <div class="form-group form-inline">
+                <label asp-for="Active" class="control-label" ></label>
+                <input name="Active" value="@Model.Active" type="checkbox" class="form-control" @ViewBag.Clickability/>
+                <span asp-validation-for="Active" class="text-danger"></span>
+            </div>
+             <div class="form-group form-inline">
+                <label asp-for="Password" class="control-label" ></label>
+                <input name="Password" value="@Model.Password" type="password" class="form-control" @ViewBag.Writability/>
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" name="submit" value="@Constants.SaveAction" class="btn btn-default btn-primary"/>
+                <input type="submit" name="submit" value="@Constants.CancelAction" class="btn cancel" />
+            </div>
+        </form>
     </div>
 </div>
 
