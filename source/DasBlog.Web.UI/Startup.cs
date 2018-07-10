@@ -145,7 +145,6 @@ namespace DasBlog.Web
 				{
 					var serviceProvider = services.BuildServiceProvider();
 					mapperConfig.AddProfile(new ProfilePost(serviceProvider.GetService<IDasBlogSettings>()));
-//					mapperConfig.AddProfile<ProfileDasBlogUser>();
 					mapperConfig.AddProfile(new ProfileDasBlogUser(serviceProvider.GetService<ISiteSecurityManager>()));
 				})
 				.AddMvc()

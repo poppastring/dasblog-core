@@ -14,7 +14,7 @@ namespace DasBlog.Web.Models
 		[Required]
 		public Role Role { get; set; }
 
-		public bool Ask { get; set; }
+		public string /*bool*/ Ask { get; set; }
 		
 		[Required]
 		[EmailAddress]
@@ -28,15 +28,15 @@ namespace DasBlog.Web.Models
 		public string OpenIDUrl { get; set; }
 
 		[Display(Name= "Receive Notifications For A New Post")]
-		public bool NotifyOnNewPost { get; set; }
-
-		[Display(Name= "Receive Notifications for Own Comments")]
-		public bool NotifyOnAllComment { get; set; }
+		public string /*bool*/ NotifyOnNewPost { get; set; }
 
 		[Display(Name= "Receive Notifications for All Comments")]
-		public bool NotifyOnOwnComment { get; set; }
+		public string /*bool*/ NotifyOnAllComment { get; set; }
 
-		public bool Active { get; set; }
+		[Display(Name= "Receive Notifications for Own Comments")]
+		public string /*bool*/ NotifyOnOwnComment { get; set; }
+
+		public string /*bool*/ Active { get; set; }
 		
 		[Required]
 		public string Password { get; set; }

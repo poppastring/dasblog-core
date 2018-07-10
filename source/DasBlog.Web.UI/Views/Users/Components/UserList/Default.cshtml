@@ -53,7 +53,7 @@
         @foreach (var item in Model) {
             <tr>
                 <td>
-                    <a href="/users/CreateEditDeleteView/@item.EmailAddress?submit=@Constants.UsersViewAction"> @ElideTitle(item.EmailAddress)</a>
+                    <a href="/users/CreateEditDeleteView/@item.EmailAddress?submit=@Constants.UsersViewAction&actionInProgress=@ViewBag.Action"> @ElideTitle(item.EmailAddress)</a>
                 </td>
                 <td>
                     @*

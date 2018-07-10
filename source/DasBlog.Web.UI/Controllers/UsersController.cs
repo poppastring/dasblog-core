@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Metadata;
 using AutoMapper;
 using DasBlog.Core.Configuration;
 using DasBlog.Core.Security;
+using DasBlog.Core.Services;
 using Microsoft.AspNetCore.Mvc;
 using DasBlog.Core.Services.Interfaces;
 using DasBlog.Web.Common;
@@ -24,24 +26,38 @@ namespace DasBlog.Web.Controllers
 			_mapper = mapper;
 			_siteSecurityConfig = siteSecurityConfig;
 		}
-		[Route("users")]
-		public IActionResult Index()
+		[Route("users/{email?}")]
+		public IActionResult Index(string email)
 		{
+			email = email ?? string.Empty;
+/*
 			ViewBag.SubViewName = Constants.ViewUserSubView;
 			ViewBag.Writability = "readonly";
 			ViewBag.Clickability = "disabled";
+*/
 			List<User> users = _userService.LoadUsers().ToList();
-			UsersViewModel uvm = _mapper.Map<UsersViewModel>(new User());
+//			UsersViewModel uvm = _mapper.Map<UsersViewModel>(new User());
 			if (users.Count == 0)
 			{
-				return RedirectToPage($"/users/CreateEditDeleteView?submit={Constants.UsersCreateAction}");
+				return RedirectToPagePermanent($"/users/CreateEditDeleteView?submit={Constants.UsersCreateAction}");
 						// might as weel encourage admin to start creating users
 			}
+/*
 			else
 			{
 				uvm = _mapper.Map<UsersViewModel>(users[0]);
 			}
+*/
+			if (email == string.Empty)
+			{
+				email = users[0].EmailAddress;
+			}
+
+			return EditDeleteView(Constants.UsersViewAction, email);
+/*
+			ViewBag.Action = Constants.UsersViewAction;
 			return View("Maintenance", uvm);
+*/
 		}
 		[HttpGet("/users/CreateEditDeleteView/{email?}")]
 		public IActionResult CreateEditDeleteView(string submit, string email)
@@ -50,7 +66,7 @@ namespace DasBlog.Web.Controllers
 			if (submit == Constants.UsersCreateAction)
 			{
 				ViewBag.SubViewName = Constants.CreateUserSubView;
-				ViewBag.CreateEditDeleteInProgress = true;
+				ViewBag.Action = submit;
 				return View("Maintenance", _mapper.Map<UsersViewModel>(new User()));
 			}
 			else
@@ -60,19 +76,30 @@ namespace DasBlog.Web.Controllers
 		}
 		[ValidateAntiForgeryToken]
 		[HttpPost("/users/CreateEditDeleteView/{email?}")]
-		public IActionResult CreateEditDeleteView(string submit, string originalEmail, UsersViewModel uvm)
+		public IActionResult CreateEditDeleteView(string submit, string originalEmail
+		  ,UsersViewModel uvm)
 		{
 			ModelState.Remove(nameof(UsersViewModel.Password));
 					// make sure that the password is not echoed back if validation fails
-			var userAction = originalEmail == null ? Constants.UsersCreateAction : Constants.UsersEditAction;
+			string userAction;
+			if (submit == Constants.DeleteAction)
+			{
+				userAction = Constants.UsersDeleteAction;
+			}
+			else
+			{
+				userAction = originalEmail == null ? Constants.UsersCreateAction : Constants.UsersEditAction;
+			}
+
 			originalEmail = originalEmail ?? string.Empty;
 			if (submit == Constants.CancelAction)
 			{
-				return RedirectToAction(nameof(Index));
+				return RedirectToPage($"/users/{originalEmail}");
 			}
 			if (!ModelState.IsValid)
 			{
 				ViewBag.SubViewName = ActionToSubView(userAction);
+				ViewBag.Action = userAction;
 				return View("Maintenance", uvm);
 			}
 			switch (userAction)
@@ -82,8 +109,10 @@ namespace DasBlog.Web.Controllers
 					return SaveCreateOrEditUser(userAction, uvm, originalEmail);
 				case Constants.UsersDeleteAction:
 					ViewBag.SubViewName = Constants.DeleteUserSubView;
-					return RedirectToAction(nameof(Index));
+					return DeleteUser(uvm);
 			}
+
+			ViewBag.Action = userAction;
 			return View("Maintenance", uvm);
 		}
 
@@ -94,6 +123,7 @@ namespace DasBlog.Web.Controllers
 			if (!ValidateUser(userAction, originalEmail, users, uvm, user))
 			{
 				ViewBag.SubViewName = ActionToSubView(userAction);
+				ViewBag.Action = userAction;
 				return View("Maintenance", uvm);
 			}
 
@@ -108,7 +138,7 @@ namespace DasBlog.Web.Controllers
 			}
 			_userService.SaveUsers(users);
 			_siteSecurityConfig.Refresh();
-			return RedirectToAction(nameof(Index));
+			return RedirectToPage($"/users/{user.EmailAddress}");
 		}
 
 		/// <summary>
@@ -161,16 +191,14 @@ namespace DasBlog.Web.Controllers
 			}
 
 			ViewBag.SubViewName = ActionToSubView(submit);
-			if (ViewBag.SubViewName == Constants.ViewUserSubView)
+			if (ViewBag.SubViewName == Constants.ViewUserSubView
+			  || ViewBag.SubViewName == Constants.DeleteUserSubView)
 			{
 				ViewBag.Writability = "readonly";
 				ViewBag.Clickability = "disabled";
-				ViewBag.CreateEditDeleteInProgress = false;
 			}
-			else
-			{
-				ViewBag.CreateEditDeleteInProgress = true;
-			}
+
+			ViewBag.Action = submit;
 			return View("Maintenance", uvm);
 		}
 		
@@ -188,5 +216,21 @@ namespace DasBlog.Web.Controllers
 		/// <param name="Action">e.g. UsersEditAction</param>
 		/// <returns>EditUsersSubView</returns>
 		private string ActionToSubView(string action) => mapActionToView[action];
+
+		private IActionResult DeleteUser(UsersViewModel uvm)
+		{
+			List<User> users = _userService.LoadUsers().ToList();
+			int index = users.FindIndex(u => u.EmailAddress == uvm.EmailAddress);
+			if (index != -1) 	// ignore -1 condition - presumably another admin just delete it
+			{
+				users.RemoveAt(index);
+				_userService.SaveUsers(users);
+				_siteSecurityConfig.Users = users;
+			}
+
+			ModelState.Remove("email");
+//			return RedirectToPage("/users");
+			return RedirectToActionPermanent(nameof(Index));
+		}
 	}
 }

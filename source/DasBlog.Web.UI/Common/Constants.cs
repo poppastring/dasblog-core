@@ -18,5 +18,6 @@
 		public const string UsersErrorAction = "ErrorUser";
 		public const string SaveAction = "Save";
 		public const string CancelAction = "Cancel";
+		public const string DeleteAction = "Delete";
 	}
 }

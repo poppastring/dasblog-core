@@ -5,69 +5,7 @@
 <div class="row">
     <div class="col-md-9">
         <form asp-action="CreateEditDeleteView">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" name="originalEmail" value="@Model.EmailAddress" />        
-            @* will be null for create *@
-            <div class="form-group form-inline">
-                <label asp-for="Name" class="control-label" ></label>
-                <input asp-for="Name" type="text" class="form-control"/>
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group form-inline">
-                <label asp-for="Role" class="control-label" ></label>
-                <input asp-for="Role" type="text" class="form-control"/>
-                <span asp-validation-for="Role" class="text-danger"></span>
-            </div>
-            <div class="form-group form-inline">
-                <label asp-for="Ask" class="control-label" ></label>
-                <input asp-for="Ask" type="checkbox" class="form-control"/>
-                <span asp-validation-for="Ask" class="text-danger"></span>
-            </div>
-            <div class="form-group form-inline">
-                <label asp-for="EmailAddress" class="control-label" ></label>
-                <input asp-for="EmailAddress" type="text" class="form-control"/>
-                <span asp-validation-for="EmailAddress" class="text-danger"></span>
-            </div>
-            <div class="form-group form-inline">
-                <label asp-for="DisplayName" class="control-label" ></label>
-                <input asp-for="DisplayName" type="text" class="form-control"/>
-                <span asp-validation-for="DisplayName" class="text-danger"></span>
-            </div>
-            <div class="form-group form-inline">
-                <label asp-for="OpenIDUrl" class="control-label" ></label>
-                <input asp-for="OpenIDUrl" type="text" class="form-control"/>
-                <span asp-validation-for="OpenIDUrl" class="text-danger"></span>
-            </div>
-            <div class="form-group form-inline">
-                <label asp-for="NotifyOnAllComment" class="control-label" ></label>
-                <input asp-for="NotifyOnAllComment" type="checkbox" class="form-control"/>
-                <span asp-validation-for="NotifyOnAllComment" class="text-danger"></span>
-            </div>
-            <div class="form-group form-inline">
-                <label asp-for="NotifyOnOwnComment" class="control-label" ></label>
-                <input asp-for="NotifyOnOwnComment" type="checkbox" class="form-control"/>
-                <span asp-validation-for="NotifyOnOwnComment" class="text-danger"></span>
-            </div>
-            <div class="form-group form-inline">
-                <label asp-for="NotifyOnNewPost" class="control-label" ></label>
-                <input asp-for="NotifyOnNewPost" type="checkbox" class="form-control"/>
-                <span asp-validation-for="NotifyOnNewPost" class="text-danger"></span>
-            </div>
-            <div class="form-group form-inline">
-                <label asp-for="Active" class="control-label" ></label>
-                <input asp-for="Active" type="checkbox" class="form-control"/>
-                <span asp-validation-for="Active" class="text-danger"></span>
-            </div>
-            <div class="form-group form-inline">
-                <label asp-for="OpenIDUrl" class="control-label" ></label>
-                <input asp-for="OpenIDUrl" type="text" class="form-control"/>
-                <span asp-validation-for="OpenIDUrl" class="text-danger"></span>
-            </div>
-            <div class="form-group form-inline">
-                <label asp-for="Password" class="control-label" ></label>
-                <input asp-for="Password" type="password" class="form-control"/>
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
+            @Html.Partial("UserFields", Model)
             <div class="form-group">
                 <input type="submit" name="submit" value="@Constants.SaveAction" class="btn btn-default btn-primary"/>
                 <input type="submit" name="submit" value="@Constants.CancelAction" class="btn cancel"/>
