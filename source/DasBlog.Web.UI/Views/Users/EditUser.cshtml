@@ -20,7 +20,7 @@
             </div>
             <div class="form-group form-inline">
                 <label asp-for="Ask" class="control-label" ></label>
-                <input name="Ask" checked="@Model.Ask" type="checkbox" class="form-control" @ViewBag.Clickability/>
+                <input name="Ask" @(Model.Ask ? "checked" : "") type="checkbox" class="form-control" @ViewBag.Clickability/>
                 <span asp-validation-for="Ask" class="text-danger"></span>
             </div>
             <div class="form-group form-inline">
@@ -40,22 +40,22 @@
             </div>
             <div class="form-group form-inline">
                 <label asp-for="NotifyOnAllComment" class="control-label" ></label>
-                <input name="NotifyOnAllComment" value="@Model.NotifyOnAllComment" type="checkbox" class="form-control" @ViewBag.Clickability/>
+                <input name="NotifyOnAllComment" @(Model.NotifyOnAllComment ? "checked" : "") type="checkbox" class="form-control" @ViewBag.Clickability/>
                 <span asp-validation-for="NotifyOnAllComment" class="text-danger"></span>
             </div>
             <div class="form-group form-inline">
                 <label asp-for="NotifyOnOwnComment" class="control-label" ></label>
-                <input name="NotifyOnOwnComment" value="@Model.NotifyOnOwnComment" type="checkbox" class="form-control" @ViewBag.Clickability/>
+                <input name="NotifyOnOwnComment" @(Model.NotifyOnOwnComment ? "checked" : "") type="checkbox" class="form-control" @ViewBag.Clickability/>
                 <span asp-validation-for="NotifyOnOwnComment" class="text-danger"></span>
             </div>
             <div class="form-group form-inline">
                 <label asp-for="NotifyOnNewPost" class="control-label" ></label>
-                <input name="NotifyOnNewPost" value="@Model.NotifyOnNewPost" type="checkbox" class="form-control" @ViewBag.Clickability/>
+                <input name="NotifyOnNewPost" @(Model.NotifyOnNewPost ? "checked" : "") type="checkbox" class="form-control" @ViewBag.Clickability/>
                 <span asp-validation-for="NotifyOnNewPost" class="text-danger"></span>
             </div>
             <div class="form-group form-inline">
                 <label asp-for="Active" class="control-label" ></label>
-                <input name="Active" value="@Model.Active" type="checkbox" class="form-control" @ViewBag.Clickability/>
+                <input name="Active" @(Model.Active ? "checked" : "") type="checkbox" class="form-control" @ViewBag.Clickability/>
                 <span asp-validation-for="Active" class="text-danger"></span>
             </div>
              <div class="form-group form-inline">

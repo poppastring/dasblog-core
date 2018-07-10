@@ -161,7 +161,7 @@ namespace DasBlog.Web.Controllers
 			}
 
 			ViewBag.SubViewName = ActionToSubView(submit);
-			if (ViewBag.SubView == Constants.ViewUserSubView)
+			if (ViewBag.SubViewName == Constants.ViewUserSubView)
 			{
 				ViewBag.Writability = "readonly";
 				ViewBag.Clickability = "disabled";
