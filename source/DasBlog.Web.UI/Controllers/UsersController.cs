@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Metadata;
+using System.Threading;
 using AutoMapper;
 using DasBlog.Core.Configuration;
 using DasBlog.Core.Security;
@@ -30,7 +31,8 @@ namespace DasBlog.Web.Controllers
 		public IActionResult Index(string email)
 		{
 			email = email ?? string.Empty;
-/*
+			var mike = Thread.CurrentPrincipal;
+/* 
 			ViewBag.SubViewName = Constants.ViewUserSubView;
 			ViewBag.Writability = "readonly";
 			ViewBag.Clickability = "disabled";
@@ -138,7 +140,7 @@ namespace DasBlog.Web.Controllers
 			}
 			_userService.SaveUsers(users);
 			_siteSecurityConfig.Refresh();
-			return RedirectToPage($"/users/{user.EmailAddress}");
+			return Index(user.EmailAddress);
 		}
 
 		/// <summary>
@@ -230,7 +232,7 @@ namespace DasBlog.Web.Controllers
 
 			ModelState.Remove("email");
 //			return RedirectToPage("/users");
-			return RedirectToActionPermanent(nameof(Index));
+			return Index(null);
 		}
 	}
 }
