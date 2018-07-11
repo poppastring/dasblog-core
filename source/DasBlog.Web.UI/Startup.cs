@@ -117,13 +117,8 @@ namespace DasBlog.Web
 				.AddTransient<IDasBlogSettings, DasBlogSettings>()
 				.AddTransient<IUserStore<DasBlogUser>, DasBlogUserStore>()
 				.AddTransient<IRoleStore<DasBlogRole>, DasBlogUserRoleStore>()
-<<<<<<< HEAD
 				.AddTransient<IPrincipal>(provider => provider.GetService<IHttpContextAccessor>().HttpContext.User)
 				.AddTransient<ISiteRepairer, SiteRepairer>()
-				.AddSingleton<ISiteSecurityConfig, SiteSecurityConfig>()
-=======
-//				.AddTransient<IPrincipal>(provider => provider.GetService<IHttpContextAccessor>().HttpContext.User)
->>>>>>> user creation substantially complete
 				;
 
 			services
