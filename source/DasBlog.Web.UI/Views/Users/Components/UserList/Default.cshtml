@@ -30,11 +30,11 @@
     <form asp-action="Maintenance" asp-controller="Users" method="get">
         @if (ViewBag.SubViewName == Constants.ViewUserSubView)
         {
-            <input type="submit" class="btn" name="submit" value="@Constants.UsersCreateAction"/>
+            <input type="submit" class="btn" name="subAction" value="@Constants.UsersCreateAction"/>
         }
         else
         {
-            <input type="submit" class="btn" name="submit" value="@Constants.UsersCreateAction" disabled/>
+            <input type="submit" class="btn" name="subAction" value="@Constants.UsersCreateAction" disabled/>
             
         }
     </form>
@@ -53,17 +53,7 @@
         @foreach (var item in Model) {
             <tr>
                 <td>
-                    <a href="/users/@item.EmailAddress?submit=@Constants.UsersViewAction&actionInProgress=@ViewBag.Action"> @ElideTitle(item.EmailAddress)</a>
-                </td>
-                <td>
-                    @*
-                    <a class="btn btn-sm" asp-action="Edit" asp-controller="Users" asp-route-id="@item.Id" aria-label="Edit">
-                        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-                    </a>
-                    <a class="btn btn-sm" asp-action="Delete" asp-controller="Users" asp-route-id="@item.Id" aria-label="Delete">
-                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                    </a>
-                *@
+                    <a href="/users/@item.EmailAddress"> @ElideTitle(item.EmailAddress)</a>
                 </td>
             </tr>
         }

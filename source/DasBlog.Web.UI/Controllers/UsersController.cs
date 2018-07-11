@@ -60,13 +60,13 @@ namespace DasBlog.Web.Controllers
 		/// <summary>
 		/// All requests for maintenance are processed through here
 		/// </summary>
-		/// <param name="submit">Create, Edit, Delete, View</param>
+		/// <param name="subAction">Create, Edit, Delete, View</param>
 		/// <param name="email">allows us to track user being modified</param>
 		/// <returns>one way or another, the maintenance page.
 		/// Will be null when the admin has not specified a user
 		/// i.e. at first page load and after deletions</returns>
 		[HttpGet("/users/Maintenance/{email?}")]
-		public IActionResult Maintenance(string submit, string email)
+		public IActionResult Maintenance(string subAction, string email)
 		{
 			//System.Diagnostics.Debug.Assert(email != null || submit == Constants.UsersCreateAction);
 /*
@@ -77,16 +77,16 @@ namespace DasBlog.Web.Controllers
 				|| submit == Constants.UsersViewAction);
 */
 			email = email ?? string.Empty;
-			submit = submit ?? Constants.UsersViewAction;
-			if (submit == Constants.UsersCreateAction) 
+			subAction = subAction ?? Constants.UsersViewAction;
+			if (subAction == Constants.UsersCreateAction) 
 			{
 				ViewBag.SubViewName = Constants.CreateUserSubView;
-				ViewBag.Action = submit;
+				ViewBag.Action = subAction;
 				return View("Maintenance", _mapper.Map<UsersViewModel>(new User()));
 			}
 			else
 			{
-				return EditDeleteOrViewUser(submit, email);
+				return EditDeleteOrViewUser(subAction, email);
 			}
 		}
 		/// <summary>
@@ -122,8 +122,7 @@ namespace DasBlog.Web.Controllers
 			originalEmail = originalEmail ?? string.Empty;
 			if (submit == Constants.CancelAction)
 			{
-				this.Response.Headers.Add("Location", $"/users/{originalEmail}");
-				return RedirectToPage($"/users/{originalEmail}");
+				return RedirectToAction(nameof(Index));
 			}
 			if (!ModelState.IsValid)
 			{
@@ -167,7 +166,8 @@ namespace DasBlog.Web.Controllers
 			}
 			_userService.SaveUsers(users);
 			_siteSecurityConfig.Refresh();
-			return Index(user.EmailAddress);
+			this.ControllerContext.RouteData.Values.Add("email", user.EmailAddress);
+			return RedirectToAction(nameof(Index));
 		}
 
 		/// <summary>
@@ -201,22 +201,23 @@ namespace DasBlog.Web.Controllers
 
 		}
 		// subroutine for http GET action
-		private IActionResult EditDeleteOrViewUser(string submit, string email)
+		private IActionResult EditDeleteOrViewUser(string subAction, string email)
 		{
 			System.Diagnostics.Debug.Assert(
-				submit == Constants.UsersEditAction
-				|| submit == Constants.UsersDeleteAction
-				|| submit == Constants.UsersViewAction);
+				subAction == Constants.UsersEditAction
+				|| subAction == Constants.UsersDeleteAction
+				|| subAction == Constants.UsersViewAction);
 			(var found, var user) = _userService.FindFirstMatchingUser(u => u.EmailAddress == email);
 			UsersViewModel uvm = _mapper.Map<UsersViewModel>(user);
 			if (!found)
 			{
 				ViewBag.SubViewName = Constants.UsersErrorAction;
-				return Index(null);
+				return RedirectToAction(nameof(Index));
+//				return Index(null);
 					// TODO show an error page
 			}
 
-			ViewBag.SubViewName = ActionToSubView(submit);
+			ViewBag.SubViewName = ActionToSubView(subAction);
 			if (ViewBag.SubViewName == Constants.ViewUserSubView
 			  || ViewBag.SubViewName == Constants.DeleteUserSubView)
 			{
@@ -224,7 +225,7 @@ namespace DasBlog.Web.Controllers
 				ViewBag.Clickability = "disabled";
 			}
 
-			ViewBag.Action = submit;
+			ViewBag.Action = subAction;
 			return View("Maintenance", uvm);
 		}
 		
@@ -253,10 +254,8 @@ namespace DasBlog.Web.Controllers
 				_userService.SaveUsers(users);
 				_siteSecurityConfig.Users = users;
 			}
-
-			ModelState.Remove("email");
-//			return RedirectToPage("/users");
-			return Index(null);
+			this.ControllerContext.RouteData.Values.Remove("email");
+			return RedirectToAction(nameof(Index));
 		}
 	}
 }

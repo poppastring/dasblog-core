@@ -9,13 +9,13 @@
 <form asp-action="Maintenance" asp-controller="Users" method="get">
     @if (ViewBag.SubViewName == Constants.ViewUserSubView)
     {
-        <input type="submit" class="btn" name="submit" value="@Constants.UsersEditAction"/>
-        <input type="submit" class="btn" name="submit" value="@Constants.UsersDeleteAction"/>       
+        <input type="submit" class="btn" name="subAction" value="@Constants.UsersEditAction"/>
+        <input type="submit" class="btn" name="subAction" value="@Constants.UsersDeleteAction"/>       
     }
     else
     {
-        <input type="submit" class="btn" name="submit" value="@Constants.UsersEditAction" disabled/>
-        <input type="submit" class="btn" name="submit" value="@Constants.UsersDeleteAction" disabled/>       
+        <input type="submit" class="btn" name="subAction" value="@Constants.UsersEditAction" disabled/>
+        <input type="submit" class="btn" name="subAction" value="@Constants.UsersDeleteAction" disabled/>       
     }
 </form>
 
