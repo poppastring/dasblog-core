@@ -17,5 +17,7 @@ namespace DasBlog.Core.Services.Interfaces
 
 		bool HasUsers();
 		(bool userFound, User user) FindFirstMatchingUser(Func<User, bool> pred);
+		bool DeleteUser(Func<User, bool> pred);
+		void AddOrReplaceUser(User user, string originalEmail);
 	}
 }

@@ -21,7 +21,7 @@
 }
 
 
-<div>
+<div class="row">
     @*
     <form asp-action="Create" asp-controller="NoteManager">
         <button type="submit" class="btn btn-primary">Create</button>
@@ -39,24 +39,26 @@
         }
     </form>
 </div>
-<div style="max-height: 500px; overflow-y: scroll">
-    <table class="table">
-        <thead>
-        <tr>
-            <th>
-                Users
-            </th>
-            <th></th>
-        </tr>
-        </thead>
-        <tbody>
-        @foreach (var item in Model) {
+<div class="row">
+    <div style="max-height: 500px; overflow-y: scroll">
+        <table class="table">
+            <thead>
             <tr>
-                <td>
-                    <a href="/users/@item.EmailAddress"> @ElideTitle(item.EmailAddress)</a>
-                </td>
+                <th>
+                    Users
+                </th>
+                <th></th>
             </tr>
-        }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+            @foreach (var item in Model) {
+                <tr>
+                    <td>
+                        <a href="/users/@item.EmailAddress"> @ElideTitle(item.EmailAddress)</a>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
 </div>

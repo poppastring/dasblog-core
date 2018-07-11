@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Reflection.Metadata;
-using System.Threading;
 using AutoMapper;
 using DasBlog.Core.Configuration;
 using DasBlog.Core.Security;
-using DasBlog.Core.Services;
 using Microsoft.AspNetCore.Mvc;
 using DasBlog.Core.Services.Interfaces;
 using DasBlog.Web.Common;
@@ -18,6 +14,47 @@ namespace DasBlog.Web.Controllers
 	[Authorize]
 	public class UsersController : Controller
 	{
+		private class ViewBagConfigurer
+		{
+			public void ConfigureViewBag(dynamic viewBag, string userAction)
+			{
+				System.Diagnostics.Debug.Assert(
+					userAction == Constants.UsersCreateAction
+					|| userAction == Constants.UsersEditAction
+					|| userAction == Constants.UsersDeleteAction
+					|| userAction == Constants.UsersViewAction);
+				viewBag.Action = userAction;
+				viewBag.SubViewName = ActionToSubView(userAction);
+				switch (userAction)
+				{
+					case Constants.DeleteAction:
+					case Constants.UsersViewAction:
+						viewBag.Writability = "readonly";
+						viewBag.Clickability = "disabled";
+						break;
+					default:
+						viewBag.Writability = "";
+						viewBag.Clickability = "";
+						break;
+				}
+			}
+			
+			private IDictionary<string, string> mapActionToView = new Dictionary<string, string>
+			{
+				{Constants.UsersCreateAction, Constants.CreateUserSubView}
+				,{Constants.UsersEditAction, Constants.EditUserSubView}
+				,{Constants.UsersDeleteAction, Constants.DeleteUserSubView}
+				,{Constants.UsersViewAction, Constants.ViewUserSubView}
+			};
+
+			/// <summary>
+			/// simple mapping
+			/// </summary>
+			/// <param name="Action">e.g. UsersEditAction</param>
+			/// <returns>EditUsersSubView</returns>
+			private string ActionToSubView(string action) => mapActionToView[action];
+
+		}
 		private readonly IUserService _userService;
 		private readonly IMapper _mapper;
 		private readonly ISiteSecurityConfig _siteSecurityConfig;
@@ -44,7 +81,8 @@ namespace DasBlog.Web.Controllers
 			email = email ?? string.Empty;
 			if (!_userService.HasUsers())
 			{
-				return RedirectToPage($"/users/Maintenance?submit={Constants.UsersCreateAction}");
+				this.ControllerContext.RouteData.Values.Add("subAction", Constants.UsersCreateAction);
+				return RedirectToAction(nameof(Maintenance));
 						// might as weel encourage admin to start creating users
 			}
 			// make sure that there is an actual user associated with this email address
@@ -54,9 +92,14 @@ namespace DasBlog.Web.Controllers
 			{
 				email = _userService.GetFirstUser().EmailAddress;
 			}
+			// we need to update the route data when the page is initially loaded.
+			// the email address is automatically appended to the actions of forms that refer to this controller
+			UpdateRouteData(email);
 
 			return EditDeleteOrViewUser(Constants.UsersViewAction, email);
 		}
+
+
 		/// <summary>
 		/// All requests for maintenance are processed through here
 		/// </summary>
@@ -68,20 +111,17 @@ namespace DasBlog.Web.Controllers
 		[HttpGet("/users/Maintenance/{email?}")]
 		public IActionResult Maintenance(string subAction, string email)
 		{
-			//System.Diagnostics.Debug.Assert(email != null || submit == Constants.UsersCreateAction);
-/*
-			System.Diagnostics.Debug.Assert(
-				submit == Constants.UsersCreateAction
-				|| submit == Constants.UsersEditAction
-				|| submit == Constants.UsersDeleteAction
-				|| submit == Constants.UsersViewAction);
-*/
-			email = email ?? string.Empty;
 			subAction = subAction ?? Constants.UsersViewAction;
-			if (subAction == Constants.UsersCreateAction) 
+			System.Diagnostics.Debug.Assert(email != null || subAction == Constants.UsersCreateAction);
+			System.Diagnostics.Debug.Assert(
+				subAction == Constants.UsersCreateAction
+				|| subAction == Constants.UsersEditAction
+				|| subAction == Constants.UsersDeleteAction
+				|| subAction == Constants.UsersViewAction);
+			email = email ?? string.Empty;
+			if (subAction == Constants.UsersCreateAction)
 			{
-				ViewBag.SubViewName = Constants.CreateUserSubView;
-				ViewBag.Action = subAction;
+				new ViewBagConfigurer().ConfigureViewBag(ViewBag, Constants.UsersCreateAction);
 				return View("Maintenance", _mapper.Map<UsersViewModel>(new User()));
 			}
 			else
@@ -126,8 +166,7 @@ namespace DasBlog.Web.Controllers
 			}
 			if (!ModelState.IsValid)
 			{
-				ViewBag.SubViewName = ActionToSubView(userAction);
-				ViewBag.Action = userAction;
+				new ViewBagConfigurer().ConfigureViewBag(ViewBag, userAction);
 				return View("Maintenance", uvm);
 			}
 			switch (userAction)
@@ -136,37 +175,25 @@ namespace DasBlog.Web.Controllers
 				case Constants.UsersEditAction:
 					return SaveCreateOrEditUser(userAction, uvm, originalEmail);
 				case Constants.UsersDeleteAction:
-					ViewBag.SubViewName = Constants.DeleteUserSubView;
 					return DeleteUser(uvm);
 			}
 
-			ViewBag.Action = userAction;
+			new ViewBagConfigurer().ConfigureViewBag(ViewBag, userAction);
 			return View("Maintenance", uvm);
 		}
 
 		private IActionResult SaveCreateOrEditUser(string userAction, UsersViewModel uvm, string originalEmail)
 		{
 			User user = _mapper.Map<User>(uvm);
-			List<User> users = _userService.GetAllUsers().ToList();
-			if (!ValidateUser(userAction, originalEmail, users, uvm, user))
+			if (!ValidateUser(userAction, originalEmail, uvm, user))
 			{
-				ViewBag.SubViewName = ActionToSubView(userAction);
-				ViewBag.Action = userAction;
+				new ViewBagConfigurer().ConfigureViewBag(ViewBag, userAction);
 				return View("Maintenance", uvm);
 			}
 
-			var index = users.FindIndex(u => u.EmailAddress == originalEmail);
-			if (index == -1)
-			{
-				users.Add(user);
-			}
-			else
-			{
-				users[index] = user;
-			}
-			_userService.SaveUsers(users);
+			_userService.AddOrReplaceUser(user, originalEmail);
 			_siteSecurityConfig.Refresh();
-			this.ControllerContext.RouteData.Values.Add("email", user.EmailAddress);
+			UpdateRouteData(user.EmailAddress);
 			return RedirectToAction(nameof(Index));
 		}
 
@@ -175,11 +202,10 @@ namespace DasBlog.Web.Controllers
 		/// </summary>
 		/// <param name="userAction">Either UserCreateAction or UserEditAction </param>
 		/// <param name="originalEmail">"" for creation, existing value on users for edit</param>
-		/// <param name="users">all the users in the repo</param>
 		/// <param name="uvm"></param>
 		/// <param name="user">the user that has just been created or edited by the client</param>
 		/// <returns>true if the user can be saved to the repo, otherwise false</returns>
-		private bool ValidateUser(string userAction, string originalEmail, List<User> users, UsersViewModel uvm, User user)
+		private bool ValidateUser(string userAction, string originalEmail, UsersViewModel uvm, User user)
 		{
 			System.Diagnostics.Debug.Assert(userAction == Constants.UsersCreateAction
 			  || userAction == Constants.UsersEditAction);
@@ -190,7 +216,7 @@ namespace DasBlog.Web.Controllers
 			{
 				return true;
 			}
-			if (users.Any(u => u.EmailAddress == user.EmailAddress))
+			if (_userService.FindFirstMatchingUser(u => u.EmailAddress == user.EmailAddress).userFound)
 			{
 				ModelState.AddModelError(nameof(uvm.EmailAddress)
 				  ,"This email address already exists - emails must be unique");
@@ -208,54 +234,42 @@ namespace DasBlog.Web.Controllers
 				|| subAction == Constants.UsersDeleteAction
 				|| subAction == Constants.UsersViewAction);
 			(var found, var user) = _userService.FindFirstMatchingUser(u => u.EmailAddress == email);
-			UsersViewModel uvm = _mapper.Map<UsersViewModel>(user);
 			if (!found)
 			{
-				ViewBag.SubViewName = Constants.UsersErrorAction;
 				return RedirectToAction(nameof(Index));
-//				return Index(null);
 					// TODO show an error page
 			}
+			UsersViewModel uvm = _mapper.Map<UsersViewModel>(user);
 
-			ViewBag.SubViewName = ActionToSubView(subAction);
-			if (ViewBag.SubViewName == Constants.ViewUserSubView
-			  || ViewBag.SubViewName == Constants.DeleteUserSubView)
-			{
-				ViewBag.Writability = "readonly";
-				ViewBag.Clickability = "disabled";
-			}
-
-			ViewBag.Action = subAction;
+			new ViewBagConfigurer().ConfigureViewBag(ViewBag, subAction);
 			return View("Maintenance", uvm);
 		}
-		
-		private IDictionary<string, string> mapActionToView = new Dictionary<string, string>
-		{
-			{Constants.UsersCreateAction, Constants.CreateUserSubView}
-			,{Constants.UsersEditAction, Constants.EditUserSubView}
-			,{Constants.UsersDeleteAction, Constants.DeleteUserSubView}
-			,{Constants.UsersViewAction, Constants.ViewUserSubView}
-		};
 
-		/// <summary>
-		/// simple mapping
-		/// </summary>
-		/// <param name="Action">e.g. UsersEditAction</param>
-		/// <returns>EditUsersSubView</returns>
-		private string ActionToSubView(string action) => mapActionToView[action];
-
+		// http post handler
 		private IActionResult DeleteUser(UsersViewModel uvm)
 		{
-			List<User> users = _userService.GetAllUsers().ToList();
-			int index = users.FindIndex(u => u.EmailAddress == uvm.EmailAddress);
-			if (index != -1) 	// ignore -1 condition - presumably another admin just delete it
+			if (_userService.DeleteUser(u => u.EmailAddress == uvm.EmailAddress))
 			{
-				users.RemoveAt(index);
-				_userService.SaveUsers(users);
-				_siteSecurityConfig.Users = users;
+				_siteSecurityConfig.Refresh();
+				this.ControllerContext.RouteData.Values.Remove("email");
+				return RedirectToAction(nameof(Index));
 			}
-			this.ControllerContext.RouteData.Values.Remove("email");
-			return RedirectToAction(nameof(Index));
+			else
+			{
+				ModelState.AddModelError(string.Empty
+				  , $"Failed to delete the user {uvm.EmailAddress}.  The record may have already been deleted ");
+				new ViewBagConfigurer().ConfigureViewBag(ViewBag, Constants.UsersDeleteAction);
+				return View("Maintenance", uvm);
+			}
+		}
+		private void UpdateRouteData(string email)
+		{
+			if (!this.ControllerContext.RouteData.Values.ContainsKey("email"))
+			{
+				this.ControllerContext.RouteData.Values.Add("email", "");
+			}
+
+			this.ControllerContext.RouteData.Values["email"] = email;
 		}
 	}
 }

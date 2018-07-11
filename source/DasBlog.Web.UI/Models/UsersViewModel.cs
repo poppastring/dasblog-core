@@ -18,6 +18,7 @@ namespace DasBlog.Web.Models
 		
 		[Required]
 		[EmailAddress]
+		[Display(Name="Email Address")]
 		public string EmailAddress { get; set; }
 		
 		[Display(Name= "Dipslay Name")]

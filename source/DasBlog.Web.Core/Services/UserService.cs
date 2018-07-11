@@ -41,5 +41,41 @@ namespace DasBlog.Core.Services
 				return (false, new User());
 			}
 		}
+
+		public bool DeleteUser(Func<User, bool> pred)
+		{
+			var users = _userRepo.LoadUsers().ToList();
+			var user = users.FirstOrDefault(pred);
+			if (users.Remove(user))
+			{
+				_userRepo.SaveUsers(users);
+				return true;
+			}
+			else
+			{
+				return false;	// no user with that email address
+			}
+		}
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="user">recently created or modified user</param>
+		/// <param name="originalEmail">if the user is to be added then this will be an empty string
+		/// otherwise the original email address can be used to locate the user that has been modified.
+		/// This covers the case where the user's email address itself has been mdofied</param>
+		public void AddOrReplaceUser(User user, string originalEmail)
+		{
+			var users = _userRepo.LoadUsers().ToList();
+			var index = users.FindIndex(u => u.EmailAddress == originalEmail);
+			if (index == -1)
+			{
+				users.Add(user);
+			}
+			else
+			{
+				users[index] = user;
+			}
+			_userRepo.SaveUsers(users);
+		}
 	}
 }
