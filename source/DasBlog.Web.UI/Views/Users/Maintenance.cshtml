@@ -6,7 +6,7 @@
     Layout = "_UsersLayout";
 }
 
-<form asp-action="CreateEditDeleteView" asp-controller="Users" method="get">
+<form asp-action="Maintenance" asp-controller="Users" method="get">
     @if (ViewBag.SubViewName == Constants.ViewUserSubView)
     {
         <input type="submit" class="btn" name="submit" value="@Constants.UsersEditAction"/>

@@ -9,14 +9,14 @@ using System.Linq;
 
 namespace DasBlog.Tests.Services
 {
-	public class LocalUserDataServiceTest
+	public class UserDataRepoTest
 	{
 		[Fact]
 		public void ShouldLoadUsers()
 		{
-			ILocalUserDataService service = new LocalUserDataService(
+			IUserDataRepo repo = new UserDataRepo(
 			  new Options<LocalUserDataOptions>{ Value = new LocalUserDataOptions{Path = string.Empty}});
-			List<User> users = service.LoadUsers().ToList();
+			List<User> users = repo.LoadUsers().ToList();
 
 			Assert.Single(users, u => u.Name == "admin");
 		}

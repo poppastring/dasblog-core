@@ -10,7 +10,7 @@ using User = DasBlog.Core.Security.User;
 
 namespace DasBlog.Core.Services
 {
-	public class LocalUserDataService : Interfaces.ILocalUserDataService
+	public class UserDataRepo : Interfaces.IUserDataRepo
 	{
 		private readonly ISiteSecurityConfig _siteSecurityConfig;
 		public class SiteSecurityData
@@ -18,7 +18,7 @@ namespace DasBlog.Core.Services
 			public List<User> Users { get; set; } = new List<User>();
 		}
 		private LocalUserDataOptions options;
-		public LocalUserDataService(IOptions<LocalUserDataOptions> optionsAccessor)
+		public UserDataRepo(IOptions<LocalUserDataOptions> optionsAccessor)
 		{
 			options = optionsAccessor.Value;
 		}

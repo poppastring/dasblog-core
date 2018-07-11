@@ -132,8 +132,9 @@ namespace DasBlog.Web
 				.AddSingleton<ISiteManager, SiteManager>()
 				.AddSingleton<IHttpContextAccessor, HttpContextAccessor>()
 				.AddSingleton<IFileSystemBinaryManager, FileSystemBinaryManager>()
-				.AddSingleton<ILocalUserDataService, LocalUserDataService>()
+				.AddSingleton<IUserDataRepo, UserDataRepo>()
 				.AddSingleton<ISiteSecurityConfig, SiteSecurityConfig>()
+				.AddSingleton<IUserService, UserService>()
 				;
 			services
 				.AddAutoMapper(mapperConfig =>

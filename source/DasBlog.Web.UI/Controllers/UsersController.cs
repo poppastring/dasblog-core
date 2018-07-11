@@ -18,54 +18,67 @@ namespace DasBlog.Web.Controllers
 	[Authorize]
 	public class UsersController : Controller
 	{
-		private readonly ILocalUserDataService _userService;
+		private readonly IUserService _userService;
 		private readonly IMapper _mapper;
 		private readonly ISiteSecurityConfig _siteSecurityConfig;
-		public UsersController(ILocalUserDataService userService, IMapper mapper, ISiteSecurityConfig siteSecurityConfig)
+		public UsersController(IUserService userService, IMapper mapper, ISiteSecurityConfig siteSecurityConfig)
 		{
-			_userService = userService;
+			this._userService = userService;
 			_mapper = mapper;
 			_siteSecurityConfig = siteSecurityConfig;
 		}
-		[Route("users/{email?}")]
+		/// <summary>
+		/// Show the user identfied by email
+		/// if no email is passed (e.g. when page is first displayed)
+		/// then show the first user in the user repo
+		/// or if there are no users (almost impossible) then
+		/// redirect to the creation page
+		/// </summary>
+		/// <param name="email">typically null when the page is first displayed
+		/// thereafter typically the email address of the last user edited
+		/// or, as a default, the first user in the user repo</param>
+		/// <returns>the user maintenance view either in view or create mode</returns>
+		[Route("/users/{email?}")]
 		public IActionResult Index(string email)
 		{
 			email = email ?? string.Empty;
-			var mike = Thread.CurrentPrincipal;
-/* 
-			ViewBag.SubViewName = Constants.ViewUserSubView;
-			ViewBag.Writability = "readonly";
-			ViewBag.Clickability = "disabled";
-*/
-			List<User> users = _userService.LoadUsers().ToList();
-//			UsersViewModel uvm = _mapper.Map<UsersViewModel>(new User());
-			if (users.Count == 0)
+			if (!_userService.HasUsers())
 			{
-				return RedirectToPagePermanent($"/users/CreateEditDeleteView?submit={Constants.UsersCreateAction}");
+				return RedirectToPage($"/users/Maintenance?submit={Constants.UsersCreateAction}");
 						// might as weel encourage admin to start creating users
 			}
-/*
-			else
+			// make sure that there is an actual user associated with this email address
+			// In many cases there won't be as the email will have been passed as null
+			(var userFound, _) = _userService.FindFirstMatchingUser(u => u.EmailAddress == email);
+			if (!userFound)
 			{
-				uvm = _mapper.Map<UsersViewModel>(users[0]);
-			}
-*/
-			if (email == string.Empty)
-			{
-				email = users[0].EmailAddress;
+				email = _userService.GetFirstUser().EmailAddress;
 			}
 
-			return EditDeleteView(Constants.UsersViewAction, email);
-/*
-			ViewBag.Action = Constants.UsersViewAction;
-			return View("Maintenance", uvm);
-*/
+			return EditDeleteOrViewUser(Constants.UsersViewAction, email);
 		}
-		[HttpGet("/users/CreateEditDeleteView/{email?}")]
-		public IActionResult CreateEditDeleteView(string submit, string email)
+		/// <summary>
+		/// All requests for maintenance are processed through here
+		/// </summary>
+		/// <param name="submit">Create, Edit, Delete, View</param>
+		/// <param name="email">allows us to track user being modified</param>
+		/// <returns>one way or another, the maintenance page.
+		/// Will be null when the admin has not specified a user
+		/// i.e. at first page load and after deletions</returns>
+		[HttpGet("/users/Maintenance/{email?}")]
+		public IActionResult Maintenance(string submit, string email)
 		{
+			//System.Diagnostics.Debug.Assert(email != null || submit == Constants.UsersCreateAction);
+/*
+			System.Diagnostics.Debug.Assert(
+				submit == Constants.UsersCreateAction
+				|| submit == Constants.UsersEditAction
+				|| submit == Constants.UsersDeleteAction
+				|| submit == Constants.UsersViewAction);
+*/
+			email = email ?? string.Empty;
 			submit = submit ?? Constants.UsersViewAction;
-			if (submit == Constants.UsersCreateAction)
+			if (submit == Constants.UsersCreateAction) 
 			{
 				ViewBag.SubViewName = Constants.CreateUserSubView;
 				ViewBag.Action = submit;
@@ -73,14 +86,27 @@ namespace DasBlog.Web.Controllers
 			}
 			else
 			{
-				return EditDeleteView(submit, email);
+				return EditDeleteOrViewUser(submit, email);
 			}
 		}
+		/// <summary>
+		/// handles user creation, edit and deletion
+		/// </summary>
+		/// <param name="submit">Save, Cancel or Delete</param>
+		/// <param name="originalEmail">if the user's email has been modified by the edit then
+		/// this enables us to find that user in the repo.  Null when this is called
+		/// in response to a create operation</param>
+		/// <param name="uvm"></param>
+		/// <returns>either the page from which it came (on cancel or error) or the index</returns>
 		[ValidateAntiForgeryToken]
-		[HttpPost("/users/CreateEditDeleteView/{email?}")]
-		public IActionResult CreateEditDeleteView(string submit, string originalEmail
+		[HttpPost("/users/Maintenance/{email?}")]
+		public IActionResult Maintenance(string submit, string originalEmail
 		  ,UsersViewModel uvm)
 		{
+			System.Diagnostics.Debug.Assert(
+			  submit == Constants.SaveAction
+			  || submit == Constants.CancelAction
+			  || submit == Constants.DeleteAction);
 			ModelState.Remove(nameof(UsersViewModel.Password));
 					// make sure that the password is not echoed back if validation fails
 			string userAction;
@@ -96,6 +122,7 @@ namespace DasBlog.Web.Controllers
 			originalEmail = originalEmail ?? string.Empty;
 			if (submit == Constants.CancelAction)
 			{
+				this.Response.Headers.Add("Location", $"/users/{originalEmail}");
 				return RedirectToPage($"/users/{originalEmail}");
 			}
 			if (!ModelState.IsValid)
@@ -121,7 +148,7 @@ namespace DasBlog.Web.Controllers
 		private IActionResult SaveCreateOrEditUser(string userAction, UsersViewModel uvm, string originalEmail)
 		{
 			User user = _mapper.Map<User>(uvm);
-			List<User> users = _userService.LoadUsers().ToList();
+			List<User> users = _userService.GetAllUsers().ToList();
 			if (!ValidateUser(userAction, originalEmail, users, uvm, user))
 			{
 				ViewBag.SubViewName = ActionToSubView(userAction);
@@ -173,23 +200,20 @@ namespace DasBlog.Web.Controllers
 			return true;
 
 		}
-		private IActionResult EditDeleteView(string submit, string email)
+		// subroutine for http GET action
+		private IActionResult EditDeleteOrViewUser(string submit, string email)
 		{
 			System.Diagnostics.Debug.Assert(
 				submit == Constants.UsersEditAction
 				|| submit == Constants.UsersDeleteAction
 				|| submit == Constants.UsersViewAction);
-			List<User> users = _userService.LoadUsers().ToList();
-			var user = users.FirstOrDefault(u => u.EmailAddress == email);
-			UsersViewModel uvm;
-			if (user == null)
+			(var found, var user) = _userService.FindFirstMatchingUser(u => u.EmailAddress == email);
+			UsersViewModel uvm = _mapper.Map<UsersViewModel>(user);
+			if (!found)
 			{
 				ViewBag.SubViewName = Constants.UsersErrorAction;
-				uvm = _mapper.Map<UsersViewModel>(new User());
-			}
-			else
-			{
-				uvm = _mapper.Map<UsersViewModel>(user);
+				return Index(null);
+					// TODO show an error page
 			}
 
 			ViewBag.SubViewName = ActionToSubView(submit);
@@ -221,7 +245,7 @@ namespace DasBlog.Web.Controllers
 
 		private IActionResult DeleteUser(UsersViewModel uvm)
 		{
-			List<User> users = _userService.LoadUsers().ToList();
+			List<User> users = _userService.GetAllUsers().ToList();
 			int index = users.FindIndex(u => u.EmailAddress == uvm.EmailAddress);
 			if (index != -1) 	// ignore -1 condition - presumably another admin just delete it
 			{

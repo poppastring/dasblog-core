@@ -10,16 +10,16 @@ namespace DasBlog.Core.Configuration
 	[Serializable]
 	public class SiteSecurityConfig : ISiteSecurityConfig
 	{
-		private readonly ILocalUserDataService _localUserDataService;
-		public SiteSecurityConfig(ILocalUserDataService localUserDataService)
+		private readonly IUserService _userService;
+		public SiteSecurityConfig(IUserService userService)
 		{
-			_localUserDataService = localUserDataService;
+			this._userService = userService;
 			Refresh();
 		}
 
 		public void Refresh()
 		{
-			Users = _localUserDataService.LoadUsers().ToList();
+			Users = _userService.GetAllUsers().ToList();
 		}
 
 		public List<User> Users { get; set; } = new List<User>();

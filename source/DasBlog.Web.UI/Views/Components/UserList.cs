@@ -9,15 +9,15 @@ namespace DasBlog.Web.Components
 {
 	public class UserList : ViewComponent
 	{
-		private ILocalUserDataService _dataService;
-		public UserList( ILocalUserDataService dataService)
+		private IUserService _userService;
+		public UserList( IUserService userService)
 		{
-			this._dataService = dataService;
+			this._userService = userService;
            
 		}
 		public async Task<IViewComponentResult> InvokeAsync()
 		{
-			IEnumerable<User> list = _dataService.LoadUsers();
+			IEnumerable<User> list = _userService.GetAllUsers();
 			await Task.Yield();
 			return View(list);
 		}
