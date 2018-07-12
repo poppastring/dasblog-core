@@ -28,13 +28,19 @@ namespace DasBlog.Web.Controllers
 				switch (userAction)
 				{
 					case Constants.DeleteAction:
+						viewBag.Linkability = "disabled";
+						viewBag.Writability = "readonly";
+						viewBag.Clickability = "disabled";
+						break;
 					case Constants.UsersViewAction:
+						viewBag.Linkability = string.Empty;
 						viewBag.Writability = "readonly";
 						viewBag.Clickability = "disabled";
 						break;
 					default:
-						viewBag.Writability = "";
-						viewBag.Clickability = "";
+						viewBag.Linkability = "disabled";
+						viewBag.Writability = string.Empty;
+						viewBag.Clickability = string.Empty;
 						break;
 				}
 			}

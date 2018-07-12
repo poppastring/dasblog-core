@@ -22,22 +22,19 @@
 
 
 <div class="row">
-    @*
-    <form asp-action="Create" asp-controller="NoteManager">
-        <button type="submit" class="btn btn-primary">Create</button>
-    </form>
-*@
-    <form asp-action="Maintenance" asp-controller="Users" method="get">
-        @if (ViewBag.SubViewName == Constants.ViewUserSubView)
-        {
-            <input type="submit" class="btn" name="subAction" value="@Constants.UsersCreateAction"/>
-        }
-        else
-        {
-            <input type="submit" class="btn" name="subAction" value="@Constants.UsersCreateAction" disabled/>
-            
-        }
-    </form>
+    <div class="pull-right">
+        <form asp-action="Maintenance" asp-controller="Users" method="get">
+            @if (ViewBag.SubViewName == Constants.ViewUserSubView)
+            {
+                <input type="submit" class="btn" name="subAction" value="@Constants.UsersCreateAction"/>
+            }
+            else
+            {
+                <input type="submit" class="btn" name="subAction" value="@Constants.UsersCreateAction" disabled/>
+
+            }
+        </form>
+    </div>
 </div>
 <div class="row">
     <div style="max-height: 500px; overflow-y: scroll">
@@ -54,7 +51,7 @@
             @foreach (var item in Model) {
                 <tr>
                     <td>
-                        <a href="/users/@item.EmailAddress"> @ElideTitle(item.EmailAddress)</a>
+                        <user-id email-address="/users/@item.EmailAddress" linkability="@ViewBag.Linkability"> @ElideTitle(item.EmailAddress)</user-id>
                     </td>
                 </tr>
             }
