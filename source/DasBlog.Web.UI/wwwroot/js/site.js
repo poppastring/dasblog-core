@@ -11,18 +11,32 @@ function linkToUser(emailAddress, linkAbility) {
     }
     location.href = emailAddress;
 }
-function showLastUserError(showError, formId) {
+// showError - true = a business rule preventing the user from shooting themself in the foot
+// prohibits the edit or delete progressing
+// the id of the Save or Delete input element
+//
+// if proceding with the operation kicked off by the Save or Delete button would
+// violate a business rule then a message is displayed and no further processing takes place.
+// If, on the other hand, it is ok to proceed then we need to copy the behaviour of a normal
+// form submit where a key-value pair is passed as part of the form being the name of the
+// clicked button and the associated value - e.g. submitAction=Save or submitAction=Delete.
+// is added to the form as a hidden control
+// UsersController.Maintenance post handler needs needs to see this .
+function showLastUserError(showError, btnId) {
     if (showError) {
         alert("You can't delete your own user record or reduce its privileges");
+        return;     // the edit or delete mode will remain active
     }
-    var frm = document.getElementById(formId);
-    setSubmitActionOnForm(frm, formId === 'editForm' ? 'Save' : 'Delete');
+    var btn = document.getElementById(btnId);
+    var frm = btn.form;
+    setSubmitActionOnForm(frm, btn.name, btn.value);
     frm.submit();
 }
-function setSubmitActionOnForm(frm, actionName) {
+// actionName == "submitAction" (as required by the UsersController parameter binding) actionValue = "Save" or "Delete"
+function setSubmitActionOnForm(frm, actionName, actionValue) {
     var input = document.createElement("input");
     input.type = "hidden";
-    input.name = "submitAction";
-    input.value = actionName;
+    input.name = actionName;
+    input.value = actionValue;
     frm.appendChild(input);
 }

@@ -39,12 +39,12 @@ namespace DasBlog.Web.Mappers
 				.ForMember(dest => dest.SecurityStamp, opt => opt.MapFrom(src => src.Name));
 			
 			CreateMap<UsersViewModel, User>()
-				.ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
+				.ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name.Trim()))
 				.ForMember(dest => dest.Role, opt => opt.MapFrom(src => src.Role))
 				.ForMember(dest => dest.Ask, opt => opt.MapFrom(src => src.Ask == "on"))
-				.ForMember(dest => dest.EmailAddress, opt => opt.MapFrom(src => src.EmailAddress))
-				.ForMember(dest => dest.DisplayName, opt => opt.MapFrom(src => src.DisplayName))
-				.ForMember(dest => dest.OpenIDUrl, opt => opt.MapFrom(src => src.OpenIDUrl))
+				.ForMember(dest => dest.EmailAddress, opt => opt.MapFrom(src => src.EmailAddress.Trim()))
+				.ForMember(dest => dest.DisplayName, opt => opt.MapFrom(src => src.DisplayName.Trim()))
+				.ForMember(dest => dest.OpenIDUrl, opt => opt.MapFrom(src => src.OpenIDUrl.Trim()))
 				.ForMember(dest => dest.NotifyOnAllComment, opt => opt.MapFrom(src => src.NotifyOnAllComment == "on"))
 				.ForMember(dest => dest.NotifyOnOwnComment, opt => opt.MapFrom(src => src.NotifyOnOwnComment == "on"))
 				.ForMember(dest => dest.NotifyOnNewPost, opt => opt.MapFrom(src => src.NotifyOnNewPost == "on"))

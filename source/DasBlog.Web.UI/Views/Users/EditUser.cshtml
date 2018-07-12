@@ -8,8 +8,8 @@
         <form asp-action="Maintenance" name="editForm" id="editForm">
             @Html.Partial("UserFields", Model)
             <div class="form-group">
-                <input type="button" name="submitAction" value="@Constants.SaveAction" class="btn btn-default btn-primary" 
-                       onclick="showLastUserError(false, 'editForm')"/>
+                <confirm-edit type="button" name="submitAction" value="@Constants.SaveAction" class="btn btn-default btn-primary" 
+                  id="confirm-edit" model="@Model" onclick="showLastUserError(false, 'confirm-edit')"/>
                 <input type="submit" name="submitAction" value="@Constants.CancelAction" class="btn cancel"/>
             </div>
         </form>
