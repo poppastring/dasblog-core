@@ -14,12 +14,12 @@
                 <label asp-for="Role" class="control-label" ></label>
                 @if ((ViewBag.Writability ?? string.Empty) == "readnly")
                 {
-                    <select name="Role" asp-items="@Html.GetEnumSelectList<Role>()" type="text" class="form-control" readonly>
+                    <select asp-for="Role" name="Role" asp-items="@Html.GetEnumSelectList<Role>()" type="text" class="form-control" readonly>
                     </select>
                 }
                 else
                 {
-                    <select name="Role" asp-items="@Html.GetEnumSelectList<Role>()" type="text" class="form-control" >
+                    <select asp-for="Role" name="Role" asp-items="@Html.GetEnumSelectList<Role>()" type="text" class="form-control" >
                     </select>
                 }
                 <span asp-validation-for="Role" class="text-danger"></span>
