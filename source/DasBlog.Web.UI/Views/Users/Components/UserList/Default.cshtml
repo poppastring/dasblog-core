@@ -26,11 +26,11 @@
         <form asp-action="Maintenance" asp-controller="Users" method="get">
             @if (ViewBag.SubViewName == Constants.ViewUserSubView)
             {
-                <input type="submit" class="btn" name="subAction" value="@Constants.UsersCreateAction"/>
+                <input type="submit" class="btn" name="subAction" value="@Constants.UsersCreateMode"/>
             }
             else
             {
-                <input type="submit" class="btn" name="subAction" value="@Constants.UsersCreateAction" disabled/>
+                <input type="submit" class="btn" name="subAction" value="@Constants.UsersCreateMode" disabled/>
 
             }
         </form>

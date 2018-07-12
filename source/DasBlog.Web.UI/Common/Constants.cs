@@ -7,10 +7,10 @@
 		public const string BlogPostAddCategoryAction = "Add";
 		public const string BlogPostEditAction = "Edit";
 		public const string UploadImageAction = "Upload Image";
-		public const string UsersCreateAction = "Create";
-		public const string UsersEditAction = "Edit";
-		public const string UsersDeleteAction = "Delete";
-		public const string UsersViewAction = "View";
+		public const string UsersCreateMode = "Create";
+		public const string UsersEditMode = "Edit";
+		public const string UsersDeleteMode = "Delete";
+		public const string UsersViewMode = "View";
 		public const string CreateUserSubView = "CreateUser";
 		public const string EditUserSubView = "EditUser";
 		public const string DeleteUserSubView = "DeleteUser";

@@ -17,23 +17,23 @@ namespace DasBlog.Web.Controllers
 	{
 		private class ViewBagConfigurer
 		{
-			public void ConfigureViewBag(dynamic viewBag, string userAction)
+			public void ConfigureViewBag(dynamic viewBag, string maintenanceMode)
 			{
 				System.Diagnostics.Debug.Assert(
-					userAction == Constants.UsersCreateAction
-					|| userAction == Constants.UsersEditAction
-					|| userAction == Constants.UsersDeleteAction
-					|| userAction == Constants.UsersViewAction);
-				viewBag.Action = userAction;
-				viewBag.SubViewName = ActionToSubView(userAction);
-				switch (userAction)
+					maintenanceMode == Constants.UsersCreateMode
+					|| maintenanceMode == Constants.UsersEditMode
+					|| maintenanceMode == Constants.UsersDeleteMode
+					|| maintenanceMode == Constants.UsersViewMode);
+				viewBag.Action = maintenanceMode;
+				viewBag.SubViewName = ActionToSubView(maintenanceMode);
+				switch (maintenanceMode)
 				{
 					case Constants.DeleteAction:
 						viewBag.Linkability = "disabled";
 						viewBag.Writability = "readonly";
 						viewBag.Clickability = "disabled";
 						break;
-					case Constants.UsersViewAction:
+					case Constants.UsersViewMode:
 						viewBag.Linkability = string.Empty;
 						viewBag.Writability = "readonly";
 						viewBag.Clickability = "disabled";
@@ -48,10 +48,10 @@ namespace DasBlog.Web.Controllers
 			
 			private IDictionary<string, string> mapActionToView = new Dictionary<string, string>
 			{
-				{Constants.UsersCreateAction, Constants.CreateUserSubView}
-				,{Constants.UsersEditAction, Constants.EditUserSubView}
-				,{Constants.UsersDeleteAction, Constants.DeleteUserSubView}
-				,{Constants.UsersViewAction, Constants.ViewUserSubView}
+				{Constants.UsersCreateMode, Constants.CreateUserSubView}
+				,{Constants.UsersEditMode, Constants.EditUserSubView}
+				,{Constants.UsersDeleteMode, Constants.DeleteUserSubView}
+				,{Constants.UsersViewMode, Constants.ViewUserSubView}
 			};
 
 			/// <summary>
@@ -88,7 +88,7 @@ namespace DasBlog.Web.Controllers
 			email = email ?? string.Empty;
 			if (!_userService.HasUsers())
 			{
-				this.ControllerContext.RouteData.Values.Add("subAction", Constants.UsersCreateAction);
+				this.ControllerContext.RouteData.Values.Add("maintenanceMode", Constants.UsersCreateMode);
 				return RedirectToAction(nameof(Maintenance));
 						// might as weel encourage admin to start creating users
 			}
@@ -103,37 +103,37 @@ namespace DasBlog.Web.Controllers
 			// the email address is automatically appended to the actions of forms that refer to this controller
 			UpdateRouteData(email);
 
-			return EditDeleteOrViewUser(Constants.UsersViewAction, email);
+			return EditDeleteOrViewUser(Constants.UsersViewMode, email);
 		}
 
 
 		/// <summary>
 		/// All requests for maintenance are processed through here
 		/// </summary>
-		/// <param name="subAction">Create, Edit, Delete, View</param>
+		/// <param name="maintenanceMode">Create, Edit, Delete, View</param>
 		/// <param name="email">allows us to track user being modified</param>
 		/// <returns>one way or another, the maintenance page.
 		/// Will be null when the admin has not specified a user
 		/// i.e. at first page load and after deletions</returns>
 		[HttpGet("/users/Maintenance/{email?}")]
-		public IActionResult Maintenance(string subAction, string email)
+		public IActionResult Maintenance(string maintenanceMode, string email)
 		{
-			subAction = subAction ?? Constants.UsersViewAction;
-			System.Diagnostics.Debug.Assert(email != null || subAction == Constants.UsersCreateAction);
+			maintenanceMode = maintenanceMode ?? Constants.UsersViewMode;
+			System.Diagnostics.Debug.Assert(email != null || maintenanceMode == Constants.UsersCreateMode);
 			System.Diagnostics.Debug.Assert(
-				subAction == Constants.UsersCreateAction
-				|| subAction == Constants.UsersEditAction
-				|| subAction == Constants.UsersDeleteAction
-				|| subAction == Constants.UsersViewAction);
+				maintenanceMode == Constants.UsersCreateMode
+				|| maintenanceMode == Constants.UsersEditMode
+				|| maintenanceMode == Constants.UsersDeleteMode
+				|| maintenanceMode == Constants.UsersViewMode);
 			email = email ?? string.Empty;
-			if (subAction == Constants.UsersCreateAction)
+			if (maintenanceMode == Constants.UsersCreateMode)
 			{
-				new ViewBagConfigurer().ConfigureViewBag(ViewBag, Constants.UsersCreateAction);
+				new ViewBagConfigurer().ConfigureViewBag(ViewBag, Constants.UsersCreateMode);
 				return View("Maintenance", _mapper.Map<UsersViewModel>(new User()));
 			}
 			else
 			{
-				return EditDeleteOrViewUser(subAction, email);
+				return EditDeleteOrViewUser(maintenanceMode, email);
 			}
 		}
 		/// <summary>
@@ -154,14 +154,14 @@ namespace DasBlog.Web.Controllers
 			  submitAction == Constants.SaveAction
 			  || submitAction == Constants.CancelAction
 			  || submitAction == Constants.DeleteAction);
-			string userAction;
+			string maintenanceMode;
 			if (submitAction == Constants.DeleteAction)
 			{
-				userAction = Constants.UsersDeleteAction;
+				maintenanceMode = Constants.UsersDeleteMode;
 			}
 			else
 			{
-				userAction = originalEmail == null ? Constants.UsersCreateAction : Constants.UsersEditAction;
+				maintenanceMode = originalEmail == null ? Constants.UsersCreateMode : Constants.UsersEditMode;
 			}
 
 			originalEmail = originalEmail ?? string.Empty;
@@ -171,8 +171,8 @@ namespace DasBlog.Web.Controllers
 			}
 			if (IsLoggedInUserRecord(uvm))
 			{
-				if (userAction == Constants.UsersEditAction && uvm.Role != Role.Admin
-				  || userAction == Constants.UsersDeleteAction)
+				if (maintenanceMode == Constants.UsersEditMode && uvm.Role != Role.Admin
+				  || maintenanceMode == Constants.UsersDeleteMode)
 				{
 					ModelState.AddModelError(string.Empty
 					  , "You cannot delete your own user record or change the role");
@@ -193,21 +193,21 @@ namespace DasBlog.Web.Controllers
 					// make sure that the password is not echoed back if validation fails
 
 				}
-				new ViewBagConfigurer().ConfigureViewBag(ViewBag, userAction);
+				new ViewBagConfigurer().ConfigureViewBag(ViewBag, maintenanceMode);
 				return View("Maintenance", uvm);
 			}
 			ModelState.Remove(nameof(UsersViewModel.Password));
 				// make sure that the password is not echoed back if validation fails
-			switch (userAction)
+			switch (maintenanceMode)
 			{
-				case Constants.UsersCreateAction:
-				case Constants.UsersEditAction:
-					return SaveCreateOrEditUser(userAction, uvm, originalEmail);
-				case Constants.UsersDeleteAction:
+				case Constants.UsersCreateMode:
+				case Constants.UsersEditMode:
+					return SaveCreateOrEditUser(maintenanceMode, uvm, originalEmail);
+				case Constants.UsersDeleteMode:
 					return DeleteUser(uvm);
 			}
 
-			new ViewBagConfigurer().ConfigureViewBag(ViewBag, userAction);
+			new ViewBagConfigurer().ConfigureViewBag(ViewBag, maintenanceMode);
 			return View("Maintenance", uvm);
 		}
 
@@ -217,12 +217,12 @@ namespace DasBlog.Web.Controllers
 			return loggedInUserEmail == uvm.EmailAddress;
 		}
 
-		private IActionResult SaveCreateOrEditUser(string userAction, UsersViewModel uvm, string originalEmail)
+		private IActionResult SaveCreateOrEditUser(string maintenanceMode, UsersViewModel uvm, string originalEmail)
 		{
 			User user = _mapper.Map<User>(uvm);
-			if (!ValidateUser(userAction, originalEmail, uvm, user))
+			if (!ValidateUser(maintenanceMode, originalEmail, uvm, user))
 			{
-				new ViewBagConfigurer().ConfigureViewBag(ViewBag, userAction);
+				new ViewBagConfigurer().ConfigureViewBag(ViewBag, maintenanceMode);
 				return View("Maintenance", uvm);
 			}
 
@@ -235,18 +235,18 @@ namespace DasBlog.Web.Controllers
 		/// <summary>
 		/// validate user after initial creation or subsequent edit
 		/// </summary>
-		/// <param name="userAction">Either UserCreateAction or UserEditAction </param>
+		/// <param name="maintenanceMode">Either UserCreateAction or UserEditAction </param>
 		/// <param name="originalEmail">"" for creation, existing value on users for edit</param>
 		/// <param name="uvm"></param>
 		/// <param name="user">the user that has just been created or edited by the client</param>
 		/// <returns>true if the user can be saved to the repo, otherwise false</returns>
-		private bool ValidateUser(string userAction, string originalEmail, UsersViewModel uvm, User user)
+		private bool ValidateUser(string maintenanceMode, string originalEmail, UsersViewModel uvm, User user)
 		{
-			System.Diagnostics.Debug.Assert(userAction == Constants.UsersCreateAction
-			  || userAction == Constants.UsersEditAction);
+			System.Diagnostics.Debug.Assert(maintenanceMode == Constants.UsersCreateMode
+			  || maintenanceMode == Constants.UsersEditMode);
 			System.Diagnostics.Debug.Assert(
-			  userAction == Constants.UsersCreateAction && originalEmail == string.Empty
-			  || userAction == Constants.UsersEditAction && originalEmail != string.Empty);
+			  maintenanceMode == Constants.UsersCreateMode && originalEmail == string.Empty
+			  || maintenanceMode == Constants.UsersEditMode && originalEmail != string.Empty);
 			if (user.EmailAddress == originalEmail)
 			{
 				return true;
@@ -262,12 +262,12 @@ namespace DasBlog.Web.Controllers
 
 		}
 		// subroutine for http GET action
-		private IActionResult EditDeleteOrViewUser(string subAction, string email)
+		private IActionResult EditDeleteOrViewUser(string maintenanceMode, string email)
 		{
 			System.Diagnostics.Debug.Assert(
-				subAction == Constants.UsersEditAction
-				|| subAction == Constants.UsersDeleteAction
-				|| subAction == Constants.UsersViewAction);
+				maintenanceMode == Constants.UsersEditMode
+				|| maintenanceMode == Constants.UsersDeleteMode
+				|| maintenanceMode == Constants.UsersViewMode);
 			(var found, var user) = _userService.FindFirstMatchingUser(u => u.EmailAddress == email);
 			if (!found)
 			{
@@ -276,7 +276,7 @@ namespace DasBlog.Web.Controllers
 			}
 			UsersViewModel uvm = _mapper.Map<UsersViewModel>(user);
 
-			new ViewBagConfigurer().ConfigureViewBag(ViewBag, subAction);
+			new ViewBagConfigurer().ConfigureViewBag(ViewBag, maintenanceMode);
 			return View("Maintenance", uvm);
 		}
 
@@ -293,7 +293,7 @@ namespace DasBlog.Web.Controllers
 			{
 				ModelState.AddModelError(string.Empty
 				  , $"Failed to delete the user {uvm.EmailAddress}.  The record may have already been deleted ");
-				new ViewBagConfigurer().ConfigureViewBag(ViewBag, Constants.UsersDeleteAction);
+				new ViewBagConfigurer().ConfigureViewBag(ViewBag, Constants.UsersDeleteMode);
 				return View("Maintenance", uvm);
 			}
 		}
