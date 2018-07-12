@@ -138,7 +138,7 @@ namespace DasBlog.Web.Controllers
 		/// <summary>
 		/// handles user creation, edit and deletion
 		/// </summary>
-		/// <param name="submit">Save, Cancel or Delete</param>
+		/// <param name="submitAction">Save, Cancel or Delete</param>
 		/// <param name="originalEmail">if the user's email has been modified by the edit then
 		/// this enables us to find that user in the repo.  Null when this is called
 		/// in response to a create operation</param>
@@ -146,17 +146,15 @@ namespace DasBlog.Web.Controllers
 		/// <returns>either the page from which it came (on cancel or error) or the index</returns>
 		[ValidateAntiForgeryToken]
 		[HttpPost("/users/Maintenance/{email?}")]
-		public IActionResult Maintenance(string submit, string originalEmail
+		public IActionResult Maintenance(string submitAction, string originalEmail
 		  ,UsersViewModel uvm)
 		{
 			System.Diagnostics.Debug.Assert(
-			  submit == Constants.SaveAction
-			  || submit == Constants.CancelAction
-			  || submit == Constants.DeleteAction);
-			ModelState.Remove(nameof(UsersViewModel.Password));
-					// make sure that the password is not echoed back if validation fails
+			  submitAction == Constants.SaveAction
+			  || submitAction == Constants.CancelAction
+			  || submitAction == Constants.DeleteAction);
 			string userAction;
-			if (submit == Constants.DeleteAction)
+			if (submitAction == Constants.DeleteAction)
 			{
 				userAction = Constants.UsersDeleteAction;
 			}
@@ -166,15 +164,30 @@ namespace DasBlog.Web.Controllers
 			}
 
 			originalEmail = originalEmail ?? string.Empty;
-			if (submit == Constants.CancelAction)
+			if (submitAction == Constants.CancelAction)
 			{
 				return RedirectToAction(nameof(Index));
 			}
 			if (!ModelState.IsValid)
 			{
+				if (!string.IsNullOrWhiteSpace(uvm.Password))
+				{
+					uvm.Password = string.Empty;
+					// if the password field is blannk and therefore invalid then
+					// we need to keep it to show the error message.
+					// if the password field is not blank and some other field
+					// is invalid then we need to remove the password field
+					// to ensure the form returns an empty password field
+					// This will need to change if we introduce more exacting password rules
+					ModelState.Remove(nameof(UsersViewModel.Password));
+					// make sure that the password is not echoed back if validation fails
+
+				}
 				new ViewBagConfigurer().ConfigureViewBag(ViewBag, userAction);
 				return View("Maintenance", uvm);
 			}
+			ModelState.Remove(nameof(UsersViewModel.Password));
+				// make sure that the password is not echoed back if validation fails
 			switch (userAction)
 			{
 				case Constants.UsersCreateAction:

@@ -55,14 +55,16 @@ namespace DasBlog.Web.Mappers
 			CreateMap<User, UsersViewModel>()
 				.ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
 				.ForMember(dest => dest.Role, opt => opt.MapFrom(src => src.Role))
-				.ForMember(dest => dest.Ask, opt => opt.MapFrom(src => src.Ask ? "on" : ""))
+				.ForMember(dest => dest.Ask, opt => opt.MapFrom(src => src.Ask ? "on" : string.Empty))
 				.ForMember(dest => dest.EmailAddress, opt => opt.MapFrom(src => src.EmailAddress))
 				.ForMember(dest => dest.DisplayName, opt => opt.MapFrom(src => src.DisplayName))
 				.ForMember(dest => dest.OpenIDUrl, opt => opt.MapFrom(src => src.OpenIDUrl))
-				.ForMember(dest => dest.NotifyOnAllComment, opt => opt.MapFrom(src => src.NotifyOnAllComment ? "on" : ""))
-				.ForMember(dest => dest.NotifyOnOwnComment, opt => opt.MapFrom(src => src.NotifyOnOwnComment ? "on" : ""))
-				.ForMember(dest => dest.NotifyOnNewPost, opt => opt.MapFrom(src => src.NotifyOnNewPost ? "on" : ""))
-				.ForMember(dest => dest.Active, opt => opt.MapFrom(src => src.Active ? "on" : ""))
+				.ForMember(dest => dest.NotifyOnAllComment, opt => opt.MapFrom(src => src.NotifyOnAllComment ? "on" : string.Empty))
+				.ForMember(dest => dest.NotifyOnOwnComment, opt => opt.MapFrom(src => src.NotifyOnOwnComment ? "on" : string.Empty))
+				.ForMember(dest => dest.NotifyOnNewPost, opt => opt.MapFrom(src => src.NotifyOnNewPost ? "on" : string.Empty))
+				.ForMember(dest => dest.Active, opt => opt.MapFrom(src => src.Active ? "on" : string.Empty))
+				.ForMember(dest => dest.Password, opt => opt.MapFrom(src => string.Empty))
+						// we don't know what the password is - so we can't tell the user
 				;
 		}
 	}

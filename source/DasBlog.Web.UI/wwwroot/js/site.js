@@ -10,4 +10,19 @@ function linkToUser(emailAddress, linkAbility) {
         return;
     }
     location.href = emailAddress;
-}    
+}
+function showLastUserError(showError, formId) {
+    if (showError) {
+        alert("You can't delete your own user record or reduce its privileges");
+    }
+    var frm = document.getElementById(formId);
+    setSubmitActionOnForm(frm, formId === 'editForm' ? 'Save' : 'Delete');
+    frm.submit();
+}
+function setSubmitActionOnForm(frm, actionName) {
+    var input = document.createElement("input");
+    input.type = "hidden";
+    input.name = "submitAction";
+    input.value = actionName;
+    frm.appendChild(input);
+}

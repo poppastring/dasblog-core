@@ -5,11 +5,12 @@
 <hr />
 <div class="row">
     <div class="col-md-9">
-        <form asp-action="Maintenance">
+        <form asp-action="Maintenance" name="editForm" id="editForm">
             @Html.Partial("UserFields", Model)
             <div class="form-group">
-                <input type="submit" name="submit" value="@Constants.SaveAction" class="btn btn-default btn-primary"/>
-                <input type="submit" name="submit" value="@Constants.CancelAction" class="btn cancel"/>
+                <input type="button" name="submitAction" value="@Constants.SaveAction" class="btn btn-default btn-primary" 
+                       onclick="showLastUserError(false, 'editForm')"/>
+                <input type="submit" name="submitAction" value="@Constants.CancelAction" class="btn cancel"/>
             </div>
         </form>
     </div>
