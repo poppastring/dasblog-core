@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using AutoMapper;
 using DasBlog.Core.Configuration;
 using DasBlog.Core.Security;
@@ -168,6 +169,15 @@ namespace DasBlog.Web.Controllers
 			{
 				return RedirectToAction(nameof(Index));
 			}
+			if (IsLoggedInUserRecord(uvm))
+			{
+				if (userAction == Constants.UsersEditAction && uvm.Role != Role.Admin
+				  || userAction == Constants.UsersDeleteAction)
+				{
+					ModelState.AddModelError(string.Empty
+					  , "You cannot delete your own user record or change the role");
+				}
+			}
 			if (!ModelState.IsValid)
 			{
 				if (!string.IsNullOrWhiteSpace(uvm.Password))
@@ -199,6 +209,12 @@ namespace DasBlog.Web.Controllers
 
 			new ViewBagConfigurer().ConfigureViewBag(ViewBag, userAction);
 			return View("Maintenance", uvm);
+		}
+
+		private bool IsLoggedInUserRecord(UsersViewModel uvm)
+		{
+			var loggedInUserEmail = this.HttpContext.User.Identities.First().Name;
+			return loggedInUserEmail == uvm.EmailAddress;
 		}
 
 		private IActionResult SaveCreateOrEditUser(string userAction, UsersViewModel uvm, string originalEmail)
