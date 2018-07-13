@@ -169,6 +169,7 @@ namespace DasBlog.Web.Controllers
 			{
 				return RedirectToAction(nameof(Index));
 			}
+
 			if (IsLoggedInUserRecord(uvm))
 			{
 				if (maintenanceMode == Constants.UsersEditMode && uvm.Role != Role.Admin
@@ -234,9 +235,11 @@ namespace DasBlog.Web.Controllers
 
 		/// <summary>
 		/// validate user after initial creation or subsequent edit
+		/// 1. email must be unique within user repo
+		/// 2. password must be non-empty
 		/// </summary>
 		/// <param name="maintenanceMode">Either UserCreateAction or UserEditAction </param>
-		/// <param name="originalEmail">"" for creation, existing value on users for edit</param>
+		/// <param name="originalEmail">"" for creation, existing value in users repo for edit</param>
 		/// <param name="uvm"></param>
 		/// <param name="user">the user that has just been created or edited by the client</param>
 		/// <returns>true if the user can be saved to the repo, otherwise false</returns>
@@ -247,18 +250,22 @@ namespace DasBlog.Web.Controllers
 			System.Diagnostics.Debug.Assert(
 			  maintenanceMode == Constants.UsersCreateMode && originalEmail == string.Empty
 			  || maintenanceMode == Constants.UsersEditMode && originalEmail != string.Empty);
-			if (user.EmailAddress == originalEmail)
+			bool rtn = true;
+			if (string.IsNullOrEmpty(uvm.Password))
 			{
-				return true;
+				ModelState.AddModelError(nameof(uvm.Password)
+				  , "The password must contain some characters");
+				rtn = false;
 			}
-			if (_userService.FindFirstMatchingUser(u => u.EmailAddress == user.EmailAddress).userFound)
+			if ( user.EmailAddress != originalEmail
+			  && _userService.FindFirstMatchingUser(u => u.EmailAddress == user.EmailAddress).userFound)
 			{
 				ModelState.AddModelError(nameof(uvm.EmailAddress)
 				  ,"This email address already exists - emails must be unique");
-				return false;
+				rtn = false;
 			}
 
-			return true;
+			return rtn;
 
 		}
 		// subroutine for http GET action

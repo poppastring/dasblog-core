@@ -39,7 +39,7 @@ namespace DasBlog.Web.Models
 
 		public string /*bool*/ Active { get; set; }
 		
-		[Required]
+		//[Required] - nor required for delete - so validate this conditionally
 		public string Password { get; set; }
 
 		public string Writability { get; set; }
