@@ -5,13 +5,27 @@ using DasBlog.Core.Configuration;
 using DasBlog.Core.Security;
 using Microsoft.AspNetCore.Mvc;
 using DasBlog.Core.Services.Interfaces;
-using DasBlog.Web.Attributes;
 using DasBlog.Web.Common;
 using DasBlog.Web.Models;
 using Microsoft.AspNetCore.Authorization;
 
 namespace DasBlog.Web.Controllers
 {
+	/// <summary>
+	/// handles requests from the users page which comprises a list of users in a sidebar on the left
+	/// and the details of the selected user in the main area of the page.
+	/// The user list is handled by the UserList razor component
+	/// On page load a user is displayed by a call to Index (with an empty e-mail address) by default
+	/// the first user in the repo will be displayed.
+	/// The adminisrator can then select a differnt user from the list invoking a request to Index
+	/// with that user's e-mail address.
+	/// The administrator can choose to create a new user, edit the currently displayed user or
+	/// delete the currently displayed user.  All thsse requests are routed to the Maintenance GET handler.
+	/// On confirmation (of create, edit or delete) the POSTS are roouted the the Maintenance POST handler with
+	/// an identifier as to the mainteance mode - creaet, edit or delete and the appropriate code path
+	/// is followed.
+	/// The user list is disabled while the uers is in the process creating, editing or deleting
+	/// </summary>
 	[Authorize]
 	public class UsersController : Controller
 	{
@@ -62,6 +76,9 @@ namespace DasBlog.Web.Controllers
 			private string ActionToSubView(string action) => mapActionToView[action];
 
 		}
+
+		private const string EMAIL_PARAM = "email";		// if you change this remeber to change
+														// the names of the routes and bound parameters
 		private readonly IUserService _userService;
 		private readonly IMapper _mapper;
 		private readonly ISiteSecurityConfig _siteSecurityConfig;
@@ -108,13 +125,13 @@ namespace DasBlog.Web.Controllers
 
 
 		/// <summary>
-		/// All requests for maintenance are processed through here
+		/// All GET requests for maintenance are processed through here
 		/// </summary>
-		/// <param name="maintenanceMode">Create, Edit, Delete, View</param>
-		/// <param name="email">allows us to track user being modified</param>
-		/// <returns>one way or another, the maintenance page.
-		/// Will be null when the admin has not specified a user
-		/// i.e. at first page load and after deletions</returns>
+		/// <param name="maintenanceMode">Create, Edit, Delete, maybe View but I doubt it</param>
+		/// <param name="email">allows us to track user being modified
+		/// Will be null when the administrator has not specified a user
+		/// i.e. at first page load and after deletions</param>
+		/// <returns>one way or another, the maintenance page.</returns>
 		[HttpGet("/users/Maintenance/{email?}")]
 		public IActionResult Maintenance(string maintenanceMode, string email)
 		{
@@ -137,14 +154,15 @@ namespace DasBlog.Web.Controllers
 			}
 		}
 		/// <summary>
-		/// handles user creation, edit and deletion
+		/// handles all user creation, edit and deletion after user confirmation
 		/// </summary>
 		/// <param name="submitAction">Save, Cancel or Delete</param>
 		/// <param name="originalEmail">if the user's email has been modified by the edit then
 		/// this enables us to find that user in the repo.  Null when this is called
 		/// in response to a create operation</param>
 		/// <param name="uvm"></param>
-		/// <returns>either the page from which it came (on cancel or error) or the index</returns>
+		/// <returns>either the page from which it came (on cancel or error) or the index
+		/// if the operation succeeds</returns>
 		[ValidateAntiForgeryToken]
 		[HttpPost("/users/Maintenance/{email?}")]
 		public IActionResult Maintenance(string submitAction, string originalEmail
@@ -185,13 +203,13 @@ namespace DasBlog.Web.Controllers
 				{
 					uvm.Password = string.Empty;
 					// if the password field is blannk and therefore invalid then
-					// we need to keep it to show the error message.
+					// we need to keep it to produce the error message.
 					// if the password field is not blank and some other field
 					// is invalid then we need to remove the password field
 					// to ensure the form returns an empty password field
 					// This will need to change if we introduce more exacting password rules
 					ModelState.Remove(nameof(UsersViewModel.Password));
-					// make sure that the password is not echoed back if validation fails
+						// make sure that the password is not echoed back if validation fails
 
 				}
 				new ViewBagConfigurer().ConfigureViewBag(ViewBag, maintenanceMode);
@@ -217,7 +235,7 @@ namespace DasBlog.Web.Controllers
 			var loggedInUserEmail = this.HttpContext.User.Identities.First().Name;
 			return loggedInUserEmail == uvm.EmailAddress;
 		}
-
+		// subroutine of the http POST handler
 		private IActionResult SaveCreateOrEditUser(string maintenanceMode, UsersViewModel uvm, string originalEmail)
 		{
 			User user = _mapper.Map<User>(uvm);
@@ -230,7 +248,7 @@ namespace DasBlog.Web.Controllers
 			_userService.AddOrReplaceUser(user, originalEmail);
 			_siteSecurityConfig.Refresh();
 			UpdateRouteData(user.EmailAddress);
-			return RedirectToAction(nameof(Index));
+			return RedirectToAction(nameof(Index));		// total success
 		}
 
 		/// <summary>
@@ -268,7 +286,7 @@ namespace DasBlog.Web.Controllers
 			return rtn;
 
 		}
-		// subroutine for http GET action
+		// subroutine of the http GET handler
 		private IActionResult EditDeleteOrViewUser(string maintenanceMode, string email)
 		{
 			System.Diagnostics.Debug.Assert(
@@ -287,14 +305,14 @@ namespace DasBlog.Web.Controllers
 			return View("Maintenance", uvm);
 		}
 
-		// http post handler
+		// subroutine of http POST handler
 		private IActionResult DeleteUser(UsersViewModel uvm)
 		{
 			if (_userService.DeleteUser(u => u.EmailAddress == uvm.EmailAddress))
 			{
 				_siteSecurityConfig.Refresh();
-				this.ControllerContext.RouteData.Values.Remove("email");
-				return RedirectToAction(nameof(Index));
+				this.ControllerContext.RouteData.Values.Remove(EMAIL_PARAM);
+				return RedirectToAction(nameof(Index));		// total success
 			}
 			else
 			{
@@ -304,14 +322,15 @@ namespace DasBlog.Web.Controllers
 				return View("Maintenance", uvm);
 			}
 		}
+		
 		private void UpdateRouteData(string email)
 		{
-			if (!this.ControllerContext.RouteData.Values.ContainsKey("email"))
+			if (!this.ControllerContext.RouteData.Values.ContainsKey(EMAIL_PARAM))
 			{
-				this.ControllerContext.RouteData.Values.Add("email", "");
+				this.ControllerContext.RouteData.Values.Add(EMAIL_PARAM, "");
 			}
 
-			this.ControllerContext.RouteData.Values["email"] = email;
+			this.ControllerContext.RouteData.Values[EMAIL_PARAM] = email;
 		}
 	}
 }
