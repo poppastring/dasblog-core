@@ -21,22 +21,22 @@
 }
 
 
-<div class="row">
-    <div class="pull-right">
+<div class="row" style="padding-top: 15px">
+    <div class=" col-md-offset-7 col-md-5 vcenter">
         <form asp-action="Maintenance" asp-controller="Users" method="get">
             @if (ViewBag.SubViewName == Constants.ViewUserSubView)
             {
-                <input type="submit" class="btn" name="subAction" value="@Constants.UsersCreateMode"/>
+                <input type="submit" class="btn btn-primary" name="maintenanceMode" value="@Constants.UsersCreateMode"/>
             }
             else
             {
-                <input type="submit" class="btn" name="subAction" value="@Constants.UsersCreateMode" disabled/>
+                <input type="submit" class="btn" name="maintenanceMode" value="@Constants.UsersCreateMode" disabled/>
 
             }
         </form>
     </div>
 </div>
-<div class="row">
+<div class="row" style="padding-left: 15px">
     <div style="max-height: 500px; overflow-y: scroll">
         <table class="table">
             <thead>

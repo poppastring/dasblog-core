@@ -14,21 +14,58 @@
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css"/>
         <link rel="stylesheet" href="~/css/site.css"/>
     </environment>
+    <style>
+        .vcenter {
+            display: inline-block;
+            vertical-align: middle;
+            float: none;
+        }        
+    </style>
 </head>
 <body>
 
 @{
     ViewBag.Title = "title";
 }
-@await Html.PartialAsync("_NavBar")
-<nav class="navbar navbar-default" role="navigation" style="margin-bottom: 0">
+@* @await Html.PartialAsync("_NavBar") *@
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand"><site-title /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li><a asp-area="" asp-controller="home" asp-action="index">Home</a></li>
+                <li><a asp-area="" asp-controller="category" asp-action="category">Category</a></li>
+                <li><a asp-area="" asp-controller="archive" asp-action="archive">Archive</a></li>
+                <li><a asp-area="" asp-controller="feed" asp-action="rss">Subscribe</a></li>
+                <li dasblog-authorized><a asp-area="" asp-controller="post" asp-action="create">Create Post</a></li>
+                <li dasblog-authorized><a asp-area="" asp-controller="users" asp-action="index">Users</a></li>
+            </ul>
+            @await Html.PartialAsync("_LoginPartial")
+        </div>
+    </div>    
+</div>
+
+
+<nav class="navbar navbar-default" role="navigation" style="margin-bottom: 15px">
+   
     <div class="navbar-header">
         <a class="navbar-brand"  href="/">My Users</a>
     </div>
+    
     <div class="navbar-default sidebar" role="navigation">
         @await Component.InvokeAsync("UserList")
     </div>
+
 </nav>
+
 <div id="page-wrapper">
     @RenderBody()
 </div>
