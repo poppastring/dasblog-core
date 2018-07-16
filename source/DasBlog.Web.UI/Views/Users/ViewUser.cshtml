@@ -1,0 +1,11 @@
+﻿@model DasBlog.Web.Models.UsersViewModel
+
+<hr />
+<div class="row">
+    <div class="col-md-9">
+        <form asp-action="Maintenance">
+            @Html.Partial("UserFields", Model)
+        </form>
+    </div>
+</div>
+

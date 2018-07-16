@@ -23,6 +23,8 @@ using DasBlog.Core;
 using DasBlog.Core.Services;
 using DasBlog.Core.Services.Interfaces;
 using Microsoft.Extensions.FileProviders;
+using DasBlog.Core.Services;
+using DasBlog.Core.Services.Interfaces;
 
 namespace DasBlog.Web
 {
@@ -38,12 +40,12 @@ namespace DasBlog.Web
 			.SetBasePath(env.ContentRootPath)
 			.AddXmlFile(@"Config\site.config", optional: true, reloadOnChange: true)
 			.AddXmlFile(@"Config\metaConfig.xml", optional: true, reloadOnChange: true)
-			.AddXmlFile(SITESECURITYCONFIG, optional: true, reloadOnChange: true)
+			//.AddXmlFile(SITESECURITYCONFIG, optional: true, reloadOnChange: true)
 			.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
 			.AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
 			.AddEnvironmentVariables()
 			;
-
+			
 			Configuration = builder.Build();
 
 			_hostingEnvironment = env;
@@ -60,8 +62,9 @@ namespace DasBlog.Web
 
 			services.Configure<SiteConfig>(Configuration);
 			services.Configure<MetaTags>(Configuration);
-			services.Configure<SiteSecurityConfig>(Configuration);
-
+//			services.Configure<SiteSecurityConfig>(Configuration);
+			services.Configure<LocalUserDataOptions>(options
+			  => options.Path = Path.Combine(_hostingEnvironment.ContentRootPath, SITESECURITYCONFIG));
 			// Add identity types
 			services
 				.AddIdentity<DasBlogUser, DasBlogRole>()
@@ -92,6 +95,7 @@ namespace DasBlog.Web
 				options.LogoutPath = "/account/logout"; // If the LogoutPath is not set here, ASP.NET Core will default to /Account/Logout
 				options.AccessDeniedPath = "/account/accessDenied"; // If the AccessDeniedPath is not set here, ASP.NET Core will default to /Account/AccessDenied
 				options.SlidingExpiration = true;
+				options.Cookie.Expiration = TimeSpan.FromSeconds(10000);
 				options.Cookie = new CookieBuilder
 				{
 					HttpOnly = true,
@@ -102,6 +106,11 @@ namespace DasBlog.Web
 			services.Configure<RazorViewEngineOptions>(rveo =>
 			{
 				rveo.ViewLocationExpanders.Add(new DasBlogLocationExpander(Configuration.GetSection("DasBlogSettings")["Theme"]));
+			});
+			services.AddSession(options =>
+			{
+				// Set a short timeout for easy testing.
+				options.IdleTimeout = TimeSpan.FromSeconds(1000);
 			});
 
 			services
@@ -123,12 +132,16 @@ namespace DasBlog.Web
 				.AddSingleton<ISiteManager, SiteManager>()
 				.AddSingleton<IHttpContextAccessor, HttpContextAccessor>()
 				.AddSingleton<IFileSystemBinaryManager, FileSystemBinaryManager>()
+				.AddSingleton<IUserDataRepo, UserDataRepo>()
+				.AddSingleton<ISiteSecurityConfig, SiteSecurityConfig>()
+				.AddSingleton<IUserService, UserService>()
 				;
 			services
 				.AddAutoMapper(mapperConfig =>
 				{
-					mapperConfig.AddProfile(new ProfilePost(services.BuildServiceProvider().GetService<IDasBlogSettings>()));
-					mapperConfig.AddProfile(typeof(ProfileDasBlogUser));
+					var serviceProvider = services.BuildServiceProvider();
+					mapperConfig.AddProfile(new ProfilePost(serviceProvider.GetService<IDasBlogSettings>()));
+					mapperConfig.AddProfile(new ProfileDasBlogUser(serviceProvider.GetService<ISiteSecurityManager>()));
 				})
 				.AddMvc()
 				.AddXmlSerializerFormatters();
@@ -145,7 +158,7 @@ namespace DasBlog.Web
 			}
 			else
 			{
-				app.UseExceptionHandler("/home/error");
+//				app.UseExceptionHandler("/home/error");
 			}
 
 			if (!siteOk)

@@ -10,7 +10,9 @@ namespace DasBlog.Core.Security
 	public class User : IEquatable<User>
 	{
 		[XmlElement("Name")]
-		public string Name { get; set; }
+		public string Name
+		{
+			get { return EmailAddress;} set {/* ignore name */} }
 
 		[XmlElement("Role")]
 		public Role Role { get; set; }

@@ -1,0 +1,16 @@
+﻿@using DasBlog.Web.Common
+@model DasBlog.Web.Models.UsersViewModel
+
+<hr />
+<div class="row">
+    <div class="col-md-9">
+        <form asp-action="Maintenance">
+            @Html.Partial("UserFields", Model)
+            <div class="form-group">
+                <input type="submit" name="submitAction" value="@Constants.SaveAction" class="btn btn-default btn-primary"/>
+                <input type="submit" name="submitAction" value="@Constants.CancelAction" class="btn cancel"/>
+            </div>
+        </form>
+    </div>
+</div>
+

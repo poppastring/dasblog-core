@@ -11,5 +11,7 @@ namespace DasBlog.Core.Configuration
 		[XmlElement(ElementName = "Users" )]
 		[XmlArrayItem(DataType = "string", ElementName = "User")]
 		List<User> Users { get; set; }
+
+		void Refresh();
 	}
 }

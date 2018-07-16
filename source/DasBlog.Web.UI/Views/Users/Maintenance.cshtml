@@ -1,0 +1,28 @@
+﻿@using DasBlog.Web.Common
+@model DasBlog.Web.Models.UsersViewModel
+
+@{
+    ViewBag.Title = "User Maintenance";
+    Layout = "_UsersLayout";
+}
+
+<form asp-action="Maintenance" asp-controller="Users" method="get">
+    @if (ViewBag.SubViewName == Constants.ViewUserSubView)
+    {
+        <input type="submit" class="btn btn-primary btn-default" name="maintenanceMode" value="@Constants.UsersEditMode"/>
+        <input type="submit" class="btn" name="maintenanceMode" value="@Constants.UsersDeleteMode"/>       
+    }
+    else
+    {
+        <input type="submit" class="btn" name="maintenanceMode" value="@Constants.UsersEditMode" disabled/>
+        <input type="submit" class="btn" name="maintenanceMode" value="@Constants.UsersDeleteMode" disabled/>       
+    }
+</form>
+
+<h2>@ViewBag.Title</h2>
+
+@Html.Partial((string)ViewBag.SubViewName, Model)
+        @*subview name is Edit or Delete or possibly something else*@
+
+
+

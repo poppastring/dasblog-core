@@ -1,0 +1,48 @@
+﻿@model DasBlog.Web.Models.UsersViewModel
+
+<hr />
+<div class="row">
+    <div class="col-md-8">
+        <div class="col-md-3">Name</div>
+        <div class="col-md-3">@Model.Name</div>
+    </div>
+    <div class="col-md-8">
+        <div class="col-md-3">Role</div>
+        <div class="col-md-3">@Model.Role</div>
+    </div>
+    <div class="col-md-8">
+        <div class="col-md-3">Ask</div>
+        <input type="checkbox" class="col-md-3" disabled="disabled" checked="@Model.Ask"/>
+    </div>
+    <div class="col-md-8">
+        <div class="col-md-3">Email</div>
+        <div class="col-md-3">@Model.EmailAddress</div>
+    </div>
+    <div class="col-md-8">
+        <div class="col-md-3">Display Name</div>
+        <div class="col-md-3">@Model.DisplayName</div>
+    </div>
+    <div class="col-md-8">
+        <div class="col-md-3">Open Id Url</div>
+        <div class="col-md-3">@Model.OpenIDUrl</div>
+    </div>
+    <div class="col-md-8">
+        <div class="col-md-3">Notify On New Post</div>
+        <input type="checkbox" class="col-md-3" disabled="disabled" checked="@Model.NotifyOnNewPost"/>
+    </div>
+    <div class="col-md-8">
+        <div class="col-md-3">Notify On All Comments</div>
+        <input type="checkbox" class="col-md-3" disabled="disabled" checked="@Model.NotifyOnAllComment"/>
+    </div>
+    <div class="col-md-8">
+        <div class="col-md-3">Notify On Own Comment</div>
+        <input type="checkbox" class="col-md-3" disabled="disabled" checked="@Model.NotifyOnOwnComment"/>
+    </div>
+    <div class="col-md-8">
+        <div class="col-md-3">Active</div>
+        <input type="checkbox" class="col-md-3" disabled="disabled" checked="@Model.Active"/>
+    </div>
+</div>
+
+
+
