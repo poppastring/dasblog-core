@@ -1,16 +1,13 @@
 ﻿using Microsoft.AspNetCore.Razor.TagHelpers;
 
-namespace DasBlog.Web.TagHelpers
+namespace DasBlog.Web.TagHelpers.RichEdit
 {
-	public class TinyMceBuilder : IRichEditBuilder
+	public class NicEditBuilder : IRichEditBuilder
 	{
-		private const string TINY_MCE_SERVICE_URL = "https://cloud.tinymce.com/stable/tinymce.min.js";
+		private const string NIC_EDIT_SERVICE_URL = "http://js.nicedit.com/nicEdit-latest.js";
+
 		private const string INIT_SCRIPT_TEMPLATE = @"
-		<script>
-		tinymce.init({{
-			selector: '#{0}'
-		}});
-		</script>
+		<script type=""text/javascript"">area1 = new nicEditor({{fullPanel : true}}).panelInstance('{0}',{{hasPanel : true}});</script>
 		";
 		
 		public void ProcessControl(RichEditTagHelper tagHelper, TagHelperContext context, TagHelperOutput output)
@@ -27,7 +24,7 @@ namespace DasBlog.Web.TagHelpers
 		{
 			output.TagName = "script";
 			output.TagMode = TagMode.StartTagAndEndTag;
-			output.Attributes.SetAttribute("src", TINY_MCE_SERVICE_URL);
+			output.Attributes.SetAttribute("src", NIC_EDIT_SERVICE_URL);
 			string htmlContent = string.Format(INIT_SCRIPT_TEMPLATE, tagHeelper.ControlId);
 			output.PostElement.SetHtmlContent(htmlContent);
 		}

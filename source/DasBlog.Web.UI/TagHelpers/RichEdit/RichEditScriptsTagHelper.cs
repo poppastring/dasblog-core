@@ -1,23 +1,22 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 
-namespace DasBlog.Web.TagHelpers
+namespace DasBlog.Web.TagHelpers.RichEdit
 {
-	public class RichEditTagHelper : TagHelper
+	public class RichEditScriptsTagHelper : TagHelper
 	{
-		public string Id { get; set; }
-		public string Name { get; set; }
+		public string ControlId { get; set; }
 
 		private readonly IRichEditBuilder builder;
 
-		public RichEditTagHelper(IRichEditBuilder builder)
+		public RichEditScriptsTagHelper(IRichEditBuilder builder)
 		{
 			this.builder = builder;
 		}
 		
 		public override void Process(TagHelperContext context, TagHelperOutput output)
 		{
-			builder.ProcessControl(this, context, output);
+			builder.ProcessScripts(this, context, output);
 		}
 		public override Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
 		{

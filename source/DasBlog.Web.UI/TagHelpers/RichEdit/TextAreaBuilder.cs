@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Razor.TagHelpers;
 
-namespace DasBlog.Web.TagHelpers
+namespace DasBlog.Web.TagHelpers.RichEdit
 {
 	public class TextAreaBuilder : IRichEditBuilder
 	{
