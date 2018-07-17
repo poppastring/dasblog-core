@@ -26,13 +26,10 @@
         <div class="form-group">
             <label asp-for="Content" class="col-sm-3 control-label"></label>
             <div class="col-md-9" style="height: 500px;">
-                <rich-edit name="content" id="mytextarea">@Model.Content</rich-edit>
-                @* <input type="text" name="content" id="mytextarea_xx" size="300" value="@Model.Content"/> *@
-                @*
-                <div id="mytextarea" name="content" style="width: 100%; height: 90%;">
-                    
-                </div>
-            *@
+                @* <rich-edit name="content" id="mytextarea">@Model.Content</rich-edit> *@
+                <textarea name="content" id="mytextarea" style="height: 400px; width: 99%;" cols="20" rows="2">
+                    @Model.Content    
+                </textarea>
             </div>
         </div>
         <div class="form-group">
