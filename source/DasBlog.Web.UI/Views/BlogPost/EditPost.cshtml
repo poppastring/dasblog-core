@@ -23,9 +23,9 @@
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="Content" class="col-lg-3 col-sm-3 control-label"></label>
-            <div class="col-lg-6">
-                @Html.EditorFor(x => x.Content)
+            <label asp-for="Content" class="col-sm-3 control-label"></label>
+            <div class="col-md-9" style="height: 500px;">
+                <rich-edit name="content" id="mytextarea">@Model.Content</rich-edit>
             </div>
         </div>
         <div class="form-group">
@@ -97,5 +97,7 @@
 </form>
 
 @section Scripts {
+    <rich-edit-scripts control-id="mytextarea"/>
+    
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 }
