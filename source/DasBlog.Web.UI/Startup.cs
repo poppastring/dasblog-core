@@ -123,7 +123,9 @@ namespace DasBlog.Web
 				.AddTransient<IRoleStore<DasBlogRole>, DasBlogUserRoleStore>()
 				.AddTransient<IPrincipal>(provider => provider.GetService<IHttpContextAccessor>().HttpContext.User)
 				.AddTransient<ISiteRepairer, SiteRepairer>()
-				.AddTransient<IRichEditBuilder>(provider
+				;
+			services
+				.AddScoped<IRichEditBuilder>(provider
 				  =>  provider.GetService<IDasBlogSettings>().SiteConfiguration.EntryEditControl.ToLower()
 				  == Constants.TINY_MCE_EDITOR ? new TinyMceBuilder() 
 				  : (provider.GetService<IDasBlogSettings>().SiteConfiguration.EntryEditControl.ToLower() == Constants.NIC_EDIT_EDITOR

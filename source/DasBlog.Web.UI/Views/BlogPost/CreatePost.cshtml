@@ -2,6 +2,12 @@
 @using DasBlog.Core.XmlRpc.Blogger
 @using DasBlog.Web.Common;
 
+<style>
+    .nicEdit-main {
+        overflow: auto !important;
+        height: 5.5em;
+    }
+</style>
 
 <form asp-controller="post" asp-action="create" method="post" enctype="multipart/form-data">
     <div class="modal-body form-horizontal">
@@ -96,7 +102,6 @@
 </form>
  
 @section scripts {
-        
     <rich-edit-scripts control-id="mytextarea"/>
    
 }
