@@ -19,5 +19,9 @@
 		public const string SaveAction = "Save";
 		public const string CancelAction = "Cancel";
 		public const string DeleteAction = "Delete";
+
+		public const string TINY_MCE_EDITOR = "tinymce";
+		public const string NIC_EDIT_EDITOR = "nicedit";
+		public const string TEXT_AREA_EDITOR = "textarea";
 	}
 }

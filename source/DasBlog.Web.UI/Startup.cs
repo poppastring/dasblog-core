@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection.Metadata;
 using System.Security.Principal;
 using System.Threading;
 using System.Threading.Tasks;
@@ -25,6 +26,8 @@ using DasBlog.Core.Services.Interfaces;
 using Microsoft.Extensions.FileProviders;
 using DasBlog.Core.Services;
 using DasBlog.Core.Services.Interfaces;
+using DasBlog.Web.Common;
+using DasBlog.Web.TagHelpers;
 
 namespace DasBlog.Web
 {
@@ -119,6 +122,12 @@ namespace DasBlog.Web
 				.AddTransient<IRoleStore<DasBlogRole>, DasBlogUserRoleStore>()
 				.AddTransient<IPrincipal>(provider => provider.GetService<IHttpContextAccessor>().HttpContext.User)
 				.AddTransient<ISiteRepairer, SiteRepairer>()
+				.AddTransient<IRichEditBuilder>(provider
+				  =>  provider.GetService<IDasBlogSettings>().SiteConfiguration.EntryEditControl.ToLower()
+				  == Constants.TINY_MCE_EDITOR ? new TinyMceBuilder() 
+				  : (provider.GetService<IDasBlogSettings>().SiteConfiguration.EntryEditControl.ToLower() == Constants.NIC_EDIT_EDITOR
+				  ? new NicEditBuilder() as IRichEditBuilder  // why do I need this cast?
+				  : new TextAreaBuilder()))
 				;
 
 			services
