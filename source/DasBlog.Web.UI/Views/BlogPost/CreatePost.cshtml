@@ -2,13 +2,6 @@
 @using DasBlog.Core.XmlRpc.Blogger
 @using DasBlog.Web.Common;
 
-<style>
-    .nicEdit-main {
-        overflow: auto !important;
-        height: 5.5em;
-    }
-</style>
-
 <form asp-controller="post" asp-action="create" method="post" enctype="multipart/form-data">
     <div class="modal-body form-horizontal">
 
@@ -33,6 +26,7 @@
             <label asp-for="Content" class="col-sm-3 control-label"></label>
             <div class="col-md-9" style="height: 500px;">
                 <rich-edit name="content" id="mytextarea">@Model.Content</rich-edit>
+                        @* uses nicEdit-main class *@
             </div>
         </div>
         <div class="form-group">
