@@ -1,0 +1,92 @@
+﻿@using Microsoft.EntityFrameworkCore.Metadata.Internal
+@model System.Collections.Generic.List<DasBlog.Core.EventDataDisplayItem>
+
+@{
+    ViewBag.Title = "Activity Report";
+    Layout = "_Layout";
+}
+
+@functions
+{
+
+    string SelectEventRowStyle(EventDataDisplayItem eddi)
+    {
+        switch (eddi.EventCode)
+        {
+            case EventCodes.Error:
+            case EventCodes.PingbackServerError:
+            case EventCodes.PingWeblogsError:
+            case EventCodes.Pop3ServerError:
+            case EventCodes.SmtpError:
+                return "activityTableRowStyleError";
+            case EventCodes.SecurityFailure:
+                return "activityTableRowStyleSecurityFailure";
+            case EventCodes.TrackbackBlocked:
+            case EventCodes.ReferralBlocked:
+            case EventCodes.ItemReferralBlocked:
+            case EventCodes.CommentBlocked:
+            case EventCodes.PingbackBlocked:
+                return "activityTableRowStyleBlocked";
+            default:
+                return string.Empty;
+        }
+    }
+
+}
+
+<h2>@ViewBag.Title</h2>
+<hr/>
+<div class="row">
+    <form asp-controller="Activity" asp-action="EventsByDate" method="get" class="form-inline">
+    <div class="form-group">
+        <label for="date" class="col-sm-2 control-label"></label>
+        <div class="col-md-3">
+            <input type="date" name="date" id="date" class="form-control" value="@ViewBag.Date"/>
+        </div>
+    </div>
+        <div class="form-group">
+            <input type="submit" name="submit" value="Go" class="btn btn-primary btn-default"/>
+        </div>
+        <span widht="1em"></span>
+        <a href="/Activity/EventsByDate?date=@ViewBag.NextDay" title="Next">&gt;</a>
+        <span widht="1em"></span>
+        <a href="/Activity/EventsByDate?date=@ViewBag.Today" title="Today">&gt;|</a>
+    </form>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="table-responsive">
+            <table class="table table-bordered table-condensed activityTableStyle">
+                <thead>
+                <tr>
+                    <td class="col-md-3 activityTableHeaderColumnStyle">
+                        <strong>Time</strong>
+                    </td>
+                    <td class="activityTableHeaderColumnStyle">
+                        <strong>Code</strong>
+                    </td>
+                    <td class="activityTableHeaderColumnStyle">
+                        <strong>Message</strong>
+                    </td>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var eddi in Model)
+                {
+                    <tr class="@SelectEventRowStyle(eddi)">
+                        <td class="actityTableDateColumnStyle">
+                            @eddi.Date
+                        </td>
+                        <td class="activityTableColumnStyle">
+                            @eddi.EventCode
+                        </td>
+                        <td class="activityTableColumnStyle">
+                            @Html.Raw(eddi.HtmlMessage)
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

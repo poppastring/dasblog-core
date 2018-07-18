@@ -1,21 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using newtelligence.DasBlog.Runtime;
 using DasBlog.Managers.Interfaces;
 using DasBlog.Core;
+//using Microsoft.Extensions.Logging;
 using newtelligence.DasBlog.Util;
-using Blogger = DasBlog.Core.XmlRpc.Blogger;
-using MoveableType = DasBlog.Core.XmlRpc.MoveableType;
-using MetaWeblog = DasBlog.Core.XmlRpc.MetaWeblog;
-using DasBlog.Core.Security;
-using DasBlog.Core.Exceptions;
-using System.Security;
-using System.IO;
-using CookComputing.XmlRpc;
-using System.Reflection;
-using System.Xml.Serialization;
-using newtelligence.DasBlog.Web.Services.Rss20;
+using newtelligence.DasBlog.Web.Services.MetaWeblog;
+using EventDataItem = DasBlog.Core.EventDataItem;
+using EventCodes = DasBlog.Core.EventCodes;
+using DasBlog.Core.Extensions;
 
 namespace DasBlog.Managers
 {
@@ -25,12 +17,14 @@ namespace DasBlog.Managers
 		private ILoggingDataService _loggingDataService;
 		private ISiteSecurityManager _siteSecurity;
 		private readonly IDasBlogSettings _dasBlogSettings;
+		private Microsoft.Extensions.Logging.ILogger _logger;
 
-		public BlogManager(IDasBlogSettings settings)
+		public BlogManager(IDasBlogSettings settings , Microsoft.Extensions.Logging.ILogger<BlogManager> logger)
 		{
 			_dasBlogSettings = settings;
 			_loggingDataService = LoggingDataServiceFactory.GetService(_dasBlogSettings.WebRootDirectory + _dasBlogSettings.SiteConfiguration.LogDir);
 			_dataService = BlogDataServiceFactory.GetService(_dasBlogSettings.WebRootDirectory + _dasBlogSettings.SiteConfiguration.ContentDir, _loggingDataService);
+			_logger = logger;
 		}
 
 		public Entry GetBlogPost(string postid)
@@ -105,17 +99,44 @@ namespace DasBlog.Managers
 
 		public EntrySaveState CreateEntry(Entry entry)
 		{
-			return InternalSaveEntry(entry, null, null);
+			var rtn = InternalSaveEntry(entry, null, null);
+			LogEvent(EventCodes.EntryAdded, entry);
+			return rtn;
 		}
 
 		public EntrySaveState UpdateEntry(Entry entry)
 		{
-			return InternalSaveEntry(entry, null, null);
+			var rtn = InternalSaveEntry(entry, null, null);
+			LogEvent(EventCodes.EntryChanged, entry);
+			return rtn;
 		}
 
 		public void DeleteEntry(string postid)
 		{
+			Entry entry = GetEntryForEdit(postid);
 			_dataService.DeleteEntry(postid, null);
+			LogEvent(EventCodes.EntryDeleted, entry);
+		}
+
+		private void LogEvent(EventCodes eventCode, Entry entry)
+		{
+			_logger.LogInformation(
+				new EventDataItem(
+					eventCode, entry.Title,
+					MakePermaLinkFromCompressedTitle(entry)));
+		}
+
+		private string MakePermaLink(Entry entry)
+		{
+			return new Uri(new Uri(_dasBlogSettings.SiteConfiguration.Root)
+				,_dasBlogSettings.RelativeToRoot(entry.EntryId)).ToString();
+		}
+
+		private string MakePermaLinkFromCompressedTitle(Entry entry)
+		{
+			return new Uri(new Uri(_dasBlogSettings.SiteConfiguration.Root)
+				,_dasBlogSettings.RelativeToRoot(
+				_dasBlogSettings.GetPermaTitle(entry.CompressedTitle))).ToString();
 		}
 
 		private EntrySaveState InternalSaveEntry(Entry entry, TrackbackInfoCollection trackbackList, CrosspostInfoCollection crosspostList)

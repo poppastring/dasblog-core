@@ -18,24 +18,22 @@ namespace DasBlog.Web.Controllers
 	public class AccountController : Controller
 	{
 		private const string KEY_RETURNURL = "ReturnUrl";
-		private readonly ILogger logger;
+		private readonly ILogger<AccountController> logger;
 		private readonly IMapper mapper;
 		private readonly SignInManager<DasBlogUser> signInManager;
 		private readonly UserManager<DasBlogUser> userManager;
-		private readonly ILogger<AccountController> loggingManager;
 
 		public AccountController(
 			UserManager<DasBlogUser> userManager,
 			SignInManager<DasBlogUser> signInManager,
 			IMapper mapper,
-			ISiteSecurityManager siteSecurityManager,
-			ILoggerFactory loggerFactory
-			, ILogger<AccountController> loggingManager)
+			ISiteSecurityManager siteSecurityManager
+			, ILogger<AccountController> logger)
 		{
 			this.signInManager = signInManager;
 			this.userManager = userManager;
 			this.userManager.PasswordHasher = new DasBlogPasswordHasher(siteSecurityManager);
-			this.logger = loggingManager;
+			this.logger = logger;
 			this.mapper = mapper;
 		}
 
