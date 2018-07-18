@@ -1,6 +1,6 @@
 ﻿namespace DasBlog.Web.Common
 {
-	public static class Constants		// has to be public for razor
+	public static class Constants // has to be public for razor
 	{
 		public const string BlogPostCreateAction = "Create";
 		public const string BlogPostCancelAction = "Cancel";
@@ -23,5 +23,7 @@
 		public const string TINY_MCE_EDITOR = "tinymce";
 		public const string NIC_EDIT_EDITOR = "nicedit";
 		public const string TEXT_AREA_EDITOR = "textarea";
+		public const string __DIAGNOSE_LOGGING_ISSUES = "--diagnose-logging-issues";
 	}
+
 }
