@@ -15,10 +15,11 @@ namespace DasBlog.Tests.Services
 		public void ShouldLoadUsers()
 		{
 			IUserDataRepo repo = new UserDataRepo(
-			  new Options<LocalUserDataOptions>{ Value = new LocalUserDataOptions{Path = string.Empty}});
+			  new Options<LocalUserDataOptions>{ Value = 
+			  new LocalUserDataOptions{Path = "..\\..\\..\\config\\SiteSecurity.config"}});
 			List<User> users = repo.LoadUsers().ToList();
 
-			Assert.Single(users, u => u.Name == "admin");
+			Assert.Single(users, u => u.Name == "myemail@myemail.com");		// email is switched in for name by design
 		}
 	}
 
