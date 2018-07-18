@@ -5,7 +5,7 @@ using DasBlog.Core.Configuration;
 using DasBlog.Core.Security;
 using Microsoft.AspNetCore.Mvc;
 using DasBlog.Core.Services.Interfaces;
-using DasBlog.Web.Common;
+using DasBlog.Core.Common;
 using DasBlog.Web.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;

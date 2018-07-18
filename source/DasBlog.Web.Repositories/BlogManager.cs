@@ -122,8 +122,8 @@ namespace DasBlog.Managers
 		{
 			_logger.LogInformation(
 				new EventDataItem(
-					eventCode, entry.Title,
-					MakePermaLinkFromCompressedTitle(entry)));
+					eventCode,
+					MakePermaLinkFromCompressedTitle(entry), entry.Title));
 		}
 
 		private string MakePermaLink(Entry entry)

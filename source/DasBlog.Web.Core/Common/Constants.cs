@@ -1,4 +1,4 @@
-﻿namespace DasBlog.Web.Common
+﻿namespace DasBlog.Core.Common
 {
 	public static class Constants // has to be public for razor
 	{
@@ -24,6 +24,9 @@
 		public const string NIC_EDIT_EDITOR = "nicedit";
 		public const string TEXT_AREA_EDITOR = "textarea";
 		public const string __DIAGNOSE_LOGGING_ISSUES = "--diagnose-logging-issues";
+		public const string EVENT_FIELD_SEPARATOR = " :: ";
+		public const string URL_EVENT_FIElD = "{eventurl_6473}";
+		public const string CODE_EVENT_FIElD = "{eventurl_6474}";
 	}
 
 }

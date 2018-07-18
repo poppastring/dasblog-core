@@ -1,8 +1,8 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace DasBlog.Web.Common
+namespace DasBlog.Core.Common
 {
-	internal static class Utils
+	public static class Utils
 	{
 		/// DUPLICATE of newtelligence.DasBlog.Util.HtmlHelper.EncodeCategoryUrl
 		/// <summary>

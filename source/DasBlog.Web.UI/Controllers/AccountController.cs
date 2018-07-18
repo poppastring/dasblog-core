@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using DasBlog.Managers.Interfaces;
 using Microsoft.AspNetCore.Http.Extensions;
+using DasBlog.Core.Extensions;
 
 namespace DasBlog.Web.Controllers
 {
@@ -60,12 +61,12 @@ namespace DasBlog.Web.Controllers
 
 				if (result.Succeeded)
 				{
-					logger.LogInformation((int)EventCodes.SecuritySuccess
-					  , "{email} logged in successfully :: {url}", model.Email, Request.GetDisplayUrl());
+					logger.LogInformation(new EventDataItem(EventCodes.SecuritySuccess, Request.GetDisplayUrl()
+					  , "{email} logged in successfully", model.Email));
 					return LocalRedirect(returnUrl ?? Url.Action("Index", "Home"));
 				}
-					logger.LogInformation((int)EventCodes.SecuritySuccess
-					  , "{email} failed to log in :: {url}", model.Email, Request.GetDisplayUrl());
+				logger.LogInformation(new EventDataItem(EventCodes.SecuritySuccess, Request.GetDisplayUrl()
+					, "{email} failed to log in", model.Email));
 
 				ModelState.AddModelError(string.Empty, "The username and/or password is incorrect. Please try again.");
 			}

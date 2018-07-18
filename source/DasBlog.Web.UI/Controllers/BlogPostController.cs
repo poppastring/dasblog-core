@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using DasBlog.Core;
 using DasBlog.Managers.Interfaces;
-using DasBlog.Web.Common;
+using DasBlog.Core.Common;
 using DasBlog.Web.Models.BlogViewModels;
 using DasBlog.Web.Settings;
 using Microsoft.AspNetCore.Authorization;
@@ -15,7 +15,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using newtelligence.DasBlog.Runtime;
-using static DasBlog.Web.Common.Utils;
+using static DasBlog.Core.Common.Utils;
 
 namespace DasBlog.Web.Controllers
 {

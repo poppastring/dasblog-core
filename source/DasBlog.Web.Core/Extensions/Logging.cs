@@ -6,7 +6,7 @@ namespace DasBlog.Core.Extensions
 	{
 		public static void LogInformation(this ILogger logger, EventDataItem edi)
 		{
-			logger.LogInformation(edi.EventCode, edi.UserMessage, edi.LoalUrl);
+			logger.LogInformation(100, edi.UserMessage, edi.Params);
 		}
 	}
 }
