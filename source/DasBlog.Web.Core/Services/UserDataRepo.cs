@@ -13,7 +13,7 @@ namespace DasBlog.Core.Services
 	public class UserDataRepo : Interfaces.IUserDataRepo
 	{
 		private readonly ISiteSecurityConfig _siteSecurityConfig;
-		public class SiteSecurityData
+		public class SiteSecurityConfig
 		{
 			public List<User> Users { get; set; } = new List<User>();
 		}
@@ -24,14 +24,16 @@ namespace DasBlog.Core.Services
 		}
 		public IEnumerable<User> LoadUsers()
 		{
-			SiteSecurityData ssd;
-			var ser = new XmlSerializer(typeof(SiteSecurityData));
+			SiteSecurityConfig ssc;
+				// don't confuse this with DasBlog.Core.SiteSecurityConfig
+				// this vesion is striictly for deserializing data from the file
+			var ser = new XmlSerializer(typeof(SiteSecurityConfig));
 //			var fileInfo = fileProvider.GetFileInfo(Startup.SITESECURITYCONFIG);
 			using (var reader = new StreamReader(options.Path))
 			{
 				try
 				{
-					ssd = (SiteSecurityData)ser.Deserialize(reader);
+					ssc = (SiteSecurityConfig)ser.Deserialize(reader);
 				}
 				catch (Exception e)
 				{
@@ -40,19 +42,19 @@ namespace DasBlog.Core.Services
 					throw;
 				}
 			}
-			return ssd.Users;
+			return ssc.Users;
 		}
 
 		public void SaveUsers(List<User> users)
 		{
-			SiteSecurityData ssd = new SiteSecurityData();
-			ssd.Users = users;
-			var ser = new XmlSerializer(typeof(SiteSecurityData));
+			SiteSecurityConfig ssc = new SiteSecurityConfig();
+			ssc.Users = users;
+			var ser = new XmlSerializer(typeof(SiteSecurityConfig));
 			using (var writer = new StreamWriter(options.Path))
 			{
 				try
 				{
-					ser.Serialize(writer, ssd);
+					ser.Serialize(writer, ssc);
 				}
 				catch (Exception e)
 				{
