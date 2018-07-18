@@ -16,18 +16,26 @@ namespace DasBlog.Web.UI
     {
         public static void Main(string[] args)
         {
-	        var config = new ConfigurationBuilder()
-		        .Build();
-            BuildWebHost(args, config).Run();
+            BuildWebHost(args).Run();
         }
 
-        public static IWebHost BuildWebHost(string[] args, IConfigurationRoot config) =>
+        public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args.Where(a => !a.ToLower().StartsWith(Constants.__DIAGNOSE_LOGGING_ISSUES)).ToArray())
 							// command line args prefixed by "--" have to be "registered" as command line switches
 							// in the AddCommandLine call.  This appears to demand a key-value pair which
 							// we don't want.  So next best thing is not to pass that arg to the builder
-	            .UseConfiguration(config)
-                .UseStartup<Startup>()
+	            .ConfigureAppConfiguration((hostingContext, configBuilder) =>
+	            {
+		            var env = hostingContext.HostingEnvironment;
+			        configBuilder.SetBasePath(env.ContentRootPath)
+			            .AddXmlFile(@"Config\site.config", optional: true, reloadOnChange: true)
+			            .AddXmlFile(@"Config\metaConfig.xml", optional: true, reloadOnChange: true)
+			            .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+			            .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+			            .AddEnvironmentVariables()
+			            ;
+		            configBuilder.Build();
+	            })
 	            .ConfigureLogging(loggingBuilder =>
 	            {
 		            loggingBuilder.AddFile();
@@ -39,6 +47,8 @@ namespace DasBlog.Web.UI
 			            loggingBuilder.AddFilter("DasBlog", logLevel => { return true; });
 		            }
 	            })
+                .UseStartup<Startup>()
+		        
                 .Build();
     }
 }

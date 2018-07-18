@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using DasBlog.Core;
 using DasBlog.Web.Models.AccountViewModels;
 using DasBlog.Web.Identity;
 using Microsoft.AspNetCore.Authentication;
@@ -9,6 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using DasBlog.Managers.Interfaces;
+using Microsoft.AspNetCore.Http.Extensions;
 
 namespace DasBlog.Web.Controllers
 {
@@ -20,20 +22,21 @@ namespace DasBlog.Web.Controllers
 		private readonly IMapper mapper;
 		private readonly SignInManager<DasBlogUser> signInManager;
 		private readonly UserManager<DasBlogUser> userManager;
+		private readonly ILogger<AccountController> loggingManager;
 
 		public AccountController(
 			UserManager<DasBlogUser> userManager,
 			SignInManager<DasBlogUser> signInManager,
 			IMapper mapper,
 			ISiteSecurityManager siteSecurityManager,
-			ILoggerFactory loggerFactory)
+			ILoggerFactory loggerFactory
+			, ILogger<AccountController> loggingManager)
 		{
 			this.signInManager = signInManager;
 			this.userManager = userManager;
 			this.userManager.PasswordHasher = new DasBlogPasswordHasher(siteSecurityManager);
-
+			this.logger = loggingManager;
 			this.mapper = mapper;
-			logger = loggerFactory.CreateLogger<AccountController>();
 		}
 
 		[HttpGet]
@@ -59,8 +62,12 @@ namespace DasBlog.Web.Controllers
 
 				if (result.Succeeded)
 				{
+					logger.LogInformation((int)EventCodes.SecuritySuccess
+					  , "{email} logged in successfully :: {url}", model.Email, Request.GetDisplayUrl());
 					return LocalRedirect(returnUrl ?? Url.Action("Index", "Home"));
 				}
+					logger.LogInformation((int)EventCodes.SecuritySuccess
+					  , "{email} failed to log in :: {url}", model.Email, Request.GetDisplayUrl());
 
 				ModelState.AddModelError(string.Empty, "The username and/or password is incorrect. Please try again.");
 			}

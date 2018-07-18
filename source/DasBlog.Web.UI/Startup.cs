@@ -40,6 +40,7 @@ namespace DasBlog.Web
 
 		public Startup(IConfiguration configuration, IHostingEnvironment env)
 		{
+/*
 			var builder = new ConfigurationBuilder()
 			.SetBasePath(env.ContentRootPath)
 			.AddXmlFile(@"Config\site.config", optional: true, reloadOnChange: true)
@@ -51,7 +52,8 @@ namespace DasBlog.Web
 			;
 			
 			Configuration = builder.Build();
-
+*/
+			Configuration = configuration;
 			_hostingEnvironment = env;
 			_binariesPath = Configuration.GetValue<string>("binariesDir", "/").TrimStart('~').TrimEnd('/');
 		}
