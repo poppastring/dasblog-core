@@ -21,6 +21,7 @@ using Microsoft.Extensions.DependencyInjection;
 using AutoMapper;
 using DasBlog.Web.Mappers;
 using DasBlog.Core;
+using DasBlog.Core.Common;
 using DasBlog.Core.Services;
 using DasBlog.Core.Services.Interfaces;
 using Microsoft.Extensions.FileProviders;
@@ -57,6 +58,9 @@ namespace DasBlog.Web
 			services.Configure<MetaTags>(Configuration);
 			services.Configure<LocalUserDataOptions>(options
 			  => options.Path = Path.Combine(_hostingEnvironment.ContentRootPath, SITESECURITYCONFIG));
+			services.Configure<ActivityRepoOptions>(options
+			  => options.Path = Path.Combine(_hostingEnvironment.ContentRootPath, Constants.LOG_DIRECTORY));
+
 			// Add identity types
 			services
 				.AddIdentity<DasBlogUser, DasBlogRole>()
@@ -128,6 +132,9 @@ namespace DasBlog.Web
 				.AddSingleton<IUserDataRepo, UserDataRepo>()
 				.AddSingleton<ISiteSecurityConfig, SiteSecurityConfig>()
 				.AddSingleton<IUserService, UserService>()
+				.AddSingleton<IActivityService, ActivityService>()
+				.AddSingleton<IActivityRepoFactory, ActivityRepoFactory>()
+				.AddSingleton<IEventLineParser, EventLineParser>()
 				;
 			services
 				.AddAutoMapper(mapperConfig =>

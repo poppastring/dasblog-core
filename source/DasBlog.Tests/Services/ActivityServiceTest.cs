@@ -14,7 +14,7 @@ namespace DasBlog.Tests.Services
 		{
 			IActivityRepoFactory factory = new MockActivityRepoFactory();
 			IEventLineParser parser = new MockEventLineParser(true);
-			ActivityService service = new ActivityService(factory, parser);
+			ActivityService service = new ActivityService(factory, parser, new Microsoft.Extensions.Logging.Abstractions.NullLogger<ActivityService>());
 			int ctr = 0;
 			foreach (var eddi in service.GetEventsForDay(new DateTime(1954, 1, 25)))
 			{
@@ -27,7 +27,7 @@ namespace DasBlog.Tests.Services
 		{
 			IActivityRepoFactory factory = new MockActivityRepoFactory();
 			IEventLineParser parser = new MockEventLineParser(false);	//fail all parsing
-			ActivityService service = new ActivityService(factory, parser);
+			ActivityService service = new ActivityService(factory, parser, new Microsoft.Extensions.Logging.Abstractions.NullLogger<ActivityService>());
 			int ctr = 0;
 			foreach (var eddi in service.GetEventsForDay(new DateTime(1954, 1, 25)))
 			{
@@ -40,7 +40,7 @@ namespace DasBlog.Tests.Services
 		{
 			IActivityRepoFactory factory = new MockActivityRepoFactory();
 			IEventLineParser parser = new MockEventLineParser(false);	//fail all parsing
-			ActivityService service = new ActivityService(factory, parser);
+			ActivityService service = new ActivityService(factory, parser, new Microsoft.Extensions.Logging.Abstractions.NullLogger<ActivityService>());
 			int ctr = 0;
 			foreach (var eddi in service.GetEventsForDay(new DateTime(1, 1, 1)))
 			{
@@ -53,7 +53,7 @@ namespace DasBlog.Tests.Services
 		{
 			IActivityRepoFactory factory = new MockActivityRepoFactory();
 			IEventLineParser parser = new MockEventLineParser(false);
-			ActivityService service = new ActivityService(factory, parser);
+			ActivityService service = new ActivityService(factory, parser, new Microsoft.Extensions.Logging.Abstractions.NullLogger<ActivityService>());
 			int ctr = 0;
 			foreach (var eddi in service.GetEventsForDay(new DateTime(1951, 12, 8)))
 			{
@@ -66,7 +66,7 @@ namespace DasBlog.Tests.Services
 		{
 			IActivityRepoFactory factory = new MockActivityRepoFactory();
 			IEventLineParser parser = new MockEventLineParser(true);
-			ActivityService service = new ActivityService(factory, parser);
+			ActivityService service = new ActivityService(factory, parser, new Microsoft.Extensions.Logging.Abstractions.NullLogger<ActivityService>());
 			int ctr = 0;
 			foreach (var eddi in service.GetEventsForDay(new DateTime(1951, 12, 8)))
 			{
@@ -79,7 +79,7 @@ namespace DasBlog.Tests.Services
 		{
 			IActivityRepoFactory factory = new MockActivityRepoFactory();
 			IEventLineParser parser = new MockEventLineParser(true);	// all parsing succeeds
-			ActivityService service = new ActivityService(factory, parser);
+			ActivityService service = new ActivityService(factory, parser, new Microsoft.Extensions.Logging.Abstractions.NullLogger<ActivityService>());
 			int ctr = 0;
 			foreach (var eddi in service.GetEventsForDay(new DateTime(1960, 4, 9)))
 			{
@@ -92,7 +92,7 @@ namespace DasBlog.Tests.Services
 		{
 			IActivityRepoFactory factory = new MockActivityRepoFactory();
 			IEventLineParser parser = new MockEventLineParser(false);		// fail all parsing
-			ActivityService service = new ActivityService(factory, parser);
+			ActivityService service = new ActivityService(factory, parser, new Microsoft.Extensions.Logging.Abstractions.NullLogger<ActivityService>());
 			int ctr = 0;
 			foreach (var eddi in service.GetEventsForDay(new DateTime(1960, 4, 9)))
 			{
@@ -105,7 +105,7 @@ namespace DasBlog.Tests.Services
 		{
 			IActivityRepoFactory factory = new MockActivityRepoFactory();
 			IEventLineParser parser = new EventLineParser();
-			ActivityService service = new ActivityService(factory, parser);
+			ActivityService service = new ActivityService(factory, parser, new Microsoft.Extensions.Logging.Abstractions.NullLogger<ActivityService>());
 			int ctr = 0;
 			foreach (var eddi in service.GetEventsForDay(new DateTime(1990, 3, 17)))
 			{
@@ -118,7 +118,7 @@ namespace DasBlog.Tests.Services
 		{
 			IActivityRepoFactory factory = new MockActivityRepoFactory();
 			IEventLineParser parser = new EventLineParser();
-			ActivityService service = new ActivityService(factory, parser);
+			ActivityService service = new ActivityService(factory, parser, new Microsoft.Extensions.Logging.Abstractions.NullLogger<ActivityService>());
 			int ctr = 0;
 			foreach (var eddi in service.GetEventsForDay(new DateTime(2000, 1, 1)))
 			{

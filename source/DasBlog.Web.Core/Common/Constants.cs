@@ -27,6 +27,7 @@
 		public const string EVENT_FIELD_SEPARATOR = " :: ";
 		public const string URL_EVENT_FIElD = "{eventurl_6473}";
 		public const string CODE_EVENT_FIElD = "{eventurl_6474}";
+		public const string LOG_DIRECTORY = "logs";
 	}
 
 }

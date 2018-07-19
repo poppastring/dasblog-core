@@ -11,8 +11,7 @@ namespace DasBlog.Tests.Services
 		{
 			string path = "..\\..\\..\\logs";
 			int ctr = 0;
-			using (ActivityRepo repo = new ActivityRepo(path
-			  , new Microsoft.Extensions.Logging.Abstractions.NullLogger<ActivityRepo>()))
+			using (ActivityRepo repo = new ActivityRepo(path))
 			{
 				foreach (var line in repo.GetEventLines(new DateTime(2018, 7, 19)))
 				{

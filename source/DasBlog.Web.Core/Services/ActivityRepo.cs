@@ -8,17 +8,16 @@ namespace DasBlog.Core.Services
 {
 	public class ActivityRepo : IActivityRepo
 	{
-		private readonly ILogger logger;
 		private readonly string path;
 		private FileStream stream;
+
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="path">e.g. c:\\myapp\logs"</param>
-		public ActivityRepo(string path, ILogger logger)
+		public ActivityRepo(string path)
 		{
 			System.Diagnostics.Debug.Assert(path != null);
-			this.logger = logger;
 			this.path = path;
 		}
 		public void Dispose()
