@@ -40,19 +40,6 @@ namespace DasBlog.Web
 
 		public Startup(IConfiguration configuration, IHostingEnvironment env)
 		{
-/*
-			var builder = new ConfigurationBuilder()
-			.SetBasePath(env.ContentRootPath)
-			.AddXmlFile(@"Config\site.config", optional: true, reloadOnChange: true)
-			.AddXmlFile(@"Config\metaConfig.xml", optional: true, reloadOnChange: true)
-			//.AddXmlFile(SITESECURITYCONFIG, optional: true, reloadOnChange: true)
-			.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-			.AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
-			.AddEnvironmentVariables()
-			;
-			
-			Configuration = builder.Build();
-*/
 			Configuration = configuration;
 			_hostingEnvironment = env;
 			_binariesPath = Configuration.GetValue<string>("binariesDir", "/").TrimStart('~').TrimEnd('/');
@@ -68,7 +55,6 @@ namespace DasBlog.Web
 
 			services.Configure<SiteConfig>(Configuration);
 			services.Configure<MetaTags>(Configuration);
-//			services.Configure<SiteSecurityConfig>(Configuration);
 			services.Configure<LocalUserDataOptions>(options
 			  => options.Path = Path.Combine(_hostingEnvironment.ContentRootPath, SITESECURITYCONFIG));
 			// Add identity types
