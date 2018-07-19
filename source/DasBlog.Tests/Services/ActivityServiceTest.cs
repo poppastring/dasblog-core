@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using Castle.Components.DictionaryAdapter;
 using DasBlog.Core;
 using DasBlog.Core.Services;
 using DasBlog.Core.Services.Interfaces;
@@ -28,10 +26,23 @@ namespace DasBlog.Tests.Services
 		public void ShouldOmitUnparsedEvents()
 		{
 			IActivityRepoFactory factory = new MockActivityRepoFactory();
-			IEventLineParser parser = new MockEventLineParser(false);
+			IEventLineParser parser = new MockEventLineParser(false);	//fail all parsing
 			ActivityService service = new ActivityService(factory, parser);
 			int ctr = 0;
 			foreach (var eddi in service.GetEventsForDay(new DateTime(1954, 1, 25)))
+			{
+				ctr++;
+			}
+			Assert.Equal(0, ctr);
+		}
+		[Fact]
+		public void ShouldOmitUnknownDate()
+		{
+			IActivityRepoFactory factory = new MockActivityRepoFactory();
+			IEventLineParser parser = new MockEventLineParser(false);	//fail all parsing
+			ActivityService service = new ActivityService(factory, parser);
+			int ctr = 0;
+			foreach (var eddi in service.GetEventsForDay(new DateTime(1, 1, 1)))
 			{
 				ctr++;
 			}
@@ -63,6 +74,58 @@ namespace DasBlog.Tests.Services
 			}
 			Assert.Equal(1, ctr);
 		}		
+		[Fact]
+		public void ShouldProcessEventPlusStackTracePlusEvent()
+		{
+			IActivityRepoFactory factory = new MockActivityRepoFactory();
+			IEventLineParser parser = new MockEventLineParser(true);	// all parsing succeeds
+			ActivityService service = new ActivityService(factory, parser);
+			int ctr = 0;
+			foreach (var eddi in service.GetEventsForDay(new DateTime(1960, 4, 9)))
+			{
+				ctr++;
+			}
+			Assert.Equal(2, ctr);
+		}		
+		[Fact]
+		public void ShouldOmitNonEventPlusStackTracePlusNonEvent()
+		{
+			IActivityRepoFactory factory = new MockActivityRepoFactory();
+			IEventLineParser parser = new MockEventLineParser(false);		// fail all parsing
+			ActivityService service = new ActivityService(factory, parser);
+			int ctr = 0;
+			foreach (var eddi in service.GetEventsForDay(new DateTime(1960, 4, 9)))
+			{
+				ctr++;
+			}
+			Assert.Equal(0, ctr);
+		}		
+		[Fact]
+		public void ShouldProessNonEventPlusStackTracePlusEvent()
+		{
+			IActivityRepoFactory factory = new MockActivityRepoFactory();
+			IEventLineParser parser = new EventLineParser();
+			ActivityService service = new ActivityService(factory, parser);
+			int ctr = 0;
+			foreach (var eddi in service.GetEventsForDay(new DateTime(1990, 3, 17)))
+			{
+				ctr++;
+			}
+			Assert.Equal(1, ctr);
+		}
+		[Fact]
+		public void ShouldProessEventPlusStackTracePlusNonEvent()
+		{
+			IActivityRepoFactory factory = new MockActivityRepoFactory();
+			IEventLineParser parser = new EventLineParser();
+			ActivityService service = new ActivityService(factory, parser);
+			int ctr = 0;
+			foreach (var eddi in service.GetEventsForDay(new DateTime(2000, 1, 1)))
+			{
+				ctr++;
+			}
+			Assert.Equal(1, ctr);
+		}
 	}
 
 	public class MockActivityRepoFactory : IActivityRepoFactory
@@ -78,7 +141,7 @@ namespace DasBlog.Tests.Services
 		private readonly Dictionary<DateTime, (string name, string lines)> results = new Dictionary<DateTime, (string name, string lines)>
 		{
 			{new DateTime(1954, 01, 25),("single-line", @"2018-07-18 09:10:08.388 +01:00 [Information] Microsoft.AspNetCore.Authorization.DefaultAuthorizationService: Authorization failed for user: (null).") }
-			,{new DateTime(1951, 12, 8), ("non-event-stacktrace"
+			,{new DateTime(1951, 12, 8), ("logline-stacktrace"
 ,@"2018-07-18 09:22:23.333 +01:00 [Error] Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware: An unhandled exception has occurred while executing the request
 System.Exception: Failure in Users Controller
    at DasBlog.Web.Controllers.UsersController.Index(String email) in C:\projects\dasblog-core\source\DasBlog.Web.UI\Controllers\UsersController.cs:line 113
@@ -98,6 +161,30 @@ System.Exception: Failure in Users Controller
    at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
    at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)"
 					)}
+			,{new DateTime(1960, 4, 9), ("logline-stacktrace-logline"
+,@"2018-07-18 09:22:23.333 +01:00 [Error] Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware: An unhandled exception has occurred while executing the request
+System.Exception: Failure in Users Controller
+   at DasBlog.Web.Controllers.UsersController.Index(String email) in C:\projects\dasblog-core\source\DasBlog.Web.UI\Controllers\UsersController.cs:line 113
+   at lambda_method(Closure , Object , Object[] )
+   at Microsoft.Extensions.Internal.ObjectMethodExecutor.Execute(Object target, Object[] parameters)
+2018-07-18 09:22:23.333 +01:00 [Error] Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware: An unhandled exception has occurred while executing the request"
+					)}
+			,{new DateTime(1990, 3, 17), ("non-event-stacktrace-event"
+,@"2018-07-18 09:22:23.333 +01:00 [Error] Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware: An unhandled exception has occurred while executing the request
+System.Exception: Failure in Users Controller
+   at DasBlog.Web.Controllers.UsersController.Index(String email) in C:\projects\dasblog-core\source\DasBlog.Web.UI\Controllers\UsersController.cs:line 113
+   at lambda_method(Closure , Object , Object[] )
+   at Microsoft.Extensions.Internal.ObjectMethodExecutor.Execute(Object target, Object[] parameters)
+2018-07-18 14:27:14.453 +01:00 [Information] DasBlog.Web.Controllers.AccountController: SecuritySuccess :: SecuritySuccess logged in successfully :: myemail@myemail.com"
+					)}
+			,{new DateTime(2000, 1, 1), ("event-stacktrace-non-event"
+,@"2018-07-18 14:27:14.453 +01:00 [Information] DasBlog.Web.Controllers.AccountController: SecuritySuccess :: SecuritySuccess logged in successfully :: myemail@myemail.com
+System.Exception: Failure in Users Controller
+   at DasBlog.Web.Controllers.UsersController.Index(String email) in C:\projects\dasblog-core\source\DasBlog.Web.UI\Controllers\UsersController.cs:line 113
+   at lambda_method(Closure , Object , Object[] )
+   at Microsoft.Extensions.Internal.ObjectMethodExecutor.Execute(Object target, Object[] parameters)
+2018-07-18 09:22:23.333 +01:00 [Error] Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware: An unhandled exception has occurred while executing the request"
+					)}
 		};
 
 		
@@ -108,9 +195,12 @@ System.Exception: Failure in Users Controller
 
 		public IEnumerable<string> GetEventLines(DateTime date)
 		{
-			foreach (var line in results[date].lines.Split("\n"))
+			if (date != new DateTime(1, 1, 1))
 			{
-				yield return line;
+				foreach (var line in results[date].lines.Split("\n"))
+				{
+					yield return line;
+				}
 			}
 		}
 	}
@@ -132,88 +222,6 @@ System.Exception: Failure in Users Controller
 			{
 				return (false, null);
 			}
-		}
-	}
-}
-
-namespace DasBlog.Core.Services.Interfaces
-{
-	public interface IActivityRepoFactory
-	{
-		IActivityRepo GetRepo();
-	}
-	public interface IActivityRepo : IDisposable
-	{
-		IEnumerable<String> GetEventLines(DateTime date);
-	}
-}
-
-namespace DasBlog.Core.Services
-{
-	public class ActivityService : IActivityService
-	{
-		private IActivityRepoFactory repoFactory;
-		private IEventLineParser parser;
-		public ActivityService(IActivityRepoFactory repoFactory, IEventLineParser parser)
-		{
-			this.repoFactory = repoFactory;
-			this.parser = parser;
-		}
-		public List<EventDataDisplayItem> GetEventsForDay(DateTime date)
-		{
-			List<EventDataDisplayItem> events = new EditableList<EventDataDisplayItem>();
-			bool isEvent = false;
-			StringBuilder stackTrace = new StringBuilder();
-			// add in the stacktrace to the last event
-			void UpdatePreviousEvent()
-			{
-				EventDataDisplayItem existingEddi = events[events.Count - 1];
-
-				var completeEddi = new EventDataDisplayItem(
-					existingEddi.EventCode
-					, existingEddi.HtmlMessage + stackTrace
-					, existingEddi.Date);
-				events[events.Count -1] = completeEddi;
-				stackTrace.Clear();
-			}
-			using (var repo = repoFactory.GetRepo())
-			{
-				foreach (var line in repo.GetEventLines(date))
-				{
-					char[] chars = line.ToCharArray();
-					if (chars.Length > 0 && !Char.IsDigit(chars[0])) goto stack_trace;
-					(bool success, EventDataDisplayItem eddi) = parser.Parse(line);
-					if (success) goto event_line;
-					goto non_event_line;
-					event_line:
-						if (isEvent)	// previous event still in progress
-						{
-							UpdatePreviousEvent();
-						}
-						events.Add(eddi);
-						isEvent = true;
-						continue;
-					non_event_line:
-						if (isEvent)	// previous event still in progress
-						{
-							UpdatePreviousEvent();
-						}
-						isEvent = false;
-						continue;
-					stack_trace:
-						if (isEvent)
-						{
-							stackTrace.Append(line);
-						}
-						continue;
-				}
-			}
-
-			if (isEvent)
-			{
-				UpdatePreviousEvent();
-			}
-			return events;
 		}
 	}
 }
