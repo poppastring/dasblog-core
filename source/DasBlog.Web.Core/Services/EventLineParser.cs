@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Microsoft.Extensions.Logging.Abstractions;
 
 namespace DasBlog.Core.Services
 {
@@ -25,7 +26,7 @@ namespace DasBlog.Core.Services
 
 			EventDataDisplayItem eddi = new EventDataDisplayItem(
 				FormatEventCode(parseParts[EVENT_CODE])
-				,FomratMessage(parseParts[MESSAGE])
+				,FomratMessage(parseParts[MESSAGE], parseParts[URL])
 				,FormatDate(parseParts[DATE])
 			);
 			return (true, eddi);
@@ -59,9 +60,11 @@ namespace DasBlog.Core.Services
 			return DateTime.Parse(date);
 		}
 
-		private string FomratMessage(string message)
+		private string FomratMessage(string message, string url)
 		{
-			return $"<span>{message}<span>";
+			return $"<span>{message} <span>"
+			  + (url == null ? string.Empty
+			  : $"<span><a href={url}>permalink</a></span>");
 		}
 
 		private EventCodes FormatEventCode(string eventCode)

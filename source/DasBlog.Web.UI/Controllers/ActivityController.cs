@@ -28,6 +28,7 @@ namespace DasBlog.Web.Controllers
 			var events = activityService.GetEventsForDay(date);
 			ViewBag.Date = date.ToString("yyyy-MM-dd");
 			ViewBag.NextDay = (date + new TimeSpan(1, 0, 0, 0)).ToString("yyyy-MM-dd");
+			ViewBag.PreviousDay = (date - new TimeSpan(1, 0, 0, 0)).ToString("yyyy-MM-dd");
 			ViewBag.Today = DateTime.Today.ToString("yyyy-MM-dd");
 			return View("ActivityList", events);
 			

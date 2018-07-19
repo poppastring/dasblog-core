@@ -67,6 +67,7 @@ namespace DasBlog.Core.Services
 						stack_trace:
 							if (isPreviousEvent)
 							{
+								stackTrace.Append("<br>");
 								stackTrace.Append(line);
 							}
 							continue;
@@ -80,7 +81,7 @@ namespace DasBlog.Core.Services
 			}
 			catch (Exception e)
 			{
-				logger.LogInformation(new EventDataItem(EventCodes.Error, "it's all gone wrong", "invalid url"), e);
+				logger.LogInformation(new EventDataItem(EventCodes.Error, "it's all gone wrong", null), e);
 				throw;
 			}
 			return events;

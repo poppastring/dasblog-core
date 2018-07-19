@@ -45,6 +45,17 @@ namespace DasBlog.Core
 			get { return (@params ?? new object[0]).Prepend(eventCode).Append(this.url).ToArray(); }
 		}
 
+		/// <summary>
+		/// Using the EventDataItem structure allows us to ensure that the log line contains
+		/// all we need for the Activity report. see the ActivityServiceTest for
+		/// an indiction of the format - :: features heavily
+		/// </summary>
+		/// <param name="eventCode">used by the activity report</param>
+		/// <param name="url">s/be null if no valid url is availble otherwise it is typically
+		/// a permalink for a blog post</param>
+		/// <param name="userMessage"> a template with placeholders for other parameters, e.g.
+		/// "{email} has logged in"</param>
+		/// <param name="params">in the above example there should be one element - the email of the logger in</param>
 		public EventDataItem( EventCodes eventCode, string url, string userMessage
 		  ,params object[] @params)
 		{
