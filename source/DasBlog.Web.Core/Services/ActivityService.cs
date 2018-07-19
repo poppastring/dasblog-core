@@ -81,7 +81,7 @@ namespace DasBlog.Core.Services
 			}
 			catch (Exception e)
 			{
-				logger.LogInformation(new EventDataItem(EventCodes.Error, "it's all gone wrong", null), e);
+				logger.LogError(new EventDataItem(EventCodes.Error, $"Failed to process the log file for {date.ToShortDateString()}", null), e);
 				throw;
 			}
 			return events;
