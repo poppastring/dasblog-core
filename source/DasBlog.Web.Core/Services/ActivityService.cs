@@ -7,6 +7,10 @@ using Microsoft.Extensions.Logging;
 
 namespace DasBlog.Core.Services
 {
+	/// <summary>
+	/// serves up the infor from the log that we have deemed to be dasBlog events
+	/// i.e. log entries from dasBlog code rather than Microsoft etc.
+	/// </summary>
 	public class ActivityService : IActivityService
 	{
 		private IActivityRepoFactory repoFactory;
@@ -40,15 +44,21 @@ namespace DasBlog.Core.Services
 
 			try
 			{
+				// process all the lines in the log for the given date
+				// ignore info not related to DasBlog events i.e. Microsoft logging
+				// and aggregate stack traces for dasBlog events with the event line
 				using (var repo = repoFactory.GetRepo())
 				{
 					foreach (var line in repo.GetEventLines(date))
 					{
 						char[] chars = line.ToCharArray();
 						if (chars.Length > 0 && !Char.IsDigit(chars[0])) goto stack_trace;
+							// any line not starting with a date is treated as a stack trace frome
 						(bool success, EventDataDisplayItem eddi) = parser.Parse(line);
 						if (success) goto event_line;
 						goto non_event_line;
+								// any line that could not be parsed is assumed not to be a dasblog event
+								// and is ignored
 						event_line:
 							if (isPreviousEvent)	// previous event still in progress
 							{
