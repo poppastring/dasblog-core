@@ -31,6 +31,20 @@ namespace DasBlog.Core.Services
 			);
 			return (true, eddi);
 		}
+		/// <summary>
+		/// transforms eventline into a dictionary of key value pairs as eg'd below
+		/// </summary>
+		/// <param name="eventLine">2018-07-19 12:57:39.719 +01:00 [Information] DasBlog.Managers.BlogManager: EntryAdded :: hopefully some logging will happen :: http://localhost:50431/hopefully-some-logging-will-happen</param>
+		/// <returns>
+		/// {
+		///   date="2018-07-19 12:57:39.719 +01:00"
+		///   ,loggerlevel="Information"
+		///   ,category="DasBlog.Managers.BlogManager"
+		///   ,eventcode="EntryAdded"
+		///   ,message="hopefully some logging will happen"
+		///   ,url="http://localhost:50431/hopefully-some-logging-will-happen"
+		/// }
+		/// </returns>
 		private IDictionary<string, string> ParseLine(string eventLine)
 		{
 			Regex regex = new Regex($@"
