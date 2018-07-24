@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DayEntry xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="urn:newtelligence-com:dasblog:runtime:data">
+  <Date>2018-07-24T01:00:00+01:00</Date>
+  <Entries>
+    <Entry>
+      <Content>&lt;p&gt;This is good&lt;em&gt; how do I set the font size&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+&lt;p&gt;&lt;img src="../content/binary/20141122-081632-IMG_0006.JPG" border="0" /&gt;&lt;/p&gt;</Content>
+      <Created>2018-07-24T04:42:52.5897879+01:00</Created>
+      <Modified>2018-07-24T04:42:52.5897934+01:00</Modified>
+      <EntryId>cb6f5f25-0fa8-49b6-8813-bd34a7c9d1af</EntryId>
+      <Description />
+      <Title>A tinyMce production</Title>
+      <Categories />
+      <Author>myemail@myemail.com</Author>
+      <IsPublic>true</IsPublic>
+      <Syndicated>false</Syndicated>
+      <ShowOnFrontPage>true</ShowOnFrontPage>
+      <AllowComments>false</AllowComments>
+      <Attachments />
+      <Crossposts />
+      <Latitude xsi:nil="true" />
+      <Longitude xsi:nil="true" />
+    </Entry>
+  </Entries>
+</DayEntry>
