@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection.Metadata;
 using System.Security.Principal;
 using System.Threading;
 using System.Threading.Tasks;
@@ -25,6 +26,9 @@ using DasBlog.Core.Services.Interfaces;
 using Microsoft.Extensions.FileProviders;
 using DasBlog.Core.Services;
 using DasBlog.Core.Services.Interfaces;
+using DasBlog.Web.Common;
+using DasBlog.Web.TagHelpers;
+using DasBlog.Web.TagHelpers.RichEdit;
 
 namespace DasBlog.Web
 {
@@ -120,6 +124,7 @@ namespace DasBlog.Web
 				.AddTransient<IPrincipal>(provider => provider.GetService<IHttpContextAccessor>().HttpContext.User)
 				.AddTransient<ISiteRepairer, SiteRepairer>()
 				;
+			services.AddScoped<IRichEditBuilder>(SelectRichEditor);
 
 			services
 				.AddSingleton(_hostingEnvironment.ContentRootFileProvider)
@@ -226,6 +231,36 @@ namespace DasBlog.Web
 		{
 			var sr = app.ApplicationServices.GetService<ISiteRepairer>();
 			return sr.RepairSite();
+		}
+		/// <summary>
+		/// The intention here is to allow the rich edit control to be changed from request to request.
+		/// Before this flexibility is active a "settings" page will be required to make changes to
+		/// DasBlogSettings
+		/// </summary>
+		/// <param name="serviceProvider"></param>
+		/// <returns>object used by the taghandlers supporting the rich edit control</returns>
+		/// <exception cref="Exception">EntryEditControl in site.config is misconfugured</exception>
+		private IRichEditBuilder SelectRichEditor(IServiceProvider serviceProvider)
+		{
+			string entryEditControl = serviceProvider.GetService<IDasBlogSettings>()
+			  .SiteConfiguration.EntryEditControl.ToLower();
+			IRichEditBuilder richEditBuilder;
+			switch (entryEditControl)
+			{
+				case Constants.TINY_MCE_EDITOR:
+					richEditBuilder = new TinyMceBuilder();
+					break;
+				case Constants.NIC_EDIT_EDITOR:
+					richEditBuilder = new NicEditBuilder();
+					break;
+				case Constants.TEXT_AREA_EDITOR:
+					richEditBuilder = new TextAreaBuilder();
+					break;
+				default:
+					throw new Exception($"Attempt to use unknown rich edit control, {entryEditControl}");
+			}
+
+			return richEditBuilder;
 		}
 	}
 }

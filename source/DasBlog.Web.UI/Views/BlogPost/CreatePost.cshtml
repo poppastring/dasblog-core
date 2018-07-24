@@ -1,9 +1,10 @@
 ﻿@model DasBlog.Web.Models.BlogViewModels.PostViewModel
+@using DasBlog.Core.XmlRpc.Blogger
 @using DasBlog.Web.Common;
-
 
 <form asp-controller="post" asp-action="create" method="post" enctype="multipart/form-data">
     <div class="modal-body form-horizontal">
+
         <div class="form-group">
             <div class="col-lg-6">
                 <div asp-validation-summary="All" class="text-danger"></div>
@@ -12,19 +13,20 @@
         <div class="form-group">
             <label asp-for="Title" class="col-lg-3 col-sm-3 control-label"></label>
             <div class="col-lg-6">
-                <input asp-for="Title" class="form-control" />
+                <input asp-for="Title" class="form-control"/>
             </div>
         </div>
         <div class="form-group">
             <label asp-for="CreatedDateTime" class="col-lg-3 col-sm-3 control-label"></label>
             <div class="col-lg-6">
-                <input asp-for="CreatedDateTime" class="form-control" />
+                <input asp-for="CreatedDateTime" class="form-control"/>
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="Content" class="col-lg-3 col-sm-3 control-label"></label>
-            <div class="col-lg-6">
-                @Html.EditorFor(x => x.Content)
+            <label asp-for="Content" class="col-sm-3 control-label"></label>
+            <div class="col-md-9" style="height: 500px;">
+                <rich-edit name="content" id="mytextarea">@Model.Content</rich-edit>
+                        @* uses nicEdit-main class *@
             </div>
         </div>
         <div class="form-group">
@@ -58,10 +60,10 @@
                 {
                     for (int i = 0; i < Model.AllCategories.Count; i++)
                     {
-                        <input asp-for="@Model.AllCategories[i].Checked" type="checkbox" />
+                        <input asp-for="@Model.AllCategories[i].Checked" type="checkbox"/>
                         <label asp-for="@Model.AllCategories[i].Category">@Model.AllCategories[i].Category</label>
-                        <input asp-for="@Model.AllCategories[i].Category" type="hidden" />
-                        <input asp-for="@Model.AllCategories[i].CategoryUrl" type="hidden" />
+                        <input asp-for="@Model.AllCategories[i].Category" type="hidden"/>
+                        <input asp-for="@Model.AllCategories[i].CategoryUrl" type="hidden"/>
                     }
                 }
                 <input asp-for="@Model.NewCategory" type="text"/>
@@ -69,15 +71,15 @@
             </div>
         </div>
         <div class="col-lg-offset-3 col-sm-offset-3 ">
-            <span asp-validation-for="@Model.NewCategory" class="text-danger"></span>               
+            <span asp-validation-for="@Model.NewCategory" class="text-danger"></span>
         </div>
         <div class="col-lg-offset-3 col-sm-offset-3 ">
-            <input type="file" name="Image" accept="image/jpeg,image/gif,image/png" /> 
+            <input type="file" name="Image" accept="image/jpeg,image/gif,image/png"/>
             <input type="submit" name="submit" value="@Constants.UploadImageAction" class="btn"/>
         </div>
         <div class="form-group">
             <label asp-for="Language" class="col-lg-3 col-sm-3 control-label"></label>
-            <select asp-for="Language" class="col-lg-6" asp-items="Model.Languages"></select>           
+            <select asp-for="Language" class="col-lg-6" asp-items="Model.Languages"></select>
         </div>
         <div class="form-group">
             <div class="col-lg-6">
@@ -92,3 +94,8 @@
     @Html.HiddenFor(m => m.CreatedDateTime)
 
 </form>
+ 
+@section scripts {
+    <rich-edit-scripts control-id="mytextarea"/>
+   
+}
