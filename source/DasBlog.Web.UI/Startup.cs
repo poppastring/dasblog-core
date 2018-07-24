@@ -27,7 +27,7 @@ using DasBlog.Core.Services.Interfaces;
 using Microsoft.Extensions.FileProviders;
 using DasBlog.Core.Services;
 using DasBlog.Core.Services.Interfaces;
-using DasBlog.Web.Common;
+using DasBlog.Core.Common;
 using DasBlog.Web.TagHelpers;
 using DasBlog.Web.TagHelpers.RichEdit;
 
