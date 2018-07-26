@@ -76,7 +76,7 @@ namespace DasBlog.Core.Services
 		private string FomratMessage(string message, string url)
 		{
 			return $"<span>{message} <span>"
-			  + (url == null ? string.Empty
+			  + (url == null || url == "(null)" ? string.Empty
 			  : $"<span><a href={url}>permalink</a></span>");
 		}
 

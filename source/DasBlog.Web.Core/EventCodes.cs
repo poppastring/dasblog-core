@@ -49,5 +49,9 @@
 		SecurityFailure = 5000,
 		SecuritySuccess,
 		ApplicationStartup = 32000,
+		ViewUser,
+		CreateUser,
+		EditUser,
+		DeleteUser
 	}
 }

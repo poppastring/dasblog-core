@@ -1,13 +1,20 @@
 ﻿@using DasBlog.Core.Security
 @model DasBlog.Web.Models.UsersViewModel
 
+            @* **** NOTE **** *@
+            @* client side validation must be added manually to this form
+            The problem is that it did not seem possible to combine ViewBang.Writability
+            /ViewBag.Clicability with asp- tag helpers *@
+
+
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" name="originalEmail" value="@Model.EmailAddress" />        
             @* will be null for create *@
             <div class="form-group form-inline">
                 <label asp-for="Name" class="control-label" ></label>
-                <input name="Name" value="@Model.Name" type="text" class="form-control" @ViewBag.Writability/>
-                <span asp-validation-for="Name" class="text-danger"></span>
+                <input name="Name" value="@Model.Name" type="text" class="form-control" @ViewBag.Writability
+                   data-val-required="The Name field is required." data-val="true"/>
+                <span asp-validation-for="Name" class="text-danger"  data-valmsg-for="Name" data-valmsg-replace="true"></span>
             </div>
             <div class="form-group form-inline">
                 <label asp-for="Role" class="control-label" ></label>
@@ -30,8 +37,9 @@
             </div>
             <div class="form-group form-inline">
                 <label asp-for="EmailAddress" class="control-label" ></label>
-                <input name="EmailAddress" value="@Model.EmailAddress" type="text" class="form-control" @ViewBag.Writability/>
-                <span asp-validation-for="EmailAddress" class="text-danger"></span>
+                <input name="EmailAddress" value="@Model.EmailAddress" type="email" class="form-control" @ViewBag.Writability
+                  data-val-email="The Email field is not a valid e-mail address." data-val-required="The Email field is required."/>
+                <span asp-validation-for="EmailAddress" class="text-danger"  data-valmsg-for="EmailAddress" data-valmsg-replace="true" ></span>
             </div>
             <div class="form-group form-inline">
                 <label asp-for="DisplayName" class="control-label" ></label>
@@ -65,8 +73,9 @@
             </div>
              <div class="form-group form-inline">
                 <label asp-for="Password" class="control-label" ></label>
-                <input name="Password" value="@Model.Password" type="password" class="form-control" @ViewBag.Writability/>
-                <span asp-validation-for="Password" class="text-danger"></span>
+                <input name="Password" value="@Model.Password" type="password" class="form-control" @ViewBag.Writability
+                       data-val-required="The Password field is required." data-val="true"/>
+                <span asp-validation-for="Password" class="text-danger"  data-valmsg-for="Password" data-valmsg-replace="true"></span>
             </div>
 
 

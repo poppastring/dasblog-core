@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
+using DasBlog.Core;
 using DasBlog.Core.Configuration;
 using DasBlog.Core.Security;
 using Microsoft.AspNetCore.Mvc;
@@ -9,6 +10,7 @@ using DasBlog.Core.Common;
 using DasBlog.Web.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
+using DasBlog.Core.Extensions;
 
 namespace DasBlog.Web.Controllers
 {
@@ -107,9 +109,9 @@ namespace DasBlog.Web.Controllers
 		public IActionResult Index(string email)
 		{
 			email = email ?? string.Empty;
-			logger.LogTrace("Index({emial})", email);
 			if (!userService.HasUsers())
 			{
+				LogDebug(email, Constants.UsersViewMode);
 				this.ControllerContext.RouteData.Values.Add("maintenanceMode", Constants.UsersCreateMode);
 				return RedirectToAction(nameof(Maintenance));
 						// might as weel encourage admin to start creating users
@@ -125,6 +127,7 @@ namespace DasBlog.Web.Controllers
 			// the email address is automatically appended to the actions of forms that refer to this controller
 			UpdateRouteData(email);
 
+			LogDebug(email, Constants.UsersViewMode);
 			return EditDeleteOrViewUser(Constants.UsersViewMode, email);
 		}
 
@@ -226,7 +229,7 @@ namespace DasBlog.Web.Controllers
 			{
 				case Constants.UsersCreateMode:
 				case Constants.UsersEditMode:
-					return SaveCreateOrEditUser(maintenanceMode, uvm, originalEmail);
+					return SaveCreatedOrEditedUser(maintenanceMode, uvm, originalEmail);
 				case Constants.UsersDeleteMode:
 					return DeleteUser(uvm);
 			}
@@ -241,7 +244,7 @@ namespace DasBlog.Web.Controllers
 			return loggedInUserEmail == uvm.EmailAddress;
 		}
 		// subroutine of the http POST handler
-		private IActionResult SaveCreateOrEditUser(string maintenanceMode, UsersViewModel uvm, string originalEmail)
+		private IActionResult SaveCreatedOrEditedUser(string maintenanceMode, UsersViewModel uvm, string originalEmail)
 		{
 			User user = mapper.Map<User>(uvm);
 			if (!ValidateUser(maintenanceMode, originalEmail, uvm, user))
@@ -253,6 +256,7 @@ namespace DasBlog.Web.Controllers
 			userService.AddOrReplaceUser(user, originalEmail);
 			siteSecurityConfig.Refresh();
 			UpdateRouteData(user.EmailAddress);
+			LogDebug(user.Name, maintenanceMode);
 			return RedirectToAction(nameof(Index));		// total success
 		}
 
@@ -315,6 +319,7 @@ namespace DasBlog.Web.Controllers
 		{
 			if (userService.DeleteUser(u => u.EmailAddress == uvm.EmailAddress))
 			{
+				LogDebug(uvm.EmailAddress, Constants.UsersDeleteMode);
 				siteSecurityConfig.Refresh();
 				this.ControllerContext.RouteData.Values.Remove(EMAIL_PARAM);
 				return RedirectToAction(nameof(Index));		// total success
@@ -336,6 +341,34 @@ namespace DasBlog.Web.Controllers
 			}
 
 			this.ControllerContext.RouteData.Values[EMAIL_PARAM] = email;
+		}
+		private EventCodes MaintenanceModeToEventCode(string maintenanceMode)
+		{
+			EventCodes code;
+			switch (maintenanceMode)
+			{
+				case Constants.UsersCreateMode:
+					code = EventCodes.CreateUser;
+					break;
+				case Constants.UsersEditMode:
+					code = EventCodes.EditUser;
+					break;
+				case Constants.UsersDeleteMode:
+					code = EventCodes.DeleteUser;
+					break;
+				default:
+					code = EventCodes.ViewUser;
+					break;
+			}
+
+			return code;
+		}
+
+		private void LogDebug(string userId, string maintenanceMode)
+		{
+			logger.LogDebug( new EventDataItem(
+				MaintenanceModeToEventCode(maintenanceMode), null, "User Maintenance ({user}) by {loggedin}"
+				,userId, this.HttpContext.User.Identities.First().Name));
 		}
 	}
 }

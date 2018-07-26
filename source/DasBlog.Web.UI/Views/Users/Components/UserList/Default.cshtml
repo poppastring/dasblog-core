@@ -51,7 +51,7 @@
             @foreach (var item in Model) {
                 <tr>
                     <td>
-                        <user-id email-address="/users/@item.EmailAddress" linkability="@ViewBag.Linkability"> @ElideTitle(item.EmailAddress)</user-id>
+                        <user-link email-address="/users/@item.EmailAddress" linkability="@ViewBag.Linkability"> @ElideTitle(item.EmailAddress)</user-link>
                     </td>
                 </tr>
             }
