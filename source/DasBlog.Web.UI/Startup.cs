@@ -21,12 +21,13 @@ using Microsoft.Extensions.DependencyInjection;
 using AutoMapper;
 using DasBlog.Web.Mappers;
 using DasBlog.Core;
+using DasBlog.Core.Common;
 using DasBlog.Core.Services;
 using DasBlog.Core.Services.Interfaces;
 using Microsoft.Extensions.FileProviders;
 using DasBlog.Core.Services;
 using DasBlog.Core.Services.Interfaces;
-using DasBlog.Web.Common;
+using DasBlog.Core.Common;
 using DasBlog.Web.TagHelpers;
 using DasBlog.Web.TagHelpers.RichEdit;
 
@@ -40,18 +41,7 @@ namespace DasBlog.Web
 
 		public Startup(IConfiguration configuration, IHostingEnvironment env)
 		{
-			var builder = new ConfigurationBuilder()
-			.SetBasePath(env.ContentRootPath)
-			.AddXmlFile(@"Config\site.config", optional: true, reloadOnChange: true)
-			.AddXmlFile(@"Config\metaConfig.xml", optional: true, reloadOnChange: true)
-			//.AddXmlFile(SITESECURITYCONFIG, optional: true, reloadOnChange: true)
-			.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-			.AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
-			.AddEnvironmentVariables()
-			;
-			
-			Configuration = builder.Build();
-
+			Configuration = configuration;
 			_hostingEnvironment = env;
 			_binariesPath = Configuration.GetValue<string>("binariesDir", "/").TrimStart('~').TrimEnd('/');
 		}
@@ -66,9 +56,11 @@ namespace DasBlog.Web
 
 			services.Configure<SiteConfig>(Configuration);
 			services.Configure<MetaTags>(Configuration);
-//			services.Configure<SiteSecurityConfig>(Configuration);
 			services.Configure<LocalUserDataOptions>(options
 			  => options.Path = Path.Combine(_hostingEnvironment.ContentRootPath, SITESECURITYCONFIG));
+			services.Configure<ActivityRepoOptions>(options
+			  => options.Path = Path.Combine(_hostingEnvironment.ContentRootPath, Constants.LOG_DIRECTORY));
+
 			// Add identity types
 			services
 				.AddIdentity<DasBlogUser, DasBlogRole>()
@@ -140,6 +132,9 @@ namespace DasBlog.Web
 				.AddSingleton<IUserDataRepo, UserDataRepo>()
 				.AddSingleton<ISiteSecurityConfig, SiteSecurityConfig>()
 				.AddSingleton<IUserService, UserService>()
+				.AddSingleton<IActivityService, ActivityService>()
+				.AddSingleton<IActivityRepoFactory, ActivityRepoFactory>()
+				.AddSingleton<IEventLineParser, EventLineParser>()
 				;
 			services
 				.AddAutoMapper(mapperConfig =>

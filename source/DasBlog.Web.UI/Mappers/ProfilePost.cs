@@ -8,7 +8,7 @@ using AutoMapper;
 using DasBlog.Core;
 using DasBlog.Web.Models.BlogViewModels;
 using newtelligence.DasBlog.Runtime;
-using static DasBlog.Web.Common.Utils;
+using static DasBlog.Core.Common.Utils;
 
 namespace DasBlog.Web.Mappers
 {

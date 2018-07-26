@@ -1,7 +1,6 @@
-<Project Sdk="Microsoft.NET.Sdk">
-
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\DasBlog.Web.Core\DasBlog.Core.csproj" />
@@ -9,5 +8,8 @@
     <ProjectReference Include="..\newtelligence.DasBlog.Util\newtelligence.DasBlog.Util.csproj" />
     <ProjectReference Include="..\newtelligence.DasBlog.Web.Core\newtelligence.DasBlog.Web.Core.csproj" />
     <ProjectReference Include="..\newtelligence.DasBlog.Web.Services\newtelligence.DasBlog.Web.Services.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="NetEscapades.Extensions.Logging.RollingFile" Version="1.0.0" />
   </ItemGroup>
 </Project>

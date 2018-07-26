@@ -114,6 +114,74 @@ ul {
      margin-bottom: 15px;
 }
 
+.activityTableColumnStyle {
+    border: solid 1px;
+    padding: 3px;
+    margin-top: 3px;
+    margin-bottom: 3px;
+}
+
+.activityTableDateColumnStyle {
+    border: solid 1px;
+    padding: 3px;
+    margin-top: 3px;
+    margin-bottom: 3px;
+    width: 25%;
+    text-align: left;
+}
+
+.activityTableFooterColumnStyle {
+    border-left: solid 1px;
+    border-right: solid 1px;
+    border-bottom: solid 1px;
+    border-top: solid 2px;
+    padding: 3px;
+    font-weight: bold;
+}
+
+.activityTableFooterNumColumnStyle {
+    border-left: solid 1px;
+    border-right: solid 1px;
+    border-bottom: solid 1px;
+    border-top: solid 2px;
+    padding: 3px;
+    width: 15%;
+    font-weight: bold;
+    text-align: right;
+}
+
+.activityTableHeaderColumnStyle {
+    border-left: solid 1px;
+    border-right: solid 1px;
+    border-bottom: solid 2px;
+    border-top: solid 1px;
+    padding: 3px;
+    font-size: 105%;
+    font-weight: bold;
+}
+
+.activityTableNumColumnStyle {
+    border: solid 1px;
+    padding: 3px;
+    margin-top: 3px;
+    margin-bottom: 3px;
+    width: 15%;
+    text-align: right;
+}
+
+.activityTableStyle {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: solid 1px;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.activityTableRowStyleError { BACKGROUND-COLOR: lightpink }
+.activityTableRowStyleBlocked { BACKGROUND-COLOR: lightgoldenrodyellow }
+.activityTableRowStyleSecurityFailure { BACKGROUND-COLOR: lightsalmon }
+
+        
 /* Hide/rearrange for smaller screens */
 @media screen and (max-width: 767px) {
     /* Hide captions */

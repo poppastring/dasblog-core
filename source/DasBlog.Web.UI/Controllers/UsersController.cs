@@ -5,9 +5,10 @@ using DasBlog.Core.Configuration;
 using DasBlog.Core.Security;
 using Microsoft.AspNetCore.Mvc;
 using DasBlog.Core.Services.Interfaces;
-using DasBlog.Web.Common;
+using DasBlog.Core.Common;
 using DasBlog.Web.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Logging;
 
 namespace DasBlog.Web.Controllers
 {
@@ -77,13 +78,16 @@ namespace DasBlog.Web.Controllers
 
 		}
 
+		private readonly ILogger<UsersController> _logger;
 		private const string EMAIL_PARAM = "email";		// if you change this remeber to change
 														// the names of the routes and bound parameters
 		private readonly IUserService _userService;
 		private readonly IMapper _mapper;
 		private readonly ISiteSecurityConfig _siteSecurityConfig;
-		public UsersController(IUserService userService, IMapper mapper, ISiteSecurityConfig siteSecurityConfig)
+		public UsersController(IUserService userService, IMapper mapper, ISiteSecurityConfig siteSecurityConfig
+		  ,ILogger<UsersController> logger)
 		{
+			_logger = logger;
 			this._userService = userService;
 			_mapper = mapper;
 			_siteSecurityConfig = siteSecurityConfig;
@@ -103,6 +107,7 @@ namespace DasBlog.Web.Controllers
 		public IActionResult Index(string email)
 		{
 			email = email ?? string.Empty;
+			_logger.LogTrace("Index({emial})", email);
 			if (!_userService.HasUsers())
 			{
 				this.ControllerContext.RouteData.Values.Add("maintenanceMode", Constants.UsersCreateMode);

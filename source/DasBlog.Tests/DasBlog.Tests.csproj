@@ -35,6 +35,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="logs" />
     <Folder Include="_contentroot\" />
   </ItemGroup>
 </Project>

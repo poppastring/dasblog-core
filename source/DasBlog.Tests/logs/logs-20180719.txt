@@ -1,0 +1,1 @@
+2018-07-19 09:08:37.062 +01:00 [Information] DasBlog.Web.Controllers.AccountController: SecuritySuccess :: myemail@myemail.com logged in successfully :: http://localhost:50432/Account/Login

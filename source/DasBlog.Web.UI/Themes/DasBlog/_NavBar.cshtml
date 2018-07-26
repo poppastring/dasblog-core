@@ -17,6 +17,7 @@
                 <li><a asp-area="" asp-controller="feed" asp-action="rss">Subscribe</a></li>
                 <li dasblog-authorized><a asp-area="" asp-controller="post" asp-action="create">Create Post</a></li>
                 <li dasblog-authorized><a asp-area="" asp-controller="users" asp-action="index">Users</a></li>
+                <li dasblog-authorized><a asp-area="" asp-controller="Activity" asp-action="ActivityList">Activity</a></li>
             </ul>
             @await Html.PartialAsync("_LoginPartial")
             </div>
