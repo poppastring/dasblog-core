@@ -10,7 +10,7 @@ namespace DasBlog.Tests.Services
 	public class ActivityServiceTest
 	{
 		[Fact]
-		public void ShoulProcessSingleLine()
+		public void GetEventsForDay_OnSingleValidEvent_ReturnsSingleEvents()
 		{
 			IActivityRepoFactory factory = new MockActivityRepoFactory();
 			IEventLineParser parser = new MockEventLineParser(true);
@@ -23,7 +23,7 @@ namespace DasBlog.Tests.Services
 			Assert.Equal(1, ctr);
 		}
 		[Fact]
-		public void ShouldOmitUnparsedEvents()
+		public void GetEventsForDay_OnSingleNonEvent_ReturnsNoEvents()
 		{
 			IActivityRepoFactory factory = new MockActivityRepoFactory();
 			IEventLineParser parser = new MockEventLineParser(false);	//fail all parsing
@@ -36,7 +36,7 @@ namespace DasBlog.Tests.Services
 			Assert.Equal(0, ctr);
 		}
 		[Fact]
-		public void ShouldOmitUnknownDate()
+		public void GetEventsForDay_OnNonExistentDay_ReturnsNoEvents()
 		{
 			IActivityRepoFactory factory = new MockActivityRepoFactory();
 			IEventLineParser parser = new MockEventLineParser(false);	//fail all parsing
@@ -49,7 +49,7 @@ namespace DasBlog.Tests.Services
 			Assert.Equal(0, ctr);
 		}
 		[Fact]
-		public void ShouldOmitNonEventPlusStacktrace()
+		public void GetEventsForDay_OnNonEventPlusStackTrace_ReturnsNoEvents()
 		{
 			IActivityRepoFactory factory = new MockActivityRepoFactory();
 			IEventLineParser parser = new MockEventLineParser(false);
@@ -62,7 +62,7 @@ namespace DasBlog.Tests.Services
 			Assert.Equal(0, ctr);
 		}
 		[Fact]
-		public void ShouldProcessEventPlusStackTrace()
+		public void GetEventsForDay_OnEventPlusStackTrace_ReturnsOneEvent()
 		{
 			IActivityRepoFactory factory = new MockActivityRepoFactory();
 			IEventLineParser parser = new MockEventLineParser(true);
@@ -75,7 +75,7 @@ namespace DasBlog.Tests.Services
 			Assert.Equal(1, ctr);
 		}		
 		[Fact]
-		public void ShouldProcessEventPlusStackTracePlusEvent()
+		public void GetEventsForDay_OnEventPlusStackTracePlusEvent_ReturnsTwoEvents()
 		{
 			IActivityRepoFactory factory = new MockActivityRepoFactory();
 			IEventLineParser parser = new MockEventLineParser(true);	// all parsing succeeds
@@ -88,7 +88,7 @@ namespace DasBlog.Tests.Services
 			Assert.Equal(2, ctr);
 		}		
 		[Fact]
-		public void ShouldOmitNonEventPlusStackTracePlusNonEvent()
+		public void GetEventsForDay_OnNonEventPlusStackTracePlusNonEvent_ReturnsNoEvents()
 		{
 			IActivityRepoFactory factory = new MockActivityRepoFactory();
 			IEventLineParser parser = new MockEventLineParser(false);		// fail all parsing
@@ -101,7 +101,7 @@ namespace DasBlog.Tests.Services
 			Assert.Equal(0, ctr);
 		}		
 		[Fact]
-		public void ShouldProessNonEventPlusStackTracePlusEvent()
+		public void GetEventsForDay_OnNonEventPlusStacktracePlusEvent_ReturnsOneEvent()
 		{
 			IActivityRepoFactory factory = new MockActivityRepoFactory();
 			IEventLineParser parser = new EventLineParser();
@@ -114,7 +114,7 @@ namespace DasBlog.Tests.Services
 			Assert.Equal(1, ctr);
 		}
 		[Fact]
-		public void ShouldProessEventPlusStackTracePlusNonEvent()
+		public void GetEventsForDay_OnEventPlusStackTracePlusNonEvent_ReturnsOneEvent()
 		{
 			IActivityRepoFactory factory = new MockActivityRepoFactory();
 			IEventLineParser parser = new EventLineParser();

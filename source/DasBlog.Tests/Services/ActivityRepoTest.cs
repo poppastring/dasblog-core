@@ -7,7 +7,7 @@ namespace DasBlog.Tests.Services
 	public class ActivityRepoTest
 	{
 		[Fact]
-		public void ShouldLoadData()
+		public void GetEventLines_SingleLineLog_ReturnsOneLIne()
 		{
 			string path = "..\\..\\..\\logs";
 			int ctr = 0;

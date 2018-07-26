@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using DasBlog.Core.XmlRpc.Blogger;
-using DasBlog.Core.Common;
-using Microsoft.AspNetCore;
+﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -36,6 +29,12 @@ namespace DasBlog.Web.UI
 	            .ConfigureLogging(loggingBuilder =>
 	            {
 		            loggingBuilder.AddFile();
+						// there is magic afoot:
+						//§ inclusion of NetEscapades.Extensions.Logging.RollingFile (which provides the file logger)
+						// is sufficent for the logging builder to do the ncessary plumbing.
+						// Why can't we at least have a type parameter to give thowe who
+						// come after a fighting chance of knowing what's going on.  It would
+						// save me having to type this explanation!
 	            })
                 .UseStartup<Startup>()
 		        

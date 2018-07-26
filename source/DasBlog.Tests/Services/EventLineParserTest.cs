@@ -7,7 +7,7 @@ namespace DasBlog.Tests.Services
 	public class EventLineParserTest
 	{
 		[Fact]
-		public void ShouldParseSimpleLine()
+		public void Parse_OnValidInput_ReturnsSuccess()
 		{
 			IEventLineParser parser = new EventLineParser();
 			(bool success, var _) = parser.Parse(
@@ -16,7 +16,7 @@ namespace DasBlog.Tests.Services
 			Assert.True(success);
 		}
 		[Fact]
-		public void ShouldRejectNonDasBlogEvent()
+		public void Parse_OnInvalidInput_ReturnsFailure()
 		{
 			IEventLineParser parser = new EventLineParser();
 			(bool success, var _) = parser.Parse(
