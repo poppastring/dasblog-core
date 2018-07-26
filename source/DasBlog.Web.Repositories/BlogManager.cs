@@ -128,11 +128,11 @@ namespace DasBlog.Managers
 				,dasBlogSettings.RelativeToRoot(entry.EntryId)).ToString();
 		}
 
-		private string MakePermaLinkFromCompressedTitle(Entry entry)
+		private Uri MakePermaLinkFromCompressedTitle(Entry entry)
 		{
 			return new Uri(new Uri(dasBlogSettings.SiteConfiguration.Root)
 				,dasBlogSettings.RelativeToRoot(
-				dasBlogSettings.GetPermaTitle(entry.CompressedTitle))).ToString();
+				dasBlogSettings.GetPermaTitle(entry.CompressedTitle)));
 		}
 
 		private EntrySaveState InternalSaveEntry(Entry entry, TrackbackInfoCollection trackbackList, CrosspostInfoCollection crosspostList)
