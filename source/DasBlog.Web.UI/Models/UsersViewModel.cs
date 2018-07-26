@@ -8,7 +8,6 @@ namespace DasBlog.Web.Models
 		public UsersViewModel()
 			{}
 		
-		[Required]
 		public string Name { get; set; }
 
 		[Required]

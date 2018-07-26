@@ -10,7 +10,7 @@ namespace DasBlog.Core.Security
 		[XmlElement("Name")]
 		public string Name
 		{
-			get { return EmailAddress;} set {/* ignore name */} }
+			get { return EmailAddress;} }
 
 		[XmlElement("Role")]
 		public Role Role { get; set; }
