@@ -1,4 +1,6 @@
-﻿using System.Text.RegularExpressions;
+﻿using System;
+using System.Linq.Expressions;
+using System.Text.RegularExpressions;
 
 namespace DasBlog.Core.Common
 {
@@ -14,5 +16,17 @@ namespace DasBlog.Core.Common
 		/// <returns>pots-pans</returns>
 		public static string EncodeCategoryUrl(string displayText, string separator)
 			=> Regex.Replace(displayText.ToLower(), @"[^A-Za-z0-9_\.~]+", separator);
+	}
+
+	public static class Veriifier
+	{
+		public static void VerifyParam(Expression<Func<bool>> pred)
+		{
+			if (!pred.Compile()())
+			{
+				throw new Exception($"The following expectation was not met {pred}");
+							// a bloke's got to have a bit of fun
+			}
+		}
 	}
 }

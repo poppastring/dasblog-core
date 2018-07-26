@@ -11,6 +11,7 @@ using DasBlog.Web.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
 using DasBlog.Core.Extensions;
+using static DasBlog.Core.Common.Veriifier;
 
 namespace DasBlog.Web.Controllers
 {
@@ -118,7 +119,7 @@ namespace DasBlog.Web.Controllers
 			}
 			// make sure that there is an actual user associated with this email address
 			// In many cases there won't be as the email will have been passed as null
-			(var userFound, _) = userService.FindFirstMatchingUser(u => u.EmailAddress == email);
+			(var userFound, _) = userService.FindMatchingUser(email);
 			if (!userFound)
 			{
 				email = userService.GetFirstUser().EmailAddress;
@@ -144,8 +145,8 @@ namespace DasBlog.Web.Controllers
 		public IActionResult Maintenance(string maintenanceMode, string email)
 		{
 			maintenanceMode = maintenanceMode ?? Constants.UsersViewMode;
-			System.Diagnostics.Debug.Assert(email != null || maintenanceMode == Constants.UsersCreateMode);
-			System.Diagnostics.Debug.Assert(
+			VerifyParam(() => email != null || maintenanceMode == Constants.UsersCreateMode);
+			VerifyParam(() =>
 				maintenanceMode == Constants.UsersCreateMode
 				|| maintenanceMode == Constants.UsersEditMode
 				|| maintenanceMode == Constants.UsersDeleteMode
@@ -176,7 +177,7 @@ namespace DasBlog.Web.Controllers
 		public IActionResult Maintenance(string submitAction, string originalEmail
 		  ,UsersViewModel uvm)
 		{
-			System.Diagnostics.Debug.Assert(
+			VerifyParam(() =>
 			  submitAction == Constants.SaveAction
 			  || submitAction == Constants.CancelAction
 			  || submitAction == Constants.DeleteAction);
@@ -285,7 +286,7 @@ namespace DasBlog.Web.Controllers
 				rtn = false;
 			}
 			if ( user.EmailAddress != originalEmail
-			  && userService.FindFirstMatchingUser(u => u.EmailAddress == user.EmailAddress).userFound)
+			  && userService.FindMatchingUser(user.EmailAddress).userFound)
 			{
 				ModelState.AddModelError(nameof(uvm.EmailAddress)
 				  ,"This email address already exists - emails must be unique");
@@ -302,7 +303,7 @@ namespace DasBlog.Web.Controllers
 				maintenanceMode == Constants.UsersEditMode
 				|| maintenanceMode == Constants.UsersDeleteMode
 				|| maintenanceMode == Constants.UsersViewMode);
-			(var found, var user) = userService.FindFirstMatchingUser(u => u.EmailAddress == email);
+			(var found, var user) = userService.FindMatchingUser(email);
 			if (!found)
 			{
 				return RedirectToAction(nameof(Index));
@@ -317,7 +318,7 @@ namespace DasBlog.Web.Controllers
 		// subroutine of http POST handler
 		private IActionResult DeleteUser(UsersViewModel uvm)
 		{
-			if (userService.DeleteUser(u => u.EmailAddress == uvm.EmailAddress))
+			if (userService.DeleteUser(uvm.EmailAddress))
 			{
 				LogDebug(uvm.EmailAddress, Constants.UsersDeleteMode);
 				siteSecurityConfig.Refresh();
