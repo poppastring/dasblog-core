@@ -24,19 +24,9 @@ namespace DasBlog.Web.Models.BlogViewModels
 
 		public string EntryId { get; set; }
 
-		private IList<CategoryViewModel> _categories = new List<CategoryViewModel>();
-		public IList<CategoryViewModel> Categories
-		{
-			get { return _categories;}
-			set { _categories = value; }
-		}
+		public IList<CategoryViewModel> Categories { get; set; } = new List<CategoryViewModel>();
 
-		private IList<CategoryViewModel> _allCategories = new List<CategoryViewModel>();
-		public IList<CategoryViewModel> AllCategories
-		{
-			get { return _allCategories;}
-			set { _allCategories = value; }
-		}
+		public IList<CategoryViewModel> AllCategories { get; set; }= new List<CategoryViewModel>();
 
 		public string NewCategory { get; set; }
 
@@ -59,11 +49,6 @@ namespace DasBlog.Web.Models.BlogViewModels
 		public IFormFile Image { get; set; }
 		public string Language { get; set; }
 
-		public IEnumerable<SelectListItem> _languages = new List<SelectListItem>();
-		public IEnumerable<SelectListItem> Languages
-		{
-			get { return _languages; }
-			set { _languages = value; }
-		}
+		public IEnumerable<SelectListItem> Languages { get; set; }= new List<SelectListItem>();
 	}
 }

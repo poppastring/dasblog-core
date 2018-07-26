@@ -214,8 +214,7 @@ namespace DasBlog.Web
 			{
 				existingThreadPrincipal = Thread.CurrentPrincipal;
 				Thread.CurrentPrincipal = context.User;
-				var rtn = next();
-				return rtn;
+				return next();
 			}
 			finally
 			{
