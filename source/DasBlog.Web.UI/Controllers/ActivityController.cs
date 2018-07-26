@@ -8,7 +8,7 @@ namespace DasBlog.Web.Controllers
 	[Authorize]
 	public class ActivityController : Controller
 	{
-		private IActivityService activityService;
+		private readonly IActivityService activityService;
 
 		public ActivityController(IActivityService activityService)
 		{

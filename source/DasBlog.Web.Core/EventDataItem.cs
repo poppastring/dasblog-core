@@ -22,16 +22,16 @@ namespace DasBlog.Core
 		{
 			get
 			{
-				System.Diagnostics.Debug.Assert(!userMessage.Contains(Constants.CODE_EVENT_FIElD));
-				System.Diagnostics.Debug.Assert(!userMessage.Contains(Constants.URL_EVENT_FIElD));
+				System.Diagnostics.Debug.Assert(!userMessage.Contains(Constants.CodeEventFielD));
+				System.Diagnostics.Debug.Assert(!userMessage.Contains(Constants.UrlEventFielD));
 				System.Diagnostics.Debug.Assert(!userMessage.Contains("\n"));
 								// a broken line will mess up the Activity report - just a token protest
 				var sb = new StringBuilder();
-				sb.Append(Constants.CODE_EVENT_FIElD);
-				sb.Append(Constants.EVENT_FIELD_SEPARATOR);
+				sb.Append(Constants.CodeEventFielD);
+				sb.Append(Constants.EventFieldSeparator);
 				sb.Append(userMessage);
-				sb.Append(Constants.EVENT_FIELD_SEPARATOR);
-				sb.Append(Constants.URL_EVENT_FIElD);
+				sb.Append(Constants.EventFieldSeparator);
+				sb.Append(Constants.UrlEventFielD);
 				return sb.ToString();
 			}
 		}

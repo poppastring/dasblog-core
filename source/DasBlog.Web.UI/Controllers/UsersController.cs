@@ -78,19 +78,19 @@ namespace DasBlog.Web.Controllers
 
 		}
 
-		private readonly ILogger<UsersController> _logger;
+		private readonly ILogger<UsersController> logger;
 		private const string EMAIL_PARAM = "email";		// if you change this remeber to change
 														// the names of the routes and bound parameters
-		private readonly IUserService _userService;
-		private readonly IMapper _mapper;
-		private readonly ISiteSecurityConfig _siteSecurityConfig;
+		private readonly IUserService userService;
+		private readonly IMapper mapper;
+		private readonly ISiteSecurityConfig siteSecurityConfig;
 		public UsersController(IUserService userService, IMapper mapper, ISiteSecurityConfig siteSecurityConfig
 		  ,ILogger<UsersController> logger)
 		{
-			_logger = logger;
-			this._userService = userService;
-			_mapper = mapper;
-			_siteSecurityConfig = siteSecurityConfig;
+			this.logger = logger;
+			this.userService = userService;
+			this.mapper = mapper;
+			this.siteSecurityConfig = siteSecurityConfig;
 		}
 		/// <summary>
 		/// Show the user identfied by email
@@ -107,8 +107,8 @@ namespace DasBlog.Web.Controllers
 		public IActionResult Index(string email)
 		{
 			email = email ?? string.Empty;
-			_logger.LogTrace("Index({emial})", email);
-			if (!_userService.HasUsers())
+			logger.LogTrace("Index({emial})", email);
+			if (!userService.HasUsers())
 			{
 				this.ControllerContext.RouteData.Values.Add("maintenanceMode", Constants.UsersCreateMode);
 				return RedirectToAction(nameof(Maintenance));
@@ -116,10 +116,10 @@ namespace DasBlog.Web.Controllers
 			}
 			// make sure that there is an actual user associated with this email address
 			// In many cases there won't be as the email will have been passed as null
-			(var userFound, _) = _userService.FindFirstMatchingUser(u => u.EmailAddress == email);
+			(var userFound, _) = userService.FindFirstMatchingUser(u => u.EmailAddress == email);
 			if (!userFound)
 			{
-				email = _userService.GetFirstUser().EmailAddress;
+				email = userService.GetFirstUser().EmailAddress;
 			}
 			// we need to update the route data when the page is initially loaded.
 			// the email address is automatically appended to the actions of forms that refer to this controller
@@ -151,7 +151,7 @@ namespace DasBlog.Web.Controllers
 			if (maintenanceMode == Constants.UsersCreateMode)
 			{
 				new ViewBagConfigurer().ConfigureViewBag(ViewBag, Constants.UsersCreateMode);
-				return View("Maintenance", _mapper.Map<UsersViewModel>(new User()));
+				return View("Maintenance", mapper.Map<UsersViewModel>(new User()));
 			}
 			else
 			{
@@ -243,15 +243,15 @@ namespace DasBlog.Web.Controllers
 		// subroutine of the http POST handler
 		private IActionResult SaveCreateOrEditUser(string maintenanceMode, UsersViewModel uvm, string originalEmail)
 		{
-			User user = _mapper.Map<User>(uvm);
+			User user = mapper.Map<User>(uvm);
 			if (!ValidateUser(maintenanceMode, originalEmail, uvm, user))
 			{
 				new ViewBagConfigurer().ConfigureViewBag(ViewBag, maintenanceMode);
 				return View("Maintenance", uvm);
 			}
 
-			_userService.AddOrReplaceUser(user, originalEmail);
-			_siteSecurityConfig.Refresh();
+			userService.AddOrReplaceUser(user, originalEmail);
+			siteSecurityConfig.Refresh();
 			UpdateRouteData(user.EmailAddress);
 			return RedirectToAction(nameof(Index));		// total success
 		}
@@ -281,7 +281,7 @@ namespace DasBlog.Web.Controllers
 				rtn = false;
 			}
 			if ( user.EmailAddress != originalEmail
-			  && _userService.FindFirstMatchingUser(u => u.EmailAddress == user.EmailAddress).userFound)
+			  && userService.FindFirstMatchingUser(u => u.EmailAddress == user.EmailAddress).userFound)
 			{
 				ModelState.AddModelError(nameof(uvm.EmailAddress)
 				  ,"This email address already exists - emails must be unique");
@@ -298,13 +298,13 @@ namespace DasBlog.Web.Controllers
 				maintenanceMode == Constants.UsersEditMode
 				|| maintenanceMode == Constants.UsersDeleteMode
 				|| maintenanceMode == Constants.UsersViewMode);
-			(var found, var user) = _userService.FindFirstMatchingUser(u => u.EmailAddress == email);
+			(var found, var user) = userService.FindFirstMatchingUser(u => u.EmailAddress == email);
 			if (!found)
 			{
 				return RedirectToAction(nameof(Index));
 					// TODO show an error page
 			}
-			UsersViewModel uvm = _mapper.Map<UsersViewModel>(user);
+			UsersViewModel uvm = mapper.Map<UsersViewModel>(user);
 
 			new ViewBagConfigurer().ConfigureViewBag(ViewBag, maintenanceMode);
 			return View("Maintenance", uvm);
@@ -313,9 +313,9 @@ namespace DasBlog.Web.Controllers
 		// subroutine of http POST handler
 		private IActionResult DeleteUser(UsersViewModel uvm)
 		{
-			if (_userService.DeleteUser(u => u.EmailAddress == uvm.EmailAddress))
+			if (userService.DeleteUser(u => u.EmailAddress == uvm.EmailAddress))
 			{
-				_siteSecurityConfig.Refresh();
+				siteSecurityConfig.Refresh();
 				this.ControllerContext.RouteData.Values.Remove(EMAIL_PARAM);
 				return RedirectToAction(nameof(Index));		// total success
 			}
