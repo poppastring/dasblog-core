@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using DasBlog.Core.Services.Interfaces;
-using Microsoft.Extensions.Logging;
 
 namespace DasBlog.Core.Services
 {

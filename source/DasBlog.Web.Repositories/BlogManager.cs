@@ -2,9 +2,7 @@
 using newtelligence.DasBlog.Runtime;
 using DasBlog.Managers.Interfaces;
 using DasBlog.Core;
-//using Microsoft.Extensions.Logging;
 using newtelligence.DasBlog.Util;
-using newtelligence.DasBlog.Web.Services.MetaWeblog;
 using EventDataItem = DasBlog.Core.EventDataItem;
 using EventCodes = DasBlog.Core.EventCodes;
 using DasBlog.Core.Extensions;

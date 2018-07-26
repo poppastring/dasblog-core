@@ -1,8 +1,5 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Text;
-using System.Xml.Serialization;
-using newtelligence.DasBlog.Runtime;
 using DasBlog.Core.Common;
 
 namespace DasBlog.Core

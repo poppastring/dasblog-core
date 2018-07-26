@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Net.Http;
 using DasBlog.Core.Services;
-using DasBlog.Managers.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

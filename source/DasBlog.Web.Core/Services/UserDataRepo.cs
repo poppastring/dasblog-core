@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using Microsoft.Extensions.Options;
-using System.IO;
-using System.Linq;
 using System.Xml.Serialization;
 using DasBlog.Core.Configuration;
 using User = DasBlog.Core.Security.User;

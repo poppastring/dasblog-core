@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using AutoMapper;
 using DasBlog.Core;
 using DasBlog.Web.Models.AccountViewModels;

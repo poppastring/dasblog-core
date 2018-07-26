@@ -3,7 +3,6 @@ using System.IO;
 using DasBlog.Core;
 using DasBlog.Managers.Interfaces;
 using newtelligence.DasBlog.Runtime;
-using newtelligence.DasBlog.Web.Core;
 
 namespace DasBlog.Managers
 {
