@@ -36,6 +36,15 @@
 
       At the time of writing AppVeyor is working for Firefox but failing with Chrome because
       the AppVeyor chrome browser is out of date.
+
+      Note that if you re-adopt the nuget stategy then Selenium may have problems finding
+      the drivers.  Selenium looks for the browser specific drivers (exes) in the "current directory".  However
+      it uses the Selenium.WebDriver's assembly location as the "current directory".
+      This will fail becuase the assembly's location is somewhere in the nuget packages hierarchy
+      whereas the browser specific drivers are in our binary directory.  Selenium's fallbacks
+      of looking on the path etc. may or may not work.  A workaround is to change
+      the current directory to our binary directory DasBlog.FunctionalTests/..../netcoreapp2.1
+      and WebDriver should find the browser specific drivers.
   -->
   <ItemGroup>
     <Reference Include="WebDriver, Version=3.13.1.0, Culture=neutral, PublicKeyToken=null">
