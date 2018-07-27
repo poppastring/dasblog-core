@@ -5,12 +5,31 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.7.0" />
-    <PackageReference Include="Selenium.Firefox.WebDriver" Version="0.21.0" />
-    <PackageReference Include="Selenium.Support" Version="3.13.1" />
-    <PackageReference Include="Selenium.WebDriver" Version="3.13.1" />
-    <PackageReference Include="Selenium.WebDriver.ChromeDriver" Version="2.40.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.1" />
+    <!-- <PackageReference Include="Selenium.Firefox.WebDriver" Version="0.21.0" /> -->
+    <!-- <PackageReference Include="Selenium.Support" Version="3.13.1" /> -->
+    <!-- <PackageReference Include="Selenium.WebDriver" Version="3.13.1" /> -->
+    <!-- <PackageReference Include="Selenium.WebDriver.ChromeDriver" Version="2.40.0" /> -->
     <PackageReference Include="xunit" Version="2.3.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.3.1" />
     <DotNetCliToolReference Include="dotnet-xunit" Version="2.3.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="WebDriver, Version=3.13.1.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>WebDriver.dll</HintPath>
+    </Reference>
+    <Reference Include="WebDriver.Support, Version=3.13.1.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>WebDriver.Support.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="chromedriver.exe" />
+    <Content Include="chromedriver.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Remove="geckodriver.exe" />
+    <Content Include="geckodriver.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 </Project>
