@@ -26,6 +26,7 @@ namespace DasBlog.SmokeTest
 						ConfigureDasBlogInstallation(options, hostContext.Configuration));
 					services.Configure<GitVersionedFileServiceOptions>(options =>
 						ConfigureGitPath(options, hostContext.Configuration));
+					services.Configure<BrowserOptions>(hostContext.Configuration);
 					services.AddSingleton<IVersionedFileService, GitVersionedFileService>();
 					services.AddSingleton<IDasBlogInstallation, DasBlogInstallation>();
 					services.AddSingleton<IWebServerRunner, WebServerRunner>();
@@ -72,12 +73,5 @@ namespace DasBlog.SmokeTest
 				options.ContentRootPath = config[nameof(options.ContentRootPath)];
 			}
 		}
-	}
-
-	public interface IVersionedFileService
-	{
-		(bool active, string errorMessage) IsActive();
-		(bool clean, string errorMessage) IsClean();
-		void Restore();
 	}
 }

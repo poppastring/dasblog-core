@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Runtime.CompilerServices;
+using DasBlog.SmokeTest.Interfaces;
 using LibGit2Sharp;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;

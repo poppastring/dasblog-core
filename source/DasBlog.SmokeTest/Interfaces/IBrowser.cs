@@ -1,6 +1,9 @@
-﻿namespace DasBlog.SmokeTest.Interfaces
+﻿using System;
+
+namespace DasBlog.SmokeTest.Interfaces
 {
-	public interface IBrowser
+	public interface IBrowser : IDisposable
 	{
+		void Home();
 	}
 }
