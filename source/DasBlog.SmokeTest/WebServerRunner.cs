@@ -1,4 +1,5 @@
 ﻿using System;
+using DasBlog.SmokeTest.Interfaces;
 
 namespace DasBlog.SmokeTest
 {

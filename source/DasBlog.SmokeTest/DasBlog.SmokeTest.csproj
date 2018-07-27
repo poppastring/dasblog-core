@@ -18,26 +18,24 @@
   </ItemGroup>
   <!-- see DasBlog.FunctionalTests.csproj for background on Selenium dependencies -->
   <ItemGroup>
-    <Reference Include="WebDriver, Version=3.13.1.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>WebDriver.dll</HintPath>
-    </Reference>
-    <Reference Include="WebDriver.Support, Version=3.13.1.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>WebDriver.Support.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
+    <Content Include="lib\chromedriver.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\geckodriver.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Remove="chromedriver.exe" />
-    <Content Include="chromedriver.exe">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <None Remove="geckodriver.exe" />
-    <Content Include="geckodriver.exe">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.AspNetCore.Http.Abstractions, Version=2.0.3.0, Culture=neutral, PublicKeyToken=adb9793829ddae60">
       <HintPath>..\..\..\..\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.aspnetcore.http.abstractions\2.0.3\lib\netstandard2.0\Microsoft.AspNetCore.Http.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="WebDriver, Version=3.13.1.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>lib\WebDriver.dll</HintPath>
+    </Reference>
+    <Reference Include="WebDriver.Support, Version=3.13.1.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>lib\WebDriver.Support.dll</HintPath>
     </Reference>
   </ItemGroup>
 </Project>
