@@ -17,11 +17,13 @@
          referenced as dependencies (directly hard wired).
       2. FirefoxDriver v0.21 (provided by Mozilla) and ChromeDriver v2.40 (provided by google)
          exes are included as content and copied to the binary directory
+      3. Add the nuget package for NewtonSoft.json v10.0.1.
       The constructors FirefoxDriver() and ChromeDriver() pick up (and invoke) the exes from
       the binary directory.
 
       What should happen is (based on, among others, https://www.automatetheplanet.com/webdriver-dotnetcore2/:
-      All 4 drivers are referenced as nuget packages - done deal.
+      All 4 drivers are referenced as nuget packages - done deal.  They drag in NewtonSoft.json
+      presumably transitively
 
       The suggested nuget approach worked well under Rider and I assume VS.
       However, when running CLI dotnet build an 'error MSB4018: The "ResolveAssemblyReference" task failed unexpectedly.'

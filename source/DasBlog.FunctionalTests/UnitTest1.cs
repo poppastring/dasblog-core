@@ -20,7 +20,6 @@ namespace DasBlog.FunctionalTests
 				var wait = new WebDriverWait(driver, TimeSpan.FromMinutes(1));
 				var clickableElement = wait.Until(ExpectedConditions.ElementToBeClickable(By.PartialLinkText("TFS Test API")));
 //				clickableElement.Click();
-//				Thread.Sleep(100000);
 			}
 		}
 /*
