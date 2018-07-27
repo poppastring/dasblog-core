@@ -41,6 +41,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "newtelligence", "newtellige
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DasBlog.SmokeTest", "DasBlog.SmokeTest\DasBlog.SmokeTest.csproj", "{03F7D2D4-3FE9-467E-A9BE-E9A6322DFBF2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DasBlog.FunctionalTests", "DasBlog.FunctionalTests\DasBlog.FunctionalTests.csproj", "{2AAA4696-6822-4389-AD50-37FECA283849}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug - All|Any CPU = Debug - All|Any CPU
@@ -142,6 +144,12 @@ Global
 		{03F7D2D4-3FE9-467E-A9BE-E9A6322DFBF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{03F7D2D4-3FE9-467E-A9BE-E9A6322DFBF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{03F7D2D4-3FE9-467E-A9BE-E9A6322DFBF2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2AAA4696-6822-4389-AD50-37FECA283849}.Debug - All|Any CPU.ActiveCfg = Debug|Any CPU
+		{2AAA4696-6822-4389-AD50-37FECA283849}.Debug - All|Any CPU.Build.0 = Debug|Any CPU
+		{2AAA4696-6822-4389-AD50-37FECA283849}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2AAA4696-6822-4389-AD50-37FECA283849}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2AAA4696-6822-4389-AD50-37FECA283849}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2AAA4696-6822-4389-AD50-37FECA283849}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
