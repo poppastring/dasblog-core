@@ -15,10 +15,11 @@ namespace DasBlog.SmokeTest
 		private readonly IDasBlogInstallation installation;
 		private readonly WaitService waitService;
 		private readonly ITester tester;
+		private readonly IWebServerRunner runner;
 
 		public App(ILogger<App> logger, IApplicationLifetime appLifetime
 			,IDasBlogInstallation installation, WaitService waitService
-			,ITester tester)
+			,ITester tester, IWebServerRunner runner)
 		{
 			System.Diagnostics.Debug.Assert(tester != null);
 			this.logger = logger;
@@ -26,6 +27,7 @@ namespace DasBlog.SmokeTest
 			this.installation = installation;
 			this.waitService = waitService;
 			this.tester = tester;
+			this.runner = runner;
 		}
 		public Task StartAsync(CancellationToken cancellationToken)
 		{
@@ -43,6 +45,7 @@ namespace DasBlog.SmokeTest
 			{
 				logger.LogInformation($"Started {nameof(App)}");
 				installation.Init();
+				runner.RunDasBlog();
 				tester.Test();
 	//			waitService.StopWaiting();
 			}

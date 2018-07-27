@@ -1,8 +1,10 @@
-﻿namespace DasBlog.SmokeTest.Dom
+﻿using DasBlog.SmokeTest.Interfaces;
+
+namespace DasBlog.SmokeTest.Dom
 {
 	public class HomePage : Page
 	{
-		public HomePage(Pages pages) : base(pages, Constants.HomePage)
+		public HomePage(IBrowser browser) : base(browser, Constants.HomePage)
 		{
 			
 		}
