@@ -4,6 +4,6 @@ namespace DasBlog.SmokeTest.Interfaces
 {
 	public interface IBrowser : IDisposable
 	{
-		void Home();
+		void Goto(string path);
 	}
 }
