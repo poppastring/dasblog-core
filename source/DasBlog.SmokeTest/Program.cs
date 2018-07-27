@@ -38,7 +38,7 @@ namespace DasBlog.SmokeTest
 						ConfigureGitPath(options, hostContext.Configuration));
 					services.AddSingleton<IVersionedFileService, GitVersionedFileService>();
 					services.AddSingleton<IDasBlogInstallation, DasBlogInstallation>();
-					services.AddSingleton<IWebRunner, WebRunner>();
+					services.AddSingleton<IWebServerRunner, WebServerRunner>();
 					services.AddHostedService<SmokeTester>();
 					services.AddSingleton<IBrowserFacade, BrowserFacade>();
 					services.AddSingleton<ITester, Tester>();
