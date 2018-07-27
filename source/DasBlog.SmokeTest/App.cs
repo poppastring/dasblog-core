@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using DasBlog.SmokeTest.Interfaces;
@@ -19,6 +20,7 @@ namespace DasBlog.SmokeTest
 			,IDasBlogInstallation installation, WaitService waitService
 			,ITester tester)
 		{
+			System.Diagnostics.Debug.Assert(tester != null);
 			this.logger = logger;
 			this.appLifetime = appLifetime;
 			this.installation = installation;
@@ -37,10 +39,17 @@ namespace DasBlog.SmokeTest
 
 		private void WhenStarted()
 		{
-			logger.LogInformation($"Started {nameof(App)}");
-			installation.Init();
-			tester.Test();
-//			waitService.StopWaiting();
+			try
+			{
+				logger.LogInformation($"Started {nameof(App)}");
+				installation.Init();
+				tester.Test();
+	//			waitService.StopWaiting();
+			}
+			finally
+			{
+				tester.Dispose();
+			}
 		}
 
 		private void WhenStopped()
