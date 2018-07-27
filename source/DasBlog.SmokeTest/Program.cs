@@ -7,6 +7,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Firefox;
 
 namespace DasBlog.SmokeTest
 {
@@ -14,6 +17,10 @@ namespace DasBlog.SmokeTest
 	{
 		static void Main(string[] args)
 		{
+			Directory.SetCurrentDirectory(Path.GetDirectoryName(typeof(Program).Assembly.Location));
+					// the firefox and chromde drivers require the current directory
+					// to be our binary directory.  The firefox/chrome nuget package
+					// puts the driver there.
 			WaitService waitService = new WaitService();
 			var host = new HostBuilder()
 				.ConfigureHostConfiguration(builder =>
@@ -34,6 +41,7 @@ namespace DasBlog.SmokeTest
 					services.AddSingleton<IWebRunner, WebRunner>();
 					services.AddHostedService<SmokeTester>();
 					services.AddSingleton<IBrowserFacade, BrowserFacade>();
+					services.AddSingleton<ITester, Tester>();
 
 					services.AddSingleton(waitService);
 				}).ConfigureLogging((hostContext, logBuilder) =>
@@ -42,6 +50,7 @@ namespace DasBlog.SmokeTest
 					logBuilder.AddDebug();
 				}).Build();
 			host.Start();
+			new Tester().Test();
 			waitService.Wait();
 			host.StopAsync();
 //			sm.StopAsync(new CancellationToken());
@@ -74,6 +83,23 @@ namespace DasBlog.SmokeTest
 				options.ContentRootPath = config[nameof(options.ContentRootPath)];
 			}
 		}
+	}
+
+	internal class Tester : ITester
+	{
+		public void Test()
+		{
+			var dir = Directory.GetCurrentDirectory();
+			using (var driver = new FirefoxDriver())
+			{
+				driver.Navigate().GoToUrl("http://ibm.com");
+			}
+		}
+	}
+
+	public interface ITester
+	{
+		void Test();
 	}
 
 	internal class WaitService
@@ -138,7 +164,7 @@ namespace DasBlog.SmokeTest
 		{
 			logger.LogInformation($"Started {nameof(SmokeTester)}");
 			installation.Init();
-			waitService.StopWaiting();
+//			waitService.StopWaiting();
 		}
 
 		private void WhenStopped()
@@ -155,19 +181,6 @@ namespace DasBlog.SmokeTest
 		{
 			return Task.CompletedTask;
 		}
-	}
-
-	internal class WebRunner : IWebRunner
-	{
-		public void RunDasBlog()
-		{
-			throw new NotImplementedException();
-		}
-	}
-
-	public interface IWebRunner
-	{
-		void RunDasBlog();
 	}
 
 	internal class DasBlogInstallation : IDasBlogInstallation
