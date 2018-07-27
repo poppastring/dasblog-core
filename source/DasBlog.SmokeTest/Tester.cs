@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Threading;
+using DasBlog.SmokeTest.Dom;
 using DasBlog.SmokeTest.Interfaces;
 using OpenQA.Selenium.Firefox;
 
@@ -14,7 +16,9 @@ namespace DasBlog.SmokeTest
 
 		public void Test()
 		{
-			browser.Home();
+			Pages pages = new Pages(browser);
+			pages.Home.Goto();
+			Thread.Sleep(10000);
 		}
 
 		public void Dispose()

@@ -30,9 +30,9 @@ namespace DasBlog.SmokeTest
 			}
 		}
 
-		public void Home()
+		public void Goto(string path)
 		{
-			driver.Navigate().GoToUrl(homeUrl);
+			driver.Navigate().GoToUrl(homeUrl + path);
 			var wait = new WebDriverWait(driver, TimeSpan.FromMinutes(1));
 		}
 
