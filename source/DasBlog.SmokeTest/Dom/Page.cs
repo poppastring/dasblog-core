@@ -1,17 +1,19 @@
-﻿namespace DasBlog.SmokeTest.Dom
+﻿using DasBlog.SmokeTest.Interfaces;
+
+namespace DasBlog.SmokeTest.Dom
 {
 	public class Page
 	{
-		public Pages Pages { get; private set; }
+		private readonly IBrowser browser;
 		private readonly string path;						// relative to the root e.g. "category" or "account/login"
-		public Page(Pages pages, string path)
+		public Page(IBrowser browser, string path)
 		{
-			this.Pages = pages;
+			this.browser = browser;
 			this.path = path;
 		}
 		public void Goto()
 		{
-			Pages.Browser.Goto(path);
+			browser.Goto(path);
 		}
 
 	}
