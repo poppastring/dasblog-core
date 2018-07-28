@@ -2,6 +2,7 @@
 using System.Runtime.CompilerServices;
 using DasBlog.SmokeTest.Common;
 using DasBlog.SmokeTest.Interfaces;
+using OpenQA.Selenium;
 
 namespace DasBlog.SmokeTest.Dom
 {
@@ -36,30 +37,43 @@ namespace DasBlog.SmokeTest.Dom
 		public LoginPage Login { get; private set; }
 	}
 
-	public class LoginPage : Page
+	public class SpanElement
 	{
-		public LoginPage(IBrowser browser) : base(browser, Constants.LoginPage)
+		private IWebElement webElement;
+
+		public SpanElement(IWebElement webElement)
 		{
+			System.Diagnostics.Debug.Assert(webElement != null);
+			this.webElement = webElement;
 		}
 
-		public ButtonElement LoginButton { get; set; }
-		public TextElement Password { get; set; }
-
-		public bool IsDisplayed()
+		private SpanElement()
 		{
-			return false;
-		}
-	}
 
-	public class TextElement
-	{
-		public string Text { get; set; }
+		}
+
+		public string Text
+		{
+			get { return webElement.Text; }
+		}
 	}
 
 	public class ButtonElement
 	{
+		private IWebElement webElement;
+		public ButtonElement(IWebElement webElement)
+		{
+			System.Diagnostics.Debug.Assert(webElement != null);
+			this.webElement = webElement;
+		}
+
+		private ButtonElement()
+		{
+			
+		}
 		public void Click()
 		{
+			webElement.Click();
 		}
 	}
 

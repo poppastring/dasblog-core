@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Net.Security;
 using System.Runtime.CompilerServices;
 using DasBlog.SmokeTest.Interfaces;
 
@@ -12,24 +13,47 @@ namespace DasBlog.SmokeTest
 		{
 			foreach (var step in testSteps)
 			{
-				switch (step.Value)
+				try
 				{
-					case Action action:
-						action();
-						break;
-					case Func<bool> func:
-						bool result = func();
-						if (!result)
-						{
-							testResults.Add(testName, false, (step.Description as Expression<Func<bool>>).ToString());
-							return;
-						}
-						break;
-					default:
-						throw new Exception("Unknow test step encountered");
+					switch (step.Value)
+					{
+						case Action action:
+							action();
+							break;
+						case Func<bool> func:
+							bool result = func();
+							if (!result)
+							{
+								testResults.Add(testName, false, (step.Description as Expression<Func<bool>>).ToString());
+								return;
+							}
+							break;
+						default:
+							throw new Exception("Unknow test step encountered");
+					}
+				}
+				catch (Exception e)
+				{
+					Console.WriteLine();
+					Console.WriteLine("Error Details:");
+					if (step.Value == null)
+					{
+						Console.WriteLine($"a step has been encountered in {testName} with no action or fun");
+					}
+					else if (step.Value is Action || step.Value is Func<bool>)
+					{
+						Console.WriteLine($"the step {step.Description} has failed");
+					}
+					else
+					{
+						Console.WriteLine("a step of unknown type has been encountered");
+					}
+					Console.WriteLine();
+
+					throw;
 				}
 			}
-			testResults.Add(testName, false, string.Empty);
+			testResults.Add(testName, true, string.Empty);
 		}
 
 	}

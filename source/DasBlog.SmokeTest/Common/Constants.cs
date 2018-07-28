@@ -2,6 +2,8 @@
 {
 	public class Constants
 	{
+		public const string LoginPageTitle = "Log In";
+
 		// ....Page = usually the route - the needful to 
 		// bring up a page from the address bar
 		public const string ApplicationName = "SmokeTest";

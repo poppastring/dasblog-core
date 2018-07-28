@@ -1,5 +1,6 @@
 ﻿using System;
 using DasBlog.SmokeTest.Common;
+using DasBlog.SmokeTest.Dom;
 using DasBlog.SmokeTest.Interfaces;
 using Microsoft.Extensions.Options;
 using OpenQA.Selenium;
@@ -42,6 +43,37 @@ namespace DasBlog.SmokeTest
 		public void Dispose()
 		{
 			driver?.Dispose();
+		}
+
+		public string GetTitle()
+		{
+			return driver.Title;
+		}
+
+		public ButtonElement GetButtonById(string id)
+		{
+			var el = driver.FindElement(By.Id(id));
+			if (el != null)
+			{
+				return new ButtonElement(el);
+			}
+			else
+			{
+				return null;
+			}
+		}
+
+		public SpanElement GetElementById(string id)
+		{
+			var el = driver.FindElement(By.Id(id));
+			if (el != null)
+			{
+				return new SpanElement(el);
+			}
+			else
+			{
+				return null;
+			}
 		}
 	}
 }
