@@ -39,6 +39,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DasBlog.Web.Core\DasBlog.Core.csproj" />
+    <Compile Include="..\DasBlog.Web.Core\Common\Constants.cs">
+      <Link>WebApp\Constants.cs</Link>
+    </Compile>
   </ItemGroup>
 </Project>

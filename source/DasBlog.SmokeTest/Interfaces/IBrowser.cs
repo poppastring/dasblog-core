@@ -12,5 +12,6 @@ namespace DasBlog.SmokeTest.Interfaces
 		ButtonElement GetButtonById(string id);
 		SpanElement GetElementById(string id);
 		LinkElement GetLinkById(string categoryId);
+		AnyElement GetSomeElementId(string navBarId);
 	}
 }

@@ -19,7 +19,7 @@ namespace DasBlog.SmokeTest.Dom
 			browser.Goto(path);
 		}
 
-		public bool IsDisplayed()
+		public virtual bool IsDisplayed()
 		{
 			return browser.GetTitle() == title;
 		}

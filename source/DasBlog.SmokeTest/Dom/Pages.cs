@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
-using DasBlog.SmokeTest.Common;
+﻿using DasBlog.SmokeTest.Common;
 using DasBlog.SmokeTest.Interfaces;
-using AppConstants = DasBlog.Core.Common.Constants;
 using OpenQA.Selenium;
+using WebAppConstants = DasBlog.Core.Common.Constants;
 
 namespace DasBlog.SmokeTest.Dom
 {
@@ -84,34 +83,8 @@ namespace DasBlog.SmokeTest.Dom
 
 	public class CategoryPage : Page
 	{
-		public CategoryPage(IBrowser browser) : base(browser, Constants.CategoryPage)
+		public CategoryPage(IBrowser browser) : base(browser, Constants.CategoryPage, WebAppConstants.CategoryPageTitle)
 		{
-		}
-	}
-
-	public class NavBarPage : Page
-	{
-		Dictionary<string, LinkElement> elements = new Dictionary<string, LinkElement>();
-		public NavBarPage(IBrowser browser) : base(browser, Constants.NavBarPage)
-		{
-		}
-
-		public LinkElement this[string id]
-		{
-			get
-			{
-				if (elements.ContainsKey(id))
-				{
-					return elements[id];
-				}
-
-				LinkElement el = browser.GetLinkById(AppConstants.CategoryId);
-				if (el != null)
-				{
-					elements[id] = el;
-				}
-				return el;
-			}
 		}
 	}
 
