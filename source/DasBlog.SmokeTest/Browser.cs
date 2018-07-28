@@ -34,7 +34,6 @@ namespace DasBlog.SmokeTest
 
 		public void Goto(string path)
 		{
-			Init();
 			driver.Navigate().GoToUrl(homeUrl + path);
 			var wait = new WebDriverWait(driver, TimeSpan.FromMinutes(1));
 		}
