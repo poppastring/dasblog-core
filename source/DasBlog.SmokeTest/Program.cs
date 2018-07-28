@@ -24,10 +24,8 @@ namespace DasBlog.SmokeTest
 				{
 					services.Configure<DasBlogInstallationOptions>(options =>
 						ConfigureDasBlogInstallation(options, hostContext.Configuration));
-					services.Configure<GitVersionedFileServiceOptions>(options =>
-						ConfigureGitPath(options, hostContext.Configuration));
 					services.Configure<BrowserOptions>(hostContext.Configuration);
-					services.AddSingleton<IVersionedFileService, GitVersionedFileService>();
+					services.AddSingleton<IVersionedFileService, NoopVersionedFileService>();
 					services.AddSingleton<IDasBlogInstallation, DasBlogInstallation>();
 					services.AddSingleton<IWebServerRunner, WebServerRunner>();
 					services.AddHostedService<App>();
@@ -44,20 +42,6 @@ namespace DasBlog.SmokeTest
 			waitService.Wait();
 			host.StopAsync();
 //			sm.StopAsync(new CancellationToken());
-		}
-
-		private static void ConfigureGitPath(GitVersionedFileServiceOptions options, IConfiguration config)
-		{
-			if (string.IsNullOrEmpty(config[nameof(options.GitRepo)]))
-			{
-				string root = Path.GetFullPath(typeof(Program).Assembly.Location);
-				options.GitRepo = Path.Combine(root.Replace( Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar)
-				  , "../../../../../..");
-			}
-			else
-			{
-				options.GitRepo = config[nameof(options.GitRepo)];
-			}
 		}
 
 		private static void ConfigureDasBlogInstallation(DasBlogInstallationOptions options, IConfiguration config)
