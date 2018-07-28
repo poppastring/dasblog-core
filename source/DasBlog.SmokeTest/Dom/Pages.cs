@@ -1,5 +1,6 @@
 ﻿using System.Globalization;
 using System.Runtime.CompilerServices;
+using DasBlog.SmokeTest.Common;
 using DasBlog.SmokeTest.Interfaces;
 
 namespace DasBlog.SmokeTest.Dom

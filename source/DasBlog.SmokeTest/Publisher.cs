@@ -8,7 +8,7 @@ namespace DasBlog.SmokeTest
 		public void Publish(IEnumerable<TestResults.Result> results)
 		{
 			Console.WriteLine("Test Results");
-			Console.WriteLine("{0, 30} {1,-6} {2}", "Test", "Passed", "Error");
+			Console.WriteLine("{0, 30} {1,-6} {2}", "Test", "Passed", "Failed Step");
 			Console.WriteLine("{0, 30} {1,-6} {2}", "".PadRight(30, '='), "".PadRight(6, '='), "".PadRight(52, '='));
 			foreach (var result in results)
 			{
