@@ -1,5 +1,4 @@
 ﻿using DasBlog.SmokeTest.Interfaces;
-using LibGit2Sharp;
 
 namespace DasBlog.SmokeTest.Dom
 {
