@@ -1,5 +1,6 @@
 ﻿using DasBlog.SmokeTest.Common;
 using DasBlog.SmokeTest.Interfaces;
+using AppConstants = DasBlog.Core.Common.Constants;
 
 namespace DasBlog.SmokeTest.Dom
 {
@@ -13,13 +14,13 @@ namespace DasBlog.SmokeTest.Dom
 		{
 			get
 			{
-				return browser.GetButtonById("loginButton");
+				return browser.GetButtonById(AppConstants.LoginButtonId);
 			}
 		}
 
 		public SpanElement Password
 		{
-			get { return browser.GetElementById("passwordValidation"); }
+			get { return browser.GetElementById(AppConstants.PasswordValidationId); }
 		}
 	}
 }

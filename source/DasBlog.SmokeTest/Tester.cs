@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.Contracts;
-using System.Linq.Expressions;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices.ComTypes;
+﻿using System.Collections.Generic;
 using System.Threading;
 using DasBlog.SmokeTest.Common;
-using static DasBlog.SmokeTest.Common.Utils;
 using DasBlog.SmokeTest.Dom;
 using DasBlog.SmokeTest.Interfaces;
-using OpenQA.Selenium.Firefox;
+using AppConstants = DasBlog.Core.Common.Constants;
 
 namespace DasBlog.SmokeTest
 {
@@ -48,7 +42,15 @@ namespace DasBlog.SmokeTest
 			testExecutor.Execute(testSteps, Results);
 		}
 
-
+		private void Click_OnNavBarItem_ShowsPage()
+		{
+			List<TestStep> testSteps = new List<TestStep>
+			{
+				new TestStep(() => pages.NavBar.IsDisplayed()),
+				new TestStep(() => pages.NavBar[AppConstants.CategoryId] != null),
+				new TestStep(() => pages.NavBar[AppConstants.CategoryId].Click())
+			};
+		}
 		public void Dispose()
 		{
 			browser?.Dispose();

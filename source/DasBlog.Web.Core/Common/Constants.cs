@@ -28,6 +28,10 @@
 		public const string URL_EVENT_FIElD = "{eventurl_6473}";
 		public const string CODE_EVENT_FIElD = "{eventurl_6474}";
 		public const string LOG_DIRECTORY = "logs";
+		// element ids
+		public const string CategoryId = "categoryNavBarItemId";
+		public const string PasswordValidationId = "passwordValidation";
+		public const string LoginButtonId = "loginButton";
 	}
 
 }

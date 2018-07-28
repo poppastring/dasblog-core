@@ -1,5 +1,6 @@
 ﻿using System;
 using DasBlog.SmokeTest.Dom;
+using OpenQA.Selenium;
 
 namespace DasBlog.SmokeTest.Interfaces
 {
@@ -10,5 +11,6 @@ namespace DasBlog.SmokeTest.Interfaces
 		string GetTitle();
 		ButtonElement GetButtonById(string id);
 		SpanElement GetElementById(string id);
+		LinkElement GetLinkById(string categoryId);
 	}
 }

@@ -38,4 +38,7 @@
       <HintPath>lib\WebDriver.Support.dll</HintPath>
     </Reference>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DasBlog.Web.Core\DasBlog.Core.csproj" />
+  </ItemGroup>
 </Project>

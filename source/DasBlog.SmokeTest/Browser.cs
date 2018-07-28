@@ -75,5 +75,18 @@ namespace DasBlog.SmokeTest
 				return null;
 			}
 		}
+
+		public LinkElement GetLinkById(string id)
+		{
+			var el = driver.FindElement(By.Id(id));
+			if (el != null)
+			{
+				return new LinkElement(el);
+			}
+			else
+			{
+				return null;
+			}
+		}
 	}
 }
