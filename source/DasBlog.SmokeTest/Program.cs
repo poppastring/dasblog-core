@@ -39,6 +39,7 @@ namespace DasBlog.SmokeTest
 					services.AddSingleton<IPublisher, Publisher>();
 
 					services.AddSingleton(waitService);
+					services.AddSingleton<ITestExecutor, TestExecutor>();
 				}).ConfigureLogging((hostContext, logBuilder) =>
 				{
 					logBuilder.AddConsole();
