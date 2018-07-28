@@ -26,7 +26,21 @@ namespace DasBlog.SmokeTest
 
 		private void Login_WithBlankPassword_Fails()
 		{
-			Results.Add("Login_WithBlankPassword_Fails", false, "test not implemented");
+			const string methodName = nameof(Login_WithBlankPassword_Fails);
+			pages.Login.Goto();
+			if (!pages.Login.IsDisplayed())
+			{
+				Results.Add(methodName, false, "failed to find login page");
+				return;
+			}
+
+			pages.Login.LoginButton.Click();
+			if (!pages.Login.Password.Text.ToLower().Contains("the password field is required"))
+			{
+				Results.Add(methodName, false, "failed to find missing password message");
+				return;
+			}
+			Results.Add(methodName, true);
 		}
 		public void Dispose()
 		{

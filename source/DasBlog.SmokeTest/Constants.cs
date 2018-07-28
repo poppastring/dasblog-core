@@ -2,6 +2,8 @@
 {
 	public class Constants
 	{
+		// ....Page = usually the route - the needful to 
+		// bring up a page from the address bar
 		public const string ApplicationName = "SmokeTest";
 		public const string FirefoxDriverId = "firefox";
 		public const string HomePage = "";
@@ -12,6 +14,7 @@
 		public const string UsersPage = "users";
 		public const string ActivityPage = "activity";
 		public const string NavBarPage = "navbar";
-		
+		public const string LoginPage = "account/login";
+		//
 	}
 }

@@ -1,4 +1,6 @@
-﻿using DasBlog.SmokeTest.Interfaces;
+﻿using System.Globalization;
+using System.Runtime.CompilerServices;
+using DasBlog.SmokeTest.Interfaces;
 
 namespace DasBlog.SmokeTest.Dom
 {
@@ -17,6 +19,7 @@ namespace DasBlog.SmokeTest.Dom
 			this.Users = new UsersPage(browser);
 			this.Activity = new ActivityPage(browser);
 			this.Http404 = new Http404Page(browser);
+			this.Login = new LoginPage(browser);
 		}
 
 
@@ -29,6 +32,34 @@ namespace DasBlog.SmokeTest.Dom
 		public UsersPage Users { get; private set; }
 		public ActivityPage Activity { get; private set; }
 		public Http404Page Http404 { get; private set; }
+		public LoginPage Login { get; private set; }
+	}
+
+	public class LoginPage : Page
+	{
+		public LoginPage(IBrowser browser) : base(browser, Constants.LoginPage)
+		{
+		}
+
+		public ButtonElement LoginButton { get; set; }
+		public TextElement Password { get; set; }
+
+		public bool IsDisplayed()
+		{
+			return false;
+		}
+	}
+
+	public class TextElement
+	{
+		public string Text { get; set; }
+	}
+
+	public class ButtonElement
+	{
+		public void Click()
+		{
+		}
 	}
 
 	public class Http404Page :  Page
