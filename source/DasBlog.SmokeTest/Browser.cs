@@ -11,15 +11,20 @@ namespace DasBlog.SmokeTest
 	{
 		private readonly string homeUrl;
 		private IWebDriver driver;
+		private readonly string driverId;
 
 		public Browser(IOptions<BrowserOptions> optionsAccessor)
 		{
 			this.homeUrl = optionsAccessor.Value.HomeUrl;
-			Init(optionsAccessor.Value.Driver);
+			driverId = optionsAccessor.Value.Driver;
 		}
 
-		private void Init(string driverId)
+		private void Init()
 		{
+			if (driver != null)
+			{
+				return;
+			}
 			switch (driverId)
 			{
 				case Constants.FirefoxDriverId:
@@ -32,6 +37,7 @@ namespace DasBlog.SmokeTest
 
 		public void Goto(string path)
 		{
+			Init();
 			driver.Navigate().GoToUrl(homeUrl + path);
 			var wait = new WebDriverWait(driver, TimeSpan.FromMinutes(1));
 		}

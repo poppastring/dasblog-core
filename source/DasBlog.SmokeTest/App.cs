@@ -46,6 +46,7 @@ namespace DasBlog.SmokeTest
 				logger.LogInformation($"Started {nameof(App)}");
 				installation.Init();
 				runner.RunDasBlog();
+				Thread.Sleep(5000);
 				tester.Test();
 	//			waitService.StopWaiting();
 			}

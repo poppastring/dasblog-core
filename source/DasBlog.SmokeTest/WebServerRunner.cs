@@ -25,6 +25,7 @@ namespace DasBlog.SmokeTest
 			pr.StartInfo.Arguments = @"bin/debug/netcoreapp2.1/DasBlog.Web.dll";
 			pr.StartInfo.WorkingDirectory = "c:/projects/dasblog-core/source/DasBlog.Web.UI/";
 			pr.Start();
+			pr.WaitForExit();
 		}
 	}
 }
