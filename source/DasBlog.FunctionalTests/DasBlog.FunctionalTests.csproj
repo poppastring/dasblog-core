@@ -13,26 +13,26 @@
   <!--
       We do not follow the expected Selenium way of doing things.
       We do the following:
-      1. WebDriver and WebDriver.Support assemblies from Selenium are
-         referenced as dependencies (directly hard wired).
-      2. FirefoxDriver v0.21 (provided by Mozilla) and ChromeDriver v2.40 (provided by google)
+      1. WebDriver.dll and WebDriver.Support.dll assemblies from Selenium are
+         referenced as dependencies (directly hard wired - not via nuget).
+      2. FirefoxDriver.exe v0.21 (provided by Mozilla) and ChromeDriver.exe v2.40 (provided by google)
          exes are included as content and copied to the binary directory
       3. Add the nuget package for NewtonSoft.json v10.0.1.
       The constructors FirefoxDriver() and ChromeDriver() pick up (and invoke) the exes from
       the binary directory.
 
-      What should happen is (based on, among others, https://www.automatetheplanet.com/webdriver-dotnetcore2/:
+      What SHOULD happen is (based on, among others, https://www.automatetheplanet.com/webdriver-dotnetcore2/:
       All 4 drivers are referenced as nuget packages - done deal.  They drag in NewtonSoft.json
       presumably transitively
 
-      The suggested nuget approach worked well under Rider and I assume VS.
+      This suggested nuget approach worked well under Rider and I assume VS.
       However, when running CLI dotnet build an 'error MSB4018: The "ResolveAssemblyReference" task failed unexpectedly.'
       killed the build.
 
       I don't know what Rider does to make it work.  However a major target for us is AppVeyor so a cli build is essential
 
       I scraped the exes and dlls by going the nuget route to start with and then 
-      poking around the nuget packages and copying across what I found.
+      poking around the nuget packages and copying across the 4 binaries I found.
 
       At the time of writing AppVeyor is working for Firefox but failing with Chrome because
       the AppVeyor chrome browser is out of date.
