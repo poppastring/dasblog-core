@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
-using DasBlog.SmokeTest.Common;
 using DasBlog.SmokeTest.Dom;
 using DasBlog.SmokeTest.Interfaces;
 using AppConstants = DasBlog.Core.Common.Constants;
@@ -25,6 +24,7 @@ namespace DasBlog.SmokeTest
 		{
 			browser.Init();
 			Login_WithBlankPassword_Fails();
+			Click_OnNavBarItem_ShowsPage();
 			Thread.Sleep(10000);
 		}
 
@@ -46,10 +46,14 @@ namespace DasBlog.SmokeTest
 		{
 			List<TestStep> testSteps = new List<TestStep>
 			{
+				new TestStep(() => pages.Login.Goto()),
 				new TestStep(() => pages.NavBar.IsDisplayed()),
 				new TestStep(() => pages.NavBar[AppConstants.CategoryId] != null),
-				new TestStep(() => pages.NavBar[AppConstants.CategoryId].Click())
+				new TestStep(() => pages.NavBar[AppConstants.CategoryId].Click()),
+				new TestStep(() => pages.Category.IsDisplayed())
+				// TODO other pages
 			};
+			testExecutor.Execute(testSteps, Results);
 		}
 		public void Dispose()
 		{

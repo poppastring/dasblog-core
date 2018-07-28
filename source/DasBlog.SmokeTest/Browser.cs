@@ -65,12 +65,19 @@ namespace DasBlog.SmokeTest
 
 		public SpanElement GetElementById(string id)
 		{
-			var el = driver.FindElement(By.Id(id));
-			if (el != null)
+			try
 			{
-				return new SpanElement(el);
+				var el = driver.FindElement(By.Id(id));
+				if (el != null)
+				{
+					return new SpanElement(el);
+				}
+				else
+				{
+					return null;
+				}
 			}
-			else
+			catch (NoSuchElementException e)
 			{
 				return null;
 			}
@@ -78,12 +85,39 @@ namespace DasBlog.SmokeTest
 
 		public LinkElement GetLinkById(string id)
 		{
-			var el = driver.FindElement(By.Id(id));
-			if (el != null)
+			try
 			{
-				return new LinkElement(el);
+				var el = driver.FindElement(By.Id(id));
+				if (el != null)
+				{
+					return new LinkElement(el);
+				}
+				else
+				{
+					return null;
+				}
 			}
-			else
+			catch (NoSuchElementException e)
+			{
+				return null;
+			}
+		}
+
+		public AnyElement GetSomeElementId(string id)
+		{
+			try
+			{
+				var el = driver.FindElement(By.Id(id));
+				if (el != null)
+				{
+					return new AnyElement(el);
+				}
+				else
+				{
+					return null;
+				}
+			}
+			catch (NoSuchElementException e)
 			{
 				return null;
 			}

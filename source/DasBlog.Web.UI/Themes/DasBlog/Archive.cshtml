@@ -1,10 +1,16 @@
-﻿@model MonthViewViewModel
+﻿@using DasBlog.Core.Common
+@model MonthViewViewModel
 
 @{
     var previous = (DateTime)ViewBag.PreviousMonth;
     var current = (DateTime)ViewBag.CurrentMonth;
     var next = (DateTime)ViewBag.NextMonth;
 }
+
+@{
+    ViewData["Title"] = Constants.CategoryPageTitle;
+}
+
 <div class="month">
     <ul>
         <li class="prev"><a asp-controller="Archive" asp-action="Archive" asp-route-year="@previous.Year" asp-route-month="@previous.Month">&#10094;</a></li>
