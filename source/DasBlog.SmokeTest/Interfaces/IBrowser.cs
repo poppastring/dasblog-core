@@ -1,4 +1,5 @@
 ﻿using System;
+using DasBlog.SmokeTest.Dom;
 
 namespace DasBlog.SmokeTest.Interfaces
 {
@@ -6,5 +7,8 @@ namespace DasBlog.SmokeTest.Interfaces
 	{
 		void Goto(string path);
 		void Init();
+		string GetTitle();
+		ButtonElement GetButtonById(string id);
+		SpanElement GetElementById(string id);
 	}
 }
