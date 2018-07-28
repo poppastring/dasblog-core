@@ -19,12 +19,9 @@ namespace DasBlog.SmokeTest
 			driverId = optionsAccessor.Value.Driver;
 		}
 
-		private void Init()
+		public void Init()
 		{
-			if (driver != null)
-			{
-				return;
-			}
+			System.Diagnostics.Debug.Assert(driver == null);
 			switch (driverId)
 			{
 				case Constants.FirefoxDriverId:

@@ -36,6 +36,7 @@ namespace DasBlog.SmokeTest
 					services.AddHostedService<App>();
 					services.AddSingleton<IBrowser, Browser>();
 					services.AddSingleton<ITester, Tester>();
+					services.AddSingleton<IPublisher, Publisher>();
 
 					services.AddSingleton(waitService);
 				}).ConfigureLogging((hostContext, logBuilder) =>
