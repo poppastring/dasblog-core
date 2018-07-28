@@ -1,4 +1,5 @@
 ﻿using System;
+using DasBlog.SmokeTest.Common;
 using DasBlog.SmokeTest.Interfaces;
 using Microsoft.Extensions.Options;
 using OpenQA.Selenium;

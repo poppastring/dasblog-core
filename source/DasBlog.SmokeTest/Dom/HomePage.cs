@@ -1,4 +1,5 @@
-﻿using DasBlog.SmokeTest.Interfaces;
+﻿using DasBlog.SmokeTest.Common;
+using DasBlog.SmokeTest.Interfaces;
 
 namespace DasBlog.SmokeTest.Dom
 {
