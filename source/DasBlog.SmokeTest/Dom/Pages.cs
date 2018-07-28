@@ -1,7 +1,7 @@
-﻿using System.Globalization;
-using System.Runtime.CompilerServices;
+﻿using System.Collections.Generic;
 using DasBlog.SmokeTest.Common;
 using DasBlog.SmokeTest.Interfaces;
+using AppConstants = DasBlog.Core.Common.Constants;
 using OpenQA.Selenium;
 
 namespace DasBlog.SmokeTest.Dom
@@ -35,46 +35,6 @@ namespace DasBlog.SmokeTest.Dom
 		public ActivityPage Activity { get; private set; }
 		public Http404Page Http404 { get; private set; }
 		public LoginPage Login { get; private set; }
-	}
-
-	public class SpanElement
-	{
-		private IWebElement webElement;
-
-		public SpanElement(IWebElement webElement)
-		{
-			System.Diagnostics.Debug.Assert(webElement != null);
-			this.webElement = webElement;
-		}
-
-		private SpanElement()
-		{
-
-		}
-
-		public string Text
-		{
-			get { return webElement.Text; }
-		}
-	}
-
-	public class ButtonElement
-	{
-		private IWebElement webElement;
-		public ButtonElement(IWebElement webElement)
-		{
-			System.Diagnostics.Debug.Assert(webElement != null);
-			this.webElement = webElement;
-		}
-
-		private ButtonElement()
-		{
-			
-		}
-		public void Click()
-		{
-			webElement.Click();
-		}
 	}
 
 	public class Http404Page :  Page
@@ -131,8 +91,40 @@ namespace DasBlog.SmokeTest.Dom
 
 	public class NavBarPage : Page
 	{
+		Dictionary<string, LinkElement> elements = new Dictionary<string, LinkElement>();
 		public NavBarPage(IBrowser browser) : base(browser, Constants.NavBarPage)
 		{
+		}
+
+		public LinkElement this[string id]
+		{
+			get
+			{
+				if (elements.ContainsKey(id))
+				{
+					return elements[id];
+				}
+
+				LinkElement el = browser.GetLinkById(AppConstants.CategoryId);
+				if (el != null)
+				{
+					elements[id] = el;
+				}
+				return el;
+			}
+		}
+	}
+
+	public class LinkElement : Element
+	{
+		public LinkElement(IWebElement webElement) : base(webElement)
+		{
+			
+		}
+
+		public void Click()
+		{
+			webElement.Click();
 		}
 	}
 }
