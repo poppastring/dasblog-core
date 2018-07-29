@@ -10,7 +10,7 @@ namespace DasBlog.SmokeTest.Dom
 		{
 		}
 
-		public ButtonPageElement LoginButtonPage
+		public ButtonPageElement LoginButton
 		{
 			get
 			{

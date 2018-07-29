@@ -35,8 +35,8 @@ namespace DasBlog.SmokeTest.Smoking
 			{
 				new TestStep(() => pages.Login.Goto())
 				, new TestStep(() => pages.Login.IsDisplayed())
-				, new TestStep(() => pages.Login.LoginButtonPage != null)
-				, new TestStep(() => pages.Login.LoginButtonPage.Click())
+				, new TestStep(() => pages.Login.LoginButton != null)
+				, new TestStep(() => pages.Login.LoginButton.Click())
 				, new TestStep(() => pages.Login.Password.Text.ToLower().Contains("the password field is required"))
 				, new TestStep(() => pages.Login.IsDisplayed())
 			};
