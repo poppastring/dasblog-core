@@ -8,33 +8,33 @@ namespace DasBlog.Core.Services
 {
 	public class UserService : IUserService
 	{
-		private readonly IUserDataRepo _userRepo;
+		private readonly IUserDataRepo userRepo;
 		public UserService(IUserDataRepo userRepo)
 		{
-			_userRepo = userRepo;
+			this.userRepo = userRepo;
 		}
 		public IEnumerable<User> GetAllUsers()
 		{
-			return _userRepo.LoadUsers();
+			return userRepo.LoadUsers();
 		}
 
 		public void SaveUsers(List<User> users)
 		{
-			_userRepo.SaveUsers(users);
+			userRepo.SaveUsers(users);
 		}
 
-		public User GetFirstUser() => _userRepo.LoadUsers().FirstOrDefault() ?? new User();
+		public User GetFirstUser() => userRepo.LoadUsers().FirstOrDefault() ?? new User();
 		public bool HasUsers()
 		{
-			return _userRepo.LoadUsers().Count() != 0;
+			return userRepo.LoadUsers().Count() != 0;
 		}
 
-		public (bool userFound, User user) FindFirstMatchingUser(Func<User, bool> pred)
+		public (bool userFound, User user) FindMatchingUser(string email)
 		{
-			User user;
-			if ((user = _userRepo.LoadUsers().FirstOrDefault(pred)) != null)
+			User matchingUser;
+			if ((matchingUser = userRepo.LoadUsers().FirstOrDefault(user => user.EmailAddress == email)) != null)
 			{
-				return (true, user);
+				return (true, matchingUser);
 			}
 			else
 			{
@@ -42,13 +42,13 @@ namespace DasBlog.Core.Services
 			}
 		}
 
-		public bool DeleteUser(Func<User, bool> pred)
+		public bool DeleteUser(string email)
 		{
-			var users = _userRepo.LoadUsers().ToList();
-			var user = users.FirstOrDefault(pred);
-			if (users.Remove(user))
+			var users = userRepo.LoadUsers().ToList();
+			var userToDelete = users.FirstOrDefault(user => user.EmailAddress == email);
+			if (users.Remove(userToDelete))
 			{
-				_userRepo.SaveUsers(users);
+				userRepo.SaveUsers(users);
 				return true;
 			}
 			else
@@ -65,7 +65,7 @@ namespace DasBlog.Core.Services
 		/// This covers the case where the user's email address itself has been mdofied</param>
 		public void AddOrReplaceUser(User user, string originalEmail)
 		{
-			var users = _userRepo.LoadUsers().ToList();
+			var users = userRepo.LoadUsers().ToList();
 			var index = users.FindIndex(u => u.EmailAddress == originalEmail);
 			if (index == -1)
 			{
@@ -75,7 +75,7 @@ namespace DasBlog.Core.Services
 			{
 				users[index] = user;
 			}
-			_userRepo.SaveUsers(users);
+			userRepo.SaveUsers(users);
 		}
 	}
 }

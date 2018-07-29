@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Xml.Serialization;
 
 namespace DasBlog.Core.Security
@@ -12,7 +10,7 @@ namespace DasBlog.Core.Security
 		[XmlElement("Name")]
 		public string Name
 		{
-			get { return EmailAddress;} set {/* ignore name */} }
+			get { return EmailAddress;} }
 
 		[XmlElement("Role")]
 		public Role Role { get; set; }

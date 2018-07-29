@@ -1,14 +1,20 @@
-﻿@using DasBlog.Web.Common
-@using DasBlog.Core.Security
+﻿@using DasBlog.Core.Security
 @model DasBlog.Web.Models.UsersViewModel
+
+            @* **** NOTE **** *@
+            @* client side validation must be added manually to this form
+            The problem is that it did not seem possible to combine ViewBang.Writability
+            /ViewBag.Clicability with asp- tag helpers *@
+
 
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" name="originalEmail" value="@Model.EmailAddress" />        
-            @* will be null for create *@
+                        @* will be null for create *@
             <div class="form-group form-inline">
-                <label asp-for="Name" class="control-label" ></label>
-                <input name="Name" value="@Model.Name" type="text" class="form-control" @ViewBag.Writability/>
-                <span asp-validation-for="Name" class="text-danger"></span>
+                <label asp-for="EmailAddress" class="control-label" ></label>
+                <input name="EmailAddress" value="@Model.EmailAddress" type="email" class="form-control" @ViewBag.Writability
+                       data-val-email="The Email field is not a valid e-mail address." data-val-required="The Email field is required."/>
+                <span asp-validation-for="EmailAddress" class="text-danger"  data-valmsg-for="EmailAddress" data-valmsg-replace="true" ></span>
             </div>
             <div class="form-group form-inline">
                 <label asp-for="Role" class="control-label" ></label>
@@ -28,11 +34,6 @@
                 <label asp-for="Ask" class="control-label" ></label>
                 <input name="Ask" @(Model.Ask == "on" ? "checked" : "unchecked") type="checkbox" class="form-control" @ViewBag.Clickability/>
                 <span asp-validation-for="Ask" class="text-danger"></span>
-            </div>
-            <div class="form-group form-inline">
-                <label asp-for="EmailAddress" class="control-label" ></label>
-                <input name="EmailAddress" value="@Model.EmailAddress" type="text" class="form-control" @ViewBag.Writability/>
-                <span asp-validation-for="EmailAddress" class="text-danger"></span>
             </div>
             <div class="form-group form-inline">
                 <label asp-for="DisplayName" class="control-label" ></label>
@@ -66,7 +67,9 @@
             </div>
              <div class="form-group form-inline">
                 <label asp-for="Password" class="control-label" ></label>
-                <input name="Password" value="@Model.Password" type="password" class="form-control" @ViewBag.Writability/>
+                 <input name="Password" value="@Model.Password" type="password" class="form-control" @ViewBag.Writability
+                 />
+                 @* DON"T add client side validation here as it will mess up deletions - server side is sufficient *@
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
 

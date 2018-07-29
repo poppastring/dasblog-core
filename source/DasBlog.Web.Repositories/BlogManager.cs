@@ -2,9 +2,7 @@
 using newtelligence.DasBlog.Runtime;
 using DasBlog.Managers.Interfaces;
 using DasBlog.Core;
-//using Microsoft.Extensions.Logging;
 using newtelligence.DasBlog.Util;
-using newtelligence.DasBlog.Web.Services.MetaWeblog;
 using EventDataItem = DasBlog.Core.EventDataItem;
 using EventCodes = DasBlog.Core.EventCodes;
 using DasBlog.Core.Extensions;
@@ -13,28 +11,26 @@ namespace DasBlog.Managers
 {
 	public class BlogManager : IBlogManager
 	{
-		private IBlogDataService _dataService;
-		private ILoggingDataService _loggingDataService;
-		private ISiteSecurityManager _siteSecurity;
-		private readonly IDasBlogSettings _dasBlogSettings;
-		private Microsoft.Extensions.Logging.ILogger _logger;
+		private readonly IBlogDataService dataService;
+		private readonly IDasBlogSettings dasBlogSettings;
+		private readonly Microsoft.Extensions.Logging.ILogger logger;
 
 		public BlogManager(IDasBlogSettings settings , Microsoft.Extensions.Logging.ILogger<BlogManager> logger)
 		{
-			_dasBlogSettings = settings;
-			_loggingDataService = LoggingDataServiceFactory.GetService(_dasBlogSettings.WebRootDirectory + _dasBlogSettings.SiteConfiguration.LogDir);
-			_dataService = BlogDataServiceFactory.GetService(_dasBlogSettings.WebRootDirectory + _dasBlogSettings.SiteConfiguration.ContentDir, _loggingDataService);
-			_logger = logger;
+			dasBlogSettings = settings;
+			var loggingDataService = LoggingDataServiceFactory.GetService(dasBlogSettings.WebRootDirectory + dasBlogSettings.SiteConfiguration.LogDir);
+			dataService = BlogDataServiceFactory.GetService(dasBlogSettings.WebRootDirectory + dasBlogSettings.SiteConfiguration.ContentDir, loggingDataService);
+			this.logger = logger;
 		}
 
 		public Entry GetBlogPost(string postid)
 		{
-			return _dataService.GetEntry(postid);
+			return dataService.GetEntry(postid);
 		}
 
 		public Entry GetEntryForEdit(string postid)
 		{
-			return _dataService.GetEntryForEdit(postid);
+			return dataService.GetEntryForEdit(postid);
 		}
 
 		public EntryCollection GetFrontPagePosts(string acceptLanguageHeader)
@@ -44,20 +40,20 @@ namespace DasBlog.Managers
 
 			//Need to insert the Request.Headers["Accept-Language"];
 			string languageFilter = acceptLanguageHeader;
-			fpDayUtc = DateTime.UtcNow.AddDays(_dasBlogSettings.SiteConfiguration.ContentLookaheadDays);
+			fpDayUtc = DateTime.UtcNow.AddDays(dasBlogSettings.SiteConfiguration.ContentLookaheadDays);
 
-			if (_dasBlogSettings.SiteConfiguration.AdjustDisplayTimeZone)
+			if (dasBlogSettings.SiteConfiguration.AdjustDisplayTimeZone)
 			{
-				tz = WindowsTimeZone.TimeZones.GetByZoneIndex(_dasBlogSettings.SiteConfiguration.DisplayTimeZoneIndex);
+				tz = WindowsTimeZone.TimeZones.GetByZoneIndex(dasBlogSettings.SiteConfiguration.DisplayTimeZoneIndex);
 			}
 			else
 			{
 				tz = new UTCTimeZone();
 			}
 
-			return _dataService.GetEntriesForDay(fpDayUtc, TimeZone.CurrentTimeZone,
+			return dataService.GetEntriesForDay(fpDayUtc, TimeZone.CurrentTimeZone,
 								languageFilter,
-								_dasBlogSettings.SiteConfiguration.FrontPageDayCount, _dasBlogSettings.SiteConfiguration.FrontPageEntryCount, string.Empty);
+								dasBlogSettings.SiteConfiguration.FrontPageDayCount, dasBlogSettings.SiteConfiguration.FrontPageEntryCount, string.Empty);
 		}
 
 		public EntryCollection GetEntriesForPage(int pageIndex, string acceptLanguageHeader)
@@ -65,14 +61,14 @@ namespace DasBlog.Managers
 			Predicate<Entry> pred = null;
 
 			//Shallow copy as we're going to modify it...and we don't want to modify THE cache.
-			EntryCollection cache = _dataService.GetEntries(null, pred, Int32.MaxValue, Int32.MaxValue);
+			EntryCollection cache = dataService.GetEntries(null, pred, Int32.MaxValue, Int32.MaxValue);
 
 			// remove the posts from the front page
 			EntryCollection fp = GetFrontPagePosts(acceptLanguageHeader);
 
 			cache.RemoveRange(0, fp.Count);
 
-			int entriesPerPage = _dasBlogSettings.SiteConfiguration.EntriesPerPage;
+			int entriesPerPage = dasBlogSettings.SiteConfiguration.EntriesPerPage;
 
 			// compensate for frontpage
 			if ((pageIndex - 1) * entriesPerPage < cache.Count)
@@ -89,7 +85,7 @@ namespace DasBlog.Managers
 					bool postCount = cache.Count <= entriesPerPage;
 				}
 
-				return _dataService.GetEntries(null, EntryCollectionFilter.DefaultFilters.IsInEntryIdCacheEntryCollection(cache),
+				return dataService.GetEntries(null, EntryCollectionFilter.DefaultFilters.IsInEntryIdCacheEntryCollection(cache),
 					Int32.MaxValue,
 					Int32.MaxValue);
 			}
@@ -114,13 +110,13 @@ namespace DasBlog.Managers
 		public void DeleteEntry(string postid)
 		{
 			Entry entry = GetEntryForEdit(postid);
-			_dataService.DeleteEntry(postid, null);
+			dataService.DeleteEntry(postid, null);
 			LogEvent(EventCodes.EntryDeleted, entry);
 		}
 
 		private void LogEvent(EventCodes eventCode, Entry entry)
 		{
-			_logger.LogInformation(
+			logger.LogInformation(
 				new EventDataItem(
 					eventCode,
 					MakePermaLinkFromCompressedTitle(entry), entry.Title));
@@ -128,15 +124,15 @@ namespace DasBlog.Managers
 
 		private string MakePermaLink(Entry entry)
 		{
-			return new Uri(new Uri(_dasBlogSettings.SiteConfiguration.Root)
-				,_dasBlogSettings.RelativeToRoot(entry.EntryId)).ToString();
+			return new Uri(new Uri(dasBlogSettings.SiteConfiguration.Root)
+				,dasBlogSettings.RelativeToRoot(entry.EntryId)).ToString();
 		}
 
-		private string MakePermaLinkFromCompressedTitle(Entry entry)
+		private Uri MakePermaLinkFromCompressedTitle(Entry entry)
 		{
-			return new Uri(new Uri(_dasBlogSettings.SiteConfiguration.Root)
-				,_dasBlogSettings.RelativeToRoot(
-				_dasBlogSettings.GetPermaTitle(entry.CompressedTitle))).ToString();
+			return new Uri(new Uri(dasBlogSettings.SiteConfiguration.Root)
+				,dasBlogSettings.RelativeToRoot(
+				dasBlogSettings.GetPermaTitle(entry.CompressedTitle)));
 		}
 
 		private EntrySaveState InternalSaveEntry(Entry entry, TrackbackInfoCollection trackbackList, CrosspostInfoCollection crosspostList)
@@ -144,12 +140,12 @@ namespace DasBlog.Managers
 
 			EntrySaveState rtn = EntrySaveState.Failed;
 			// we want to prepopulate the cross post collection with the crosspost footer
-			if (_dasBlogSettings.SiteConfiguration.EnableCrossPostFooter && _dasBlogSettings.SiteConfiguration.CrossPostFooter != null 
-				&& _dasBlogSettings.SiteConfiguration.CrossPostFooter.Length > 0)
+			if (dasBlogSettings.SiteConfiguration.EnableCrossPostFooter && dasBlogSettings.SiteConfiguration.CrossPostFooter != null 
+				&& dasBlogSettings.SiteConfiguration.CrossPostFooter.Length > 0)
 			{
 				foreach (CrosspostInfo info in crosspostList)
 				{
-					info.CrossPostFooter = _dasBlogSettings.SiteConfiguration.CrossPostFooter;
+					info.CrossPostFooter = dasBlogSettings.SiteConfiguration.CrossPostFooter;
 				}
 			}
 
@@ -166,17 +162,17 @@ namespace DasBlog.Managers
 				if (entry.Categories == null)
 					entry.Categories = "";
 
-				rtn = _dataService.SaveEntry(entry, 
-					(_dasBlogSettings.SiteConfiguration.PingServices.Count > 0) ?
-						new WeblogUpdatePingInfo(_dasBlogSettings.SiteConfiguration.Title, _dasBlogSettings.GetBaseUrl(), _dasBlogSettings.GetBaseUrl(), _dasBlogSettings.RsdUrl, _dasBlogSettings.SiteConfiguration.PingServices) : null,
+				rtn = dataService.SaveEntry(entry, 
+					(dasBlogSettings.SiteConfiguration.PingServices.Count > 0) ?
+						new WeblogUpdatePingInfo(dasBlogSettings.SiteConfiguration.Title, dasBlogSettings.GetBaseUrl(), dasBlogSettings.GetBaseUrl(), dasBlogSettings.RsdUrl, dasBlogSettings.SiteConfiguration.PingServices) : null,
 					(entry.IsPublic) ?
 						trackbackList : null,
-					_dasBlogSettings.SiteConfiguration.EnableAutoPingback && entry.IsPublic ?
+					dasBlogSettings.SiteConfiguration.EnableAutoPingback && entry.IsPublic ?
 						new PingbackInfo(
-							_dasBlogSettings.GetPermaLinkUrl(entry.EntryId),
+							dasBlogSettings.GetPermaLinkUrl(entry.EntryId),
 							entry.Title,
 							entry.Description,
-							_dasBlogSettings.SiteConfiguration.Title) : null,
+							dasBlogSettings.SiteConfiguration.Title) : null,
 					crosspostList);
 
 				//TODO: SendEmail(entry, siteConfig, logService);
@@ -201,11 +197,11 @@ namespace DasBlog.Managers
 
 			// break the caching
 			cache.Remove("BlogCoreData");
-			cache.Remove("Rss::" + _dasBlogSettings.SiteConfiguration.RssDayCount.ToString() + ":" + _dasBlogSettings.SiteConfiguration.RssEntryCount.ToString());
+			cache.Remove("Rss::" + dasBlogSettings.SiteConfiguration.RssDayCount.ToString() + ":" + dasBlogSettings.SiteConfiguration.RssEntryCount.ToString());
 
 			foreach (string category in categories)
 			{
-				string CacheKey = "Rss:" + category + ":" + _dasBlogSettings.SiteConfiguration.RssDayCount.ToString() + ":" + _dasBlogSettings.SiteConfiguration.RssEntryCount.ToString();
+				string CacheKey = "Rss:" + category + ":" + dasBlogSettings.SiteConfiguration.RssDayCount.ToString() + ":" + dasBlogSettings.SiteConfiguration.RssEntryCount.ToString();
 				cache.Remove(CacheKey);
 			}
 		}
@@ -214,13 +210,13 @@ namespace DasBlog.Managers
 		{
 			CommentSaveState est = CommentSaveState.Failed;
 
-			Entry entry = _dataService.GetEntry(postid);
+			Entry entry = dataService.GetEntry(postid);
 
 			if (entry != null)
 			{
 				// Are comments allowed
 
-				_dataService.AddComment(comment);
+				dataService.AddComment(comment);
 
 				est = CommentSaveState.Added;
 			}
@@ -236,11 +232,11 @@ namespace DasBlog.Managers
 		{
 			CommentSaveState est = CommentSaveState.Failed;
 
-			Entry entry = _dataService.GetEntry(postid);
+			Entry entry = dataService.GetEntry(postid);
 
 			if (entry != null && !string.IsNullOrEmpty(commentid))
 			{
-				_dataService.DeleteComment(postid, commentid);
+				dataService.DeleteComment(postid, commentid);
 
 				est = CommentSaveState.Deleted;
 			}
@@ -255,11 +251,11 @@ namespace DasBlog.Managers
 		public CommentSaveState ApproveComment(string postid, string commentid)
 		{
 			CommentSaveState est = CommentSaveState.Failed;
-			Entry entry = _dataService.GetEntry(postid);
+			Entry entry = dataService.GetEntry(postid);
 
 			if (entry != null && !string.IsNullOrEmpty(commentid))
 			{
-				_dataService.ApproveComment(postid, commentid);
+				dataService.ApproveComment(postid, commentid);
 
 				est = CommentSaveState.Approved;
 			}
@@ -273,13 +269,13 @@ namespace DasBlog.Managers
 
 		public CommentCollection GetComments(string postid, bool allComments)
 		{
-			return _dataService.GetCommentsFor(postid, allComments);
+			return dataService.GetCommentsFor(postid, allComments);
 		}
 
 
 		public CategoryCacheEntryCollection GetCategories()
 		{
-			return _dataService.GetCategories();
+			return dataService.GetCategories();
 		}
 	}
 }

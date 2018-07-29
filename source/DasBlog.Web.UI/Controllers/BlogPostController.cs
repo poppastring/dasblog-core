@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Threading.Tasks;
 using AutoMapper;
 using DasBlog.Core;
 using DasBlog.Managers.Interfaces;
@@ -12,7 +11,6 @@ using DasBlog.Web.Settings;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Caching.Memory;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using newtelligence.DasBlog.Runtime;
 using static DasBlog.Core.Common.Utils;
@@ -22,23 +20,23 @@ namespace DasBlog.Web.Controllers
 	[Authorize]
 	public class BlogPostController : DasBlogBaseController
 	{
-		private IBlogManager _blogManager;
-		private readonly ICategoryManager _categoryManager;
-		private IHttpContextAccessor _httpContextAccessor;
-		private readonly IDasBlogSettings _dasBlogSettings;
-		private readonly IMapper _mapper;
-		private readonly IFileSystemBinaryManager _binaryManager;
+		private readonly IBlogManager blogManager;
+		private readonly ICategoryManager categoryManager;
+		private readonly IHttpContextAccessor httpContextAccessor;
+		private readonly IDasBlogSettings dasBlogSettings;
+		private readonly IMapper mapper;
+		private readonly IFileSystemBinaryManager binaryManager;
 
 		public BlogPostController(IBlogManager blogManager, IHttpContextAccessor httpContextAccessor,
 		  IDasBlogSettings settings, IMapper mapper, ICategoryManager categoryManager
 		  ,IFileSystemBinaryManager binaryManager) : base(settings)
 		{
-			_blogManager = blogManager;
-			_categoryManager = categoryManager;
-			_httpContextAccessor = httpContextAccessor;
-			_dasBlogSettings = settings;
-			_mapper = mapper;
-			_binaryManager = binaryManager;
+			this.blogManager = blogManager;
+			this.categoryManager = categoryManager;
+			this.httpContextAccessor = httpContextAccessor;
+			dasBlogSettings = settings;
+			this.mapper = mapper;
+			this.binaryManager = binaryManager;
 		}
 
 		[AllowAnonymous]
@@ -48,10 +46,10 @@ namespace DasBlog.Web.Controllers
 
 			if (!string.IsNullOrEmpty(posttitle))
 			{
-				var entry = _blogManager.GetBlogPost(posttitle.Replace(_dasBlogSettings.SiteConfiguration.TitlePermalinkSpaceReplacement, string.Empty));
+				var entry = blogManager.GetBlogPost(posttitle.Replace(dasBlogSettings.SiteConfiguration.TitlePermalinkSpaceReplacement, string.Empty));
 				if (entry != null)
 				{
-					lpvm.Posts = new List<PostViewModel>() { _mapper.Map<PostViewModel>(entry) };
+					lpvm.Posts = new List<PostViewModel>() { mapper.Map<PostViewModel>(entry) };
 
 					SinglePost(lpvm.Posts.First());
 
@@ -75,12 +73,12 @@ namespace DasBlog.Web.Controllers
 
 			if (!string.IsNullOrEmpty(postid.ToString()))
 			{
-				var entry = _blogManager.GetEntryForEdit(postid.ToString());
+				var entry = blogManager.GetEntryForEdit(postid.ToString());
 				if (entry != null)
 				{
-					pvm = _mapper.Map<PostViewModel>(entry);
+					pvm = mapper.Map<PostViewModel>(entry);
 					pvm.Languages = GetAlllanguages();
-					List<CategoryViewModel> allcategories = _mapper.Map<List<CategoryViewModel>>(_blogManager.GetCategories());
+					List<CategoryViewModel> allcategories = mapper.Map<List<CategoryViewModel>>(blogManager.GetCategories());
 
 					foreach (var cat in allcategories)
 					{
@@ -125,14 +123,14 @@ namespace DasBlog.Web.Controllers
 			}
 			try
 			{
-				Entry entry = _mapper.Map<Entry>(post);
+				Entry entry = mapper.Map<Entry>(post);
 
-				entry.Author = _httpContextAccessor.HttpContext.User.Identity.Name;
+				entry.Author = httpContextAccessor.HttpContext.User.Identity.Name;
 				entry.Language = "en-us"; //TODO: We inject this fron http context?
 				entry.Latitude = null;
 				entry.Longitude = null;
 
-				EntrySaveState sts = _blogManager.UpdateEntry(entry);
+				EntrySaveState sts = blogManager.UpdateEntry(entry);
 				if (sts != EntrySaveState.Updated)
 				{
 					ModelState.AddModelError("", "Failed to edit blog post");
@@ -152,7 +150,7 @@ namespace DasBlog.Web.Controllers
 		{
 			PostViewModel post = new PostViewModel();
 			post.CreatedDateTime = DateTime.UtcNow;  //TODO: Set to the timezone configured???
-			post.AllCategories = _mapper.Map<List<CategoryViewModel>>(_blogManager.GetCategories());
+			post.AllCategories = mapper.Map<List<CategoryViewModel>>(blogManager.GetCategories());
 			post.Languages = GetAlllanguages();
 
 			return View(post);
@@ -184,15 +182,15 @@ namespace DasBlog.Web.Controllers
 
 			try
 			{
-				Entry entry = _mapper.Map<Entry>(post);
+				Entry entry = mapper.Map<Entry>(post);
 
 				entry.Initialize();
-				entry.Author = _httpContextAccessor.HttpContext.User.Identity.Name;
+				entry.Author = httpContextAccessor.HttpContext.User.Identity.Name;
 				entry.Language = post.Language;
 				entry.Latitude = null;
 				entry.Longitude = null;
 
-				EntrySaveState sts = _blogManager.CreateEntry(entry);
+				EntrySaveState sts = blogManager.CreateEntry(entry);
 				if (sts != EntrySaveState.Added)
 				{
 					ModelState.AddModelError("", "Failed to create blog post");
@@ -212,7 +210,7 @@ namespace DasBlog.Web.Controllers
 		{
 			try
 			{
-				_blogManager.DeleteEntry(postid.ToString());
+				blogManager.DeleteEntry(postid.ToString());
 			}
 			catch (Exception ex)
 			{
@@ -228,15 +226,15 @@ namespace DasBlog.Web.Controllers
 		{
 			// TODO are comments enabled?
 
-			Entry entry = _blogManager.GetBlogPost(postid.ToString());
+			Entry entry = blogManager.GetBlogPost(postid.ToString());
 
 			ListPostsViewModel lpvm = new ListPostsViewModel();
-			lpvm.Posts = new List<PostViewModel> { _mapper.Map<PostViewModel>(entry) };
+			lpvm.Posts = new List<PostViewModel> { mapper.Map<PostViewModel>(entry) };
 
 			ListCommentsViewModel lcvm = new ListCommentsViewModel
 			{
-				Comments = _blogManager.GetComments(postid.ToString(), false)
-					.Select(comment => _mapper.Map<CommentViewModel>(comment)).ToList(),
+				Comments = blogManager.GetComments(postid.ToString(), false)
+					.Select(comment => mapper.Map<CommentViewModel>(comment)).ToList(),
 				PostId = postid.ToString()
 			};
 
@@ -251,7 +249,7 @@ namespace DasBlog.Web.Controllers
 		[HttpPost("post/comment")]
 		public IActionResult AddComment(AddCommentViewModel addcomment)
 		{
-			if (!_dasBlogSettings.SiteConfiguration.EnableComments)
+			if (!dasBlogSettings.SiteConfiguration.EnableComments)
 			{
 				return BadRequest();
 			}
@@ -261,14 +259,14 @@ namespace DasBlog.Web.Controllers
 				Comment(new Guid(addcomment.TargetEntryId));
 			}
 
-			Comment commt = _mapper.Map<Comment>(addcomment);
+			Comment commt = mapper.Map<Comment>(addcomment);
 			commt.AuthorIPAddress = HttpContext.Connection.RemoteIpAddress.ToString();
 			commt.AuthorUserAgent = HttpContext.Request.Headers["User-Agent"].ToString();
 			commt.CreatedUtc = commt.ModifiedUtc = DateTime.UtcNow;
 			commt.EntryId = Guid.NewGuid().ToString();
-			commt.IsPublic = !_dasBlogSettings.SiteConfiguration.CommentsRequireApproval;
+			commt.IsPublic = !dasBlogSettings.SiteConfiguration.CommentsRequireApproval;
 
-			CommentSaveState state = _blogManager.AddComment(addcomment.TargetEntryId, commt);
+			CommentSaveState state = blogManager.AddComment(addcomment.TargetEntryId, commt);
 
 			if (state == CommentSaveState.Failed)
 			{
@@ -288,7 +286,7 @@ namespace DasBlog.Web.Controllers
 		[HttpDelete("post/{postid:guid}/comment/{commentid:guid}")]
 		public IActionResult DeleteComment(Guid postid, Guid commentid)
 		{
-			CommentSaveState state = _blogManager.DeleteComment(postid.ToString(), commentid.ToString());
+			CommentSaveState state = blogManager.DeleteComment(postid.ToString(), commentid.ToString());
 
 			if (state == CommentSaveState.Failed)
 			{
@@ -306,7 +304,7 @@ namespace DasBlog.Web.Controllers
 		[HttpPatch("post/{postid:guid}/comment/{commentid:guid}")]
 		public IActionResult ApproveComment(Guid postid, Guid commentid)
 		{
-			CommentSaveState state = _blogManager.ApproveComment(postid.ToString(), commentid.ToString());
+			CommentSaveState state = blogManager.ApproveComment(postid.ToString(), commentid.ToString());
 
 			if (state == CommentSaveState.Failed)
 			{
@@ -331,8 +329,8 @@ namespace DasBlog.Web.Controllers
 			}
 
 			ListPostsViewModel lpvm = new ListPostsViewModel();
-			lpvm.Posts = _categoryManager.GetEntries(category, _httpContextAccessor.HttpContext.Request.Headers["Accept-Language"])
-								.Select(entry => _mapper.Map<PostViewModel>(entry)).ToList();
+			lpvm.Posts = categoryManager.GetEntries(category, httpContextAccessor.HttpContext.Request.Headers["Accept-Language"])
+								.Select(entry => mapper.Map<PostViewModel>(entry)).ToList();
 
 			DefaultPage();
 
@@ -351,7 +349,7 @@ namespace DasBlog.Web.Controllers
 
 			var newCategory = post.NewCategory?.Trim();
 			var newCategoryDisplayName = newCategory;
-			var newCategoryUrl = EncodeCategoryUrl(newCategory, _dasBlogSettings.SiteConfiguration.TitlePermalinkSpaceReplacement );
+			var newCategoryUrl = EncodeCategoryUrl(newCategory, dasBlogSettings.SiteConfiguration.TitlePermalinkSpaceReplacement );
 			if (post.AllCategories.Any(c => c.CategoryUrl == newCategoryUrl))
 			{
 				ModelState.AddModelError(nameof(post.NewCategory), $"The category, {post.NewCategory}, already exists");
@@ -384,7 +382,7 @@ namespace DasBlog.Web.Controllers
 			{
 				using (var s = post.Image.OpenReadStream())
 				{
-					relativePath = _binaryManager.SaveFile(s, fileName);
+					relativePath = binaryManager.SaveFile(s, fileName);
 				}
 			}
 			catch (Exception e)

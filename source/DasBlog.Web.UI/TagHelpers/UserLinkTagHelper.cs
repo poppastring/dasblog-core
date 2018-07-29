@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace DasBlog.Web.TagHelpers
 {
-	public class UserIdTagHelper : TagHelper
+	public class UserLinkTagHelper : TagHelper
 	{
 		public string EmailAddress { get; set; }
 		public string Linkability { get; set; }

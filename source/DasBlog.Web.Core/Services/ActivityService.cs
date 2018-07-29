@@ -4,6 +4,7 @@ using System.Text;
 using DasBlog.Core.Services.Interfaces;
 using DasBlog.Core.Extensions;
 using Microsoft.Extensions.Logging;
+using DasBlog.Core.Exceptions;
 
 namespace DasBlog.Core.Services
 {
@@ -91,8 +92,11 @@ namespace DasBlog.Core.Services
 			}
 			catch (Exception e)
 			{
-				logger.LogError(new EventDataItem(EventCodes.Error, $"Failed to process the log file for {date.ToShortDateString()}", null), e);
-				throw;
+				LoggedException le = new LoggedException("file failure", e);
+				logger.LogError(new EventDataItem(EventCodes.Error, null
+				  , "Failed to process the log file for {date}", date.ToShortDateString())
+					, le);
+				throw le;
 			}
 			return events;
 		}

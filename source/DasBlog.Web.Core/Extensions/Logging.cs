@@ -1,11 +1,12 @@
 ﻿using System;
 using Microsoft.Extensions.Logging;
+using DasBlog.Core.Exceptions;
 
 namespace DasBlog.Core.Extensions
 {
 	public static class Logging
 	{
-		public static void LogTrace(this ILogger logger, EventDataItem edi, Exception ex = null)
+		public static void LogTrace(this ILogger logger, EventDataItem edi, LoggedException ex = null)
 		{
 			if (ex != null)
 			{
@@ -18,7 +19,7 @@ namespace DasBlog.Core.Extensions
 				
 			}
 		}
-		public static void LogDebug(this ILogger logger, EventDataItem edi, Exception ex = null)
+		public static void LogDebug(this ILogger logger, EventDataItem edi, LoggedException ex = null)
 		{
 			if (ex != null)
 			{
@@ -31,7 +32,7 @@ namespace DasBlog.Core.Extensions
 				
 			}
 		}
-		public static void LogInformation(this ILogger logger, EventDataItem edi, Exception ex = null)
+		public static void LogInformation(this ILogger logger, EventDataItem edi, LoggedException ex = null)
 		{
 			if (ex != null)
 			{
@@ -45,7 +46,7 @@ namespace DasBlog.Core.Extensions
 			}
 		}
 
-		public static void LogWarning(this ILogger logger, EventDataItem edi, Exception ex = null)
+		public static void LogWarning(this ILogger logger, EventDataItem edi, LoggedException ex = null)
 		{
 			if (ex != null)
 			{
@@ -58,7 +59,7 @@ namespace DasBlog.Core.Extensions
 			}
 		}
 
-		public static void LogError(this ILogger logger, EventDataItem edi, Exception ex = null)
+		public static void LogError(this ILogger logger, EventDataItem edi, LoggedException ex = null)
 		{
 			if (ex != null)
 			{
@@ -71,7 +72,7 @@ namespace DasBlog.Core.Extensions
 			}
 		}
 
-		public static void LogCritical(this ILogger logger, EventDataItem edi, Exception ex = null)
+		public static void LogCritical(this ILogger logger, EventDataItem edi, LoggedException ex = null)
 		{
 			if (ex != null)
 			{

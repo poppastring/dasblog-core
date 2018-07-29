@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Net.Http;
 using DasBlog.Core.Services;
-using DasBlog.Managers.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,7 +8,7 @@ namespace DasBlog.Web.Controllers
 	[Authorize]
 	public class ActivityController : Controller
 	{
-		private IActivityService activityService;
+		private readonly IActivityService activityService;
 
 		public ActivityController(IActivityService activityService)
 		{

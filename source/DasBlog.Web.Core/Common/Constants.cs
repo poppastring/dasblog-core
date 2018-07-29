@@ -20,14 +20,13 @@
 		public const string CancelAction = "Cancel";
 		public const string DeleteAction = "Delete";
 
-		public const string TINY_MCE_EDITOR = "tinymce";
-		public const string NIC_EDIT_EDITOR = "nicedit";
-		public const string TEXT_AREA_EDITOR = "textarea";
-		public const string __DIAGNOSE_LOGGING_ISSUES = "--diagnose-logging-issues";
-		public const string EVENT_FIELD_SEPARATOR = " :: ";
-		public const string URL_EVENT_FIElD = "{eventurl_6473}";
-		public const string CODE_EVENT_FIElD = "{eventurl_6474}";
-		public const string LOG_DIRECTORY = "logs";
+		public const string TinyMceEditor = "tinymce";
+		public const string NicEditEditor = "nicedit";
+		public const string TextAreaEditor = "textarea";
+		public const string EventFieldSeparator = " :: ";
+		public const string UrlEventFielD = "{eventurl_6473}";
+		public const string CodeEventFielD = "{eventurl_6474}";
+		public const string LogDirectory = "logs";
 	}
 
 }

@@ -1,4 +1,4 @@
-﻿@using DasBlog.Web.Common
+﻿@using DasBlog.Core.Common
 @model DasBlog.Web.Models.UsersViewModel
 
 @{
@@ -24,5 +24,8 @@
 @Html.Partial((string)ViewBag.SubViewName, Model)
         @*subview name is Edit or Delete or possibly something else*@
 
+@section Scripts {
+@{     await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+                                                                   }
 
 

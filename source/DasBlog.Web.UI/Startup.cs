@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Reflection.Metadata;
 using System.Security.Principal;
 using System.Threading;
 using System.Threading.Tasks;
@@ -25,10 +23,6 @@ using DasBlog.Core.Common;
 using DasBlog.Core.Services;
 using DasBlog.Core.Services.Interfaces;
 using Microsoft.Extensions.FileProviders;
-using DasBlog.Core.Services;
-using DasBlog.Core.Services.Interfaces;
-using DasBlog.Core.Common;
-using DasBlog.Web.TagHelpers;
 using DasBlog.Web.TagHelpers.RichEdit;
 
 namespace DasBlog.Web
@@ -59,7 +53,7 @@ namespace DasBlog.Web
 			services.Configure<LocalUserDataOptions>(options
 			  => options.Path = Path.Combine(_hostingEnvironment.ContentRootPath, SITESECURITYCONFIG));
 			services.Configure<ActivityRepoOptions>(options
-			  => options.Path = Path.Combine(_hostingEnvironment.ContentRootPath, Constants.LOG_DIRECTORY));
+			  => options.Path = Path.Combine(_hostingEnvironment.ContentRootPath, Constants.LogDirectory));
 
 			// Add identity types
 			services
@@ -214,8 +208,7 @@ namespace DasBlog.Web
 			{
 				existingThreadPrincipal = Thread.CurrentPrincipal;
 				Thread.CurrentPrincipal = context.User;
-				var rtn = next();
-				return rtn;
+				return next();
 			}
 			finally
 			{
@@ -242,13 +235,13 @@ namespace DasBlog.Web
 			IRichEditBuilder richEditBuilder;
 			switch (entryEditControl)
 			{
-				case Constants.TINY_MCE_EDITOR:
+				case Constants.TinyMceEditor:
 					richEditBuilder = new TinyMceBuilder();
 					break;
-				case Constants.NIC_EDIT_EDITOR:
+				case Constants.NicEditEditor:
 					richEditBuilder = new NicEditBuilder();
 					break;
-				case Constants.TEXT_AREA_EDITOR:
+				case Constants.TextAreaEditor:
 					richEditBuilder = new TextAreaBuilder();
 					break;
 				default:
