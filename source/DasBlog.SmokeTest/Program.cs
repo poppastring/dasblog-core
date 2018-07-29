@@ -1,6 +1,11 @@
 ﻿using System.Diagnostics;
 using System.IO;
-using DasBlog.SmokeTest.Interfaces;
+using DasBlog.SmokeTest.Selenium;
+using DasBlog.SmokeTest.Selenium.Interfaces;
+using DasBlog.SmokeTest.Smoking;
+using DasBlog.SmokeTest.Smoking.Interfaces;
+using DasBlog.SmokeTest.Support;
+using DasBlog.SmokeTest.Support.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration.Json;
 using Microsoft.Extensions.DependencyInjection;

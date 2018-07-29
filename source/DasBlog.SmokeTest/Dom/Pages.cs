@@ -1,7 +1,4 @@
-﻿using DasBlog.SmokeTest.Common;
-using DasBlog.SmokeTest.Interfaces;
-using OpenQA.Selenium;
-using WebAppConstants = DasBlog.Core.Common.Constants;
+﻿using DasBlog.SmokeTest.Selenium.Interfaces;
 
 namespace DasBlog.SmokeTest.Dom
 {
@@ -34,70 +31,5 @@ namespace DasBlog.SmokeTest.Dom
 		public ActivityPage Activity { get; private set; }
 		public Http404Page Http404 { get; private set; }
 		public LoginPage Login { get; private set; }
-	}
-
-	public class Http404Page :  Page
-	{
-		public Http404Page(IBrowser browser) : base(browser, "somerubbish")
-		{
-			
-		}
-	}
-
-	public class ActivityPage : Page
-	{
-		public ActivityPage(IBrowser browser) : base(browser, Constants.ActivityPage)
-		{
-
-		}
-	}
-
-	public class UsersPage : Page
-	{
-		public UsersPage(IBrowser browser) : base(browser, Constants.UsersPage)
-		{
-		}
-	}
-
-	public class PostMaintenancePage : Page
-	{
-		public PostMaintenancePage(IBrowser browser) : base(browser, Constants.PostMaintenancePage)
-		{
-		
-		}
-	}
-
-	public class SubscribePage : Page
-	{
-		public SubscribePage(IBrowser browser) : base(browser, Constants.SubscribePage)
-		{
-		}
-	}
-
-	public class ArchivePage : Page
-	{
-		public ArchivePage(IBrowser browser) : base(browser, Constants.ArchivePage)
-		{
-		}
-	}
-
-	public class CategoryPage : Page
-	{
-		public CategoryPage(IBrowser browser) : base(browser, Constants.CategoryPage, WebAppConstants.CategoryPageTitle)
-		{
-		}
-	}
-
-	public class LinkElement : Element
-	{
-		public LinkElement(IWebElement webElement) : base(webElement)
-		{
-			
-		}
-
-		public void Click()
-		{
-			webElement.Click();
-		}
 	}
 }

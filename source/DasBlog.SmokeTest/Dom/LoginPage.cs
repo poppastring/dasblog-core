@@ -1,5 +1,5 @@
 ﻿using DasBlog.SmokeTest.Common;
-using DasBlog.SmokeTest.Interfaces;
+using DasBlog.SmokeTest.Selenium.Interfaces;
 using AppConstants = DasBlog.Core.Common.Constants;
 
 namespace DasBlog.SmokeTest.Dom
@@ -10,7 +10,7 @@ namespace DasBlog.SmokeTest.Dom
 		{
 		}
 
-		public ButtonElement LoginButton
+		public ButtonPageElement LoginButtonPage
 		{
 			get
 			{
@@ -18,7 +18,7 @@ namespace DasBlog.SmokeTest.Dom
 			}
 		}
 
-		public SpanElement Password
+		public SpanPageElement Password
 		{
 			get { return browser.GetElementById(AppConstants.PasswordValidationId); }
 		}
