@@ -3,12 +3,10 @@ using DasBlog.SmokeTest.Selenium.Interfaces;
 
 namespace DasBlog.SmokeTest.Dom
 {
-	public class HomePage : Page
+	public class UsersPage : Page
 	{
-		public HomePage(IBrowser browser) : base(browser, Constants.HomePage)
+		public UsersPage(IBrowser browser) : base(browser, Constants.UsersPage)
 		{
-			
 		}
-
 	}
 }
