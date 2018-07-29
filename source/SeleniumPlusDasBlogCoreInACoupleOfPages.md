@@ -1,4 +1,4 @@
-### Selenium plus DasBlog-core in a Couple of Pages
+### Selenium Plus DasBlog-core in a Couple of Pages
 * You need Firefox installed to use Selenium here
 
 ##### Use Cases
@@ -57,21 +57,22 @@ automation framework in the Pluralsight course  [Automated Web Testing with Sele
 * A set of **Page** objects encapsulate the properties and behaviour of the dasblog web pages.  These
 components are unaware of the automation mechanism.
 * Tests call into the pages to manipulate and retrieve information
-* There is a set of **PageElement** objects which link the dasblog components to the web components.  It would
+* There is a set of **PageElement** objects which link the dasblog components to the Selenium web components.  It would
 be possible to write these with or convert them to an approach independent of the automation mechanism
 but this doesn't currently seem necessary.
 
 #### Design Choices
 * A key goal has been to enable contributors to create functional tests for the features they introduce
-without the need for a deep understading of Selenium.
+without the need for a deep understanding of Selenium.
 * To that end the decision was made to identify all page elements by their id.  (Selenium has
-a miriad ways to identify elements.)  This is slgithly intrusive necessitating giving components
+a miriad ways to identify elements which would entail a richer association with Selenium.)
+  This is slgithly intrusive necessitating giving components
 ids purely for testing purposes.
 
 #### Pattens of Delvelopent
 1. The user will add a test to the existing functional or smoke tests.
-2. This will use existing functionlity on the page objects to carry out the test.
-3. New elements will have to be added to the Page objects to reflect new elements added by the
+2. This will use existing functionlity on the dasblog **Page** objects to carry out the test.
+3. New dasblog **PageElement**s will have to be added to the **Page** objects to reflect new elements added by the
 feature under test
-4. More infrequently, it may be necessary to add functionality to the Browser where new behaviour has been introduced.
+4. More infrequently, it may be necessary to add functionality to the **Browser** where new behaviour has been introduced.
 

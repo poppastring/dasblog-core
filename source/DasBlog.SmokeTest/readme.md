@@ -1,7 +1,10 @@
 #### Smoke Test
 
 ##### Usage
-cd to <project>/source/DasBlog.SmokeTest and do `dotnet run`.  The dasblog-core is kicked off (on a port of 5000)
+Change directory to <project>/source/DasBlog.SmokeTest and do `dotnet run`  In VS make sure you 
+set the working directory before running.  The smoke test process starts
+and the dasblog-core web app.  The browser driver (e.g. geckodriver.exe is kicked off
+which at some stage will invoke the browser process itself)  4 processes in all. The web app is kicked off (on a port of 5000)
 and something like the following will show in the console or debug window:
 
 
@@ -20,11 +23,11 @@ and something like the following will show in the console or debug window:
     zFA4OckiEGBj"`
 
 The lines staring 'Info' originate rom DasBlog.SmokeTest.  The lines starting with a number
-come from the in-process (?) Firefox driver and those beginning 
+come from the in-process or perhaps the out-of-process Firefox driver and those beginning 
 "DasBlog.Web says:" come from the the web app that we know and love.
 
 ##### Test Results
-Test results appear in the console or debug window and look something like:
+After som time you can expect test results to appear in the console or debug window and look something like:
 
     Test Results
                           Test Passed Failed Step
@@ -40,7 +43,7 @@ changes as possible to that environment.
 
 * Razor files will be compiled
 
-* There should be no other chnages.  Tests should not log in and therefore will not be able
+* There should be no other changes.  Tests should not log in and therefore will not be able
 to change any live data.
 
 ##### Purpose
@@ -50,11 +53,11 @@ to be published.
 The smoke test should not be part of CI.
 
 ##### Testing Mechanism
-For a discussin of the dasblog automation framework see [Dasblog Plus Selenium](../SeleniumPlusDasBlogCoreInACoupleOfPages.md).
+For a discussin of the dasblog automation framework see [Selenium Plus DasBlog](../SeleniumPlusDasBlogCoreInACoupleOfPages.md).
 
 There is no 3rd party framework involved in the smoke tests.
 
-Tests are located in the Tester class.  Eah test is placed in a separate method of that class.
+Tests are located in the Tester class.  Each test is placed in a separate method of that class.
 The naming standard described in DasBlog.Tests/UI should be applied to the functional and smoke
 tests:
 
