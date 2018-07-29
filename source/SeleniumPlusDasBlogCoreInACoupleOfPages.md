@@ -44,7 +44,7 @@ The only addition DasBlog-core makes to this is to add running the web server as
 part of the start up process.  This was not an essential design decision, the tests could
 have easily operated against a permanently running version but it was done for convenience.
 
-[Schematic](SmokeTestArch.png)
+[!Schematic](SmokeTestArch.png)
 
 
 Page/Browser/Driver abstrations - page for page details, browser for driver details
