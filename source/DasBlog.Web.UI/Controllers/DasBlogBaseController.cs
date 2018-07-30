@@ -1,10 +1,11 @@
 ﻿using DasBlog.Core;
+using DasBlog.Web.Controllers;
 using DasBlog.Web.Models.BlogViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DasBlog.Web.Settings
 {
-	public abstract class DasBlogBaseController : Controller
+	public abstract class DasBlogBaseController : DasBlogController
 	{
 		private readonly IDasBlogSettings _dasBlogSettings;
 

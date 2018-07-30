@@ -108,14 +108,22 @@ namespace DasBlog.Web.Controllers
 
 		public IActionResult Error()
 		{
-			var feature = HttpContext.Features.Get<IExceptionHandlerPathFeature>();
-			if (feature != null)
+			try
 			{
-				string path = feature.Path;
-				Exception ex = feature.Error;
-				// TODO log here
+				var feature = HttpContext.Features.Get<IExceptionHandlerPathFeature>();
+				if (feature != null)
+				{
+					string path = feature.Path;
+					Exception ex = feature.Error;
+				}
+				return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+
 			}
-			return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+			catch (Exception e)
+			{
+				return Content(
+					"DasBlog - an error occurred (and reporting gailed) - Click the browser 'Back' button to try using the application");
+			}
 		}
 	}
 }

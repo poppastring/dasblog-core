@@ -32,7 +32,7 @@ namespace DasBlog.Web.Controllers
 	/// The user list is disabled while the uers is in the process creating, editing or deleting
 	/// </summary>
 	[Authorize]
-	public class UsersController : Controller
+	public class UsersController : DasBlogController
 	{
 		private class ViewBagConfigurer
 		{
@@ -110,7 +110,6 @@ namespace DasBlog.Web.Controllers
 		[Route("/users/{email?}")]
 		public IActionResult Index(string email)
 		{
-//			throw new Exception("I'm broken");
 			email = email ?? string.Empty;
 			if (!userService.HasUsers())
 			{

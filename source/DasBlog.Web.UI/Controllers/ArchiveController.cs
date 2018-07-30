@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace DasBlog.Web.Controllers
 {
 	[Route("archive")]
-	public class ArchiveController : Controller
+	public class ArchiveController : DasBlogController
 	{
 		private IArchiveManager _archiveManager;
 		private IHttpContextAccessor _httpContextAccessor;
