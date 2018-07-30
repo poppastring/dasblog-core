@@ -152,7 +152,7 @@ namespace DasBlog.Web
 			}
 			else
 			{
-//				app.UseExceptionHandler("/home/error");
+				app.UseExceptionHandler("/home/error");
 			}
 
 			if (!siteOk)

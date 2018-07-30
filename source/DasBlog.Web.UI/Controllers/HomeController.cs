@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using AutoMapper;
 using DasBlog.Core;
@@ -6,7 +7,9 @@ using DasBlog.Managers.Interfaces;
 using DasBlog.Web.Models;
 using DasBlog.Web.Models.BlogViewModels;
 using DasBlog.Web.Settings;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace DasBlog.Web.Controllers
 {
@@ -16,13 +19,17 @@ namespace DasBlog.Web.Controllers
 		private readonly IXmlRpcManager _xmlRpcManager;
 		private readonly IDasBlogSettings _dasBlogSettings;
 		private readonly IMapper _mapper;
-
-		public HomeController(IBlogManager blogManager, IDasBlogSettings settings, IXmlRpcManager rpcManager, IMapper mapper) : base(settings)
+		private readonly ILogger<HomeController> _logger;
+		
+		public HomeController(IBlogManager blogManager
+		  , IDasBlogSettings settings, IXmlRpcManager rpcManager, IMapper mapper
+		  , ILogger<HomeController> logger) : base(settings)
 		{
 			_blogManager = blogManager;
 			_xmlRpcManager = rpcManager;
 			_dasBlogSettings = settings;
 			_mapper = mapper;
+			_logger = logger;
 		}
 
 		public IActionResult Index()
@@ -101,6 +108,13 @@ namespace DasBlog.Web.Controllers
 
 		public IActionResult Error()
 		{
+			var feature = HttpContext.Features.Get<IExceptionHandlerPathFeature>();
+			if (feature != null)
+			{
+				string path = feature.Path;
+				Exception ex = feature.Error;
+				// TODO log here
+			}
 			return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
 		}
 	}

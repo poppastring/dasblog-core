@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using DasBlog.Core;
@@ -109,6 +110,7 @@ namespace DasBlog.Web.Controllers
 		[Route("/users/{email?}")]
 		public IActionResult Index(string email)
 		{
+//			throw new Exception("I'm broken");
 			email = email ?? string.Empty;
 			if (!userService.HasUsers())
 			{
