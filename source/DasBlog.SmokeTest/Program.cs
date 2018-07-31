@@ -56,6 +56,7 @@ namespace DasBlog.SmokeTest
 			Process.GetCurrentProcess().Kill();
 					// tragic - but I can't sus how to close down the process
 					// I think the hosted service, App, will not exit - despite having tried Environment.Exit(0)
+					// the logger thread keeps going.
 		}
 
 		private static void ConfigureDasBlogInstallation(DasBlogInstallationOptions options, IConfiguration config)
