@@ -26,7 +26,7 @@ namespace DasBlog.SmokeTest.Smoking
 			browser.Init();
 			Login_WithBlankPassword_Fails();
 			Click_OnNavBarItem_ShowsPage();
-			Thread.Sleep(10000);
+			Thread.Sleep(1000);
 		}
 
 		private void Login_WithBlankPassword_Fails()
