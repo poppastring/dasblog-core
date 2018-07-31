@@ -44,20 +44,6 @@ namespace DasBlog.SmokeTest.Smoking
 
 		private void WhenStarted()
 		{
-			try
-			{
-				logger.LogInformation($"Started {nameof(App)}");
-				installation.Init();
-				runner.RunDasBlog();
-				Thread.Sleep(5000);
-				tester.Test();
-				publisher.Publish(tester.Results.Results);
-	//			waitService.StopWaiting();
-			}
-			finally
-			{
-				tester.Dispose();
-			}
 		}
 
 		private void WhenStopped()
@@ -73,6 +59,25 @@ namespace DasBlog.SmokeTest.Smoking
 		public Task StopAsync(CancellationToken cancellationToken)
 		{
 			return Task.CompletedTask;
+		}
+
+		public void Run()
+		{
+			try
+			{
+				logger.LogInformation($"Started {nameof(App)}");
+				installation.Init();
+				runner.RunDasBlog();
+				Thread.Sleep(5000);
+				tester.Test();
+				publisher.Publish(tester.Results.Results);
+				runner.Kill();
+				//			waitService.StopWaiting();
+			}
+			finally
+			{
+				tester.Dispose();
+			}
 		}
 	}
 }

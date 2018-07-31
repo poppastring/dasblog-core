@@ -11,6 +11,7 @@ namespace DasBlog.SmokeTest.Support
 		private string exe;
 		private string args;
 		private string workingDirectory;
+		private Process webAppProcess;
 		public WebServerRunner(IOptions<WebServerRunnerOptions> optionsAccessor)
 		{
 			exe = optionsAccessor.Value.WebServerExe;
@@ -24,6 +25,10 @@ namespace DasBlog.SmokeTest.Support
 			thr.Start();
 		}
 
+		public void Kill()
+		{
+			webAppProcess.Kill();
+		}
 		private void Start()
 		{
 			Process pr  = new Process();
@@ -34,6 +39,7 @@ namespace DasBlog.SmokeTest.Support
 			pr.StartInfo.WorkingDirectory = workingDirectory; //"c:/projects/dasblog-core/source/DasBlog.Web.UI/"
 			pr.StartInfo.RedirectStandardOutput = true;
 			pr.Start();
+			webAppProcess = pr;
 			string s;
 			while ((s = pr.StandardOutput.ReadLine()) != null)
 			{

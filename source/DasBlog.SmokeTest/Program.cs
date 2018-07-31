@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.IO;
 using DasBlog.SmokeTest.Selenium;
 using DasBlog.SmokeTest.Selenium.Interfaces;
@@ -14,6 +15,23 @@ using Microsoft.Extensions.Logging;
 
 namespace DasBlog.SmokeTest
 {
+	class NoopLogger : ILogger
+	{
+		public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
+		{
+			
+		}
+
+		public bool IsEnabled(LogLevel logLevel)
+		{
+			return true;
+		}
+
+		public IDisposable BeginScope<TState>(TState state)
+		{
+			throw new NotImplementedException();
+		}
+	}
 	class Program
 	{
 		static void Main(string[] args)
@@ -21,14 +39,12 @@ namespace DasBlog.SmokeTest
 			WaitService waitService = new WaitService();
 			var host = new HostBuilder()
 				.UseContentRoot(Directory.GetCurrentDirectory())
-				.ConfigureHostConfiguration(builder =>
-				{
-					builder.AddEnvironmentVariables(prefix: "ASPNETCORE_");
-				})
+				.ConfigureHostConfiguration(builder => { builder.AddEnvironmentVariables(prefix: "ASPNETCORE_"); })
 				.ConfigureAppConfiguration((hostContext, builder) =>
 				{
 					builder.AddCommandLine(args);
-					builder.AddJsonFile(Path.Combine(hostContext.HostingEnvironment.ContentRootPath, "appSettings.json"));
+					builder.AddJsonFile(
+						Path.Combine(hostContext.HostingEnvironment.ContentRootPath, "appSettings.json"));
 				}).ConfigureServices((hostContext, services) =>
 				{
 					services.Configure<DasBlogInstallationOptions>(options =>
@@ -38,25 +54,33 @@ namespace DasBlog.SmokeTest
 					services.AddSingleton<IVersionedFileService, NoopVersionedFileService>();
 					services.AddSingleton<IDasBlogInstallation, DasBlogInstallation>();
 					services.AddSingleton<IWebServerRunner, WebServerRunner>();
-					services.AddHostedService<App>();
+					services.AddSingleton<App>();
 					services.AddSingleton<IBrowser, Browser>();
 					services.AddSingleton<ITester, Tester>();
 					services.AddSingleton<IPublisher, Publisher>();
-
+					services.AddSingleton<ILogger, NoopLogger>();
 					services.AddSingleton(waitService);
 					services.AddSingleton<ITestExecutor, TestExecutor>();
-				}).ConfigureLogging((hostContext, logBuilder) =>
+				}).Build();
+/*
+				.ConfigureLogging((hostContext, logBuilder) =>
 				{
 					logBuilder.AddConsole();
 					logBuilder.AddDebug();
-				}).Build();
-			host.Start();
-			waitService.Wait();
-			host.StopAsync();
-			Process.GetCurrentProcess().Kill();
-					// tragic - but I can't sus how to close down the process
-					// I think the hosted service, App, will not exit - despite having tried Environment.Exit(0)
-					// the logger thread keeps going.
+				})
+*/
+			App app = host.Services.GetService<App>();
+			app.Run();
+			/*
+			.Build();
+		host.Start();
+		waitService.Wait();
+		host.StopAsync();
+		Process.GetCurrentProcess().Kill();
+				// tragic - but I can't sus how to close down the process
+				// I think the hosted service, App, will not exit - despite having tried Environment.Exit(0)
+				// the logger thread keeps going.
+*/
 		}
 
 		private static void ConfigureDasBlogInstallation(DasBlogInstallationOptions options, IConfiguration config)
