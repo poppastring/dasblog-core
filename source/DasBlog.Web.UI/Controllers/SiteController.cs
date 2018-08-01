@@ -10,7 +10,7 @@ namespace DasBlog.Web.Controllers
 {
     [Produces("text/xml")]
     [Route("site")]
-    public class SiteController : Controller
+    public class SiteController : DasBlogController
     {
         private ISiteManager _siteManager;
 

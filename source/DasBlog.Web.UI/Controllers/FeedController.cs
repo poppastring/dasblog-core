@@ -14,7 +14,7 @@ namespace DasBlog.Web.Controllers
 {
     [Produces("text/xml")]
     [Route("feed")]
-    public class FeedController : Controller
+    public class FeedController : DasBlogController
     {
         private IMemoryCache _cache;
         private ISubscriptionManager _subscriptionManager;

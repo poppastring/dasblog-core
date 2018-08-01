@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using DasBlog.Core;
@@ -31,7 +32,7 @@ namespace DasBlog.Web.Controllers
 	/// The user list is disabled while the uers is in the process creating, editing or deleting
 	/// </summary>
 	[Authorize]
-	public class UsersController : Controller
+	public class UsersController : DasBlogController
 	{
 		private class ViewBagConfigurer
 		{

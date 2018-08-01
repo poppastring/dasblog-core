@@ -16,7 +16,7 @@ using Microsoft.ApplicationInsights.AspNetCore.Extensions;
 namespace DasBlog.Web.Controllers
 {
 	[Authorize]
-	public class AccountController : Controller
+	public class AccountController : DasBlogController
 	{
 		private const string KEY_RETURNURL = "ReturnUrl";
 		private readonly ILogger<AccountController> logger;
