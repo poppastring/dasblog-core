@@ -1,7 +1,7 @@
 ﻿using System;
 using DasBlog.SmokeTest.Support.Interfaces;
-using DasBlog.SmokeTest.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Logging;
 
 namespace DasBlog.SmokeTest.Support
 {
@@ -9,8 +9,8 @@ namespace DasBlog.SmokeTest.Support
 	{
 		private readonly IVersionedFileService fileService;
 		private readonly string path;
-		private readonly Logging.ILogger<DasBlogInstallation> logger;
-		public DasBlogInstallation(Logging.ILogger<DasBlogInstallation> logger
+		private readonly ILogger<DasBlogInstallation> logger;
+		public DasBlogInstallation(ILogger<DasBlogInstallation> logger
 			,IVersionedFileService fileService, IOptions<DasBlogInstallationOptions> optionsAccessor)
 		{
 			this.logger = logger;

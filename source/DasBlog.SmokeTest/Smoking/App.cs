@@ -1,5 +1,5 @@
 ﻿using System.Threading;
-using DasBlog.SmokeTest.Logging;
+using Microsoft.Extensions.Logging;
 using DasBlog.SmokeTest.Smoking.Interfaces;
 using DasBlog.SmokeTest.Support.Interfaces;
 
@@ -7,13 +7,13 @@ namespace DasBlog.SmokeTest.Smoking
 {
 	internal class App
 	{
-		private readonly Logging.ILogger<App> logger;
+		private readonly ILogger<App> logger;
 		private readonly IDasBlogInstallation installation;
 		private readonly ITester tester;
 		private readonly IWebServerRunner runner;
 		private readonly IPublisher publisher;
 
-		public App(Logging.ILogger<App> logger
+		public App(ILogger<App> logger
 			,IDasBlogInstallation installation
 			,ITester tester, IWebServerRunner runner, IPublisher publisher)
 		{

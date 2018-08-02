@@ -8,7 +8,7 @@ using DasBlog.SmokeTest.Support.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using DasBlog.SmokeTest.Logging;
+using Microsoft.Extensions.Logging;
 
 namespace DasBlog.SmokeTest
 {
@@ -37,10 +37,12 @@ namespace DasBlog.SmokeTest
 					services.AddSingleton<IBrowser, Browser>();
 					services.AddSingleton<ITester, Tester>();
 					services.AddSingleton<IPublisher, Publisher>();
-					services.AddSingleton<ILogger<App>, SmokeTestLogger<App>>();
-					services.AddSingleton<ILogger<DasBlogInstallation>, SmokeTestLogger<DasBlogInstallation>>();
 					services.AddSingleton<ITestExecutor, TestExecutor>();
-				}).Build();
+				})
+				.ConfigureLogging(
+					(hostContext, logBuilder) => logBuilder.AddDebug().AddConsole()
+					)
+				.Build();
 			App app = host.Services.GetService<App>();
 			app.Run();
 		}
