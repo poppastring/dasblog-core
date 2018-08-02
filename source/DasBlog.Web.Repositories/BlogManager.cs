@@ -232,17 +232,22 @@ namespace DasBlog.Managers
 					MakePermaLinkFromCompressedTitle(entry), entry.Title));
 		}
 
-		private string MakePermaLink(Entry entry)
-		{
-			return new Uri(new Uri(dasBlogSettings.SiteConfiguration.Root)
-				,dasBlogSettings.RelativeToRoot(entry.EntryId)).ToString();
-		}
-
 		private Uri MakePermaLinkFromCompressedTitle(Entry entry)
 		{
-			return new Uri(new Uri(dasBlogSettings.SiteConfiguration.Root)
-				,dasBlogSettings.RelativeToRoot(
-				dasBlogSettings.GetPermaTitle(entry.CompressedTitle)));
+			if (dasBlogSettings.SiteConfiguration.EnableTitlePermaLinkUnique)
+			{
+				return new Uri(new Uri(dasBlogSettings.SiteConfiguration.Root)
+					, dasBlogSettings.RelativeToRoot(
+						entry.CreatedUtc.ToString("yyyyMMdd") + "/" +
+						dasBlogSettings.GetPermaTitle(entry.CompressedTitle)));
+			}
+			else
+			{
+				return new Uri(new Uri(dasBlogSettings.SiteConfiguration.Root)
+					,dasBlogSettings.RelativeToRoot(
+					dasBlogSettings.GetPermaTitle(entry.CompressedTitle)));
+			
+			}
 		}
 
 		private EntrySaveState InternalSaveEntry(Entry entry, TrackbackInfoCollection trackbackList, CrosspostInfoCollection crosspostList)
