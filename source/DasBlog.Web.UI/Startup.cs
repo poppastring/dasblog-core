@@ -24,6 +24,7 @@ using DasBlog.Core.Services;
 using DasBlog.Core.Services.Interfaces;
 using Microsoft.Extensions.FileProviders;
 using DasBlog.Web.TagHelpers.RichEdit;
+using Microsoft.Extensions.Options;
 
 namespace DasBlog.Web
 {
@@ -97,6 +98,8 @@ namespace DasBlog.Web
 			{
 				rveo.ViewLocationExpanders.Add(new DasBlogLocationExpander(Configuration.GetSection("DasBlogSettings")["Theme"]));
 			});
+			services.Configure<RouteOptions>(Configuration);
+			
 			services.AddSession(options =>
 			{
 				// Set a short timeout for easy testing.
@@ -142,7 +145,7 @@ namespace DasBlog.Web
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-		public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+		public void Configure(IApplicationBuilder app, IHostingEnvironment env, IOptions<RouteOptions> routeOptionsAccessor)
 		{
 			(var siteOk, string siteError) = RepairSite(app);
 			if (env.IsDevelopment())
@@ -170,16 +173,32 @@ namespace DasBlog.Web
 			app.Use(PopulateThreadCurrentPrincipalForMvc);
 			app.UseMvc(routes =>
 			{
-				routes.MapRoute(
-					"Original Post Format",
-					"{posttitle}.aspx",
-					new { controller = "BlogPost", action = "Post", posttitle = "" });
+				if (routeOptionsAccessor.Value.EnableTitlePermaLinkUnique)
+				{
+					routes.MapRoute(
+						"Original Post Format",
+						"{day:int}/{posttitle}.aspx",
+						new { controller = "BlogPost", action = "Post", posttitle = "" });
 
-				routes.MapRoute(
-					"New Post Format",
-					"{posttitle}",
-					new { controller = "BlogPost", action = "Post", postitle = ""  });
+					routes.MapRoute(
+						"New Post Format",
+						"{day:int}/{posttitle}",
+						new { controller = "BlogPost", action = "Post", postitle = ""  });
 
+				}
+				else
+				{
+					routes.MapRoute(
+						"Original Post Format",
+						"{posttitle}.aspx",
+						new { controller = "BlogPost", action = "Post", posttitle = "" });
+
+					routes.MapRoute(
+						"New Post Format",
+						"{posttitle}",
+						new { controller = "BlogPost", action = "Post", postitle = ""  });
+
+				}
 				routes.MapRoute(
 					name: "default",
 					template: "{controller=Home}/{action=Index}/{id?}");
@@ -249,6 +268,11 @@ namespace DasBlog.Web
 			}
 
 			return richEditBuilder;
+		}
+
+		public class RouteOptions
+		{
+			public bool EnableTitlePermaLinkUnique { get; set; }
 		}
 	}
 }

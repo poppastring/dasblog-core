@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Net;
+using System.Threading;
 using AutoMapper;
 using DasBlog.Core;
 using DasBlog.Managers.Interfaces;
@@ -42,13 +43,41 @@ namespace DasBlog.Web.Controllers
 		}
 
 		[AllowAnonymous]
-		public IActionResult Post(string posttitle)
+		public IActionResult Post(string posttitle, int day)
 		{
+			const string DATE_FORMAT = "yyyyMMdd";
 			ListPostsViewModel lpvm = new ListPostsViewModel();
-
-			if (!string.IsNullOrEmpty(posttitle))
+			bool includeDay = dasBlogSettings.SiteConfiguration.EnableTitlePermaLinkUnique;
+			var isSpecificPostRequested = new Dictionary<bool, Func<bool>>
 			{
-				var entry = blogManager.GetBlogPost(posttitle.Replace(dasBlogSettings.SiteConfiguration.TitlePermalinkSpaceReplacement, string.Empty));
+				{false, () => !string.IsNullOrEmpty(posttitle)},
+				{true, () => !string.IsNullOrEmpty(posttitle) && day != 0}
+			};
+			var isValidDay = new Dictionary<bool, Func<bool>>
+			{
+				{false, () => true},
+				{true, () => DateTime.TryParseExact(day.ToString(), DATE_FORMAT
+				  , null, DateTimeStyles.AdjustToUniversal, out _)}
+			};
+			var convertDayToDate = new Dictionary<bool, Func<DateTime?>>
+			{
+				{false, () => null},
+				{true, () => DateTime.ParseExact(day.ToString(), DATE_FORMAT
+					, null, DateTimeStyles.AdjustToUniversal)}
+			};
+
+			if (!isValidDay[includeDay]())
+			{
+				return NotFound();
+			}
+
+			DateTime? dt = convertDayToDate[includeDay]();
+			
+			if (isSpecificPostRequested[includeDay]())
+			{
+				var entry = blogManager.GetBlogPost(
+				  posttitle.Replace(dasBlogSettings.SiteConfiguration.TitlePermalinkSpaceReplacement, string.Empty)
+				  , dt);
 				if (entry != null)
 				{
 					lpvm.Posts = new List<PostViewModel>() { mapper.Map<PostViewModel>(entry) };
@@ -228,7 +257,8 @@ namespace DasBlog.Web.Controllers
 		{
 			// TODO are comments enabled?
 
-			Entry entry = blogManager.GetBlogPost(postid.ToString());
+			Entry entry = blogManager.GetBlogPost(postid.ToString(), null);
+				// TODO this method should respect paths that include the date
 
 			ListPostsViewModel lpvm = new ListPostsViewModel();
 			lpvm.Posts = new List<PostViewModel> { mapper.Map<PostViewModel>(entry) };
