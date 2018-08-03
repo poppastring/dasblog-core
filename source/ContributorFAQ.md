@@ -2,7 +2,7 @@
 Created August 2018
 
 #### How is dasBlog typically deployed? Where?
-By individuals...
+By individuals... ## ***** ??
 
 #### Is dasBlog designed to run in a multi-tenanted environment? 
 No
@@ -64,4 +64,5 @@ Pull request workflow:https://gist.github.com/Chaser324/ce0505fbed06b947d962
 
 #### Resources
 Legacy DasBlog
-https://github.com/poppastring/dasblog-core/readme.md
+
+https://github.com/poppastring/dasblog-core
