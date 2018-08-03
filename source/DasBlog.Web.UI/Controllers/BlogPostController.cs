@@ -13,8 +13,10 @@ using DasBlog.Web.Settings;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.AspNetCore.Server.Kestrel.Transport.Libuv.Internal.Networking;
 using newtelligence.DasBlog.Runtime;
 using static DasBlog.Core.Common.Utils;
 
@@ -47,33 +49,17 @@ namespace DasBlog.Web.Controllers
 		{
 			const string DATE_FORMAT = "yyyyMMdd";
 			ListPostsViewModel lpvm = new ListPostsViewModel();
-			bool includeDay = dasBlogSettings.SiteConfiguration.EnableTitlePermaLinkUnique;
-			var isSpecificPostRequested = new Dictionary<bool, Func<bool>>
-			{
-				{false, () => !string.IsNullOrEmpty(posttitle)},
-				{true, () => !string.IsNullOrEmpty(posttitle) && day != 0}
-			};
-			var isValidDay = new Dictionary<bool, Func<bool>>
-			{
-				{false, () => true},
-				{true, () => DateTime.TryParseExact(day.ToString(), DATE_FORMAT
-				  , null, DateTimeStyles.AdjustToUniversal, out _)}
-			};
-			var convertDayToDate = new Dictionary<bool, Func<DateTime?>>
-			{
-				{false, () => null},
-				{true, () => DateTime.ParseExact(day.ToString(), DATE_FORMAT
-					, null, DateTimeStyles.AdjustToUniversal)}
-			};
+			RouteAffectedFunctions routeAffectedFunctions = new RouteAffectedFunctions(
+			  dasBlogSettings.SiteConfiguration.EnableTitlePermaLinkUnique);
 
-			if (!isValidDay[includeDay]())
+			if (!routeAffectedFunctions.IsValidDay(day))
 			{
 				return NotFound();
 			}
 
-			DateTime? dt = convertDayToDate[includeDay]();
+			DateTime? dt = routeAffectedFunctions.ConvertDayToDate(day);
 			
-			if (isSpecificPostRequested[includeDay]())
+			if (routeAffectedFunctions.IsSpecificPostRequested(posttitle, day))
 			{
 				var entry = blogManager.GetBlogPost(
 				  posttitle.Replace(dasBlogSettings.SiteConfiguration.TitlePermalinkSpaceReplacement, string.Empty)
@@ -141,6 +127,8 @@ namespace DasBlog.Web.Controllers
 			{
 				return HandleImageUpload(post);
 			}
+
+			ValidatePost(post);
 			if (!ModelState.IsValid)
 			{
 				return View(post);
@@ -200,6 +188,8 @@ namespace DasBlog.Web.Controllers
 			{
 				return HandleImageUpload(post);
 			}
+
+			ValidatePost(post);
 			if (!ModelState.IsValid)
 			{
 				return View(post);
@@ -502,6 +492,89 @@ namespace DasBlog.Web.Controllers
 			SelectListItem[] cultureListItems = cultureList.ToArray();
 
 			return cultureListItems;
+		}
+
+		private void ValidatePost(PostViewModel post)
+		{
+			RouteAffectedFunctions routeAffectedFunctions = new RouteAffectedFunctions(
+			  dasBlogSettings.SiteConfiguration.EnableTitlePermaLinkUnique);
+			DateTime? dt = routeAffectedFunctions.SelectDate(post);
+			Entry entry = blogManager.GetBlogPost(
+			  post.Title.Replace(" ", string.Empty)
+			  ,dt);
+			if (entry != null)
+			{
+				ModelState.AddModelError(string.Empty, "A post with this title already exists.  Titles must be unique");
+			}
+		}
+
+		private class RouteAffectedFunctions
+		{
+			const string DATE_FORMAT = "yyyyMMdd";
+
+			enum RouteType
+			{
+				IncludesDay,
+				PostTitleOnly
+			}
+
+			RouteType routeType;
+			public RouteAffectedFunctions(bool includeDay)
+			{
+				this.routeType = includeDay ? RouteType.IncludesDay : RouteType.PostTitleOnly;
+			}
+
+			public Func<string, int, bool> IsSpecificPostRequested
+			{
+				get
+				{
+					IDictionary<RouteType, Func<string, int, bool>> isSpecificPostRequested = new Dictionary<RouteType, Func<string, int, bool>>
+					{
+						{RouteType.PostTitleOnly, (posttitle, day) => !string.IsNullOrEmpty(posttitle)},
+						{RouteType.IncludesDay, (posttitle, day) => !string.IsNullOrEmpty(posttitle) && day != 0}
+					};
+					return isSpecificPostRequested[routeType];
+				}
+			}
+			public Func<int, bool> IsValidDay
+			{
+				get
+				{
+					IDictionary<RouteType, Func<int, bool>> isValidDay = new Dictionary<RouteType, Func<int, bool>>
+					{
+						{RouteType.PostTitleOnly, day => true},
+						{RouteType.IncludesDay, day => DateTime.TryParseExact(day.ToString(), DATE_FORMAT
+							, null, DateTimeStyles.AdjustToUniversal, out _)}
+					};
+					return isValidDay[routeType];
+				}
+			}
+			public Func<int, DateTime?> ConvertDayToDate
+			{
+				get
+				{
+					IDictionary<RouteType, Func<int, DateTime?>> convertDayToDate = new Dictionary<RouteType, Func<int, DateTime?>>
+					{
+						{RouteType.PostTitleOnly, day => null},
+						{RouteType.IncludesDay, day => DateTime.ParseExact(day.ToString(), DATE_FORMAT
+							, null, DateTimeStyles.AdjustToUniversal)}
+					};
+					return convertDayToDate[routeType];
+				}
+			}
+			public Func<PostViewModel, DateTime?> SelectDate
+			{
+				get
+				{
+					IDictionary<RouteType, Func<PostViewModel, DateTime?>> convertDayToDate = new Dictionary<RouteType, Func<PostViewModel, DateTime?>>
+					{
+						{RouteType.PostTitleOnly, pvm => null},
+						{RouteType.IncludesDay, pvm => pvm.CreatedDateTime}
+					};
+					return convertDayToDate[routeType];
+				}
+			}
+
 		}
 	}
 }
