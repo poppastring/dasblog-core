@@ -1,9 +1,9 @@
 #### Smoke Test
 
 ##### Usage
-Change directory to <project>/source/DasBlog.SmokeTest and do `dotnet run`  In VS make sure you 
+Change directory to <project>/source/DasBlog.SmokeTest and do `dotnet run` .  In VS make sure you 
 set the working directory before running.  The smoke test process starts
-and the dasblog-core web app.  The browser driver (e.g. geckodriver.exe is kicked off
+and stops the dasblog-core web app.  The browser driver (e.g. geckodriver.exe is kicked off
 which at some stage will invoke the browser process itself)  4 processes in all. The web app is kicked off (on a port of 5000)
 and something like the following will show in the console or debug window:
 
@@ -53,7 +53,7 @@ to be published.
 The smoke test should not be part of CI.
 
 ##### Testing Mechanism
-For a discussin of the dasblog automation framework see [Selenium Plus DasBlog](../SeleniumPlusDasBlogCoreInACoupleOfPages.md).
+For a discussion of the dasblog automation framework see [Selenium Plus DasBlog](../SeleniumPlusDasBlogCoreInACoupleOfPages.md).
 
 There is no 3rd party framework involved in the smoke tests.
 
