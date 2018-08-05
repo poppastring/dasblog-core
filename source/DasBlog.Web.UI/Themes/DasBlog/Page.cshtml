@@ -17,18 +17,5 @@
         }
 
     </div>
-    <div class="col-md-3">
-        <div class="sidebar-nav-fixed pull-right affix">
-            <div class="panel panel-default">
-                <div class="panel-heading">Search</div>
-                <div class="panel-body">
-                    <form asp-controller="BlogPost" asp-action="Search" method="post">
-                        <input type="text" name="searchText" id="searchText"/>
-                        <input class="btn" type="submit" value="Go"/>
-                    </form>
-                </div>
-            </div>
-        </div>
-        <!--/sidebar-nav-fixed -->
-    </div>
+    <search-box/>
 </div>
