@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Net;
 using AutoMapper;
 using DasBlog.Core;
 using DasBlog.Managers.Interfaces;
@@ -12,6 +13,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using newtelligence.DasBlog.Runtime;
 using static DasBlog.Core.Common.Utils;
 
@@ -335,6 +337,21 @@ namespace DasBlog.Web.Controllers
 			DefaultPage();
 
 			return View("Page", lpvm);
+		}
+		[AllowAnonymous]
+		[HttpPost]
+		public IActionResult Search(string searchText)
+		{
+			ListPostsViewModel lpvm = new ListPostsViewModel();
+			List<Entry> entries = blogManager.SearchEntries(WebUtility.HtmlEncode(searchText), Request.Headers["Accept-Language"]);
+			if (entries != null)
+			{
+				lpvm.Posts = entries.Select(entry => mapper.Map<PostViewModel>(entry)).ToList();
+
+				return View("Page", lpvm);
+			}
+
+			return RedirectToAction("index", "home");
 		}
 		private IActionResult HandleNewCategory(PostViewModel post)
 		{
