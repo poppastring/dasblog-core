@@ -27,6 +27,14 @@
 		public const string UrlEventFielD = "{eventurl_6473}";
 		public const string CodeEventFielD = "{eventurl_6474}";
 		public const string LogDirectory = "logs";
+	
+		// element ids
+		public const string CategoryId = "categoryNavBarItemId";
+		public const string PasswordValidationId = "passwordValidation";
+		public const string LoginButtonId = "loginButton";
+		public const string NavBarId = "navbar";
+		public const string CategoryPageTitle = "Category";
+		public const string ArhivePageTitle = "Archive";
 	}
 
 }

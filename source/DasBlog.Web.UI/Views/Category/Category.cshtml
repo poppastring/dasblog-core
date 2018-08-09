@@ -1,9 +1,10 @@
 ﻿@using DasBlog.Core;
+@using DasBlog.Core.Common
 @inject IDasBlogSettings dasBlogSettings
 @model DasBlog.Web.Models.BlogViewModels.CategoryListViewModel
 
 @{
-    ViewData["Title"] = "Archives";
+    ViewData["Title"] = Constants.CategoryPageTitle;
 }
 
 <div class="container">

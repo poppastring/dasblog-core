@@ -1,0 +1,47 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="fm.Extensions.Configuration.Json" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="2.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="2.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="2.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="2.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="2.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Configuration" Version="2.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="2.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="2.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="2.1.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.1" />
+  </ItemGroup>
+  <!-- see DasBlog.FunctionalTests.csproj for background on Selenium dependencies -->
+  <ItemGroup>
+    <Content Include="lib\chromedriver.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\geckodriver.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Remove="chromedriver.exe" />
+    <None Remove="geckodriver.exe" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.AspNetCore.Http.Abstractions, Version=2.0.3.0, Culture=neutral, PublicKeyToken=adb9793829ddae60">
+      <HintPath>..\..\..\..\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.aspnetcore.http.abstractions\2.0.3\lib\netstandard2.0\Microsoft.AspNetCore.Http.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="WebDriver, Version=3.13.1.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>lib\WebDriver.dll</HintPath>
+    </Reference>
+    <Reference Include="WebDriver.Support, Version=3.13.1.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>lib\WebDriver.Support.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\DasBlog.Web.Core\Common\Constants.cs">
+      <Link>WebApp\Constants.cs</Link>
+    </Compile>
+  </ItemGroup>
+</Project>

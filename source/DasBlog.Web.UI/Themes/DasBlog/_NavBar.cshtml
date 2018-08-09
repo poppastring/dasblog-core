@@ -1,4 +1,5 @@
-    <div class="navbar navbar-inverse navbar-fixed-top">
+@using DasBlog.Core.Common
+    <div id="@Constants.NavBarId" class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -12,7 +13,7 @@
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
                 <li><a asp-area="" asp-controller="home" asp-action="index">Home</a></li>
-                <li><a asp-area="" asp-controller="category" asp-action="category">Category</a></li>
+                <li><a asp-area="" id="@Constants.CategoryId" asp-controller="category" asp-action="category">Category</a></li>
                 <li><a asp-area="" asp-controller="archive" asp-action="archive">Archive</a></li>
                 <li><a asp-area="" asp-controller="feed" asp-action="rss">Subscribe</a></li>
                 <li dasblog-authorized><a asp-area="" asp-controller="post" asp-action="create">Create Post</a></li>
