@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace DasBlog.Tests.SmokeTest.Smoking.Interfaces
+namespace DasBlog.Tests.Support.Interfaces
 {
 	public interface IPublisher
 	{

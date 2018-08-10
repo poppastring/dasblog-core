@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
-namespace DasBlog.Tests.SmokeTest.Smoking.Interfaces
+namespace DasBlog.Tests.Support.Interfaces
 {
 	public interface ITestExecutor
 	{

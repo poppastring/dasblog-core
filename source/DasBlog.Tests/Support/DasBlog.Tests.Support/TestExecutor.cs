@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
-using DasBlog.Tests.SmokeTest.Smoking.Interfaces;
+using DasBlog.Tests.Support.Interfaces;
 
-namespace DasBlog.Tests.SmokeTest.Smoking
+namespace DasBlog.Tests.Support
 {
 	public class TestExecutor : ITestExecutor
 	{

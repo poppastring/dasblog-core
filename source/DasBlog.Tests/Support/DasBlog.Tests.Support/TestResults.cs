@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace DasBlog.Tests.SmokeTest.Smoking
+namespace DasBlog.Tests.Support
 {
 	public class TestResults
 	{

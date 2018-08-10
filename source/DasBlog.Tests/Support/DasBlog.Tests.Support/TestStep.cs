@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq.Expressions;
 
-namespace DasBlog.Tests.SmokeTest.Smoking
+namespace DasBlog.Tests.Support
 {
 	public class TestStep
 	{

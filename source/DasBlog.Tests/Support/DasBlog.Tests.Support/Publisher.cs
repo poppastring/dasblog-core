@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using DasBlog.Tests.SmokeTest.Smoking.Interfaces;
+using DasBlog.Tests.Support.Interfaces;
 
-namespace DasBlog.Tests.SmokeTest.Smoking
+namespace DasBlog.Tests.Support
 {
 	public class Publisher : IPublisher
 	{

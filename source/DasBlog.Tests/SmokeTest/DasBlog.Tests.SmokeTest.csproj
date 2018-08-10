@@ -19,5 +19,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Automation\DasBlog.Tests.Automation\DasBlog.Tests.Automation.csproj" />
+    <ProjectReference Include="..\Support\DasBlog.Tests.Support\DasBlog.Tests.Support.csproj" />
   </ItemGroup>
 </Project>

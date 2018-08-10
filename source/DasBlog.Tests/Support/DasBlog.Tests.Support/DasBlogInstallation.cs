@@ -1,11 +1,11 @@
 ﻿using System;
-using DasBlog.Tests.SmokeTest.Support.Interfaces;
+using DasBlog.Tests.Support.Interfaces;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace DasBlog.Tests.SmokeTest.Support
+namespace DasBlog.Tests.Support
 {
-	internal class DasBlogInstallation : IDasBlogInstallation
+	public class DasBlogInstallation : IDasBlogInstallation
 	{
 		private readonly IVersionedFileService fileService;
 		private readonly string path;

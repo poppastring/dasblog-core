@@ -5,6 +5,8 @@ using DasBlog.Tests.SmokeTest.Support;
 using DasBlog.Tests.SmokeTest.Support.Interfaces;
 using DasBlog.Tests.Automation.Selenium;
 using DasBlog.Tests.Automation.Selenium.Interfaces;
+using DasBlog.Tests.Support;
+using DasBlog.Tests.Support.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
