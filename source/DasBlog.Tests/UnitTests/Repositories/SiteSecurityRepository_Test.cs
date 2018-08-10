@@ -10,7 +10,7 @@ using System.IO;
 using System.Xml.Serialization;
 using Xunit;
 
-namespace DasBlog.Tests.UnitTests.UnitTests.UnitTests.Repositories
+namespace DasBlog.Tests.UnitTests.Repositories
 {
     public class SiteSecurityRepository_Test
     {

@@ -25,13 +25,13 @@
     <DotNetCliToolReference Include="dotnet-xunit" Version="2.3.1" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DasBlog.Web.Core\DasBlog.Core.csproj" />
-    <ProjectReference Include="..\DasBlog.Web.Repositories\DasBlog.Managers.csproj" />
-    <ProjectReference Include="..\DasBlog.Web.UI\DasBlog.Web.csproj" />
+    <ProjectReference Include="..\..\DasBlog.Web.Core\DasBlog.Core.csproj" />
+    <ProjectReference Include="..\..\DasBlog.Web.Repositories\DasBlog.Managers.csproj" />
+    <ProjectReference Include="..\..\DasBlog.Web.UI\DasBlog.Web.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Extensions.Options">
-      <HintPath>..\..\..\..\..\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.extensions.options\2.0.0\lib\netstandard2.0\Microsoft.Extensions.Options.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.extensions.options\2.0.0\lib\netstandard2.0\Microsoft.Extensions.Options.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

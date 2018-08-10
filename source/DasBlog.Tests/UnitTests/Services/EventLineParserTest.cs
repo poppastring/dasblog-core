@@ -2,7 +2,7 @@
 using DasBlog.Core.Services.Interfaces;
 using Xunit;
 
-namespace DasBlog.Tests.UnitTests.UnitTests.UnitTests.Services
+namespace DasBlog.Tests.UnitTests.Services
 {
 	public class EventLineParserTest
 	{
