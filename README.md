@@ -5,7 +5,6 @@ The [DasBlog Blogging Engine](https://msdn.microsoft.com/en-us/library/aa480016.
 
 [![Build status](https://ci.appveyor.com/api/projects/status/github/poppastring/dasblog-core?branch=master&svg=true)](https://ci.appveyor.com/project/poppastring/dasblog-core)
 
-[![codecov](https://codecov.io/gh/poppastring/dasblog-core/branch/master/graph/badge.svg)](https://codecov.io/gh/poppastring/dasblog-core)
 
 ## Core Tenets - "This we believe"
 
