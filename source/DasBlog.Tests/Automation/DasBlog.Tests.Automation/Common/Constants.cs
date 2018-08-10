@@ -1,4 +1,4 @@
-﻿namespace DasBlog.Tests.SmokeTest.Common
+﻿namespace DasBlog.Tests.Automation.Common
 {
 	public class Constants
 	{

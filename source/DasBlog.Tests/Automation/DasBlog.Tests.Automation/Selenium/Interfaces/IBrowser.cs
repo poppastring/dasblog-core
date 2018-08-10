@@ -1,7 +1,7 @@
 ﻿using System;
-using DasBlog.Tests.SmokeTest.Dom;
+using DasBlog.Tests.Automation.Dom;
 
-namespace DasBlog.Tests.SmokeTest.Selenium.Interfaces
+namespace DasBlog.Tests.Automation.Selenium.Interfaces
 {
 	public interface IBrowser : IDisposable
 	{

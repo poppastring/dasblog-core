@@ -1,7 +1,7 @@
 ﻿using System;
 using DasBlog.Tests.SmokeTest.Support.Interfaces;
-using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace DasBlog.Tests.SmokeTest.Support
 {

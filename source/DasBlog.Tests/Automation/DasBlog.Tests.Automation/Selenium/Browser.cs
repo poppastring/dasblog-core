@@ -1,15 +1,15 @@
 ﻿using System;
-using DasBlog.Tests.SmokeTest.Common;
-using DasBlog.Tests.SmokeTest.Dom;
-using DasBlog.Tests.SmokeTest.Selenium.Interfaces;
+using DasBlog.Tests.Automation.Common;
+using DasBlog.Tests.Automation.Selenium.Interfaces;
+using DasBlog.Tests.Automation.Dom;
 using Microsoft.Extensions.Options;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Support.UI;
 
-namespace DasBlog.Tests.SmokeTest.Selenium
+namespace DasBlog.Tests.Automation.Selenium
 {
-	internal class Browser : IBrowser
+	public class Browser : IBrowser
 	{
 		private readonly string homeUrl;
 		private IWebDriver driver;

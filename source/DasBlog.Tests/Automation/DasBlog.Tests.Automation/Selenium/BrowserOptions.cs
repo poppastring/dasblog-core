@@ -1,6 +1,6 @@
-﻿namespace DasBlog.Tests.SmokeTest.Selenium
+﻿namespace DasBlog.Tests.Automation.Selenium
 {
-	internal class BrowserOptions
+	public class BrowserOptions
 	{
 		public string HomeUrl { get; set; } = "http://localhost:5000/";
 		public string Driver { get; set; } = "firefox";

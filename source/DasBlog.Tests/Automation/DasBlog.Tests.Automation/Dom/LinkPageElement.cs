@@ -1,8 +1,8 @@
 ﻿using OpenQA.Selenium;
 
-namespace DasBlog.Tests.SmokeTest.Dom
+namespace DasBlog.Tests.Automation.Dom
 {
-	public class ButtonPageElement : PageElement
+	public class LinkPageElement : PageElement
 	{
 		public void Click()
 		{

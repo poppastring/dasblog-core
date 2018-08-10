@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
-using DasBlog.Tests.SmokeTest.Dom;
-using DasBlog.Tests.SmokeTest.Selenium.Interfaces;
+using DasBlog.Tests.Automation.Dom;
+using DasBlog.Tests.Automation.Selenium.Interfaces;
 using DasBlog.Tests.SmokeTest.Smoking.Interfaces;
 using AppConstants = DasBlog.Core.Common.Constants;
 

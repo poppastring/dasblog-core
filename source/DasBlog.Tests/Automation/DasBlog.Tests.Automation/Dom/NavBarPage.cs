@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using DasBlog.Tests.SmokeTest.Common;
-using DasBlog.Tests.SmokeTest.Selenium.Interfaces;
+using DasBlog.Tests.Automation.Common;
+using DasBlog.Tests.Automation.Selenium.Interfaces;
 using AppConstants = DasBlog.Core.Common.Constants;
 
-namespace DasBlog.Tests.SmokeTest.Dom
+namespace DasBlog.Tests.Automation.Dom
 {
 	public class NavBarPage : Page
 	{

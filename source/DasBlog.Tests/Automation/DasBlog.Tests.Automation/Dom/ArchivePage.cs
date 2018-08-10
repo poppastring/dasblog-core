@@ -1,7 +1,7 @@
 ﻿using WebAppConstants = DasBlog.Core.Common.Constants;
-using DasBlog.Tests.SmokeTest.Selenium.Interfaces;
+using DasBlog.Tests.Automation.Selenium.Interfaces;
 
-namespace DasBlog.Tests.SmokeTest.Dom
+namespace DasBlog.Tests.Automation.Dom
 {
 	public class ArchivePage : Page
 	{

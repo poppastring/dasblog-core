@@ -1,10 +1,10 @@
 ﻿using System.IO;
-using DasBlog.Tests.SmokeTest.Selenium;
-using DasBlog.Tests.SmokeTest.Selenium.Interfaces;
 using DasBlog.Tests.SmokeTest.Smoking;
 using DasBlog.Tests.SmokeTest.Smoking.Interfaces;
 using DasBlog.Tests.SmokeTest.Support;
 using DasBlog.Tests.SmokeTest.Support.Interfaces;
+using DasBlog.Tests.Automation.Selenium;
+using DasBlog.Tests.Automation.Selenium.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;

@@ -1,6 +1,6 @@
 ﻿using OpenQA.Selenium;
 
-namespace DasBlog.Tests.SmokeTest.Dom
+namespace DasBlog.Tests.Automation.Dom
 {
 	public class SpanPageElement : PageElement
 	{

@@ -1,7 +1,7 @@
 ﻿using System.Threading;
-using Microsoft.Extensions.Logging;
 using DasBlog.Tests.SmokeTest.Smoking.Interfaces;
 using DasBlog.Tests.SmokeTest.Support.Interfaces;
+using Microsoft.Extensions.Logging;
 
 namespace DasBlog.Tests.SmokeTest.Smoking
 {
