@@ -26,6 +26,7 @@ namespace DasBlog.SmokeTest.Smoking
 			browser.Init();
 			Login_WithBlankPassword_Fails();
 			Click_OnNavBarItem_ShowsPage();
+			Goto_UnauthorizedPage_LoginPage();
 			Thread.Sleep(1000);
 		}
 
@@ -62,6 +63,24 @@ namespace DasBlog.SmokeTest.Smoking
 				new TestStep(() => pages.NavBar[AppConstants.HomeNavId].Click()),
 				new TestStep(() => pages.Home.IsDisplayed())
 
+			};
+			testExecutor.Execute(testSteps, Results);
+		}
+
+		private void Goto_UnauthorizedPage_LoginPage()
+		{
+			List<TestStep> testSteps = new List<TestStep>
+			{
+				new TestStep(() => pages.Users.Goto()),
+				new TestStep(() => pages.Login.IsDisplayed()),
+
+				new TestStep(() => pages.Home.Goto()),
+				new TestStep(() => pages.PostMaintenance.Goto()),
+				new TestStep(() => pages.Login.IsDisplayed()),
+
+				new TestStep(() => pages.Home.Goto()),
+				new TestStep(() => pages.Activity.Goto()),
+				new TestStep(() => pages.Login.IsDisplayed())
 			};
 			testExecutor.Execute(testSteps, Results);
 		}

@@ -12,9 +12,10 @@
 		public const string CategoryPage = "category";
 		public const string ArchivePage = "archive";
 		public const string SubscribePage = "feed/rss";
-		public const string PostMaintenancePage = "post";
+		public const string PostMaintenancePage = "post/create";
+			// not sure how to hanlde these modal pages
 		public const string UsersPage = "users";
-		public const string ActivityPage = "activity";
+		public const string ActivityPage = "activity/activityList";
 		public const string NavBarPage = "navbar";
 		public const string LoginPage = "account/login";
 		//
