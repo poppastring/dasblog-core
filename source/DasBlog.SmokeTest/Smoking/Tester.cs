@@ -26,7 +26,7 @@ namespace DasBlog.SmokeTest.Smoking
 			browser.Init();
 			Login_WithBlankPassword_Fails();
 			Click_OnNavBarItem_ShowsPage();
-			Goto_UnauthorizedPage_LoginPage();
+			Goto_UnauthorizedPage_ShowsLoginPage();
 			Thread.Sleep(1000);
 		}
 
@@ -67,7 +67,7 @@ namespace DasBlog.SmokeTest.Smoking
 			testExecutor.Execute(testSteps, Results);
 		}
 
-		private void Goto_UnauthorizedPage_LoginPage()
+		private void Goto_UnauthorizedPage_ShowsLoginPage()
 		{
 			List<TestStep> testSteps = new List<TestStep>
 			{
