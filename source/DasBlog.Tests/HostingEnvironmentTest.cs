@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace DasBlog.Tests
+namespace DasBlog.Tests.UnitTests
 {
     public class HostingEnvironmentTest : IHostingEnvironment
     {

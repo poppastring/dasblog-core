@@ -6,7 +6,7 @@ using DasBlog.Core.Services.Interfaces;
 using Microsoft.Extensions.Options;
 using System.Linq;
 
-namespace DasBlog.Tests.Services
+namespace DasBlog.Tests.UnitTests.UnitTests.UnitTests.Services
 {
 	public class UserDataRepoTest
 	{

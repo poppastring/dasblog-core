@@ -5,7 +5,7 @@ using DasBlog.Web.TagHelpers;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using Xunit;
 
-namespace DasBlog.Tests.UI
+namespace DasBlog.Tests.UnitTests.UnitTests.UnitTests.UI
 {
 	public class TagHelperTest
 	{

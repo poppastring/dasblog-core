@@ -2,7 +2,7 @@
 using DasBlog.Core.Services;
 using Xunit;
 
-namespace DasBlog.Tests.Services
+namespace DasBlog.Tests.UnitTests.UnitTests.UnitTests.Services
 {
 	public class ActivityRepoTest
 	{
