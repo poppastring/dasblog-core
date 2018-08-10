@@ -8,6 +8,7 @@ namespace DasBlog.SmokeTest.Dom
 		protected readonly IBrowser browser;
 		protected readonly string path;						// relative to the root e.g. "category" or "account/login"
 		protected readonly string title;
+		// TODO remoe optional from title - two strings / one string is a gotcha
 		public Page(IBrowser browser, string path, string title = null)
 		{
 			this.browser = browser;

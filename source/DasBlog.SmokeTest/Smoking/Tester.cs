@@ -49,10 +49,19 @@ namespace DasBlog.SmokeTest.Smoking
 			{
 				new TestStep(() => pages.Home.Goto()),
 				new TestStep(() => pages.NavBar.IsDisplayed()),
-				new TestStep(() => pages.NavBar[AppConstants.CategoryId] != null),
-				new TestStep(() => pages.NavBar[AppConstants.CategoryId].Click()),
-				new TestStep(() => pages.Category.IsDisplayed())
-				// TODO other pages
+				
+				new TestStep(() => pages.NavBar[AppConstants.CategoryNavId] != null),
+				new TestStep(() => pages.NavBar[AppConstants.CategoryNavId].Click()),
+				new TestStep(() => pages.Category.IsDisplayed()),
+				
+				new TestStep(() => pages.NavBar[AppConstants.ArchiveNavId] != null),
+				new TestStep(() => pages.NavBar[AppConstants.ArchiveNavId].Click()),
+				new TestStep(() => pages.Archive.IsDisplayed()),
+				
+				new TestStep(() => pages.NavBar[AppConstants.HomeNavId] != null),
+				new TestStep(() => pages.NavBar[AppConstants.HomeNavId].Click()),
+				new TestStep(() => pages.Home.IsDisplayed())
+
 			};
 			testExecutor.Execute(testSteps, Results);
 		}

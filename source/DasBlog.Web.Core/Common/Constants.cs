@@ -1,4 +1,14 @@
-﻿namespace DasBlog.Core.Common
+﻿/*
+ * Note that this file is shared between DasBlog.Core and the test routines
+ * If a change is made in one project then the other project may need
+ * to be rebuilt otherwise a razor compilation failure may occur.
+ * This applies to element ids, page titles etc.
+ * Although the raxor page is recompiled on the fly the constants which are embedded in the DasBlog.Core
+ * assembly's data will not have been updated
+ * TODO - fix this gotcha
+ */
+
+namespace DasBlog.Core.Common
 {
 	public static class Constants // has to be public for razor
 	{
@@ -29,14 +39,18 @@
 		public const string LogDirectory = "logs";
 	
 		// element ids
-		public const string CategoryId = "categoryNavBarItemId";
 		public const string PasswordValidationId = "passwordValidation";
-		public const string LoginButtonId = "loginButton";
 		public const string NavBarId = "navbar";
 		public const string CategoryPageTitle = "Category";
-		public const string ArhivePageTitle = "Archive";
-
+	
 		public const string SearcherRouteName = "searcher";
+		public const string ArchivePageTitle = "Archive";
+		public const string HomePageTitle = "Blog";
+		// navbar link ids
+		public const string LoginButtonId = "loginButton";
+		public const string CategoryNavId = "categoryNavBarItemId";
+		public const string ArchiveNavId = "archiveNavBarItemId";
+		public const string HomeNavId = "homeNavBarItemId";
 	}
 
 }

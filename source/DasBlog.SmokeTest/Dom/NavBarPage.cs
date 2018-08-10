@@ -12,6 +12,13 @@ namespace DasBlog.SmokeTest.Dom
 		{
 		}
 
+		/// <summary>
+		/// returns a link that the tester can call Click on
+		/// The caller should test this for null before proceding with click etc.
+		/// </summary>
+		/// <param name="id">something like "CategoryNavBarId"
+		/// 	See navbar link ids in Constants
+		/// </param>
 		public LinkPageElement this[string id]
 		{
 			get
@@ -21,7 +28,7 @@ namespace DasBlog.SmokeTest.Dom
 					return elements[id];
 				}
 
-				LinkPageElement el = browser.GetLinkById(Core.Common.Constants.CategoryId);
+				LinkPageElement el = browser.GetLinkById(id);
 				if (el != null)
 				{
 					elements[id] = el;

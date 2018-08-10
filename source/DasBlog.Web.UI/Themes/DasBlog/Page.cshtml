@@ -1,7 +1,12 @@
+@using DasBlog.Core.Common
 @using DasBlog.Web.Models.BlogViewModels;
 @using Microsoft.VisualBasic
 @model ListPostsViewModel
 @using Constants = DasBlog.Core.Common.Constants;
+
+@{
+    ViewBag.Title = Constants.HomePageTitle;
+}
 
 <div class="row">
     <div id="contents" class="container col-md-9">
