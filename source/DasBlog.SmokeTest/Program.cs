@@ -33,9 +33,9 @@ namespace DasBlog.SmokeTest
 					services.AddSingleton<IVersionedFileService, NoopVersionedFileService>();
 					services.AddSingleton<IDasBlogInstallation, DasBlogInstallation>();
 					services.AddSingleton<IWebServerRunner, WebServerRunner>();
-					services.AddSingleton<App>();
+					services.AddTransient<App>();
 					services.AddSingleton<IBrowser, Browser>();
-					services.AddSingleton<ITester, Tester>();
+					services.AddTransient<ITester, Tester>();
 					services.AddSingleton<IPublisher, Publisher>();
 					services.AddSingleton<ITestExecutor, TestExecutor>();
 				})

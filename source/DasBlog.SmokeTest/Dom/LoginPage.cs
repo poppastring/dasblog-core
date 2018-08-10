@@ -18,7 +18,7 @@ namespace DasBlog.SmokeTest.Dom
 			}
 		}
 
-		public SpanPageElement Password
+		public SpanPageElement PasswordValidation
 		{
 			get { return browser.GetElementById(AppConstants.PasswordValidationId); }
 		}

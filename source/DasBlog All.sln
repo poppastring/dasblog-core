@@ -46,6 +46,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DasBlog.SmokeTest", "DasBlo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DasBlog.FunctionalTests", "DasBlog.FunctionalTests\DasBlog.FunctionalTests.csproj", "{2AAA4696-6822-4389-AD50-37FECA283849}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DocSource", "DocSource", "{B734F9FD-539D-4FD3-9343-5BD5C18FF699}"
+ProjectSection(SolutionItems) = preProject
+	DocSource\SmokeTestArch.xlsx = DocSource\SmokeTestArch.xlsx
+EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug - All|Any CPU = Debug - All|Any CPU
@@ -166,6 +171,7 @@ Global
 		{9BAD4DCD-3C05-4716-A406-8B561EF0633F} = {4383190A-97AC-435E-9FBB-E203AC4497ED}
 		{48BC208B-59CE-4BE2-BA3A-72AEE7F205CB} = {4383190A-97AC-435E-9FBB-E203AC4497ED}
 		{5139B077-EC05-4F6D-BA08-27991B4E7185} = {4383190A-97AC-435E-9FBB-E203AC4497ED}
+		{B734F9FD-539D-4FD3-9343-5BD5C18FF699} = {800E3AC8-FF13-43CE-8C09-6F4A2867D445}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8F3ACFB8-CB52-4953-A1CF-4151E2789889}

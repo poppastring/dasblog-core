@@ -37,7 +37,7 @@ namespace DasBlog.SmokeTest.Smoking
 				, new TestStep(() => pages.Login.IsDisplayed())
 				, new TestStep(() => pages.Login.LoginButton != null)
 				, new TestStep(() => pages.Login.LoginButton.Click())
-				, new TestStep(() => pages.Login.Password.Text.ToLower().Contains("the password field is required"))
+				, new TestStep(() => pages.Login.PasswordValidation.Text.ToLower().Contains("the password field is required"))
 				, new TestStep(() => pages.Login.IsDisplayed())
 			};
 			testExecutor.Execute(testSteps, Results);
@@ -47,7 +47,7 @@ namespace DasBlog.SmokeTest.Smoking
 		{
 			List<TestStep> testSteps = new List<TestStep>
 			{
-				new TestStep(() => pages.Login.Goto()),
+				new TestStep(() => pages.Home.Goto()),
 				new TestStep(() => pages.NavBar.IsDisplayed()),
 				new TestStep(() => pages.NavBar[AppConstants.CategoryId] != null),
 				new TestStep(() => pages.NavBar[AppConstants.CategoryId].Click()),

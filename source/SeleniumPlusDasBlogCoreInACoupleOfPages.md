@@ -65,7 +65,7 @@ but this doesn't currently seem necessary.
 * A key goal has been to enable contributors to create functional tests for the features they introduce
 without the need for a deep understanding of Selenium.
 * To that end the decision was made to identify all page elements by their id.  (Selenium has
-a miriad ways to identify elements which would entail a richer association with Selenium.)
+miriad ways to identify elements which would entail a richer association with Selenium.)
   This is slgithly intrusive necessitating giving components
 ids purely for testing purposes.
 
