@@ -51,4 +51,5 @@ Change to the "source" directory and open the *DasBlog All.sln* and perform a bu
 - Add/Edit/Delete blog posts
 - Add Comments
 - Support for Live Writer
+- Security and User Management
 - Selenium integration
