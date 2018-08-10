@@ -4,7 +4,7 @@ using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Support.UI;
 using Xunit;
 
-namespace DasBlog.FunctionalTests
+namespace DasBlog.Tests.FunctionalTests
 {
 	public class AutomateThePlanetTestsXUnit
 	{
