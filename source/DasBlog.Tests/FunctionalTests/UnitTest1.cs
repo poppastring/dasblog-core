@@ -1,13 +1,37 @@
 using System;
+using DasBlog.Tests.Automation.Selenium;
+using DasBlog.Tests.Automation.Selenium.Interfaces;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Support.UI;
 using Xunit;
+using Microsoft.Extensions.Options;
 
 namespace DasBlog.Tests.FunctionalTests
 {
+	public class LocalOptionsAccessor : IOptions<BrowserOptions>
+	{
+		public LocalOptionsAccessor(BrowserOptions opts)
+		{
+			Value = opts;
+		}
+		public BrowserOptions Value { get; }
+	}
 	public class AutomateThePlanetTestsXUnit
 	{
+		[Fact]
+		public void ProtoTest()
+		{
+			IBrowser browser = new Browser(
+			  new LocalOptionsAccessor(new BrowserOptions
+			  {
+				  HomeUrl =  "http://localhost:5050/",
+				  Driver = "firefox"
+			  }));
+			browser.Init();
+			browser.Goto("/Login");
+		}
+/*
 		[Fact]
 		public void TestWithFirefoxDriver()
 		{
@@ -22,6 +46,7 @@ namespace DasBlog.Tests.FunctionalTests
 //				clickableElement.Click();
 			}
 		}
+*/
 /*
 		// failing on AppVeyor due to version mismatch - we expect AppVeyor to upgrade
 		[Fact]
