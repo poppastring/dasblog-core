@@ -9,9 +9,9 @@ using Microsoft.Extensions.Options;
 
 namespace DasBlog.Tests.FunctionalTests
 {
-	public class LocalOptionsAccessor : IOptions<BrowserOptions>
+	public class BrowserOptionsAccessor : IOptions<BrowserOptions>
 	{
-		public LocalOptionsAccessor(BrowserOptions opts)
+		public BrowserOptionsAccessor(BrowserOptions opts)
 		{
 			Value = opts;
 		}
@@ -23,7 +23,7 @@ namespace DasBlog.Tests.FunctionalTests
 		public void ProtoTest()
 		{
 			IBrowser browser = new Browser(
-			  new LocalOptionsAccessor(new BrowserOptions
+			  new BrowserOptionsAccessor(new BrowserOptions
 			  {
 				  HomeUrl =  "http://localhost:5050/",
 				  Driver = "firefox"
