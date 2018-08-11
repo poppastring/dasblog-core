@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Threading;
-using DasBlog.Tests.SmokeTest.Support.Interfaces;
+using DasBlog.Tests.Support.Interfaces;
 using Microsoft.Extensions.Options;
 
-namespace DasBlog.Tests.SmokeTest.Support
+namespace DasBlog.Tests.Support
 {
-	internal class WebServerRunner : IWebServerRunner
+	public class WebServerRunner : IWebServerRunner
 	{
 		private string exe;
 		private string args;

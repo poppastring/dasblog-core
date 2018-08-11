@@ -2,12 +2,11 @@
 using System.Threading;
 using DasBlog.Tests.Automation.Dom;
 using DasBlog.Tests.Automation.Selenium.Interfaces;
-using DasBlog.Tests.SmokeTest.Smoking.Interfaces;
 using DasBlog.Tests.Support;
 using DasBlog.Tests.Support.Interfaces;
 using AppConstants = DasBlog.Core.Common.Constants;
 
-namespace DasBlog.Tests.SmokeTest.Smoking
+namespace DasBlog.Tests.SmokeTest
 {
 	internal class Tester : ITester
 	{

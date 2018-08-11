@@ -1,7 +1,6 @@
-﻿using DasBlog.Tests.SmokeTest.Support.Interfaces;
-using DasBlog.Tests.Support.Interfaces;
+﻿using DasBlog.Tests.Support.Interfaces;
 
-namespace DasBlog.Tests.SmokeTest.Support
+namespace DasBlog.Tests.Support
 {
 	public class NoopVersionedFileService : IVersionedFileService
 	{

@@ -1,7 +1,7 @@
 ﻿using System;
 using DasBlog.Tests.Support;
 
-namespace DasBlog.Tests.SmokeTest.Smoking.Interfaces
+namespace DasBlog.Tests.SmokeTest
 {
 	public interface ITester : IDisposable
 	{

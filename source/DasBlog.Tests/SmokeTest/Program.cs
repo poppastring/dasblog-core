@@ -1,8 +1,4 @@
 ﻿using System.IO;
-using DasBlog.Tests.SmokeTest.Smoking;
-using DasBlog.Tests.SmokeTest.Smoking.Interfaces;
-using DasBlog.Tests.SmokeTest.Support;
-using DasBlog.Tests.SmokeTest.Support.Interfaces;
 using DasBlog.Tests.Automation.Selenium;
 using DasBlog.Tests.Automation.Selenium.Interfaces;
 using DasBlog.Tests.Support;

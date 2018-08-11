@@ -1,10 +1,8 @@
 ﻿using System.Threading;
-using DasBlog.Tests.SmokeTest.Smoking.Interfaces;
-using DasBlog.Tests.SmokeTest.Support.Interfaces;
 using DasBlog.Tests.Support.Interfaces;
 using Microsoft.Extensions.Logging;
 
-namespace DasBlog.Tests.SmokeTest.Smoking
+namespace DasBlog.Tests.SmokeTest
 {
 	internal class App
 	{

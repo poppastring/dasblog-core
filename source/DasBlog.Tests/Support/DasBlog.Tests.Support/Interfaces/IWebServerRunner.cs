@@ -1,4 +1,4 @@
-﻿namespace DasBlog.Tests.SmokeTest.Support.Interfaces
+﻿namespace DasBlog.Tests.Support.Interfaces
 {
 	public interface IWebServerRunner
 	{

@@ -1,4 +1,4 @@
-﻿namespace DasBlog.Tests.SmokeTest.Support
+﻿namespace DasBlog.Tests.Support
 {
 	public class WebServerRunnerOptions
 	{
