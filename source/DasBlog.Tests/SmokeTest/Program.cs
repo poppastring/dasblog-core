@@ -24,12 +24,8 @@ namespace DasBlog.Tests.SmokeTest
 						Path.Combine(hostContext.HostingEnvironment.ContentRootPath, "appSettings.json"));
 				}).ConfigureServices((hostContext, services) =>
 				{
-					services.Configure<DasBlogInstallationOptions>(options =>
-						ConfigureDasBlogInstallation(options, hostContext.Configuration));
 					services.Configure<BrowserOptions>(hostContext.Configuration);
 					services.Configure<WebServerRunnerOptions>(hostContext.Configuration);
-					services.AddSingleton<IVersionedFileService, NoopVersionedFileService>();
-					services.AddSingleton<IDasBlogInstallation, DasBlogInstallation>();
 					services.AddSingleton<IWebServerRunner, WebServerRunner>();
 					services.AddTransient<App>();
 					services.AddSingleton<IBrowser, Browser>();
@@ -45,18 +41,5 @@ namespace DasBlog.Tests.SmokeTest
 			app.Run();
 		}
 
-		private static void ConfigureDasBlogInstallation(DasBlogInstallationOptions options, IConfiguration config)
-		{
-			if (string.IsNullOrEmpty(config[nameof(options.ContentRootPath)]))
-			{
-				string root = Path.GetFullPath(typeof(Program).Assembly.Location);
-				options.ContentRootPath = Path.Combine(root.Replace( Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar)
-				  , "../../../../DasBlog.Web.UI");
-			}
-			else
-			{
-				options.ContentRootPath = config[nameof(options.ContentRootPath)];
-			}
-		}
 	}
 }
