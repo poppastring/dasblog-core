@@ -65,6 +65,9 @@ namespace AutoMapper
             additionalInitAction = additionalInitAction ?? DefaultConfig;
             assembliesToScan = assembliesToScan as Assembly[] ?? assembliesToScan.ToArray();
 // start of dasBlog hack
+
+	        DetectAssembliesRequiringExclusion(assembliesToScan);
+	        
 	        string[] excluededAssemblies = new[]
 	        {
 		        "CookComputing",
@@ -72,7 +75,8 @@ namespace AutoMapper
 		        nameof(AutoMapper),
 		        "newtelligence",
 		        "DotNetOpenAuth",
-		        "log4net"
+		        "log4net",
+		        "WebControlCaptcha"
 	        };
  
 	        
@@ -116,7 +120,27 @@ namespace AutoMapper
             return services.AddScoped<IMapper>(sp => new Mapper(sp.GetRequiredService<IConfigurationProvider>(), sp.GetService));
         }
 
-        private static bool ImplementsGenericInterface(this Type type, Type interfaceType)
+	    private static void DetectAssembliesRequiringExclusion(IEnumerable<Assembly> assembliesToScan)
+	    {
+		    List<TypeInfo> typeList = new List<TypeInfo>();
+		    foreach (Assembly ass in assembliesToScan)
+		    {
+			    try
+			    {
+				    foreach (TypeInfo ti in ass.GetTypes())
+				    {
+					    typeList.Add(ti);
+				    }
+			    }
+			    catch (Exception e)
+			    {
+				    System.Diagnostics.Debug.WriteLine($"{ass.GetName().Name} FAILED");
+							// anything turning up herer should be included in excludedAssemblies above
+			    }
+		    }
+	    }
+
+	    private static bool ImplementsGenericInterface(this Type type, Type interfaceType)
         {
             return type.IsGenericType(interfaceType) || type.GetTypeInfo().ImplementedInterfaces.Any(@interface => @interface.IsGenericType(interfaceType));
         }
