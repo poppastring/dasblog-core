@@ -1,4 +1,32 @@
-﻿using Microsoft.AspNetCore.Mvc.TagHelpers;
+﻿using System.Collections;
+using Microsoft.AspNetCore.Mvc.TagHelpers;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+
+/*
+ * TODO when xplatform - this clsss should be removed and the AutoMapper extensions nuget
+ * packsge should be included
+ *
+ * This source had to be included and hacked because when running functional tests
+ * an exception was thrown with the following information:
+ *   System.Reflection.ReflectionTypeLoadException : Unable to load one or more of the requested types.
+ *   Could not load type 'System.Runtime.Remoting.Channels.IClientChannelSink' from assembly 'mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089'.
+ * plus half a dozen more in CookComputing and a bazillion in System.Web.
+ * This souurce is from commit
+ * https://github.com/AutoMapper/AutoMapper.Extensions.Microsoft.DependencyInjection/commit/a2e41e49101cdb5f7dfcc378f7724ac0ae3313bf
+ * probably v5.0.1
+ *
+ * The hack marked below in the code prevents the exeption.
+ *
+ * The problem is caused by AutoMapper's loading all the types it can find in a scan of all loaded assemblies.
+ * Unfortunately some of those types are referenced in the newtelligence legacy modules but are no where
+ * to be found at runtime as we are using .net core which does not support the particular apis.  An exception is thrown.
+ *
+ * The question is why does this only happen wehn running FunctionalTests?
+ * My guess is that Microsoft.NET.Test.Sdk which I'm pretty sure contains the entry point for FunctionalTests
+ * loads all likely looking assemblies whereas the normal loading proecedure excludes any that are unreachable.  Does it lazy load?
+ * I can attest that FunctionalTests has 381 loaded assemblies by the time AutoMapper does its stuff whereas
+ * with the normal loadoing process there are only 101.
+ */
 
 namespace AutoMapper
 {
@@ -28,8 +56,6 @@ namespace AutoMapper
 
         private static readonly Action<IMapperConfigurationExpression> DefaultConfig = cfg => { };
 
-
-
         private static IServiceCollection AddAutoMapperClasses(IServiceCollection services, Action<IMapperConfigurationExpression> additionalInitAction, IEnumerable<Assembly> assembliesToScan)
         {
             // Just return if we've already added AutoMapper to avoid double-registration
@@ -38,38 +64,23 @@ namespace AutoMapper
 
             additionalInitAction = additionalInitAction ?? DefaultConfig;
             assembliesToScan = assembliesToScan as Assembly[] ?? assembliesToScan.ToArray();
-	        HashSet<string> excludedAssemblies = new HashSet<string>
+// start of dasBlog hack
+	        string[] excluededAssemblies = new[]
 	        {
 		        "CookComputing",
-		        "System.WEb"
+		        "System.Web",
+		        nameof(AutoMapper),
+		        "newtelligence",
+		        "DotNetOpenAuth",
+		        "log4net"
 	        };
-#if true
-	        List<TypeInfo> typeList = new List<TypeInfo>();
-	        foreach (Assembly ass in assembliesToScan)
-	        {
-		        
-		        System.Diagnostics.Debug.WriteLine(ass.GetName().Name);
-		        try
-		        {
-					foreach (TypeInfo ti in ass.GetTypes())
-					{
-						typeList.Add(ti);
-					}
-		        }
-		        catch (Exception e)
-		        {
-			        System.Diagnostics.Debug.Write(" FAILED");
-		        }
-	        }
-	        var allTypes = typeList;
-#else
+ 
 	        
 	        var allTypes = assembliesToScan
-			        .Where(a => a.GetName().Name != nameof(AutoMapper) && !a.GetName().Name.Contains("CookComputing"))
+			        .Where(a => !excluededAssemblies.Any(ea => a.GetName().Name.Contains(ea)))
 			        .SelectMany(a => a.DefinedTypes)
 		        .ToArray();
-#endif
-
+// end of dasblog hack
             var profiles = allTypes
                 .Where(t => typeof(Profile).GetTypeInfo().IsAssignableFrom(t) && !t.IsAbstract)
                 .ToArray();
