@@ -4,6 +4,7 @@
     <IsPackable>false</IsPackable>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="2.1.0" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="2.1.1" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.7.0" />
     <PackageReference Include="Newtonsoft.Json" Version="10.0.1" />
@@ -60,6 +61,7 @@
     <None Remove="geckodriver.exe" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\DasBlog.Web.UI\DasBlog.Web.csproj" />
     <ProjectReference Include="..\Automation\DasBlog.Tests.Automation\DasBlog.Tests.Automation.csproj" />
   </ItemGroup>
 </Project>

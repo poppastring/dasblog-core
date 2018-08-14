@@ -44,4 +44,7 @@
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
   </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="AutomapperExtensions.cs" />
+  </ItemGroup>
 </Project>

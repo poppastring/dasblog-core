@@ -133,6 +133,7 @@ namespace DasBlog.Web
 				.AddSingleton<IActivityRepoFactory, ActivityRepoFactory>()
 				.AddSingleton<IEventLineParser, EventLineParser>()
 				;
+			var assemblies = AppDomain.CurrentDomain.GetAssemblies();
 			services
 				.AddAutoMapper(mapperConfig =>
 				{
