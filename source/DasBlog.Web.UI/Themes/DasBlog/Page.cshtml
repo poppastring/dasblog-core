@@ -1,18 +1,23 @@
 @using DasBlog.Web.Models.BlogViewModels;
+@using Microsoft.VisualBasic
 @model ListPostsViewModel
+@using Constants = DasBlog.Core.Common.Constants;
 
-<div id="content">
+<div class="row">
+    <div id="contents" class="container col-md-9">
 
-    @if (Model.Posts.Count > 0)
-    {
-        foreach (var post in Model.Posts)
+        @if (Model.Posts.Count > 0)
         {
-            @Html.Partial("_PostPartial", post)
+            foreach (var post in Model.Posts)
+            {
+                @Html.Partial("_PostPartial", post)
+            }
         }
-    }
-    else
-    {
-        <p>No posts found!</p>
-    }
+        else
+        {
+            <p>No posts found!</p>
+        }
 
+    </div>
+    <search-box/>
 </div>

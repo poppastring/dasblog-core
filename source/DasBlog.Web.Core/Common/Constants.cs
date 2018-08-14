@@ -35,6 +35,8 @@
 		public const string NavBarId = "navbar";
 		public const string CategoryPageTitle = "Category";
 		public const string ArhivePageTitle = "Archive";
+
+		public const string SearcherRouteName = "searcher";
 	}
 
 }

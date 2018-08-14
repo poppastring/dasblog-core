@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Specialized;
+using System.Globalization;
+using System.Text.RegularExpressions;
 using newtelligence.DasBlog.Runtime;
 using DasBlog.Managers.Interfaces;
 using DasBlog.Core;
@@ -14,6 +17,7 @@ namespace DasBlog.Managers
 		private readonly IBlogDataService dataService;
 		private readonly IDasBlogSettings dasBlogSettings;
 		private readonly Microsoft.Extensions.Logging.ILogger logger;
+		private static Regex stripTags = new Regex("<[^>]*>", RegexOptions.Compiled | RegexOptions.CultureInvariant);
 
 		public BlogManager(IDasBlogSettings settings , Microsoft.Extensions.Logging.ILogger<BlogManager> logger)
 		{
@@ -93,6 +97,90 @@ namespace DasBlog.Managers
 			return new EntryCollection();
 		}
 
+		
+		public EntryCollection SearchEntries(string searchString, string acceptLanguageHeader)
+		{
+			StringCollection searchWords = new StringCollection();
+
+			string[] splitString = Regex.Split(searchString, @"(""[^""]*"")", RegexOptions.IgnoreCase |
+				RegexOptions.Compiled);
+
+			for (int index = 0; index < splitString.Length; index++)
+			{
+				if (splitString[index] != "")
+				{
+					if (index == splitString.Length - 1)
+					{
+						foreach (string s in splitString[index].Split(' '))
+						{
+							if (s != "") searchWords.Add(s);
+						}
+					}
+					else
+					{
+						searchWords.Add(splitString[index].Substring(1, splitString[index].Length - 2));
+					}
+				}
+			}
+
+			EntryCollection matchEntries = new EntryCollection();
+
+			foreach (Entry entry in dataService.GetEntriesForDay(DateTime.MaxValue.AddDays(-2), new UTCTimeZone()
+			  , acceptLanguageHeader, int.MaxValue, int.MaxValue, null))
+			{
+				string entryTitle = entry.Title;
+				string entryDescription = entry.Description;
+				string entryContent = entry.Content;
+
+				foreach (string searchWord in searchWords)
+				{
+					if (entryTitle != null)
+					{
+						if (searchEntryForWord(entryTitle, searchWord))
+						{
+							if (!matchEntries.Contains(entry))
+							{
+								matchEntries.Add(entry);
+							}
+							continue;
+						}
+					}
+					if (entryDescription != null)
+					{
+						if (searchEntryForWord(entryDescription, searchWord))
+						{
+							if (!matchEntries.Contains(entry))
+							{
+								matchEntries.Add(entry);
+							}
+							continue;
+						}
+					}
+					if (entryContent != null)
+					{
+						if (searchEntryForWord(entryContent, searchWord))
+						{
+							if (!matchEntries.Contains(entry))
+							{
+								matchEntries.Add(entry);
+							}
+							continue;
+						}
+					}
+				}
+			}
+
+			// log the search to the event log
+/*
+            ILoggingDataService logService = requestPage.LoggingService;
+			string referrer = Request.UrlReferrer != null ? Request.UrlReferrer.AbsoluteUri : Request.ServerVariables["REMOTE_ADDR"];	
+			logger.LogInformation(
+				new EventDataItem(EventCodes.Search, String.Format("{0}", searchString), referrer));
+*/
+
+			return matchEntries;
+		}
+
 		public EntrySaveState CreateEntry(Entry entry)
 		{
 			var rtn = InternalSaveEntry(entry, null, null);
@@ -112,6 +200,15 @@ namespace DasBlog.Managers
 			Entry entry = GetEntryForEdit(postid);
 			dataService.DeleteEntry(postid, null);
 			LogEvent(EventCodes.EntryDeleted, entry);
+		}
+
+		private bool searchEntryForWord(string sourceText, string searchWord)
+		{
+			// Remove any tags from sourceText.
+			sourceText = stripTags.Replace(sourceText, String.Empty);
+
+			CompareInfo myComp = CultureInfo.InvariantCulture.CompareInfo;
+			return (myComp.IndexOf(sourceText, searchWord, CompareOptions.IgnoreCase) >= 0);
 		}
 
 		private void LogEvent(EventCodes eventCode, Entry entry)
