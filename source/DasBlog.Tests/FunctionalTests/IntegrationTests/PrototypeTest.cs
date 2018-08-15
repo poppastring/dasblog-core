@@ -18,7 +18,7 @@ namespace DasBlog.Tests.FunctionalTests.IntegrationTests
 		{
 			var client = webAppFactory.CreateClient();
 			var response = await client.GetAsync("http://localhost:5000/");
-			Assert.True(response.StatusCode == HttpStatusCode.Accepted);
+			Assert.Equal( HttpStatusCode.Accepted, response.StatusCode);
 		}
 	}
 }
