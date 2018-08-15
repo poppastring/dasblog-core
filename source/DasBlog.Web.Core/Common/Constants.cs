@@ -51,6 +51,8 @@ namespace DasBlog.Core.Common
 		public const string CategoryNavId = "categoryNavBarItemId";
 		public const string ArchiveNavId = "archiveNavBarItemId";
 		public const string HomeNavId = "homeNavBarItemId";
+		//
+		public const string DasBlogDataRoot = "DAS_BLOG_DATA_ROOT";
 	}
 
 }

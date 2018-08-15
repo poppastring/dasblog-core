@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore;
+﻿using System.IO;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Extensions.Configuration;
@@ -19,10 +20,11 @@ namespace DasBlog.Web.UI
 				{
 					var env = hostingContext.HostingEnvironment;
 					configBuilder.SetBasePath(env.ContentRootPath)
-						.AddXmlFile(@"Config\site.config", optional: true, reloadOnChange: true)
-						.AddXmlFile(@"Config\metaConfig.xml", optional: true, reloadOnChange: true)
-						.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-						.AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+//					configBuilder.SetBasePath(Startup.GetDataRoot(env))
+						.AddXmlFile(Path.Combine(Startup.GetDataRoot(env),@"Config/site.config"), optional: true, reloadOnChange: true)
+						.AddXmlFile(Path.Combine(Startup.GetDataRoot(env),@"Config/metaConfig.xml"), optional: true, reloadOnChange: true)
+						.AddJsonFile(Path.Combine(Startup.GetDataRoot(env),"appsettings.json"), optional: true, reloadOnChange: true)
+						.AddJsonFile(Path.Combine(Startup.GetDataRoot(env),$"appsettings.{env.EnvironmentName}.json"), optional: true)
 						.AddEnvironmentVariables()
 						;
 					configBuilder.Build();
