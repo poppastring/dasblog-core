@@ -17,8 +17,8 @@ namespace DasBlog.Tests.FunctionalTests.IntegrationTests
 		public async void Minimal()
 		{
 			var client = webAppFactory.CreateClient();
-			var response = await client.GetAsync("http://localhost:5000/");
-			Assert.Equal( HttpStatusCode.Accepted, response.StatusCode);
+			var response = await client.GetAsync("http://localhost:5000/account/login");
+			Assert.Equal( HttpStatusCode.OK, response.StatusCode);
 		}
 	}
 }

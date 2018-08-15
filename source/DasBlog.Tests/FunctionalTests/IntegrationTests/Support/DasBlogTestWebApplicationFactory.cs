@@ -12,8 +12,10 @@ namespace DasBlog.Tests.FunctionalTests.IntegrationTests.Support
 		{
 			base.ConfigureWebHost(builder);
 			const string prefix = "c:/projects/dasblog-core/source/";
-			builder.UseContentRoot(Path.Combine(prefix, "DasBlog.Tests/Resources/Environments/Vanilla"));
-			builder.UseWebRoot(Path.Combine(prefix, "DasBlog.Tests/Resources/Environments/wwwroot"));
+			builder.UseContentRoot(Path.Combine(prefix, "DasBlog.Web.UI"));
+			builder.UseWebRoot(Path.Combine(prefix, "DasBlog.Web.UI/wwwroot"));
+//			builder.UseContentRoot(Path.Combine(prefix, "DasBlog.Tests/Resources/Environments/Vanilla"));
+//			builder.UseWebRoot(Path.Combine(prefix, "DasBlog.Tests/Resources/Environments/wwwroot"));
 		}
 	}
 }
