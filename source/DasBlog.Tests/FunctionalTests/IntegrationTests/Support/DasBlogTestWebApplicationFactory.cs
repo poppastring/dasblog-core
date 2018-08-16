@@ -1,21 +1,26 @@
-﻿using System.IO;
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace DasBlog.Tests.FunctionalTests.IntegrationTests.Support
 {
 	public class DasBlogTestWebApplicationFactory
 	  : WebApplicationFactory<DasBlog.Web.Startup>
 	{
+		public IServiceCollection Services { get; private set; }
+		public IWebHost host { get; private set; }
 		protected override void ConfigureWebHost(IWebHostBuilder builder)
 		{
 			base.ConfigureWebHost(builder);
+			builder.ConfigureServices(services =>
+				services.AddSingleton<ServiceResolver>());
 			const string prefix = "c:/projects/dasblog-core/source/";
-			builder.UseContentRoot(Path.Combine(prefix, "DasBlog.Web.UI"));
-			builder.UseWebRoot(Path.Combine(prefix, "DasBlog.Web.UI/wwwroot"));
-//			builder.UseContentRoot(Path.Combine(prefix, "DasBlog.Tests/Resources/Environments/Vanilla"));
-//			builder.UseWebRoot(Path.Combine(prefix, "DasBlog.Tests/Resources/Environments/wwwroot"));
+			builder.ConfigureServices((services) => Services = services);
+		}
+
+		protected override IWebHostBuilder CreateWebHostBuilder()
+		{
+			return base.CreateWebHostBuilder();
 		}
 	}
 }

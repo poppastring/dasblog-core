@@ -35,6 +35,8 @@ namespace DasBlog.Web
 		public const string SITESECURITYCONFIG = @"Config\siteSecurity.config";
 		private IHostingEnvironment _hostingEnvironment;
 		private string _binariesPath;
+		public static IServiceCollection DasBlogServices { get; private set; }
+			// TODO find out how to access services from integration tests
 
 		public Startup(IConfiguration configuration, IHostingEnvironment env)
 		{
@@ -144,6 +146,7 @@ namespace DasBlog.Web
 				})
 				.AddMvc()
 				.AddXmlSerializerFormatters();
+			DasBlogServices = services;
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
