@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using System;
+using System.Net.Http;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -12,15 +14,6 @@ namespace DasBlog.Tests.FunctionalTests.IntegrationTests.Support
 		protected override void ConfigureWebHost(IWebHostBuilder builder)
 		{
 			base.ConfigureWebHost(builder);
-			builder.ConfigureServices(services =>
-				services.AddSingleton<ServiceResolver>());
-			const string prefix = "c:/projects/dasblog-core/source/";
-			builder.ConfigureServices((services) => Services = services);
-		}
-
-		protected override IWebHostBuilder CreateWebHostBuilder()
-		{
-			return base.CreateWebHostBuilder();
 		}
 	}
 }

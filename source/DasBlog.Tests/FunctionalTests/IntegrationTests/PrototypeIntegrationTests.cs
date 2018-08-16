@@ -20,7 +20,6 @@ namespace DasBlog.Tests.FunctionalTests.IntegrationTests
 		[Fact]
 		public async void MinimalTest()
 		{
-			client = webAppFactory.CreateClient();
 			var response = await client.GetAsync("http://localhost:5000/account/login");
 			Assert.Equal( HttpStatusCode.OK, response.StatusCode);
 		}

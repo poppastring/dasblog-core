@@ -28,7 +28,7 @@ namespace DasBlog.Tests.FunctionalTests
 			IBrowser browser = new Browser(
 			  new BrowserOptionsAccessor(new BrowserOptions
 			  {
-				  HomeUrl =  "http://localhost:5000/",
+				  HomeUrl =  "http://localhost/",
 				  Driver = "firefox"
 			  }));
 			browser.Init();
