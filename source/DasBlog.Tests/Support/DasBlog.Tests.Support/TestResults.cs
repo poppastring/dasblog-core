@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace DasBlog.Tests.Support
 {
@@ -21,5 +22,7 @@ namespace DasBlog.Tests.Support
 		{
 			Results.Add(new Result(testId, sucess, errorMessage ?? string.Empty));
 		}
+
+		public bool TestPassed => Results.All(r => r.Success);
 	}
 }
