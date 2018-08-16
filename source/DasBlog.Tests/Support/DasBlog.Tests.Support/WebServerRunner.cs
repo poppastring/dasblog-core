@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Threading;
 using DasBlog.Tests.Support.Interfaces;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace DasBlog.Tests.Support
@@ -12,11 +13,14 @@ namespace DasBlog.Tests.Support
 		private string args;
 		private string workingDirectory;
 		private Process webAppProcess;
-		public WebServerRunner(IOptions<WebServerRunnerOptions> optionsAccessor)
+		private ILogger<WebServerRunner> logger;
+
+		public WebServerRunner(IOptions<WebServerRunnerOptions> optionsAccessor, ILogger<WebServerRunner> logger)
 		{
 			exe = optionsAccessor.Value.WebServerExe;
 			args = optionsAccessor.Value.WebServerProgramArguments;
 			workingDirectory = optionsAccessor.Value.WorkingDirectory;
+			this.logger = logger;
 		}
 		public void RunDasBlog()
 		{
@@ -43,7 +47,7 @@ namespace DasBlog.Tests.Support
 			string s;
 			while ((s = pr.StandardOutput.ReadLine()) != null)
 			{
-				Console.WriteLine($"DasBlog.Web says: {s}");
+				logger.LogInformation($"DasBlog.Web says: {s}");
 			}
 		}
 	}
