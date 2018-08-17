@@ -1,10 +1,11 @@
-﻿using newtelligence.DasBlog.Runtime;
+﻿using System;
+using newtelligence.DasBlog.Runtime;
 
 namespace DasBlog.Managers.Interfaces
 {
     public interface IBlogManager
     {
-        Entry GetBlogPost(string postid);
+        Entry GetBlogPost(string postid, DateTime? postDate);
 
 		Entry GetEntryForEdit(string postid);
 

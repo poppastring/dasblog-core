@@ -2,9 +2,11 @@
 using System.Collections.Specialized;
 using System.Globalization;
 using System.Text.RegularExpressions;
+using System.Linq;
 using newtelligence.DasBlog.Runtime;
 using DasBlog.Managers.Interfaces;
 using DasBlog.Core;
+using DasBlog.Core.Common;
 using newtelligence.DasBlog.Util;
 using EventDataItem = DasBlog.Core.EventDataItem;
 using EventCodes = DasBlog.Core.EventCodes;
@@ -26,10 +28,21 @@ namespace DasBlog.Managers
 			dataService = BlogDataServiceFactory.GetService(dasBlogSettings.WebRootDirectory + dasBlogSettings.SiteConfiguration.ContentDir, loggingDataService);
 			this.logger = logger;
 		}
-
-		public Entry GetBlogPost(string postid)
+		/// <param name="dt">if non-null then the post must be dated on that date</param>
+		public Entry GetBlogPost(string postid, DateTime? dt)
 		{
-			return dataService.GetEntry(postid);
+			if (dt == null)
+			{
+				return dataService.GetEntry(postid);
+			}
+			else
+			{
+				EntryCollection entries = dataService.GetEntriesForDay(dt.Value, null, null, 1, 10, null);
+				return entries.FirstOrDefault(e => 
+				  dasBlogSettings.GetPermaTitle(e.CompressedTitle)
+				  .Replace(dasBlogSettings.SiteConfiguration.TitlePermalinkSpaceReplacement, string.Empty)
+				  == postid);
+			}
 		}
 
 		public Entry GetEntryForEdit(string postid)
@@ -219,17 +232,22 @@ namespace DasBlog.Managers
 					MakePermaLinkFromCompressedTitle(entry), entry.Title));
 		}
 
-		private string MakePermaLink(Entry entry)
-		{
-			return new Uri(new Uri(dasBlogSettings.SiteConfiguration.Root)
-				,dasBlogSettings.RelativeToRoot(entry.EntryId)).ToString();
-		}
-
 		private Uri MakePermaLinkFromCompressedTitle(Entry entry)
 		{
-			return new Uri(new Uri(dasBlogSettings.SiteConfiguration.Root)
-				,dasBlogSettings.RelativeToRoot(
-				dasBlogSettings.GetPermaTitle(entry.CompressedTitle)));
+			if (dasBlogSettings.SiteConfiguration.EnableTitlePermaLinkUnique)
+			{
+				return new Uri(new Uri(dasBlogSettings.SiteConfiguration.Root)
+					, dasBlogSettings.RelativeToRoot(
+						entry.CreatedUtc.ToString("yyyyMMdd") + "/" +
+						dasBlogSettings.GetPermaTitle(entry.CompressedTitle)));
+			}
+			else
+			{
+				return new Uri(new Uri(dasBlogSettings.SiteConfiguration.Root)
+					,dasBlogSettings.RelativeToRoot(
+					dasBlogSettings.GetPermaTitle(entry.CompressedTitle)));
+			
+			}
 		}
 
 		private EntrySaveState InternalSaveEntry(Entry entry, TrackbackInfoCollection trackbackList, CrosspostInfoCollection crosspostList)

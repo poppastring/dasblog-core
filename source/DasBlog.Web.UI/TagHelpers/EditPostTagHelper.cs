@@ -11,7 +11,7 @@ namespace DasBlog.Web.TagHelpers
 		{
 			output.TagName = "a";
 			output.TagMode = TagMode.StartTagAndEndTag;
-			output.Attributes.SetAttribute("href", $"post/{BlogPostId}/edit");
+			output.Attributes.SetAttribute("href", $"/post/{BlogPostId}/edit");
 			output.Content.SetHtmlContent("Edit this post");
 		}
 
