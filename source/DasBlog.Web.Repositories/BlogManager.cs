@@ -9,6 +9,7 @@ using newtelligence.DasBlog.Util;
 using EventDataItem = DasBlog.Core.EventDataItem;
 using EventCodes = DasBlog.Core.EventCodes;
 using DasBlog.Core.Extensions;
+using DasBlog.Core.Exceptions;
 
 namespace DasBlog.Managers
 {
@@ -280,6 +281,11 @@ namespace DasBlog.Managers
 				//TODO: Do something with this????
 				// StackTrace st = new StackTrace();
 				// logService.AddEvent(new EventDataItem(EventCodes.Error, ex.ToString() + Environment.NewLine + st.ToString(), ""));
+
+				LoggedException le = new LoggedException("file failure", ex);
+				var edi = new EventDataItem(EventCodes.Error, null
+				  , "Failed to Save a Post on {date}", System.DateTime.Now.ToShortDateString());
+				logger.LogError(edi,le);
 			}
 
 			// we want to invalidate all the caches so users get the new post

@@ -119,8 +119,9 @@ namespace DasBlog.Web.Controllers
 				return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
 
 			}
-			catch (Exception e)
+			catch (Exception ex)
 			{
+				_logger.LogError(ex, ex.Message, null);
 				return Content(
 					"DasBlog - an error occurred (and reporting gailed) - Click the browser 'Back' button to try using the application");
 			}
