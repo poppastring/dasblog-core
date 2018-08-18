@@ -54,25 +54,9 @@ namespace DasBlog.Managers
 
 		public EntryCollection GetFrontPagePosts(string acceptLanguageHeader)
 		{
-			DateTime fpDayUtc;
-			TimeZone tz;
-
-			string languageFilter = acceptLanguageHeader;
-			fpDayUtc = DateTime.UtcNow.AddDays(dasBlogSettings.SiteConfiguration.ContentLookaheadDays);
-
-			if (dasBlogSettings.SiteConfiguration.AdjustDisplayTimeZone)
-			{
-				tz = WindowsTimeZone.TimeZones.GetByZoneIndex(dasBlogSettings.SiteConfiguration.DisplayTimeZoneIndex);
-			}
-			else
-			{
-				tz = new UTCTimeZone();
-			}
-
-			logger.LogDebug($"About to retrieve entries {fpDayUtc}, {TimeZone.CurrentTimeZone.StandardName} {dasBlogSettings.SiteConfiguration.FrontPageDayCount} {dasBlogSettings.SiteConfiguration.FrontPageEntryCount}");
-			return dataService.GetEntriesForDay(fpDayUtc, TimeZone.CurrentTimeZone,
-								languageFilter,
-								dasBlogSettings.SiteConfiguration.FrontPageDayCount, dasBlogSettings.SiteConfiguration.FrontPageEntryCount, string.Empty);
+			return dataService.GetEntriesForDay(dasBlogSettings.GetContentLookAhead(), dasBlogSettings.GetConfiguredTimeZone(),
+								acceptLanguageHeader, dasBlogSettings.SiteConfiguration.FrontPageDayCount, 
+								dasBlogSettings.SiteConfiguration.FrontPageEntryCount, string.Empty);
 		}
 
 		public EntryCollection GetEntriesForPage(int pageIndex, string acceptLanguageHeader)
@@ -140,8 +124,8 @@ namespace DasBlog.Managers
 
 			EntryCollection matchEntries = new EntryCollection();
 
-			foreach (Entry entry in dataService.GetEntriesForDay(DateTime.MaxValue.AddDays(-2), new UTCTimeZone()
-			  , acceptLanguageHeader, int.MaxValue, int.MaxValue, null))
+			foreach (Entry entry in dataService.GetEntriesForDay(DateTime.MaxValue.AddDays(-2), dasBlogSettings.GetConfiguredTimeZone(), 
+																	acceptLanguageHeader, int.MaxValue, int.MaxValue, null))
 			{
 				string entryTitle = entry.Title;
 				string entryDescription = entry.Description;
@@ -184,14 +168,6 @@ namespace DasBlog.Managers
 					}
 				}
 			}
-
-			// log the search to the event log
-/*
-            ILoggingDataService logService = requestPage.LoggingService;
-			string referrer = Request.UrlReferrer != null ? Request.UrlReferrer.AbsoluteUri : Request.ServerVariables["REMOTE_ADDR"];	
-			logger.LogInformation(
-				new EventDataItem(EventCodes.Search, String.Format("{0}", searchString), referrer));
-*/
 
 			return matchEntries;
 		}
