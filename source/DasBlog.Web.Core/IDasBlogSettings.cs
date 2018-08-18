@@ -33,5 +33,6 @@ namespace DasBlog.Core
 		User GetUser(string userName);
 		void AddUser(User user);
 		TimeZone GetConfiguredTimeZone();
+		DateTime GetContentLookAhead();
 	}
 }

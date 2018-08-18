@@ -39,25 +39,9 @@ namespace DasBlog.Managers
 
 		public EntryCollection GetFrontPagePosts(string acceptLanguageHeader)
 		{
-			DateTime fpDayUtc;
-			TimeZone tz;
-
-			//Need to insert the Request.Headers["Accept-Language"];
-			string languageFilter = acceptLanguageHeader;
-			fpDayUtc = DateTime.UtcNow.AddDays(dasBlogSettings.SiteConfiguration.ContentLookaheadDays);
-
-			if (dasBlogSettings.SiteConfiguration.AdjustDisplayTimeZone)
-			{
-				tz = WindowsTimeZone.TimeZones.GetByZoneIndex(dasBlogSettings.SiteConfiguration.DisplayTimeZoneIndex);
-			}
-			else
-			{
-				tz = new UTCTimeZone();
-			}
-
-			return dataService.GetEntriesForDay(fpDayUtc, TimeZone.CurrentTimeZone,
-								languageFilter,
-								dasBlogSettings.SiteConfiguration.FrontPageDayCount, dasBlogSettings.SiteConfiguration.FrontPageEntryCount, string.Empty);
+			return dataService.GetEntriesForDay(dasBlogSettings.GetContentLookAhead(), dasBlogSettings.GetConfiguredTimeZone(),
+								acceptLanguageHeader, dasBlogSettings.SiteConfiguration.FrontPageDayCount, 
+								dasBlogSettings.SiteConfiguration.FrontPageEntryCount, string.Empty);
 		}
 
 		public EntryCollection GetEntriesForPage(int pageIndex, string acceptLanguageHeader)
@@ -125,8 +109,8 @@ namespace DasBlog.Managers
 
 			EntryCollection matchEntries = new EntryCollection();
 
-			foreach (Entry entry in dataService.GetEntriesForDay(DateTime.MaxValue.AddDays(-2), new UTCTimeZone()
-			  , acceptLanguageHeader, int.MaxValue, int.MaxValue, null))
+			foreach (Entry entry in dataService.GetEntriesForDay(DateTime.MaxValue.AddDays(-2), dasBlogSettings.GetConfiguredTimeZone(), 
+																	acceptLanguageHeader, int.MaxValue, int.MaxValue, null))
 			{
 				string entryTitle = entry.Title;
 				string entryDescription = entry.Description;
