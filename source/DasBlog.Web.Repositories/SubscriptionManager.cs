@@ -9,7 +9,7 @@ using System.Globalization;
 using newtelligence.DasBlog.Util.Html;
 using DasBlog.Core.Security;
 using newtelligence.DasBlog.Web.Services.Rsd;
-
+using Microsoft.Extensions.Logging;
 
 namespace DasBlog.Managers
 {
@@ -18,17 +18,19 @@ namespace DasBlog.Managers
         private IBlogDataService dataService;
         private ILoggingDataService loggingDataService;
         private readonly IDasBlogSettings dasBlogSettings;
+		private readonly ILogger logger;
 
-        public SubscriptionManager(IDasBlogSettings settings)
+		public SubscriptionManager(IDasBlogSettings settings, ILogger<SubscriptionManager> logger)
         {
             dasBlogSettings = settings;
-            loggingDataService = LoggingDataServiceFactory.GetService(dasBlogSettings.WebRootDirectory + dasBlogSettings.SiteConfiguration.LogDir);
+			this.logger = logger;
+			loggingDataService = LoggingDataServiceFactory.GetService(dasBlogSettings.WebRootDirectory + dasBlogSettings.SiteConfiguration.LogDir);
             dataService = BlogDataServiceFactory.GetService(dasBlogSettings.WebRootDirectory + dasBlogSettings.SiteConfiguration.ContentDir, loggingDataService);
         }
 
         public RssRoot GetRss()
         {
-            return GetRssCore(null,  this.dasBlogSettings.SiteConfiguration.RssDayCount, this.dasBlogSettings.SiteConfiguration.RssMainEntryCount);
+            return GetRssCore(null,  dasBlogSettings.SiteConfiguration.RssDayCount, dasBlogSettings.SiteConfiguration.RssMainEntryCount);
         }
 
         public RssRoot GetRssCategory(string categoryName)
@@ -279,11 +281,10 @@ namespace DasBlog.Managers
                             doc2.LoadXml(xhtml);
                             anyElements.Add((XmlElement)doc2.SelectSingleNode("//*[local-name() = 'body'][namespace-uri()='http://www.w3.org/1999/xhtml']"));
                         }
-                        catch //(Exception ex)
+                        catch(Exception ex)
                         {
-                            //Debug.Write(ex.ToString());
-                            // absorb
-                        }
+							logger.LogError(ex.ToString());
+						}
                     }
                 }
 
