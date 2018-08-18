@@ -5,7 +5,6 @@ using System.Text.RegularExpressions;
 using newtelligence.DasBlog.Runtime;
 using DasBlog.Managers.Interfaces;
 using DasBlog.Core;
-using newtelligence.DasBlog.Util;
 using EventDataItem = DasBlog.Core.EventDataItem;
 using EventCodes = DasBlog.Core.EventCodes;
 using DasBlog.Core.Extensions;
@@ -153,14 +152,6 @@ namespace DasBlog.Managers
 					}
 				}
 			}
-
-			// log the search to the event log
-/*
-            ILoggingDataService logService = requestPage.LoggingService;
-			string referrer = Request.UrlReferrer != null ? Request.UrlReferrer.AbsoluteUri : Request.ServerVariables["REMOTE_ADDR"];	
-			logger.LogInformation(
-				new EventDataItem(EventCodes.Search, String.Format("{0}", searchString), referrer));
-*/
 
 			return matchEntries;
 		}
