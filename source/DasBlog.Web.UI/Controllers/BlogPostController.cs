@@ -19,6 +19,9 @@ using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Server.Kestrel.Transport.Libuv.Internal.Networking;
 using newtelligence.DasBlog.Runtime;
 using static DasBlog.Core.Common.Utils;
+using System.IO;
+using Microsoft.Extensions.Logging;
+using DasBlog.Core.Exceptions;
 
 namespace DasBlog.Web.Controllers
 {
@@ -31,10 +34,11 @@ namespace DasBlog.Web.Controllers
 		private readonly IDasBlogSettings dasBlogSettings;
 		private readonly IMapper mapper;
 		private readonly IFileSystemBinaryManager binaryManager;
+		private readonly ILogger<BlogPostController> logger;
 
 		public BlogPostController(IBlogManager blogManager, IHttpContextAccessor httpContextAccessor,
 		  IDasBlogSettings settings, IMapper mapper, ICategoryManager categoryManager
-		  ,IFileSystemBinaryManager binaryManager) : base(settings)
+		  ,IFileSystemBinaryManager binaryManager, ILogger<BlogPostController> logger) : base(settings)
 		{
 			this.blogManager = blogManager;
 			this.categoryManager = categoryManager;
@@ -42,6 +46,7 @@ namespace DasBlog.Web.Controllers
 			dasBlogSettings = settings;
 			this.mapper = mapper;
 			this.binaryManager = binaryManager;
+			this.logger = logger;
 		}
 
 		[AllowAnonymous]
@@ -143,22 +148,22 @@ namespace DasBlog.Web.Controllers
 			try
 			{
 				Entry entry = mapper.Map<Entry>(post);
-
 				entry.Author = httpContextAccessor.HttpContext.User.Identity.Name;
 				entry.Language = "en-us"; //TODO: We inject this fron http context?
 				entry.Latitude = null;
 				entry.Longitude = null;
-
+				
 				EntrySaveState sts = blogManager.UpdateEntry(entry);
 				if (sts != EntrySaveState.Updated)
 				{
-					ModelState.AddModelError("", "Failed to edit blog post");
+					ModelState.AddModelError("", "Failed to edit blog post. Please check Logs for more details.");
 					return View(post);
 				}
 			}
-			catch (Exception e)
+			catch (Exception ex)
 			{
-				RedirectToAction("Error");
+				logger.LogError(ex, ex.Message, null);
+				ModelState.AddModelError("", "Failed to edit blog post. Please check Logs for more details.");
 			}
 
 			return View(post);
@@ -214,13 +219,14 @@ namespace DasBlog.Web.Controllers
 				EntrySaveState sts = blogManager.CreateEntry(entry);
 				if (sts != EntrySaveState.Added)
 				{
-					ModelState.AddModelError("", "Failed to create blog post");
+					ModelState.AddModelError("", "Failed to create blog post. Please check Logs for more details.");
 					return View(post);
 				}
 			}
-			catch (Exception e)
+			catch (Exception ex)
 			{
-				RedirectToAction("Error");
+				logger.LogError(ex, ex.Message, null);
+				ModelState.AddModelError("", "Failed to edit blog post. Please check Logs for more details.");
 			}
 
 			return View("views/blogpost/editPost.cshtml", post);
@@ -235,6 +241,7 @@ namespace DasBlog.Web.Controllers
 			}
 			catch (Exception ex)
 			{
+				logger.LogError(ex, ex.Message, null);
 				RedirectToAction("Error");
 			}
 
