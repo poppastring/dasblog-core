@@ -62,34 +62,34 @@ namespace DasBlog.Web.Settings
 			return new Uri(new Uri(SiteConfiguration.Root), relative).LocalPath;
 		}
 
-        public string GetPermaLinkUrl(string entryId)
-        {
-            return RelativeToRoot("post/" + entryId);
-        }
+		public string GetPermaLinkUrl(string entryId)
+		{
+			return RelativeToRoot("post/" + entryId);
+		}
 
 		public string GetPermaTitle(string title)
 		{
 			string titlePermalink = title.Trim().ToLower();
 
 			titlePermalink = titlePermalink.Replace("+", SiteConfiguration.TitlePermalinkSpaceReplacement);
-			
+
 			return titlePermalink;
 		}
 
 		public string GetCommentViewUrl(string entryId)
-        {
-            return RelativeToRoot("comment/" + entryId);
-        }
+		{
+			return RelativeToRoot("comment/" + entryId);
+		}
 
-        public string GetTrackbackUrl(string entryId)
-        {
-            return RelativeToRoot("trackback/" + entryId);
-        }
+		public string GetTrackbackUrl(string entryId)
+		{
+			return RelativeToRoot("trackback/" + entryId);
+		}
 
-        public string GetEntryCommentsRssUrl(string entryId)
-        {
-            return RelativeToRoot(RssUrl + "/comments/" + entryId);
-        }
+		public string GetEntryCommentsRssUrl(string entryId)
+		{
+			return RelativeToRoot(RssUrl + "/comments/" + entryId);
+		}
 
 		public string GetCategoryViewUrl(string category)
 		{
@@ -131,13 +131,19 @@ namespace DasBlog.Web.Settings
 
 		public TimeZone GetConfiguredTimeZone()
 		{
-			// Need to figure out how to handle time...
-			return new UTCTimeZone();
+			if (SiteConfiguration.AdjustDisplayTimeZone)
+			{
+				return WindowsTimeZone.TimeZones.GetByZoneIndex(SiteConfiguration.DisplayTimeZoneIndex);
+			}
+			else
+			{
+				return new UTCTimeZone();
+			}
+		}
 
-			//if (SiteConfiguration.AdjustDisplayTimeZone)
-			//{
-			//    return TimeZone.CurrentTimeZone as WindowsTimeZone;
-			//}
+		public DateTime GetContentLookAhead()
+		{
+			return DateTime.UtcNow.AddDays(SiteConfiguration.ContentLookaheadDays);
 		}
 	}
 }
