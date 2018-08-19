@@ -33,6 +33,7 @@ namespace DasBlog.Tests.Support
 				}
 				catch (Exception e)
 				{
+					_  = e;
 					Console.WriteLine();
 					Console.WriteLine("Error Details:");
 					if (step.Value == null)

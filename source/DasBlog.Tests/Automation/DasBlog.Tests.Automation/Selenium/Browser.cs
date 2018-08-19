@@ -88,6 +88,7 @@ namespace DasBlog.Tests.Automation.Selenium
 			}
 			catch (NoSuchElementException e)
 			{
+				_ = e;
 				return null;
 			}
 		}
