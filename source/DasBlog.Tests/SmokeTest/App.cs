@@ -29,11 +29,11 @@ namespace DasBlog.Tests.SmokeTest
 				Thread.Sleep(1000);
 				tester.Test();
 				publisher.Publish(tester.Results.Results);
-				runner.Kill();
 			}
 			finally
 			{
-				tester.Dispose();
+				runner?.Kill();
+				tester?.Dispose();
 			}
 		}
 	}
