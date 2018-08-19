@@ -6,7 +6,6 @@ using System.Text;
 using AutoMapper;
 using DasBlog.Core;
 using DasBlog.Web.Models.BlogViewModels;
-using Microsoft.AspNetCore.ApplicationInsights.HostingStartup;
 using newtelligence.DasBlog.Runtime;
 using static DasBlog.Core.Common.Utils;
 
