@@ -32,8 +32,15 @@ namespace DasBlog.Tests.SmokeTest
 			}
 			finally
 			{
-				runner?.Kill();
-				tester?.Dispose();
+				try
+				{
+					runner?.Kill();
+					tester?.Dispose();
+				}
+				catch (System.Exception ex)
+				{
+					logger.LogDebug($"failed to kill runner or dispose tester {ex.Message}");
+				}
 			}
 		}
 	}

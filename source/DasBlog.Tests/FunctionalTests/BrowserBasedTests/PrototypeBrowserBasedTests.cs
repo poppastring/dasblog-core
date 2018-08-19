@@ -126,6 +126,7 @@ namespace DasBlog.Tests.FunctionalTests
 
 		public void Dispose()
 		{
+			Runner?.Kill();
 			Browser?.Dispose();
 		}
 	}
