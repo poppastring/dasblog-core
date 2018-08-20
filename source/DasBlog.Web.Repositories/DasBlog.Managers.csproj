@@ -11,5 +11,6 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="NetEscapades.Extensions.Logging.RollingFile" Version="1.0.0" />
+    <PackageReference Include="NodaTime" Version="2.3.0" />
   </ItemGroup>
 </Project>

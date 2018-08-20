@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Options;
 using newtelligence.DasBlog.Util;
+using NodaTime;
 
 namespace DasBlog.Web.Settings
 {
@@ -129,15 +130,15 @@ namespace DasBlog.Web.Settings
 			}
 		}
 
-		public TimeZone GetConfiguredTimeZone()
+		public DateTimeZone GetConfiguredTimeZone()
 		{
 			if (SiteConfiguration.AdjustDisplayTimeZone)
 			{
-				return WindowsTimeZone.TimeZones.GetByZoneIndex(SiteConfiguration.DisplayTimeZoneIndex);
+				return DateTimeZone.ForOffset(Offset.FromHours(SiteConfiguration.DisplayTimeZoneIndex));
 			}
 			else
 			{
-				return new UTCTimeZone();
+				return DateTimeZone.Utc;
 			}
 		}
 

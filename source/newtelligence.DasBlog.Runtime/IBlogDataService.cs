@@ -1,3 +1,4 @@
+﻿using NodaTime;
 using System;
 
 namespace newtelligence.DasBlog.Runtime
@@ -83,7 +84,7 @@ namespace newtelligence.DasBlog.Runtime
 		/// <param name="maxEntries"></param>
 		/// <param name="categoryName"></param>
 		/// <returns></returns>
-		EntryCollection GetEntriesForDay(DateTime start, TimeZone tz, string acceptLanguages, int maxDays, int maxEntries, string categoryName);
+		EntryCollection GetEntriesForDay(DateTime start, DateTimeZone tz, string acceptLanguages, int maxDays, int maxEntries, string categoryName);
 		/// <summary>
 		/// 
 		/// </summary>
@@ -91,7 +92,7 @@ namespace newtelligence.DasBlog.Runtime
 		/// <param name="tz"></param>
 		/// <param name="acceptLanguages"></param>
 		/// <returns></returns>
-		EntryCollection GetEntriesForMonth(DateTime summary, TimeZone tz, string acceptLanguages);
+		EntryCollection GetEntriesForMonth(DateTime summary, DateTimeZone tz, string acceptLanguages);
 		/// <summary>
 		/// 
 		/// </summary>
@@ -108,7 +109,7 @@ namespace newtelligence.DasBlog.Runtime
 		/// 
 		/// </summary>
 		/// <returns></returns>
-		DateTime[] GetDaysWithEntries(TimeZone tz);
+		DateTime[] GetDaysWithEntries(DateTimeZone tz);
 		/// <summary>
 		/// 
 		/// </summary>

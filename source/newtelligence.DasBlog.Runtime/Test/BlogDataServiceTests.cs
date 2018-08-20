@@ -1,9 +1,10 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.IO;
 using newtelligence.DasBlog.Runtime;
 using NUnit.Framework;
 using System.Collections.Generic;
+using NodaTime;
 
 namespace newtelligence.DasBlog.Runtime.Test
 {
@@ -44,7 +45,7 @@ namespace newtelligence.DasBlog.Runtime.Test
 				dataService.SaveEntry(entry, null);
 			}
 
-			EntryCollection entries = dataService.GetEntriesForDay(DateTime.Now, TimeZone.CurrentTimeZone, String.Empty, int.MaxValue, int.MaxValue, String.Empty);
+			EntryCollection entries = dataService.GetEntriesForDay(DateTime.Now, DateTimeZone.Utc, String.Empty, int.MaxValue, int.MaxValue, String.Empty);
 
 			Assert.AreEqual(24, entries.Count);
 
@@ -73,21 +74,6 @@ namespace newtelligence.DasBlog.Runtime.Test
 			Assert.AreEqual(0, entry.CompareTo(returnEntry));
 		}
 
-//		[Test]
-//		public void GetEntryTitle()
-//		{
-//			IBlogDataService dataService = BlogDataServiceFactory.GetService(createEntries.FullName, null);
-//			
-//			Entry entry = TestEntry.CreateEntry(String.Format("Test Entry"), 5, 2);
-//			dataService.SaveEntry(entry, null);
-//		
-//			DateTime dt = DateTime.Now;
-//			string title = dataService.GetEntryTitle(entry.EntryId);
-//			TimeSpan ts = new TimeSpan(DateTime.Now.Ticks - dt.Ticks);
-//			Console.WriteLine(ts.Milliseconds);
-//			Assert.AreEqual(entry.Title, title);
-//		}
-
 		// Ignoring this test: The comment mentions something about hours, but the test increments days.
 		// Also, the logic seems messed up if the current day of the month is less than 12 days from the end of the month.
         [Test, Ignore("Test does not make sense.")]
@@ -105,7 +91,7 @@ namespace newtelligence.DasBlog.Runtime.Test
                 dataService.SaveEntry(entry, null);
             }
             
-            DateTime[] days = dataService.GetDaysWithEntries(TimeZone.CurrentTimeZone);
+            DateTime[] days = dataService.GetDaysWithEntries(DateTimeZone.Utc);
             
             for (int i = 0; i < 12; i++)
             {

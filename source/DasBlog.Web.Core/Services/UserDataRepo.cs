@@ -11,6 +11,7 @@ namespace DasBlog.Core.Services
 	public class UserDataRepo : Interfaces.IUserDataRepo
 	{
 		private readonly ISiteSecurityConfig _siteSecurityConfig;
+
 		public class SiteSecurityConfig
 		{
 			public List<User> Users { get; set; } = new List<User>();
