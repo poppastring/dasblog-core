@@ -1,4 +1,4 @@
-#region Copyright (c) 2003, newtelligence AG. All rights reserved.
+﻿#region Copyright (c) 2003, newtelligence AG. All rights reserved.
 /*
 // Copyright (c) 2003, newtelligence AG. (http://www.newtelligence.com)
 // Original BlogX Source Code: Copyright (c) 2003, Chris Anderson (http://simplegeek.com)
@@ -45,6 +45,7 @@ using System.Xml;
 using newtelligence.DasBlog.Runtime;
 using newtelligence.DasBlog.Web.Core;
 using System.Collections.Generic;
+using NodaTime;
 
 namespace newtelligence.DasBlog.Web.Services
 {
@@ -83,7 +84,7 @@ namespace newtelligence.DasBlog.Web.Services
             xw.Formatting = Formatting.Indented;
 
             EntryCollection entriesAll = dataService.GetEntriesForDay(
-                DateTime.Now.ToUniversalTime(), new Util.UTCTimeZone(), 
+                DateTime.Now.ToUniversalTime(), DateTimeZone.Utc, 
                 null, siteConfig.RssDayCount, siteConfig.RssMainEntryCount, null);
 			EntryCollection entries = new EntryCollection();
 			foreach(Entry e in entriesAll)

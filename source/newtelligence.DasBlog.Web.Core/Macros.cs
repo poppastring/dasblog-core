@@ -1,4 +1,4 @@
-#region Copyright (c) 2003, newtelligence AG. All rights reserved.
+﻿#region Copyright (c) 2003, newtelligence AG. All rights reserved.
 /*
 // Copyright (c) 2003, newtelligence AG. (http://www.newtelligence.com)
 // Original BlogX Source Code: Copyright (c) 2003, Chris Anderson (http://simplegeek.com)
@@ -53,6 +53,7 @@ using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using newtelligence.DasBlog.Runtime;
 using newtelligence.DasBlog.Util;
+using NodaTime;
 
 namespace newtelligence.DasBlog.Web.Core
 {
@@ -412,7 +413,7 @@ namespace newtelligence.DasBlog.Web.Core
         {
             if (requestPage.SiteConfig.AdjustDisplayTimeZone)
             {
-                return new LiteralControl(requestPage.SiteConfig.GetConfiguredTimeZone().FormatAdjustedUniversalTime(requestPage.DataService.GetLastEntryUpdate()));
+				return new LiteralControl(requestPage.SiteConfig.GetConfiguredTimeZone().AtStrictly(LocalDateTime.FromDateTime(requestPage.DataService.GetLastEntryUpdate())).LocalDateTime.ToString());
             }
             else
             {
@@ -1204,8 +1205,8 @@ namespace newtelligence.DasBlog.Web.Core
                 DateTime dt = DateTime.Now.ToUniversalTime();
                 if (requestPage.SiteConfig.AdjustDisplayTimeZone)
                 {
-                    WindowsTimeZone tz = requestPage.SiteConfig.GetConfiguredTimeZone();
-                    dt = tz.ToLocalTime(dt);
+					DateTimeZone tz = requestPage.SiteConfig.GetConfiguredTimeZone();
+                    dt = tz.AtStrictly(LocalDateTime.FromDateTime(dt)).ToDateTimeUnspecified();
                 }
                 return new LiteralControl(dt.Year.ToString());
             }
@@ -1223,9 +1224,9 @@ namespace newtelligence.DasBlog.Web.Core
                 DateTime dt = DateTime.Now.ToUniversalTime();
                 if (requestPage.SiteConfig.AdjustDisplayTimeZone)
                 {
-                    WindowsTimeZone tz = requestPage.SiteConfig.GetConfiguredTimeZone();
-                    dt = tz.ToLocalTime(dt);
-                }
+					DateTimeZone tz = requestPage.SiteConfig.GetConfiguredTimeZone();
+					dt = tz.AtStrictly(LocalDateTime.FromDateTime(dt)).ToDateTimeUnspecified();
+				}
                 return new LiteralControl(dt.Month.ToString());
             }
         }
@@ -1242,9 +1243,9 @@ namespace newtelligence.DasBlog.Web.Core
                 DateTime dt = DateTime.Now.ToUniversalTime();
                 if (requestPage.SiteConfig.AdjustDisplayTimeZone)
                 {
-                    WindowsTimeZone tz = requestPage.SiteConfig.GetConfiguredTimeZone();
-                    dt = tz.ToLocalTime(dt);
-                }
+					DateTimeZone tz = requestPage.SiteConfig.GetConfiguredTimeZone();
+					dt = tz.AtStrictly(LocalDateTime.FromDateTime(dt)).ToDateTimeUnspecified();
+				}
                 return new LiteralControl(dt.Day.ToString());
             }
         }
@@ -1261,9 +1262,9 @@ namespace newtelligence.DasBlog.Web.Core
                 DateTime dt = DateTime.Now.ToUniversalTime();
                 if (requestPage.SiteConfig.AdjustDisplayTimeZone)
                 {
-                    WindowsTimeZone tz = requestPage.SiteConfig.GetConfiguredTimeZone();
-                    dt = tz.ToLocalTime(dt);
-                }
+					DateTimeZone tz = requestPage.SiteConfig.GetConfiguredTimeZone();
+					dt = tz.AtStrictly(LocalDateTime.FromDateTime(dt)).ToDateTimeUnspecified();
+				}
                 return new LiteralControl(dt.ToString("d"));
             }
         }
@@ -1279,7 +1280,8 @@ namespace newtelligence.DasBlog.Web.Core
             {
                 if (requestPage.SiteConfig.AdjustDisplayTimeZone)
                 {
-                    return new LiteralControl(requestPage.SiteConfig.GetConfiguredTimeZone().FormatAdjustedUniversalTime(DateTime.Now.ToUniversalTime()));
+					var now = SystemClock.Instance.GetCurrentInstant();
+					return new LiteralControl(now.InZone(requestPage.SiteConfig.GetConfiguredTimeZone()).ToString());
                 }
                 else
                 {
@@ -1300,9 +1302,9 @@ namespace newtelligence.DasBlog.Web.Core
                 DateTime dt = DateTime.Now.ToUniversalTime();
                 if (requestPage.SiteConfig.AdjustDisplayTimeZone)
                 {
-                    WindowsTimeZone tz = requestPage.SiteConfig.GetConfiguredTimeZone();
-                    dt = tz.ToLocalTime(dt);
-                }
+					DateTimeZone tz = requestPage.SiteConfig.GetConfiguredTimeZone();
+					dt = tz.AtStrictly(LocalDateTime.FromDateTime(dt)).ToDateTimeUnspecified();
+				}
                 return new LiteralControl(dt.ToString("T"));
             }
         }
@@ -1419,7 +1421,8 @@ namespace newtelligence.DasBlog.Web.Core
 
                             if (requestPage.SiteConfig.AdjustDisplayTimeZone)
                             {
-                                currentDay = requestPage.SiteConfig.GetConfiguredTimeZone().ToLocalTime(currentDay);
+
+                                currentDay = requestPage.SiteConfig.GetConfiguredTimeZone().AtStrictly(LocalDateTime.FromDateTime(currentDay)).ToDateTimeUnspecified();
                             }
 
                             currentDay = currentDay.Date;
@@ -1540,11 +1543,11 @@ namespace newtelligence.DasBlog.Web.Core
                         IBlogDataService dataService = requestPage.DataService;
 
                         EntryCollection popularEntries = new EntryCollection();
-                        DateTime[] daysWithEntries = dataService.GetDaysWithEntries(newtelligence.DasBlog.Util.UTCTimeZone.CurrentTimeZone);
+                        DateTime[] daysWithEntries = dataService.GetDaysWithEntries(DateTimeZone.Utc);
                         CommentCollection comments = dataService.GetAllComments();
                         foreach (DateTime day in daysWithEntries)
                         {
-                            EntryCollection entries = dataService.GetEntriesForDay(day, newtelligence.DasBlog.Util.UTCTimeZone.CurrentTimeZone, String.Empty, 1, int.MaxValue, String.Empty);
+                            EntryCollection entries = dataService.GetEntriesForDay(day, DateTimeZone.Utc, String.Empty, 1, int.MaxValue, String.Empty);
                             foreach (Entry potentialEntry in entries)
                             {
 
@@ -1660,10 +1663,10 @@ namespace newtelligence.DasBlog.Web.Core
                             DateTime yearFirst = Macros.GetStartOfYear(DateTime.UtcNow.Year);
                             DateTime yearLast = Macros.GetEndOfYear(DateTime.UtcNow.Year);
 
-                            DateTime[] daysWithEntries = dataService.GetDaysWithEntries(newtelligence.DasBlog.Util.UTCTimeZone.CurrentTimeZone);
+                            DateTime[] daysWithEntries = dataService.GetDaysWithEntries(DateTimeZone.Utc);
                             foreach (DateTime day in daysWithEntries)
                             {
-                                EntryCollection entries = dataService.GetEntriesForDay(day, newtelligence.DasBlog.Util.UTCTimeZone.CurrentTimeZone, String.Empty, 1, int.MaxValue, String.Empty);
+                                EntryCollection entries = dataService.GetEntriesForDay(day, DateTimeZone.Utc, String.Empty, 1, int.MaxValue, String.Empty);
                                 newStats.AllEntriesCount += entries.Count;
                                 foreach (Entry potentialEntry in entries)
                                 {
@@ -2268,9 +2271,12 @@ namespace newtelligence.DasBlog.Web.Core
                 EntryCollection entries = requestPage.WeblogEntries;
                 foreach (Entry entry in entries)
                 {
-                    if ((!requestPage.SiteConfig.AdjustDisplayTimeZone && day.Year == entry.CreatedUtc.Year && day.Month == entry.CreatedUtc.Month && day.Day == entry.CreatedUtc.Day) || (requestPage.SiteConfig.AdjustDisplayTimeZone && requestPage.SiteConfig.GetConfiguredTimeZone().ToLocalTime(entry.CreatedUtc).Date == new DateTime(day.Year, day.Month, day.Day).Date))
-                    {
-                        requestPage.ProcessItemTemplate(entry, itemPlaceHolder);
+                    if ((!requestPage.SiteConfig.AdjustDisplayTimeZone && day.Year == entry.CreatedUtc.Year && day.Month == entry.CreatedUtc.Month && day.Day == entry.CreatedUtc.Day) || (requestPage.SiteConfig.AdjustDisplayTimeZone 
+								&& requestPage.SiteConfig.GetConfiguredTimeZone().AtStrictly(LocalDateTime.FromDateTime(entry.CreatedUtc)).ToDateTimeUnspecified().Date == new DateTime(day.Year, day.Month, day.Day).Date))
+					{
+						
+
+						requestPage.ProcessItemTemplate(entry, itemPlaceHolder);
                     }
                 }
                 return itemPlaceHolder;
@@ -2985,7 +2991,7 @@ namespace newtelligence.DasBlog.Web.Core
             {
                 if (requestPage.SiteConfig.AdjustDisplayTimeZone)
                 {
-                    return new LiteralControl(requestPage.SiteConfig.GetConfiguredTimeZone().FormatAdjustedUniversalTime(entry.CreatedUtc));
+					return new LiteralControl(requestPage.SiteConfig.GetConfiguredTimeZone().AtStrictly(LocalDateTime.FromDateTime(entry.CreatedUtc)).ToDateTimeUnspecified().ToString());
                 }
                 else
                 {
@@ -3012,9 +3018,8 @@ namespace newtelligence.DasBlog.Web.Core
 
                 if (requestPage.SiteConfig.AdjustDisplayTimeZone)
                 {
-                    return
-                        new LiteralControl(requestPage.SiteConfig.GetConfiguredTimeZone().FormatAdjustedUniversalTime(entry.ModifiedUtc));
-                }
+					return new LiteralControl(requestPage.SiteConfig.GetConfiguredTimeZone().AtStrictly(LocalDateTime.FromDateTime(entry.ModifiedUtc)).ToDateTimeUnspecified().ToString());
+				}
                 else
                 {
                     return new LiteralControl(entry.ModifiedUtc.ToString("U") + " UTC");
@@ -3047,24 +3052,25 @@ namespace newtelligence.DasBlog.Web.Core
             DateTime dateValue;
             string name;
 
-            if (requestPage.SiteConfig.AdjustDisplayTimeZone)
-            {
-                WindowsTimeZone tz = requestPage.SiteConfig.GetConfiguredTimeZone();
-                dateValue = tz.ToLocalTime(date);
-                if (tz.IsDaylightSavingTime(dateValue))
-                {
-                    name = tz.DaylightName;
-                }
-                else
-                {
-                    name = tz.StandardName;
-                }
-            }
-            else
-            {
+            //if (requestPage.SiteConfig.AdjustDisplayTimeZone)
+            //{
+            //    WindowsTimeZone tz = requestPage.SiteConfig.GetConfiguredTimeZone();
+            //    dateValue = tz.ToLocalTime(date);
+            //    if (tz.IsDaylightSavingTime(dateValue))
+            //    {
+            //        name = tz.DaylightName;
+            //    }
+            //    else
+            //    {
+            //        name = tz.StandardName;
+            //    }
+            //}
+            //else
+            //{
                 dateValue = date;
                 name = "UTC";
-            }
+            //}
+
             if (addTimezone)
             {
                 return new LiteralControl(string.Format("{0} {1}", dateValue.ToString(format), name));
