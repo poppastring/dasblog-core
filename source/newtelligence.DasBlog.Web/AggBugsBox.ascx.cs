@@ -1,10 +1,11 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using newtelligence.DasBlog.Runtime;
 using newtelligence.DasBlog.Web.Core;
+using NodaTime;
 
 #region Copyright (c) 2003, newtelligence AG. All rights reserved.
 /*
@@ -133,7 +134,7 @@ namespace newtelligence.DasBlog.Web
 
             // get the user's local time
             DateTime utcTime = DateTime.UtcNow;
-            DateTime localTime = siteConfig.GetConfiguredTimeZone().ToLocalTime(utcTime);
+            DateTime localTime = siteConfig.GetConfiguredTimeZone().AtStrictly(LocalDateTime.FromDateTime(utcTime)).LocalDateTime.ToDateTimeUnspecified();
 
             if (Request.QueryString["date"] != null)
             {
@@ -154,9 +155,7 @@ namespace newtelligence.DasBlog.Web
 
             if (siteConfig.AdjustDisplayTimeZone)
             {
-                newtelligence.DasBlog.Util.WindowsTimeZone tz = siteConfig.GetConfiguredTimeZone();
-                TimeSpan ts = tz.GetUtcOffset(DateTime.UtcNow);
-                int offset = ts.Hours;
+                int offset = 0;
 
                 if (offset < 0)
                 {
@@ -178,7 +177,7 @@ namespace newtelligence.DasBlog.Web
 
                 if (siteConfig.AdjustDisplayTimeZone)
                 {
-                    if (siteConfig.GetConfiguredTimeZone().ToLocalTime(log.RequestedUtc).Date != localTime.Date)
+					if (siteConfig.GetConfiguredTimeZone().AtStrictly(LocalDateTime.FromDateTime(log.RequestedUtc)).LocalDateTime.ToDateTimeUnspecified().Date != localTime.Date)
                     {
                         exclude = true;
                     }
