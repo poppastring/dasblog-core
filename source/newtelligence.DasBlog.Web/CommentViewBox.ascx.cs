@@ -1,4 +1,4 @@
-
+﻿
 #region Copyright (c) 2003, newtelligence AG. All rights reserved.
 /*
 // Copyright (c) 2003, newtelligence AG. (http://www.newtelligence.com)
@@ -51,6 +51,7 @@ using DotNetOpenAuth.OpenId.RelyingParty;
 using DotNetOpenAuth.OpenId.Extensions.AttributeExchange;
 using System.Collections.Generic;
 using DotNetOpenAuth.OpenId.Extensions.SimpleRegistration;
+using NodaTime;
 
 namespace newtelligence.DasBlog.Web
 {
@@ -206,8 +207,8 @@ namespace newtelligence.DasBlog.Web
                 requestPage.WeblogEntries.Add(entry);
                 if (requestPage.SiteConfig.AdjustDisplayTimeZone)
                 {
-                    newtelligence.DasBlog.Util.WindowsTimeZone wtz = requestPage.SiteConfig.GetConfiguredTimeZone();
-                    requestPage.ProcessDayTemplate(wtz.ToLocalTime(entry.CreatedUtc), commentViewContent);
+					DateTimeZone wtz = requestPage.SiteConfig.GetConfiguredTimeZone();
+                    requestPage.ProcessDayTemplate(wtz.AtStrictly(LocalDateTime.FromDateTime(entry.CreatedUtc)).LocalDateTime.ToDateTimeUnspecified(), commentViewContent);
                 }
                 else
                 {
