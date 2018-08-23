@@ -59,7 +59,7 @@ namespace DasBlog.Web.Settings
 
 		public string RelativeToRoot(string relative)
 		{
-			return new Uri(new Uri(SiteConfiguration.Root), relative).LocalPath;
+			return new Uri(new Uri(SiteConfiguration.Root), relative).AbsoluteUri;
 		}
 
         public string GetPermaLinkUrl(string entryId)
