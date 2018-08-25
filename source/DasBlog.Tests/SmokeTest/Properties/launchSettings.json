@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "DasBlog.SmokeTest": {
+      "commandName": "Project",
+      "workingDirectory": "C:\\projects\\dasblog-core\\source\\DasBlog.Tests\\SmokeTest"
+    }
+  }
+}

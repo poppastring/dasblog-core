@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Description>File logger provider implementation for Microsoft.Extensions.Logging. This logger logs messages to rolling files by writing messages to the file system.</Description>
+    <VersionPrefix>1.0.0</VersionPrefix>
+    <Authors>Andrew Lock</Authors>
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <AssemblyName>NetEscapades.Extensions.Logging.RollingFile</AssemblyName>
+    <PackageId>NetEscapades.Extensions.Logging.RollingFile</PackageId>
+    <PackageTags>aspnetcore;logging;file;provider</PackageTags>
+    <PackageProjectUrl>https://github.com/andrewlock/NetEscapades.Extensions.Logging</PackageProjectUrl>
+    <PackageLicenseUrl>https://raw.githubusercontent.com/andrewlock/NetEscapades.Extensions.Logging.RollingFile/master/LICENSE</PackageLicenseUrl>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/andrewlock/NetEscapades.Extensions.Logging.RollingFile</RepositoryUrl>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="2.1.0" />
+  </ItemGroup>
+
+</Project>

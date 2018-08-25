@@ -1,0 +1,75 @@
+﻿.navbar, footer {
+    background-color: #5cb85c;
+}
+
+.navbar-collapse {
+    max-height: none;
+}
+
+.navbar-default .navbar-brand {
+    color: white;
+}
+
+a.active {
+    background: #428bca;
+}
+
+footer p {
+    font-size: 1.25em;
+    color: white;
+    padding: 25px;
+}
+
+.nav>li>span {
+    position: relative;
+    display: block;
+    padding: 10px 15px;
+    text-decoration: none;
+    background: none;
+}
+
+.widget .table tr td, .widget .table tr th  {
+    text-align:center !important;
+}
+
+body .list-view thead>tr>th {
+    text-align: left;
+}
+
+.panel .btn-primary {
+    color: white !important;
+}
+
+.thread-item {
+    margin: 25px 0;
+}
+
+ul {
+    padding-left: 10px;
+}
+
+html body {
+    margin-bottom: 0px;
+    margin-top: 0px;
+    padding-top: 0px;
+}
+
+.navbar-brand:hover {
+    color: white !important;
+}
+
+.panel-yellow a, .panel-red a {
+    color: #428bca !important;
+}
+
+.progress {
+    margin: 10px 0;
+}
+
+.panel-heading { 
+    padding: 5px 10px;
+}
+
+#full-page-form {
+    margin-bottom: 50px;
+}

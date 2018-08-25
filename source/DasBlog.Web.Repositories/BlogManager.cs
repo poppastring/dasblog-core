@@ -12,6 +12,7 @@ using EventDataItem = DasBlog.Core.EventDataItem;
 using EventCodes = DasBlog.Core.EventCodes;
 using DasBlog.Core.Extensions;
 using DasBlog.Core.Exceptions;
+using Microsoft.Extensions.Logging;
 
 namespace DasBlog.Managers
 {
@@ -56,7 +57,6 @@ namespace DasBlog.Managers
 			DateTime fpDayUtc;
 			TimeZone tz;
 
-			//Need to insert the Request.Headers["Accept-Language"];
 			string languageFilter = acceptLanguageHeader;
 			fpDayUtc = DateTime.UtcNow.AddDays(dasBlogSettings.SiteConfiguration.ContentLookaheadDays);
 
@@ -69,6 +69,7 @@ namespace DasBlog.Managers
 				tz = new UTCTimeZone();
 			}
 
+			logger.LogDebug($"About to retrieve entries {fpDayUtc}, {TimeZone.CurrentTimeZone.StandardName} {dasBlogSettings.SiteConfiguration.FrontPageDayCount} {dasBlogSettings.SiteConfiguration.FrontPageEntryCount}");
 			return dataService.GetEntriesForDay(fpDayUtc, TimeZone.CurrentTimeZone,
 								languageFilter,
 								dasBlogSettings.SiteConfiguration.FrontPageDayCount, dasBlogSettings.SiteConfiguration.FrontPageEntryCount, string.Empty);

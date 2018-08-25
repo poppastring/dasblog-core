@@ -37,6 +37,7 @@ namespace DasBlog.Web.Controllers
 			ListPostsViewModel lpvm = new ListPostsViewModel();
 			lpvm.Posts = _blogManager.GetFrontPagePosts(Request.Headers["Accept-Language"])
 							.Select(entry => _mapper.Map<PostViewModel>(entry)).ToList();
+			_logger.LogDebug($"In Index - {lpvm.Posts.Count} post found");
 			DefaultPage();
 
 			return View("Page", lpvm);

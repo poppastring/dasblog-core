@@ -9,9 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using DasBlog.Managers.Interfaces;
-using Microsoft.AspNetCore.Http.Extensions;
 using DasBlog.Core.Extensions;
-using Microsoft.ApplicationInsights.AspNetCore.Extensions;
 
 namespace DasBlog.Web.Controllers
 {

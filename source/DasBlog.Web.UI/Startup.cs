@@ -25,6 +25,8 @@ using DasBlog.Core.Services.Interfaces;
 using Microsoft.Extensions.FileProviders;
 using DasBlog.Web.TagHelpers.RichEdit;
 using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Hosting;
+using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
 
 namespace DasBlog.Web
 {
@@ -33,6 +35,8 @@ namespace DasBlog.Web
 		public const string SITESECURITYCONFIG = @"Config\siteSecurity.config";
 		private IHostingEnvironment _hostingEnvironment;
 		private string _binariesPath;
+		public static IServiceCollection DasBlogServices { get; private set; }
+			// TODO find out how to access services from integration tests
 
 		public Startup(IConfiguration configuration, IHostingEnvironment env)
 		{
@@ -52,9 +56,9 @@ namespace DasBlog.Web
 			services.Configure<SiteConfig>(Configuration);
 			services.Configure<MetaTags>(Configuration);
 			services.Configure<LocalUserDataOptions>(options
-			  => options.Path = Path.Combine(_hostingEnvironment.ContentRootPath, SITESECURITYCONFIG));
+			  => options.Path = Path.Combine(GetDataRoot(_hostingEnvironment), SITESECURITYCONFIG));
 			services.Configure<ActivityRepoOptions>(options
-			  => options.Path = Path.Combine(_hostingEnvironment.ContentRootPath, Constants.LogDirectory));
+			  => options.Path = Path.Combine(GetDataRoot(_hostingEnvironment), Constants.LogDirectory));
 
 			// Add identity types
 			services
@@ -142,6 +146,7 @@ namespace DasBlog.Web
 				})
 				.AddMvc()
 				.AddXmlSerializerFormatters();
+			DasBlogServices = services;
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -166,7 +171,7 @@ namespace DasBlog.Web
 			app.UseStaticFiles();
 			app.UseStaticFiles(new StaticFileOptions()
 			{
-				FileProvider = new PhysicalFileProvider(Path.Combine(env.ContentRootPath, _binariesPath.TrimStart('/'))),
+				FileProvider = new PhysicalFileProvider(Path.Combine(GetDataRoot(env), _binariesPath.TrimStart('/'))),
 				RequestPath = _binariesPath
 			});
 			app.UseAuthentication();
@@ -274,5 +279,16 @@ namespace DasBlog.Web
 		{
 			public bool EnableTitlePermaLinkUnique { get; set; }
 		}
+		/// <summary>
+		/// temporary hack pending the rationalisation of Configuration/Options
+		/// </summary>
+		/// <param name="env">I think this must be populated in the initialisation of
+		///       WebHost.CreateDefaultBuilder</param>
+		/// <returns>root locaation for config, logs and blog post content
+		///   typically [project]/source/DasBlog.Web.UI for dev
+		///   and some subdirectory of DasBlog.Tests for functional tests</returns>
+		public static string GetDataRoot(IHostingEnvironment env)
+		  => Environment.GetEnvironmentVariable(Constants.DasBlogDataRoot)
+		  ?? env.ContentRootPath;
 	}
 }
