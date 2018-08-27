@@ -1,4 +1,4 @@
-﻿#region Copyright (c) 2003, newtelligence AG. All rights reserved.
+#region Copyright (c) 2003, newtelligence AG. All rights reserved.
 /*
 // Copyright (c) 2003, newtelligence AG. (http://www.newtelligence.com)
 // Original BlogX Source Code: Copyright (c) 2003, Chris Anderson (http://simplegeek.com)
@@ -44,7 +44,6 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using newtelligence.DasBlog.Runtime;
 using newtelligence.DasBlog.Web.Core;
-using NodaTime;
 
 namespace newtelligence.DasBlog.Web
 {
@@ -135,7 +134,7 @@ namespace newtelligence.DasBlog.Web
 
 			// get the user's local time
 			DateTime utcTime = DateTime.UtcNow;
-			DateTime localTime = siteConfig.GetConfiguredTimeZone().AtStrictly(LocalDateTime.FromDateTime(utcTime)).LocalDateTime.ToDateTimeUnspecified();
+			DateTime localTime = siteConfig.GetConfiguredTimeZone().ToLocalTime(utcTime);
 			
 			if (Request.QueryString["date"] != null)
 			{
@@ -156,7 +155,9 @@ namespace newtelligence.DasBlog.Web
 
 			if (siteConfig.AdjustDisplayTimeZone)
 			{
-				int offset = 0;
+				newtelligence.DasBlog.Util.WindowsTimeZone tz = siteConfig.GetConfiguredTimeZone();
+				TimeSpan ts = tz.GetUtcOffset(DateTime.UtcNow);
+				int offset = ts.Hours;
 
 				if (offset < 0)
 				{
@@ -178,7 +179,7 @@ namespace newtelligence.DasBlog.Web
 
 				if (siteConfig.AdjustDisplayTimeZone)
 				{
-					if (siteConfig.GetConfiguredTimeZone().AtStrictly(LocalDateTime.FromDateTime(log.RequestedUtc)).LocalDateTime.ToDateTimeUnspecified().Date != localTime.Date)
+					if (siteConfig.GetConfiguredTimeZone().ToLocalTime(log.RequestedUtc).Date != localTime.Date)
 					{
 						exclude = true;
 					}

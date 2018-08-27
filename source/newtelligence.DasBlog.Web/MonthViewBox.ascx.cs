@@ -1,4 +1,4 @@
-﻿#region Copyright (c) 2003, newtelligence AG. All rights reserved.
+#region Copyright (c) 2003, newtelligence AG. All rights reserved.
 /*
 // Copyright (c) 2003, newtelligence AG. (http://www.newtelligence.com)
 // Original BlogX Source Code: Copyright (c) 2003, Chris Anderson (http://simplegeek.com)
@@ -42,8 +42,7 @@ namespace newtelligence.DasBlog.Web
 {
     using newtelligence.DasBlog.Runtime;
     using newtelligence.DasBlog.Web.Core;
-	using NodaTime;
-	using System;
+    using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
@@ -102,7 +101,7 @@ namespace newtelligence.DasBlog.Web
 			}
 			else
 			{
-				daysWithEntries = requestPage.DataService.GetDaysWithEntries(DateTimeZone.Utc);
+				daysWithEntries = requestPage.DataService.GetDaysWithEntries(new newtelligence.DasBlog.Util.UTCTimeZone());
 			}
 
             var years = new SortedSet<int>();
@@ -285,7 +284,7 @@ namespace newtelligence.DasBlog.Web
 			else
 			{
 				//Store away these Entries for the DayRender step...
-				eventSource.EntriesThisMonth = requestPage.DataService.GetEntriesForMonth( eventSource.VisibleDate, DateTimeZone.Utc, languageFilter);
+				eventSource.EntriesThisMonth = requestPage.DataService.GetEntriesForMonth( eventSource.VisibleDate, new Util.UTCTimeZone(), languageFilter);
 			}
 		}
 
