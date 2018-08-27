@@ -1,4 +1,4 @@
-#region Copyright (c) 2003, newtelligence AG. All rights reserved.
+﻿#region Copyright (c) 2003, newtelligence AG. All rights reserved.
 /*
 // Copyright (c) 2003, newtelligence AG. (http://www.newtelligence.com)
 // Original BlogX Source Code: Copyright (c) 2003, Chris Anderson (http://simplegeek.com)
@@ -38,6 +38,7 @@
 #endregion
 
 using System.Globalization;
+using NodaTime;
 
 namespace newtelligence.DasBlog.Web.Services
 {
@@ -700,7 +701,7 @@ namespace newtelligence.DasBlog.Web.Services
 		[SoapDocumentMethod(ParameterStyle=SoapParameterStyle.Wrapped,Use=SoapBindingUse.Literal)]
 		public DateTime[] GetDaysWithEntries()
 		{
-			return dataService.GetDaysWithEntries(new newtelligence.DasBlog.Util.UTCTimeZone());
+			return dataService.GetDaysWithEntries(DateTimeZone.Utc);
 		}
 
 		[WebMethod]

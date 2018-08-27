@@ -80,7 +80,7 @@ namespace DasBlog.Web.Controllers
 		}
 
 		[HttpGet]
-		public async Task<IActionResult> Register(string returnUrl)
+		public IActionResult Register(string returnUrl)
 		{
 			ViewData[KEY_RETURNURL] = returnUrl;
 

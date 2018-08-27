@@ -22,13 +22,15 @@
     <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="2.1.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="2.1.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.0" />
-    <!--<PackageReference Include="NetEscapades.Extensions.Logging.RollingFile" Version="1.0.0" />-->
   </ItemGroup>
   <ItemGroup>
     <!--<DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.1.0" />-->
   </ItemGroup>
   <ItemGroup>
     <None Include="config\site.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="NodaTime" Version="2.3.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DasBlog.Web.Core\DasBlog.Core.csproj" />
@@ -46,9 +48,4 @@
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
   </ItemGroup>
-  <!--
-  <ItemGroup>
-    <Compile Remove="AutomapperExtensions.cs" />
-  </ItemGroup>
--->
 </Project>

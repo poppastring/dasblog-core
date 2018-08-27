@@ -118,6 +118,11 @@
       <Name>CookComputing.XmlRpc.NoSN</Name>
       <HintPath>..\..\..\lib\CookComputing.XmlRpc.NoSN.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="NodaTime, Version=2.3.0.0, Culture=neutral, PublicKeyToken=4226afe0d9b296d1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\lib\NodaTime.dll</HintPath>
+    </Reference>
     <Reference Include="nunit.framework">
       <Name>nunit.framework</Name>
       <HintPath>..\..\..\lib\nunit.framework.dll</HintPath>
@@ -131,6 +136,7 @@
     <Reference Include="System.Data">
       <Name>System.Data</Name>
     </Reference>
+    <Reference Include="System.Numerics" />
     <Reference Include="System.Web.Services">
       <Name>System.Web.Services</Name>
     </Reference>
