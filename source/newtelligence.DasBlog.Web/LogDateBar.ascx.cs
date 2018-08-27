@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.Globalization;
 using System.Web.UI;
@@ -7,6 +7,7 @@ using System.Web.UI.HtmlControls;
 
 using newtelligence.DasBlog.Runtime;
 using newtelligence.DasBlog.Web.Core;
+using NodaTime;
 
 // paulb: 2006-09-02
 // cleaned up the code and added next/previous day links
@@ -53,8 +54,8 @@ namespace newtelligence.DasBlog.Web
 				// move the local/non-local date logic to one place
 
 				if ( ((SharedBasePage)Page).SiteConfig.AdjustDisplayTimeZone && date == null) {
-					newtelligence.DasBlog.Util.WindowsTimeZone tz = ((SharedBasePage)Page).SiteConfig.GetConfiguredTimeZone();
-				filteredDate = tz.ToLocalTime(filteredDate);
+					DateTimeZone tz = ((SharedBasePage)Page).SiteConfig.GetConfiguredTimeZone();
+					filteredDate = tz.AtStrictly(LocalDateTime.FromDateTime(filteredDate)).LocalDateTime.ToDateTimeUnspecified();
 				}
 
 				// someone is trying to mess with us, let's play along

@@ -1,4 +1,4 @@
-using System.Resources;
+﻿using System.Resources;
 
 #region Copyright (c) 2003, newtelligence AG. All rights reserved.
 /*
@@ -120,8 +120,8 @@ namespace newtelligence.DasBlog.Web
 
          if (requestPage.SiteConfig.AdjustDisplayTimeZone)
          {
-            entryTitle.Controls.Add(new LiteralControl(requestPage.SiteConfig.GetConfiguredTimeZone().FormatAdjustedUniversalTime(comment.CreatedUtc)));
-         }
+				entryTitle.Controls.Add(new LiteralControl(comment.CreatedUtc.ToString("U") + " UTC"));
+			}
          else
          {
             entryTitle.Controls.Add(new LiteralControl(comment.CreatedUtc.ToString("U") + " UTC"));

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Specialized;
 using System.Globalization;
 using System.Resources;
@@ -8,6 +8,7 @@ using System.Web.UI.WebControls;
 using newtelligence.DasBlog.Runtime;
 using newtelligence.DasBlog.Util;
 using newtelligence.DasBlog.Web.Core;
+using NodaTime;
 
 namespace newtelligence.DasBlog.Web
 {
@@ -98,7 +99,7 @@ namespace newtelligence.DasBlog.Web
 
 			EntryCollection matchEntries = new EntryCollection();
 
-			foreach (Entry entry in requestPage.DataService.GetEntriesForDay(DateTime.MaxValue.AddDays(-2), new UTCTimeZone(), Request.Headers["Accept-Language"], int.MaxValue, int.MaxValue, null))
+			foreach (Entry entry in requestPage.DataService.GetEntriesForDay(DateTime.MaxValue.AddDays(-2), DateTimeZone.Utc, Request.Headers["Accept-Language"], int.MaxValue, int.MaxValue, null))
 			{
 				string entryTitle = entry.Title;
 				string entryDescription = entry.Description;
