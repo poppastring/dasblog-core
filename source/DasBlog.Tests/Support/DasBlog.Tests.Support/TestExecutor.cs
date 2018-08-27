@@ -35,7 +35,7 @@ namespace DasBlog.Tests.Support
 				{
 					_  = e;
 					Console.WriteLine();
-					Console.WriteLine("Error Details:");
+					Console.WriteLine("Error Details: {0}", e.Message);
 					if (step.Value == null)
 					{
 						Console.WriteLine($"a step has been encountered in {testName} with no action or fun");

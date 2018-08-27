@@ -1,9 +1,10 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using newtelligence.DasBlog.Runtime;
+using NodaTime;
 
 namespace newtelligence.DasBlog.Web.Core
 {
@@ -25,15 +26,12 @@ namespace newtelligence.DasBlog.Web.Core
         {
             DateTime[] daysWithEntries;
             _requestPage = this.Page as SharedBasePage;
-            TimeZone timezone = null;
+			var timezone = DateTimeZone.Utc;
             if (_requestPage.SiteConfig.AdjustDisplayTimeZone)
             {
                 timezone = _requestPage.SiteConfig.GetConfiguredTimeZone();
             }
-            else
-            {
-                timezone = new newtelligence.DasBlog.Util.UTCTimeZone();
-            }
+
             daysWithEntries = _requestPage.DataService.GetDaysWithEntries(timezone);
 
             _monthTable = new Dictionary<string, int>();

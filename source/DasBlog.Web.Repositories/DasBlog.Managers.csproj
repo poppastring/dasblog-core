@@ -11,6 +11,7 @@
     <ProjectReference Include="..\newtelligence.DasBlog.Web.Services\newtelligence.DasBlog.Web.Services.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <!--<PackageReference Include="NetEscapades.Extensions.Logging.RollingFile" Version="1.0.0" />-->
+    <PackageReference Include="NetEscapades.Extensions.Logging.RollingFile" Version="1.0.0" />
+    <PackageReference Include="NodaTime" Version="2.4.0" />
   </ItemGroup>
 </Project>
