@@ -37,6 +37,9 @@
 */
 #endregion
 
+using CookComputing.XmlRpc;
+using newtelligence.DasBlog.Runtime.Proxies;
+using NodaTime;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -47,8 +50,6 @@ using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Web;
-using CookComputing.XmlRpc;
-using newtelligence.DasBlog.Runtime.Proxies;
 
 namespace newtelligence.DasBlog.Runtime
 {
@@ -297,7 +298,7 @@ namespace newtelligence.DasBlog.Runtime
         /// <param name="maxDays">Maximum number of days to return. This number relates to
         /// days actually found and not to calendar days.</param>
         /// <returns>A DayEntryCollection containing the collected results.</returns>
-        protected DayEntryCollection InternalGetDayEntries(DateTime startDate, TimeZone tz, int maxDays)
+        protected DayEntryCollection InternalGetDayEntries(DateTime startDate, DateTimeZone tz, int maxDays)
         {
             // we look one day ahead into "UTC" future in order to grab 
             // the timezones ahead of UTC.
@@ -947,8 +948,8 @@ namespace newtelligence.DasBlog.Runtime
         ///     
         /// </remarks>
         // TODO:  Consider refactoring to use InternalGetDayEntries that takes delegates.
-        EntryCollection IBlogDataService.GetEntriesForDay(
-            DateTime startDateUtc, TimeZone tz, string acceptLanguages, int maxDays, int maxEntries, string categoryName)
+        EntryCollection IBlogDataService.GetEntriesForDay(DateTime startDateUtc, DateTimeZone tz, string acceptLanguages, 
+															int maxDays, int maxEntries, string categoryName)
         {
             EntryCollection entries;
             Predicate<Entry> entryCriteria = null;
@@ -977,8 +978,7 @@ namespace newtelligence.DasBlog.Runtime
         }
 
 
-        EntryCollection IBlogDataService.GetEntriesForMonth(
-            DateTime month, TimeZone timeZone, string acceptLanguages)
+        EntryCollection IBlogDataService.GetEntriesForMonth(DateTime month, DateTimeZone timeZone, string acceptLanguages)
         {
             EntryCollection entries;
             Predicate<Entry> entryCriteria = null;
@@ -1065,7 +1065,7 @@ namespace newtelligence.DasBlog.Runtime
             return entries;
         }
 
-        DateTime[] IBlogDataService.GetDaysWithEntries(TimeZone tz)
+        DateTime[] IBlogDataService.GetDaysWithEntries(DateTimeZone tz)
         {
        
             EntryCollection idCache = ((IBlogDataService)this).GetEntries(false);
@@ -1073,8 +1073,9 @@ namespace newtelligence.DasBlog.Runtime
 
             foreach (Entry entry in idCache)
             {
-                DateTime tzTime = tz.ToLocalTime(entry.CreatedUtc).Date;
-                if (!dayList.Contains(tzTime))
+                DateTime tzTime = tz.AtStrictly(LocalDateTime.FromDateTime(entry.CreatedUtc)).LocalDateTime.ToDateTimeUnspecified().Date;
+
+				if (!dayList.Contains(tzTime))
                 {
                     dayList.Add(tzTime);
                 }

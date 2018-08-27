@@ -6,8 +6,6 @@ using System.Linq;
 using newtelligence.DasBlog.Runtime;
 using DasBlog.Managers.Interfaces;
 using DasBlog.Core;
-using DasBlog.Core.Common;
-using newtelligence.DasBlog.Util;
 using EventDataItem = DasBlog.Core.EventDataItem;
 using EventCodes = DasBlog.Core.EventCodes;
 using DasBlog.Core.Extensions;
@@ -20,17 +18,17 @@ namespace DasBlog.Managers
 	{
 		private readonly IBlogDataService dataService;
 		private readonly IDasBlogSettings dasBlogSettings;
-		private readonly Microsoft.Extensions.Logging.ILogger logger;
+		private readonly ILogger logger;
 		private static Regex stripTags = new Regex("<[^>]*>", RegexOptions.Compiled | RegexOptions.CultureInvariant);
 
-		public BlogManager(IDasBlogSettings settings , Microsoft.Extensions.Logging.ILogger<BlogManager> logger)
+		public BlogManager(IDasBlogSettings settings , ILogger<BlogManager> logger)
 		{
 			dasBlogSettings = settings;
 			var loggingDataService = LoggingDataServiceFactory.GetService(dasBlogSettings.WebRootDirectory + dasBlogSettings.SiteConfiguration.LogDir);
 			dataService = BlogDataServiceFactory.GetService(dasBlogSettings.WebRootDirectory + dasBlogSettings.SiteConfiguration.ContentDir, loggingDataService);
 			this.logger = logger;
 		}
-		/// <param name="dt">if non-null then the post must be dated on that date</param>
+		
 		public Entry GetBlogPost(string postid, DateTime? dt)
 		{
 			if (dt == null)
@@ -54,25 +52,9 @@ namespace DasBlog.Managers
 
 		public EntryCollection GetFrontPagePosts(string acceptLanguageHeader)
 		{
-			DateTime fpDayUtc;
-			TimeZone tz;
-
-			string languageFilter = acceptLanguageHeader;
-			fpDayUtc = DateTime.UtcNow.AddDays(dasBlogSettings.SiteConfiguration.ContentLookaheadDays);
-
-			if (dasBlogSettings.SiteConfiguration.AdjustDisplayTimeZone)
-			{
-				tz = WindowsTimeZone.TimeZones.GetByZoneIndex(dasBlogSettings.SiteConfiguration.DisplayTimeZoneIndex);
-			}
-			else
-			{
-				tz = new UTCTimeZone();
-			}
-
-			logger.LogDebug($"About to retrieve entries {fpDayUtc}, {TimeZone.CurrentTimeZone.StandardName} {dasBlogSettings.SiteConfiguration.FrontPageDayCount} {dasBlogSettings.SiteConfiguration.FrontPageEntryCount}");
-			return dataService.GetEntriesForDay(fpDayUtc, TimeZone.CurrentTimeZone,
-								languageFilter,
-								dasBlogSettings.SiteConfiguration.FrontPageDayCount, dasBlogSettings.SiteConfiguration.FrontPageEntryCount, string.Empty);
+			return dataService.GetEntriesForDay(dasBlogSettings.GetContentLookAhead(), dasBlogSettings.GetConfiguredTimeZone(),
+								acceptLanguageHeader, dasBlogSettings.SiteConfiguration.FrontPageDayCount, 
+								dasBlogSettings.SiteConfiguration.FrontPageEntryCount, string.Empty);
 		}
 
 		public EntryCollection GetEntriesForPage(int pageIndex, string acceptLanguageHeader)
@@ -140,8 +122,8 @@ namespace DasBlog.Managers
 
 			EntryCollection matchEntries = new EntryCollection();
 
-			foreach (Entry entry in dataService.GetEntriesForDay(DateTime.MaxValue.AddDays(-2), new UTCTimeZone()
-			  , acceptLanguageHeader, int.MaxValue, int.MaxValue, null))
+			foreach (Entry entry in dataService.GetEntriesForDay(DateTime.MaxValue.AddDays(-2), dasBlogSettings.GetConfiguredTimeZone(), 
+																	acceptLanguageHeader, int.MaxValue, int.MaxValue, null))
 			{
 				string entryTitle = entry.Title;
 				string entryDescription = entry.Description;
@@ -185,13 +167,7 @@ namespace DasBlog.Managers
 				}
 			}
 
-			// log the search to the event log
-/*
-            ILoggingDataService logService = requestPage.LoggingService;
-			string referrer = Request.UrlReferrer != null ? Request.UrlReferrer.AbsoluteUri : Request.ServerVariables["REMOTE_ADDR"];	
-			logger.LogInformation(
-				new EventDataItem(EventCodes.Search, String.Format("{0}", searchString), referrer));
-*/
+			logger.LogInformation(new EventDataItem(EventCodes.Search, null, "Performed the following search: \"{0}\"", searchString));
 
 			return matchEntries;
 		}
@@ -297,14 +273,10 @@ namespace DasBlog.Managers
 			}
 			catch (Exception ex)
 			{
-				//TODO: Do something with this????
-				// StackTrace st = new StackTrace();
-				// logService.AddEvent(new EventDataItem(EventCodes.Error, ex.ToString() + Environment.NewLine + st.ToString(), ""));
+				var edi = new EventDataItem(EventCodes.Error, null, 
+							"Failed to Save a Post on {date}", System.DateTime.Now.ToShortDateString());
 
-				LoggedException le = new LoggedException("file failure", ex);
-				var edi = new EventDataItem(EventCodes.Error, null
-				  , "Failed to Save a Post on {date}", System.DateTime.Now.ToShortDateString());
-				logger.LogError(edi,le);
+				logger.LogError(edi, new LoggedException("file failure", ex));
 			}
 
 			// we want to invalidate all the caches so users get the new post
@@ -336,10 +308,7 @@ namespace DasBlog.Managers
 
 			if (entry != null)
 			{
-				// Are comments allowed
-
 				dataService.AddComment(comment);
-
 				est = CommentSaveState.Added;
 			}
 			else
@@ -359,7 +328,6 @@ namespace DasBlog.Managers
 			if (entry != null && !string.IsNullOrEmpty(commentid))
 			{
 				dataService.DeleteComment(postid, commentid);
-
 				est = CommentSaveState.Deleted;
 			}
 			else
@@ -378,7 +346,6 @@ namespace DasBlog.Managers
 			if (entry != null && !string.IsNullOrEmpty(commentid))
 			{
 				dataService.ApproveComment(postid, commentid);
-
 				est = CommentSaveState.Approved;
 			}
 			else

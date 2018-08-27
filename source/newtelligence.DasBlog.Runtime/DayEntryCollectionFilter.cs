@@ -1,4 +1,5 @@
 ﻿using System;
+using NodaTime;
 
 namespace newtelligence.DasBlog.Runtime
 {
@@ -17,7 +18,7 @@ namespace newtelligence.DasBlog.Runtime
                 public DateTime EndDateTime;
                 public DateTime Month;
                 public DateTime day;
-                public TimeZone TimeZone;
+                public DateTimeZone TimeZone;
 
                 public bool OccursBefore(DayEntry dayEntry)
                 {
@@ -48,7 +49,7 @@ namespace newtelligence.DasBlog.Runtime
                 return container.OccursBefore;
             }
 
-            public static Predicate<DayEntry> OccursBetween(TimeZone timeZone, DateTime startDateTime, DateTime endDateTime)
+            public static Predicate<DayEntry> OccursBetween(DateTimeZone timeZone, DateTime startDateTime, DateTime endDateTime)
             {
                 FilterContainer container = new FilterContainer();
 
@@ -59,7 +60,7 @@ namespace newtelligence.DasBlog.Runtime
                 return container.OccursBetween;
             }
 
-            public static Predicate<DayEntry> OccursInMonth(TimeZone timeZone, DateTime month)
+            public static Predicate<DayEntry> OccursInMonth(DateTimeZone timeZone, DateTime month)
             {
                 FilterContainer container = new FilterContainer();
 

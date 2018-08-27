@@ -114,6 +114,10 @@
       <Name>FreeTextBox</Name>
       <HintPath>..\..\lib\FreeTextBox.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="NodaTime, Version=2.3.0.0, Culture=neutral, PublicKeyToken=4226afe0d9b296d1, processorArchitecture=MSIL">
+      <HintPath>..\packages\NodaTime.2.3.0\lib\net45\NodaTime.dll</HintPath>
+    </Reference>
     <Reference Include="System">
       <Name>System</Name>
     </Reference>
@@ -125,6 +129,7 @@
     <Reference Include="System.Drawing">
       <Name>System.Drawing</Name>
     </Reference>
+    <Reference Include="System.Numerics" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.Web.DynamicData" />
@@ -1444,6 +1449,7 @@
     <None Include="images\undobutton-list.gif" />
     <None Include="images\xmlButton.gif" />
     <None Include="images\xmlCoffeeMug.gif" />
+    <None Include="packages.config" />
     <None Include="SiteConfig\site.config" />
     <None Include="SiteConfig\site.config.deploy" />
     <None Include="themes\blogxp\dayTemplate.blogtemplate" />

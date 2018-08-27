@@ -1,4 +1,4 @@
-#region Copyright (c) 2003, newtelligence AG. All rights reserved.
+ï»¿#region Copyright (c) 2003, newtelligence AG. All rights reserved.
 /*
 // Copyright (c) 2003, newtelligence AG. (http://www.newtelligence.com)
 // Original BlogX Source Code: Copyright (c) 2003, Chris Anderson (http://simplegeek.com)
@@ -44,6 +44,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using newtelligence.DasBlog.Runtime;
 using newtelligence.DasBlog.Web.Core;
+using NodaTime;
 
 namespace newtelligence.DasBlog.Web
 {
@@ -97,7 +98,7 @@ namespace newtelligence.DasBlog.Web
             HyperLink link = new HyperLink();
             IBlogDataService dataService = objDataService as IBlogDataService;
 
-            string[] urls = item.identifier.Split('°');
+            string[] urls = item.identifier.Split('Â°');
             string text = SiteUtilities.ClipString(urls[0], 80);
             link.Text = text;
             link.NavigateUrl = urls[0];
@@ -157,7 +158,7 @@ namespace newtelligence.DasBlog.Web
             Dictionary<string, int> userDomains = new Dictionary<string, int>();
 
             DateTime serverTimeUtc = DateTime.Now.ToUniversalTime();
-            DateTime localTime = siteConfig.GetConfiguredTimeZone().ToLocalTime(serverTimeUtc);
+            DateTime localTime = siteConfig.GetConfiguredTimeZone().AtStrictly(LocalDateTime.FromDateTime(serverTimeUtc)).LocalDateTime.ToDateTimeUnspecified();
 
             if (Request.QueryString["date"] != null)
             {
@@ -180,9 +181,7 @@ namespace newtelligence.DasBlog.Web
             // next or previos day to account for timezone difference.
             if (siteConfig.AdjustDisplayTimeZone)
             {
-                newtelligence.DasBlog.Util.WindowsTimeZone tz = siteConfig.GetConfiguredTimeZone();
-                TimeSpan ts = tz.GetUtcOffset(DateTime.Now);
-                int offset = ts.Hours;
+                int offset = 0;
                 if (serverTimeUtc.Date != serverTimeUtc.AddHours(offset).Date)
                     logItems.AddRange(logService.GetClickThroughsForDay(serverTimeUtc.AddHours(offset)));
             }
@@ -193,7 +192,7 @@ namespace newtelligence.DasBlog.Web
 
                 if (siteConfig.AdjustDisplayTimeZone)
                 {
-                    if (siteConfig.GetConfiguredTimeZone().ToLocalTime(log.RequestedUtc).Date != localTime.Date)
+                    if (siteConfig.GetConfiguredTimeZone().AtStrictly(LocalDateTime.FromDateTime(log.RequestedUtc)).LocalDateTime.ToDateTimeUnspecified().Date != localTime.Date)
                     {
                         exclude = true;
                     }
@@ -206,7 +205,7 @@ namespace newtelligence.DasBlog.Web
 
                 if (!exclude)
                 {
-                    string key = log.UrlRequested + "°" + log.UrlReferrer;
+                    string key = log.UrlRequested + "Â°" + log.UrlReferrer;
                     if (!clickThroughUrls.ContainsKey(key))
                     {
                         clickThroughUrls[key] = 0;

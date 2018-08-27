@@ -9,6 +9,7 @@ using newtelligence.DasBlog.Runtime;
 using newtelligence.DasBlog.Runtime.Proxies;
 using newtelligence.DasBlog.Util;
 using newtelligence.DasBlog.Web.Core;
+using NodaTime;
 
 namespace newtelligence.DasBlog.Web
 {
@@ -232,14 +233,15 @@ namespace newtelligence.DasBlog.Web
                 return path;
         }
 
-        private WindowsTimeZone windowsTimeZone = null;
+        private DateTimeZone windowsTimeZone = null;
 
-        public WindowsTimeZone GetConfiguredTimeZone()
+        public DateTimeZone GetConfiguredTimeZone()
         {
             if (windowsTimeZone == null)
             {
-                windowsTimeZone = WindowsTimeZone.TimeZones.GetByZoneIndex(displayTimeZoneIndex) as WindowsTimeZone;
+				windowsTimeZone = DateTimeZone.ForOffset(Offset.FromHours(displayTimeZoneIndex));
             }
+
             return windowsTimeZone;
         }
 
@@ -537,8 +539,8 @@ namespace newtelligence.DasBlog.Web
             set
             {
                 displayTimeZoneIndex = value;
-                windowsTimeZone = WindowsTimeZone.TimeZones.GetByZoneIndex(displayTimeZoneIndex) as WindowsTimeZone;
-            }
+                windowsTimeZone = DateTimeZone.ForOffset(Offset.FromHours(displayTimeZoneIndex));
+			}
         }
 
         public bool AdjustDisplayTimeZone

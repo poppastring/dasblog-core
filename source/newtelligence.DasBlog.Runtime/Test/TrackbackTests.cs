@@ -1,8 +1,6 @@
-using System;
-using System.IO;
-using newtelligence.DasBlog.Runtime;
-using newtelligence.DasBlog.Util;
+﻿using NodaTime;
 using NUnit.Framework;
+using System;
 
 namespace newtelligence.DasBlog.Runtime.Test
 {
@@ -18,7 +16,7 @@ namespace newtelligence.DasBlog.Runtime.Test
 		{
 			EntryCollection entries = new EntryCollection();
 
-			entries = blogService.GetEntriesForDay(DateTime.MaxValue.AddDays(-2), TimeZone.CurrentTimeZone, String.Empty, int.MaxValue, int.MaxValue, String.Empty);
+			entries = blogService.GetEntriesForDay(DateTime.MaxValue.AddDays(-2), DateTimeZone.Utc, String.Empty, int.MaxValue, int.MaxValue, String.Empty);
 
 			int numberOfTrackings = 3;
 
