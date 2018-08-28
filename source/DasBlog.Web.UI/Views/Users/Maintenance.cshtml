@@ -21,7 +21,7 @@
 
 <h2>@ViewBag.Title</h2>
 
-@Html.Partial((string)ViewBag.SubViewName, Model)
+@Html.PartialAsync((string)ViewBag.SubViewName, Model)
         @*subview name is Edit or Delete or possibly something else*@
 
 @section Scripts {

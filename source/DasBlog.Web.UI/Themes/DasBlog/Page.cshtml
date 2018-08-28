@@ -15,7 +15,7 @@
         {
             foreach (var post in Model.Posts)
             {
-                @Html.Partial("_PostPartial", post)
+                @Html.PartialAsync("_PostPartial", post)
             }
         }
         else

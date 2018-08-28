@@ -3,18 +3,17 @@ using System.Collections.Generic;
 using System.IO;
 using Microsoft.Extensions.Options;
 using System.Xml.Serialization;
-using DasBlog.Core.Configuration;
 using User = DasBlog.Core.Security.User;
 
 namespace DasBlog.Core.Services
 {
 	public class UserDataRepo : Interfaces.IUserDataRepo
 	{
-		private readonly ISiteSecurityConfig _siteSecurityConfig;
 		public class SiteSecurityConfig
 		{
 			public List<User> Users { get; set; } = new List<User>();
 		}
+
 		private LocalUserDataOptions options;
 		public UserDataRepo(IOptions<LocalUserDataOptions> optionsAccessor)
 		{
@@ -45,8 +44,10 @@ namespace DasBlog.Core.Services
 
 		public void SaveUsers(List<User> users)
 		{
-			SiteSecurityConfig ssc = new SiteSecurityConfig();
-			ssc.Users = users;
+			var ssc = new SiteSecurityConfig
+			{
+				Users = users
+			};
 			var ser = new XmlSerializer(typeof(SiteSecurityConfig));
 			using (var writer = new StreamWriter(options.Path))
 			{

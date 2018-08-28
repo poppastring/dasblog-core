@@ -51,7 +51,6 @@ namespace DasBlog.Web.Controllers
 		[AllowAnonymous]
 		public IActionResult Post(string posttitle, int day)
 		{
-			const string DATE_FORMAT = "yyyyMMdd";
 			ListPostsViewModel lpvm = new ListPostsViewModel();
 			RouteAffectedFunctions routeAffectedFunctions = new RouteAffectedFunctions(
 			  dasBlogSettings.SiteConfiguration.EnableTitlePermaLinkUnique);

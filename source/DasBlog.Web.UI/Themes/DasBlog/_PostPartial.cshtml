@@ -39,6 +39,6 @@
             <comment-post blog-post-id="@Model.EntryId"></comment-post>
         </div>
     </div>
-    @Html.Partial("_CommentBlockPartial", @Model.Comments)
+    @Html.PartialAsync("_CommentBlockPartial", @Model.Comments)
 </div>
 <hr />

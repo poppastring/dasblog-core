@@ -26,7 +26,6 @@ namespace newtelligence.DasBlog.Web.Core
         {
             DateTime[] daysWithEntries;
             _requestPage = this.Page as SharedBasePage;
-            TimeZone timezone = null;
 
             daysWithEntries = _requestPage.DataService.GetDaysWithEntries(DateTimeZone.Utc);
 
