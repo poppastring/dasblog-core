@@ -49,9 +49,6 @@
     <None Remove="geckodriver.exe" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.AspNetCore.Http.Abstractions, Version=2.0.3.0, Culture=neutral, PublicKeyToken=adb9793829ddae60">
-      <HintPath>..\..\..\..\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.aspnetcore.http.abstractions\2.0.3\lib\netstandard2.0\Microsoft.AspNetCore.Http.Abstractions.dll</HintPath>
-    </Reference>
     <Reference Include="WebDriver, Version=3.13.1.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>lib\WebDriver.dll</HintPath>
     </Reference>
