@@ -322,7 +322,7 @@ namespace DasBlog.Managers
             }
             else
             {
-                entryList = _dataService.GetEntriesForDay(DateTime.Now.AddDays(_dasBlogSettings.SiteConfiguration.ContentLookaheadDays).ToUniversalTime(), new newtelligence.DasBlog.Util.UTCTimeZone(), null, maxDayCount, maxEntryCount, null);
+                entryList = _dataService.GetEntriesForDay(_dasBlogSettings.GetContentLookAhead(), _dasBlogSettings.GetConfiguredTimeZone(), null, maxDayCount, maxEntryCount, null);
             }
             entryList.Sort(new EntrySorter());
             return entryList;

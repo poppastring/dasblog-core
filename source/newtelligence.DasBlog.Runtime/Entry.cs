@@ -46,6 +46,7 @@ using System.Web;
 using System.Xml;
 using System.Xml.Serialization;
 using System.Collections.Generic;
+using NodaTime;
 
 namespace newtelligence.DasBlog.Runtime
 {
@@ -489,16 +490,22 @@ namespace newtelligence.DasBlog.Runtime
 		/// A value of true indicates the entry is in the category specified or, if the categoryName
 		/// is null or empty, return true if the entry is assigned no categories
 		/// </returns>
-		public static bool OccursBefore(Entry entry, TimeZone timeZone, DateTime dateTime)
+		public static bool OccursBefore(Entry entry, DateTimeZone timeZone, DateTime dateTime)
 		{
-			return (timeZone.ToLocalTime(entry.CreatedUtc) <= dateTime);
+			var entryCreated = timeZone.AtStrictly(LocalDateTime.FromDateTime(entry.CreatedUtc)).LocalDateTime;
+			var date = LocalDateTime.FromDateTime(dateTime);
+
+			return (entryCreated <= date);
 		}
 
-		public static bool OccursBetween(Entry entry, TimeZone timeZone,
-		                                 DateTime startDateTime, DateTime endDateTime)
+		public static bool OccursBetween(Entry entry, DateTimeZone timeZone, 
+												DateTime startDateTime, DateTime endDateTime)
 		{
-			return ((timeZone.ToLocalTime(entry.CreatedUtc) >= startDateTime)
-			        && (timeZone.ToLocalTime(entry.CreatedUtc) <= endDateTime));
+			var entryCreated = timeZone.AtStrictly(LocalDateTime.FromDateTime(entry.CreatedUtc)).LocalDateTime;
+			var strartDate = LocalDateTime.FromDateTime(startDateTime);
+			var endDate = LocalDateTime.FromDateTime(endDateTime);
+
+			return ((entryCreated >= strartDate) && (entryCreated <= endDate));
 		}
 
 		/// <summary>
@@ -508,15 +515,14 @@ namespace newtelligence.DasBlog.Runtime
 		/// <param name="timeZone"></param>
 		/// <param name="month"></param>
 		/// <returns></returns>
-		public static bool OccursInMonth(Entry entry, TimeZone timeZone,
+		public static bool OccursInMonth(Entry entry, DateTimeZone timeZone,
 		                                 DateTime month)
 		{
 			DateTime startOfMonth = new DateTime(month.Year, month.Month, 1, 0, 0, 0);
 			DateTime endOfMonth = new DateTime(month.Year, month.Month, 1, 0, 0, 0);
 			endOfMonth = endOfMonth.AddMonths(1);
 			endOfMonth = endOfMonth.AddSeconds(-1);
-			//TimeSpan offset = timeZone.GetUtcOffset(endOfMonth);
-			//endOfMonth = endOfMonth.AddHours(offset.Negate().Hours);
+
 			return (OccursBetween(entry, timeZone, startOfMonth, endOfMonth));
 		}
 

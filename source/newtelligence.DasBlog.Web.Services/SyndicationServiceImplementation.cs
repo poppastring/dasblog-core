@@ -1,4 +1,4 @@
-#region Copyright (c) 2003, newtelligence AG. All rights reserved.
+﻿#region Copyright (c) 2003, newtelligence AG. All rights reserved.
 /*
 // Copyright (c) 2003, newtelligence AG. (http://www.newtelligence.com)
 // Original BlogX Source Code: Copyright (c) 2003, Chris Anderson (http://simplegeek.com)
@@ -56,10 +56,12 @@ namespace newtelligence.DasBlog.Web.Services
     using newtelligence.DasBlog.Util.Html;
     using System.Collections.Generic;
     using InstantArticle;
-    /// <summary>
-    /// Summary description for DasBlogBrowsing.
-    /// </summary>
-    [WebService(Namespace="urn:schemas-newtelligence-com:dasblog:syndication-services")]
+	using NodaTime;
+
+	/// <summary>
+	/// Summary description for DasBlogBrowsing.
+	/// </summary>
+	[WebService(Namespace="urn:schemas-newtelligence-com:dasblog:syndication-services")]
 	public class SyndicationServiceImplementation : SyndicationServiceBase 
 	{
 		protected bool inASMX = false;
@@ -700,7 +702,7 @@ namespace newtelligence.DasBlog.Web.Services
 		[SoapDocumentMethod(ParameterStyle=SoapParameterStyle.Wrapped,Use=SoapBindingUse.Literal)]
 		public DateTime[] GetDaysWithEntries()
 		{
-			return dataService.GetDaysWithEntries(new newtelligence.DasBlog.Util.UTCTimeZone());
+			return dataService.GetDaysWithEntries(DateTimeZone.Utc);
 		}
 
 		[WebMethod]

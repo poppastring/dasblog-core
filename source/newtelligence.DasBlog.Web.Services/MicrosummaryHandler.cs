@@ -1,7 +1,8 @@
-using System;
+﻿using System;
 using System.Web;
 using newtelligence.DasBlog.Runtime;
 using newtelligence.DasBlog.Web.Core;
+using NodaTime;
 
 namespace newtelligence.DasBlog.Web.Services
 {
@@ -36,7 +37,7 @@ namespace newtelligence.DasBlog.Web.Services
 					languageFilter = "";
 				}
 
-				EntryCollection entries =  dataService.GetEntriesForDay( DateTime.UtcNow, siteConfig.GetConfiguredTimeZone(), languageFilter,1,1,String.Empty );
+				EntryCollection entries =  dataService.GetEntriesForDay( DateTime.UtcNow, DateTimeZone.Utc, languageFilter,1,1,String.Empty );
 
 				if(entries != null && entries.Count > 0)
 				{

@@ -49,6 +49,7 @@ using System.Threading;
 using System.Web;
 using CookComputing.XmlRpc;
 using newtelligence.DasBlog.Runtime.Proxies;
+using NodaTime;
 
 namespace newtelligence.DasBlog.Runtime
 {
@@ -948,7 +949,7 @@ namespace newtelligence.DasBlog.Runtime
         /// </remarks>
         // TODO:  Consider refactoring to use InternalGetDayEntries that takes delegates.
         EntryCollection IBlogDataService.GetEntriesForDay(
-            DateTime startDateUtc, TimeZone tz, string acceptLanguages, int maxDays, int maxEntries, string categoryName)
+            DateTime startDateUtc, DateTimeZone tz, string acceptLanguages, int maxDays, int maxEntries, string categoryName)
         {
             EntryCollection entries;
             Predicate<Entry> entryCriteria = null;
@@ -978,7 +979,7 @@ namespace newtelligence.DasBlog.Runtime
 
 
         EntryCollection IBlogDataService.GetEntriesForMonth(
-            DateTime month, TimeZone timeZone, string acceptLanguages)
+            DateTime month, DateTimeZone timeZone, string acceptLanguages)
         {
             EntryCollection entries;
             Predicate<Entry> entryCriteria = null;
@@ -1065,7 +1066,7 @@ namespace newtelligence.DasBlog.Runtime
             return entries;
         }
 
-        DateTime[] IBlogDataService.GetDaysWithEntries(TimeZone tz)
+        DateTime[] IBlogDataService.GetDaysWithEntries(DateTimeZone tz)
         {
        
             EntryCollection idCache = ((IBlogDataService)this).GetEntries(false);
@@ -1073,7 +1074,7 @@ namespace newtelligence.DasBlog.Runtime
 
             foreach (Entry entry in idCache)
             {
-                DateTime tzTime = tz.ToLocalTime(entry.CreatedUtc).Date;
+				DateTime tzTime = tz.AtStrictly(LocalDateTime.FromDateTime(entry.CreatedUtc)).LocalDateTime.ToDateTimeUnspecified().Date;
                 if (!dayList.Contains(tzTime))
                 {
                     dayList.Add(tzTime);

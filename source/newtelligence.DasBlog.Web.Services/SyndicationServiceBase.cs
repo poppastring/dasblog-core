@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.ComponentModel;
 using System.Data;
@@ -9,7 +9,7 @@ using newtelligence.DasBlog.Runtime;
 using newtelligence.DasBlog.Web.Core;
 using newtelligence.DasBlog.Web.Services.Rss20;
 using System.Collections.Generic;
-
+using NodaTime;
 
 namespace newtelligence.DasBlog.Web
 {
@@ -134,7 +134,7 @@ namespace newtelligence.DasBlog.Web
             }
             else
             {
-                entryList = dataService.GetEntriesForDay(DateTime.Now.AddDays(siteConfig.ContentLookaheadDays).ToUniversalTime(), new Util.UTCTimeZone(), null, maxDayCount, maxEntryCount, null);
+                entryList = dataService.GetEntriesForDay(DateTime.Now.AddDays(siteConfig.ContentLookaheadDays).ToUniversalTime(), DateTimeZone.Utc, null, maxDayCount, maxEntryCount, null);
             }
             entryList.Sort( new EntrySorter() );
             return entryList;

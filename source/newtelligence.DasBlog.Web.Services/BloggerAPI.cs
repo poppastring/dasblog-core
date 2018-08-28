@@ -1,4 +1,4 @@
-#region Copyright (c) 2003, newtelligence AG. All rights reserved.
+﻿#region Copyright (c) 2003, newtelligence AG. All rights reserved.
 /*
 // Copyright (c) 2003, newtelligence AG. (http://www.newtelligence.com)
 // Original BlogX Source Code: Copyright (c) 2003, Chris Anderson (http://simplegeek.com)
@@ -48,6 +48,7 @@ using newtelligence.DasBlog.Web.Core;
 using newtelligence.DasBlog.Web.Services.Blogger;
 using newtelligence.DasBlog.Web.Services.MetaWeblog;
 using newtelligence.DasBlog.Web.Services.MovableType;
+using NodaTime;
 
 namespace newtelligence.DasBlog.Web.Services
 {
@@ -192,7 +193,7 @@ namespace newtelligence.DasBlog.Web.Services
                 throw new System.Security.SecurityException();
             }
 
-            EntryCollection entries = dataService.GetEntriesForDay(DateTime.Now.ToUniversalTime(), new Util.UTCTimeZone(), null, SiteConfig.GetSiteConfig().RssDayCount, numberOfPosts, null);
+            EntryCollection entries = dataService.GetEntriesForDay(DateTime.Now.ToUniversalTime(), DateTimeZone.Utc, null, SiteConfig.GetSiteConfig().RssDayCount, numberOfPosts, null);
             List<newtelligence.DasBlog.Web.Services.Blogger.Post> arrayList = new List<newtelligence.DasBlog.Web.Services.Blogger.Post>();
             foreach (Entry entry in entries)
             {
@@ -447,7 +448,7 @@ namespace newtelligence.DasBlog.Web.Services
             {
                 throw new System.Security.SecurityException();
             }
-            EntryCollection entries = dataService.GetEntriesForDay(DateTime.Now.ToUniversalTime(), new Util.UTCTimeZone(), null, SiteConfig.GetSiteConfig().RssDayCount, numberOfPosts, null);
+            EntryCollection entries = dataService.GetEntriesForDay(DateTime.Now.ToUniversalTime(), DateTimeZone.Utc, null, SiteConfig.GetSiteConfig().RssDayCount, numberOfPosts, null);
             List<newtelligence.DasBlog.Web.Services.MovableType.PostTitle> arrayList = new List<newtelligence.DasBlog.Web.Services.MovableType.PostTitle>();
             foreach (Entry entry in entries)
             {
@@ -664,7 +665,7 @@ namespace newtelligence.DasBlog.Web.Services
                 throw new System.Security.SecurityException();
             }
 
-            EntryCollection entries = dataService.GetEntriesForDay(DateTime.Now.ToUniversalTime(), new Util.UTCTimeZone(), null, SiteConfig.GetSiteConfig().RssDayCount, numberOfPosts, null);
+            EntryCollection entries = dataService.GetEntriesForDay(DateTime.Now.ToUniversalTime(), DateTimeZone.Utc, null, SiteConfig.GetSiteConfig().RssDayCount, numberOfPosts, null);
             List<newtelligence.DasBlog.Web.Services.MetaWeblog.Post> arrayList = new List<newtelligence.DasBlog.Web.Services.MetaWeblog.Post>();
             foreach (Entry entry in entries)
             {

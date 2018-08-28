@@ -20,7 +20,7 @@ namespace DasBlog.Managers
 	{
 		private readonly IBlogDataService dataService;
 		private readonly IDasBlogSettings dasBlogSettings;
-		private readonly Microsoft.Extensions.Logging.ILogger logger;
+		private readonly ILogger logger;
 		private static Regex stripTags = new Regex("<[^>]*>", RegexOptions.Compiled | RegexOptions.CultureInvariant);
 
 		public BlogManager(IDasBlogSettings settings , Microsoft.Extensions.Logging.ILogger<BlogManager> logger)
@@ -53,26 +53,10 @@ namespace DasBlog.Managers
 		}
 
 		public EntryCollection GetFrontPagePosts(string acceptLanguageHeader)
-		{
-			DateTime fpDayUtc;
-			TimeZone tz;
-
-			string languageFilter = acceptLanguageHeader;
-			fpDayUtc = DateTime.UtcNow.AddDays(dasBlogSettings.SiteConfiguration.ContentLookaheadDays);
-
-			if (dasBlogSettings.SiteConfiguration.AdjustDisplayTimeZone)
-			{
-				tz = WindowsTimeZone.TimeZones.GetByZoneIndex(dasBlogSettings.SiteConfiguration.DisplayTimeZoneIndex);
-			}
-			else
-			{
-				tz = new UTCTimeZone();
-			}
-
-			logger.LogDebug($"About to retrieve entries {fpDayUtc}, {TimeZone.CurrentTimeZone.StandardName} {dasBlogSettings.SiteConfiguration.FrontPageDayCount} {dasBlogSettings.SiteConfiguration.FrontPageEntryCount}");
-			return dataService.GetEntriesForDay(fpDayUtc, TimeZone.CurrentTimeZone,
-								languageFilter,
-								dasBlogSettings.SiteConfiguration.FrontPageDayCount, dasBlogSettings.SiteConfiguration.FrontPageEntryCount, string.Empty);
+		{			
+			return dataService.GetEntriesForDay(dasBlogSettings.GetContentLookAhead(), dasBlogSettings.GetConfiguredTimeZone(),
+								acceptLanguageHeader, dasBlogSettings.SiteConfiguration.FrontPageDayCount, 
+								dasBlogSettings.SiteConfiguration.FrontPageEntryCount, string.Empty);
 		}
 
 		public EntryCollection GetEntriesForPage(int pageIndex, string acceptLanguageHeader)
@@ -140,8 +124,9 @@ namespace DasBlog.Managers
 
 			EntryCollection matchEntries = new EntryCollection();
 
-			foreach (Entry entry in dataService.GetEntriesForDay(DateTime.MaxValue.AddDays(-2), new UTCTimeZone()
-			  , acceptLanguageHeader, int.MaxValue, int.MaxValue, null))
+			foreach (Entry entry in dataService.GetEntriesForDay(DateTime.MaxValue.AddDays(-2), 
+							dasBlogSettings.GetConfiguredTimeZone(), acceptLanguageHeader, 
+							int.MaxValue, int.MaxValue, null))
 			{
 				string entryTitle = entry.Title;
 				string entryDescription = entry.Description;

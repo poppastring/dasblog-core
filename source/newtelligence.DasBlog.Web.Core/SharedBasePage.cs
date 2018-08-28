@@ -1,4 +1,4 @@
-#region Copyright (c) 2003, newtelligence AG. All rights reserved.
+﻿#region Copyright (c) 2003, newtelligence AG. All rights reserved.
 /*
 // Copyright (c) 2003, newtelligence AG. (http://www.newtelligence.com)
 // Original BlogX Source Code: Copyright (c) 2003, Chris Anderson (http://simplegeek.com)
@@ -53,6 +53,7 @@ using System.Web.Caching;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using newtelligence.DasBlog.Runtime;
+using NodaTime;
 
 namespace newtelligence.DasBlog.Web.Core
 {
@@ -857,11 +858,11 @@ namespace newtelligence.DasBlog.Web.Core
 				// using the configured time zone.
 				if ( SiteConfig.AdjustDisplayTimeZone )
 				{
-					return GetEntriesForDay( DayUtc, SiteConfig.GetConfiguredTimeZone(), languageFilter, siteConfig.FrontPageDayCount, siteConfig.FrontPageEntryCount );
+					return GetEntriesForDay( DayUtc, DateTimeZone.Utc, languageFilter, siteConfig.FrontPageDayCount, siteConfig.FrontPageEntryCount );
 				}
 				else
 				{
-					return GetEntriesForDay( DayUtc, new Util.UTCTimeZone(), languageFilter, siteConfig.FrontPageDayCount, siteConfig.FrontPageEntryCount );
+					return GetEntriesForDay( DayUtc, DateTimeZone.Utc, languageFilter, siteConfig.FrontPageDayCount, siteConfig.FrontPageEntryCount );
 				}
 			}
 			else 
@@ -870,11 +871,11 @@ namespace newtelligence.DasBlog.Web.Core
 				// using the configured time zone.
 				if ( SiteConfig.AdjustDisplayTimeZone )
 				{
-					return GetEntriesForMonth( Month, SiteConfig.GetConfiguredTimeZone(), languageFilter);
+					return GetEntriesForMonth( Month, DateTimeZone.Utc, languageFilter);
 				}
 				else
 				{
-					return GetEntriesForMonth( Month, new Util.UTCTimeZone(), languageFilter);
+					return GetEntriesForMonth( Month, DateTimeZone.Utc, languageFilter);
 				}
 			}
               
@@ -895,16 +896,16 @@ namespace newtelligence.DasBlog.Web.Core
 
             if ( siteConfig.AdjustDisplayTimeZone )
             {
-                return GetEntriesForDay( fpDayUtc, siteConfig.GetConfiguredTimeZone(), languageFilter , siteConfig.FrontPageDayCount, siteConfig.FrontPageEntryCount );
+                return GetEntriesForDay( fpDayUtc, DateTimeZone.Utc, languageFilter , siteConfig.FrontPageDayCount, siteConfig.FrontPageEntryCount );
             }
             else
             {
-                return GetEntriesForDay( fpDayUtc, new Util.UTCTimeZone(), languageFilter, siteConfig.FrontPageDayCount, siteConfig.FrontPageEntryCount );
+                return GetEntriesForDay( fpDayUtc, DateTimeZone.Utc, languageFilter, siteConfig.FrontPageDayCount, siteConfig.FrontPageEntryCount );
             }
             
         }
 
-        private EntryCollection GetEntriesForDay(DateTime startUtc, TimeZone tz, string langCode, int maxDays, int maxEntries)
+        private EntryCollection GetEntriesForDay(DateTime startUtc, DateTimeZone tz, string langCode, int maxDays, int maxEntries)
         {
             string categoryFilter;
 
@@ -917,7 +918,7 @@ namespace newtelligence.DasBlog.Web.Core
             return dataService.GetEntriesForDay( startUtc, tz, langCode, maxDays, maxEntries, categoryFilter );
         }
 
-		private EntryCollection GetEntriesForMonth(DateTime month, TimeZone tz, string langCode) 
+		private EntryCollection GetEntriesForMonth(DateTime month, DateTimeZone tz, string langCode) 
 		{
 			return DataService.GetEntriesForMonth(month, tz, langCode);
 		}

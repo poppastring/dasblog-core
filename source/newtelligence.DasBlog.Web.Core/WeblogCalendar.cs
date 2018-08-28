@@ -1,4 +1,4 @@
-#region Copyright (c) 2003, newtelligence AG. All rights reserved.
+﻿#region Copyright (c) 2003, newtelligence AG. All rights reserved.
 /*
 // Copyright (c) 2003, newtelligence AG. (http://www.newtelligence.com)
 // Original BlogX Source Code: Copyright (c) 2003, Chris Anderson (http://simplegeek.com)
@@ -42,6 +42,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using NodaTime;
 
 namespace newtelligence.DasBlog.Web.Core
 {
@@ -90,13 +91,13 @@ namespace newtelligence.DasBlog.Web.Core
             SharedBasePage requestPage = this.Page as SharedBasePage;
             if ( requestPage.SiteConfig.AdjustDisplayTimeZone )
             {
-                daysWithEntries = requestPage.DataService.GetDaysWithEntries(requestPage.SiteConfig.GetConfiguredTimeZone());
+                daysWithEntries = requestPage.DataService.GetDaysWithEntries(DateTimeZone.Utc);
 				newtelligence.DasBlog.Util.WindowsTimeZone tz = requestPage.SiteConfig.GetConfiguredTimeZone();
 				this.TodaysDate = tz.ToLocalTime( DateTime.Now.ToUniversalTime() );
             }
             else
             {
-                daysWithEntries = requestPage.DataService.GetDaysWithEntries(new newtelligence.DasBlog.Util.UTCTimeZone());
+                daysWithEntries = requestPage.DataService.GetDaysWithEntries(DateTimeZone.Utc);
             }
 
 			// TSC: we have collected a date from the __EVENTARGUMENT if the __EVENTTARGET

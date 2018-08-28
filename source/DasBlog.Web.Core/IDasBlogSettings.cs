@@ -1,6 +1,7 @@
 ﻿using System;
 using DasBlog.Core.Configuration;
 using DasBlog.Core.Security;
+using NodaTime;
 
 namespace DasBlog.Core
 {
@@ -32,6 +33,7 @@ namespace DasBlog.Core
 		string GetRssCategoryUrl(string category);
 		User GetUser(string userName);
 		void AddUser(User user);
-		TimeZone GetConfiguredTimeZone();
+		DateTimeZone GetConfiguredTimeZone();
+		DateTime GetContentLookAhead();
 	}
 }
