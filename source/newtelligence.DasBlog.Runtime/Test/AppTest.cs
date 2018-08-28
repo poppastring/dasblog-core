@@ -1,6 +1,7 @@
-using System;
+﻿using System;
 using NUnit.Framework;
 using newtelligence.DasBlog.Runtime;
+using NodaTime;
 
 namespace newtelligence.DasBlog.Runtime.Test
 {
@@ -17,7 +18,7 @@ namespace newtelligence.DasBlog.Runtime.Test
 			EntryCollection entries = new EntryCollection();
 			DayEntryCollection days = new DayEntryCollection();
 
-			entries = blogService.GetEntriesForDay(DateTime.MaxValue.AddDays(-2), TimeZone.CurrentTimeZone, String.Empty, int.MaxValue, int.MaxValue, String.Empty);
+			entries = blogService.GetEntriesForDay(DateTime.MaxValue.AddDays(-2), DateTimeZone.Utc, String.Empty, int.MaxValue, int.MaxValue, String.Empty);
 
 			Assert.IsNotNull(entries);
 		}

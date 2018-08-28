@@ -1,9 +1,10 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using newtelligence.DasBlog.Runtime;
+using NodaTime;
 
 namespace newtelligence.DasBlog.Web.Core
 {
@@ -26,15 +27,8 @@ namespace newtelligence.DasBlog.Web.Core
             DateTime[] daysWithEntries;
             _requestPage = this.Page as SharedBasePage;
             TimeZone timezone = null;
-            if (_requestPage.SiteConfig.AdjustDisplayTimeZone)
-            {
-                timezone = _requestPage.SiteConfig.GetConfiguredTimeZone();
-            }
-            else
-            {
-                timezone = new newtelligence.DasBlog.Util.UTCTimeZone();
-            }
-            daysWithEntries = _requestPage.DataService.GetDaysWithEntries(timezone);
+
+            daysWithEntries = _requestPage.DataService.GetDaysWithEntries(DateTimeZone.Utc);
 
             _monthTable = new Dictionary<string, int>();
             _monthList = new List<DateTime>();
@@ -48,7 +42,7 @@ namespace newtelligence.DasBlog.Web.Core
                     string monthKey = month.ToString("MMMM, yyyy");
                     if (!_monthTable.ContainsKey(monthKey))
                     {
-                        EntryCollection entries = _requestPage.DataService.GetEntriesForMonth(month, timezone, languageFilter);
+                        EntryCollection entries = _requestPage.DataService.GetEntriesForMonth(month, DateTimeZone.Utc, languageFilter);
                         if (entries != null)
                         {
                             _monthTable.Add(monthKey, entries.Count);

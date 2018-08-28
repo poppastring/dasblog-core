@@ -1,4 +1,4 @@
-#region Copyright (c) 2003, newtelligence AG. All rights reserved.
+﻿#region Copyright (c) 2003, newtelligence AG. All rights reserved.
 /*
 // Copyright (c) 2003, newtelligence AG. (http://www.newtelligence.com)
 // Original BlogX Source Code: Copyright (c) 2003, Chris Anderson (http://simplegeek.com)
@@ -53,6 +53,7 @@ using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using newtelligence.DasBlog.Runtime;
 using newtelligence.DasBlog.Util;
+using NodaTime;
 
 namespace newtelligence.DasBlog.Web.Core
 {
@@ -1540,11 +1541,11 @@ namespace newtelligence.DasBlog.Web.Core
                         IBlogDataService dataService = requestPage.DataService;
 
                         EntryCollection popularEntries = new EntryCollection();
-                        DateTime[] daysWithEntries = dataService.GetDaysWithEntries(newtelligence.DasBlog.Util.UTCTimeZone.CurrentTimeZone);
+                        DateTime[] daysWithEntries = dataService.GetDaysWithEntries(DateTimeZone.Utc);
                         CommentCollection comments = dataService.GetAllComments();
                         foreach (DateTime day in daysWithEntries)
                         {
-                            EntryCollection entries = dataService.GetEntriesForDay(day, newtelligence.DasBlog.Util.UTCTimeZone.CurrentTimeZone, String.Empty, 1, int.MaxValue, String.Empty);
+                            EntryCollection entries = dataService.GetEntriesForDay(day, DateTimeZone.Utc, String.Empty, 1, int.MaxValue, String.Empty);
                             foreach (Entry potentialEntry in entries)
                             {
 
@@ -1660,10 +1661,10 @@ namespace newtelligence.DasBlog.Web.Core
                             DateTime yearFirst = Macros.GetStartOfYear(DateTime.UtcNow.Year);
                             DateTime yearLast = Macros.GetEndOfYear(DateTime.UtcNow.Year);
 
-                            DateTime[] daysWithEntries = dataService.GetDaysWithEntries(newtelligence.DasBlog.Util.UTCTimeZone.CurrentTimeZone);
+                            DateTime[] daysWithEntries = dataService.GetDaysWithEntries(DateTimeZone.Utc);
                             foreach (DateTime day in daysWithEntries)
                             {
-                                EntryCollection entries = dataService.GetEntriesForDay(day, newtelligence.DasBlog.Util.UTCTimeZone.CurrentTimeZone, String.Empty, 1, int.MaxValue, String.Empty);
+                                EntryCollection entries = dataService.GetEntriesForDay(day, DateTimeZone.Utc, String.Empty, 1, int.MaxValue, String.Empty);
                                 newStats.AllEntriesCount += entries.Count;
                                 foreach (Entry potentialEntry in entries)
                                 {

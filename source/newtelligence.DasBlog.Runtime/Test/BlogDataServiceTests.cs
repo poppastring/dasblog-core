@@ -1,9 +1,10 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.IO;
 using newtelligence.DasBlog.Runtime;
 using NUnit.Framework;
 using System.Collections.Generic;
+using NodaTime;
 
 namespace newtelligence.DasBlog.Runtime.Test
 {
@@ -44,7 +45,7 @@ namespace newtelligence.DasBlog.Runtime.Test
 				dataService.SaveEntry(entry, null);
 			}
 
-			EntryCollection entries = dataService.GetEntriesForDay(DateTime.Now, TimeZone.CurrentTimeZone, String.Empty, int.MaxValue, int.MaxValue, String.Empty);
+			EntryCollection entries = dataService.GetEntriesForDay(DateTime.Now, DateTimeZone.Utc, String.Empty, int.MaxValue, int.MaxValue, String.Empty);
 
 			Assert.AreEqual(24, entries.Count);
 
@@ -105,7 +106,7 @@ namespace newtelligence.DasBlog.Runtime.Test
                 dataService.SaveEntry(entry, null);
             }
             
-            DateTime[] days = dataService.GetDaysWithEntries(TimeZone.CurrentTimeZone);
+            DateTime[] days = dataService.GetDaysWithEntries(DateTimeZone.Utc);
             
             for (int i = 0; i < 12; i++)
             {

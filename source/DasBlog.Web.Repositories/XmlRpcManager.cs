@@ -169,7 +169,7 @@ namespace DasBlog.Managers
 				throw new SecurityException();
 			}
 
-			EntryCollection entries = _dataService.GetEntriesForDay(DateTime.Now.ToUniversalTime(), TimeZone.CurrentTimeZone, null,
+			EntryCollection entries = _dataService.GetEntriesForDay(DateTime.Now.ToUniversalTime(), _dasBlogSettings.GetConfiguredTimeZone(), null,
 				_dasBlogSettings.SiteConfiguration.RssDayCount, numberOfPosts, null);
 			List<MoveableType.PostTitle> arrayList = new List<MoveableType.PostTitle>();
 			foreach (Entry entry in entries)
