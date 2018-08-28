@@ -134,8 +134,8 @@ namespace AutoMapper
 			    }
 			    catch (Exception e)
 			    {
-				    System.Diagnostics.Debug.WriteLine($"{ass.GetName().Name} FAILED");
-							// anything turning up herer should be included in excludedAssemblies above
+				    System.Diagnostics.Debug.WriteLine($"{ass.GetName().Name} FAILED: {e.Message}");
+					// anything turning up herer should be included in excludedAssemblies above
 			    }
 		    }
 	    }

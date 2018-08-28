@@ -13,7 +13,7 @@ namespace DasBlog.Core.Configuration
 		private readonly IUserService _userService;
 		public SiteSecurityConfig(IUserService userService)
 		{
-			this._userService = userService;
+			_userService = userService;
 			Refresh();
 		}
 
