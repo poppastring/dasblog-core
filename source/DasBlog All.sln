@@ -1,4 +1,5 @@
-﻿Microsoft Visual Studio Solution File, Format Version 12.00
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
@@ -33,33 +34,33 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{800E3AC8-FF13-43CE-8C09-6F4A2867D445}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
+		ContributorFAQ.md = ContributorFAQ.md
 		SeleniumPlusDasBlogCoreInACoupleOfPages.md = SeleniumPlusDasBlogCoreInACoupleOfPages.md
 		SmokeTestArch.png = SmokeTestArch.png
-		ContributorFAQ.md = ContributorFAQ.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "newtelligence", "newtelligence", "{4383190A-97AC-435E-9FBB-E203AC4497ED}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DocSource", "DocSource", "{B734F9FD-539D-4FD3-9343-5BD5C18FF699}"
-ProjectSection(SolutionItems) = preProject
-	DocSource\SmokeTestArch.xlsx = DocSource\SmokeTestArch.xlsx
-EndProjectSection
+	ProjectSection(SolutionItems) = preProject
+		DocSource\SmokeTestArch.xlsx = DocSource\SmokeTestArch.xlsx
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dasblog.Tests", "Dasblog.Tests", "{F0F076E7-9863-46B7-8C3C-5C220D4BC118}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DasBlog.Tests.UnitTests", "DasBlog.Tests\UnitTests\DasBlog.Tests.UnitTests.csproj", "{3EA4B6D5-6AC0-4235-AAD3-27FFBD158FC6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DasBlog.Tests.UnitTests", "DasBlog.Tests\UnitTests\DasBlog.Tests.UnitTests.csproj", "{3EA4B6D5-6AC0-4235-AAD3-27FFBD158FC6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DasBlog.Tests.SmokeTest", "DasBlog.Tests\SmokeTest\DasBlog.Tests.SmokeTest.csproj", "{425AB01F-C15E-4D65-A40A-69CC69D5A396}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DasBlog.Tests.SmokeTest", "DasBlog.Tests\SmokeTest\DasBlog.Tests.SmokeTest.csproj", "{425AB01F-C15E-4D65-A40A-69CC69D5A396}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DasBlog.Tests.FunctionalTests", "DasBlog.Tests\FunctionalTests\DasBlog.Tests.FunctionalTests.csproj", "{42BAE6DE-FDF7-497E-B08C-4B9035C7F1FF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DasBlog.Tests.FunctionalTests", "DasBlog.Tests\FunctionalTests\DasBlog.Tests.FunctionalTests.csproj", "{42BAE6DE-FDF7-497E-B08C-4B9035C7F1FF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DasBlog.Tests.Automation", "DasBlog.Tests\Automation\DasBlog.Tests.Automation\DasBlog.Tests.Automation.csproj", "{85B28FFC-EBB9-4E18-A1F4-9C352789725F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DasBlog.Tests.Automation", "DasBlog.Tests\Automation\DasBlog.Tests.Automation\DasBlog.Tests.Automation.csproj", "{85B28FFC-EBB9-4E18-A1F4-9C352789725F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DasBlog.Tests.Support", "DasBlog.Tests\Support\DasBlog.Tests.Support\DasBlog.Tests.Support.csproj", "{09F7AFA8-D450-4308-831E-3D895BF7B180}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DasBlog.Tests.Support", "DasBlog.Tests\Support\DasBlog.Tests.Support\DasBlog.Tests.Support.csproj", "{09F7AFA8-D450-4308-831E-3D895BF7B180}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Resources", "DasBlog.Tests\Resources\Resources.csproj", "{2CEF017A-0670-4C33-92E0-E644FE82B765}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Resources", "DasBlog.Tests\Resources\Resources.csproj", "{2CEF017A-0670-4C33-92E0-E644FE82B765}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetEscapades.Extensions.Logging.RollingFile", "NetEscapades.Extensions.Logging.RollingFile\NetEscapades.Extensions.Logging.RollingFile.csproj", "{EB90F5F5-0028-45DA-AA4D-0205C5CE73DF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetEscapades.Extensions.Logging.RollingFile", "NetEscapades.Extensions.Logging.RollingFile\NetEscapades.Extensions.Logging.RollingFile.csproj", "{EB90F5F5-0028-45DA-AA4D-0205C5CE73DF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -150,18 +151,6 @@ Global
 		{F0DF11A5-78FC-4A74-8BF5-0CA619BAE3E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F0DF11A5-78FC-4A74-8BF5-0CA619BAE3E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F0DF11A5-78FC-4A74-8BF5-0CA619BAE3E9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C439145F-28BF-4451-98CD-7FC404681426}.Debug - All|Any CPU.ActiveCfg = Debug|Any CPU
-		{C439145F-28BF-4451-98CD-7FC404681426}.Debug - All|Any CPU.Build.0 = Debug|Any CPU
-		{C439145F-28BF-4451-98CD-7FC404681426}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C439145F-28BF-4451-98CD-7FC404681426}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C439145F-28BF-4451-98CD-7FC404681426}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C439145F-28BF-4451-98CD-7FC404681426}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2AAA4696-6822-4389-AD50-37FECA283849}.Debug - All|Any CPU.ActiveCfg = Debug|Any CPU
-		{2AAA4696-6822-4389-AD50-37FECA283849}.Debug - All|Any CPU.Build.0 = Debug|Any CPU
-		{2AAA4696-6822-4389-AD50-37FECA283849}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2AAA4696-6822-4389-AD50-37FECA283849}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2AAA4696-6822-4389-AD50-37FECA283849}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2AAA4696-6822-4389-AD50-37FECA283849}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3EA4B6D5-6AC0-4235-AAD3-27FFBD158FC6}.Debug - All|Any CPU.ActiveCfg = Debug|Any CPU
 		{3EA4B6D5-6AC0-4235-AAD3-27FFBD158FC6}.Debug - All|Any CPU.Build.0 = Debug|Any CPU
 		{3EA4B6D5-6AC0-4235-AAD3-27FFBD158FC6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -197,7 +186,6 @@ Global
 		{2CEF017A-0670-4C33-92E0-E644FE82B765}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2CEF017A-0670-4C33-92E0-E644FE82B765}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2CEF017A-0670-4C33-92E0-E644FE82B765}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2CEF017A-0670-4C33-92E0-E644FE82B765}.Release|Any CPU.Build.0 = Release|Any CPU
 		{EB90F5F5-0028-45DA-AA4D-0205C5CE73DF}.Debug - All|Any CPU.ActiveCfg = Debug|Any CPU
 		{EB90F5F5-0028-45DA-AA4D-0205C5CE73DF}.Debug - All|Any CPU.Build.0 = Debug|Any CPU
 		{EB90F5F5-0028-45DA-AA4D-0205C5CE73DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
