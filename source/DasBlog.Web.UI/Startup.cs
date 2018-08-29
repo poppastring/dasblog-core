@@ -33,16 +33,16 @@ namespace DasBlog.Web
 	public class Startup
 	{
 		public const string SITESECURITYCONFIG = @"Config\siteSecurity.config";
-		private IHostingEnvironment _hostingEnvironment;
-		private string _binariesPath;
+		private IHostingEnvironment hostingEnvironment;
+		private string binariesPath;
 		public static IServiceCollection DasBlogServices { get; private set; }
 			// TODO find out how to access services from integration tests
 
 		public Startup(IConfiguration configuration, IHostingEnvironment env)
 		{
 			Configuration = configuration;
-			_hostingEnvironment = env;
-			_binariesPath = Configuration.GetValue<string>("binariesDir", "/").TrimStart('~').TrimEnd('/');
+			hostingEnvironment = env;
+			binariesPath = Configuration.GetValue<string>("binariesDir", "/").TrimStart('~').TrimEnd('/');
 		}
 
 		public IConfiguration Configuration { get; }
@@ -56,9 +56,9 @@ namespace DasBlog.Web
 			services.Configure<SiteConfig>(Configuration);
 			services.Configure<MetaTags>(Configuration);
 			services.Configure<LocalUserDataOptions>(options
-			  => options.Path = Path.Combine(GetDataRoot(_hostingEnvironment), SITESECURITYCONFIG));
+			  => options.Path = Path.Combine(GetDataRoot(hostingEnvironment), SITESECURITYCONFIG));
 			services.Configure<ActivityRepoOptions>(options
-			  => options.Path = Path.Combine(GetDataRoot(_hostingEnvironment), Constants.LogDirectory));
+			  => options.Path = Path.Combine(GetDataRoot(hostingEnvironment), Constants.LogDirectory));
 
 			// Add identity types
 			services
@@ -120,7 +120,7 @@ namespace DasBlog.Web
 			services.AddScoped<IRichEditBuilder>(SelectRichEditor);
 
 			services
-				.AddSingleton(_hostingEnvironment.ContentRootFileProvider)
+				.AddSingleton(hostingEnvironment.ContentRootFileProvider)
 				.AddSingleton<IBlogManager, BlogManager>()
 				.AddSingleton<ISubscriptionManager, SubscriptionManager>()
 				.AddSingleton<IArchiveManager, ArchiveManager>()
@@ -171,8 +171,8 @@ namespace DasBlog.Web
 			app.UseStaticFiles();
 			app.UseStaticFiles(new StaticFileOptions()
 			{
-				FileProvider = new PhysicalFileProvider(Path.Combine(GetDataRoot(env), _binariesPath.TrimStart('/'))),
-				RequestPath = _binariesPath
+				FileProvider = new PhysicalFileProvider(Path.Combine(GetDataRoot(env), binariesPath.TrimStart('/'))),
+				RequestPath = binariesPath
 			});
 			app.UseAuthentication();
 			app.Use(PopulateThreadCurrentPrincipalForMvc);

@@ -10,12 +10,12 @@ namespace DasBlog.Web.TagHelpers
 	{
 		public IList<CategoryViewModel> Categories { get; set; }
 
-		private readonly IDasBlogSettings _dasBlogSettings;
+		private readonly IDasBlogSettings dasBlogSettings;
 		private const string CATEGORY_ITEM_TEMPLATE = "<li><a href='{0}'>{1}</a></li>";
 
 		public CategoriesListTagHelper(IDasBlogSettings dasBlogSettings)
 		{
-			_dasBlogSettings = dasBlogSettings;
+			this.dasBlogSettings = dasBlogSettings;
 		}
 
 		public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
@@ -30,7 +30,7 @@ namespace DasBlog.Web.TagHelpers
 
 			foreach (CategoryViewModel category in Categories)
 			{
-				categorylist = categorylist + string.Format(CATEGORY_ITEM_TEMPLATE, _dasBlogSettings.GetCategoryViewUrl(category.CategoryUrl), category.Category) + format;
+				categorylist = categorylist + string.Format(CATEGORY_ITEM_TEMPLATE, dasBlogSettings.GetCategoryViewUrl(category.CategoryUrl), category.Category) + format;
 			}
 
 			output.Content.SetHtmlContent(categorylist);

@@ -1,33 +1,30 @@
 ﻿using DasBlog.Managers.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using newtelligence.DasBlog.Runtime;
 using DasBlog.Core;
 
 namespace DasBlog.Managers
 {
-    public class CategoryManager : ICategoryManager
+	public class CategoryManager : ICategoryManager
     {
-        private IBlogDataService _dataService;
-        private ILoggingDataService _loggingDataService;
-        private readonly IDasBlogSettings _dasBlogSettings;
+        private IBlogDataService dataService;
+        private ILoggingDataService loggingDataService;
+        private readonly IDasBlogSettings dasBlogSettings;
 
         public CategoryManager(IDasBlogSettings settings)
         {
-            _dasBlogSettings = settings;
-            _loggingDataService = LoggingDataServiceFactory.GetService(_dasBlogSettings.WebRootDirectory + _dasBlogSettings.SiteConfiguration.LogDir);
-            _dataService = BlogDataServiceFactory.GetService(_dasBlogSettings.WebRootDirectory + _dasBlogSettings.SiteConfiguration.ContentDir, _loggingDataService);
+            dasBlogSettings = settings;
+            loggingDataService = LoggingDataServiceFactory.GetService(dasBlogSettings.WebRootDirectory + dasBlogSettings.SiteConfiguration.LogDir);
+            dataService = BlogDataServiceFactory.GetService(dasBlogSettings.WebRootDirectory + dasBlogSettings.SiteConfiguration.ContentDir, loggingDataService);
         }
 
         public EntryCollection GetEntries()
         {
-            return _dataService.GetEntries(false);
+            return dataService.GetEntries(false);
         }
 
         public EntryCollection GetEntries(string category, string acceptLanguages)
         {
-            return _dataService.GetEntriesForCategory(category, acceptLanguages);
+            return dataService.GetEntriesForCategory(category, acceptLanguages);
         }
     }
 }

@@ -10,14 +10,14 @@ namespace DasBlog.Web.Controllers
 	[Route("archive")]
 	public class ArchiveController : DasBlogController
 	{
-		private IArchiveManager _archiveManager;
-		private IHttpContextAccessor _httpContextAccessor;
+		private IArchiveManager archiveManager;
+		private IHttpContextAccessor httpContextAccessor;
 		private readonly IMapper mapper;
 
 		public ArchiveController(IArchiveManager archiveManager, IHttpContextAccessor httpContextAccessor, IMapper mapper)
 		{
-			_archiveManager = archiveManager;
-			_httpContextAccessor = httpContextAccessor;
+			this.archiveManager = archiveManager;
+			this.httpContextAccessor = httpContextAccessor;
 			this.mapper = mapper;
 		}
 
@@ -30,7 +30,7 @@ namespace DasBlog.Web.Controllers
 		[HttpGet("{year}")]
 		public IActionResult Archive(int year)
 		{
-			DateTime dateTime = new DateTime(year, 1, 1);
+			var dateTime = new DateTime(year, 1, 1);
 			var months = GetMonthsViewModel(dateTime);
 			return View(months);
 		}
@@ -53,13 +53,12 @@ namespace DasBlog.Web.Controllers
 
 		private MonthViewViewModel GetMonthsViewModel(DateTime dateTime)
 		{
-			string languageFilter = _httpContextAccessor.HttpContext.Request.Headers["Accept-Language"];
+			string languageFilter = httpContextAccessor.HttpContext.Request.Headers["Accept-Language"];
 
 			ViewBag.PreviousMonth = dateTime.AddMonths(-1).Date;
 			ViewBag.NextMonth = dateTime.AddMonths(1).Date;
 			ViewBag.CurrentMonth = dateTime.Date;
-			var entries = _archiveManager
-				.GetEntriesForMonth(dateTime, languageFilter);
+			var entries = archiveManager.GetEntriesForMonth(dateTime, languageFilter);
 			return MonthViewViewModel.Create(dateTime, entries, mapper);
 		}
 	}

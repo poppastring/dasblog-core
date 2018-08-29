@@ -7,11 +7,11 @@ namespace DasBlog.Web.Settings
 {
 	public abstract class DasBlogBaseController : DasBlogController
 	{
-		private readonly IDasBlogSettings _dasBlogSettings;
+		private readonly IDasBlogSettings dasBlogSettings;
 
 		protected DasBlogBaseController(IDasBlogSettings settings)
 		{
-			_dasBlogSettings = settings;
+			dasBlogSettings = settings;
 		}
 
 		//protected ViewResult ThemedView(string view, ListPostsViewModel listpostsviewmodel)
@@ -30,11 +30,11 @@ namespace DasBlog.Web.Settings
 
 		protected void DefaultPage()
 		{
-			ViewData["Title"] = _dasBlogSettings.SiteConfiguration.Title;
-			ViewData["Description"] = _dasBlogSettings.SiteConfiguration.Description;
-			ViewData["Keywords"] = _dasBlogSettings.MetaTags.MetaKeywords;
-			ViewData["Canonical"] = _dasBlogSettings.SiteConfiguration.Root;
-			ViewData["Author"] = _dasBlogSettings.SiteConfiguration.Copyright;
+			ViewData["Title"] = dasBlogSettings.SiteConfiguration.Title;
+			ViewData["Description"] = dasBlogSettings.SiteConfiguration.Description;
+			ViewData["Keywords"] = dasBlogSettings.MetaTags.MetaKeywords;
+			ViewData["Canonical"] = dasBlogSettings.SiteConfiguration.Root;
+			ViewData["Author"] = dasBlogSettings.SiteConfiguration.Copyright;
 		}
 	}
 }

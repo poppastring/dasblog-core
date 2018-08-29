@@ -15,29 +15,29 @@ namespace DasBlog.Web.Controllers
 {
 	public class HomeController : DasBlogBaseController
 	{
-		private readonly IBlogManager _blogManager;
-		private readonly IXmlRpcManager _xmlRpcManager;
-		private readonly IDasBlogSettings _dasBlogSettings;
-		private readonly IMapper _mapper;
-		private readonly ILogger<HomeController> _logger;
+		private readonly IBlogManager blogManager;
+		private readonly IXmlRpcManager xmlRpcManager;
+		private readonly IDasBlogSettings dasBlogSettings;
+		private readonly IMapper mapper;
+		private readonly ILogger<HomeController> logger;
 		
 		public HomeController(IBlogManager blogManager
 		  , IDasBlogSettings settings, IXmlRpcManager rpcManager, IMapper mapper
 		  , ILogger<HomeController> logger) : base(settings)
 		{
-			_blogManager = blogManager;
-			_xmlRpcManager = rpcManager;
-			_dasBlogSettings = settings;
-			_mapper = mapper;
-			_logger = logger;
+			this.blogManager = blogManager;
+			xmlRpcManager = rpcManager;
+			dasBlogSettings = settings;
+			this.mapper = mapper;
+			this.logger = logger;
 		}
 
 		public IActionResult Index()
 		{
 			ListPostsViewModel lpvm = new ListPostsViewModel();
-			lpvm.Posts = _blogManager.GetFrontPagePosts(Request.Headers["Accept-Language"])
-							.Select(entry => _mapper.Map<PostViewModel>(entry)).ToList();
-			_logger.LogDebug($"In Index - {lpvm.Posts.Count} post found");
+			lpvm.Posts = blogManager.GetFrontPagePosts(Request.Headers["Accept-Language"])
+							.Select(entry => mapper.Map<PostViewModel>(entry)).ToList();
+			logger.LogDebug($"In Index - {lpvm.Posts.Count} post found");
 			DefaultPage();
 
 			return View("Page", lpvm);
@@ -60,8 +60,8 @@ namespace DasBlog.Web.Controllers
 			ViewData["Message"] = string.Format("Page...{0}", index);
 
 			ListPostsViewModel lpvm = new ListPostsViewModel();
-			lpvm.Posts = _blogManager.GetEntriesForPage(index, Request.Headers["Accept-Language"])
-								.Select(entry => _mapper.Map<PostViewModel>(entry)).ToList();
+			lpvm.Posts = blogManager.GetEntriesForPage(index, Request.Headers["Accept-Language"])
+								.Select(entry => mapper.Map<PostViewModel>(entry)).ToList();
 
 			DefaultPage();
 
@@ -84,7 +84,7 @@ namespace DasBlog.Web.Controllers
 		[HttpPost("blogger")]
 		public IActionResult Blogger([FromBody] string xmlrpcpost)
 		{
-			string blogger = _xmlRpcManager.Invoke(HttpContext.Request.Body);
+			string blogger = xmlRpcManager.Invoke(HttpContext.Request.Body);
 
 			return Content(blogger);
 		}
@@ -122,7 +122,7 @@ namespace DasBlog.Web.Controllers
 			}
 			catch (Exception ex)
 			{
-				_logger.LogError(ex, ex.Message, null);
+				logger.LogError(ex, ex.Message, null);
 				return Content(
 					"DasBlog - an error occurred (and reporting gailed) - Click the browser 'Back' button to try using the application");
 			}

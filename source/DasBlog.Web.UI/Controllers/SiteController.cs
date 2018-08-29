@@ -12,18 +12,18 @@ namespace DasBlog.Web.Controllers
     [Route("site")]
     public class SiteController : DasBlogController
     {
-        private ISiteManager _siteManager;
+        private ISiteManager siteManager;
 
         public SiteController(ISiteManager siteManager)
         {
-			_siteManager = siteManager;
+			this.siteManager = siteManager;
         }
 
         [Route("")]
         [HttpGet("map")]
         public ActionResult Map()
         {
-            urlset sitemap = _siteManager.GetGoogleSiteMap();
+            urlset sitemap = siteManager.GetGoogleSiteMap();
 
             return Ok(sitemap);
         }

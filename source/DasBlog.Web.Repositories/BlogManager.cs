@@ -6,8 +6,6 @@ using System.Linq;
 using newtelligence.DasBlog.Runtime;
 using DasBlog.Managers.Interfaces;
 using DasBlog.Core;
-using DasBlog.Core.Common;
-using newtelligence.DasBlog.Util;
 using EventDataItem = DasBlog.Core.EventDataItem;
 using EventCodes = DasBlog.Core.EventCodes;
 using DasBlog.Core.Extensions;

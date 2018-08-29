@@ -12,13 +12,13 @@ namespace DasBlog.Web.Identity
 {
 	public class DasBlogUserStore : IUserStore<DasBlogUser>, IUserPasswordStore<DasBlogUser>, IUserEmailStore<DasBlogUser>, IUserClaimStore<DasBlogUser>
 	{
-		private readonly IDasBlogSettings _dasBlogSettings;
-		private readonly IMapper _mapper;
+		private readonly IDasBlogSettings dasBlogSettings;
+		private readonly IMapper mapper;
 
 		public DasBlogUserStore(IDasBlogSettings dasBlogSettings, IMapper mapper)
 		{
-			_dasBlogSettings = dasBlogSettings;
-			_mapper = mapper;
+			this.dasBlogSettings = dasBlogSettings;
+			this.mapper = mapper;
 		}
 
 		#region IUserStore
@@ -69,9 +69,9 @@ namespace DasBlog.Web.Identity
 
 			try
 			{
-				var mappedUser = _mapper.Map<User>(user);
+				var mappedUser = mapper.Map<User>(user);
 
-				_dasBlogSettings.AddUser(mappedUser);
+				dasBlogSettings.AddUser(mappedUser);
 			}
 			catch (Exception e)
 			{
@@ -98,8 +98,8 @@ namespace DasBlog.Web.Identity
 				throw new ArgumentNullException(nameof(normalizedUserName));
 			}
 
-			var user = _dasBlogSettings.SecurityConfiguration.Users.Find(u => u.EmailAddress.Equals(normalizedUserName, StringComparison.InvariantCultureIgnoreCase));
-			var dasBlogUser = _mapper.Map<DasBlogUser>(user);
+			var user = dasBlogSettings.SecurityConfiguration.Users.Find(u => u.EmailAddress.Equals(normalizedUserName, StringComparison.InvariantCultureIgnoreCase));
+			var dasBlogUser = mapper.Map<DasBlogUser>(user);
 			return Task.FromResult(dasBlogUser);
 		}
 
@@ -135,8 +135,8 @@ namespace DasBlog.Web.Identity
 
 		public Task<DasBlogUser> FindByEmailAsync(string normalizedEmail, CancellationToken cancellationToken)
 		{
-			var user = _dasBlogSettings.SecurityConfiguration.Users.Find(u => u.EmailAddress.ToUpper() == normalizedEmail);
-			var dasBlogUser = _mapper.Map<DasBlogUser>(user);
+			var user = dasBlogSettings.SecurityConfiguration.Users.Find(u => u.EmailAddress.ToUpper() == normalizedEmail);
+			var dasBlogUser = mapper.Map<DasBlogUser>(user);
 			return Task.FromResult(dasBlogUser);
 		}
 

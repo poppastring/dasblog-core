@@ -109,11 +109,11 @@ namespace DasBlog.Web.Settings
 
 		public User GetUser(string userName)
 		{
-			if (false == String.IsNullOrEmpty(userName))
+			if (false == string.IsNullOrEmpty(userName))
 			{
-				return this.SecurityConfiguration.Users.Find(delegate (User x)
+				return SecurityConfiguration.Users.Find(delegate (User x)
 				{
-					return String.Compare(x.Name, userName, StringComparison.InvariantCultureIgnoreCase) == 0;
+					return string.Compare(x.Name, userName, StringComparison.InvariantCultureIgnoreCase) == 0;
 				});
 			}
 			return null;
