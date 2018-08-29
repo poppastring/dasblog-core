@@ -16,14 +16,14 @@ namespace DasBlog.Web.Controllers
     [Route("feed")]
     public class FeedController : DasBlogController
     {
-        private IMemoryCache _cache;
-        private ISubscriptionManager _subscriptionManager;
+        private IMemoryCache memoryCache;
+        private ISubscriptionManager subscriptionManager;
         private const string RSS_CACHE_KEY = "RSS_CACHE_KEY";
 
         public FeedController(ISubscriptionManager subscriptionManager, IHttpContextAccessor httpContextAccessor, IMemoryCache memoryCache)
         {  
-            _subscriptionManager = subscriptionManager;
-            _cache = memoryCache;
+            this.subscriptionManager = subscriptionManager;
+            this.memoryCache = memoryCache;
         }
 
         [Route("")]
@@ -32,13 +32,13 @@ namespace DasBlog.Web.Controllers
         {
             RssRoot rss = null; 
 
-            if (!_cache.TryGetValue(RSS_CACHE_KEY, out rss))
+            if (!memoryCache.TryGetValue(RSS_CACHE_KEY, out rss))
             {
-                rss = _subscriptionManager.GetRss();
+                rss = subscriptionManager.GetRss();
 
                 var cacheEntryOptions = new MemoryCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromMinutes(5));
 
-                _cache.Set(RSS_CACHE_KEY, rss, cacheEntryOptions);
+                memoryCache.Set(RSS_CACHE_KEY, rss, cacheEntryOptions);
             }
 
             return Ok(rss);
@@ -49,13 +49,13 @@ namespace DasBlog.Web.Controllers
         {
             RssRoot rss = null;
 
-            if (!_cache.TryGetValue(RSS_CACHE_KEY + "_" + category, out rss))
+            if (!memoryCache.TryGetValue(RSS_CACHE_KEY + "_" + category, out rss))
             {
-                rss = _subscriptionManager.GetRssCategory(category);
+                rss = subscriptionManager.GetRssCategory(category);
 
                 var cacheEntryOptions = new MemoryCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromMinutes(5));
 
-                _cache.Set(RSS_CACHE_KEY + "_" + category, rss, cacheEntryOptions);
+                memoryCache.Set(RSS_CACHE_KEY + "_" + category, rss, cacheEntryOptions);
             }
 
             return Ok(rss);
@@ -66,7 +66,7 @@ namespace DasBlog.Web.Controllers
         {
             RsdRoot rsd = null;
 
-            rsd = _subscriptionManager.GetRsd();
+            rsd = subscriptionManager.GetRsd();
 
             return Ok(rsd);
         }

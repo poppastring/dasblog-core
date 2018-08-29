@@ -9,11 +9,11 @@ namespace DasBlog.Web.TagHelpers
 	{
 		public PostViewModel Post { get; set; }
 
-		private readonly IDasBlogSettings _dasBlogSettings;
+		private readonly IDasBlogSettings dasBlogSettings;
 
 		public TitleLinkTagHelper(IDasBlogSettings dasBlogSettings)
 		{
-			_dasBlogSettings = dasBlogSettings;
+			this.dasBlogSettings = dasBlogSettings;
 		}
 
 		public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
@@ -24,7 +24,7 @@ namespace DasBlog.Web.TagHelpers
 			var content = await output.GetChildContentAsync();
 			var css = content.GetContent();
 			output.Attributes.SetAttribute("class", css);
-			output.Attributes.SetAttribute("href", _dasBlogSettings.RelativeToRoot(Post.PermaLink));
+			output.Attributes.SetAttribute("href", dasBlogSettings.RelativeToRoot(Post.PermaLink));
 			output.Content.SetHtmlContent(Post.Title);
 		}
 	}

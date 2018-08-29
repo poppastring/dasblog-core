@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using AutoMapper;
+﻿using AutoMapper;
 using DasBlog.Core;
 using DasBlog.Managers.Interfaces;
 using DasBlog.Web.Models.BlogViewModels;
@@ -12,18 +10,18 @@ namespace DasBlog.Web.Controllers
 {
 	public class CategoryController : DasBlogBaseController
 	{
-		private readonly ICategoryManager _categoryManager;
-		private readonly IHttpContextAccessor _httpContextAccessor;
-		private readonly IDasBlogSettings _dasBlogSettings;
-		private readonly IMapper _mapper;
+		private readonly ICategoryManager categoryManager;
+		private readonly IHttpContextAccessor httpContextAccessor;
+		private readonly IDasBlogSettings dasBlogSettings;
+		private readonly IMapper mapper;
 
 		public CategoryController(ICategoryManager categoryManager, IDasBlogSettings settings, IHttpContextAccessor httpContextAccessor, IMapper mapper)
 			: base(settings)
 		{
-			_categoryManager = categoryManager;
-			_dasBlogSettings = settings;
-			_httpContextAccessor = httpContextAccessor;
-			_mapper = mapper;
+			this.categoryManager = categoryManager;
+			dasBlogSettings = settings;
+			this.httpContextAccessor = httpContextAccessor;
+			this.mapper = mapper;
 		}
 
 		[HttpGet("category")]
@@ -43,8 +41,8 @@ namespace DasBlog.Web.Controllers
 		private CategoryListViewModel GetCategoryListFromCategoryManager(string category)
 		{
 			var entries = !string.IsNullOrEmpty(category)
-				? _categoryManager.GetEntries(category, _httpContextAccessor.HttpContext.Request.Headers["Accept-Language"])
-				: _categoryManager.GetEntries();
+				? categoryManager.GetEntries(category, httpContextAccessor.HttpContext.Request.Headers["Accept-Language"])
+				: categoryManager.GetEntries();
 
 			var viewModel = CategoryListViewModel.Create(entries);
 			return viewModel;

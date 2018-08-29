@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
+﻿
 namespace DasBlog.Core.XmlRpc.Blogger
 {
     public struct BlogInfo

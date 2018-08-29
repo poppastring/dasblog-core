@@ -12,15 +12,15 @@ namespace DasBlog.Web.TagHelpers
 	[HtmlTargetElement(Attributes = "dasblog-unauthorized")]
 	public class UnAuthorizedRoleTagHelper : TagHelper, IAuthorizeData
 	{
-		private readonly IPolicyEvaluator _policyEvaluator;
-		private readonly IAuthorizationPolicyProvider _authPolicyProvider;
-		private readonly IHttpContextAccessor _httpContextAccessor;
+		private readonly IPolicyEvaluator policyEvaluator;
+		private readonly IAuthorizationPolicyProvider authPolicyProvider;
+		private readonly IHttpContextAccessor httpContextAccessor;
 
 		public UnAuthorizedRoleTagHelper(IHttpContextAccessor httpContextAccessor, IAuthorizationPolicyProvider policyProvider, IPolicyEvaluator policyEvaluator)
 		{
-			_httpContextAccessor = httpContextAccessor;
-			_authPolicyProvider = policyProvider;
-			_policyEvaluator = policyEvaluator;
+			this.httpContextAccessor = httpContextAccessor;
+			authPolicyProvider = policyProvider;
+			this.policyEvaluator = policyEvaluator;
 		}
 
 		public string Policy { get; set; }
@@ -31,9 +31,9 @@ namespace DasBlog.Web.TagHelpers
 
 		public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
 		{
-			var policy = await AuthorizationPolicy.CombineAsync(_authPolicyProvider, new[] { this });
-			var authenticateResult = await _policyEvaluator.AuthenticateAsync(policy, _httpContextAccessor.HttpContext);
-			var authorizeResult = await _policyEvaluator.AuthorizeAsync(policy, authenticateResult, _httpContextAccessor.HttpContext, null);
+			var policy = await AuthorizationPolicy.CombineAsync(authPolicyProvider, new[] { this });
+			var authenticateResult = await policyEvaluator.AuthenticateAsync(policy, httpContextAccessor.HttpContext);
+			var authorizeResult = await policyEvaluator.AuthorizeAsync(policy, authenticateResult, httpContextAccessor.HttpContext, null);
 
 			if (authorizeResult.Succeeded)
 			{

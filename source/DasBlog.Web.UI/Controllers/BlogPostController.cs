@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Net;
-using System.Threading;
 using AutoMapper;
 using DasBlog.Core;
 using DasBlog.Managers.Interfaces;
@@ -13,14 +12,10 @@ using DasBlog.Web.Settings;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using newtelligence.DasBlog.Runtime;
 using static DasBlog.Core.Common.Utils;
-using System.IO;
 using Microsoft.Extensions.Logging;
-using DasBlog.Core.Exceptions;
 
 namespace DasBlog.Web.Controllers
 {

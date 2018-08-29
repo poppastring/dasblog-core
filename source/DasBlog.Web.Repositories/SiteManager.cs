@@ -9,15 +9,15 @@ namespace DasBlog.Managers
 {
     public class SiteManager : ISiteManager
     {
-        private IBlogDataService _dataService;
-        private ILoggingDataService _loggingDataService;
-        private readonly IDasBlogSettings _dasBlogSettings;
+        private IBlogDataService dataService;
+        private ILoggingDataService loggingDataService;
+        private readonly IDasBlogSettings dasBlogSettings;
 
         public SiteManager(IDasBlogSettings settings)
         {
-            _dasBlogSettings = settings;
-            _loggingDataService = LoggingDataServiceFactory.GetService(_dasBlogSettings.WebRootDirectory + _dasBlogSettings.SiteConfiguration.LogDir);
-            _dataService = BlogDataServiceFactory.GetService(_dasBlogSettings.WebRootDirectory + _dasBlogSettings.SiteConfiguration.ContentDir, _loggingDataService);
+            dasBlogSettings = settings;
+            loggingDataService = LoggingDataServiceFactory.GetService(dasBlogSettings.WebRootDirectory + dasBlogSettings.SiteConfiguration.LogDir);
+            dataService = BlogDataServiceFactory.GetService(dasBlogSettings.WebRootDirectory + dasBlogSettings.SiteConfiguration.ContentDir, loggingDataService);
         }
 
         public urlset GetGoogleSiteMap()
@@ -26,15 +26,15 @@ namespace DasBlog.Managers
             root.url = new urlCollection();
 
             //Default first...
-            url basePage = new url(_dasBlogSettings.GetBaseUrl(), DateTime.Now, changefreq.daily, 1.0M);
+            url basePage = new url(dasBlogSettings.GetBaseUrl(), DateTime.Now, changefreq.daily, 1.0M);
             root.url.Add(basePage);
 
             //Archives next...
-            url archivePage = new url(_dasBlogSettings.RelativeToRoot("archives"), DateTime.Now, changefreq.daily, 1.0M);
+            url archivePage = new url(dasBlogSettings.RelativeToRoot("archives"), DateTime.Now, changefreq.daily, 1.0M);
             root.url.Add(archivePage);
 
             //All Pages
-            EntryCollection entryCache = _dataService.GetEntries(false);
+            EntryCollection entryCache = dataService.GetEntries(false);
             foreach (Entry e in entryCache)
             {
                 if (e.IsPublic)
@@ -63,25 +63,25 @@ namespace DasBlog.Managers
 
                     //Add comments pages, since comments have indexable content...
                     // Only add comments if we aren't showing comments on permalink pages already
-                    if (_dasBlogSettings.SiteConfiguration.ShowCommentsWhenViewingEntry == false)
+                    if (dasBlogSettings.SiteConfiguration.ShowCommentsWhenViewingEntry == false)
                     {
-                        url commentPage = new url(_dasBlogSettings.GetCommentViewUrl(e.EntryId), e.CreatedLocalTime, freq, 0.7M);
+                        url commentPage = new url(dasBlogSettings.GetCommentViewUrl(e.EntryId), e.CreatedLocalTime, freq, 0.7M);
                         root.url.Add(commentPage);
                     }
 
                     //then add permalinks
-                    url permaPage = new url(_dasBlogSettings.GetPermaLinkUrl(e.EntryId), e.CreatedLocalTime, freq, 0.9M);
+                    url permaPage = new url(dasBlogSettings.GetPermaLinkUrl(e.EntryId), e.CreatedLocalTime, freq, 0.9M);
                     root.url.Add(permaPage);
                 }
             }
 
             //All Categories
-            CategoryCacheEntryCollection catCache = _dataService.GetCategories();
+            CategoryCacheEntryCollection catCache = dataService.GetCategories();
             foreach (CategoryCacheEntry cce in catCache)
             {
                 if (cce.IsPublic)
                 {
-                    url catPage = new url(_dasBlogSettings.GetCategoryViewUrl(cce.Name), DateTime.Now, changefreq.weekly, 0.6M);
+                    url catPage = new url(dasBlogSettings.GetCategoryViewUrl(cce.Name), DateTime.Now, changefreq.weekly, 0.6M);
                     root.url.Add(catPage);
                 }
             }

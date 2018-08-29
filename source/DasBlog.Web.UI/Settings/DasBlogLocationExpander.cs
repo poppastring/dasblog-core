@@ -6,19 +6,18 @@ namespace DasBlog.Web.Settings
 {
     public class DasBlogLocationExpander : IViewLocationExpander
     {
-        private const string _themeLocation = "/Themes/{0}/{1}";
-
-		private string _theme;
+        private const string themeLocation = "/Themes/{0}/{1}";
+		private string theme;
 
         public DasBlogLocationExpander(string theme)
         {
-            _theme = string.Format(_themeLocation, theme, "{0}.cshtml");
+            this.theme = string.Format(themeLocation, theme, "{0}.cshtml");
 		}
 
         public IEnumerable<string> ExpandViewLocations(ViewLocationExpanderContext context, IEnumerable<string> viewLocations)
         {
 			var listlocations = viewLocations.ToList();
-			listlocations.Add(_theme);
+			listlocations.Add(theme);
 			return listlocations;
 		}
 

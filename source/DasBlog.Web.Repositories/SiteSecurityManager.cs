@@ -11,21 +11,21 @@ namespace DasBlog.Managers
 {
 	public class SiteSecurityManager : ISiteSecurityManager
 	{
-		private HashAlgorithm _hashAlgorithm;
-		private IDasBlogSettings _dasBlogSettings;
+		private HashAlgorithm hashAlgorithm;
+		private IDasBlogSettings dasBlogSettings;
 
 		public SiteSecurityManager( IDasBlogSettings dasBlogSettings)
 		{
-			_dasBlogSettings = dasBlogSettings;
-			_hashAlgorithm = SHA512Managed.Create();
+			this.dasBlogSettings = dasBlogSettings;
+			hashAlgorithm = SHA512Managed.Create();
 		}
 
 		public string HashPassword(string password)
 		{
-			_hashAlgorithm = MD5CryptoServiceProvider.Create();
+			hashAlgorithm = MD5CryptoServiceProvider.Create();
 			byte[] clearBytes = Encoding.Unicode.GetBytes(password);
 
-			byte[] hashedBytes = _hashAlgorithm.ComputeHash(clearBytes);
+			byte[] hashedBytes = hashAlgorithm.ComputeHash(clearBytes);
 
 			return BitConverter.ToString(hashedBytes);
 		}
@@ -41,7 +41,7 @@ namespace DasBlog.Managers
 
 			if (this.IsMd5Hash(hashedPassword))
 			{
-				_hashAlgorithm = MD5CryptoServiceProvider.Create();
+				hashAlgorithm = MD5CryptoServiceProvider.Create();
 			}
 
 			hashprovidedpassword = this.HashPassword(providedPassword);
@@ -56,17 +56,17 @@ namespace DasBlog.Managers
 
 		public User GetUser(string userName)
 		{
-			return _dasBlogSettings.SecurityConfiguration.Users.FirstOrDefault(s => string.Compare(s.Name, userName, StringComparison.InvariantCultureIgnoreCase) == 0);
+			return dasBlogSettings.SecurityConfiguration.Users.FirstOrDefault(s => string.Compare(s.Name, userName, StringComparison.InvariantCultureIgnoreCase) == 0);
 		}
 
 		public User GetUserByDisplayName(string displayName)
 		{
-			return _dasBlogSettings.SecurityConfiguration.Users.FirstOrDefault(s => string.Compare(s.DisplayName, displayName, StringComparison.InvariantCultureIgnoreCase) == 0);
+			return dasBlogSettings.SecurityConfiguration.Users.FirstOrDefault(s => string.Compare(s.DisplayName, displayName, StringComparison.InvariantCultureIgnoreCase) == 0);
 		}
 
 		public User GetUserByEmail(string email)
 		{
-			return _dasBlogSettings.SecurityConfiguration.Users.FirstOrDefault(s => string.Compare(s.EmailAddress, email, StringComparison.InvariantCultureIgnoreCase) == 0);
+			return dasBlogSettings.SecurityConfiguration.Users.FirstOrDefault(s => string.Compare(s.EmailAddress, email, StringComparison.InvariantCultureIgnoreCase) == 0);
 		}
 	}
 }

@@ -19,17 +19,17 @@ namespace DasBlog.Managers
 	[XmlRpcService(Name = "DasBlog Blogger Access Point", Description = "Implementation of Blogger XML-RPC Api")]
 	public class XmlRpcManager : IXmlRpcManager, MoveableType.IMovableType, Blogger.IBlogger, MetaWeblog.IMetaWeblog
 	{
-		private IBlogDataService _dataService;
-		private ILoggingDataService _loggingDataService;
-		private ISiteSecurityManager _siteSecurityManager;
-		private readonly IDasBlogSettings _dasBlogSettings;
+		private IBlogDataService dataService;
+		private ILoggingDataService loggingDataService;
+		private ISiteSecurityManager siteSecurityManager;
+		private readonly IDasBlogSettings dasBlogSettings;
 
 		public XmlRpcManager(IDasBlogSettings settings, ISiteSecurityManager siteSecurityManager)
 		{
-			_dasBlogSettings = settings;
-			_siteSecurityManager = siteSecurityManager;
-			_loggingDataService = LoggingDataServiceFactory.GetService(_dasBlogSettings.WebRootDirectory + _dasBlogSettings.SiteConfiguration.LogDir);
-			_dataService = BlogDataServiceFactory.GetService(_dasBlogSettings.WebRootDirectory + _dasBlogSettings.SiteConfiguration.ContentDir, _loggingDataService);
+			dasBlogSettings = settings;
+			this.siteSecurityManager = siteSecurityManager;
+			loggingDataService = LoggingDataServiceFactory.GetService(dasBlogSettings.WebRootDirectory + dasBlogSettings.SiteConfiguration.LogDir);
+			dataService = BlogDataServiceFactory.GetService(dasBlogSettings.WebRootDirectory + dasBlogSettings.SiteConfiguration.ContentDir, loggingDataService);
 		}
 
 		public string Invoke(Stream requestStream)
@@ -98,7 +98,7 @@ namespace DasBlog.Managers
 
 		public MoveableType.Category[] mt_getCategoryList(string blogid, string username, string password)
 		{
-			if (!_dasBlogSettings.SiteConfiguration.EnableBloggerApi)
+			if (!dasBlogSettings.SiteConfiguration.EnableBloggerApi)
 			{
 				throw new ServiceDisabledException();
 			}
@@ -113,7 +113,7 @@ namespace DasBlog.Managers
 
 		public MoveableType.Category[] mt_getPostCategories(string postid, string username, string password)
 		{
-			if (!_dasBlogSettings.SiteConfiguration.EnableBloggerApi)
+			if (!dasBlogSettings.SiteConfiguration.EnableBloggerApi)
 			{
 				throw new ServiceDisabledException();
 			}
@@ -124,7 +124,7 @@ namespace DasBlog.Managers
 			}
 
 			MoveableType.Category[] mcats = InternalGetCategoryList();
-			Entry entry = _dataService.GetEntry(postid);
+			Entry entry = dataService.GetEntry(postid);
 			if (entry != null)
 			{
 				List<MoveableType.Category> acats = new List<MoveableType.Category>();
@@ -159,7 +159,7 @@ namespace DasBlog.Managers
 
 		public MoveableType.PostTitle[] mt_getRecentPostTitles(string blogid, string username, string password, int numberOfPosts)
 		{
-			if (!_dasBlogSettings.SiteConfiguration.EnableBloggerApi)
+			if (!dasBlogSettings.SiteConfiguration.EnableBloggerApi)
 			{
 				throw new ServiceDisabledException();
 			}
@@ -169,8 +169,8 @@ namespace DasBlog.Managers
 				throw new SecurityException();
 			}
 
-			EntryCollection entries = _dataService.GetEntriesForDay(DateTime.Now.ToUniversalTime(), _dasBlogSettings.GetConfiguredTimeZone(), null,
-				_dasBlogSettings.SiteConfiguration.RssDayCount, numberOfPosts, null);
+			EntryCollection entries = dataService.GetEntriesForDay(DateTime.Now.ToUniversalTime(), dasBlogSettings.GetConfiguredTimeZone(), null,
+				dasBlogSettings.SiteConfiguration.RssDayCount, numberOfPosts, null);
 			List<MoveableType.PostTitle> arrayList = new List<MoveableType.PostTitle>();
 			foreach (Entry entry in entries)
 			{
@@ -186,12 +186,12 @@ namespace DasBlog.Managers
 
 		public MoveableType.TrackbackPing[] mt_getTrackbackPings(string postid)
 		{
-			if (!_dasBlogSettings.SiteConfiguration.EnableBloggerApi)
+			if (!dasBlogSettings.SiteConfiguration.EnableBloggerApi)
 			{
 				throw new ServiceDisabledException();
 			}
 			List<MoveableType.TrackbackPing> arrayList = new List<MoveableType.TrackbackPing>();
-			foreach (Tracking trk in _dataService.GetTrackingsFor(postid))
+			foreach (Tracking trk in dataService.GetTrackingsFor(postid))
 			{
 				if (trk.TrackingType == TrackingType.Trackback)
 				{
@@ -207,7 +207,7 @@ namespace DasBlog.Managers
 
 		public bool mt_publishPost(string postid, string username, string password)
 		{
-			if (!_dasBlogSettings.SiteConfiguration.EnableBloggerApi)
+			if (!dasBlogSettings.SiteConfiguration.EnableBloggerApi)
 			{
 				throw new ServiceDisabledException();
 			}
@@ -222,7 +222,7 @@ namespace DasBlog.Managers
 
 		public bool mt_setPostCategories(string postid, string username, string password, MoveableType.Category[] categories)
 		{
-			if (!_dasBlogSettings.SiteConfiguration.EnableBloggerApi)
+			if (!dasBlogSettings.SiteConfiguration.EnableBloggerApi)
 			{
 				throw new ServiceDisabledException();
 			}
@@ -232,7 +232,7 @@ namespace DasBlog.Managers
 				throw new SecurityException();
 			}
 
-			Entry entry = _dataService.GetEntryForEdit(postid);
+			Entry entry = dataService.GetEntryForEdit(postid);
 			if (entry != null)
 			{
 				string cats = "";
@@ -243,7 +243,7 @@ namespace DasBlog.Managers
 					cats += mcat.categoryId;
 				}
 				entry.Categories = cats;
-				_dataService.SaveEntry(entry);
+				dataService.SaveEntry(entry);
 
 				return true;
 			}
@@ -255,7 +255,7 @@ namespace DasBlog.Managers
 
 		public string[] mt_supportedMethods()
 		{
-			if (!_dasBlogSettings.SiteConfiguration.EnableBloggerApi)
+			if (!dasBlogSettings.SiteConfiguration.EnableBloggerApi)
 			{
 				throw new ServiceDisabledException();
 			}
@@ -274,7 +274,7 @@ namespace DasBlog.Managers
 
 		public MoveableType.TextFilter[] mt_supportedTextFilters()
 		{
-			if (!_dasBlogSettings.SiteConfiguration.EnableBloggerApi)
+			if (!dasBlogSettings.SiteConfiguration.EnableBloggerApi)
 			{
 				throw new ServiceDisabledException();
 			}
@@ -287,7 +287,7 @@ namespace DasBlog.Managers
 		public MoveableType.Category[] InternalGetCategoryList()
 		{
 			List<MoveableType.Category> arrayList = new List<MoveableType.Category>();
-			CategoryCacheEntryCollection categories = _dataService.GetCategories();
+			CategoryCacheEntryCollection categories = dataService.GetCategories();
 			if (categories.Count == 0)
 			{
 				arrayList.Add(InternalGetFrontPageCategory());
@@ -325,7 +325,7 @@ namespace DasBlog.Managers
 
 		public bool blogger_deletePost(string appKey, string postid, string username, string password, [XmlRpcParameter(Description = "Where applicable, this specifies whether the blog should be republished after the post has been deleted.")] bool publish)
 		{
-			if (!_dasBlogSettings.SiteConfiguration.EnableBloggerApi)
+			if (!dasBlogSettings.SiteConfiguration.EnableBloggerApi)
 			{
 				throw new ServiceDisabledException();
 			}
@@ -335,14 +335,14 @@ namespace DasBlog.Managers
 				throw new SecurityException();
 			}
 
-			_dataService.DeleteEntry(postid, null);
+			dataService.DeleteEntry(postid, null);
 
 			return true;
 		}
 
 		public bool blogger_editPost(string appKey, string postid, string username, string password, string content, bool publish)
 		{
-			if (!_dasBlogSettings.SiteConfiguration.EnableBloggerApi)
+			if (!dasBlogSettings.SiteConfiguration.EnableBloggerApi)
 			{
 				throw new ServiceDisabledException();
 			}
@@ -352,21 +352,21 @@ namespace DasBlog.Managers
 				throw new SecurityException();
 			}
 
-			Entry entry = _dataService.GetEntryForEdit(postid);
+			Entry entry = dataService.GetEntryForEdit(postid);
 			if (entry != null)
 			{
 				FillEntryFromBloggerPost(entry, content, username);
 				entry.IsPublic = publish;
 				entry.Syndicated = publish;
 
-				_dataService.SaveEntry(entry);
+				dataService.SaveEntry(entry);
 			}
 			return true;
 		}
 
 		public Blogger.Category[] blogger_getCategories(string blogid, string username, string password)
 		{
-			if (!_dasBlogSettings.SiteConfiguration.EnableBloggerApi)
+			if (!dasBlogSettings.SiteConfiguration.EnableBloggerApi)
 			{
 				throw new ServiceDisabledException();
 			}
@@ -377,14 +377,14 @@ namespace DasBlog.Managers
 			}
 
 			List<Blogger.Category> arrayList = new List<Blogger.Category>();
-			CategoryCacheEntryCollection categories = _dataService.GetCategories();
+			CategoryCacheEntryCollection categories = dataService.GetCategories();
 			if (categories.Count == 0)
 			{
 				Blogger.Category bcat = new Blogger.Category();
 				bcat.categoryid = "Front Page";
 				bcat.description = "Front Page";
-				bcat.htmlUrl = _dasBlogSettings.GetCategoryViewUrl(bcat.categoryid);
-				bcat.rssUrl = _dasBlogSettings.GetCategoryViewUrl(bcat.categoryid);
+				bcat.htmlUrl = dasBlogSettings.GetCategoryViewUrl(bcat.categoryid);
+				bcat.rssUrl = dasBlogSettings.GetCategoryViewUrl(bcat.categoryid);
 				bcat.title = NoNull(bcat.description);
 				arrayList.Add(bcat);
 			}
@@ -393,8 +393,8 @@ namespace DasBlog.Managers
 					Blogger.Category bcat = new Blogger.Category();
 					bcat.categoryid = NoNull(cat.Name);
 					bcat.description = NoNull(cat.Name);
-					bcat.htmlUrl = _dasBlogSettings.GetCategoryViewUrl(cat.Name);
-					bcat.rssUrl = _dasBlogSettings.GetCategoryViewUrl(cat.Name);  //Should this be GetRssCategoryUrl()
+					bcat.htmlUrl = dasBlogSettings.GetCategoryViewUrl(cat.Name);
+					bcat.rssUrl = dasBlogSettings.GetCategoryViewUrl(cat.Name);  //Should this be GetRssCategoryUrl()
 					bcat.title = NoNull(cat.Name);
 					arrayList.Add(bcat);
 				}
@@ -403,7 +403,7 @@ namespace DasBlog.Managers
 
 		public Blogger.Post blogger_getPost(string appKey, string postid, string username, string password)
 		{
-			if (!_dasBlogSettings.SiteConfiguration.EnableBloggerApi)
+			if (!dasBlogSettings.SiteConfiguration.EnableBloggerApi)
 			{
 				throw new ServiceDisabledException();
 			}
@@ -413,7 +413,7 @@ namespace DasBlog.Managers
 				throw new SecurityException();
 			}
 
-			Entry entry = _dataService.GetEntry(postid);
+			Entry entry = dataService.GetEntry(postid);
 			if (entry != null)
 			{
 				Blogger.Post post = new Blogger.Post();
@@ -428,7 +428,7 @@ namespace DasBlog.Managers
 
 		public Blogger.Post[] blogger_getRecentPosts(string appKey, string blogid, string username, string password, int numberOfPosts)
 		{
-			if (!_dasBlogSettings.SiteConfiguration.EnableBloggerApi)
+			if (!dasBlogSettings.SiteConfiguration.EnableBloggerApi)
 			{
 				throw new ServiceDisabledException();
 			}
@@ -438,8 +438,8 @@ namespace DasBlog.Managers
 				throw new SecurityException();
 			}
 
-			EntryCollection entries = _dataService.GetEntriesForDay(DateTime.Now.ToUniversalTime(), _dasBlogSettings.GetConfiguredTimeZone(),
-											null, _dasBlogSettings.SiteConfiguration.RssDayCount, numberOfPosts, null);
+			EntryCollection entries = dataService.GetEntriesForDay(DateTime.Now.ToUniversalTime(), dasBlogSettings.GetConfiguredTimeZone(),
+											null, dasBlogSettings.SiteConfiguration.RssDayCount, numberOfPosts, null);
 			List<Blogger.Post> arrayList = new List<Blogger.Post>();
 			foreach (Entry entry in entries)
 			{
@@ -452,7 +452,7 @@ namespace DasBlog.Managers
 
 		public string blogger_getTemplate(string appKey, string blogid, string username, string password, string templateType)
 		{
-			if (!_dasBlogSettings.SiteConfiguration.EnableBloggerApi)
+			if (!dasBlogSettings.SiteConfiguration.EnableBloggerApi)
 			{
 				throw new ServiceDisabledException();
 			}
@@ -467,7 +467,7 @@ namespace DasBlog.Managers
 
 		public Blogger.UserInfo blogger_getUserInfo(string appKey, string username, string password)
 		{
-			if (!_dasBlogSettings.SiteConfiguration.EnableBloggerApi)
+			if (!dasBlogSettings.SiteConfiguration.EnableBloggerApi)
 			{
 				throw new ServiceDisabledException();
 			}
@@ -477,11 +477,11 @@ namespace DasBlog.Managers
 				throw new SecurityException();
 			}
 
-			User user = _siteSecurityManager.GetUser(username);
+			User user = siteSecurityManager.GetUser(username);
 			Blogger.UserInfo userInfo = new Blogger.UserInfo();
 
 			userInfo.email = NoNull(user.EmailAddress);
-			userInfo.url = NoNull(_dasBlogSettings.SiteConfiguration.Root);
+			userInfo.url = NoNull(dasBlogSettings.SiteConfiguration.Root);
 			userInfo.firstname = "";
 			userInfo.lastname = "";
 			userInfo.nickname = NoNull(user.DisplayName);
@@ -490,7 +490,7 @@ namespace DasBlog.Managers
 
 		public Blogger.BlogInfo[] blogger_getUsersBlogs(string appKey, string username, string password)
 		{
-			if (!_dasBlogSettings.SiteConfiguration.EnableBloggerApi)
+			if (!dasBlogSettings.SiteConfiguration.EnableBloggerApi)
 			{
 				throw new ServiceDisabledException();
 			}
@@ -503,15 +503,15 @@ namespace DasBlog.Managers
 			Blogger.BlogInfo[] blogs = new Blogger.BlogInfo[1];
 			Blogger.BlogInfo blog = new Blogger.BlogInfo();
 			blog.blogid = "0";
-			blog.blogName = NoNull(_dasBlogSettings.SiteConfiguration.Title);
-			blog.url = NoNull(_dasBlogSettings.SiteConfiguration.Root);
+			blog.blogName = NoNull(dasBlogSettings.SiteConfiguration.Title);
+			blog.url = NoNull(dasBlogSettings.SiteConfiguration.Root);
 			blogs[0] = blog;
 			return blogs;
 		}
 
 		public string blogger_newPost(string appKey, string blogid, string username, string password, string content, bool publish)
 		{
-			if (!_dasBlogSettings.SiteConfiguration.EnableBloggerApi)
+			if (!dasBlogSettings.SiteConfiguration.EnableBloggerApi)
 			{
 				throw new ServiceDisabledException();
 			}
@@ -527,14 +527,14 @@ namespace DasBlog.Managers
 			newPost.IsPublic = publish;
 			newPost.Syndicated = publish;
 
-			_dataService.SaveEntry(newPost);
+			dataService.SaveEntry(newPost);
 
 			return newPost.EntryId;
 		}
 
 		public bool blogger_setTemplate(string appKey, string blogid, string username, string password, string template, string templateType)
 		{
-			if (!_dasBlogSettings.SiteConfiguration.EnableBloggerApi)
+			if (!dasBlogSettings.SiteConfiguration.EnableBloggerApi)
 			{
 				throw new ServiceDisabledException();
 			}
@@ -585,7 +585,7 @@ namespace DasBlog.Managers
 
 		public bool metaweblog_editPost(string postid, string username, string password, MetaWeblog.Post post, bool publish)
 		{
-			if (!_dasBlogSettings.SiteConfiguration.EnableBloggerApi)
+			if (!dasBlogSettings.SiteConfiguration.EnableBloggerApi)
 			{
 				throw new ServiceDisabledException();
 			}
@@ -595,7 +595,7 @@ namespace DasBlog.Managers
 				throw new SecurityException();
 			}
 
-			Entry entry = _dataService.GetEntryForEdit(postid);
+			Entry entry = dataService.GetEntryForEdit(postid);
 			if (entry != null)
 			{
 				entry.Author = username;
@@ -604,14 +604,14 @@ namespace DasBlog.Managers
 				entry.IsPublic = publish;
 				entry.Syndicated = publish;
 
-				_dataService.SaveEntry(entry);
+				dataService.SaveEntry(entry);
 			}
 			return true;
 		}
 
 		public MetaWeblog.CategoryInfo[] metaweblog_getCategories(string blogid, string username, string password)
 		{
-			if (!_dasBlogSettings.SiteConfiguration.EnableBloggerApi)
+			if (!dasBlogSettings.SiteConfiguration.EnableBloggerApi)
 			{
 				throw new ServiceDisabledException();
 			}
@@ -622,14 +622,14 @@ namespace DasBlog.Managers
 			}
 
 			List<MetaWeblog.CategoryInfo> arrayList = new List<MetaWeblog.CategoryInfo>();
-			CategoryCacheEntryCollection categories = _dataService.GetCategories();
+			CategoryCacheEntryCollection categories = dataService.GetCategories();
 			if (categories.Count == 0)
 			{
 				MetaWeblog.CategoryInfo bcat = new MetaWeblog.CategoryInfo();
 				bcat.categoryid = "Front Page";
 				bcat.description = "Front Page";
-				bcat.htmlUrl = _dasBlogSettings.GetCategoryViewUrl(bcat.categoryid);
-				bcat.rssUrl = _dasBlogSettings.GetRssCategoryUrl(bcat.categoryid);
+				bcat.htmlUrl = dasBlogSettings.GetCategoryViewUrl(bcat.categoryid);
+				bcat.rssUrl = dasBlogSettings.GetRssCategoryUrl(bcat.categoryid);
 				bcat.title = NoNull(bcat.description);
 				arrayList.Add(bcat);
 			}
@@ -640,8 +640,8 @@ namespace DasBlog.Managers
 					MetaWeblog.CategoryInfo bcat = new MetaWeblog.CategoryInfo();
 					bcat.categoryid = NoNull(cat.Name);
 					bcat.description = NoNull(cat.Name);
-					bcat.htmlUrl = _dasBlogSettings.GetCategoryViewUrl(cat.Name);
-					bcat.rssUrl = _dasBlogSettings.GetRssCategoryUrl(cat.Name);
+					bcat.htmlUrl = dasBlogSettings.GetCategoryViewUrl(cat.Name);
+					bcat.rssUrl = dasBlogSettings.GetRssCategoryUrl(cat.Name);
 					bcat.title = NoNull(cat.Name);
 					arrayList.Add(bcat);
 				}
@@ -651,7 +651,7 @@ namespace DasBlog.Managers
 
 		public MetaWeblog.Post metaweblog_getPost(string postid, string username, string password)
 		{
-			if (!_dasBlogSettings.SiteConfiguration.EnableBloggerApi)
+			if (!dasBlogSettings.SiteConfiguration.EnableBloggerApi)
 			{
 				throw new ServiceDisabledException();
 			}
@@ -661,7 +661,7 @@ namespace DasBlog.Managers
 				throw new SecurityException();
 			}
 
-			Entry entry = _dataService.GetEntry(postid);
+			Entry entry = dataService.GetEntry(postid);
 			if (entry != null)
 			{
 				return this.Create(entry);
@@ -674,7 +674,7 @@ namespace DasBlog.Managers
 
 		public MetaWeblog.Post[] metaweblog_getRecentPosts(string blogid, string username, string password, int numberOfPosts)
 		{
-			if (!_dasBlogSettings.SiteConfiguration.EnableBloggerApi)
+			if (!dasBlogSettings.SiteConfiguration.EnableBloggerApi)
 			{
 				throw new ServiceDisabledException();
 			}
@@ -684,8 +684,8 @@ namespace DasBlog.Managers
 				throw new SecurityException();
 			}
 
-			EntryCollection entries = _dataService.GetEntriesForDay(DateTime.Now.ToUniversalTime(), _dasBlogSettings.GetConfiguredTimeZone(), null,
-														_dasBlogSettings.SiteConfiguration.RssDayCount, numberOfPosts, null);
+			EntryCollection entries = dataService.GetEntriesForDay(DateTime.Now.ToUniversalTime(), dasBlogSettings.GetConfiguredTimeZone(), null,
+														dasBlogSettings.SiteConfiguration.RssDayCount, numberOfPosts, null);
 			List<MetaWeblog.Post> arrayList = new List<MetaWeblog.Post>();
 			foreach (Entry entry in entries)
 			{
@@ -696,7 +696,7 @@ namespace DasBlog.Managers
 
 		public string metaweblog_newPost(string blogid, string username, string password, MetaWeblog.Post post, bool publish)
 		{
-			if (!_dasBlogSettings.SiteConfiguration.EnableBloggerApi)
+			if (!dasBlogSettings.SiteConfiguration.EnableBloggerApi)
 			{
 				throw new ServiceDisabledException();
 			}
@@ -715,14 +715,14 @@ namespace DasBlog.Managers
 			newPost.IsPublic = publish;
 			newPost.Syndicated = publish;
 
-			_dataService.SaveEntry(newPost);
+			dataService.SaveEntry(newPost);
 
 			return newPost.EntryId;
 		}
 
 		public MetaWeblog.UrlInfo metaweblog_newMediaObject(object blogid, string username, string password, MetaWeblog.MediaType enc)
 		{
-			if (!_dasBlogSettings.SiteConfiguration.EnableBloggerApi)
+			if (!dasBlogSettings.SiteConfiguration.EnableBloggerApi)
 			{
 				throw new ServiceDisabledException();
 			}
@@ -733,11 +733,11 @@ namespace DasBlog.Managers
 			}
 
 			// Get the binary data
-			string strPath = Path.Combine(_dasBlogSettings.RelativeToRoot(_dasBlogSettings.SiteConfiguration.BinariesDir), enc.name);
+			string strPath = Path.Combine(dasBlogSettings.RelativeToRoot(dasBlogSettings.SiteConfiguration.BinariesDir), enc.name);
 
 			// check if the name of the media type includes a subdirectory we need to create
 			FileInfo fileInfo = new FileInfo(strPath);
-			if (fileInfo.Directory.Exists == false && fileInfo.Directory.FullName != _dasBlogSettings.RelativeToRoot(_dasBlogSettings.SiteConfiguration.BinariesDir))
+			if (fileInfo.Directory.Exists == false && fileInfo.Directory.FullName != dasBlogSettings.RelativeToRoot(dasBlogSettings.SiteConfiguration.BinariesDir))
 			{
 				fileInfo.Directory.Create();
 			}
@@ -757,9 +757,9 @@ namespace DasBlog.Managers
 				throw new XmlRpcException(e.ToString());
 			}
 
-			string path = Path.Combine(_dasBlogSettings.SiteConfiguration.BinariesDirRelative, enc.name);
+			string path = Path.Combine(dasBlogSettings.SiteConfiguration.BinariesDirRelative, enc.name);
 			MetaWeblog.UrlInfo urlInfo = new MetaWeblog.UrlInfo();
-			urlInfo.url = _dasBlogSettings.RelativeToRoot(path);
+			urlInfo.url = dasBlogSettings.RelativeToRoot(path);
 			return urlInfo;
 		}
 
@@ -825,10 +825,10 @@ namespace DasBlog.Managers
 				{
 					trackbackList.Add(new TrackbackInfo(
 						trackbackUrl,
-						_dasBlogSettings.GetPermaLinkUrl(entry.EntryId),
+						dasBlogSettings.GetPermaLinkUrl(entry.EntryId),
 						entry.Title,
 						entry.Description,
-						_dasBlogSettings.SiteConfiguration.Title));
+						dasBlogSettings.SiteConfiguration.Title));
 				}
 			}
 			return trackbackList;
@@ -859,7 +859,7 @@ namespace DasBlog.Managers
 			post.mt_excerpt = entry.Description ?? "";
 			post.dateCreated = entry.CreatedUtc;
 			post.title = entry.Title ?? "";
-			post.link = post.permalink = _dasBlogSettings.GetPermaLinkUrl(entry.EntryId);
+			post.link = post.permalink = dasBlogSettings.GetPermaLinkUrl(entry.EntryId);
 			post.postid = entry.EntryId ?? "";
 			post.categories = entry.GetSplitCategories();
 			return post;
@@ -867,8 +867,8 @@ namespace DasBlog.Managers
 
 		private bool VerifyLogin(string username, string password)
 		{
-			var user =_siteSecurityManager.GetUser(username);
-			return _siteSecurityManager.VerifyHashedPassword(user.Password, password);
+			var user =siteSecurityManager.GetUser(username);
+			return siteSecurityManager.VerifyHashedPassword(user.Password, password);
 		}
 	}
 }

@@ -38,8 +38,7 @@ namespace DasBlog.Web.Controllers
 			}
 			catch (LoggedException e)
 			{
-				return HandleError("Failed to display activity list"
-				  , e);
+				return HandleError("Failed to display activity list", e);
 			}
 			
 		}
