@@ -28,7 +28,7 @@ namespace DasBlog.Tests.FunctionalTests.IntegrationTests
 		public void UsersTest()
 		{
 			var userService = serviceResolver.GetService<IUserService>();
-			(var found, var user) = userService.FindMatchingUser("shula@TheStables.com");
+			(var found, var user) = userService.FindMatchingUser("myemail@myemail.com");
 			Assert.True(found);
 		}
 	}
