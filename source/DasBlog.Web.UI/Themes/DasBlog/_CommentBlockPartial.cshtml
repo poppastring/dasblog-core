@@ -10,11 +10,11 @@
         {
             foreach (var comment in Model.Comments)
             {
-                @Html.PartialAsync("_CommentPartial", comment)
+                @await Html.PartialAsync("_CommentPartial", comment)
                 <hr />
             }
         }
     </div>
-    @Html.PartialAsync("_CommentAddPartial", new AddCommentViewModel() { Comment = string.Empty, Email = string.Empty, HomePage = string.Empty, Name = string.Empty, TargetEntryId = Model.PostId })
+    @await Html.PartialAsync("_CommentAddPartial", new AddCommentViewModel() { Comment = string.Empty, Email = string.Empty, HomePage = string.Empty, Name = string.Empty, TargetEntryId = Model.PostId })
 </div>
 }
