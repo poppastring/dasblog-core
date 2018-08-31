@@ -7,10 +7,10 @@
         <form asp-action="Maintenance">
             <div class="form-group">
                 <span class="text-danger">Are you sure you wish to delete this user?</span>
-                <input type="submit" name="submitAction" value="@Constants.DeleteAction" class="btn btn-default btn-primary"/>
-                <input type="submit" name="submitAction" value="@Constants.CancelAction" class="btn cancel"/>
+                <input type="submit" name="submitAction" value="@Constants.DeleteAction" class="btn btn-default btn-primary" />
+                <input type="submit" name="submitAction" value="@Constants.CancelAction" class="btn cancel" />
             </div>
-            @Html.PartialAsync("UserFields", Model)
+            @await Html.PartialAsync("UserFields", Model)
         </form>
     </div>
 </div>

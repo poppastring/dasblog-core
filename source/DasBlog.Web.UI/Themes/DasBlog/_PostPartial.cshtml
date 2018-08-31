@@ -11,7 +11,7 @@
             @Model.CreatedDateTime.ToString("MMMM dd, yyyy H:mm")
         </div>
     </div>
-    
+
     <div class="row post-body">
         <div class="col-md-12 mb-6">
             @Html.Raw(@Model.Content)
@@ -39,6 +39,6 @@
             <comment-post blog-post-id="@Model.EntryId"></comment-post>
         </div>
     </div>
-    @Html.PartialAsync("_CommentBlockPartial", @Model.Comments)
+    @await Html.PartialAsync("_CommentBlockPartial", @Model.Comments)
 </div>
 <hr />
