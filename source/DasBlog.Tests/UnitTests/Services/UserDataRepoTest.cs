@@ -11,6 +11,7 @@ namespace DasBlog.Tests.UnitTests.Services
 	public class UserDataRepoTest
 	{
 		[Fact]
+		[Trait("Category", "UnitTest")]
 		public void Load_OnStandardConfig_ReturnsContainedUser()
 		{
 			IUserDataRepo repo = new UserDataRepo(

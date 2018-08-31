@@ -19,6 +19,7 @@ namespace DasBlog.Tests.UnitTests.UI
 
 		[Theory]
 		[MemberData(nameof(DasBlogPostLinkTagHelperData))]
+		[Trait("Category", "UnitTest")]
 		public void DasBlogTagHelper_GeneratedTagHelper_BlogPostRendersAsAnchorTag(TagHelper helper, string blogPost)
 		{
 			var context = new TagHelperContext(new TagHelperAttributeList { { "BlogPostId", blogPost } }, new Dictionary<object, object>(), Guid.NewGuid().ToString("N"));

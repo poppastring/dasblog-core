@@ -7,6 +7,7 @@ namespace DasBlog.Tests.UnitTests.Services
 	public class EventLineParserTest
 	{
 		[Fact]
+		[Trait("Category", "UnitTest")]
 		public void Parse_OnValidInput_ReturnsSuccess()
 		{
 			IEventLineParser parser = new EventLineParser();
@@ -15,7 +16,9 @@ namespace DasBlog.Tests.UnitTests.Services
 			  );
 			Assert.True(success);
 		}
+
 		[Fact]
+		[Trait("Category", "UnitTest")]
 		public void Parse_OnInvalidInput_ReturnsFailure()
 		{
 			IEventLineParser parser = new EventLineParser();
