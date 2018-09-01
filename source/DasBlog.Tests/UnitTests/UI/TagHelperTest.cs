@@ -30,7 +30,6 @@ namespace DasBlog.Tests.UnitTests.UI
 				return Task.FromResult<TagHelperContent>(tagHelperContent);
 			});
 
-
 			helper.Process(context, output);
 
 			Assert.Same("a", output.TagName);
