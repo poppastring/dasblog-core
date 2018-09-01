@@ -148,9 +148,7 @@
     <Compile Include="AppTest.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="AssemblyInfo.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="assemblyinfo.cs" />
     <Compile Include="BlogDataServiceTests.cs">
       <SubType>Code</SubType>
     </Compile>
