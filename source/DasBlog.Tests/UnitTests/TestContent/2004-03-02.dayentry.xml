@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DayEntry xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="urn:newtelligence-com:dasblog:runtime:data">
+  <Date>2004-03-01T16:00:00.0000000-08:00</Date>
+  <Entries>
+    <Entry>
+      <Content>God does not care about our mathematical difficulties. He integrates empirically.</Content>
+      <Created>2004-03-02T07:36:00.0000000-08:00</Created>
+      <Modified>2004-03-02T07:36:00.0000000-08:00</Modified>
+      <EntryId>4e113da5-cefe-4a34-baeb-9c34a3816ed0</EntryId>
+      <Title>Mathematical Difficulties and God</Title>
+      <Categories>A Random Mathematical Quotation</Categories>
+      <Author>Albert Einstein</Author>
+      <IsPublic>true</IsPublic>
+      <ShowOnFrontPage>true</ShowOnFrontPage>
+      <Crossposts />
+    </Entry>
+  </Entries>
+</DayEntry>

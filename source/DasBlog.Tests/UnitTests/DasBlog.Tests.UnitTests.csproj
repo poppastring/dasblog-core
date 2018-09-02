@@ -4,9 +4,24 @@
     <IsPackable>false</IsPackable>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="_contentroot\**" />
+    <EmbeddedResource Remove="_contentroot\**" />
+    <None Remove="_contentroot\**" />
+  </ItemGroup>
+  <ItemGroup>
     <None Remove="Config\metaConfig.xml" />
     <None Remove="Config\site.config" />
     <None Remove="Config\siteSecurity.config" />
+    <None Remove="TestContent\2003-07-31.dayentry.xml" />
+    <None Remove="TestContent\2003-08-01.dayentry.xml" />
+    <None Remove="TestContent\2004-01-13.dayentry.xml" />
+    <None Remove="TestContent\2004-01-25.dayentry.xml" />
+    <None Remove="TestContent\2004-02-06.dayentry.xml" />
+    <None Remove="TestContent\2004-02-19.dayentry.xml" />
+    <None Remove="TestContent\2004-03-01.dayentry.xml" />
+    <None Remove="TestContent\2004-03-02.dayentry.xml" />
+    <None Remove="TestContent\2004-03-14.dayentry.xml" />
+    <None Remove="TestContent\2004-03-27.dayentry.xml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Config\metaConfig.xml" />
@@ -15,6 +30,36 @@
     </Content>
     <Content Include="Config\siteSecurity.config">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="TestContent\2003-07-31.dayentry.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestContent\2003-08-01.dayentry.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestContent\2004-01-13.dayentry.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestContent\2004-01-25.dayentry.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestContent\2004-02-06.dayentry.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestContent\2004-02-19.dayentry.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestContent\2004-03-01.dayentry.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestContent\2004-03-02.dayentry.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestContent\2004-03-14.dayentry.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestContent\2004-03-27.dayentry.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>
@@ -29,9 +74,14 @@
     <ProjectReference Include="..\..\DasBlog.Web.Core\DasBlog.Core.csproj" />
     <ProjectReference Include="..\..\DasBlog.Web.Repositories\DasBlog.Managers.csproj" />
     <ProjectReference Include="..\..\DasBlog.Web.UI\DasBlog.Web.csproj" />
+    <ProjectReference Include="..\..\newtelligence.DasBlog.Util\newtelligence.DasBlog.Util.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="logs" />
-    <Folder Include="_contentroot\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="logs\logs-20180719.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 </Project>
