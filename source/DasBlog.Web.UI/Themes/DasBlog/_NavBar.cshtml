@@ -11,13 +11,13 @@
         <div class="container">
             <div>
             <ul class="nav mr-auto">
-                <li><a asp-area="" id="@Constants.HomeNavId" asp-controller="home" asp-action="index">Home</a></li>
-                <li><a asp-area="" id="@Constants.CategoryNavId" asp-controller="category" asp-action="category">Category</a></li>
-                <li><a asp-area="" id="@Constants.ArchiveNavId" asp-controller="archive" asp-action="archive">Archive</a></li>
-                <li><a asp-area="" asp-controller="feed" asp-action="rss">Subscribe</a></li>
-                <li dasblog-authorized><a asp-area="" asp-controller="post" asp-action="create">Create Post</a></li>
-                <li dasblog-authorized><a asp-area="" asp-controller="users" asp-action="index">Users</a></li>
-                <li dasblog-authorized><a asp-area="" asp-controller="Activity" asp-action="ActivityList">Activity</a></li>
+                <li class="nav-item nav-item-active"><a class="nav-link" asp-area="" id="@Constants.HomeNavId" asp-controller="home" asp-action="index">Home</a></li>
+                <li class="nav-item"><a class="nav-link" asp-area="" id="@Constants.CategoryNavId" asp-controller="category" asp-action="category">Category</a></li>
+                <li class="nav-item"><a class="nav-link" asp-area="" id="@Constants.ArchiveNavId" asp-controller="archive" asp-action="archive">Archive</a></li>
+                <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="feed" asp-action="rss">Subscribe</a></li>
+                <li class="nav-item" dasblog-authorized><a class="nav-link" asp-area="" asp-controller="post" asp-action="create">Create Post</a></li>
+                <li class="nav-item" dasblog-authorized><a class="nav-link" asp-area="" asp-controller="users" asp-action="index">Users</a></li>
+                <li class="nav-item" dasblog-authorized><a class="nav-link" asp-area="" asp-controller="Activity" asp-action="ActivityList">Activity</a></li>
             </ul>
             </div>
         </div>
