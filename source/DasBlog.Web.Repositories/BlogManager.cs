@@ -21,7 +21,7 @@ namespace DasBlog.Managers
 		private readonly ILogger logger;
 		private static Regex stripTags = new Regex("<[^>]*>", RegexOptions.Compiled | RegexOptions.CultureInvariant);
 
-		public BlogManager(IDasBlogSettings settings , Microsoft.Extensions.Logging.ILogger<BlogManager> logger)
+		public BlogManager(IDasBlogSettings settings , ILogger<BlogManager> logger)
 		{
 			dasBlogSettings = settings;
 			var loggingDataService = LoggingDataServiceFactory.GetService(dasBlogSettings.WebRootDirectory + dasBlogSettings.SiteConfiguration.LogDir);

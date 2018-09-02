@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DayEntry xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="urn:newtelligence-com:dasblog:runtime:data">
+  <Date>2004-01-12T16:00:00.0000000-08:00</Date>
+  <Entries>
+    <Entry>
+      <Content>Mathematics is not yet capable of coping with the naivete of the mathematician himself.  (Sociology Learns the Language of Mathematics.)</Content>
+      <Created>2004-01-12T23:55:12.0000000-08:00</Created>
+      <Modified>2004-01-12T23:55:12.0000000-08:00</Modified>
+      <EntryId>99d7d818-4732-4626-a115-465498466c15</EntryId>
+      <Title>Naivete of the Mathematician </Title>
+      <Categories>A Random Mathematical Quotation</Categories>
+      <Author>Abraham Kaplan</Author>
+      <IsPublic>true</IsPublic>
+      <ShowOnFrontPage>true</ShowOnFrontPage>
+      <Crossposts />
+    </Entry>
+  </Entries>
+</DayEntry>
