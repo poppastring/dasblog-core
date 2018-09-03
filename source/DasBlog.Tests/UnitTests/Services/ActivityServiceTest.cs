@@ -10,6 +10,7 @@ namespace DasBlog.Tests.UnitTests.Services
 	public class ActivityServiceTest
 	{
 		[Fact]
+		[Trait("Category", "UnitTest")]
 		public void GetEventsForDay_OnSingleValidEvent_ReturnsSingleEvents()
 		{
 			IActivityRepoFactory factory = new MockActivityRepoFactory();
@@ -22,7 +23,9 @@ namespace DasBlog.Tests.UnitTests.Services
 			}
 			Assert.Equal(1, ctr);
 		}
+
 		[Fact]
+		[Trait("Category", "UnitTest")]
 		public void GetEventsForDay_OnSingleNonEvent_ReturnsNoEvents()
 		{
 			IActivityRepoFactory factory = new MockActivityRepoFactory();
@@ -35,7 +38,9 @@ namespace DasBlog.Tests.UnitTests.Services
 			}
 			Assert.Equal(0, ctr);
 		}
+
 		[Fact]
+		[Trait("Category", "UnitTest")]
 		public void GetEventsForDay_OnNonExistentDay_ReturnsNoEvents()
 		{
 			IActivityRepoFactory factory = new MockActivityRepoFactory();
@@ -48,7 +53,9 @@ namespace DasBlog.Tests.UnitTests.Services
 			}
 			Assert.Equal(0, ctr);
 		}
+
 		[Fact]
+		[Trait("Category", "UnitTest")]
 		public void GetEventsForDay_OnNonEventPlusStackTrace_ReturnsNoEvents()
 		{
 			IActivityRepoFactory factory = new MockActivityRepoFactory();
@@ -61,7 +68,9 @@ namespace DasBlog.Tests.UnitTests.Services
 			}
 			Assert.Equal(0, ctr);
 		}
+
 		[Fact]
+		[Trait("Category", "UnitTest")]
 		public void GetEventsForDay_OnEventPlusStackTrace_ReturnsOneEvent()
 		{
 			IActivityRepoFactory factory = new MockActivityRepoFactory();
@@ -73,12 +82,14 @@ namespace DasBlog.Tests.UnitTests.Services
 				ctr++;
 			}
 			Assert.Equal(1, ctr);
-		}		
+		}
+
 		[Fact]
+		[Trait("Category", "UnitTest")]
 		public void GetEventsForDay_OnEventPlusStackTracePlusEvent_ReturnsTwoEvents()
 		{
 			IActivityRepoFactory factory = new MockActivityRepoFactory();
-			IEventLineParser parser = new MockEventLineParser(true);	// all parsing succeeds
+			IEventLineParser parser = new MockEventLineParser(true);    // all parsing succeeds
 			ActivityService service = new ActivityService(factory, parser, new Microsoft.Extensions.Logging.Abstractions.NullLogger<ActivityService>());
 			int ctr = 0;
 			foreach (var eddi in service.GetEventsForDay(new DateTime(1960, 4, 9)))
@@ -86,8 +97,10 @@ namespace DasBlog.Tests.UnitTests.Services
 				ctr++;
 			}
 			Assert.Equal(2, ctr);
-		}		
+		}
+
 		[Fact]
+		[Trait("Category", "UnitTest")]
 		public void GetEventsForDay_OnNonEventPlusStackTracePlusNonEvent_ReturnsNoEvents()
 		{
 			IActivityRepoFactory factory = new MockActivityRepoFactory();
@@ -99,8 +112,10 @@ namespace DasBlog.Tests.UnitTests.Services
 				ctr++;
 			}
 			Assert.Equal(0, ctr);
-		}		
+		}
+
 		[Fact]
+		[Trait("Category", "UnitTest")]
 		public void GetEventsForDay_OnNonEventPlusStacktracePlusEvent_ReturnsOneEvent()
 		{
 			IActivityRepoFactory factory = new MockActivityRepoFactory();
@@ -113,7 +128,9 @@ namespace DasBlog.Tests.UnitTests.Services
 			}
 			Assert.Equal(1, ctr);
 		}
+
 		[Fact]
+		[Trait("Category", "UnitTest")]
 		public void GetEventsForDay_OnEventPlusStackTracePlusNonEvent_ReturnsOneEvent()
 		{
 			IActivityRepoFactory factory = new MockActivityRepoFactory();
