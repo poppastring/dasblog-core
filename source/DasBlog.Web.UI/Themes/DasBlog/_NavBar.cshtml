@@ -2,7 +2,7 @@
 @using Microsoft.AspNetCore.Identity
 @using DasBlog.Web.Identity
 @inject UserManager<DasBlogUser> UserManager
-<div class="navbar navbar-dark navbar-expand-lg sticky-top bg-dark">
+<div id="@Constants.NavBarId" class="navbar navbar-dark navbar-expand-lg sticky-top bg-dark">
     <div class="navbar-collapse">
             @* navbar-collapse is required to stop the div putting the site title above the other nav items *@
             @* removing "navbar" from above class to allow the login/logout div to right justify *@
