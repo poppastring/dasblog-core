@@ -1,15 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using newtelligence.DasBlog.Runtime;
 using NodaTime;
 using Xunit;
 
 namespace DasBlog.Tests.UnitTests.Services
 {
-    public class BlogDataServiceTest
-    {
+	public class BlogDataServiceTest
+	{
 		[Theory]
 		[MemberData(nameof(DasBlogDataService))]
 		[Trait("Category", "UnitTest")]
@@ -33,7 +35,7 @@ namespace DasBlog.Tests.UnitTests.Services
 		[Trait("Category", "UnitTest")]
 		public void BlogDataService_GetEntryForEditDelete_Successful(IBlogDataService blogdataservice)
 		{
-			var entry = TestEntry.CreateEntry(String.Format("Test Entry"), 5, 2);
+			var entry = TestEntry.CreateEntry(String.Format("Test Entry 2"), 5, 2);
 			blogdataservice.SaveEntry(entry, null);
 
 			var dt = DateTime.Now;
@@ -51,7 +53,7 @@ namespace DasBlog.Tests.UnitTests.Services
 		[Trait("Category", "UnitTest")]
 		public void BlogDataService_UpdateEntriesDelete_Successful(IBlogDataService blogdataservice)
 		{
-			var entry = TestEntry.CreateEntry(String.Format("Test Entry"), 5, 2);
+			var entry = TestEntry.CreateEntry(String.Format("Test Entry 3"), 5, 2);
 			entry.Categories = "test";
 			blogdataservice.SaveEntry(entry, null);
 
@@ -59,12 +61,12 @@ namespace DasBlog.Tests.UnitTests.Services
 			var returnEntry = blogdataservice.GetEntryForEdit(entry.EntryId);
 			Assert.NotNull(returnEntry);
 
-			returnEntry.Title = "Test Entry 2";
+			returnEntry.Title = "Test Entry 4";
 			var state = blogdataservice.SaveEntry(returnEntry, null);
 			Assert.True(state == EntrySaveState.Updated);
 
 			var entryAfterUpdate = blogdataservice.GetEntry(entry.EntryId);
-			Assert.True(entryAfterUpdate.Title == "Test Entry 2");
+			Assert.True(entryAfterUpdate.Title == "Test Entry 4");
 
 			blogdataservice.DeleteEntry(entry.EntryId, null);
 		}
@@ -72,10 +74,10 @@ namespace DasBlog.Tests.UnitTests.Services
 		[Theory]
 		[MemberData(nameof(DasBlogDataService))]
 		[Trait("Category", "UnitTest")]
-		public void BlogDataService_GetEntriesForDayMaxValue_Successful(IBlogDataService blogdataservice)
+		public void BlogDataService_GetPublicEntriesForDayMaxValue_Successful(IBlogDataService blogdataservice)
 		{
 			var entries = blogdataservice.GetEntriesForDay(DateTime.MaxValue.AddDays(-2), DateTimeZone.Utc, string.Empty, int.MaxValue, int.MaxValue, string.Empty);
-			Assert.Equal(26, entries.Count);
+			Assert.Equal(19, entries.Count);
 		}
 
 		[Theory]
@@ -115,14 +117,17 @@ namespace DasBlog.Tests.UnitTests.Services
 			var entries = blogdataservice.GetEntriesForCategory("A Random Mathematical Quotation", "");
 			Assert.Equal(7, entries.Count);
 		}
-
-		[Theory]
-		[MemberData(nameof(DasBlogDataService))]
+		[Fact]
+//		[MemberData(nameof(DasBlogDataService))]
 		[Trait("Category", "UnitTest")]
-		public void BlogDataService_GetEntriesWithFalse_Successful(IBlogDataService blogdataservice)
+		public void BlogDataService_GetEntriesWithFalse_Successful()
 		{
+			BlogDataServiceFactory.RemoveService(UnitTestsConstants.TestContentLocation);				
+			IBlogDataService blogdataservice = BlogDataServiceFactory.GetService(UnitTestsConstants.TestContentLocation,
+			  LoggingDataServiceFactory.GetService(UnitTestsConstants.TestLoggingLocation));
+			// gets both public and non-public
 			var entries = blogdataservice.GetEntries(false);
-			Assert.Equal(26, entries.Count);
+			Assert.Equal(23, entries.Count);
 		}
 
 		public static TheoryData<IBlogDataService> DasBlogDataService = new TheoryData<IBlogDataService>
