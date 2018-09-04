@@ -27,7 +27,7 @@ namespace DasBlog.Managers
 
         public EntryCollection GetEntriesForYear(DateTime date, string acceptLanguages)
         {
-            EntryCollection yearCollection = new EntryCollection();
+            var yearCollection = new EntryCollection();
             for (int i = 1; i < 13; i++)
             {
                 DateTime dt = new DateTime(date.Year, i, 1);
@@ -39,7 +39,7 @@ namespace DasBlog.Managers
 
         public List<DateTime> GetDaysWithEntries()
         {
-            List<DateTime> dateTime = new List<DateTime>();
+            var dateTime = new List<DateTime>();
             dateTime = dataService.GetDaysWithEntries(dasBlogSettings.GetConfiguredTimeZone()).ToList<DateTime>();
 
             return dateTime;
