@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using newtelligence.DasBlog.Runtime;
 using NodaTime;
@@ -71,10 +72,10 @@ namespace DasBlog.Tests.UnitTests.Services
 		[Theory]
 		[MemberData(nameof(DasBlogDataService))]
 		[Trait("Category", "UnitTest")]
-		public void BlogDataService_GetEntriesForDay_Successful(IBlogDataService blogdataservice)
+		public void BlogDataService_GetEntriesForDayMaxValue_Successful(IBlogDataService blogdataservice)
 		{
 			var entries = blogdataservice.GetEntriesForDay(DateTime.MaxValue.AddDays(-2), DateTimeZone.Utc, string.Empty, int.MaxValue, int.MaxValue, string.Empty);
-			Assert.NotNull(entries);
+			Assert.Equal(26, entries.Count);
 		}
 
 		[Theory]
@@ -82,8 +83,46 @@ namespace DasBlog.Tests.UnitTests.Services
 		[Trait("Category", "UnitTest")]
 		public void BlogDataService_SearchEntries_Successful(IBlogDataService blogdataservice)
 		{
+			////
 			var entries = blogdataservice.GetEntriesForDay(DateTime.MaxValue.AddDays(-2), DateTimeZone.Utc, string.Empty, int.MaxValue, int.MaxValue, string.Empty);
 			Assert.NotNull(entries);
+		}
+
+		[Theory]
+		[MemberData(nameof(DasBlogDataService))]
+		[Trait("Category", "UnitTest")]
+		public void BlogDataService_ArchiveMonthSearch_Successful(IBlogDataService blogdataservice)
+		{
+			var dt = new DateTime(2004, 3, 1);
+			var entries = blogdataservice.GetEntriesForMonth(dt, DateTimeZone.Utc, "");
+			Assert.Equal(5, entries.Count);
+		}
+
+		[Theory]
+		[MemberData(nameof(DasBlogDataService))]
+		[Trait("Category", "UnitTest")]
+		public void BlogDataService_GetDaysWithEntries_Successful(IBlogDataService blogdataservice)
+		{
+			var dates = blogdataservice.GetDaysWithEntries(DateTimeZone.Utc).ToList<DateTime>();
+			Assert.Equal(11, dates.Count);
+		}
+
+		[Theory]
+		[MemberData(nameof(DasBlogDataService))]
+		[Trait("Category", "UnitTest")]
+		public void BlogDataService_GetEntriesCategory_Successful(IBlogDataService blogdataservice)
+		{
+			var entries = blogdataservice.GetEntriesForCategory("A Random Mathematical Quotation", "");
+			Assert.Equal(7, entries.Count);
+		}
+
+		[Theory]
+		[MemberData(nameof(DasBlogDataService))]
+		[Trait("Category", "UnitTest")]
+		public void BlogDataService_GetEntriesWithFalse_Successful(IBlogDataService blogdataservice)
+		{
+			var entries = blogdataservice.GetEntries(false);
+			Assert.Equal(26, entries.Count);
 		}
 
 		public static TheoryData<IBlogDataService> DasBlogDataService = new TheoryData<IBlogDataService>
