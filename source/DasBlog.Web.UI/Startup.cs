@@ -168,6 +168,11 @@ namespace DasBlog.Web
 				app.Run(async context => await context.Response.WriteAsync(siteError));
 				return;
 			}
+
+			app.Use((context, next) =>
+			{
+				return next();
+			});
 			app.UseStaticFiles();
 			app.UseStaticFiles(new StaticFileOptions()
 			{

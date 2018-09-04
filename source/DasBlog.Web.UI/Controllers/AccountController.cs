@@ -72,7 +72,7 @@ namespace DasBlog.Web.Controllers
 			return View(model);
 		}
 
-		[HttpPost]
+		[HttpGet]
 		public async Task<IActionResult> Logout()
 		{
 			await signInManager.SignOutAsync();
