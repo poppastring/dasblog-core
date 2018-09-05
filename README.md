@@ -39,7 +39,7 @@ Change to the "source" directory and open the *DasBlog All.sln* and perform a bu
 
 ## Deployment
 
-Currently the most efficient way to deploy dasblog-core is by following the [Overview of deployment in Visual Studio] (https://docs.microsoft.com/en-us/visualstudio/deployment/deploying-applications-services-and-components-resources?view=vs-2017).
+Currently the most efficient way to deploy dasblog-core is by following the [Overview of deployment in Visual Studio](https://docs.microsoft.com/en-us/visualstudio/deployment/deploying-applications-services-and-components-resources?view=vs-2017).
 
 Configuration settings are as follows:
 - Configuration: Release
@@ -47,7 +47,7 @@ Configuration settings are as follows:
 - Self -Contained
 - win-x64
 
-So far deployment to Azure and to .NET hosting sites via FTP work just fine. If you have additional questions or concerns please [submit an issue] (https://github.com/poppastring/dasblog-core/issues).
+So far deployment to Azure and to .NET hosting sites via FTP work just fine. If you have additional questions or concerns please [submit an issue](https://github.com/poppastring/dasblog-core/issues).
 
 
 ## What we have completed so far...
