@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using DasBlog.Web.Models.BlogViewModels;
 using DasBlog.Web.TagHelpers;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using Xunit;
@@ -39,8 +40,8 @@ namespace DasBlog.Tests.UnitTests.UI
 
 		public static TheoryData<TagHelper, string> DasBlogPostLinkTagHelperData = new TheoryData<TagHelper, string>
 		{
-			{new EditPostTagHelper {BlogPostId = "theBlogPost"}, "theBlogPost"},
-			{new CommentPostTagHelper {BlogPostId = "theBlogPost"}, "theBlogPost" }
+			{new EditPostTagHelper(new DasBlogSettingTest()) { BlogPostId = "theBlogPost"}, "theBlogPost"} ,
+			{new CommentPostTagHelper(new DasBlogSettingTest()) { Post = new PostViewModel(){ PermaLink = "some-blog-post", EntryId = "0B74C9D3-4D2C-4754-B607-F3847183221C" }}, "http://www.poppastring.com/post/0B74C9D3-4D2C-4754-B607-F3847183221C/comment" }
 		};
 	}
 }

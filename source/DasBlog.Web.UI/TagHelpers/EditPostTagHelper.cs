@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Razor.TagHelpers;
+﻿using DasBlog.Core;
+using Microsoft.AspNetCore.Razor.TagHelpers;
 using System.Threading.Tasks;
 
 namespace DasBlog.Web.TagHelpers
@@ -7,11 +8,18 @@ namespace DasBlog.Web.TagHelpers
 	{
 		public string BlogPostId { get; set; }
 
+		private readonly IDasBlogSettings dasBlogSettings;
+
+		public EditPostTagHelper(IDasBlogSettings dasBlogSettings)
+		{
+			this.dasBlogSettings = dasBlogSettings;
+		}
+
 		public override void Process(TagHelperContext context, TagHelperOutput output)
 		{
 			output.TagName = "a";
 			output.TagMode = TagMode.StartTagAndEndTag;
-			output.Attributes.SetAttribute("href", $"/post/{BlogPostId}/edit");
+			output.Attributes.SetAttribute("href", dasBlogSettings.GetPermaLinkUrl(BlogPostId + "/edit"));
 			output.Content.SetHtmlContent("Edit this post");
 		}
 
