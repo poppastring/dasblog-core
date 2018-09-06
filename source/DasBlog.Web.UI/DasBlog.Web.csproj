@@ -9,7 +9,7 @@
     <Product>DasBlog Core</Product>
   </PropertyGroup>
   <ItemGroup>
-    <Content Include="config\metaConfig.xml">
+    <Content Include="Config\metaConfig.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="content\2018-02-24.dayentry.xml" />
