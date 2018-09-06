@@ -20,7 +20,7 @@ namespace DasBlog.Web.TagHelpers
 		{
 			output.TagName = "a";
 			output.TagMode = TagMode.StartTagAndEndTag;
-			output.Attributes.SetAttribute("href", dasBlogSettings.RelativeToRoot(Post.PermaLink + "/comment"));
+			output.Attributes.SetAttribute("href", dasBlogSettings.GetPermaLinkUrl(Post.EntryId + "/comment"));
 			output.Content.SetHtmlContent("Comment on this post");
 		}
 
