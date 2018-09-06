@@ -36,7 +36,7 @@
             <delete-post blog-post-id="@Model.EntryId" blog-title="@Model.Title"></delete-post>
         </div>
         <div class="col-md-12 mb-6">
-            <comment-post blog-post-id="@Model.EntryId"></comment-post>
+            <comment-post post="@Model"></comment-post>
         </div>
     </div>
     @await Html.PartialAsync("_CommentBlockPartial", @Model.Comments)
