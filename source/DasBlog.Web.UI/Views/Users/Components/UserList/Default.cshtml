@@ -23,7 +23,7 @@
     <div class="">
         
         <div class="row" style="background-colorx: red">
-            <div class="col-md-6 text-center" style="background-colorx: blue">Users</div>
+            <div class="col-md-6 text-center h4" style="background-colorx: blue">Users</div>
             <div class="col-md-6" style="background-colorx: yellow">
                 <div class="pull-right">
                     <form asp-action="Maintenance" asp-controller="Users" method="get">
@@ -44,16 +44,6 @@
     <div class="row workaround-users-2" >
         <div class="col-md-12 users-sidebar">
             <table class="table">
-                @*
-                <thead>
-                <tr>
-                    <th>
-                        Users
-                    </th>
-                    <th></th>
-                </tr>
-                </thead>
-                *@
                 <tbody>
                 @foreach (var item in Model)
                 {
