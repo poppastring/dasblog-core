@@ -59,9 +59,8 @@ namespace DasBlog.Web.Controllers
 			
 			if (routeAffectedFunctions.IsSpecificPostRequested(posttitle, day))
 			{
-				var entry = blogManager.GetBlogPost(
-				  posttitle.Replace(dasBlogSettings.SiteConfiguration.TitlePermalinkSpaceReplacement, string.Empty)
-				  , dt);
+				var entry = blogManager.GetBlogPost(posttitle.Replace(dasBlogSettings.SiteConfiguration.TitlePermalinkSpaceReplacement, 
+																				string.Empty), dt);
 				if (entry != null)
 				{
 					lpvm.Posts = new List<PostViewModel>() { mapper.Map<PostViewModel>(entry) };
@@ -78,6 +77,26 @@ namespace DasBlog.Web.Controllers
 			else
 			{
 				return RedirectToAction("index", "home");
+			}
+		}
+
+		[AllowAnonymous]
+		[HttpGet("post/{postid:guid}")]
+		public IActionResult PostGuid(Guid postid)
+		{
+			var lpvm = new ListPostsViewModel();
+			var entry = blogManager.GetBlogPost(postid.ToString(), null);
+			if (entry != null)
+			{
+				lpvm.Posts = new List<PostViewModel>() { mapper.Map<PostViewModel>(entry) };
+
+				SinglePost(lpvm.Posts.First());
+
+				return View("Page", lpvm);
+			}
+			else
+			{
+				return NotFound();
 			}
 		}
 
