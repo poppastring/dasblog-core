@@ -4,10 +4,9 @@
 
 @functions
 {
-
     string ElideTitle(string title)
     {
-        const int maxLen = 30;
+        const int maxLen = 20;
         if (title.Length > maxLen)
         {
             return title.Substring(0, maxLen - 3) + "...";
@@ -17,45 +16,56 @@
             return title;
         }
     }
-
 }
 
 
-<div class="row workaround-users-1">
-    <div class=" col-md-offset-7 col-md-5 vcenter">
-        <form asp-action="Maintenance" asp-controller="Users" method="get">
-            @if (ViewBag.SubViewName == Constants.ViewUserSubView)
-            {
-                <input type="submit" class="btn btn-primary" name="maintenanceMode" value="@Constants.UsersCreateMode"/>
-            }
-            else
-            {
-                <input type="submit" class="btn" name="maintenanceMode" value="@Constants.UsersCreateMode" disabled/>
+<div class="row workaround-users-1 pull-left affix" style="background-colorx: green">
+    <div class="">
+        
+        <div class="row" style="background-colorx: red">
+            <div class="col-md-6 text-center" style="background-colorx: blue">Users</div>
+            <div class="col-md-6" style="background-colorx: yellow">
+                <div class="pull-right">
+                    <form asp-action="Maintenance" asp-controller="Users" method="get">
+                        @if (ViewBag.SubViewName == Constants.ViewUserSubView)
+                        {
+                            <input type="submit" class="btn btn-primary" name="maintenanceMode" value="@Constants.UsersCreateMode"/>
+                        }
+                        else
+                        {
+                            <input type="submit" class="btn" name="maintenanceMode" value="@Constants.UsersCreateMode" disabled/>
 
-            }
-        </form>
-    </div>
-</div>
-<div class="row workaround-users-2">
-    <div class="users-sidebar">
-        <table class="table">
-            <thead>
-            <tr>
-                <th>
-                    Users
-                </th>
-                <th></th>
-            </tr>
-            </thead>
-            <tbody>
-            @foreach (var item in Model) {
+                        }
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    <div class="row workaround-users-2" >
+        <div class="col-md-12 users-sidebar">
+            <table class="table">
+                @*
+                <thead>
                 <tr>
-                    <td>
-                        <user-link email-address="/users/@item.EmailAddress" linkability="@ViewBag.Linkability"> @ElideTitle(item.EmailAddress)</user-link>
-                    </td>
+                    <th>
+                        Users
+                    </th>
+                    <th></th>
                 </tr>
-            }
-            </tbody>
-        </table>
+                </thead>
+                *@
+                <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <user-link email-address="/users/@item.EmailAddress" linkability="@ViewBag.Linkability"> @ElideTitle(item.EmailAddress)</user-link>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
     </div>
 </div>
