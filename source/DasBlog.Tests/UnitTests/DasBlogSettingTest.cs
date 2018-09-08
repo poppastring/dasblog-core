@@ -38,8 +38,10 @@ namespace DasBlog.Tests.UnitTests
 		}
 
 		public string WebRootDirectory { get; }
-
+		
 		public string RssUrl { get; }
+
+		public string PingBackUrl { get; }
 
 		public string CategoryUrl { get; }
 
