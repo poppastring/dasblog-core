@@ -2,56 +2,56 @@
 @model DasBlog.Web.Models.BlogViewModels.PostViewModel
 
 <div class="form-group">
-    <div class="col-sm-6">
+    <div class="col-6">
         <div asp-validation-summary="All" class="text-danger"></div>
     </div>
 </div>
 <div class="form-group row">
-    <label asp-for="Title" class="col-sm-2 col-form-label"></label>
-    <div class="col-sm-9">
+    <label asp-for="Title" class="col-2 col-form-label"></label>
+    <div class="col-9">
         <input asp-for="Title" class="form-control"/>
     </div>
 </div>
 <div class="form-group row">
-    <label asp-for="CreatedDateTime" class="col-sm-2 col-form-label"></label>
-    <div class="col-sm-9">
+    <label asp-for="CreatedDateTime" class="col-2 col-form-label"></label>
+    <div class="col-9">
         <input asp-for="CreatedDateTime" class="form-control"/>
     </div>
 </div>
 <div class="form-group row">
-    <label asp-for="Content" class="col-sm-2 col-form-label"></label>
-    <div class="col-sm-9" style="height: 500px;">
+    <label asp-for="Content" class="col-2 col-form-label"></label>
+    <div class="col-9" style="height: 500px;">
         <rich-edit name="content" id="mytextarea">@Model.Content</rich-edit>
                 @* uses nicEdit-main class *@
     </div>
 </div>
 <div class="form-group row">
-    <label asp-for="Description" class="col-sm-2 col-form-label"></label>
-    <div class="col-sm-6">
+    <label asp-for="Description" class="col-2 col-form-label"></label>
+    <div class="col-6">
         @Html.EditorFor(x => x.Description)
     </div>
 </div>
-<div class="form-group row">
-    <label asp-for="AllowComments" class="col-sm-2 col-form-label"></label>
-    <div class="col-sm-6">
-        @Html.CheckBoxFor(x => x.AllowComments)
-    </div>
+<div class="form-check row">
+    <label asp-for="AllowComments" class="col-2 form-check-label"></label>
+    <input class="form-check-input" 
+           id="AllowComments" name="AllowComments" type="checkbox" value="true" checked="@Model.AllowComments" />
+    <input name="AllowComments" type="hidden" value="false" />
+</div>
+<div class="form-check row">
+    <label asp-for="IsPublic" class="col-2 form-check-label"></label>
+    <input class="form-check-input" 
+           id="IsPublic" name="IsPublic" type="checkbox" value="true" checked="@Model.IsPublic" />
+    <input name="IsPublic" type="hidden" value="false" />
+</div>
+<div class="form-check row">
+    <label asp-for="Syndicated" class="col-2 form-check-label"></label>
+    <input class="form-check-input" 
+           id="Syndicated" name="Syndicated" type="checkbox" value="true" checked="@Model.Syndicated" />
+    <input name="Syndicated" type="hidden" value="false" />
 </div>
 <div class="form-group row">
-    <label asp-for="IsPublic" class="col-sm-2 col-form-label"></label>
-    <div class="col-sm-6">
-        @Html.CheckBoxFor(x => x.IsPublic)
-    </div>
-</div>
-<div class="form-group row">
-    <label asp-for="Syndicated" class="col-sm-2 col-form-label"></label>
-    <div class="col-sm-6">
-        @Html.CheckBoxFor(x => x.Syndicated)
-    </div>
-</div>
-<div class="form-group row">
-    <label asp-for="Categories" class="col-sm-2 col-form-label"></label>
-    <div class="col-sm-6">
+    <label asp-for="Categories" class="col-2 col-form-label"></label>
+    <div class="col-6">
         @if (Model != null && Model.AllCategories != null)
         {
             for (int i = 0; i < Model.AllCategories.Count; i++)
@@ -66,14 +66,14 @@
         <input value="Add" class="btn" type="submit" name="submit"/>
     </div>
 </div>
-<div class="col-sm-3 offset-3 ">
+<div class="col-3 offset-3 ">
     <span asp-validation-for="@Model.NewCategory" class="text-danger"></span>
 </div>
-<div class="col-sm-2">
+<div class="col-2">
     <input type="file" name="Image" accept="image/jpeg,image/gif,image/png"/>
     <input type="submit" name="submit" value="@Constants.UploadImageAction" class="btn"/>
 </div>
 <div class="form-group row">
-    <label asp-for="Language" class="col-sm-2 control-label"></label>
-    <select asp-for="Language" class="col-sm-6" asp-items="Model.Languages"></select>
+    <label asp-for="Language" class="col-2 control-label"></label>
+    <select asp-for="Language" class="col-6" asp-items="Model.Languages"></select>
 </div>

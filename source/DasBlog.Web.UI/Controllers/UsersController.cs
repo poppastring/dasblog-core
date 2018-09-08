@@ -212,7 +212,7 @@ namespace DasBlog.Web.Controllers
 				if (!string.IsNullOrWhiteSpace(uvm.Password))
 				{
 					uvm.Password = string.Empty;
-					// if the password field is blannk and therefore invalid then
+					// if the password field is blank and therefore invalid then
 					// we need to keep it to produce the error message.
 					// if the password field is not blank and some other field
 					// is invalid then we need to remove the password field
