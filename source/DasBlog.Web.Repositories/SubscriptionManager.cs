@@ -142,7 +142,7 @@ namespace DasBlog.Managers
                 item.Guid = new newtelligence.DasBlog.Web.Services.Rss20.Guid();
                 item.Guid.IsPermaLink = false;
                 item.Guid.Text = dasBlogSettings.GetPermaLinkUrl(entry.EntryId);
-                item.Link = dasBlogSettings.GetPermaLinkUrl(entry.EntryId);
+                item.Link = dasBlogSettings.RelativeToRoot(dasBlogSettings.GetPermaTitle(entry.CompressedTitle));
                 User user = dasBlogSettings.GetUser(entry.Author);
 
                 XmlElement trackbackPing = doc2.CreateElement("trackback", "ping", "http://madskills.com/public/xml/rss/module/trackback/");
@@ -150,7 +150,7 @@ namespace DasBlog.Managers
                 anyElements.Add(trackbackPing);
 
                 XmlElement pingbackServer = doc2.CreateElement("pingback", "server", "http://madskills.com/public/xml/rss/module/pingback/");
-                pingbackServer.InnerText = dasBlogSettings.RelativeToRoot("pingback");
+                pingbackServer.InnerText = dasBlogSettings.PingBackUrl;
                 anyElements.Add(pingbackServer);
 
                 XmlElement pingbackTarget = doc2.CreateElement("pingback", "target", "http://madskills.com/public/xml/rss/module/pingback/");
