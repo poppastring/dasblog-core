@@ -41,7 +41,7 @@ namespace DasBlog.Tests.UnitTests.UI
 		public static TheoryData<TagHelper, string> DasBlogPostLinkTagHelperData = new TheoryData<TagHelper, string>
 		{
 			{new EditPostTagHelper(new DasBlogSettingTest()) { BlogPostId = "theBlogPost"}, "theBlogPost"} ,
-			{new CommentPostTagHelper(new DasBlogSettingTest()) { Post = new PostViewModel(){ PermaLink = "some-blog-post", EntryId = "0B74C9D3-4D2C-4754-B607-F3847183221C" }}, "http://www.poppastring.com/post/0B74C9D3-4D2C-4754-B607-F3847183221C/comments" }
+			{new CommentPostTagHelper(new DasBlogSettingTest()) { Post = new PostViewModel(){ PermaLink = "some-blog-post", EntryId = "0B74C9D3-4D2C-4754-B607-F3847183221C" }}, "/post/0B74C9D3-4D2C-4754-B607-F3847183221C/comments" }
 		};
 	}
 }
