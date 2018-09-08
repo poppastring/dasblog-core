@@ -47,7 +47,7 @@ Configuration settings are as follows:
 - Self -Contained
 - win-x64
 
-So far deployment to Azure and to a .NET based hosting service provider worked fine, via Web Deploy and respectively. If you have additional questions or concerns please [submit an issue](https://github.com/poppastring/dasblog-core/issues).
+So far deployment to Azure and to a .NET based hosting service provider worked fine, via Web Deploy and FTP respectively. If you have additional questions or concerns please [submit an issue](https://github.com/poppastring/dasblog-core/issues).
 
 
 ## What we have completed so far...
