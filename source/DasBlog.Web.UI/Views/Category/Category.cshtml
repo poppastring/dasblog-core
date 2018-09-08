@@ -17,17 +17,17 @@
         </p>
     </div>
     <hr />
-    <div class="row">
-        <p>
-            @foreach (var category in Model.Categories)
+    <div>
+        @foreach (var category in Model.Categories)
+        {
+            <h4>@category.Key (@category.Value.Count())</h4>
+            @foreach (var post in category.Value)
             {
-                <h4>@category.Key (@category.Value.Count())</h4>
-                @foreach (var post in category.Value)
-                {
-                    <a href="@dasBlogSettings.RelativeToRoot(@dasBlogSettings.GetPermaTitle(post.BlogId))">@post.BlogTitle</a><br />
-                }
+                <div>
+                    <a href="@dasBlogSettings.RelativeToRoot(@dasBlogSettings.GetPermaTitle(post.BlogId))">@post.BlogTitle</a><br />                    
+                </div>
             }
-        </p>
+        }
     </div>
 
 </div>

@@ -36,7 +36,7 @@ namespace DasBlog.Web.TagHelpers
 	{
 		public string Id { get; set; } = "searchText";
 		public string Class { get; set; } = "col-md-3";
-		public string InnerClass { get; set; } = "sidebar-nav-fixed pull-right affix";
+		public string InnerClass { get; set; } = "pull-right affix";
 		public string ActionRoute { get; set; }
 		public string Action { get; set; }
 		public string Heading { get; set; } = "Search";
@@ -73,9 +73,9 @@ namespace DasBlog.Web.TagHelpers
 			output.Content.AppendHtml($@"
 				<div class='{Class}'>
 					<div class='{InnerClass}'>
-						<div class='panel panel-default'>
-							<div class='panel-heading'>{Heading}</div>
-								<div class='panel-body'>
+						<div class='card'>
+							<div class='card-header'>{Heading}</div>
+								<div class='card-body'>
 									<form method='post' action='{actionUrl}'>
 										<input type='text' name='searchText' id='{Id}'/>
 										<input class='btn' type='submit' value='{ButtonName}'/>

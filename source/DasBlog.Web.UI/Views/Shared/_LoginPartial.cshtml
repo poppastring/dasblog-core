@@ -5,11 +5,11 @@
 
 
     <form dasblog-authorized asp-area="" asp-controller="account" asp-action="logout" method="post" id="logoutForm" class="navbar-right">
-        <ul class="nav navbar-nav navbar-right">
-            <li>
+        <ul class="nav-item">
+            <li class="nav-link">
                 Hello @UserManager.GetUserName(User)!
             </li>
-            <li>
+            <li class="nav-link">
                 <button type="submit" class="btn btn-link navbar-btn navbar-link">Log off</button>
             </li>
         </ul>
