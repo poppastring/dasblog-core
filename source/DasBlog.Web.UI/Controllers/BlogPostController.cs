@@ -59,9 +59,8 @@ namespace DasBlog.Web.Controllers
 			
 			if (routeAffectedFunctions.IsSpecificPostRequested(posttitle, day))
 			{
-				var entry = blogManager.GetBlogPost(
-				  posttitle.Replace(dasBlogSettings.SiteConfiguration.TitlePermalinkSpaceReplacement, string.Empty)
-				  , dt);
+				var entry = blogManager.GetBlogPost(posttitle.Replace(dasBlogSettings.SiteConfiguration.TitlePermalinkSpaceReplacement, 
+																				string.Empty), dt);
 				if (entry != null)
 				{
 					lpvm.Posts = new List<PostViewModel>() { mapper.Map<PostViewModel>(entry) };
@@ -78,6 +77,26 @@ namespace DasBlog.Web.Controllers
 			else
 			{
 				return RedirectToAction("index", "home");
+			}
+		}
+
+		[AllowAnonymous]
+		[HttpGet("post/{postid:guid}")]
+		public IActionResult PostGuid(Guid postid)
+		{
+			var lpvm = new ListPostsViewModel();
+			var entry = blogManager.GetBlogPost(postid.ToString(), null);
+			if (entry != null)
+			{
+				lpvm.Posts = new List<PostViewModel>() { mapper.Map<PostViewModel>(entry) };
+
+				SinglePost(lpvm.Posts.First());
+
+				return View("Page", lpvm);
+			}
+			else
+			{
+				return NotFound();
 			}
 		}
 
@@ -242,7 +261,7 @@ namespace DasBlog.Web.Controllers
 		}
 
 		[AllowAnonymous]
-		[HttpGet("post/{postid:guid}/comment")]
+		[HttpGet("post/{postid:guid}/comments")]
 		public IActionResult Comment(Guid postid)
 		{
 			// TODO are comments enabled?
@@ -268,7 +287,7 @@ namespace DasBlog.Web.Controllers
 		}
 
 		[AllowAnonymous]
-		[HttpPost("post/comment")]
+		[HttpPost("post/comments")]
 		public IActionResult AddComment(AddCommentViewModel addcomment)
 		{
 			if (!dasBlogSettings.SiteConfiguration.EnableComments)
@@ -305,7 +324,7 @@ namespace DasBlog.Web.Controllers
 			return Comment(new Guid(addcomment.TargetEntryId));
 		}
 
-		[HttpDelete("post/{postid:guid}/comment/{commentid:guid}")]
+		[HttpDelete("post/{postid:guid}/comments/{commentid:guid}")]
 		public IActionResult DeleteComment(Guid postid, Guid commentid)
 		{
 			CommentSaveState state = blogManager.DeleteComment(postid.ToString(), commentid.ToString());
@@ -323,7 +342,7 @@ namespace DasBlog.Web.Controllers
 			return Ok();
 		}
 
-		[HttpPatch("post/{postid:guid}/comment/{commentid:guid}")]
+		[HttpPatch("post/{postid:guid}/comments/{commentid:guid}")]
 		public IActionResult ApproveComment(Guid postid, Guid commentid)
 		{
 			CommentSaveState state = blogManager.ApproveComment(postid.ToString(), commentid.ToString());

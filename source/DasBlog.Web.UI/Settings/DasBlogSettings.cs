@@ -26,6 +26,7 @@ namespace DasBlog.Web.Settings
 			MetaTags = metaTagsConfig.Value;
 
 			RssUrl = RelativeToRoot("feed/rss");
+			PingBackUrl = RelativeToRoot("feed/pingback");
 			CategoryUrl = RelativeToRoot("category");
 			ArchiveUrl = RelativeToRoot("archive");
 			MicroSummaryUrl = RelativeToRoot("microsummary");
@@ -34,6 +35,8 @@ namespace DasBlog.Web.Settings
 		}
 
 		public string WebRootDirectory { get; }
+
+		public string PingBackUrl { get; }
 
 		public string RssUrl { get; }
 
@@ -79,12 +82,12 @@ namespace DasBlog.Web.Settings
 
 		public string GetCommentViewUrl(string entryId)
         {
-            return RelativeToRoot("comment/" + entryId);
+            return GetPermaLinkUrl(entryId) + "/comments";
         }
 
         public string GetTrackbackUrl(string entryId)
         {
-            return RelativeToRoot("trackback/" + entryId);
+            return RelativeToRoot("feed/trackback/" + entryId);
         }
 
         public string GetEntryCommentsRssUrl(string entryId)
@@ -113,7 +116,7 @@ namespace DasBlog.Web.Settings
 			{
 				return SecurityConfiguration.Users.Find(delegate (User x)
 				{
-					return string.Compare(x.Name, userName, StringComparison.InvariantCultureIgnoreCase) == 0;
+					return string.Compare(x.DisplayName, userName, StringComparison.InvariantCultureIgnoreCase) == 0;
 				});
 			}
 			return null;

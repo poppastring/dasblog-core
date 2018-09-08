@@ -38,8 +38,10 @@ namespace DasBlog.Tests.UnitTests
 		}
 
 		public string WebRootDirectory { get; }
-
+		
 		public string RssUrl { get; }
+
+		public string PingBackUrl { get; }
 
 		public string CategoryUrl { get; }
 
@@ -83,12 +85,12 @@ namespace DasBlog.Tests.UnitTests
 
 		public string GetCommentViewUrl(string entryId)
 		{
-			return RelativeToRoot("comment/" + entryId);
+			return GetPermaLinkUrl(entryId) + "/comments";
 		}
 
 		public string GetTrackbackUrl(string entryId)
 		{
-			return RelativeToRoot("trackback/" + entryId);
+			return RelativeToRoot("feed/trackback/" + entryId);
 		}
 
 		public string GetEntryCommentsRssUrl(string entryId)
@@ -117,7 +119,7 @@ namespace DasBlog.Tests.UnitTests
 			{
 				return SecurityConfiguration.Users.Find(delegate (User x)
 				{
-					return string.Compare(x.Name, userName, StringComparison.InvariantCultureIgnoreCase) == 0;
+					return string.Compare(x.DisplayName, userName, StringComparison.InvariantCultureIgnoreCase) == 0;
 				});
 			}
 			return null;
