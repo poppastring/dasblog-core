@@ -14,6 +14,7 @@ namespace DasBlog.Core
 		string WebRootDirectory { get; }
 
 		string RssUrl { get; }
+		string PingBackUrl { get; }
 		string CategoryUrl { get; }
 		string ArchiveUrl { get; }
 		string MicroSummaryUrl { get; }
