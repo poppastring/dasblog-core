@@ -24,7 +24,8 @@ namespace DasBlog.Web.Controllers
 		{
 			return EventsByDate(DateTime.UtcNow);
 		}
-		[HttpGet(Name="/Activity/ActivityList/date")]
+
+		[HttpGet(Name="Activity/ActivityList/date")]
 		public IActionResult EventsByDate(DateTime date)
 		{
 			try
