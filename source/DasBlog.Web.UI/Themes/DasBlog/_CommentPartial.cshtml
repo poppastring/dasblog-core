@@ -22,4 +22,11 @@
             </div>
         </div>
     </div>
+    <div class="row">
+        <div dasblog-authorized class="col-md-12 mb-6">
+            <edit-post blog-post-id="@Model.Text"></edit-post>
+            <span style="display:inline-block; width: 1em;"></span>
+            <delete-post blog-post-id="@Model.Text" blog-title="@Model.Text"></delete-post>
+        </div>
+    </div>
 </div>
