@@ -313,24 +313,35 @@ namespace DasBlog.Managers
 
 		public CommentSaveState AddComment(string postid, Comment comment)
 		{
-			CommentSaveState est = CommentSaveState.Failed;
+			var saveState = CommentSaveState.Failed;
 
-			Entry entry = dataService.GetEntry(postid);
+			if (!dasBlogSettings.SiteConfiguration.EnableComments)
+			{
+				return saveState;
+			}
 
+			var entry = dataService.GetEntry(postid);
 			if (entry != null)
 			{
-				// Are comments allowed
+				if (dasBlogSettings.SiteConfiguration.EnableCommentDays)
+				{
+					var targetComment = DateTime.UtcNow.AddDays(-1 * dasBlogSettings.SiteConfiguration.DaysCommentsAllowed);
+
+					if (targetComment < entry.CreatedUtc)
+					{
+						return saveState;
+					}
+				}
 
 				dataService.AddComment(comment);
-
-				est = CommentSaveState.Added;
+				saveState = CommentSaveState.Added;
 			}
 			else
 			{
-				est = CommentSaveState.NotFound;
+				saveState = CommentSaveState.NotFound;
 			}
 
-			return est;
+			return saveState;
 		}
 
 		public CommentSaveState DeleteComment(string postid, string commentid)
