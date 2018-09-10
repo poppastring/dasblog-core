@@ -262,6 +262,7 @@ namespace DasBlog.Web.Controllers
 
 		[AllowAnonymous]
 		[HttpGet("post/{postid:guid}/comments")]
+		[HttpGet("post/{postid:guid}/comments/{commentid:guid}")]
 		public IActionResult Comment(Guid postid)
 		{
 			// TODO are comments enabled?
@@ -327,7 +328,7 @@ namespace DasBlog.Web.Controllers
 		[HttpDelete("post/{postid:guid}/comments/{commentid:guid}")]
 		public IActionResult DeleteComment(Guid postid, Guid commentid)
 		{
-			CommentSaveState state = blogManager.DeleteComment(postid.ToString(), commentid.ToString());
+			var state = blogManager.DeleteComment(postid.ToString(), commentid.ToString());
 
 			if (state == CommentSaveState.Failed)
 			{
@@ -345,7 +346,7 @@ namespace DasBlog.Web.Controllers
 		[HttpPatch("post/{postid:guid}/comments/{commentid:guid}")]
 		public IActionResult ApproveComment(Guid postid, Guid commentid)
 		{
-			CommentSaveState state = blogManager.ApproveComment(postid.ToString(), commentid.ToString());
+			var state = blogManager.ApproveComment(postid.ToString(), commentid.ToString());
 
 			if (state == CommentSaveState.Failed)
 			{
