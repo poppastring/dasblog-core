@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace DasBlog.Web.Models.BlogViewModels
 {
@@ -12,5 +9,7 @@ namespace DasBlog.Web.Models.BlogViewModels
 		public string Text { get; set; }
 		public DateTime Date { get; set; }
 		public string HomePageUrl { get; set; }
+		public string BlogPostId { get; set; }
+		public string CommentId { get; set; }
 	}
 }

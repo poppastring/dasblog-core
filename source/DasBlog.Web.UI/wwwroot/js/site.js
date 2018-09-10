@@ -1,19 +1,23 @@
 ﻿
+function commentManagement(url, commentText, httpVerb) {
+    if (confirm(commentText)) {
+        var oReq = new XMLHttpRequest();
+
+        oReq.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                alert("Success!");
+                location.href = url;
+            }
+        };
+
+        oReq.open(httpVerb, url);
+        oReq.send();
+    }
+}
+
 function deleteEntry(entryId, entryTitle) {
     if (confirm("Are you sure you want to delete this item? \n\n" + entryTitle)) {
         location.href = "post/" + entryId + "/delete"
-    }
-}
-
-function deleteComment(entryId, commentId, commentorName) {
-    if (confirm("Are you sure you want to delete this comment? \n\n" + commentorName)) {
-        location.href = "post/" + entryId + "/comment/" + commentId
-    }
-}
-
-function approveComment(entryId, commentId, commentorName) {
-    if (confirm("Are you sure you want to approve this comment? \n\n" + commentorName)) {
-        location.href = "post/" + entryId + "/comment/" + commentId
     }
 }
 
@@ -23,4 +27,12 @@ function linkToUser(emailAddress, linkAbility) {
         return;
     }
     location.href = emailAddress;
+}
+
+function showLastUserError(showError) {
+    if (showError) {
+        alert("You can't delete your own user record or reduce its privileges");
+        return;
+    }
+    window.maintenanceForm.submit();
 }

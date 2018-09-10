@@ -60,7 +60,9 @@ namespace DasBlog.Web.Mappers
 				.ForMember(dest => dest.Text, opt => opt.MapFrom(src => src.Content))
 				.ForMember(dest => dest.GravatarHashId, opt => opt.MapFrom(src => GetGravatarHash(src.AuthorEmail)))
 				.ForMember(dest => dest.Date, opt => opt.MapFrom(src => src.CreatedLocalTime))
-				.ForMember(dest => dest.HomePageUrl, opt => opt.MapFrom(src => src.AuthorHomepage));
+				.ForMember(dest => dest.HomePageUrl, opt => opt.MapFrom(src => src.AuthorHomepage))
+				.ForMember(dest => dest.BlogPostId, opt => opt.MapFrom(src => src.TargetEntryId))
+				.ForMember(dest => dest.CommentId, opt => opt.MapFrom(src => src.EntryId));
 
 			CreateMap<AddCommentViewModel, Comment>()
 				.ForMember(dest => dest.Author, opt => opt.MapFrom(src => src.Name))
