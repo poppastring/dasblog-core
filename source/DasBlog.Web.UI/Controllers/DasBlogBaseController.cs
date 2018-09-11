@@ -21,11 +21,18 @@ namespace DasBlog.Web.Settings
 
 		protected void SinglePost(PostViewModel post)
 		{
-			ViewData["Title"] = post.Title;
-			ViewData["Description"] = post.Description;
-			ViewData["Keywords"] = post.Categories;
-			ViewData["Canonical"] = post.PermaLink;
-			ViewData["Author"] = post.Author;
+			if (post != null)
+			{
+				ViewData["Title"] = post.Title;
+				ViewData["Description"] = post.Description;
+				ViewData["Keywords"] = post.Categories;
+				ViewData["Canonical"] = post.PermaLink;
+				ViewData["Author"] = post.Author;
+			}
+			else
+			{
+				DefaultPage();
+			}
 		}
 
 		protected void DefaultPage()
