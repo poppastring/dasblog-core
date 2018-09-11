@@ -265,24 +265,31 @@ namespace DasBlog.Web.Controllers
 		[HttpGet("post/{postid:guid}/comments/{commentid:guid}")]
 		public IActionResult Comment(Guid postid)
 		{
-			// TODO are comments enabled?
+			ListPostsViewModel lpvm = null;
 
-			Entry entry = blogManager.GetBlogPost(postid.ToString(), null);
-				// TODO this method should respect paths that include the date
+			var entry = blogManager.GetBlogPost(postid.ToString(), null);
 
-			ListPostsViewModel lpvm = new ListPostsViewModel();
-			lpvm.Posts = new List<PostViewModel> { mapper.Map<PostViewModel>(entry) };
-
-			ListCommentsViewModel lcvm = new ListCommentsViewModel
+			if (entry != null)
 			{
-				Comments = blogManager.GetComments(postid.ToString(), false)
-					.Select(comment => mapper.Map<CommentViewModel>(comment)).ToList(),
-				PostId = postid.ToString()
-			};
+				lpvm = new ListPostsViewModel
+				{
+					Posts = new List<PostViewModel> { mapper.Map<PostViewModel>(entry) }
+				};
 
-			lpvm.Posts.First().Comments = lcvm;
+				if (dasBlogSettings.SiteConfiguration.EnableComments)
+				{
+					var lcvm = new ListCommentsViewModel
+					{
+						Comments = blogManager.GetComments(postid.ToString(), false)
+							.Select(comment => mapper.Map<CommentViewModel>(comment)).ToList(),
+						PostId = postid.ToString()
+					};
 
-			SinglePost(lpvm.Posts.First());
+					lpvm.Posts.First().Comments = lcvm;
+				}
+			}
+
+			SinglePost(lpvm?.Posts?.First());
 
 			return View("page", lpvm);
 		}
@@ -301,14 +308,14 @@ namespace DasBlog.Web.Controllers
 				Comment(new Guid(addcomment.TargetEntryId));
 			}
 
-			Comment commt = mapper.Map<Comment>(addcomment);
+			var commt = mapper.Map<Comment>(addcomment);
 			commt.AuthorIPAddress = HttpContext.Connection.RemoteIpAddress.ToString();
 			commt.AuthorUserAgent = HttpContext.Request.Headers["User-Agent"].ToString();
 			commt.CreatedUtc = commt.ModifiedUtc = DateTime.UtcNow;
 			commt.EntryId = Guid.NewGuid().ToString();
 			commt.IsPublic = !dasBlogSettings.SiteConfiguration.CommentsRequireApproval;
 
-			CommentSaveState state = blogManager.AddComment(addcomment.TargetEntryId, commt);
+			var state = blogManager.AddComment(addcomment.TargetEntryId, commt);
 
 			if (state == CommentSaveState.Failed)
 			{
@@ -316,9 +323,21 @@ namespace DasBlog.Web.Controllers
 				return StatusCode(500);
 			}
 
+			if (state == CommentSaveState.SiteCommentsDisabled)
+			{
+				ModelState.AddModelError("", "Comments are closed for this post");
+				return StatusCode(403);
+			}
+
+			if (state == CommentSaveState.PostCommentsDisabled)
+			{
+				ModelState.AddModelError("", "Comment are currently disabled");
+				return StatusCode(403);
+			}
+
 			if (state == CommentSaveState.NotFound)
 			{
-				ModelState.AddModelError("", "Invalid comment attempt");
+				ModelState.AddModelError("", "Invalid Target Post Id");
 				return NotFound();
 			}
 

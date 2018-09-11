@@ -317,7 +317,7 @@ namespace DasBlog.Managers
 
 			if (!dasBlogSettings.SiteConfiguration.EnableComments)
 			{
-				return saveState;
+				return CommentSaveState.SiteCommentsDisabled;
 			}
 
 			var entry = dataService.GetEntry(postid);
@@ -327,9 +327,9 @@ namespace DasBlog.Managers
 				{
 					var targetComment = DateTime.UtcNow.AddDays(-1 * dasBlogSettings.SiteConfiguration.DaysCommentsAllowed);
 
-					if (targetComment < entry.CreatedUtc)
+					if (targetComment > entry.CreatedUtc)
 					{
-						return saveState;
+						return CommentSaveState.PostCommentsDisabled;
 					}
 				}
 
