@@ -51,7 +51,7 @@ So far deployment to Azure and to a .NET based hosting service provider worked f
 
 
 ## What we have completed so far...
-- Upgraded all existing projects to 4.6.X (for .NET Standard 2 support)
+- Upgraded all existing projects to 4.7.2 (for .NET Standard 2 support)
 - Created a new ASP.NET Web Core 2 project that shows the blogs home page with posts
 - Integrated ViewLocationExpanders to support "Themes"
 - AddIISUrlRewrite middleware to support 301 redirects for static ".aspx" (archives.aspx, monthview.aspx, etc.)
