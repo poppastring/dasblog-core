@@ -200,5 +200,10 @@ namespace DasBlog.Tests.UnitTests
 			//	return (ISiteConfig)ser.Deserialize(reader);
 			//}
 		}
+
+		public string FilterHtml(string input)
+		{
+			return input;
+		}
 	}
 }
