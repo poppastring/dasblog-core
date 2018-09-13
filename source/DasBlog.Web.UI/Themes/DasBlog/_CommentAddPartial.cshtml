@@ -1,7 +1,7 @@
 ﻿@model DasBlog.Web.Models.BlogViewModels.AddCommentViewModel
 
 <div class="post-new-comment">
-    <form asp-controller="post" asp-action="comment" method="post">
+    <form asp-controller="post" asp-action="comments" method="post">
         <div class="modal-body form-horizontal">
             <div class="row">
                 <div class="col-md-4 mb-2">
@@ -28,12 +28,12 @@
             </div>
             <div class="row">
                 <div class="col-md-12 mb-6">
-                    <label asp-for="Comment" class="control-label"></label>
-                    <textarea asp-for="Comment" rows="12" cols="60" class="form-control"></textarea>
+                    <label asp-for="Content" class="control-label"></label>
+                    <textarea asp-for="Content" rows="12" cols="60" class="form-control"></textarea>
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-2 mb-1">
+                <div class="col-md-4 mb-2">
                     <button type="submit" class="btn btn-primary btn-block">SAVE COMMENT</button>
                 </div>
             </div>

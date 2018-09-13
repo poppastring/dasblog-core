@@ -36,5 +36,7 @@ namespace DasBlog.Core
 		void AddUser(User user);
 		DateTimeZone GetConfiguredTimeZone();
 		DateTime GetContentLookAhead();
+		string FilterHtml(string input);
+		bool AreCommentsPermitted(DateTime blogpostdate);
 	}
 }

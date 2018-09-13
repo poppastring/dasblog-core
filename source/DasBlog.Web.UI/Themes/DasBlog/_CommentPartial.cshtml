@@ -22,4 +22,11 @@
             </div>
         </div>
     </div>
+    <div class="row">
+        <div dasblog-authorized class="col-md-12 mb-6">
+            <approve-comment blog-post-id="@Model.BlogPostId" comment-id="@Model.CommentId" commentor-name="@Model.Name"></approve-comment>
+            <span style="display:inline-block; width: 1em;"></span>
+            <delete-comment blog-post-id="@Model.BlogPostId" comment-id="@Model.CommentId" commentor-name="@Model.Name"></delete-comment>
+        </div>
+    </div>
 </div>

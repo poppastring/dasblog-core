@@ -16,6 +16,10 @@ namespace newtelligence.DasBlog.Runtime
 
 		NotFound,
 
-		Failed
+		Failed,
+
+		PostCommentsDisabled,
+
+		SiteCommentsDisabled
 	}
 }

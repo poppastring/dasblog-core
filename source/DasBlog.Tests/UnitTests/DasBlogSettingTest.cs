@@ -188,17 +188,27 @@ namespace DasBlog.Tests.UnitTests
 			// Need to point this to the config file
 			return new SiteConfigTest();
 
-			if (string.IsNullOrEmpty(path))
-			{
-				throw new ArgumentNullException("path");
-			}
+			//if (string.IsNullOrEmpty(path))
+			//{
+			//	throw new ArgumentNullException("path");
+			//}
 
-			var ser = new XmlSerializer(typeof(ISiteConfig));
+			//var ser = new XmlSerializer(typeof(ISiteConfig));
 
-			using (var reader = new StreamReader(path))
-			{
-				return (ISiteConfig)ser.Deserialize(reader);
-			}
+			//using (var reader = new StreamReader(path))
+			//{
+			//	return (ISiteConfig)ser.Deserialize(reader);
+			//}
+		}
+
+		public string FilterHtml(string input)
+		{
+			return input;
+		}
+
+		public bool AreCommentsPermitted(DateTime blogpostdate)
+		{
+			return true;
 		}
 	}
 }

@@ -10,5 +10,7 @@ namespace DasBlog.Web.Models.BlogViewModels
 		public IList<CommentViewModel> Comments { get; set; }
 
 		public string PostId { get; set; }
+
+		public DateTime PostDate { get; set; }
 	}
 }

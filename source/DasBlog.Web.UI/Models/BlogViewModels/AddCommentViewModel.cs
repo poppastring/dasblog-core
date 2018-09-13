@@ -21,7 +21,7 @@ namespace DasBlog.Web.Models.BlogViewModels
 		[Required]
 		[Display(Name = "Comment")]
 		[StringLength(600, MinimumLength = 1)]
-		public string Comment { get; set; }
+		public string Content { get; set; }
 
 		[Required]
 		public string TargetEntryId { get; set; }
