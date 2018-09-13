@@ -203,5 +203,15 @@ namespace DasBlog.Web.Settings
 
 			return sb.ToString();
 		}
+
+		public bool AreCommentsPermitted(DateTime blogpostdate)
+		{
+			if (!SiteConfiguration.EnableComments)
+			{
+				return false;
+			}
+
+			return (DateTime.UtcNow.AddDays(-1 * SiteConfiguration.DaysCommentsAllowed) < blogpostdate);
+		}
 	}
 }

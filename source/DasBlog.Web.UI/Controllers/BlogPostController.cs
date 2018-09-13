@@ -282,7 +282,8 @@ namespace DasBlog.Web.Controllers
 					{
 						Comments = blogManager.GetComments(postid.ToString(), false)
 							.Select(comment => mapper.Map<CommentViewModel>(comment)).ToList(),
-						PostId = postid.ToString()
+						PostId = postid.ToString(),
+						PostDate = entry.CreatedUtc
 					};
 
 					lpvm.Posts.First().Comments = lcvm;
@@ -307,6 +308,8 @@ namespace DasBlog.Web.Controllers
 			{
 				Comment(new Guid(addcomment.TargetEntryId));
 			}
+
+			addcomment.Content = dasBlogSettings.FilterHtml(addcomment.Content);
 
 			var commt = mapper.Map<Comment>(addcomment);
 			commt.AuthorIPAddress = HttpContext.Connection.RemoteIpAddress.ToString();

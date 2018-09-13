@@ -66,7 +66,7 @@ namespace DasBlog.Web.Mappers
 
 			CreateMap<AddCommentViewModel, Comment>()
 				.ForMember(dest => dest.Author, opt => opt.MapFrom(src => src.Name))
-				.ForMember(dest => dest.Content, opt => opt.MapFrom(src => src.Comment))
+				.ForMember(dest => dest.Content, opt => opt.MapFrom(src => src.Content))
 				.ForMember(dest => dest.AuthorEmail, opt => opt.MapFrom(src => src.Email))
 				.ForMember(dest => dest.TargetEntryId, opt => opt.MapFrom(src => src.TargetEntryId))
 				.ForMember(dest => dest.AuthorHomepage, opt => opt.MapFrom(src => src.HomePage));

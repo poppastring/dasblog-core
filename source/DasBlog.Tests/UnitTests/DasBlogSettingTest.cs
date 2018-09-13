@@ -205,5 +205,10 @@ namespace DasBlog.Tests.UnitTests
 		{
 			return input;
 		}
+
+		public bool AreCommentsPermitted(DateTime blogpostdate)
+		{
+			return true;
+		}
 	}
 }
