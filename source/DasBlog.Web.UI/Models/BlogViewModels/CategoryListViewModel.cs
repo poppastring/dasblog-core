@@ -1,19 +1,19 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using newtelligence.DasBlog.Runtime;
 
 namespace DasBlog.Web.Models.BlogViewModels
 {
 	public class CategoryListViewModel
 	{
-		public Dictionary<string, List<CategoryPostItem>> Categories { get; protected set; } = new Dictionary<string, List<CategoryPostItem>>();
-
-		public static CategoryListViewModel Create(EntryCollection entries)
+		public SortedDictionary<string, List<CategoryPostItem>> Categories { get; protected set; } = new SortedDictionary<string, List<CategoryPostItem>>();
+		
+		public static CategoryListViewModel Create(EntryCollection entries, string categoryName = "")
 		{
 			var viewModel = new CategoryListViewModel();
 			foreach (var entry in entries)
-			{
+			{				
 				var categories = entry.GetSplitCategories();
+
 				foreach (var category in categories)
 				{
 					var archiveItem = CategoryPostItem.CreateFromEntry(entry);
@@ -27,7 +27,7 @@ namespace DasBlog.Web.Models.BlogViewModels
 					viewModel.Categories[category] = new List<CategoryPostItem> { archiveItem };
 				}
 			}
-
+			
 			return viewModel;
 		}
 	}
