@@ -74,6 +74,7 @@
     <ProjectReference Include="..\..\DasBlog.Web.Core\DasBlog.Core.csproj" />
     <ProjectReference Include="..\..\DasBlog.Web.Repositories\DasBlog.Managers.csproj" />
     <ProjectReference Include="..\..\DasBlog.Web.UI\DasBlog.Web.csproj" />
+    <ProjectReference Include="..\..\newtelligence.DasBlog.Runtime\newtelligence.DasBlog.Runtime.csproj" />
     <ProjectReference Include="..\..\newtelligence.DasBlog.Util\newtelligence.DasBlog.Util.csproj" />
   </ItemGroup>
   <ItemGroup>
