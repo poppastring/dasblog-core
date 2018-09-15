@@ -24,7 +24,7 @@ namespace DasBlog.Web.Services
 			PostViewModel post = new PostViewModel();
 			post.IsPublic = true;
 			post.Languages = GetAlllanguages();
-//			post.AllCategories = mapper.Map<List<CategoryViewModel>>(blogManager.GetCategories());
+			post.AllCategories = mapper.Map<List<CategoryViewModel>>(blogManager.GetCategories());
 			return post;
 		}
 		/// <summary>

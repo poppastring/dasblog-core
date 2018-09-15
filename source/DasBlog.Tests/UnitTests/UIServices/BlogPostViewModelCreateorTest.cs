@@ -16,6 +16,10 @@ using Moq;
 
 namespace DasBlog.Tests.UnitTests.UIServices
 {
+	/**
+	 * This would be better as an integration test.  There really isn't sufficient logic
+	 * to justify a unit test
+	 */
 	public class BlogPostViewModelCreateorTest
 	{
 		private readonly IBlogManager blogManager;
@@ -23,22 +27,14 @@ namespace DasBlog.Tests.UnitTests.UIServices
 
 		public BlogPostViewModelCreateorTest()
 		{
-			IServiceProvider serviceProvider = InjectDependencies();
 			var blogManagerMock = new Mock<IBlogManager>();
 			blogManagerMock.Setup(bm => bm.GetCategories())
 			  .Returns(new CategoryCacheEntryCollection());
 			this.blogManager = blogManagerMock.Object;
 			var mapperMock = new Mock<IMapper>();
-			mapperMock.Setup(m => m.Map<IBlogManager, IList<CategoryViewModel>>(this.blogManager))
+			mapperMock.Setup(m => m.Map<List<CategoryViewModel>>(new CategoryCacheEntryCollection()))
 			  .Returns(new List<CategoryViewModel>{new CategoryViewModel()});
 			this.mapper = mapperMock.Object;
-		}
-
-		private IServiceProvider InjectDependencies()
-		{
-			var services = new ServiceCollection();
-			
-			return services.BuildServiceProvider();
 		}
 
 		[Fact]
@@ -58,7 +54,7 @@ namespace DasBlog.Tests.UnitTests.UIServices
 			Assert.True(postViewModel.Languages.Count() > 50);
 				// 841 entries on Windows 10 UK english Imac Parallels Windows Version 10.0.17134.285]
 		}
-		[Fact(Skip="true")]
+		[Fact]
 		[Trait("Category", "UnitTest")]
 		public void WhenCreated_DefaultBlogPost_IncludesExistingCategories()
 		{
