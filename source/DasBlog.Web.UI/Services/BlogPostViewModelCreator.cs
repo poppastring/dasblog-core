@@ -37,6 +37,11 @@ namespace DasBlog.Web.Services
 			post.AllCategories = mapper.Map<List<CategoryViewModel>>(blogManager.GetCategories());
 			return post;
 		}
+
+		public void AddAllLanguages(PostViewModel pvm)
+		{
+			pvm.Languages = GetAlllanguages();
+		}
 		/// <summary>
 		/// the universe of languagses based on CultureInfo for CultureType.AllCultures
 		/// </summary>
