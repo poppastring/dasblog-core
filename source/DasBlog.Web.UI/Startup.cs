@@ -55,6 +55,7 @@ namespace DasBlog.Web
 			services.AddOptions();
 			services.AddMemoryCache();
 
+			services.Configure<TimeZoneProviderOptions>(Configuration);
 			services.Configure<SiteConfig>(Configuration);
 			services.Configure<MetaTags>(Configuration);
 			services.Configure<LocalUserDataOptions>(options
@@ -140,6 +141,7 @@ namespace DasBlog.Web
 				.AddSingleton<IActivityService, ActivityService>()
 				.AddSingleton<IActivityRepoFactory, ActivityRepoFactory>()
 				.AddSingleton<IEventLineParser, EventLineParser>()
+				.AddSingleton<ITimeZoneProvider, TimeZoneProvider>()
 				;
 			services
 				.AddAutoMapper(mapperConfig =>

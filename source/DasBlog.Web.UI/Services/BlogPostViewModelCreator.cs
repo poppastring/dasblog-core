@@ -2,10 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using AutoMapper;
+using DasBlog.Core.Services.Interfaces;
 using DasBlog.Managers.Interfaces;
 using DasBlog.Web.Models.BlogViewModels;
 using DasBlog.Web.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using NodaTime;
 
 namespace DasBlog.Web.Services
 {
@@ -13,16 +15,21 @@ namespace DasBlog.Web.Services
 	{
 		private IBlogManager blogManager;
 		private IMapper mapper;
+		private ITimeZoneProvider timeZoneProvider;
 
-		public BlogPostViewModelCreator(IBlogManager blogManager, IMapper mapper)
+		public BlogPostViewModelCreator(IBlogManager blogManager, IMapper mapper
+		  ,ITimeZoneProvider timeZoneProvider)
 		{
 			this.blogManager = blogManager;
 			this.mapper = mapper;
+			this.timeZoneProvider = timeZoneProvider;
 		}
 		public PostViewModel CreateBlogPostVM()
 		{
 			PostViewModel post = new PostViewModel();
-			post.CreatedDateTime = DateTime.UtcNow;
+			var tz = timeZoneProvider.GetConfiguredTimeZone();
+			var offset = tz.GetUtcOffset(new Instant());
+			post.CreatedDateTime = DateTime.UtcNow.Add(new TimeSpan(0,0,0,offset.Seconds));
 			post.IsPublic = true;
 			post.Syndicated = true;
 			post.AllowComments = true;
