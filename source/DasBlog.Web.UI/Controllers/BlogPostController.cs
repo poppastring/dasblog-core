@@ -8,6 +8,7 @@ using DasBlog.Core;
 using DasBlog.Managers.Interfaces;
 using DasBlog.Core.Common;
 using DasBlog.Web.Models.BlogViewModels;
+using DasBlog.Web.Services.Interfaces;
 using DasBlog.Web.Settings;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -29,10 +30,12 @@ namespace DasBlog.Web.Controllers
 		private readonly IMapper mapper;
 		private readonly IFileSystemBinaryManager binaryManager;
 		private readonly ILogger<BlogPostController> logger;
+		private readonly IBlogPostViewModelCreator modelViewCreator;
 
 		public BlogPostController(IBlogManager blogManager, IHttpContextAccessor httpContextAccessor,
 		  IDasBlogSettings settings, IMapper mapper, ICategoryManager categoryManager
-		  ,IFileSystemBinaryManager binaryManager, ILogger<BlogPostController> logger) : base(settings)
+		  ,IFileSystemBinaryManager binaryManager, ILogger<BlogPostController> logger
+		  ,IBlogPostViewModelCreator modelViewCreator) : base(settings)
 		{
 			this.blogManager = blogManager;
 			this.categoryManager = categoryManager;
@@ -41,6 +44,7 @@ namespace DasBlog.Web.Controllers
 			this.mapper = mapper;
 			this.binaryManager = binaryManager;
 			this.logger = logger;
+			this.modelViewCreator = modelViewCreator;
 		}
 
 		[AllowAnonymous]
@@ -184,10 +188,13 @@ namespace DasBlog.Web.Controllers
 		[HttpGet("post/create")]
 		public IActionResult CreatePost()
 		{
+			PostViewModel post = modelViewCreator.CreateBlogPostVM();
+/*
 			PostViewModel post = new PostViewModel();
 			post.CreatedDateTime = DateTime.UtcNow;  //TODO: Set to the timezone configured???
 			post.AllCategories = mapper.Map<List<CategoryViewModel>>(blogManager.GetCategories());
 			post.Languages = GetAlllanguages();
+*/
 
 			return View(post);
 		}

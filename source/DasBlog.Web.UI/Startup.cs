@@ -22,6 +22,8 @@ using DasBlog.Core;
 using DasBlog.Core.Common;
 using DasBlog.Core.Services;
 using DasBlog.Core.Services.Interfaces;
+using DasBlog.Web.Services;
+using DasBlog.Web.Services.Interfaces;
 using Microsoft.Extensions.FileProviders;
 using DasBlog.Web.TagHelpers.RichEdit;
 using Microsoft.Extensions.Options;
@@ -117,7 +119,9 @@ namespace DasBlog.Web
 				.AddTransient<IPrincipal>(provider => provider.GetService<IHttpContextAccessor>().HttpContext.User)
 				.AddTransient<ISiteRepairer, SiteRepairer>()
 				;
-			services.AddScoped<IRichEditBuilder>(SelectRichEditor);
+			services.AddScoped<IRichEditBuilder>(SelectRichEditor)
+				.AddScoped<IBlogPostViewModelCreator, BlogPostViewModelCreator>()
+				;
 
 			services
 				.AddSingleton(hostingEnvironment.ContentRootFileProvider)

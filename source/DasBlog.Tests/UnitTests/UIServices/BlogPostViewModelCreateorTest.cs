@@ -39,18 +39,18 @@ namespace DasBlog.Tests.UnitTests.UIServices
 
 		[Fact]
 		[Trait("Category", "UnitTest")]
-		public void WhenCreated_DefaultBlogPost_IsPublic()
+		public void CreatedBlogPost_ShouldShowActive_IsPublicSyndicatedAndAllowComments()
 		{
 			IBlogPostViewModelCreator bpvmc = new BlogPostViewModelCreator(blogManager, mapper);
-			var postViewModel = bpvmc.CreateBlogPostVN();
-			Assert.True(postViewModel.IsPublic);
+			var postViewModel = bpvmc.CreateBlogPostVM();
+			Assert.True(postViewModel.IsPublic && postViewModel.Syndicated && postViewModel.AllowComments);
 		}
 		[Fact]
 		[Trait("Category", "UnitTest")]
 		public void WhenCreated_DefaultBlogPost_IncludesLotsOfLanguages()
 		{
 			IBlogPostViewModelCreator bpvmc = new BlogPostViewModelCreator(blogManager, mapper);
-			var postViewModel = bpvmc.CreateBlogPostVN();
+			var postViewModel = bpvmc.CreateBlogPostVM();
 			Assert.True(postViewModel.Languages.Count() > 50);
 				// 841 entries on Windows 10 UK english Imac Parallels Windows Version 10.0.17134.285]
 		}
@@ -59,8 +59,17 @@ namespace DasBlog.Tests.UnitTests.UIServices
 		public void WhenCreated_DefaultBlogPost_IncludesExistingCategories()
 		{
 			IBlogPostViewModelCreator bpvmc = new BlogPostViewModelCreator(blogManager, mapper);
-			var postViewModel = bpvmc.CreateBlogPostVN();
+			var postViewModel = bpvmc.CreateBlogPostVM();
 			Assert.Equal(1, postViewModel.AllCategories.Count);
+		}
+		[Fact]
+		[Trait("Category", "UnitTest")]
+		public void WhenCreated_DefaultBlogPost_UsesTimeZone()
+		{
+			IBlogPostViewModelCreator bpvmc = new BlogPostViewModelCreator(blogManager, mapper);
+			var postViewModel = bpvmc.CreateBlogPostVM();
+			var ts = new TimeSpan(0, 0, 10);
+			Assert.True(postViewModel.CreatedDateTime - ts < DateTime.UtcNow);
 		}
 	}
 }

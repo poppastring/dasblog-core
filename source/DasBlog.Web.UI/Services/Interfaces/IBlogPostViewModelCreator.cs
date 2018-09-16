@@ -4,6 +4,6 @@ namespace DasBlog.Web.Services.Interfaces
 {
 	public interface IBlogPostViewModelCreator
 	{
-		PostViewModel CreateBlogPostVN();
+		PostViewModel CreateBlogPostVM();
 	}
 }

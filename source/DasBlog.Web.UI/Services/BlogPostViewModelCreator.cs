@@ -19,10 +19,13 @@ namespace DasBlog.Web.Services
 			this.blogManager = blogManager;
 			this.mapper = mapper;
 		}
-		public PostViewModel CreateBlogPostVN()
+		public PostViewModel CreateBlogPostVM()
 		{
 			PostViewModel post = new PostViewModel();
+			post.CreatedDateTime = DateTime.UtcNow;
 			post.IsPublic = true;
+			post.Syndicated = true;
+			post.AllowComments = true;
 			post.Languages = GetAlllanguages();
 			post.AllCategories = mapper.Map<List<CategoryViewModel>>(blogManager.GetCategories());
 			return post;
