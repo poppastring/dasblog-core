@@ -181,6 +181,11 @@ ul {
 .activityTableRowStyleBlocked { BACKGROUND-COLOR: lightgoldenrodyellow }
 .activityTableRowStyleSecurityFailure { BACKGROUND-COLOR: lightsalmon }
 
+/* align with bootstrap (grid-framework.scss) */
+.blogpost-fields-allignment-compatibility { 
+    padding-left: 15px;
+    padding-right: 15px; 
+}
         
 /* Hide/rearrange for smaller screens */
 @media screen and (max-width: 767px) {

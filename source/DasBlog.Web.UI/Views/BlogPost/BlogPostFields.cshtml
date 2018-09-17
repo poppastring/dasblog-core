@@ -27,37 +27,50 @@
 </div>
 <div class="form-group row">
     <label asp-for="Description" class="col-2 col-form-label"></label>
-    <div class="col-6">
-        @Html.EditorFor(x => x.Description)
+    <div class="col-9">
+        <textarea class="form-control rounded-0" rows="3"></textarea>
+        @* @Html.EditorFor(x => x.Description) *@
     </div>
 </div>
-<div class="form-check row">
-    <label asp-for="AllowComments" class="col-2 form-check-label"></label>
-    <input class="form-check-input" 
-           id="AllowComments" name="AllowComments" type="checkbox" value="true" checked="@Model.AllowComments" />
-    <input name="AllowComments" type="hidden" value="false" />
-</div>
-<div class="form-check row">
-    <label asp-for="IsPublic" class="col-2 form-check-label"></label>
-    <input class="form-check-input" 
-           id="IsPublic" name="IsPublic" type="checkbox" value="true" checked="@Model.IsPublic" />
-    <input name="IsPublic" type="hidden" value="false" />
-</div>
-<div class="form-check row">
-    <label asp-for="Syndicated" class="col-2 form-check-label"></label>
-    <input class="form-check-input" 
-           id="Syndicated" name="Syndicated" type="checkbox" value="true" checked="@Model.Syndicated" />
-    <input name="Syndicated" type="hidden" value="false" />
+<div class="row">
+    <div class="offset-2 blogpost-fields-allignment-compatibility">
+        <label>Allow Comments
+            <span>
+                <input id="AllowComments" name="AllowComments" type="checkbox" value="true" checked="@Model.AllowComments"/>
+            </span>
+            <span style="display: inline-block; width: 1em;"></span>
+        </label>
+        <input name="AllowComments" type="hidden" value="false"/>
+        <label>Is Public
+            <span>
+                <input id="IsPublic" name="IsPublic" type="checkbox" value="true" checked="@Model.IsPublic"/>
+            </span>
+            <span style="display: inline-block; width: 1em;"></span>
+        </label>
+        <input name="IsPublic" type="hidden" value="false"/>
+        <label>Syndicated
+            <span>
+                <input id="Syndicated" name="Syndicated" type="checkbox" value="true" checked="@Model.Syndicated"/>
+            </span>
+            <span style="display: inline-block; width: 1em;"></span>
+        </label>
+        <input name="Syndicated" type="hidden" value="false"/>
+    </div>
 </div>
 <div class="form-group row">
     <label asp-for="Categories" class="col-2 col-form-label"></label>
-    <div class="col-6">
+    <div class="col-10">
         @if (Model != null && Model.AllCategories != null)
         {
             for (int i = 0; i < Model.AllCategories.Count; i++)
             {
-                <input asp-for="@Model.AllCategories[i].Checked" type="checkbox"/>
-                <label asp-for="@Model.AllCategories[i].Category">@Model.AllCategories[i].Category</label>
+                
+                <label asp-for="@Model.AllCategories[i].Category">@Model.AllCategories[i].Category
+                    <span>
+                        <input asp-for="@Model.AllCategories[i].Checked" type="checkbox"/>
+                    </span>
+                    <span style="display: inline-block; width: 1em;"></span>
+                </label>
                 <input asp-for="@Model.AllCategories[i].Category" type="hidden"/>
                 <input asp-for="@Model.AllCategories[i].CategoryUrl" type="hidden"/>
             }
