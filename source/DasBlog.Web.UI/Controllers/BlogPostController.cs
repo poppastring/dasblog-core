@@ -435,9 +435,9 @@ namespace DasBlog.Web.Controllers
 			}
 
 			var newCategory = post.NewCategory?.Trim();
-			var newCategoryDisplayName = EncodeCategoryUrl(newCategory, string.Empty );
-						// Category names should not include special characters #200
+			var newCategoryDisplayName = newCategory;
 			var newCategoryUrl = EncodeCategoryUrl(newCategory, string.Empty );
+					// Category names should not include special characters #200
 			if (post.AllCategories.Any(c => c.CategoryUrl == newCategoryUrl))
 			{
 				ModelState.AddModelError(nameof(post.NewCategory), $"The category, {post.NewCategory}, already exists");
