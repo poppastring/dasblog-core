@@ -8,6 +8,8 @@ using DasBlog.Core;
 using DasBlog.Managers.Interfaces;
 using DasBlog.Core.Common;
 using DasBlog.Web.Models.BlogViewModels;
+using DasBlog.Web.Services;
+using DasBlog.Web.Services.Interfaces;
 using DasBlog.Web.Settings;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -29,10 +31,12 @@ namespace DasBlog.Web.Controllers
 		private readonly IMapper mapper;
 		private readonly IFileSystemBinaryManager binaryManager;
 		private readonly ILogger<BlogPostController> logger;
+		private readonly IBlogPostViewModelCreator modelViewCreator;
 
 		public BlogPostController(IBlogManager blogManager, IHttpContextAccessor httpContextAccessor,
 		  IDasBlogSettings settings, IMapper mapper, ICategoryManager categoryManager
-		  ,IFileSystemBinaryManager binaryManager, ILogger<BlogPostController> logger) : base(settings)
+		  ,IFileSystemBinaryManager binaryManager, ILogger<BlogPostController> logger
+		  ,IBlogPostViewModelCreator modelViewCreator) : base(settings)
 		{
 			this.blogManager = blogManager;
 			this.categoryManager = categoryManager;
@@ -41,6 +45,7 @@ namespace DasBlog.Web.Controllers
 			this.mapper = mapper;
 			this.binaryManager = binaryManager;
 			this.logger = logger;
+			this.modelViewCreator = modelViewCreator;
 		}
 
 		[AllowAnonymous]
@@ -111,7 +116,7 @@ namespace DasBlog.Web.Controllers
 				if (entry != null)
 				{
 					pvm = mapper.Map<PostViewModel>(entry);
-					pvm.Languages = GetAlllanguages();
+					modelViewCreator.AddAllLanguages(pvm);
 					List<CategoryViewModel> allcategories = mapper.Map<List<CategoryViewModel>>(blogManager.GetCategories());
 
 					foreach (var cat in allcategories)
@@ -135,7 +140,7 @@ namespace DasBlog.Web.Controllers
 		public IActionResult EditPost(PostViewModel post, string submit)
 		{
 			// languages does not get posted as part of form
-			post.Languages = GetAlllanguages();
+			modelViewCreator.AddAllLanguages(post);
 			if (submit == Constants.BlogPostAddCategoryAction)
 			{
 				return HandleNewCategory(post);
@@ -184,10 +189,13 @@ namespace DasBlog.Web.Controllers
 		[HttpGet("post/create")]
 		public IActionResult CreatePost()
 		{
+			PostViewModel post = modelViewCreator.CreateBlogPostVM();
+/*
 			PostViewModel post = new PostViewModel();
 			post.CreatedDateTime = DateTime.UtcNow;  //TODO: Set to the timezone configured???
 			post.AllCategories = mapper.Map<List<CategoryViewModel>>(blogManager.GetCategories());
 			post.Languages = GetAlllanguages();
+*/
 
 			return View(post);
 		}
@@ -195,7 +203,7 @@ namespace DasBlog.Web.Controllers
 		[HttpPost("post/create")]
 		public IActionResult CreatePost(PostViewModel post, string submit)
 		{
-			post.Languages = GetAlllanguages();
+			modelViewCreator.AddAllLanguages(post);
 			if (submit == Constants.BlogPostAddCategoryAction)
 			{
 				return HandleNewCategory(post);
@@ -428,7 +436,8 @@ namespace DasBlog.Web.Controllers
 
 			var newCategory = post.NewCategory?.Trim();
 			var newCategoryDisplayName = newCategory;
-			var newCategoryUrl = EncodeCategoryUrl(newCategory, dasBlogSettings.SiteConfiguration.TitlePermalinkSpaceReplacement );
+			var newCategoryUrl = EncodeCategoryUrl(newCategory, string.Empty );
+					// Category names should not include special characters #200
 			if (post.AllCategories.Any(c => c.CategoryUrl == newCategoryUrl))
 			{
 				ModelState.AddModelError(nameof(post.NewCategory), $"The category, {post.NewCategory}, already exists");
@@ -445,7 +454,7 @@ namespace DasBlog.Web.Controllers
 
 			return View(post);
 		}
-		
+
 		private IActionResult HandleImageUpload(PostViewModel post)
 		{
 			ModelState.ClearValidationState("");
@@ -453,9 +462,10 @@ namespace DasBlog.Web.Controllers
 			if (string.IsNullOrEmpty(fileName))
 			{
 				ModelState.AddModelError(nameof(post.Image)
-					,$"You must select a file before clicking \"{Constants.UploadImageAction}\" to upload it");
+					, $"You must select a file before clicking \"{Constants.UploadImageAction}\" to upload it");
 				return View(post);
 			}
+
 			string relativePath = null;
 			try
 			{
@@ -473,67 +483,15 @@ namespace DasBlog.Web.Controllers
 			if (string.IsNullOrEmpty(relativePath))
 			{
 				ModelState.AddModelError(nameof(post.Image)
-				  ,"Failed to upload file - reason unknown");
+					, "Failed to upload file - reason unknown");
 				return View(post);
 			}
+
 			string linkText = String.Format("<p><img border=\"0\" src=\"{0}\"></p>",
 				relativePath);
 			post.Content += linkText;
-			ModelState.Remove(nameof(post.Content));	// ensure that model change is included in response
+			ModelState.Remove(nameof(post.Content)); // ensure that model change is included in response
 			return View(post);
-		}
-		private IEnumerable<SelectListItem> GetAlllanguages()
-		{
-			CultureInfo[] cultures = CultureInfo.GetCultures(CultureTypes.AllCultures);
-
-			// setup temp store for listitem items, for sorting
-			List<SelectListItem> cultureList = new List<SelectListItem>(cultures.Length);
-
-			foreach (CultureInfo ci in cultures)
-			{
-				string langName = (ci.NativeName != ci.EnglishName) ? ci.NativeName + " / " + ci.EnglishName : ci.NativeName;
-
-				if (langName.Length > 55)
-				{
-					langName = langName.Substring(0, 55) + "...";
-				}
-
-				if (string.IsNullOrEmpty(ci.Name))
-				{
-					langName = string.Empty;		// invariant language (invariant country)
-				}
-
-				cultureList.Add(new SelectListItem{ Value = ci.Name, Text = langName});
-			}
-
-			// setup the sort culture
-			//string rssCulture = requestPage.SiteConfig.RssLanguage;
-
-			CultureInfo sortCulture;
-
-
-			try
-			{
-//				sortCulture = (rssCulture != null && rssCulture.Length > 0 ? new CultureInfo(rssCulture) : CultureInfo.CurrentCulture);
-				sortCulture = CultureInfo.CurrentCulture;
-			}
-			catch (ArgumentException)
-			{
-				// default to the culture of the server
-				sortCulture = CultureInfo.CurrentCulture;
-			}
-
-			// sort the list
-			cultureList.Sort(delegate(SelectListItem x, SelectListItem y)
-			{
-				// actual comparison
-				return String.Compare(x.Text, y.Text, true, sortCulture);
-			});
-			// add to the languages listbox
-
-			SelectListItem[] cultureListItems = cultureList.ToArray();
-
-			return cultureListItems;
 		}
 
 		private void ValidatePost(PostViewModel post)

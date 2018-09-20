@@ -29,9 +29,6 @@
     <!--<PackageReference Include="NetEscapades.Extensions.Logging.RollingFile" Version="1.0.0" />-->
   </ItemGroup>
   <ItemGroup>
-    <!--<DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.1.0" />-->
-  </ItemGroup>
-  <ItemGroup>
     <None Include="config\site.config" />
   </ItemGroup>
   <ItemGroup>

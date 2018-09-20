@@ -15,7 +15,7 @@ namespace DasBlog.Core.Common
 		/// <param name="separator">typically config TitlePermalinkSpaceReplacement - '-'</param>
 		/// <returns>pots-pans</returns>
 		public static string EncodeCategoryUrl(string displayText, string separator)
-			=> Regex.Replace(displayText.ToLower(), @"[^A-Za-z0-9_\.~]+", separator);
+			=> Regex.Replace(displayText.ToLower(), @"[^A-Za-z0-9_~]+", separator);
 	}
 
 	public static class Veriifier

@@ -24,8 +24,10 @@ namespace DasBlog.Web.Models.BlogViewModels
 
 		public string EntryId { get; set; }
 
+		// categories associated with this blog post
 		public IList<CategoryViewModel> Categories { get; set; } = new List<CategoryViewModel>();
 
+		// all categories currently available on this blog
 		public IList<CategoryViewModel> AllCategories { get; set; }= new List<CategoryViewModel>();
 
 		public string NewCategory { get; set; }
