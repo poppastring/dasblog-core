@@ -16,7 +16,6 @@ namespace DasBlog.Web.Controllers
 	public class HomeController : DasBlogBaseController
 	{
 		private readonly IBlogManager blogManager;
-		private readonly IXmlRpcManager xmlRpcManager;
 		private readonly IDasBlogSettings dasBlogSettings;
 		private readonly IMapper mapper;
 		private readonly ILogger<HomeController> logger;
@@ -26,7 +25,6 @@ namespace DasBlog.Web.Controllers
 		  , ILogger<HomeController> logger) : base(settings)
 		{
 			this.blogManager = blogManager;
-			xmlRpcManager = rpcManager;
 			dasBlogSettings = settings;
 			this.mapper = mapper;
 			this.logger = logger;
@@ -66,27 +64,6 @@ namespace DasBlog.Web.Controllers
 			DefaultPage();
 
 			return View("Page", lpvm);
-		}
-
-		[HttpGet("blogger")]
-		public ActionResult Blogger()
-		{
-			// https://www.poppastring.com/blog/blogger.aspx
-			// Implementation of Blogger XML-RPC Api
-			// blogger
-			// metaWebLog
-			// mt
-
-			return NoContent();
-		}
-
-		[Produces("text/xml")]
-		[HttpPost("blogger")]
-		public IActionResult Blogger([FromBody] string xmlrpcpost)
-		{
-			string blogger = xmlRpcManager.Invoke(HttpContext.Request.Body);
-
-			return Content(blogger);
 		}
 
 		public IActionResult About()

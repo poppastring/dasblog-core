@@ -33,7 +33,7 @@ namespace DasBlog.Web.Settings
 			CategoryUrl = RelativeToRoot("category");
 			ArchiveUrl = RelativeToRoot("archive");
 			MicroSummaryUrl = RelativeToRoot("microsummary");
-			RsdUrl = RelativeToRoot("rsd");
+			RsdUrl = RelativeToRoot("feed/rsd");
 			ShortCutIconUrl = RelativeToRoot("icon.jpg");
 		}
 
