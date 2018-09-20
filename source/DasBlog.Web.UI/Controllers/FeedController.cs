@@ -17,13 +17,16 @@ namespace DasBlog.Web.Controllers
     public class FeedController : DasBlogController
     {
         private IMemoryCache memoryCache;
-        private ISubscriptionManager subscriptionManager;
-        private const string RSS_CACHE_KEY = "RSS_CACHE_KEY";
+        private readonly ISubscriptionManager subscriptionManager;
+		private readonly IXmlRpcManager xmlRpcManager;
+		private const string RSS_CACHE_KEY = "RSS_CACHE_KEY";
 
-        public FeedController(ISubscriptionManager subscriptionManager, IHttpContextAccessor httpContextAccessor, IMemoryCache memoryCache)
+        public FeedController(ISubscriptionManager subscriptionManager, IHttpContextAccessor httpContextAccessor,
+								IXmlRpcManager xmlRpcManager, IMemoryCache memoryCache)
         {  
             this.subscriptionManager = subscriptionManager;
-            this.memoryCache = memoryCache;
+			this.xmlRpcManager = xmlRpcManager;
+			this.memoryCache = memoryCache;
         }
 
         [Route("")]
@@ -71,7 +74,28 @@ namespace DasBlog.Web.Controllers
             return Ok(rsd);
         }
 
-        public IActionResult Atom()
+		[HttpGet("blogger")]
+		public ActionResult Blogger()
+		{
+			// https://www.poppastring.com/blog/blogger.aspx
+			// Implementation of Blogger XML-RPC Api
+			// blogger
+			// metaWebLog
+			// mt
+
+			return NoContent();
+		}
+
+		[Produces("text/xml")]
+		[HttpPost("blogger")]
+		public IActionResult Blogger([FromBody] string xmlrpcpost)
+		{
+			string blogger = xmlRpcManager.Invoke(HttpContext.Request.Body);
+
+			return Content(blogger);
+		}
+
+		public IActionResult Atom()
         {
             return NoContent();
         }
