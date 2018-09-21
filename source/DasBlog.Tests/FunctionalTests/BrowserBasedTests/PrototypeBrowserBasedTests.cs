@@ -31,21 +31,74 @@ namespace DasBlog.Tests.FunctionalTests
 	public class PrototypeBrowserBasedTests : IClassFixture<BrowserTestPlatform>
 	{
 		private BrowserTestPlatform platform;
+		private ITestOutputHelper testOutputHelper;
 		public PrototypeBrowserBasedTests(ITestOutputHelper testOutputHelper, BrowserTestPlatform browserTestPlatform)
 		{
+			testOutputHelper.WriteLine("hello from browser constructor");
+					// this and others like it appear in the detail pane of Rider's test runner for
+					// Running a successful test
+					// Debugging a successful test
+					// Running a failed test
+					// Debugging a failed test
+					// logger under for Run and Debug
+			// I want to get hold of the xunit test results when running from the command line.
+			// "dotnet test" isn't providing them as far as I can see from my limited investigations
+			// Even after specifying RuntimeFramework as 2.1.4 in the csproj I got
+			// "dotnet xunit" should be more fruitful but fails with the following issue:
+			//   Could not load file or assembly 'Microsoft.Extensions.Options, Version=2.1.0.0,
+			// There is a nuget package for M.E.O 2.1.1 but the install fails and is rolled back
+			// There are no other v2 nuget packages except a preview 2.2.
+			// "dotnet xunit" seems to be a no-go - did not investigate whether it solved
+			// the original problem of locating and using test results.
+			// 
+			// It turns out that the following is not a bad start:
+			// "dotnet test --logger trx;LogfileName=mytests.xml --results-directory c:\projects\test_results"
 			browserTestPlatform.CompleteSetup(testOutputHelper);
 			this.platform = browserTestPlatform;
-			
+			this.testOutputHelper = testOutputHelper;
 		}
-		[Fact]
+		[Fact(Skip="")]
 		public void MinimalTest()
 		{
+			Thread.Sleep(5000);
+			try
+			{
+				platform.Runner.RunDasBlog();
+				platform.Browser.Init();
+				var logger = platform.ServiceProvider.GetService<ILoggerFactory>().CreateLogger<PrototypeBrowserBasedTests>();
+				logger.LogError("logging starts here");
+				List<TestStep> testSteps = new List<TestStep>
+				{
+					new TestStep(() => platform.Pages.Login.Goto()),
+					new TestStep(() => platform.Pages.Login.IsDisplayed()),
+					new TestStep(() => platform.Pages.Login.LoginButton != null),
+					new TestStep(() => platform.Pages.Login.LoginButton.Click()),
+					new TestStep(() =>
+						platform.Pages.Login.PasswordValidation.Text.ToLower().Contains("the password field is required")),
+					new TestStep(() => platform.Pages.Login.IsDisplayed())
+				};
+				var results = new TestResults();
+				platform.TestExecutor.Execute(testSteps, results);
+				platform.Publisher.Publish(results.Results);
+				Assert.True(results.TestPassed);
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine(e);
+				throw;
+			}
+			finally
+			{
+			}
+		}
+		[Fact(Skip="")]
+		public void MinimalTest2()
+		{
+			Thread.Sleep(5000);
 			try
 			{
 				var logger = platform.ServiceProvider.GetService<ILoggerFactory>().CreateLogger<PrototypeBrowserBasedTests>();
 				logger.LogError("logging starts here");
-				platform.Runner.RunDasBlog();
-				platform.Browser.Init();
 				List<TestStep> testSteps = new List<TestStep>
 				{
 					new TestStep(() => platform.Pages.Login.Goto()),
