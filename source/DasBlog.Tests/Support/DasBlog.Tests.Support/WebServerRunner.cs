@@ -31,7 +31,10 @@ namespace DasBlog.Tests.Support
 
 		public void Kill()
 		{
-			webAppProcess?.Kill();
+			if (webAppProcess != null && !webAppProcess.HasExited)
+			{
+				webAppProcess.Kill();
+			}
 		}
 		private void Start()
 		{

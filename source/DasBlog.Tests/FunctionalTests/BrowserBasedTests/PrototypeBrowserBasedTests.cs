@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading;
+using DasBlog.Tests.FunctionalTests.Common;
+using DasBlog.SmokeTest;
 using DasBlog.Tests.Automation.Dom;
 using DasBlog.Tests.Automation.Selenium;
 using DasBlog.Tests.Automation.Selenium.Interfaces;
-using DasBlog.Tests.FunctionalTests.IntegrationTests.Support;
-using DasBlog.Tests.SmokeTest;
 using DasBlog.Tests.Support;
 using DasBlog.Tests.Support.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
@@ -30,8 +31,12 @@ namespace DasBlog.Tests.FunctionalTests
 	}
 	public class PrototypeBrowserBasedTests : IClassFixture<BrowserTestPlatform>
 	{
+
 		private BrowserTestPlatform platform;
 		private ITestOutputHelper testOutputHelper;
+		private ILogger<PrototypeBrowserBasedTests> logger;
+		private IVersionedFileService versionedFileService;
+		private IDasBlogInstallation dasBlogInstallation;
 		public PrototypeBrowserBasedTests(ITestOutputHelper testOutputHelper, BrowserTestPlatform browserTestPlatform)
 		{
 			testOutputHelper.WriteLine("hello from browser constructor");
@@ -52,20 +57,19 @@ namespace DasBlog.Tests.FunctionalTests
 			// the original problem of locating and using test results.
 			// 
 			// It turns out that the following is not a bad start:
-			// "dotnet test --logger trx;LogfileName=mytests.xml --results-directory c:\projects\test_results"
+			// "dotnet test --logger trx;LogfileName=test_results.xml --results-directory ./test_results"
+			//			test_results.xml will appear in <proj>/source/DasBlog.Tests/FunctionalTests/test_results
 			browserTestPlatform.CompleteSetup(testOutputHelper);
 			this.platform = browserTestPlatform;
 			this.testOutputHelper = testOutputHelper;
+			this.logger = platform.ServiceProvider.GetService<ILoggerFactory>().CreateLogger<PrototypeBrowserBasedTests>();
 		}
 		[Fact(Skip="")]
 		public void MinimalTest()
 		{
-			Thread.Sleep(5000);
+//			Thread.Sleep(5000);
 			try
 			{
-				platform.Runner.RunDasBlog();
-				platform.Browser.Init();
-				var logger = platform.ServiceProvider.GetService<ILoggerFactory>().CreateLogger<PrototypeBrowserBasedTests>();
 				logger.LogError("logging starts here");
 				List<TestStep> testSteps = new List<TestStep>
 				{
@@ -84,20 +88,18 @@ namespace DasBlog.Tests.FunctionalTests
 			}
 			catch (Exception e)
 			{
-				Console.WriteLine(e);
 				throw;
 			}
 			finally
 			{
 			}
 		}
-		[Fact(Skip="")]
+		[Fact(Skip="true")]
 		public void MinimalTest2()
 		{
 			Thread.Sleep(5000);
 			try
 			{
-				var logger = platform.ServiceProvider.GetService<ILoggerFactory>().CreateLogger<PrototypeBrowserBasedTests>();
 				logger.LogError("logging starts here");
 				List<TestStep> testSteps = new List<TestStep>
 				{
@@ -116,14 +118,12 @@ namespace DasBlog.Tests.FunctionalTests
 			}
 			catch (Exception e)
 			{
-				Console.WriteLine(e);
 				throw;
 			}
 			finally
 			{
 			}
 		}
-
 	}
 
 	public class BrowserTestPlatform : IDisposable
@@ -134,7 +134,9 @@ namespace DasBlog.Tests.FunctionalTests
 		public IPublisher Publisher { get; private set; }
 		public ITestExecutor TestExecutor { get; private set; }
 		public Pages Pages { get; private set; }
-		
+		private ILogger<BrowserTestPlatform> logger;
+		private bool init;
+
 		public BrowserTestPlatform()
 		{
 			ServiceProvider = InjectDependencies();
@@ -142,12 +144,12 @@ namespace DasBlog.Tests.FunctionalTests
 			Browser = ServiceProvider.GetService<IBrowser>();
 			TestExecutor = ServiceProvider.GetService<ITestExecutor>();
 			Publisher = ServiceProvider.GetService<IPublisher>();
-			ServiceProvider
-				.GetService<ILoggerFactory>()
-				.AddConsole(LogLevel.Debug)
+			var loggerFactory = ServiceProvider
+				.GetService<ILoggerFactory>();
+			loggerFactory.AddConsole(LogLevel.Debug)
 				.AddDebug(LogLevel.Debug);
+			logger = loggerFactory.CreateLogger<BrowserTestPlatform>();
 			Pages = new Pages(Browser);
-			
 		}
 
 		/// <summary>
@@ -157,8 +159,16 @@ namespace DasBlog.Tests.FunctionalTests
 		/// <param name="testOutputHelper">did not get injected</param>
 		public void CompleteSetup(ITestOutputHelper testOutputHelper)
 		{
-			var loggerFactory = ServiceProvider.GetService<ILoggerFactory>();
-			loggerFactory.AddProvider(new XunitLoggerProvider(testOutputHelper));
+			if (!init)
+			{
+				var loggerFactory = ServiceProvider.GetService<ILoggerFactory>();
+				loggerFactory.AddProvider(new XunitLoggerProvider(testOutputHelper));
+				var dasBlogInstallation = this.ServiceProvider.GetService<IDasBlogInstallation>();
+				dasBlogInstallation.Init();
+				this.Runner.RunDasBlog();
+				this.Browser.Init();
+				init = true;
+			}
 		}
 		private IServiceProvider InjectDependencies()
 		{
@@ -168,19 +178,45 @@ namespace DasBlog.Tests.FunctionalTests
 				options.HomeUrl = "http://localhost:5000/";
 				options.Driver = "firefox";
 			});
+			services.Configure<DasBlogInstallationOptions>(
+				opts => opts.ContentRootPath =
+					"c/projects/dasblog-core/source/DasBlog.Tests/Resources/Environments/Vanilla");
+			var repoPathEnvVar = Environment.GetEnvironmentVariable(Constants.DasBlogGitRepo);
+			string repoPath;
+			if (string.IsNullOrWhiteSpace(repoPathEnvVar))
+			{
+				repoPath = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(this.GetType().Assembly.Location), "../../../../../../"));
+			}
+			else
+			{
+				repoPath = repoPathEnvVar;
+			}
+			services.Configure<GitVersionedFileServiceOptions>(
+				opts => opts.GitRepo = repoPath);
 			services.AddLogging();
 			services.AddSingleton<IWebServerRunner, WebServerRunner>();
-//			services.AddTransient<App>();
 			services.AddSingleton<IBrowser, Browser>();
 			services.AddSingleton<IPublisher, Publisher>();
 			services.AddSingleton<ITestExecutor, TestExecutor>();
+			services.AddSingleton<IVersionedFileService, GitVersionedFileService>();
+			services.AddSingleton<IDasBlogInstallation, DasBlogInstallation>();
 			return services.BuildServiceProvider();
 		}
 
 		public void Dispose()
 		{
-			Runner?.Kill();
-			Browser?.Dispose();
+			try
+			{
+				Runner?.Kill();
+				Browser?.Dispose();
+			}
+			catch (Exception e)
+			{
+				// cannot do any logging here.  xunit logger throws an exception complaining that there
+				// IDisposable no active test.
+				// At the same time it refuses to let the console or debug logger work.
+				throw;
+			}
 		}
 	}
 
