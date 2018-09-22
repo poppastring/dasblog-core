@@ -32,7 +32,7 @@ namespace DasBlog.Tests.Support
 			try
 			{
 				gitRepo = new Repository(path);
-				logger.LogInformation(gitRepo.Branches["master"].CanonicalName);
+				logger.LogInformation(gitRepo?.Branches["master"]?.CanonicalName);
 				return (true, string.Empty);
 			}
 			catch (Exception e)
