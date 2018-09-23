@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using DasBlog.SmokeTest;
 using DasBlog.Tests.Support.Interfaces;
 using Microsoft.Extensions.Logging;
