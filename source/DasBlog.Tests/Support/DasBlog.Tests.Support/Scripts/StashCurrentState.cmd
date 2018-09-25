@@ -1,3 +1,4 @@
+@echo off
 rem #!/usr/bin/env bash
 rem # Mike May - September 2018
 rem # stashes the content of the path (typically the root of test data) and thereby resets the working directory
