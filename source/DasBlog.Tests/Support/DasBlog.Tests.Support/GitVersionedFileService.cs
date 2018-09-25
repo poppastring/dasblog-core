@@ -28,6 +28,7 @@ namespace DasBlog.Tests.Support
 		}
 		public (bool active, string errorMessage) IsActive()
 		{
+			// TODO - check that git version >= 2.15
 			try
 			{
 				gitRepo = new Repository(path);

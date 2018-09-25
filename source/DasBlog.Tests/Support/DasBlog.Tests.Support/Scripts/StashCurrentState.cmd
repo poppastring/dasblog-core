@@ -2,8 +2,8 @@
 rem #!/usr/bin/env bash
 rem # Mike May - September 2018
 rem # stashes the content of the path (typically the root of test data) and thereby resets the working directory
-rem # to the repo.  Then tags the stash with display name + unique id so that it can be applied manually if necessary from the tag
-rem # with git stash apply display-name_unique-id.
+rem # to the last commit.  
+rem # It then drops stash@{0} which will output the hash of the stash to stdoutput where it is grabbed and logged
 rem #
 rem # Would like to use 'git create' but it does not take a path spec.  So Heath Robinson measures are required...
 rem #
@@ -16,12 +16,11 @@ echo %0
 if [%1] == [] goto err_exit
 if [%2] == [] goto err_exit
 if [%3] == [] goto err_exit
-git stash push -m "%2 functional-test environment state" --all -- %1
-if eroorlevel 1 exit %errorlevel%
+git stash push -m "functional-test environment state %2" --all -- %1
+if errorlevel 1 exit /b %errorlevel%
 
-git tag %3_$2 stash@{0}
-
-exit %errorlevel%
+git stash drop stash@{0}
+exit /b %errorlevel%
 :err_exit
 echo one or more command line arguments are missing 2>&1
-exit 1
+exit /b 1
