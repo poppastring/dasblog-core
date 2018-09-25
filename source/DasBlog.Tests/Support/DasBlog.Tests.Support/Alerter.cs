@@ -13,6 +13,8 @@ namespace DasBlog.Tests.Support
 		/// Although xunit swallows exceptions (which was the motivation) it only does it for those that occur
 		/// in the SUT.
 		/// I will keep this around for the really urgent messages.
+		/// TODO - this should be suppressed on Appveyor where it will probably not be needed and will cause trouble
+		/// because the alert blocks the execution.
 		/// </summary>
 		/// <param name="message">text to be displayed to the user</param>
 		/// <exception cref="Exception">if everything else turns bad - do our best and let the

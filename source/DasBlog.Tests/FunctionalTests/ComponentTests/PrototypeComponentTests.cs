@@ -52,19 +52,6 @@ namespace DasBlog.Tests.FunctionalTests.ComponentTests
 			this.logger = platform.ServiceProvider.GetService<ILoggerFactory>().CreateLogger<PrototypeComponentTests>();
 		}
 
-		[Fact]
-		public void TestInfrastructure()
-		{
-			IAlerter alerter = new Alerter();
-			alerter.Alert("something-or-other");
-			Assert.True(true);
-		}
-
-		[Fact]
-		public void AnotherTest()
-		{
-			Assert.True(true);
-		}
 	}
 
 	public class ComponentTestPlatform : IDisposable
