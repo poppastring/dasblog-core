@@ -52,6 +52,12 @@ namespace DasBlog.Tests.FunctionalTests.ComponentTests
 			this.logger = platform.ServiceProvider.GetService<ILoggerFactory>().CreateLogger<PrototypeComponentTests>();
 		}
 
+		[Fact]
+		[Trait("Category", "ComponentTest")]
+		public void SimpleTest()
+		{
+			Assert.True(true);
+		}
 	}
 
 	public class ComponentTestPlatform : IDisposable

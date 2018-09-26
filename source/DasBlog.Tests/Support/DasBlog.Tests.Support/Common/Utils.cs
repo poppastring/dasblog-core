@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Runtime.CompilerServices;
 
-namespace DasBlog.Tests.SmokeTest.Common
+namespace DasBlog.Tests.Support.Common
 {
 	public static class Utils
 	{

@@ -1,7 +1,7 @@
 using System;
 using System.Diagnostics;
 using System.IO;
-using DasBlog.Tests.SmokeTest.Common;
+using DasBlog.Tests.Support.Common;
 using DasBlog.Tests.Support.Interfaces;
 
 namespace DasBlog.Tests.Support

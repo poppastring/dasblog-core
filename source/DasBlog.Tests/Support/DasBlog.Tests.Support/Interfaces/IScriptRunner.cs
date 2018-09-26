@@ -13,7 +13,8 @@ namespace DasBlog.Tests.Support.Interfaces
 		/// <param name="agruments">command line arguments</param>
 		/// <returns>standard cmd exit code i.e. 0=success, non-zero failure, a list of lines
 		///    written to stdout and a list of lines written to stderr
-		///   int.MaxValue indicates that the script was not run</returns>
+		///   int.MaxValue indicates that the script was not run
+		///   The last element in output and errors appears to be a null</returns>
 		(int exitCode, string[] output, string[] errors) Run(
 			string scriptName, IReadOnlyDictionary<string, string> envirnmentVariables, params object[] agruments);
 	}

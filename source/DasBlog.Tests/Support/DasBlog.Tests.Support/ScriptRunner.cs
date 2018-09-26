@@ -4,9 +4,8 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Reflection.Metadata.Ecma335;
 using System.Text;
-using DasBlog.Tests.SmokeTest.Common;
+using DasBlog.Tests.Support.Common;
 using DasBlog.Tests.Support.Interfaces;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -17,43 +16,82 @@ namespace DasBlog.Tests.Support
 	{
 		private ILogger<ScriptRunner> logger;
 		private string scriptDirectory;
+		private int scriptTimeout = 5_000;
 
 		public ScriptRunner(IOptions<ScriptRunnerOptions> opts, ILogger<ScriptRunner> logger)
 		{
 			this.scriptDirectory = opts.Value.ScriptDirectory;
+			this.scriptTimeout = opts.Value.ScriptTimeout;
 			this.logger = logger;
 		}
 
 		/// <inheritdoc cref="DasBlog.Tests.Support.Interfaces"/>
+		/// some unpleasantness with capturing output
+		/// The following applied when only "echo" statements appeared in the script.
+		/// cmd /C - no output was returned
+		/// cmd /K with "exit" in the script - no output was returned
+		/// cmd /K with "exit /b" in the script - output was returned but the process timed out.
+		/// added the statement "set" on the line after "echo" and the echoed expressions appeared.
+		/// conclusion: the script exits before the process has an opportunity to get the output
+		/// DON'T have scripts that comprise only "echo" statements
 		public (int exitCode, string[] output, string[] errors) Run(
 			string scriptName, IReadOnlyDictionary<string, string> envirnmentVariables,
 			params object[] arguments)
 		{
-			var cmdexe = GetCmdExe();
-			StringBuilder output = new StringBuilder();
-			StringBuilder errs = new StringBuilder();
-			ProcessStartInfo psi = new ProcessStartInfo(cmdexe);
-			var scriptPathAndFileName = Path.Combine(scriptDirectory, scriptName);
-//			var cmdLineArgs = string.Join(' ', arguments.Select(a => $@"""{a}"")").ToList());
-			psi.UseShellExecute = false;
-//			psi.Arguments =
-//				$@"/Q /U /K ""{criptPathAndFileName}"" " + cmdLineArgs;
-			SetArguments(psi.ArgumentList
-			  , new string[] {"/Q", "/U", "/K", scriptPathAndFileName}.Concat(arguments).ToArray());
-			psi.RedirectStandardOutput = true;
-			psi.RedirectStandardError = true;
-			int exitCode = int.MaxValue;
-			using (var ps = Process.Start(psi))
+			try
 			{
-				ps.OutputDataReceived += (sender, e) => output.Append(e.Data);
-				ps.ErrorDataReceived += (sender, e) => errs.Append(e.Data);
-				ps.BeginOutputReadLine();
-				ps.BeginErrorReadLine();
-				ps.WaitForExit();
-				exitCode = ps.ExitCode;
-			}
+				var cmdexe = GetCmdExe();
+				var output = new List<string>();
+				var errs = new List<string>();
+				
+				ProcessStartInfo psi = new ProcessStartInfo(cmdexe);
+				var scriptPathAndFileName = Path.Combine(scriptDirectory, scriptName);
+				psi.UseShellExecute = false;
+				SetArguments(psi.ArgumentList
+					, new string[] { "/K", scriptPathAndFileName}.Concat(arguments).ToArray());
+				psi.RedirectStandardOutput = true;
+				psi.RedirectStandardError = true;
+				
+				int exitCode = int.MaxValue;
+				using (var ps = Process.Start(psi))
+				{
+					ps.OutputDataReceived += (sender, e) => output.Add(e.Data);
+					ps.ErrorDataReceived += (sender, e) => errs.Add(e.Data);
+					ps.BeginOutputReadLine();
+					ps.BeginErrorReadLine();
+					var result = ps.WaitForExit(scriptTimeout);
+					exitCode = result ? ps.ExitCode : int.MaxValue - 1;
+				}
 
-			return (exitCode, output.ToString().Split(Environment.NewLine), errs.ToString().Split(Environment.NewLine));
+				ThrowExceptionForBadExitCode(exitCode, scriptPathAndFileName, scriptTimeout, psi);
+				return (exitCode, output.ToArray(), errs.ToArray());
+			}
+			catch (Exception )
+			{;
+				throw;
+			}
+		}
+
+		private void ThrowExceptionForBadExitCode(int exitCode, string scriptName, int timeout, ProcessStartInfo psi)
+		{
+			string message = string.Empty;
+			switch (exitCode)
+			{
+				case Constants.ScriptTimedOutCode:
+					message =
+						$"Execution of the script timed out after {timeout} milliseconds: {scriptName}" 
+						+ Environment.NewLine + "This can be set (in milliseconds) through the environment variable "
+						+ "DAS_BLOG_TEST_SCRIPT_TIMEOUT";
+					break;
+				case Constants.ScriptProcessFailedToRunCode:
+					var cmdLine = psi.FileName + " " + string.Join(' ', psi.ArgumentList);
+					message = $"failed to run the command line: {cmdLine}";
+					break;
+				default:
+					// other exit codes are handled by the caller to Run
+					return;
+			}
+			throw new Exception(message);
 		}
 
 		private void SetArguments(Collection<string> psiArgumentList, object[] arguments)
@@ -77,8 +115,16 @@ namespace DasBlog.Tests.Support
 		}
 	}
 
+
 	public class ScriptRunnerOptions
 	{
+		/// <summary>
+		/// full path to the scripts directory
+		/// </summary>
 		public string ScriptDirectory { get; set; }
+		/// <summary>
+		/// timeout in milliseconds
+		/// </summary>
+		public int ScriptTimeout { get; set; }
 	}
 }
