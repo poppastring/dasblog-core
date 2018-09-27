@@ -107,6 +107,7 @@ namespace DasBlog.Tests.FunctionalTests.TestInfrastructureTests
 					{
 						opts.ScriptTimeout = envScriptTimeout;
 					}
+					opts.ScriptExitTimeout = Constants.DefaultScriptExitTimeout;
 					if (Int32.TryParse(Environment.GetEnvironmentVariable(Constants.DasBlogTestScriptExitTimeout),
 						out var envScriptExitTimeout))
 					{
