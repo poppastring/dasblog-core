@@ -13,7 +13,7 @@ namespace DasBlog.Tests.Support.Common
 		// the host process can gather any output
 		public const string DasBlogTestScriptExitTimeout = "DAS_BLOG_TEST_SCRIPT_EXIT_TIMEOUT";
 		public const int DefaultScriptExitTimeout = 10;
-		public const string ScriptsRelativePath = "source/DasBlog.Tests/Support/DasBlog.Tests.Support/Scripts/";
+		public const string ScriptsRelativePath = "source/DasBlog.Tests/Support/Scripts/";
 		public const string VanillaTestData = "source/DasBlog.Tests/Resources/Environments/Vanilla";
 		public const string DasBlogGitRepo = "DAS_BLOG_GIT_REPO";
 				// e.g. c:/projects/dasblog-core

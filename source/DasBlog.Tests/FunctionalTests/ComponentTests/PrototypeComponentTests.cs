@@ -23,7 +23,7 @@ namespace DasBlog.Tests.FunctionalTests.ComponentTests
 		private ITestOutputHelper testOutputHelper;
 		private ILogger<PrototypeComponentTests> logger;
 		private IVersionedFileService versionedFileService;
-		private IDasBlogInstallation dasBlogInstallation;
+		private IDasBlogSandbox dasBlogSandbox;
 		public PrototypeComponentTests(ITestOutputHelper testOutputHelper, ComponentTestPlatform componentTestPlatform)
 		{
 			testOutputHelper.WriteLine("hello from component constructor");
@@ -88,7 +88,7 @@ namespace DasBlog.Tests.FunctionalTests.ComponentTests
 			{
 				var loggerFactory = ServiceProvider.GetService<ILoggerFactory>();
 				loggerFactory.AddProvider(new XunitLoggerProvider(testOutputHelper));
-				var dasBlogInstallation = this.ServiceProvider.GetService<IDasBlogInstallation>();
+				var dasBlogInstallation = this.ServiceProvider.GetService<IDasBlogSandbox>();
 				dasBlogInstallation.Init();
 				init = true;
 			}
@@ -113,7 +113,7 @@ namespace DasBlog.Tests.FunctionalTests.ComponentTests
 				opts => opts.GitRepo = repoPath);
 			services.AddLogging();
 			services.AddSingleton<IVersionedFileService, GitVersionedFileService>();
-			services.AddSingleton<IDasBlogInstallation, DasBlogInstallation>();
+			services.AddSingleton<IDasBlogSandbox, DasBlogSandbox>();
 			return services.BuildServiceProvider();
 		}
 

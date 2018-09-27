@@ -1,6 +1,6 @@
 ﻿namespace DasBlog.Tests.Support.Interfaces
 {
-	public interface IDasBlogInstallation
+	public interface IDasBlogSandbox
 	{
 		void Init();
 		void Terminate();

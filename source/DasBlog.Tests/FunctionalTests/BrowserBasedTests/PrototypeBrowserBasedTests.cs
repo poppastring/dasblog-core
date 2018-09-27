@@ -39,7 +39,7 @@ namespace DasBlog.Tests.FunctionalTests
 		private ITestOutputHelper testOutputHelper;
 		private ILogger<PrototypeBrowserBasedTests> logger;
 		private IVersionedFileService versionedFileService;
-		private IDasBlogInstallation dasBlogInstallation;
+		private IDasBlogSandbox dasBlogSandbox;
 		public PrototypeBrowserBasedTests(ITestOutputHelper testOutputHelper, BrowserTestPlatform browserTestPlatform)
 		{
 			testOutputHelper.WriteLine("hello from browser constructor");
@@ -167,7 +167,7 @@ namespace DasBlog.Tests.FunctionalTests
 			{
 				var loggerFactory = ServiceProvider.GetService<ILoggerFactory>();
 				loggerFactory.AddProvider(new XunitLoggerProvider(testOutputHelper));
-				var dasBlogInstallation = this.ServiceProvider.GetService<IDasBlogInstallation>();
+				var dasBlogInstallation = this.ServiceProvider.GetService<IDasBlogSandbox>();
 				dasBlogInstallation.Init();
 				this.Runner.RunDasBlog();
 				this.Browser.Init();
@@ -203,7 +203,7 @@ namespace DasBlog.Tests.FunctionalTests
 			services.AddSingleton<IPublisher, Publisher>();
 			services.AddSingleton<ITestExecutor, TestExecutor>();
 			services.AddSingleton<IVersionedFileService, GitVersionedFileService>();
-			services.AddSingleton<IDasBlogInstallation, DasBlogInstallation>();
+			services.AddSingleton<IDasBlogSandbox, DasBlogSandbox>();
 			return services.BuildServiceProvider();
 		}
 

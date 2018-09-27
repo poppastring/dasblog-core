@@ -17,12 +17,12 @@ namespace DasBlog.Tests.Support
 	/// if the test process is long running (e.g. stopped in a debugger) and the user makes changes
 	/// while it is running.
 	/// </summary>
-	public class DasBlogInstallation : IDasBlogInstallation
+	public class DasBlogSandbox : IDasBlogSandbox
 	{
 		private readonly IVersionedFileService fileService;
 		private readonly string path;
-		private readonly ILogger<DasBlogInstallation> logger;
-		public DasBlogInstallation(ILogger<DasBlogInstallation> logger
+		private readonly ILogger<DasBlogSandbox> logger;
+		public DasBlogSandbox(ILogger<DasBlogSandbox> logger
 			,IVersionedFileService fileService, IOptions<DasBlogInstallationOptions> optionsAccessor)
 		{
 			this.logger = logger;

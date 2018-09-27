@@ -24,7 +24,7 @@ namespace DasBlog.Tests.Support
 			var comSpec = Environment.GetEnvironmentVariable("ComSpec");
 			ProcessStartInfo psi = new ProcessStartInfo(comSpec);
 			var alertUserScript = Path.Combine(Utils.GetProjectRootDirectory(),
-				"source/DasBlog.Tests/Support/DasBlog.Tests.Support/Scripts/AlertUser.cmd");
+				Constants.ScriptsRelativePath, "AlertUser.cmd");
 			psi.UseShellExecute = true;
 			psi.CreateNoWindow = false;		// I don't think it affects console apps.
 			psi.Arguments =
