@@ -52,11 +52,14 @@ namespace DasBlog.Tests.FunctionalTests.TestInfrastructureTests
 
 		[Fact]
 		[Trait("Category", "TestInfrastructureTest")]
+		[Trait("Chosen", "1")]
 		public void DetectChangesScript_WhenCleanDirectory_ReturnsNothing()
 		{
 			var runner = platform.ServiceProvider.GetService<IScriptRunner>();
 			(var exitCode, var outputs, var errors) = runner.Run("DetectChanges.cmd", runner.DefaultEnv
+//			  );
 			  ,Path.Combine(Utils.GetProjectRootDirectory(), Constants.VanillaTestData));
+			Assert.Equal(0, exitCode);
 		}
 	}
 	public class InfrastructureTestPlatform : IDisposable
@@ -103,6 +106,11 @@ namespace DasBlog.Tests.FunctionalTests.TestInfrastructureTests
 						out var envScriptTimeout))
 					{
 						opts.ScriptTimeout = envScriptTimeout;
+					}
+					if (Int32.TryParse(Environment.GetEnvironmentVariable(Constants.DasBlogTestScriptExitTimeout),
+						out var envScriptExitTimeout))
+					{
+						opts.ScriptExitTimeout = envScriptExitTimeout;
 					}
 				});
 			services.AddLogging();

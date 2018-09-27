@@ -17,13 +17,15 @@ namespace DasBlog.Tests.Support
 		public IReadOnlyDictionary<string, string> DefaultEnv => defaultEnv;
 		private readonly Dictionary<String, string> defaultEnv = new Dictionary<string, string>(); 
 		private ILogger<ScriptRunner> logger;
-		private string scriptDirectory;
-		private int scriptTimeout = 5_000;
+		private readonly string scriptDirectory;
+		private readonly int scriptTimeout = 5_000;
+		private readonly int scriptExitTimeout = 10;
 
 		public ScriptRunner(IOptions<ScriptRunnerOptions> opts, ILogger<ScriptRunner> logger)
 		{
 			this.scriptDirectory = opts.Value.ScriptDirectory;
 			this.scriptTimeout = opts.Value.ScriptTimeout;
+			this.scriptExitTimeout = opts.Value.ScriptExitTimeout;
 			this.logger = logger;
 		}
 
@@ -50,7 +52,10 @@ namespace DasBlog.Tests.Support
 				var scriptPathAndFileName = Path.Combine(scriptDirectory, scriptName);
 				psi.UseShellExecute = false;
 				SetArguments(psi.ArgumentList
-					, new string[] { "/K", scriptPathAndFileName}.Concat(arguments).ToArray());
+					, new string[]
+					{
+						"/K", scriptPathAndFileName, scriptExitTimeout.ToString()
+					}.Concat(arguments).ToArray());
 				psi.RedirectStandardOutput = true;
 				psi.RedirectStandardError = true;
 				
@@ -128,5 +133,9 @@ namespace DasBlog.Tests.Support
 		/// timeout in milliseconds
 		/// </summary>
 		public int ScriptTimeout { get; set; }
+		/// <summary>
+		/// timeout in milliseconds
+		/// </summary>
+		public int ScriptExitTimeout { get; set; }
 	}
 }

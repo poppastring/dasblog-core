@@ -11,16 +11,25 @@ rem #
 rem # could not use 'diff' - on linux (wsl) line endings are a problem that turned out to be intractable (short of converting the whole repo)
 rem # git diff '--name-only' piped all the CRLF warnings into stdout 
 rem #
-rem # usage: cmd /c ./DetectChanges.sh <root of test resources>
+rem # usage: cmd /c ./DetectChanges.sh <script exit timeout> <root of test resources>
 rem # returns: non-empty output means that the working directory is different to the repo. 
-rem # e.g. "cmd /c ./DetectChanges.cmd c:/projects/dasblog-core/source/DasBlog.Tests/Resources/Environments/Vanilla"
+rem # e.g. "cmd /c ./DetectChanges.cmd 100 c:/projects/dasblog-core/source/DasBlog.Tests/Resources/Environments/Vanilla"
 if [%1] == [] goto error_exit
-git status --short --untracked-files -- %1
+if [%2] == [] goto error_exit
+git status --short --untracked-files -- %2
 rem # results will look something like the following if the working directory varies from the repo
 rem # M ../../../Resources/Resources.csproj
 rem # M ../../../Resources/Utils/LockFile.cs
 rem # ?? ../../../Resources/aaa
-exit %errorlevel%
+rem # timeout /t 1 does not work where stdout/stderr is redirected
+set exitcode=%errorlevel%
+rem # this is required as a timeout so that cmd.exe lingers long enough for stdout and stderr output to be captured
+rem # default is current 10 ms but it can be overriden with the DAS_BLOG_TEST_SCRIPT_EXIT_TIMEOUT=n env var
+rem # where n is the number of milliseconds 
+ping 127.0.0.255 -n1 -w %1 >NUL
+exit %exitcode%
 :error_exit
-echo working directory path was blank 1>&2
+echo working directory path was blank (or the script exit timeout was omitted)1>&2
+rem # timeout /t 1
+ping 127.0.0.255 -n1 -w %1 >NUL
 exit 1
