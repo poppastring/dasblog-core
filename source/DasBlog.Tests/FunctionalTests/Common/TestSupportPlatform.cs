@@ -9,7 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Xunit.Abstractions;
 
-namespace DasBlog.Tests.FunctionalTests.TestInfrastructureTests
+namespace DasBlog.Tests.FunctionalTests.Common
 {
 	public abstract class TestSupportPlatform : IDisposable
 	{

@@ -1,3 +1,4 @@
+using DasBlog.Tests.FunctionalTests.Common;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit.Abstractions;
 

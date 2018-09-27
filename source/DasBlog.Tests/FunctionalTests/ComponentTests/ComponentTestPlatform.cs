@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using DasBlog.SmokeTest;
+using DasBlog.Tests.FunctionalTests.Common;
 using DasBlog.Tests.FunctionalTests.TestInfrastructureTests;
 using DasBlog.Tests.Support;
 using DasBlog.Tests.Support.Common;

@@ -5,6 +5,7 @@ using DasBlog.SmokeTest;
 using DasBlog.Tests.Automation.Dom;
 using DasBlog.Tests.Automation.Selenium;
 using DasBlog.Tests.Automation.Selenium.Interfaces;
+using DasBlog.Tests.FunctionalTests.Common;
 using DasBlog.Tests.FunctionalTests.TestInfrastructureTests;
 using DasBlog.Tests.Support;
 using DasBlog.Tests.Support.Common;
