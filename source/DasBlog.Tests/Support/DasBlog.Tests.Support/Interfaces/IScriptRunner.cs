@@ -5,6 +5,10 @@ namespace DasBlog.Tests.Support.Interfaces
 	public interface IScriptRunner
 	{
 		/// <summary>
+		/// convenient default value to pass to Run()
+		/// </summary>
+		IReadOnlyDictionary<string, string> DefaultEnv { get; }
+		/// <summary>
 		/// runs a script and returns the exit code, anything written to stdout and stderr to the caller as lists of lines
 		/// </summary>
 		/// <param name="scriptName">no path, must include file extension e.g. DetectChanges.cmd</param>

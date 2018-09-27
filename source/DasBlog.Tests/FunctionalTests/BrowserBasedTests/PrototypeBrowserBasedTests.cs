@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
-using DasBlog.Tests.FunctionalTests.Common;
+using DasBlog.Tests.Support.Common;
 using DasBlog.SmokeTest;
 using DasBlog.Tests.Automation.Dom;
 using DasBlog.Tests.Automation.Selenium;
@@ -14,6 +14,8 @@ using Microsoft.Extensions.Logging;
 using Xunit;
 using Microsoft.Extensions.Options;
 using Xunit.Abstractions;
+using Constants = DasBlog.Tests.Support.Common.Constants;
+
 /*
  * THERE IS NO logging to the console - in the debugger the log appears in the detail of the test results
  * when run from the console the log appears in a log file assuming you provide the correct command line
@@ -182,12 +184,12 @@ namespace DasBlog.Tests.FunctionalTests
 			});
 			services.Configure<DasBlogInstallationOptions>(
 				opts => opts.ContentRootPath =
-					"c/projects/dasblog-core/source/DasBlog.Tests/Resources/Environments/Vanilla");
+					Path.Combine(Utils.GetProjectRootDirectory(), Constants.VanillaTestData));
 			var repoPathEnvVar = Environment.GetEnvironmentVariable(Constants.DasBlogGitRepo);
 			string repoPath;
 			if (string.IsNullOrWhiteSpace(repoPathEnvVar))
 			{
-				repoPath = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(this.GetType().Assembly.Location), "../../../../../../"));
+				repoPath = Utils.GetProjectRootDirectory();
 			}
 			else
 			{

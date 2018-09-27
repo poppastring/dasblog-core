@@ -14,6 +14,8 @@ namespace DasBlog.Tests.Support
 {
 	public class ScriptRunner : IScriptRunner
 	{
+		public IReadOnlyDictionary<string, string> DefaultEnv => defaultEnv;
+		private readonly Dictionary<String, string> defaultEnv = new Dictionary<string, string>(); 
 		private ILogger<ScriptRunner> logger;
 		private string scriptDirectory;
 		private int scriptTimeout = 5_000;

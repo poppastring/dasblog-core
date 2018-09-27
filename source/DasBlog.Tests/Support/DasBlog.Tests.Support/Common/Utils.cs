@@ -16,7 +16,7 @@ namespace DasBlog.Tests.Support.Common
 		public static string GetProjectRootDirectory()
 		{
 			return Path.GetFullPath(Path.Combine(Path.GetDirectoryName(typeof(Utils).Assembly.Location),
-				"../../../../../../"));
+				Constants.DasBlogProjectRootRelativeToAssemblies));
 		}
 	}
 }

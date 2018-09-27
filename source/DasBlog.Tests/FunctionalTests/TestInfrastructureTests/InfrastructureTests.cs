@@ -4,6 +4,7 @@ using System.IO;
 using DasBlog.Tests.Support.Common;
 using DasBlog.Tests.Support;
 using DasBlog.Tests.Support.Interfaces;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -42,11 +43,20 @@ namespace DasBlog.Tests.FunctionalTests.TestInfrastructureTests
 			ScriptRunnerOptions opts = new ScriptRunnerOptions();
 			opts.ScriptDirectory = Path.Combine(Utils.GetProjectRootDirectory(), Constants.ScriptsRelativePath);
 			opts.ScriptTimeout = 1;		// one millisecond
-			ScriptRunnerOptionsAccessor accessor = new ScriptRunnerOptionsAccessor {Value = opts};
+			var accessor = new OptionsAccessor<ScriptRunnerOptions> {Value = opts};
 			ILogger<ScriptRunner> logger =
 				platform.ServiceProvider.GetService<ILoggerFactory>().CreateLogger<ScriptRunner>();
 			ScriptRunner runner = new ScriptRunner(accessor, logger);
 			Assert.Throws<Exception>(() => runner.Run("TestScript.cmd", new Dictionary<string, string>()));
+		}
+
+		[Fact]
+		[Trait("Category", "TestInfrastructureTest")]
+		public void DetectChangesScript_WhenCleanDirectory_ReturnsNothing()
+		{
+			var runner = platform.ServiceProvider.GetService<IScriptRunner>();
+			(var exitCode, var outputs, var errors) = runner.Run("DetectChanges.cmd", runner.DefaultEnv
+			  ,Path.Combine(Utils.GetProjectRootDirectory(), Constants.VanillaTestData));
 		}
 	}
 	public class InfrastructureTestPlatform : IDisposable
@@ -108,5 +118,9 @@ namespace DasBlog.Tests.FunctionalTests.TestInfrastructureTests
 	internal class ScriptRunnerOptionsAccessor : IOptions<ScriptRunnerOptions>
 	{
 		public ScriptRunnerOptions Value { get; internal set; }
+	}
+	internal class OptionsAccessor<T> : IOptions<T> where T : class, new()
+	{
+		public T Value { get; internal set; }
 	}
 }
