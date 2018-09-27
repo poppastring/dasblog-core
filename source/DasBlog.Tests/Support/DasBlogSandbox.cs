@@ -23,7 +23,7 @@ namespace DasBlog.Tests.Support
 		private readonly string path;
 		private readonly ILogger<DasBlogSandbox> logger;
 		public DasBlogSandbox(ILogger<DasBlogSandbox> logger
-			,IVersionedFileService fileService, IOptions<DasBlogInstallationOptions> optionsAccessor)
+			,IVersionedFileService fileService, IOptions<DasBlogISandboxOptions> optionsAccessor)
 		{
 			this.logger = logger;
 			this.fileService = fileService;

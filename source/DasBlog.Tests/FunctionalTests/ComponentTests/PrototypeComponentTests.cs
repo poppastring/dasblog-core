@@ -1,8 +1,4 @@
 using System;
-using System.IO;
-using DasBlog.Tests.Support.Common;
-using DasBlog.SmokeTest;
-using DasBlog.Tests.Support;
 using DasBlog.Tests.Support.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -49,7 +45,6 @@ namespace DasBlog.Tests.FunctionalTests.ComponentTests
 			componentTestPlatform.CompleteSetup(testOutputHelper);
 			this.platform = componentTestPlatform;
 			this.testOutputHelper = testOutputHelper;
-			this.logger = platform.ServiceProvider.GetService<ILoggerFactory>().CreateLogger<PrototypeComponentTests>();
 		}
 
 		[Fact]
@@ -57,68 +52,6 @@ namespace DasBlog.Tests.FunctionalTests.ComponentTests
 		public void SimpleTest()
 		{
 			Assert.True(true);
-		}
-	}
-
-	public class ComponentTestPlatform : IDisposable
-	{
-		public IServiceProvider ServiceProvider { get; private set; }
-		private ILogger<ComponentTestPlatform> logger;
-		private bool init;
-
-		public ComponentTestPlatform()
-		{
-			ServiceProvider = InjectDependencies();
-			var loggerFactory = ServiceProvider
-				.GetService<ILoggerFactory>();
-			loggerFactory.AddConsole(LogLevel.Debug)
-				.AddDebug(LogLevel.Debug);
-			logger = loggerFactory.CreateLogger<ComponentTestPlatform>();
-		}
-
-		/// <summary>
-		/// completes the platform setup by activating the logger
-		/// TODO look into how the test output helper is supposed to be injected into class fixture
-		/// </summary>
-		/// <param name="testOutputHelper">did not get injected into this object's constructor
-		///   so we have to shoehorn it in here</param>
-		public void CompleteSetup(ITestOutputHelper testOutputHelper)
-		{
-			if (!init)
-			{
-				var loggerFactory = ServiceProvider.GetService<ILoggerFactory>();
-				loggerFactory.AddProvider(new XunitLoggerProvider(testOutputHelper));
-				var dasBlogInstallation = this.ServiceProvider.GetService<IDasBlogSandbox>();
-				dasBlogInstallation.Init();
-				init = true;
-			}
-		}
-		private IServiceProvider InjectDependencies()
-		{
-			var services = new ServiceCollection();
-			services.Configure<DasBlogInstallationOptions>(
-				opts => opts.ContentRootPath =
-					"c/projects/dasblog-core/source/DasBlog.Tests/Resources/Environments/Vanilla");
-			var repoPathEnvVar = Environment.GetEnvironmentVariable(Constants.DasBlogGitRepo);
-			string repoPath;
-			if (string.IsNullOrWhiteSpace(repoPathEnvVar))
-			{
-				repoPath = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(this.GetType().Assembly.Location), "../../../../../../"));
-			}
-			else
-			{
-				repoPath = repoPathEnvVar;
-			}
-			services.Configure<GitVersionedFileServiceOptions>(
-				opts => opts.GitRepo = repoPath);
-			services.AddLogging();
-			services.AddSingleton<IVersionedFileService, GitVersionedFileService>();
-			services.AddSingleton<IDasBlogSandbox, DasBlogSandbox>();
-			return services.BuildServiceProvider();
-		}
-
-		public void Dispose()
-		{
 		}
 	}
 
