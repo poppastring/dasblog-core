@@ -199,6 +199,8 @@ FakesAssemblies/
 
 # Visual Studio 6 workspace options file
 *.opt
+
+# dasblog-core random working data
 source/newtelligence.DasBlog.Web/content/**
 source/DasBlog.Web.UI/logs
 /source/DasBlog.Web.UI/content
@@ -227,3 +229,6 @@ source/DasBlog.Web.UI/logs
 
 # Rider iDE
 .idea/
+
+# dasblog-core test infrasructure
+test_results/
