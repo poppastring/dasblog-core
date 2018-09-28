@@ -9,11 +9,10 @@ using DasBlog.Managers.Interfaces;
 using newtelligence.DasBlog.Web.Services.Rss20;
 using Microsoft.AspNetCore.Http;
 using newtelligence.DasBlog.Web.Services.Rsd;
+using System.IO;
 
 namespace DasBlog.Web.Controllers
 {
-    [Produces("text/xml")]
-    [Route("feed")]
     public class FeedController : DasBlogController
     {
         private IMemoryCache memoryCache;
@@ -29,8 +28,8 @@ namespace DasBlog.Web.Controllers
 			this.memoryCache = memoryCache;
         }
 
-        [Route("")]
-        [HttpGet("rss")]
+		[Produces("text/xml")]
+        [HttpGet("feed/rss")]
         public IActionResult Rss()
         {
             RssRoot rss = null; 
@@ -47,7 +46,8 @@ namespace DasBlog.Web.Controllers
             return Ok(rss);
         }
 
-        [HttpGet("rss/{category}")]
+		[Produces("text/xml")]
+		[HttpGet("feed/rss/{category}")]
         public IActionResult RssByCategory(string category)
         {
             RssRoot rss = null;
@@ -64,7 +64,8 @@ namespace DasBlog.Web.Controllers
             return Ok(rss);
         }
 
-        [HttpGet("rsd")]
+		[Produces("text/xml")]
+		[HttpGet("feed/rsd")]
         public ActionResult Rsd()
         {
             RsdRoot rsd = null;
@@ -74,7 +75,8 @@ namespace DasBlog.Web.Controllers
             return Ok(rsd);
         }
 
-		[HttpGet("blogger")]
+		[Produces("text/xml")]
+		[HttpGet("feed/blogger")]
 		public ActionResult Blogger()
 		{
 			// https://www.poppastring.com/blog/blogger.aspx
@@ -87,10 +89,16 @@ namespace DasBlog.Web.Controllers
 		}
 
 		[Produces("text/xml")]
-		[HttpPost("blogger")]
-		public IActionResult Blogger([FromBody] string xmlrpcpost)
+		[HttpPost("feed/blogger")]
+		public IActionResult BloggerPost()
 		{
-			string blogger = xmlRpcManager.Invoke(HttpContext.Request.Body);
+			string blogger = string.Empty;
+
+			using (var mem = new MemoryStream())
+			{
+				Request.Body.CopyTo(mem);
+				blogger = xmlRpcManager.Invoke(mem);
+			}
 
 			return Content(blogger);
 		}
