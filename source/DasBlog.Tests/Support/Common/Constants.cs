@@ -26,6 +26,8 @@ namespace DasBlog.Tests.Support.Common
 		// script names
 		public const string DetectChangesScriptName = "DetectChanges.cmd";
 		public const string GetGitVersionScriptName = "GetVersion.cmd";
+		public const string StashCurrentStateScriptName = "StashCurrentState.cmd";
+		public const string ConfirmStashScriptName = "ConfirmStash.cmd";
 		
 		// XUnit Traits
 		public const string CategoryTraitType = "Category";

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -69,12 +70,28 @@ namespace DasBlog.Tests.Support
 		private string ExtractGitNumericVersion(string gitVersionString)
 		{
 			const string NUMBERS = "numbers";
-			Regex regex = new Regex($@"git version (?<{NUMBERS}>[0-9\\.]*)");
-			Match match = regex.Match(gitVersionString);
-			string numbers = match.Groups.Where(g => (g.Name ?? string.Empty) == NUMBERS).Select(g => g.Value.TrimEnd() ?? string.Empty).First();
-			return numbers;
+			return ExtractFieldViaRegex(NUMBERS, $@"git version (?<{NUMBERS}>[0-9\\.]*)", gitVersionString);
 		}
 
+		private string ExtractFieldViaRegex(string fieldName, string regex, string text)
+		{
+			var map = RegexToMap(regex, text);
+			return map.Where(g => g.Key == fieldName).Select(m => m.Value).DefaultIfEmpty(string.Empty).First();
+		}
+		private IReadOnlyDictionary<string, string> RegexToMap(string regexArg, string text)
+		{
+			try
+			{
+				IDictionary<string, string> map = new Dictionary<string, string>();
+				Regex regex = new Regex(regexArg);
+				Match match = regex.Match(text);
+				return match.Groups.Where(g => !string.IsNullOrWhiteSpace(g.Name)).ToDictionary(g => g.Name, g => g.Value);
+			}
+			catch (Exception )
+			{
+				throw;	// probably duplicate group names
+			}
+		}
 		/// <summary>
 		/// returns a version a person can work with
 		/// </summary>
@@ -116,7 +133,6 @@ namespace DasBlog.Tests.Support
 			{
 				FormatErrorsAndThrow(Constants.DetectChangesScriptName, exitCode, errors);
 			}
-
 			int numChanges = outputs.Count(o => !string.IsNullOrWhiteSpace(o));
 			if (numChanges > 0)
 			{
@@ -124,6 +140,72 @@ namespace DasBlog.Tests.Support
 				  + string.Join(Environment.NewLine, outputs.Where(o => !string.IsNullOrWhiteSpace(o))));
 			}
 			return (true, string.Empty);
+		}
+
+		public void StashCurrentState()
+		{
+			Guid guid = Guid.NewGuid();
+			(int exitCode, string[] outputs, string[] errors ) = scriptRunner.Run(
+				Constants.StashCurrentStateScriptName, scriptRunner.DefaultEnv
+				,Path.Combine(Utils.GetProjectRootDirectory(), Constants.VanillaTestData)
+				,guid.ToString());
+			if (exitCode != 0)
+			{
+				FormatErrorsAndThrow(Constants.StashCurrentStateScriptName, exitCode, errors);
+			}
+
+			string stashHash = GetHashField(outputs);
+			ConfirmValidStash(stashHash, guid);
+			logger.LogInformation("A copy of the state of the file system has been made at the end of this test"
+			  + Environment.NewLine + $"You can restore the state by doing 'git stash apply {stashHash}'");
+		}
+
+		private void ConfirmValidStash(string stashHash, Guid guid)
+		{
+			(int exitCode, string[] outputs, string[] errors ) = scriptRunner.Run(
+				Constants.ConfirmStashScriptName, scriptRunner.DefaultEnv
+				,stashHash);
+			if (exitCode != 0)
+			{
+				FormatErrorsAndThrow(Constants.ConfirmStashScriptName, exitCode, errors);
+			}
+
+			string stashGuid = GetGuidFromStash(outputs);
+			if (string.IsNullOrWhiteSpace(stashGuid) || stashGuid != guid.ToString() )
+			{
+				throw new Exception($"Was expecting the stash, {stashHash}, to contain the guid {guid}."
+				                    + Environment.NewLine +
+				                    $"Please examine the git log and stash to ensure all is well.");
+			}
+		}
+
+		private string GetGuidFromStash(string[] outputs)
+		{
+			const string GUID = "guid";
+			foreach (string output in outputs)
+			{
+				string stashedGuid = ExtractFieldViaRegex(GUID, $@".* (?<{GUID}>[0-9a-z\-]*)$", output ?? string.Empty);
+				if (!string.IsNullOrWhiteSpace(stashedGuid))
+				{
+					return stashedGuid;
+				}
+			}
+			return string.Empty;
+		}
+
+		private string GetHashField(string[] outputs)
+		{
+			const string HASH = "hash";
+			foreach (string output in outputs)
+			{
+				string stashHash = ExtractFieldViaRegex(HASH, $@".* \((?<{HASH}>[0-9a-z]*)\)$", output ?? string.Empty);
+				if (!string.IsNullOrWhiteSpace(stashHash))
+				{
+					return stashHash;
+				}
+			}
+
+			return string.Empty;
 		}
 
 		/// <summary>
@@ -157,10 +239,6 @@ namespace DasBlog.Tests.Support
 			int numNonEmptyLines = lines.Count(e => !string.IsNullOrWhiteSpace(e));
 			string extraLines = numNonEmptyLines == 1 ? string.Empty : $"( + {numNonEmptyLines - 1} more lines - see logs (maybe))";
 			return $"{message ?? "nune provided"}{extraLines}";
-		}
-		public void Restore()
-		{
-			throw new NotImplementedException();
 		}
 	}
 }

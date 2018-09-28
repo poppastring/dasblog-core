@@ -14,11 +14,14 @@ namespace DasBlog.Tests.FunctionalTests.TestInfrastructureTests
 	public class GitVersionedFileServiceTests : IClassFixture<InfrastructureTestPlatform>
 	{
 		private readonly InfrastructureTestPlatform platform;
+		private IVersionedFileService gitFileService;
 
 		public GitVersionedFileServiceTests(ITestOutputHelper testOutputHelper, InfrastructureTestPlatform platform)
 		{
 			this.platform = platform;
 			this.platform.CompleteSetup(testOutputHelper);
+			gitFileService = platform.ServiceProvider.GetService<IVersionedFileService>();
+			
 		}
 
 		[Fact]
@@ -48,6 +51,23 @@ namespace DasBlog.Tests.FunctionalTests.TestInfrastructureTests
 			}
 		}
 
+		[Fact]
+		[Trait(Constants.CategoryTraitType, Constants.TestInfrastructureTestTraitValue)]
+		public void GitFs_WhenStashesCurrentState_RemovesUntrackedFiles()
+		{
+			var testPath = Path.Combine(Utils.GetProjectRootDirectory(), Constants.VanillaTestData, "aaa");
+			try
+			{
+				File.WriteAllText(testPath, "aaa");
+				gitFileService.StashCurrentState();
+				Assert.False(File.Exists(testPath));
+			}
+			finally
+			{
+				File.Delete(testPath);
+			}
+
+		}
 		[Fact]
 		[Trait(Constants.CategoryTraitType, Constants.TestInfrastructureTestTraitValue)]
 		public void GitVersionedFS_IfGitIsInstalled_IsActive()

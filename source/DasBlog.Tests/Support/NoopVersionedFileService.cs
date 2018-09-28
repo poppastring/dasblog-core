@@ -14,8 +14,9 @@ namespace DasBlog.Tests.Support
 			return (true, string.Empty);
 		}
 
-		public void Restore()
+		public void StashCurrentState()
 		{
 		}
+
 	}
 }
