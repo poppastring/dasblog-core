@@ -1,7 +1,7 @@
 @echo off
 rem #!/bin/bash
 rem # Mike May - September 2018
-rem # Script to run a git diff against a portion of the working tree and return a non-sero error code
+rem # Script to run a git diff against a portion of the working tree and return a non-zero error code
 rem # if the working directory differs from the last commit
 rem #
 rem # I wanted this to be a bash script for xplatform compatibility but wsl Ubuntu has only git v1.9 which
@@ -16,7 +16,6 @@ rem # returns: non-empty output means that the working directory is different to
 rem # e.g. "cmd /c ./DetectChanges.cmd 100 c:/projects/dasblog-core/source/DasBlog.Tests/Resources/Environments/Vanilla"
 if [%1] == [] goto error_exit
 if [%2] == [] goto error_exit
-echo %1
 git status --short --untracked-files -- %2
 rem # results will look something like the following if the working directory varies from the repo
 rem # M ../../../Resources/Resources.csproj

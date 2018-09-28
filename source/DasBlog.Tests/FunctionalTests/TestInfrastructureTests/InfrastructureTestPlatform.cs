@@ -11,7 +11,7 @@ namespace DasBlog.Tests.FunctionalTests.TestInfrastructureTests
 			// nothing to do
 		}
 
-		protected override void CompleteSetupLocal(ITestOutputHelper testOutputHelper)
+		protected override void CompleteSetupLocal()
 		{
 			// nothing to do
 		}

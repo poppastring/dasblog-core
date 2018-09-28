@@ -35,7 +35,7 @@ namespace DasBlog.Tests.FunctionalTests.Common
 		///   loaded with logger, DasBlogSandBox, ScriptRunner and other common services</param>
 		protected abstract void InjectDependencies(IServiceCollection services);
 
-		protected abstract void CompleteSetupLocal(ITestOutputHelper testOutputHelper);
+		protected abstract void CompleteSetupLocal();
 
 		/// <summary>
 		/// completes the platform setup by activating the logger
@@ -53,7 +53,7 @@ namespace DasBlog.Tests.FunctionalTests.Common
 				logger = loggerFactory.CreateLogger<TestSupportPlatform>();
 				var dasBlogSandbox = this.ServiceProvider.GetService<IDasBlogSandbox>();
 				dasBlogSandbox.Init();
-				CompleteSetupLocal(testOutputHelper);
+				CompleteSetupLocal();
 			}
 		}
 		private void InjectDependenciesAll()

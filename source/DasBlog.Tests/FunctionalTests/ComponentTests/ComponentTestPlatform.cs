@@ -22,7 +22,7 @@ namespace DasBlog.Tests.FunctionalTests.ComponentTests
 			// nothing to do
 		}
 
-		protected override void CompleteSetupLocal(ITestOutputHelper testOutputHelper)
+		protected override void CompleteSetupLocal()
 		{
 			var loggerFactory = ServiceProvider
 				.GetService<ILoggerFactory>();

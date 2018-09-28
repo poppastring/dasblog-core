@@ -21,6 +21,18 @@ namespace DasBlog.Tests.Support.Common
 		public const string DasBlogProjectRootRelativeToAssemblies = "../../../../../../";
 			// e.g. difference between c:/projects/dasblog-core and
 			//						   c:/projects/dasblog-core/source/DasBlog.Tests/some-project/bin/debug/netcoreapp2.1
-
+		public const int GitRequiredMajorVersion = 2;
+		public const int GitRequiredMinorVersion = 15;
+		// script names
+		public const string DetectChangesScriptName = "DetectChanges.cmd";
+		public const string GetGitVersionScriptName = "GetVersion.cmd";
+		
+		// XUnit Traits
+		public const string CategoryTraitType = "Category";
+		public const string TestInfrastructureTestTraitValue = "TestInfrastructureTest";
+		public const string UnitTestTraitValue = "UnitTest";
+		public const string ComponentTestTraitValue = "ComponentTest";
+		public const string IntegrationTestTraitValue = "IntegrationTest";
+		public const string BrowserBasedTestTraitValue = "BrowserBasedTest";
 	}
 }
