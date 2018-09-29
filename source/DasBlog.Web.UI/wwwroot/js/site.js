@@ -15,9 +15,9 @@ function commentManagement(url, commentText, httpVerb) {
     }
 }
 
-function deleteEntry(entryId, entryTitle) {
+function deleteEntry(entryUrl, entryTitle) {
     if (confirm("Are you sure you want to delete this item? \n\n" + entryTitle)) {
-        location.href = "post/" + entryId + "/delete"
+        location.href = entryUrl;
     }
 }
 
