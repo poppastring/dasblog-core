@@ -2,6 +2,7 @@
 using DasBlog.Tests.Support.Interfaces;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.VisualBasic;
 
 namespace DasBlog.Tests.Support
 {
@@ -20,14 +21,14 @@ namespace DasBlog.Tests.Support
 	public class DasBlogSandbox : IDasBlogSandbox
 	{
 		private readonly IVersionedFileService fileService;
-		private readonly string path;
+		private readonly string environment;
 		private readonly ILogger<DasBlogSandbox> logger;
 		public DasBlogSandbox(ILogger<DasBlogSandbox> logger
 			,IVersionedFileService fileService, IOptions<DasBlogISandboxOptions> optionsAccessor)
 		{
 			this.logger = logger;
 			this.fileService = fileService;
-			this.path = optionsAccessor.Value.ContentRootPath;
+			this.environment = optionsAccessor.Value.Environment;
 		}
 		public void Init()
 		{
@@ -37,7 +38,7 @@ namespace DasBlog.Tests.Support
 				logger.LogError(errorMessage);
 			}
 
-			(bool clean, string errorMessage2) = fileService.IsClean();
+			(bool clean, string errorMessage2) = fileService.IsClean(environment);
 			if (!clean)
 			{
 				logger.LogError(errorMessage2);
@@ -71,9 +72,10 @@ namespace DasBlog.Tests.Support
 		{
 			throw new NotImplementedException();
 		}
+
 		public void Terminate()
 		{
-			throw new NotImplementedException();
+			fileService.StashCurrentState(environment);
 		}
 
 		public string GetConfigPathAndFile()

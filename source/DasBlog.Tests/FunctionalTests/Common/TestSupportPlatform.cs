@@ -77,7 +77,7 @@ namespace DasBlog.Tests.FunctionalTests.Common
 					}
 				});
 			services.Configure<DasBlogISandboxOptions>(
-				opts => opts.ContentRootPath =
+				opts => opts.Environment =
 					Path.Combine(Utils.GetProjectRootDirectory(), Constants.VanillaTestData));
 			var repoPathEnvVar = Environment.GetEnvironmentVariable(Constants.DasBlogGitRepo);
 			string repoPath;
@@ -90,11 +90,15 @@ namespace DasBlog.Tests.FunctionalTests.Common
 				repoPath = repoPathEnvVar;
 			}
 			services.Configure<GitVersionedFileServiceOptions>(
-				opts => opts.GitRepo = repoPath);
+				opts =>
+				{
+					opts.GitRepoDirectory = Utils.GetProjectRootDirectory();
+					opts.TestDataDirectroy = Constants.TestDataDirectory;
+				});
 			services.AddLogging();
 			services.AddSingleton<IScriptRunner, ScriptRunner>();
 			services.AddSingleton<IVersionedFileService, GitVersionedFileService>();
-			services.AddSingleton<IDasBlogSandbox, DasBlogSandbox>();
+			services.AddTransient<IDasBlogSandbox, DasBlogSandbox>();
 			InjectDependencies(services);	// add in the derived class's dependencies
 			ServiceProvider = services.BuildServiceProvider();
 		}

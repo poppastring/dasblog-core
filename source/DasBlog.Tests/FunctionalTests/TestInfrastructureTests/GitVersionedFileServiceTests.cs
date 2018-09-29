@@ -29,7 +29,7 @@ namespace DasBlog.Tests.FunctionalTests.TestInfrastructureTests
 		public void GitFS_ForUnmidifiedDirectory_ReturnsClean()
 		{
 			var gitfs = platform.ServiceProvider.GetService<IVersionedFileService>();
-			(var clean, var errorMessage) = gitfs.IsClean();
+			(var clean, var errorMessage) = gitfs.IsClean(Constants.VanillaEnvironment);
 			Assert.True(clean);
 		}
 
@@ -42,7 +42,7 @@ namespace DasBlog.Tests.FunctionalTests.TestInfrastructureTests
 			{
 				File.WriteAllText(testPath, "aaa");
 				var gitfs = platform.ServiceProvider.GetService<IVersionedFileService>();
-				(var clean, var errorMessage) = gitfs.IsClean();
+				(var clean, var errorMessage) = gitfs.IsClean(Constants.VanillaEnvironment);
 				Assert.False(clean);
 			}
 			finally
@@ -59,7 +59,7 @@ namespace DasBlog.Tests.FunctionalTests.TestInfrastructureTests
 			try
 			{
 				File.WriteAllText(testPath, "aaa");
-				gitFileService.StashCurrentState();
+				gitFileService.StashCurrentState(Constants.VanillaEnvironment);
 				Assert.False(File.Exists(testPath));
 			}
 			finally

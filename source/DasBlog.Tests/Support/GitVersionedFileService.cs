@@ -20,8 +20,7 @@ namespace DasBlog.Tests.Support
 	public class GitVersionedFileService : IVersionedFileService
 	{
 		private ILogger<GitVersionedFileService> logger;
-		private string path;
-		private readonly string gitRepoLocation;
+		private readonly string path;
 		private IScriptRunner scriptRunner;
 
 		public GitVersionedFileService(ILogger<GitVersionedFileService> logger
@@ -29,10 +28,9 @@ namespace DasBlog.Tests.Support
 		  ,IScriptRunner scriptRunner)
 		{
 			this.scriptRunner = scriptRunner;
-			this.path = optionsAccessor.Value.GitRepo;
-			logger.LogInformation("Git Repo specified at {Path}", this.path);
+			this.path = Path.Combine(optionsAccessor.Value.GitRepoDirectory, optionsAccessor.Value.TestDataDirectroy);
+			logger.LogInformation("Git Repo specified at {Path}", optionsAccessor.Value.GitRepoDirectory);
 			this.logger = logger;
-			gitRepoLocation = path;
 		}
 		/// <summary>
 		/// is git installed and up-to-date - at least v2.15
@@ -123,12 +121,14 @@ namespace DasBlog.Tests.Support
 		/// <summary>
 		/// throws an exception if git acccess fails for some reason
 		/// </summary>
+		/// <param name="environment"></param>
 		/// <returns>the list of modified files (or any extraneous output from "git status --short"</returns>
-		public (bool clean, string errorMessage) IsClean()
+		public (bool clean, string errorMessage) IsClean(string environment)
 		{
 			(int exitCode, string[] outputs, string[] errors ) = scriptRunner.Run(
 				Constants.DetectChangesScriptName, scriptRunner.DefaultEnv
-				,Path.Combine(Utils.GetProjectRootDirectory(), Constants.VanillaTestData));
+				,Path.Combine(this.path, environment));
+					// e.g. "C:\alt\projs\dasblog-core\source\DasBlog.Tests\Resources\Environments\Vanilla"
 			if (exitCode != 0)
 			{
 				FormatErrorsAndThrow(Constants.DetectChangesScriptName, exitCode, errors);
@@ -142,12 +142,12 @@ namespace DasBlog.Tests.Support
 			return (true, string.Empty);
 		}
 
-		public void StashCurrentState()
+		public void StashCurrentState(string environment)
 		{
 			Guid guid = Guid.NewGuid();
 			(int exitCode, string[] outputs, string[] errors ) = scriptRunner.Run(
 				Constants.StashCurrentStateScriptName, scriptRunner.DefaultEnv
-				,Path.Combine(Utils.GetProjectRootDirectory(), Constants.VanillaTestData)
+				,Path.Combine(this.path, environment)
 				,guid.ToString());
 			if (exitCode != 0)
 			{
