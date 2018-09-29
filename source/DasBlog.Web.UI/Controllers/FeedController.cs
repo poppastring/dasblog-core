@@ -9,25 +9,27 @@ using DasBlog.Managers.Interfaces;
 using newtelligence.DasBlog.Web.Services.Rss20;
 using Microsoft.AspNetCore.Http;
 using newtelligence.DasBlog.Web.Services.Rsd;
+using System.IO;
 
 namespace DasBlog.Web.Controllers
 {
-    [Produces("text/xml")]
-    [Route("feed")]
     public class FeedController : DasBlogController
     {
         private IMemoryCache memoryCache;
-        private ISubscriptionManager subscriptionManager;
-        private const string RSS_CACHE_KEY = "RSS_CACHE_KEY";
+        private readonly ISubscriptionManager subscriptionManager;
+		private readonly IXmlRpcManager xmlRpcManager;
+		private const string RSS_CACHE_KEY = "RSS_CACHE_KEY";
 
-        public FeedController(ISubscriptionManager subscriptionManager, IHttpContextAccessor httpContextAccessor, IMemoryCache memoryCache)
+        public FeedController(ISubscriptionManager subscriptionManager, IHttpContextAccessor httpContextAccessor,
+								IXmlRpcManager xmlRpcManager, IMemoryCache memoryCache)
         {  
             this.subscriptionManager = subscriptionManager;
-            this.memoryCache = memoryCache;
+			this.xmlRpcManager = xmlRpcManager;
+			this.memoryCache = memoryCache;
         }
 
-        [Route("")]
-        [HttpGet("rss")]
+		[Produces("text/xml")]
+        [HttpGet("feed/rss")]
         public IActionResult Rss()
         {
             RssRoot rss = null; 
@@ -44,7 +46,8 @@ namespace DasBlog.Web.Controllers
             return Ok(rss);
         }
 
-        [HttpGet("rss/{category}")]
+		[Produces("text/xml")]
+		[HttpGet("feed/rss/{category}")]
         public IActionResult RssByCategory(string category)
         {
             RssRoot rss = null;
@@ -61,7 +64,8 @@ namespace DasBlog.Web.Controllers
             return Ok(rss);
         }
 
-        [HttpGet("rsd")]
+		[Produces("text/xml")]
+		[HttpGet("feed/rsd")]
         public ActionResult Rsd()
         {
             RsdRoot rsd = null;
@@ -71,7 +75,35 @@ namespace DasBlog.Web.Controllers
             return Ok(rsd);
         }
 
-        public IActionResult Atom()
+		[Produces("text/xml")]
+		[HttpGet("feed/blogger")]
+		public ActionResult Blogger()
+		{
+			// https://www.poppastring.com/blog/blogger.aspx
+			// Implementation of Blogger XML-RPC Api
+			// blogger
+			// metaWebLog
+			// mt
+
+			return NoContent();
+		}
+
+		[Produces("text/xml")]
+		[HttpPost("feed/blogger")]
+		public IActionResult BloggerPost()
+		{
+			string blogger = string.Empty;
+
+			using (var mem = new MemoryStream())
+			{
+				Request.Body.CopyTo(mem);
+				blogger = xmlRpcManager.Invoke(mem);
+			}
+
+			return Content(blogger);
+		}
+
+		public IActionResult Atom()
         {
             return NoContent();
         }

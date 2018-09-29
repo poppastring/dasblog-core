@@ -20,14 +20,16 @@ namespace DasBlog.Managers
 	public class XmlRpcManager : IXmlRpcManager, MoveableType.IMovableType, Blogger.IBlogger, MetaWeblog.IMetaWeblog
 	{
 		private IBlogDataService dataService;
-		private ILoggingDataService loggingDataService;
 		private ISiteSecurityManager siteSecurityManager;
+		private readonly ILoggingDataService loggingDataService;
 		private readonly IDasBlogSettings dasBlogSettings;
+		private readonly IFileSystemBinaryManager binaryManager;
 
-		public XmlRpcManager(IDasBlogSettings settings, ISiteSecurityManager siteSecurityManager)
+		public XmlRpcManager(IDasBlogSettings dasBlogSettings, ISiteSecurityManager siteSecurityManager, IFileSystemBinaryManager binaryManager)
 		{
-			dasBlogSettings = settings;
+			this.dasBlogSettings = dasBlogSettings;
 			this.siteSecurityManager = siteSecurityManager;
+			this.binaryManager = binaryManager;
 			loggingDataService = LoggingDataServiceFactory.GetService(dasBlogSettings.WebRootDirectory + dasBlogSettings.SiteConfiguration.LogDir);
 			dataService = BlogDataServiceFactory.GetService(dasBlogSettings.WebRootDirectory + dasBlogSettings.SiteConfiguration.ContentDir, loggingDataService);
 		}
@@ -732,34 +734,15 @@ namespace DasBlog.Managers
 				throw new SecurityException();
 			}
 
-			// Get the binary data
-			string strPath = Path.Combine(dasBlogSettings.RelativeToRoot(dasBlogSettings.SiteConfiguration.BinariesDir), enc.name);
+			Stream stream = new MemoryStream(enc.bits);
 
-			// check if the name of the media type includes a subdirectory we need to create
-			FileInfo fileInfo = new FileInfo(strPath);
-			if (fileInfo.Directory.Exists == false && fileInfo.Directory.FullName != dasBlogSettings.RelativeToRoot(dasBlogSettings.SiteConfiguration.BinariesDir))
-			{
-				fileInfo.Directory.Create();
-			}
+			var filePath = binaryManager.SaveFile(stream, enc.name);
 
-			try
+			var urlInfo = new MetaWeblog.UrlInfo
 			{
-				using (FileStream fs = new FileStream(strPath, FileMode.OpenOrCreate))
-				{
-					using (BinaryWriter bw = new BinaryWriter(fs))
-					{
-						bw.Write(enc.bits);
-					}
-				}
-			}
-			catch (Exception e)
-			{
-				throw new XmlRpcException(e.ToString());
-			}
+				url = Path.Combine(dasBlogSettings.RelativeToRoot(dasBlogSettings.SiteConfiguration.BinariesDir.TrimStart('~')), enc.name)
+			};
 
-			string path = Path.Combine(dasBlogSettings.SiteConfiguration.BinariesDirRelative, enc.name);
-			MetaWeblog.UrlInfo urlInfo = new MetaWeblog.UrlInfo();
-			urlInfo.url = dasBlogSettings.RelativeToRoot(path);
 			return urlInfo;
 		}
 

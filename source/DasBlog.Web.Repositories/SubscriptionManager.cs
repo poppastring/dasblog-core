@@ -344,9 +344,8 @@ namespace DasBlog.Managers
         {
             RsdApiCollection apiCollection = new RsdApiCollection();
 
-            UriBuilder home = new UriBuilder(dasBlogSettings.GetBaseUrl());
-            home.Path = "feed/blogger";
-            string blogapiurl = home.ToString();
+            // UriBuilder home = new UriBuilder(dasBlogSettings.RelativeToRoot("feed/blogger"));
+            string blogapiurl = dasBlogSettings.RelativeToRoot("feed/blogger");
 
             RsdRoot rsd = new RsdRoot();
             RsdService dasBlogService = new RsdService();
