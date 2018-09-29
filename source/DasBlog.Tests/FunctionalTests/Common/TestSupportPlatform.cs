@@ -51,8 +51,8 @@ namespace DasBlog.Tests.FunctionalTests.Common
 				var loggerFactory = ServiceProvider.GetService<ILoggerFactory>();
 				loggerFactory.AddProvider(new XunitLoggerProvider(testOutputHelper));
 				logger = loggerFactory.CreateLogger<TestSupportPlatform>();
-				var dasBlogSandbox = this.ServiceProvider.GetService<IDasBlogSandbox>();
-				dasBlogSandbox.Init();
+//				var dasBlogSandbox = this.ServiceProvider.GetService<IDasBlogSandbox>();
+//				dasBlogSandbox.Init();
 				CompleteSetupLocal();
 			}
 		}
@@ -76,9 +76,12 @@ namespace DasBlog.Tests.FunctionalTests.Common
 						opts.ScriptExitTimeout = envScriptExitTimeout;
 					}
 				});
+/*
+			// DasBlogSandbox needs to be created elsewhere so that
+			// the environment can be set.
 			services.Configure<DasBlogISandboxOptions>(
-				opts => opts.Environment =
-					Path.Combine(Utils.GetProjectRootDirectory(), Constants.VanillaTestData));
+				opts => opts.Environment = Constants.VanillaEnvironment);
+*/
 			var repoPathEnvVar = Environment.GetEnvironmentVariable(Constants.DasBlogGitRepo);
 			string repoPath;
 			if (string.IsNullOrWhiteSpace(repoPathEnvVar))
@@ -98,7 +101,7 @@ namespace DasBlog.Tests.FunctionalTests.Common
 			services.AddLogging();
 			services.AddSingleton<IScriptRunner, ScriptRunner>();
 			services.AddSingleton<IVersionedFileService, GitVersionedFileService>();
-			services.AddTransient<IDasBlogSandbox, DasBlogSandbox>();
+//			services.AddTransient<IDasBlogSandbox, DasBlogSandbox>();
 			InjectDependencies(services);	// add in the derived class's dependencies
 			ServiceProvider = services.BuildServiceProvider();
 		}

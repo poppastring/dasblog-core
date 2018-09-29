@@ -1,9 +1,12 @@
 using System;
 using DasBlog.Tests.Support.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
+using Constants = DasBlog.Tests.Support.Common.Constants;
 using Microsoft.Extensions.Logging;
 using Xunit;
 using Xunit.Abstractions;
+using newtelligence.DasBlog.Runtime;
+
 /*
  * THERE IS NO logging to the console - in the debugger the log appears in the detail of the test results
  * when run from the console the log appears in a log file assuming you provide the correct command line
@@ -12,7 +15,7 @@ using Xunit.Abstractions;
  */
 namespace DasBlog.Tests.FunctionalTests.ComponentTests
 {
-	public class PrototypeComponentTests : IClassFixture<ComponentTestPlatform>
+	public class PrototypeComponentTests : IClassFixture<ComponentTestPlatform>, IDisposable
 	{
 
 		private ComponentTestPlatform platform;
@@ -22,7 +25,6 @@ namespace DasBlog.Tests.FunctionalTests.ComponentTests
 		private IDasBlogSandbox dasBlogSandbox;
 		public PrototypeComponentTests(ITestOutputHelper testOutputHelper, ComponentTestPlatform componentTestPlatform)
 		{
-			testOutputHelper.WriteLine("hello from component constructor");
 					// this and others like it appear in the detail pane of Rider's test runner for
 					// Running a successful test
 					// Debugging a successful test
@@ -45,6 +47,7 @@ namespace DasBlog.Tests.FunctionalTests.ComponentTests
 			componentTestPlatform.CompleteSetup(testOutputHelper);
 			this.platform = componentTestPlatform;
 			this.testOutputHelper = testOutputHelper;
+			dasBlogSandbox = platform.CreateSandbox(Constants.VanillaEnvironment);
 		}
 
 		[Fact]
@@ -52,6 +55,33 @@ namespace DasBlog.Tests.FunctionalTests.ComponentTests
 		public void SimpleTest()
 		{
 			Assert.True(true);
+		}
+
+		[Fact]
+		[Trait(Constants.CategoryTraitType, Constants.ComponentTestTraitValue)]
+		public void SearchingBlog_WithUnmatchableData_ReturnsNull()
+		{
+			var sandbox = dasBlogSandbox;
+			var blogManager = platform.CreateBlogManager(sandbox);
+			EntryCollection entries = blogManager.SearchEntries("this cannot be found", null);
+			Assert.Empty(entries);
+		}
+		[Fact]
+		[Trait(Constants.CategoryTraitType, Constants.ComponentTestTraitValue)]
+		public void SearchingBlog_WithMatchableData_ReturnsOneRecord()
+		{
+			IDasBlogSandbox sandbox = dasBlogSandbox;
+			sandbox = platform.CreateSandbox(Constants.VanillaEnvironment);
+			sandbox.Init();
+			var blogManager = platform.CreateBlogManager(sandbox);
+			EntryCollection entries = blogManager.SearchEntries("put some text here", null);
+			Assert.Single(entries);
+		}
+
+
+		public void Dispose()
+		{
+			dasBlogSandbox?.Terminate();
 		}
 	}
 
@@ -69,7 +99,8 @@ namespace DasBlog.Tests.FunctionalTests.ComponentTests
 			=> new XunitLogger(_testOutputHelper, categoryName);
 
 		public void Dispose()
-		{ }
+		{
+		}
 	}
 
 	public class XunitLogger : ILogger

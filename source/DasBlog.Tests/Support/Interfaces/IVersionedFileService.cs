@@ -19,5 +19,7 @@
 		/// <param name="environment">e.g. 'Vanilla"</param>
 		/// <returns>if true then errorMessage contains empty string, else some helpful errors</returns>
 		void StashCurrentState(string environment);
+
+		string TestDataPath { get; }
 	}
 }

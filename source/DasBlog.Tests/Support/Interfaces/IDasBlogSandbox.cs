@@ -12,5 +12,6 @@
 		string GetContentDirectoryPath();
 		string GetLogDirectoryPath();
 		string GetWwwRootDirectoryPath();
+		string TestEnvironmentPath { get; }
 	}
 }

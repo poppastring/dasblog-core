@@ -18,5 +18,6 @@ namespace DasBlog.Tests.Support
 		{
 		}
 
+		public string TestDataPath { get; } = string.Empty;
 	}
 }

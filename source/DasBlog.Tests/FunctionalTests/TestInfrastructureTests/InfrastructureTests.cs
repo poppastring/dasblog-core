@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using DasBlog.Core.Extensions;
+using DasBlog.Tests.FunctionalTests.Common;
 using DasBlog.Tests.Support.Common;
 using DasBlog.Tests.Support;
 using DasBlog.Tests.Support.Interfaces;
@@ -76,9 +77,5 @@ namespace DasBlog.Tests.FunctionalTests.TestInfrastructureTests
 	internal class ScriptRunnerOptionsAccessor : IOptions<ScriptRunnerOptions>
 	{
 		public ScriptRunnerOptions Value { get; internal set; }
-	}
-	internal class OptionsAccessor<T> : IOptions<T> where T : class, new()
-	{
-		public T Value { get; internal set; }
 	}
 }

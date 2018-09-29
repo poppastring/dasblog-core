@@ -2,17 +2,16 @@ namespace DasBlog.Tests.Support.Common
 {
 	public static class Constants
 	{
-		public const int ScriptTimeout = 5_000;
 		public const int ScriptProcessFailedToRunCode = int.MaxValue;
 		public const int ScriptTimedOutCode = int.MaxValue - 1;
 		// this is the amount of time the host (functional test) will wait around
 		// before pulling the plug on cmd.exe
 		public const string DasBlogTestScriptTimeout = "DAS_BLOG_TEST_SCRIPT_TIMEOUT";
-		public const int DefaultScriptTimeout = 5_000;
+		public const int DefaultScriptTimeout = 10_000;
 		// this is the amount of time the script will linger so that
 		// the host process can gather any output
 		public const string DasBlogTestScriptExitTimeout = "DAS_BLOG_TEST_SCRIPT_EXIT_TIMEOUT";
-		public const int DefaultScriptExitTimeout = 10;
+		public const int DefaultScriptExitTimeout = 100;
 		public const string ScriptsRelativePath = "source/DasBlog.Tests/Support/Scripts/";
 		public const string VanillaTestData = "source/DasBlog.Tests/Resources/Environments/Vanilla";
 		public const string TestDataDirectory = "source/DasBlog.Tests/Resources/Environments";
