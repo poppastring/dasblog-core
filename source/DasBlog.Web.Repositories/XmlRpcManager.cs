@@ -738,8 +738,6 @@ namespace DasBlog.Managers
 
 			var filePath = binaryManager.SaveFile(stream, enc.name);
 
-			var strPath = Path.Combine(dasBlogSettings.RelativeToRoot(dasBlogSettings.SiteConfiguration.BinariesDir), enc.name);
-
 			var urlInfo = new MetaWeblog.UrlInfo
 			{
 				url = Path.Combine(dasBlogSettings.RelativeToRoot(dasBlogSettings.SiteConfiguration.BinariesDir.TrimStart('~')), enc.name)
