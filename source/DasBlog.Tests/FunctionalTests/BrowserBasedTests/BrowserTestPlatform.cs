@@ -7,6 +7,7 @@ using DasBlog.Tests.Support;
 using DasBlog.Tests.Support.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Xml;
 
 namespace DasBlog.Tests.FunctionalTests.BrowserBasedTests
 {
@@ -29,7 +30,6 @@ namespace DasBlog.Tests.FunctionalTests.BrowserBasedTests
 			TestExecutor = ServiceProvider.GetService<ITestExecutor>();
 			Publisher = ServiceProvider.GetService<IPublisher>();
 			Pages = new Pages(Browser);
-			logger.LogInformation("good to go");
 			this.Runner.RunDasBlog();
 			this.Browser.Init();
 		}
@@ -58,6 +58,7 @@ namespace DasBlog.Tests.FunctionalTests.BrowserBasedTests
 			}
 			catch (Exception e)
 			{
+				_ = e;
 				// cannot do any logging here.  xunit logger throws an exception complaining that there
 				// IDisposable no active test.
 				// At the same time it refuses to let the console or debug logger work.

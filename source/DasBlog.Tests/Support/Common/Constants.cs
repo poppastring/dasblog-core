@@ -37,5 +37,6 @@ namespace DasBlog.Tests.Support.Common
 		public const string ComponentTestTraitValue = "ComponentTest";
 		public const string IntegrationTestTraitValue = "IntegrationTest";
 		public const string BrowserBasedTestTraitValue = "BrowserBasedTest";
+		public const string TestInfrastructureUsersCollection = "TestInfrastructureUsers";
 	}
 }

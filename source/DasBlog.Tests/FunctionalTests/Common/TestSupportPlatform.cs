@@ -15,7 +15,7 @@ namespace DasBlog.Tests.FunctionalTests.Common
 	{
 		protected IServiceCollection services = new ServiceCollection();
 		public IServiceProvider ServiceProvider { get; private set; }
-		protected ILogger<TestSupportPlatform> logger;
+		private ILogger<TestSupportPlatform> logger;
 		private bool init;
 
 		public TestSupportPlatform()
@@ -49,7 +49,7 @@ namespace DasBlog.Tests.FunctionalTests.Common
 			{
 				init = true;
 				var loggerFactory = ServiceProvider.GetService<ILoggerFactory>();
-				loggerFactory.AddProvider(new XunitLoggerProvider(testOutputHelper));
+				loggerFactory.AddProvider(new BrowserBasedTests.XunitLoggerProvider(testOutputHelper));
 				logger = loggerFactory.CreateLogger<TestSupportPlatform>();
 //				var dasBlogSandbox = this.ServiceProvider.GetService<IDasBlogSandbox>();
 //				dasBlogSandbox.Init();
@@ -101,6 +101,7 @@ namespace DasBlog.Tests.FunctionalTests.Common
 			services.AddLogging();
 			services.AddSingleton<IScriptRunner, ScriptRunner>();
 			services.AddSingleton<IVersionedFileService, GitVersionedFileService>();
+			services.AddSingleton<IDasBlogSandboxFactory, DasBlogSandboxFactory>();
 //			services.AddTransient<IDasBlogSandbox, DasBlogSandbox>();
 			InjectDependencies(services);	// add in the derived class's dependencies
 			ServiceProvider = services.BuildServiceProvider();

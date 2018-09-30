@@ -11,6 +11,7 @@ using Constants = DasBlog.Tests.Support.Common.Constants;
 
 namespace DasBlog.Tests.FunctionalTests.TestInfrastructureTests
 {
+	[Collection(Constants.TestInfrastructureUsersCollection)]
 	public class GitVersionedFileServiceTests : IClassFixture<InfrastructureTestPlatform>
 	{
 		private readonly InfrastructureTestPlatform platform;

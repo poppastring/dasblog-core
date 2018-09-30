@@ -6,11 +6,9 @@ using DasBlog.Core.Security;
 using DasBlog.Core.Services;
 using DasBlog.Managers;
 using DasBlog.Tests.FunctionalTests.Common;
-using DasBlog.Tests.Support;
 using DasBlog.Tests.Support.Interfaces;
 using DasBlog.Web.Settings;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Hosting.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
@@ -23,7 +21,6 @@ namespace DasBlog.Tests.FunctionalTests.ComponentTests
 	public class ComponentTestPlatform : TestSupportPlatform
 	{
 		private ILogger<ComponentTestPlatform> logger;
-		private bool init;
 
 		/// <summary>
 		/// returns a fully functional blog manager object pointed at the environment provided
@@ -39,14 +36,9 @@ namespace DasBlog.Tests.FunctionalTests.ComponentTests
 
 		public IDasBlogSandbox CreateSandbox(string environment)
 		{
-			ILogger<DasBlogSandbox>
-			  sandboxLogger = ServiceProvider.GetService<ILoggerFactory>().CreateLogger<DasBlogSandbox>();
-			DasBlogISandboxOptions opts = new DasBlogISandboxOptions {Environment = environment};
-			IOptions<DasBlogISandboxOptions> optionsAccessor = new OptionsAccessor<DasBlogISandboxOptions>{ Value = opts};
-			var fs = ServiceProvider.GetService<IVersionedFileService>();
-			var sandbox = new DasBlogSandbox(sandboxLogger, fs, optionsAccessor);
-			return sandbox;
+			return ServiceProvider.GetService<IDasBlogSandboxFactory>().CreateSandbox(ServiceProvider, environment);
 		}
+
 		private IDasBlogSettings CreateDasBlogSettings(IDasBlogSandbox sandbox)
 		{
 			(var siteConfigAccessor, var metaTagsAccessor) = GetOptions(sandbox);

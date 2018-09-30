@@ -7,6 +7,7 @@ using DasBlog.Tests.Support.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Xml;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -32,8 +33,6 @@ namespace DasBlog.Tests.FunctionalTests.BrowserBasedTests
 		private BrowserTestPlatform platform;
 		private ITestOutputHelper testOutputHelper;
 		private ILogger<PrototypeBrowserBasedTests> logger;
-		private IVersionedFileService versionedFileService;
-		private IDasBlogSandbox dasBlogSandbox;
 		public PrototypeBrowserBasedTests(ITestOutputHelper testOutputHelper, BrowserTestPlatform browserTestPlatform)
 		{
 			testOutputHelper.WriteLine("hello from browser constructor");
@@ -91,6 +90,7 @@ namespace DasBlog.Tests.FunctionalTests.BrowserBasedTests
 			}
 			catch (Exception e)
 			{
+				_ = e;
 				throw;
 			}
 			finally
@@ -121,6 +121,7 @@ namespace DasBlog.Tests.FunctionalTests.BrowserBasedTests
 			}
 			catch (Exception e)
 			{
+				_ = e;
 				throw;
 			}
 			finally

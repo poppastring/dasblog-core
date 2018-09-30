@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
 using System.Text.RegularExpressions;
 using DasBlog.SmokeTest;
 using DasBlog.Tests.Support.Common;
@@ -114,6 +115,7 @@ namespace DasBlog.Tests.Support
 			}
 			catch (Exception e)
 			{
+				_ = e;
 				return (0, 0);
 			}
 		}
