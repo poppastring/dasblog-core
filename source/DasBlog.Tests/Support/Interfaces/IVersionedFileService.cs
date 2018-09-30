@@ -1,4 +1,6 @@
-﻿namespace DasBlog.Tests.Support.Interfaces
+﻿using System;
+
+namespace DasBlog.Tests.Support.Interfaces
 {
 	public interface IVersionedFileService
 	{

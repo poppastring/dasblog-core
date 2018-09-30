@@ -17,6 +17,7 @@ namespace DasBlog.Tests.FunctionalTests.Common
 			IOptions<DasBlogISandboxOptions> optionsAccessor = new OptionsAccessor<DasBlogISandboxOptions> {Value = opts};
 			var fs = serviceProvider.GetService<IVersionedFileService>();
 			var sandbox = new DasBlogSandbox(sandboxLogger, fs, optionsAccessor);
+			sandbox.Init();
 			return sandbox;
 		}
 		

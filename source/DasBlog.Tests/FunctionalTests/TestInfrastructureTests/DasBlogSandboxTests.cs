@@ -51,7 +51,7 @@ namespace DasBlog.Tests.FunctionalTests.TestInfrastructureTests
 		{
 			try
 			{
-				dasBlogSandbox.Init();
+//				dasBlogSandbox.Init();
 				Assert.True(true);
 			}
 			finally

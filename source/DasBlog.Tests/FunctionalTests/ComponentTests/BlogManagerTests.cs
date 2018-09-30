@@ -12,13 +12,11 @@ namespace DasBlog.Tests.FunctionalTests.ComponentTests
 	{
 
 		private ComponentTestPlatform platform;
-		private ITestOutputHelper testOutputHelper;
 		private IDasBlogSandbox dasBlogSandbox;
 		public BlogManagerTests(ITestOutputHelper testOutputHelper, ComponentTestPlatform componentTestPlatform)
 		{
 			componentTestPlatform.CompleteSetup(testOutputHelper);
 			this.platform = componentTestPlatform;
-			this.testOutputHelper = testOutputHelper;
 			dasBlogSandbox = platform.CreateSandbox(Constants.VanillaEnvironment);
 		}
 
@@ -35,15 +33,54 @@ namespace DasBlog.Tests.FunctionalTests.ComponentTests
 		[Trait(Constants.CategoryTraitType, Constants.ComponentTestTraitValue)]
 		public void SearchingBlog_WithMatchableData_ReturnsOneRecord()
 		{
-			IDasBlogSandbox sandbox = dasBlogSandbox;
-			sandbox = platform.CreateSandbox(Constants.VanillaEnvironment);
-			sandbox.Init();
-			var blogManager = platform.CreateBlogManager(sandbox);
+			var blogManager = platform.CreateBlogManager(dasBlogSandbox);
 			EntryCollection entries = blogManager.SearchEntries("put some text here", null);
 			Assert.Single(entries);
 		}
 
+		[Fact]
+		[Trait(Constants.CategoryTraitType, Constants.ComponentTestTraitValue)]
+		public void LoadingBlogPost_ForValidEntry_ReturnsEntry()
+		{
+			const string entryId = "5125c596-d6d5-46fe-9f9b-c13f851d8b0d";
+			const string title = "created with unique on";
+			var blogManager = platform.CreateBlogManager(dasBlogSandbox);
+			Entry entry = blogManager.GetEntryForEdit(entryId);
+			Assert.NotNull(entry);
+			Assert.Equal(entryId, entry.EntryId);
+		}
+		[Fact]
+		[Trait(Constants.CategoryTraitType, Constants.ComponentTestTraitValue)]
+		public void LoadingBlogPost_ForValidEntryOnDate_ReturnsEntry()
+		{
+			const string entryId = "5125c596-d6d5-46fe-9f9b-c13f851d8b0d";
+			const string compressedTitle = "createdwithuniqueon";
+			DateTime dt = new DateTime(2018,8,3);
+			var blogManager = platform.CreateBlogManager(dasBlogSandbox);
+			Entry entry = blogManager.GetBlogPost(compressedTitle, dt);
+			Assert.NotNull(entry);
+			Assert.Equal(entryId, entry.EntryId);
+		}
+		[Fact]
+		[Trait(Constants.CategoryTraitType, Constants.ComponentTestTraitValue)]
+		public void LoadingBlogPost_ForValidEntryNoDate_ReturnsEntry()
+		{
+			const string entryId = "5125c596-d6d5-46fe-9f9b-c13f851d8b0d";
+			const string compressedTitle = "createdwithuniqueon";
+			var blogManager = platform.CreateBlogManager(dasBlogSandbox);
+			Entry entry = blogManager.GetBlogPost(compressedTitle, null);
+			Assert.NotNull(entry);
+			Assert.Equal(entryId, entry.EntryId);
+		}
 
+		[Fact]
+		[Trait(Constants.CategoryTraitType, Constants.ComponentTestTraitValue)]
+		public void FrontPage_ForFewerThanMaxEntries_ReturnsAllEntries()
+		{
+			var blogManager = platform.CreateBlogManager(dasBlogSandbox);
+			EntryCollection entries = blogManager.GetFrontPagePosts(null);
+			Assert.Equal(2, entries.Count);
+		}
 		public void Dispose()
 		{
 			dasBlogSandbox?.Terminate();

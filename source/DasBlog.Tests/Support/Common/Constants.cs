@@ -7,7 +7,7 @@ namespace DasBlog.Tests.Support.Common
 		// this is the amount of time the host (functional test) will wait around
 		// before pulling the plug on cmd.exe
 		public const string DasBlogTestScriptTimeout = "DAS_BLOG_TEST_SCRIPT_TIMEOUT";
-		public const int DefaultScriptTimeout = 10_000;
+		public const int DefaultScriptTimeout = 20_000;
 		// this is the amount of time the script will linger so that
 		// the host process can gather any output
 		public const string DasBlogTestScriptExitTimeout = "DAS_BLOG_TEST_SCRIPT_EXIT_TIMEOUT";
@@ -23,14 +23,16 @@ namespace DasBlog.Tests.Support.Common
 			//						   c:/projects/dasblog-core/source/DasBlog.Tests/some-project/bin/debug/netcoreapp2.1
 		public const int GitRequiredMajorVersion = 2;
 		public const int GitRequiredMinorVersion = 15;
-		// script names
+		// ****** script names ******
 		public const string DetectChangesScriptName = "DetectChanges.cmd";
 		public const string GetGitVersionScriptName = "GetVersion.cmd";
 		public const string StashCurrentStateScriptName = "StashCurrentState.cmd";
 		public const string ConfirmStashScriptName = "ConfirmStash.cmd";
-		// Environments
+		// ****** Environments ******
 		public const string VanillaEnvironment = "Vanilla";
-		// XUnit Traits
+		public const string LanguageEnvironment = "Language";
+		public const string UrlContainsDateEnvironment = "UrlContainsDate";
+		// ****** XUnit Traits ******
 		public const string CategoryTraitType = "Category";
 		public const string TestInfrastructureTestTraitValue = "TestInfrastructureTest";
 		public const string UnitTestTraitValue = "UnitTest";
@@ -38,5 +40,9 @@ namespace DasBlog.Tests.Support.Common
 		public const string IntegrationTestTraitValue = "IntegrationTest";
 		public const string BrowserBasedTestTraitValue = "BrowserBasedTest";
 		public const string TestInfrastructureUsersCollection = "TestInfrastructureUsers";
+		public const string DescriptionTraitType = "Description";
+		public const string FailureTraitTraitType = "Failure";
+		public const string ApiFailureTraitValue = "API Failure";
+				// this implies that although the test fails - the API may not be used currently in the app.
 	}
 }

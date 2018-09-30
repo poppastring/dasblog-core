@@ -1,0 +1,78 @@
+﻿<rewrite>
+  <rules>
+    <rule name="Redirect RSS syndication" stopProcessing="true">
+      <match url="^SyndicationService.asmx/GetRss" />
+      <action type="Redirect" url="/feed/rss" redirectType="Permanent" />
+    </rule>
+
+    <rule name="Redirect Atom syndication" stopProcessing="true">
+      <match url="^SyndicationService.asmx/GetAtom" />
+      <action type="Redirect" url="/feed/atom" redirectType="Permanent" />
+    </rule>
+
+    <rule name="Edit Service Rsd" stopProcessing="true">
+      <match url="^EditService.asmx/GetRsd" />
+      <action type="Redirect" url="/feed/rsd" redirectType="Permanent" />
+    </rule>
+
+    <rule name="Blogger API" stopProcessing="true">
+      <match url="^blogger.aspx" />
+      <action type="Redirect" url="/feed/blogger" redirectType="Permanent" />
+    </rule>
+
+    <rule name="Redirect front page" stopProcessing="false">
+      <match url="^default.aspx" />
+      <conditions>
+        <add input="{QUERY_STRING}" pattern="&amp;?page=(.*)" />
+      </conditions>
+      <action type="Redirect" url="/page/{C:1}" redirectType="Permanent" />
+    </rule>
+
+    <rule name="Redirect Month page (year-month)" stopProcessing="false">
+      <match url="^monthview.aspx" />
+      <conditions>
+        <add input="{QUERY_STRING}" pattern="&amp;?month=(.*)-(.*)" />
+      </conditions>
+      <action type="Redirect" url="/archive/{C:1}/{C:2}" redirectType="Permanent" />
+    </rule>
+
+    <rule name="Redirect Month page (year)" stopProcessing="false">
+      <match url="^monthview.aspx" />
+      <conditions>
+        <add input="{QUERY_STRING}" pattern="&amp;?year=(.*)" />
+      </conditions>/
+      <action type="Redirect" url="/archive/{C:1}" redirectType="Permanent" />
+    </rule>
+
+    <rule name="Redirect Month page" stopProcessing="false">
+      <match url="^monthview.aspx" />
+      <action type="Redirect" url="/archive" redirectType="Permanent" />
+    </rule>
+
+    <rule name="Redirect Month page" stopProcessing="false">
+      <match url="^monthview.aspx" />
+      <action type="Redirect" url="/archive" redirectType="Permanent" />
+    </rule>
+
+    <rule name="Redirect Category View" stopProcessing="false">
+      <match url="^categoryview.aspx" />
+      <conditions>
+        <add input="{QUERY_STRING}" pattern="&amp;?category=(.*)" />
+      </conditions>
+      <action type="Redirect" url="/category/{C:1}" redirectType="Permanent" />
+    </rule>
+
+    <rule name="Redirect Comments" stopProcessing="false">
+      <match url="^commentview.aspx" />
+      <conditions>
+        <add input="{QUERY_STRING}" pattern="&amp;?guid=(.*)" />
+      </conditions>
+      <action type="Redirect" url="/comment/{C:1}#commentstart" redirectType="Permanent" />
+    </rule>
+
+    <rule name="Sitemap" stopProcessing="true">
+      <match url="^googlesitemap.ashx" />
+      <action type="Redirect" url="/site/map" redirectType="Permanent" />
+    </rule>
+  </rules>
+</rewrite>

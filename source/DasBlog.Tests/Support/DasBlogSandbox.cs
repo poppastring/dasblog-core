@@ -37,12 +37,14 @@ namespace DasBlog.Tests.Support
 			if (!active)
 			{
 				logger.LogError(errorMessage);
+				throw new Exception(errorMessage);
 			}
 
 			(bool clean, string errorMessage2) = fileService.IsClean(environment);
 			if (!clean)
 			{
 				logger.LogError(errorMessage2);
+				throw new Exception(errorMessage);
 			}
 		}
 		/// <summary>
@@ -100,5 +102,10 @@ namespace DasBlog.Tests.Support
 		}
 		// e.g. "c:/alt/projs/dasblog-core/source/DasBlog.Tests/Resources/Environments/Vanilla"
 		public string TestEnvironmentPath => Path.Combine(fileService.TestDataPath, environment);
+
+		public void Dispose()
+		{
+			Terminate();
+		}
 	}
 }

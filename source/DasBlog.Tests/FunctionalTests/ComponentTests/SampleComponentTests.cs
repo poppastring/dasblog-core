@@ -45,7 +45,7 @@ namespace DasBlog.Tests.FunctionalTests.ComponentTests
 			this.platform = componentTestPlatform;
 			this.testOutputHelper = testOutputHelper;
 			dasBlogSandbox = platform.CreateSandbox(Constants.VanillaEnvironment);
-			dasBlogSandbox.Init();
+//			dasBlogSandbox.Init();
 		}
 
 		[Fact]
