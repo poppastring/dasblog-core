@@ -17,14 +17,14 @@ namespace DasBlog.Tests.FunctionalTests.IntegrationTests
 			client = webAppFactory.CreateClient();
 					// nothing happens (DI etc) until this has been called
 		}
-		[Fact]
+		[Fact(Skip="")]
 		public async void MinimalTest()
 		{
 			var response = await client.GetAsync("http://localhost:5000/account/login");
 			Assert.Equal( HttpStatusCode.OK, response.StatusCode);
 		}
 
-		[Fact]
+		[Fact(Skip="")]
 		public void UsersTest()
 		{
 			var userService = serviceResolver.GetService<IUserService>();

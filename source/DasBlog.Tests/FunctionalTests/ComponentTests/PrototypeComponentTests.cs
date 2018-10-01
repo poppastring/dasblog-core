@@ -1,43 +1,29 @@
 using System;
-using System.Collections.Generic;
-using System.Threading;
-using DasBlog.Tests.Automation.Selenium;
-using DasBlog.Tests.Support;
 using DasBlog.Tests.Support.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Xunit;
 using Xunit.Abstractions;
-
 /*
  * THERE IS NO logging to the console - in the debugger the log appears in the detail of the test results
  * when run from the console the log appears in a log file assuming you provide the correct command line
  * dotnet xunit cli is required to get console output
  * If I do "dotnet xunit -diagnostics" it barfs with a reference to a missing Microsoft.Extensions.Options
  */
-namespace DasBlog.Tests.FunctionalTests.BrowserBasedTests
+namespace DasBlog.Tests.FunctionalTests.ComponentTests
 {
-	public class BrowserOptionsAccessor : IOptions<BrowserOptions>
-	{
-		public BrowserOptionsAccessor(BrowserOptions opts)
-		{
-			Value = opts;
-		}
-		public BrowserOptions Value { get; }
-	}
-	public class PrototypeBrowserBasedTests : IClassFixture<BrowserTestPlatform>
+	public class PrototypeComponentTests : IClassFixture<ComponentTestPlatform>
 	{
 
-		private BrowserTestPlatform platform;
+		private ComponentTestPlatform platform;
 		private ITestOutputHelper testOutputHelper;
-		private ILogger<PrototypeBrowserBasedTests> logger;
+		private ILogger<PrototypeComponentTests> logger;
 		private IVersionedFileService versionedFileService;
 		private IDasBlogSandbox dasBlogSandbox;
-		public PrototypeBrowserBasedTests(ITestOutputHelper testOutputHelper, BrowserTestPlatform browserTestPlatform)
+		public PrototypeComponentTests(ITestOutputHelper testOutputHelper, ComponentTestPlatform componentTestPlatform)
 		{
-			testOutputHelper.WriteLine("hello from browser constructor");
-					// the above message and others like it appear in the detail pane of Rider's test runner for
+			testOutputHelper.WriteLine("hello from component constructor");
+					// this and others like it appear in the detail pane of Rider's test runner for
 					// Running a successful test
 					// Debugging a successful test
 					// Running a failed test
@@ -56,76 +42,16 @@ namespace DasBlog.Tests.FunctionalTests.BrowserBasedTests
 			// It turns out that the following is not a bad start:
 			// "dotnet test --logger trx;LogfileName=test_results.xml --results-directory ./test_results"
 			//			test_results.xml will appear in <proj>/source/DasBlog.Tests/FunctionalTests/test_results
-			browserTestPlatform.CompleteSetup(testOutputHelper);
-			this.platform = browserTestPlatform;
+			componentTestPlatform.CompleteSetup(testOutputHelper);
+			this.platform = componentTestPlatform;
 			this.testOutputHelper = testOutputHelper;
-			this.logger = platform.ServiceProvider.GetService<ILoggerFactory>().CreateLogger<PrototypeBrowserBasedTests>();
 		}
 
 		[Fact]
-		public void Test1()
+		[Trait("Category", "ComponentTest")]
+		public void SimpleTest()
 		{
 			Assert.True(true);
-		}
-		[Fact(Skip="")]
-		public void MinimalTest()
-		{
-//			Thread.Sleep(5000);
-			try
-			{
-				logger.LogError("logging starts here");
-				List<TestStep> testSteps = new List<TestStep>
-				{
-					new TestStep(() => platform.Pages.Login.Goto()),
-					new TestStep(() => platform.Pages.Login.IsDisplayed()),
-					new TestStep(() => platform.Pages.Login.LoginButton != null),
-					new TestStep(() => platform.Pages.Login.LoginButton.Click()),
-					new TestStep(() =>
-						platform.Pages.Login.PasswordValidation.Text.ToLower().Contains("the password field is required")),
-					new TestStep(() => platform.Pages.Login.IsDisplayed())
-				};
-				var results = new TestResults();
-				platform.TestExecutor.Execute(testSteps, results);
-				platform.Publisher.Publish(results.Results);
-				Assert.True(results.TestPassed);
-			}
-			catch (Exception e)
-			{
-				throw;
-			}
-			finally
-			{
-			}
-		}
-		[Fact(Skip="")]
-		public void MinimalTest2()
-		{
-			Thread.Sleep(5000);
-			try
-			{
-				logger.LogError("logging starts here");
-				List<TestStep> testSteps = new List<TestStep>
-				{
-					new TestStep(() => platform.Pages.Login.Goto()),
-					new TestStep(() => platform.Pages.Login.IsDisplayed()),
-					new TestStep(() => platform.Pages.Login.LoginButton != null),
-					new TestStep(() => platform.Pages.Login.LoginButton.Click()),
-					new TestStep(() =>
-						platform.Pages.Login.PasswordValidation.Text.ToLower().Contains("the password field is required")),
-					new TestStep(() => platform.Pages.Login.IsDisplayed())
-				};
-				var results = new TestResults();
-				platform.TestExecutor.Execute(testSteps, results);
-				platform.Publisher.Publish(results.Results);
-				Assert.True(results.TestPassed);
-			}
-			catch (Exception e)
-			{
-				throw;
-			}
-			finally
-			{
-			}
 		}
 	}
 
