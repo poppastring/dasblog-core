@@ -100,7 +100,7 @@ namespace DasBlog.Tests.Support
 		{
 			throw new NotImplementedException();
 		}
-		// e.g. "c:/alt/projs/dasblog-core/source/DasBlog.Tests/Resources/Environments/Vanilla"
+		/// <returns>e.g. "c:/alt/projs/dasblog-core/source/DasBlog.Tests/Resources/Environments/Vanilla"</returns> 
 		public string TestEnvironmentPath => Path.Combine(fileService.TestDataPath, environment);
 
 		public void Dispose()

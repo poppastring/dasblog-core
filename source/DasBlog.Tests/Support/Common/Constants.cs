@@ -44,5 +44,14 @@ namespace DasBlog.Tests.Support.Common
 		public const string FailureTraitTraitType = "Failure";
 		public const string ApiFailureTraitValue = "API Failure";
 				// this implies that although the test fails - the API may not be used currently in the app.
+		// ****** DasBlog Content Directories and other path fragments ******
+		public const string ConfigDirectory = "Config";
+		public const string ContentDirectory = "content";
+		public const string LogDirectory = "logs";
+		public const string SiteConfigPathFragment = "Config/site.config";
+		public const string SiteSecurityConfigPathFragment = "Config/siteSecurity.config";
+		// ****** XML Paths ******
+		public const string SiteConfigRoot = "/SiteConfig";
+		public const string SiteSecurityConfigRoot = "/SiteSecurityConfig";
 	}
 }

@@ -39,6 +39,11 @@ namespace DasBlog.Tests.FunctionalTests.ComponentTests
 			return ServiceProvider.GetService<IDasBlogSandboxFactory>().CreateSandbox(ServiceProvider, environment);
 		}
 
+		public ITestDataProcessor CreateTestDataProcessor(IDasBlogSandbox sandbox)
+		{
+			return ServiceProvider.GetService<ITestDataProcesorFactory>().CreateTestDataProcessor(sandbox);
+		}
+
 		private IDasBlogSettings CreateDasBlogSettings(IDasBlogSandbox sandbox)
 		{
 			(var siteConfigAccessor, var metaTagsAccessor) = GetOptions(sandbox);

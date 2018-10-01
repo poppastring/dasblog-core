@@ -39,15 +39,17 @@ namespace DasBlog.Tests.FunctionalTests.ComponentTests
 				Assert.Single(entries);
 			}
 		}
-		[Fact(Skip="true")]
+		[Fact(Skip="")]
 		[Trait(Constants.DescriptionTraitType, "returns entry irrespective of date")]
 		[Trait(Constants.FailureTraitTraitType, Constants.ApiFailureTraitValue)]
 		[Trait(Constants.CategoryTraitType, Constants.ComponentTestTraitValue)]
 		public void GetBlogPost_ForValidEntryOnWrongDate_ReturnsNull()
 		{
-			using (var sandbox = platform.CreateSandbox(Constants.UrlContainsDateEnvironment))
+			using (var sandbox = platform.CreateSandbox(Constants.VanillaEnvironment))
 			{
 				const string compressedTitle = "createdwithuniqueon";
+				var testDataProcessor = platform.CreateTestDataProcessor(sandbox);
+				testDataProcessor.SetSiteConfigValue("EnableTitlePermaLinkUnique", "true");
 				DateTime dt = new DateTime(2018,8,5);
 				var blogManager = platform.CreateBlogManager(sandbox);
 				Entry entry = blogManager.GetBlogPost(compressedTitle, dt);

@@ -102,6 +102,7 @@ namespace DasBlog.Tests.FunctionalTests.Common
 			services.AddSingleton<IScriptRunner, ScriptRunner>();
 			services.AddSingleton<IVersionedFileService, GitVersionedFileService>();
 			services.AddSingleton<IDasBlogSandboxFactory, DasBlogSandboxFactory>();
+			services.AddSingleton<ITestDataProcesorFactory, TestDataProcesorFactory>();
 //			services.AddTransient<IDasBlogSandbox, DasBlogSandbox>();
 			InjectDependencies(services);	// add in the derived class's dependencies
 			ServiceProvider = services.BuildServiceProvider();
