@@ -7,8 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>@ViewData["Title"]</title>
-
+    <title>@ViewData["PageTitle"]</title>
     <meta name="description" content="@ViewData["Description"]" />
     <meta name="keywords" content="@ViewData["Keywords"]" />
     <meta name="author" content="@ViewData["Author"]" />
@@ -32,6 +31,7 @@
 </head>
 <body>
     @await Html.PartialAsync("_NavBar")
+
     <div class="container body-content">
         @RenderBody()
         <footer>

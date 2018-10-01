@@ -14,6 +14,7 @@ namespace DasBlog.Web.Controllers
 		private readonly IHttpContextAccessor httpContextAccessor;
 		private readonly IDasBlogSettings dasBlogSettings;
 		private readonly IMapper mapper;
+		private const string CATEGORY = "Category";
 
 		public CategoryController(ICategoryManager categoryManager, IDasBlogSettings settings, IHttpContextAccessor httpContextAccessor, IMapper mapper)
 			: base(settings)
@@ -45,6 +46,8 @@ namespace DasBlog.Web.Controllers
 				: categoryManager.GetEntries();
 
 			var viewModel = CategoryListViewModel.Create(entries);
+
+			DefaultPage(CATEGORY);
 			return viewModel;
 		}
 	}

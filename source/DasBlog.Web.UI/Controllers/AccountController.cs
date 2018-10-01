@@ -10,24 +10,23 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using DasBlog.Managers.Interfaces;
 using DasBlog.Core.Extensions;
+using DasBlog.Web.Settings;
 
 namespace DasBlog.Web.Controllers
 {
 	[Authorize]
-	public class AccountController : DasBlogController
+	public class AccountController : DasBlogBaseController
 	{
 		private const string KEY_RETURNURL = "ReturnUrl";
 		private readonly ILogger<AccountController> logger;
 		private readonly IMapper mapper;
 		private readonly SignInManager<DasBlogUser> signInManager;
 		private readonly UserManager<DasBlogUser> userManager;
+		private const string LOGIN = "Login";
 
-		public AccountController(
-			UserManager<DasBlogUser> userManager,
-			SignInManager<DasBlogUser> signInManager,
-			IMapper mapper,
-			ISiteSecurityManager siteSecurityManager
-			, ILogger<AccountController> logger)
+		public AccountController(UserManager<DasBlogUser> userManager, SignInManager<DasBlogUser> signInManager,
+							IMapper mapper, ISiteSecurityManager siteSecurityManager, ILogger<AccountController> logger, IDasBlogSettings settings) 
+							: base(settings)
 		{
 			this.signInManager = signInManager;
 			this.userManager = userManager;
@@ -44,6 +43,7 @@ namespace DasBlog.Web.Controllers
 			await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
 			ViewData[KEY_RETURNURL] = returnUrl;
+			DefaultPage(LOGIN);
 			return View();
 		}
 
@@ -59,12 +59,13 @@ namespace DasBlog.Web.Controllers
 
 				if (result.Succeeded)
 				{
-					logger.LogInformation(new EventDataItem(EventCodes.SecuritySuccess, null
-					  , "{email} logged in successfully", model.Email));
+					logger.LogInformation(new EventDataItem(EventCodes.SecuritySuccess, null, 
+						"{email} logged in successfully", model.Email));
+
 					return LocalRedirect(returnUrl ?? Url.Action("Index", "Home"));
 				}
-				logger.LogInformation(new EventDataItem(EventCodes.SecuritySuccess, null
-					, "{email} failed to log in", model.Email));
+				logger.LogInformation(new EventDataItem(EventCodes.SecuritySuccess, null, 
+						"{email} failed to log in", model.Email));
 
 				ModelState.AddModelError(string.Empty, "The username and/or password is incorrect. Please try again.");
 			}
@@ -95,11 +96,7 @@ namespace DasBlog.Web.Controllers
 			{
 				var user = mapper.Map<DasBlogUser>(model);
 				var result = await userManager.CreateAsync(user, model.Password);
-				if (result.Succeeded)
-				{
-					// Success Notification
-				}
-				else
+				if (!result.Succeeded)
 				{
 					foreach (var item in result.Errors)
 					{

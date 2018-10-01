@@ -1,20 +1,24 @@
 ﻿using System;
 using AutoMapper;
+using DasBlog.Core;
 using DasBlog.Managers.Interfaces;
 using DasBlog.Web.Models.BlogViewModels;
+using DasBlog.Web.Settings;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DasBlog.Web.Controllers
 {
 	[Route("archive")]
-	public class ArchiveController : DasBlogController
+	public class ArchiveController : DasBlogBaseController
 	{
 		private IArchiveManager archiveManager;
 		private IHttpContextAccessor httpContextAccessor;
 		private readonly IMapper mapper;
+		private const string ARCHIVE = "Archive";
 
-		public ArchiveController(IArchiveManager archiveManager, IHttpContextAccessor httpContextAccessor, IMapper mapper)
+		public ArchiveController(IArchiveManager archiveManager, IHttpContextAccessor httpContextAccessor, IMapper mapper, 
+									IDasBlogSettings settings) : base(settings)
 		{
 			this.archiveManager = archiveManager;
 			this.httpContextAccessor = httpContextAccessor;
@@ -59,6 +63,8 @@ namespace DasBlog.Web.Controllers
 			ViewBag.NextMonth = dateTime.AddMonths(1).Date;
 			ViewBag.CurrentMonth = dateTime.Date;
 			var entries = archiveManager.GetEntriesForMonth(dateTime, languageFilter);
+
+			DefaultPage(ARCHIVE);
 			return MonthViewViewModel.Create(dateTime, entries, mapper);
 		}
 	}
