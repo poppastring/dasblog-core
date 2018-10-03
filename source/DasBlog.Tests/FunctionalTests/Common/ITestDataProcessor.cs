@@ -24,13 +24,11 @@ namespace DasBlog.Tests.FunctionalTests.Common
 		/// <param name="key">e.g. "Role"</param>
 		/// <returns>e.g. "admin", if operation fails then value is null otherwise it is the value identified by key</returns>
 		(bool success, string value) GetSiteSecurityConfigValue(string email, string key);
-/*
 		/// <param name="dt">The date of the blog entry - should match the date in the file name</param>
-		/// <param name="pred">e.g. entry => entry.EntryId=="abc' </param>
+		/// <param name="entryId">typically a GUID</param>
 		/// <param name="key">e.g. "IsPublic"</param>
 		/// <returns>e.g. "false", if operation fails then value is null otherwise it is the value identified by key</returns>
-		(bool success, string value) GetBlogPostValue(DateTime dt, Expression<Func<Entry, bool>> pred, string key);
-*/
+		(bool success, string value) GetBlogPostValue(DateTime dt, string entryId, string key);
 /*
 		/// <summary>
 		/// set values in config and entry files

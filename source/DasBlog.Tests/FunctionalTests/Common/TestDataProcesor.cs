@@ -27,7 +27,7 @@ namespace DasBlog.Tests.FunctionalTests.Common
 		/// <inheritdoc cref="ITestDataProcessor.GetValue"/>
 		/// <param name="xPath">e.g. "/post:DayEntry/post:Entries/post:Entry[post:Title='abc']/post:EntryId'"
 		/// ****** CAUTION ******
-		/// Callers must prefix all the element names with 'post:' because the C# XPath mechanism
+		/// Callers must prefix all the element names for blog entries with 'post:' because the C# XPath mechanism
 		/// insist that even the default namespace is specified in the xpath</param>
 		public (bool success, string value) GetValue(string filePathRelativeToEnvironment, string xPath)
 		{
@@ -64,13 +64,14 @@ namespace DasBlog.Tests.FunctionalTests.Common
 			return GetValue(Constants.SiteSecurityConfigPathFragment
 			  , $"{Constants.SiteSecurityConfigRoot}/Users/User[EmailAddress='{email}']/{key}");
 		}
-/*
 		/// <inheritdoc cref="ITestDataProcessor.GetBlogPostValue"/>
-		public (bool success, string value) GetBlogPostValue(DateTime dt, Expression<Func<Entry, bool>> pred, string key)
+		public (bool success, string value) GetBlogPostValue(DateTime dt, string entryId, string key)
 		{
-			throw new NotImplementedException();
+			string fileName = GetBlogEntryFileName(dt);
+			return GetValue(Path.Combine(Constants.ContentDirectory, fileName)
+				, $"/post:DayEntry/post:Entries/post:Entry[post:EntryId='{entryId}']/post:{key}");
 		}
-*/
+
 /*
 		/// <inheritdoc cref="ITestDataProcessor.SetValue"/>
 		public void SetValue(string filePathRelativeToEnvironment, params object[] pathPartsAndValue)
@@ -125,6 +126,11 @@ namespace DasBlog.Tests.FunctionalTests.Common
 			string str = writer.ToString();
 			return "<?xml version='1.0' encoding='utf-8'?>" + Environment.NewLine + str;
 		}
+		public static string GetBlogEntryFileName(DateTime blogPostDate)
+		{
+			return $"{blogPostDate.Year}-{blogPostDate.Month:D2}-{blogPostDate.Day:D2}.dayentry.xml";
+		}
+
 	}
 
 	public interface ITestDataProcesorFactory
