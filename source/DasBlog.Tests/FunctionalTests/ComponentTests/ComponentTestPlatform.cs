@@ -86,37 +86,22 @@ namespace DasBlog.Tests.FunctionalTests.ComponentTests
 				.AddXmlFile(@"Config/site.config", optional: true, reloadOnChange: true)
 				.AddXmlFile(@"Config/metaConfig.xml", optional: true, reloadOnChange: true)
 				.AddJsonFile($"appsettings.json", optional: true, reloadOnChange: true)
-//				.AddJsonFile($"appsettings.{staging}json", optional: true, reloadOnChange: true)
 				.AddEnvironmentVariables()
 				;
 			return configBuilder.Build();
 		}
 		protected override void InjectDependencies(IServiceCollection services)
 		{
-			ConfigurationBuilder configBuilder = new ConfigurationBuilder();
-			configBuilder.AddJsonFile(
-			  Path.Combine(Utils.GetProjectRootDirectory(), Constants.ComponentTestsRelativeToProject, "appsettings.json")
-				, optional: false, reloadOnChange: false);
-			IConfigurationRoot config = configBuilder.Build();
-			services.Configure<ILoggerFactory>(config);
-			services.AddLogging(
-				opts =>
-				{
-					opts.AddConfiguration(config.GetSection("Logging"));
-					opts.SetMinimumLevel(LogLevel.Information);
-				});
 		}
 
 		protected override void CompleteSetupLocal()
 		{
 			var loggerFactory = ServiceProvider
 				.GetService<ILoggerFactory>();
-/*
-			loggerFactory.AddConsole(LogLevel.Debug)
-				.AddDebug(LogLevel.Debug);
-*/
 			logger = loggerFactory.CreateLogger<ComponentTestPlatform>();
 		}
+		protected override string AppSettingsPathRelativeToProject { get; set; } =
+			Constants.ComponentTestsRelativeToProject;
 
 	}
 

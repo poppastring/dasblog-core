@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using DasBlog.Tests.Automation.Selenium;
+using DasBlog.Tests.FunctionalTests.Common;
 using DasBlog.Tests.Support;
 using DasBlog.Tests.Support.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
@@ -57,6 +58,7 @@ namespace DasBlog.Tests.FunctionalTests.BrowserBasedTests
 			//			test_results.xml will appear in <proj>/source/DasBlog.Tests/FunctionalTests/test_results
 			browserTestPlatform.CompleteSetup(testOutputHelper);
 			this.platform = browserTestPlatform;
+			LoggerValidator.Validate(platform.ServiceProvider);
 			this.testOutputHelper = testOutputHelper;
 			this.logger = platform.ServiceProvider.GetService<ILoggerFactory>().CreateLogger<PrototypeBrowserBasedTests>();
 		}

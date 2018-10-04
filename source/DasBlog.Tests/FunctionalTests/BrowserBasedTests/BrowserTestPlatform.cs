@@ -1,13 +1,15 @@
 using System;
+using System.IO;
 using DasBlog.Tests.Automation.Dom;
 using DasBlog.Tests.Automation.Selenium;
 using DasBlog.Tests.Automation.Selenium.Interfaces;
 using DasBlog.Tests.FunctionalTests.Common;
 using DasBlog.Tests.Support;
 using DasBlog.Tests.Support.Interfaces;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.IdentityModel.Xml;
+using DasBlog.Tests.Support.Common;
 
 namespace DasBlog.Tests.FunctionalTests.BrowserBasedTests
 {
@@ -65,5 +67,7 @@ namespace DasBlog.Tests.FunctionalTests.BrowserBasedTests
 				throw;
 			}
 		}
+		protected override string AppSettingsPathRelativeToProject { get; set; } =
+			Constants.BrowserBasedTestsRelativeToProject;
 	}
 }

@@ -27,6 +27,7 @@ namespace DasBlog.Tests.FunctionalTests.TestInfrastructureTests
 		{
 			this.platform = platform;
 			this.platform.CompleteSetup(testOutputHelper);
+			LoggerValidator.Validate(platform.ServiceProvider);
 		}
 
 		[Fact]

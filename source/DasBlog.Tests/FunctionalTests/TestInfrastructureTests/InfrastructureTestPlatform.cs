@@ -1,7 +1,10 @@
+using System.IO;
 using DasBlog.Tests.FunctionalTests.Common;
+using DasBlog.Tests.Support.Common;
 using DasBlog.Tests.Support.Interfaces;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Xunit.Abstractions;
+using Microsoft.Extensions.Logging;
 
 namespace DasBlog.Tests.FunctionalTests.TestInfrastructureTests
 {
@@ -9,7 +12,6 @@ namespace DasBlog.Tests.FunctionalTests.TestInfrastructureTests
 	{
 		protected override void InjectDependencies(IServiceCollection services)
 		{
-			// nothing to do
 		}
 		public IDasBlogSandbox CreateSandbox(string environment)
 		{
@@ -20,5 +22,8 @@ namespace DasBlog.Tests.FunctionalTests.TestInfrastructureTests
 		{
 			// nothing to do
 		}
+
+		protected override string AppSettingsPathRelativeToProject { get; set; } =
+			Constants.TestInfrastructureTestsRelativeToProject;
 	}
 }
