@@ -8,8 +8,7 @@ namespace DasBlog.Tests.Automation.Dom
 		protected readonly IBrowser browser;
 		protected readonly string path;						// relative to the root e.g. "category" or "account/login"
 		protected readonly string pageTestId;
-		// TODO remoe optional from title - two strings / one string is a gotcha
-		public Page(IBrowser browser, string path, string pageTestId = null)
+		public Page(IBrowser browser, string path, string pageTestId)
 		{
 			this.browser = browser;
 			this.path = path;
