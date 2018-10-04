@@ -5,7 +5,7 @@ namespace DasBlog.Tests.Automation.Dom
 {
 	public class ArchivePage : Page
 	{
-		public ArchivePage(IBrowser browser) : base(browser, "archive", WebAppConstants.ArchivePageTitle)
+		public ArchivePage(IBrowser browser) : base(browser, "archive", WebAppConstants.ArchivePageTestId)
 		{
 		}
 	}

@@ -6,7 +6,7 @@ namespace DasBlog.Tests.Automation.Dom
 {
 	public class LoginPage : Page
 	{
-		public LoginPage(IBrowser browser) : base(browser, Constants.LoginPage, Constants.LoginPageTitle)
+		public LoginPage(IBrowser browser) : base(browser, Constants.LoginPage, AppConstants.LoginPageTestId)
 		{
 		}
 

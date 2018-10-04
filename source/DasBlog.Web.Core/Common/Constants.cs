@@ -51,6 +51,16 @@ namespace DasBlog.Core.Common
 		public const string CategoryNavId = "categoryNavBarItemId";
 		public const string ArchiveNavId = "archiveNavBarItemId";
 		public const string HomeNavId = "homeNavBarItemId";
+		// page test ids - used by automated browser tests
+		public const string PageTestIdClass = "page-test-id";
+		public const string LoginPageTestId = "login-page";
+		public const string HomePageTestId = "home-page";
+		public const string CategoryPageTestId = "category-page";
+		public const string ArchivePageTestId = "archive-page";
+		public const string SubscribePageTestId = "subscribe-page";
+		public const string PostMaintenancePageTestId = "post-maintenance-page";
+		public const string UsersPageTestId = "users-page";
+		public const string ActivityPageTestId = "activity-page";
 		//
 		public const string DasBlogDataRoot = "DAS_BLOG_DATA_ROOT";
 	}
