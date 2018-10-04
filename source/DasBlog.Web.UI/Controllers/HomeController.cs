@@ -20,9 +20,8 @@ namespace DasBlog.Web.Controllers
 		private readonly IMapper mapper;
 		private readonly ILogger<HomeController> logger;
 		
-		public HomeController(IBlogManager blogManager
-		  , IDasBlogSettings settings, IXmlRpcManager rpcManager, IMapper mapper
-		  , ILogger<HomeController> logger) : base(settings)
+		public HomeController(IBlogManager blogManager, IDasBlogSettings settings, 
+			IXmlRpcManager rpcManager, IMapper mapper, ILogger<HomeController> logger) : base(settings)
 		{
 			this.blogManager = blogManager;
 			dasBlogSettings = settings;
