@@ -15,6 +15,7 @@ namespace DasBlog.Tests.Support.Common
 		public const string ScriptsRelativePath = "source/DasBlog.Tests/Support/Scripts/";
 		public const string VanillaTestData = "source/DasBlog.Tests/Resources/Environments/Vanilla";
 		public const string TestDataDirectory = "source/DasBlog.Tests/Resources/Environments";
+		public const string ComponentTestsRelativeToProject = "source/DasBlog.Tests/FunctionalTests/ComponentTests";
 		public const string DasBlogGitRepo = "DAS_BLOG_GIT_REPO";
 				// e.g. c:/projects/dasblog-core
 				// note this is the local repo not the remote one.

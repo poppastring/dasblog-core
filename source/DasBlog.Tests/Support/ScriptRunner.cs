@@ -58,7 +58,7 @@ namespace DasBlog.Tests.Support
 					}.Concat(arguments).ToArray());
 				psi.RedirectStandardOutput = true;
 				psi.RedirectStandardError = true;
-				logger.LogInformation($"script timeout: {scriptTimeout}, script exit timeout {scriptExitTimeout}");
+				logger.LogDebug($"script timeout: {scriptTimeout}, script exit timeout {scriptExitTimeout} for {scriptPathAndFileName}");
 
 				int exitCode = int.MaxValue;
 				using (var ps = Process.Start(psi))
@@ -70,7 +70,7 @@ namespace DasBlog.Tests.Support
 					var result = ps.WaitForExit(scriptTimeout);
 					exitCode = result ? ps.ExitCode : int.MaxValue - 1;
 				}
-				logger.LogInformation($"exit code: {exitCode}");
+				logger.LogDebug($"exit code: {exitCode}");
 
 				ThrowExceptionForBadExitCode(exitCode, scriptPathAndFileName, scriptTimeout, psi);
 				return (exitCode, output.ToArray(), errs.ToArray());

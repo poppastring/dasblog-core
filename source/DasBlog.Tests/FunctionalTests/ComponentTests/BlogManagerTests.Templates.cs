@@ -1,6 +1,6 @@
 namespace DasBlog.Tests.FunctionalTests.ComponentTests
 {
-	public partial class BlogManagerTests2
+	public partial class BlogManagerTests
 	{
 		private const string minimalBlogPostXml = @"
 <DayEntry xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns:xsd='http://www.w3.org/2001/XMLSchema' xmlns='urn:newtelligence-com:dasblog:runtime:data'>
