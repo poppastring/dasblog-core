@@ -106,6 +106,7 @@ namespace DasBlog.Tests.FunctionalTests.ComponentTests
 		}
 
 		[Fact(Skip="true")]
+		// TODO unskip: skipped as although it runs well in isolation it fails as port of a suite
 		[Trait(Constants.CategoryTraitType, Constants.ComponentTestTraitValue)]
 		[Trait("Chosen", "1")]
 		public void DeletePost_WithCache_ModifiesDayEntryFile()

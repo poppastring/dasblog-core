@@ -23,6 +23,11 @@ namespace DasBlog.Tests.FunctionalTests.TestInfrastructureTests
 			// nothing to do
 		}
 
+		public ITestDataProcessor CreateTestDataProcessor(IDasBlogSandbox sandbox)
+		{
+			return ServiceProvider.GetService<ITestDataProcesorFactory>().CreateTestDataProcessor(sandbox);
+		}
+
 		protected override string AppSettingsPathRelativeToProject { get; set; } =
 			Constants.TestInfrastructureTestsRelativeToProject;
 	}
