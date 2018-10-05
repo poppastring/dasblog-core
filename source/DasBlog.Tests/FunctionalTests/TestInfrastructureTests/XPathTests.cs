@@ -96,6 +96,14 @@ namespace DasBlog.Tests.FunctionalTests.TestInfrastructureTests
 			var value = testDataProcessor.GetSiteSecurityConfigValue("myemail@myemail.com", "Role2");
 			Assert.Equal("Contributor2", value.value);
 		}
+		[Fact]
+		[Trait(Constants.CategoryTraitType, Constants.TestInfrastructureTestTraitValue)]
+		public void SetDayExtraValue_WithReplacementlValue_IsReflectedInFile()
+		{
+			testDataProcessor.SetDayExtraValue( new DateTime(2018, 2, 24), "5d8c292c-ebd8-46fc-95ed-64ca5912c3fc", "IsPublic", "xxx");
+			var value = testDataProcessor.GetDayExtraValue(new DateTime(2018, 2, 24), "5d8c292c-ebd8-46fc-95ed-64ca5912c3fc", "IsPublic");
+			Assert.Equal("xxx", value.value);
+		}
 		
 		public void Dispose()
 		{

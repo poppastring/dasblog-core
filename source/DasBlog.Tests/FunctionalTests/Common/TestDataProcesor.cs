@@ -9,6 +9,7 @@ using System.Xml.Xsl;
 using DasBlog.Tests.Support;
 using Constants = DasBlog.Tests.Support.Common.Constants;
 using DasBlog.Tests.Support.Interfaces;
+using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
 using Microsoft.Extensions.Options;
 using newtelligence.DasBlog.Runtime;
 
@@ -27,26 +28,38 @@ namespace DasBlog.Tests.FunctionalTests.Common
 		/// <inheritdoc cref="ITestDataProcessor.GetValue"/>
 		/// <param name="xPath">e.g. "/post:DayEntry/post:Entries/post:Entry[post:Title='abc']/post:EntryId'"
 		/// ****** CAUTION ******
-		/// Callers must prefix all the element names for blog entries with 'post:' because the C# XPath mechanism
+		/// Callers must prefix all the element names for blog entries and comments with 'post:' because the C# XPath mechanism
 		/// insist that even the default namespace is specified in the xpath</param>
 		public (bool success, string value) GetValue(string filePathRelativeToEnvironment, string xPath)
 		{
-			var xmlText = File.ReadAllText(CombinePaths(filePathRelativeToEnvironment));
-			XPathDocument xdoc = new XPathDocument(new StringReader(xmlText));
-			XPathNavigator xnav = xdoc.CreateNavigator();			
-			var resolver = new XmlNamespaceManager(xnav.NameTable);
-			resolver.AddNamespace("post","urn:newtelligence-com:dasblog:runtime:data");
-			var iter = xnav.Select(xPath, resolver);
-			if (!iter.MoveNext())
+			try
 			{
-				return (false, $"no values found in file for {xPath}");
-			}
-			var result = iter.Current.InnerXml;
-			if (iter.MoveNext())
+				var xmlText = File.ReadAllText(CombinePaths(filePathRelativeToEnvironment));
+				XPathDocument xdoc = new XPathDocument(new StringReader(xmlText));
+				XPathNavigator xnav = xdoc.CreateNavigator();
+				var resolver = new XmlNamespaceManager(xnav.NameTable);
+				resolver.AddNamespace("post","urn:newtelligence-com:dasblog:runtime:data");
+				var iter = xnav.Select(xPath, resolver);
+				if (!iter.MoveNext())
+				{
+					return (false, $"no values found in file for {xPath}");
+				}
+				var result = iter.Current.InnerXml;
+				if (iter.MoveNext())
+				{
+					throw new Exception($"duplicate values encountered in file for {xPath}");
+				}
+				return (true, result);
+			} finally {}
+			// in 2 minds about throwing an exception. for no file found.  Maybe the callers in this claass
+			// should catch the exception and return false.  I think there is a strong presumption that
+			// if you specify the file as we do here that you would expect the file to exist
+/*
+			catch (Exception e)
 			{
-				throw new Exception($"duplicate values encountered in file for {xPath}");
+				return (false, e.Message);
 			}
-			return (true, result);
+*/
 		}
 
 		/// <inheritdoc cref="ITestDataProcessor.GetSiteConfigValue"/>
@@ -103,6 +116,24 @@ namespace DasBlog.Tests.FunctionalTests.Common
 		{
 			throw new NotImplementedException();
 		}
+		/// <inheritdoc cref="ITestDataProcessor.SetDayExtraValue"/>
+		public (bool success, string value) GetDayExtraValue(DateTime dt, string entryId, string key)
+		{
+/*
+			return GetValue(Path.Combine(Constants.ContentDirectory, GetDayExtraFileName(dt))
+			  , "/DayExtra/Comments/Comment[EntryId=\"5d8c292c-ebd8-46fc-95ed-64ca5912c3fc\"]/IsPublic");
+*/
+			return GetValue(Path.Combine(Constants.ContentDirectory, GetDayExtraFileName(dt))
+			  , "/post:DayExtra/post:Comments/post:Comment[post:EntryId=\"5d8c292c-ebd8-46fc-95ed-64ca5912c3fc\"]/post:IsPublic");
+		}
+		/// <inheritdoc cref="ITestDataProcessor.GetDayExtraValue"/>
+		public void SetDayExtraValue(DateTime dt, string entryId, string key, string value)
+		{
+			SetValueUsingTemplate(
+			  Path.Combine(Constants.ContentDirectory, GetDayExtraFileName(dt))
+			  , dayExtraTransform, entryId, key, value);
+		}
+
 		private string CombinePaths(string filePathRelativeToEnvironment)
 		{
 			return Path.Combine(testDataPath, filePathRelativeToEnvironment);
@@ -129,6 +160,10 @@ namespace DasBlog.Tests.FunctionalTests.Common
 		public static string GetBlogEntryFileName(DateTime blogPostDate)
 		{
 			return $"{blogPostDate.Year}-{blogPostDate.Month:D2}-{blogPostDate.Day:D2}.dayentry.xml";
+		}
+		public static string GetDayExtraFileName(DateTime blogPostDate)
+		{
+			return $"{blogPostDate.Year}-{blogPostDate.Month:D2}-{blogPostDate.Day:D2}.dayfeedback.xml";
 		}
 
 	}

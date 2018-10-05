@@ -56,5 +56,22 @@ namespace DasBlog.Tests.FunctionalTests.Common
 		/// <param name="value">.e.g "false"</param>
 		/// <exception cref="Exception">throown if the operation fails.  Message provides reason</exception>
 		void SetBlogPostValue(DateTime dt, Expression<Func<Entry, bool>> pred, string key);
+
+		/// <summary>
+		/// typically used to get comments - maybe other stuff - I don't know
+		/// </summary>
+		/// <param name="dt">date forming part of the target filename of the dayfeedback file</param>
+		/// <param name="entryId">typically a guid</param>
+		/// <param name="key">e.g. IsPublic</param>
+		/// <returns>e.g. "false"</returns>
+		(bool success, string value) GetDayExtraValue(DateTime dt, string entryId, string key);
+		/// <summary>
+		/// typically used to replace values in comments
+		/// </summary>
+		/// <param name="dt">date forming part of the target filename of the dayfeedback file</param>
+		/// <param name="entryId">typically a guid</param>
+		/// <param name="key">e.g. IsPublic</param>
+		/// <param name="value"></param>
+		void SetDayExtraValue(DateTime dt, string entryId, string key, string value);
 	}
 }

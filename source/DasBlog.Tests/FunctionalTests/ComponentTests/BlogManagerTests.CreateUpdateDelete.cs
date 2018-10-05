@@ -15,7 +15,7 @@ namespace DasBlog.Tests.FunctionalTests.ComponentTests
 	{
 		[Fact]
 		[Trait(Constants.CategoryTraitType, Constants.ComponentTestTraitValue)]
-		public void Post_ForFirstInDay_CreatesFile()
+		public void Post_ForFirstInDay_CreatesDayEntryFile()
 		{
 			using (var sandbox = platform.CreateSandbox(Constants.VanillaEnvironment))
 			{
@@ -30,7 +30,7 @@ namespace DasBlog.Tests.FunctionalTests.ComponentTests
 
 		[Fact]
 		[Trait(Constants.CategoryTraitType, Constants.ComponentTestTraitValue)]
-		public void Post_ForSEcondInDay_CreatesFile()
+		public void Post_ForSEcondInDay_CreatesDayEntryFile()
 		{
 			using (var sandbox = platform.CreateSandbox(Constants.VanillaEnvironment))
 			{
@@ -48,7 +48,7 @@ namespace DasBlog.Tests.FunctionalTests.ComponentTests
 		}
 		[Fact]
 		[Trait(Constants.CategoryTraitType, Constants.ComponentTestTraitValue)]
-		public void Post_ForSEcondInDayWithoutCache_AddsEntryToFile()
+		public void Post_ForSEcondInDayWithoutCache_AddsEntryToDayEntryFile()
 		{
 			using (var sandbox = platform.CreateSandbox(Constants.VanillaEnvironment))
 			{
@@ -64,7 +64,7 @@ namespace DasBlog.Tests.FunctionalTests.ComponentTests
 		}
 		[Fact]
 		[Trait(Constants.CategoryTraitType, Constants.ComponentTestTraitValue)]
-		public void Update_ExistngPost_ModifiesFile()
+		public void Update_ExistngPost_ModifiesDayEntryFile()
 		{
 			using (var sandbox = platform.CreateSandbox(Constants.VanillaEnvironment))
 			{
@@ -85,14 +85,15 @@ namespace DasBlog.Tests.FunctionalTests.ComponentTests
 		}
 		[Fact]
 		[Trait(Constants.CategoryTraitType, Constants.ComponentTestTraitValue)]
-		public void Update_ExistingPostWithoutCache_ModifiesFile()
+		public void UpdateExistingPost_WithoutCache_ModifiesDayEntryFile()
 		{
 			using (var sandbox = platform.CreateSandbox(Constants.VanillaEnvironment))
 			{
 				var entryId = Guid.NewGuid().ToString();
+				// create the file and seed with an uncached post
 				SaveEntryDirect(Path.Combine(sandbox.TestEnvironmentPath, Constants.ContentDirectory)
 				  ,entryId);
-				// create the file and seed with an uncached post
+				//
 				var blogManager = platform.CreateBlogManager(sandbox);
 				var entry = MakeMiniimalEntry();
 				entry.Title = "updated";
@@ -101,6 +102,63 @@ namespace DasBlog.Tests.FunctionalTests.ComponentTests
 				var testDataProcessor = platform.CreateTestDataProcessor(sandbox);
 				var savedTitle = testDataProcessor.GetBlogPostValue(DateTime.Today, entry.EntryId, "Title");
 				Assert.Equal("updated", savedTitle.value);
+			}
+		}
+
+		[Fact(Skip="true")]
+		[Trait(Constants.CategoryTraitType, Constants.ComponentTestTraitValue)]
+		[Trait("Chosen", "1")]
+		public void DeletePost_WithCache_ModifiesDayEntryFile()
+		{
+			using (var sandbox = platform.CreateSandbox(Constants.VanillaEnvironment))
+			{
+				var entryId = Guid.NewGuid().ToString();
+				// create the file and seed with an uncached post
+				SaveEntryDirect(Path.Combine(sandbox.TestEnvironmentPath, Constants.ContentDirectory)
+					, entryId);
+				//
+				var blogManager = platform.CreateBlogManager(sandbox);
+				// make sure it is a valid entry which should cache it.
+				Entry entry = blogManager.GetEntryForEdit(entryId);
+				Assert.NotNull(entry);
+				//
+				blogManager.DeleteEntry(entryId);
+				// make sure it has gone
+				Assert.Throws<NullReferenceException>(() => blogManager.GetEntryForEdit(entryId));
+				//
+				var testDataProcessor = platform.CreateTestDataProcessor(sandbox);
+/*
+				var result = testDataProcessor.GetBlogPostValue(DateTime.Today, entry.EntryId, "Title");
+				Assert.False(result.success); // the file should have been removed when the the one and only
+				// post was deleted
+*/
+
+				Assert.Throws<System.IO.FileNotFoundException>(
+					() => testDataProcessor.GetBlogPostValue(DateTime.Today, entry.EntryId, "Title"));
+			}
+		}
+
+		[Fact]
+		[Trait(Constants.CategoryTraitType, Constants.ComponentTestTraitValue)]
+		public void DeletePost_WithoutCache_ModifiesDayEntryFile()
+		{
+			using (var sandbox = platform.CreateSandbox(Constants.VanillaEnvironment))
+			{
+				var entryId = Guid.NewGuid().ToString();
+				// create the file and seed with an uncached post
+				SaveEntryDirect(Path.Combine(sandbox.TestEnvironmentPath, Constants.ContentDirectory)
+					,entryId);
+				//
+				var blogManager = platform.CreateBlogManager(sandbox);
+				blogManager.DeleteEntry(entryId);
+				// make sure it has gone
+				Assert.Throws<NullReferenceException>(() => blogManager.GetEntryForEdit(entryId));
+				//
+				var testDataProcessor = platform.CreateTestDataProcessor(sandbox);
+				Assert.Throws<System.IO.FileNotFoundException >(
+					() => testDataProcessor.GetBlogPostValue(DateTime.Today, entryId, "Title"));	
+												// the file should have been removed when the the one and only
+												// post was deleted
 			}
 		}
 

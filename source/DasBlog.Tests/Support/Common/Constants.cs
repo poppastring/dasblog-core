@@ -34,6 +34,7 @@ namespace DasBlog.Tests.Support.Common
 		public const string ConfirmStashScriptName = "ConfirmStash.cmd";
 		// ****** Environments ******
 		public const string VanillaEnvironment = "Vanilla";
+		public const string CommentsEnvironment = "Comments";
 		public const string LanguageEnvironment = "Language";
 		public const string UrlContainsDateEnvironment = "UrlContainsDate";
 		// ****** XUnit Traits ******
