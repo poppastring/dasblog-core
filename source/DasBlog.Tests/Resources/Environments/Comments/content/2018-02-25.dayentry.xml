@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DayEntry xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="urn:newtelligence-com:dasblog:runtime:data">
+  <Date>2018-02-23T19:00:00-05:00</Date>
+  <Entries>
+    <Entry xml:lang="en-us">
+      <Content>Created manually</Content>
+      <Created>2018-02-25T12:00:00-05:00</Created>
+      <Modified>2018-04-09T14:34:09.4605853-04:00</Modified>
+      <EntryId>entry-id-2018-02-25-0001</EntryId>
+      <Description />
+      <Title>Copied from website welcome post</Title>
+      <Categories>dasBlog</Categories>
+      <Author>Admin Name</Author>
+      <IsPublic>true</IsPublic>
+      <Syndicated>true</Syndicated>
+      <ShowOnFrontPage>true</ShowOnFrontPage>
+      <AllowComments>true</AllowComments>
+      <Attachments />
+      <Crossposts />
+      <Latitude xsi:nil="true" />
+      <Longitude xsi:nil="true" />
+    </Entry>
+  </Entries>
+</DayEntry>

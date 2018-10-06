@@ -1,13 +1,14 @@
 using System;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
-using System.Xml.Linq;
+using System.Threading;
 using DasBlog.Tests.FunctionalTests.Common;
 using DasBlog.Tests.Support.Common;
-using DasBlog.Tests.Support.Interfaces;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.DependencyInjection;
 using newtelligence.DasBlog.Runtime;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace DasBlog.Tests.FunctionalTests.ComponentTests
 {
@@ -85,6 +86,7 @@ namespace DasBlog.Tests.FunctionalTests.ComponentTests
 		}
 		[Fact]
 		[Trait(Constants.CategoryTraitType, Constants.ComponentTestTraitValue)]
+		[Trait("Chosen", "2")]
 		public void UpdateExistingPost_WithoutCache_ModifiesDayEntryFile()
 		{
 			using (var sandbox = platform.CreateSandbox(Constants.VanillaEnvironment))
@@ -107,18 +109,29 @@ namespace DasBlog.Tests.FunctionalTests.ComponentTests
 
 		[Fact(Skip="true")]
 		// TODO unskip: skipped as although it runs well in isolation it fails as port of a suite
+		// turns out that if "DeletePost_WithoutCache_ModifiesDayEntryFile" runs first then
+		// this test fails GetEntryForEdit() which presumably initialises the cache.
+		// presumably there is no way in the app for an entry suddenly to appear.
+		// the question is how to get the tests to run in isolation.
+		[Trait(Constants.FailureTraitTraitType, Constants.ApiFailureTraitValue)]
+		[Trait(Constants.DescriptionTraitType, "thows exception when run as part of suite")]
 		[Trait(Constants.CategoryTraitType, Constants.ComponentTestTraitValue)]
 		[Trait("Chosen", "1")]
 		public void DeletePost_WithCache_ModifiesDayEntryFile()
 		{
 			using (var sandbox = platform.CreateSandbox(Constants.VanillaEnvironment))
 			{
+				var logger = platform.ServiceProvider.GetService<ILoggerFactory>().CreateLogger<BlogManagerTests>();
+				logger.LogDebug($"test 1 started at {DateTime.Now} process: {System.Diagnostics.Process.GetCurrentProcess().Id}");
 				var entryId = Guid.NewGuid().ToString();
+				logger.LogDebug($"entryIId=={entryId}");
 				// create the file and seed with an uncached post
 				SaveEntryDirect(Path.Combine(sandbox.TestEnvironmentPath, Constants.ContentDirectory)
 					, entryId);
 				//
+				logger.LogDebug($"before CreateBlogManager: dayentry file exists for {DateTime.Today} {DayEntryFileExists(Path.Combine(sandbox.TestEnvironmentPath, Constants.ContentDirectory), DateTime.Today)}");
 				var blogManager = platform.CreateBlogManager(sandbox);
+				logger.LogDebug($"after CreateBlogManager: dayentry file exists for {DateTime.Today} {DayEntryFileExists(Path.Combine(sandbox.TestEnvironmentPath, Constants.ContentDirectory), DateTime.Today)}");
 				// make sure it is a valid entry which should cache it.
 				Entry entry = blogManager.GetEntryForEdit(entryId);
 				Assert.NotNull(entry);
@@ -136,13 +149,18 @@ namespace DasBlog.Tests.FunctionalTests.ComponentTests
 
 				Assert.Throws<System.IO.FileNotFoundException>(
 					() => testDataProcessor.GetBlogPostValue(DateTime.Today, entry.EntryId, "Title"));
+				logger.LogDebug($"test 1 finished at {DateTime.Now}");
 			}
 		}
 
 		[Fact]
 		[Trait(Constants.CategoryTraitType, Constants.ComponentTestTraitValue)]
+		[Trait("Chosen", "1")]
 		public void DeletePost_WithoutCache_ModifiesDayEntryFile()
 		{
+			Thread.Sleep(5000);
+			var logger = platform.ServiceProvider.GetService<ILoggerFactory>().CreateLogger<BlogManagerTests>();
+			logger.LogDebug($"test 2 started at {DateTime.Now} process: {System.Diagnostics.Process.GetCurrentProcess().Id}");
 			using (var sandbox = platform.CreateSandbox(Constants.VanillaEnvironment))
 			{
 				var entryId = Guid.NewGuid().ToString();
@@ -160,6 +178,7 @@ namespace DasBlog.Tests.FunctionalTests.ComponentTests
 					() => testDataProcessor.GetBlogPostValue(DateTime.Today, entryId, "Title"));	
 												// the file should have been removed when the the one and only
 												// post was deleted
+				logger.LogDebug($"test 2 ended at {DateTime.Now}");
 			}
 		}
 
@@ -179,6 +198,13 @@ namespace DasBlog.Tests.FunctionalTests.ComponentTests
 			File.WriteAllText(path, str);
 		}
 
+		private bool DayEntryFileExists(string directory, DateTime dt)
+		{
+			var fileName = TestDataProcesor.GetBlogEntryFileName(DateTime.Today);
+			var path = Path.Combine(directory, fileName);
+			return File.Exists(path);
+		}
+		
 		private static Entry MakeMiniimalEntry()
 		{
 			Entry entry = new Entry();

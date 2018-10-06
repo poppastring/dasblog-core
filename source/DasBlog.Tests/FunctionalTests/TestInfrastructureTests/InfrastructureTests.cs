@@ -67,7 +67,6 @@ namespace DasBlog.Tests.FunctionalTests.TestInfrastructureTests
 
 		[Fact]
 		[Trait(Constants.CategoryTraitType, Constants.TestInfrastructureTestTraitValue)]
-		[Trait("Chosen", "1")]
 		public void DetectChangesScript_WhenCleanDirectory_ReturnsNothing()
 		{
 			var runner = platform.ServiceProvider.GetService<IScriptRunner>();
