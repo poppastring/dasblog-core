@@ -119,12 +119,8 @@ namespace DasBlog.Tests.FunctionalTests.Common
 		/// <inheritdoc cref="ITestDataProcessor.SetDayExtraValue"/>
 		public (bool success, string value) GetDayExtraValue(DateTime dt, string entryId, string key)
 		{
-/*
 			return GetValue(Path.Combine(Constants.ContentDirectory, GetDayExtraFileName(dt))
-			  , "/DayExtra/Comments/Comment[EntryId=\"5d8c292c-ebd8-46fc-95ed-64ca5912c3fc\"]/IsPublic");
-*/
-			return GetValue(Path.Combine(Constants.ContentDirectory, GetDayExtraFileName(dt))
-			  , "/post:DayExtra/post:Comments/post:Comment[post:EntryId=\"5d8c292c-ebd8-46fc-95ed-64ca5912c3fc\"]/post:IsPublic");
+			  , $"/post:DayExtra/post:Comments/post:Comment[post:EntryId=\"{entryId}\"]/post:{key}");
 		}
 		/// <inheritdoc cref="ITestDataProcessor.GetDayExtraValue"/>
 		public void SetDayExtraValue(DateTime dt, string entryId, string key, string value)
@@ -166,6 +162,10 @@ namespace DasBlog.Tests.FunctionalTests.Common
 			return $"{blogPostDate.Year}-{blogPostDate.Month:D2}-{blogPostDate.Day:D2}.dayfeedback.xml";
 		}
 
+		public static string GetBlogFeedbackFileName(DateTime blogPostDate)
+		{
+			return GetDayExtraFileName(blogPostDate);
+		}
 	}
 
 	public interface ITestDataProcesorFactory

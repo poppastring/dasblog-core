@@ -58,5 +58,7 @@ namespace DasBlog.Tests.Support.Common
 		// ****** XML Paths ******
 		public const string SiteConfigRoot = "/SiteConfig";
 		public const string SiteSecurityConfigRoot = "/SiteSecurityConfig";
+		//
+		public const string XPathFailureMessageStart = "no values";		// call expr.StartsWith() on the xpath
 	}
 }

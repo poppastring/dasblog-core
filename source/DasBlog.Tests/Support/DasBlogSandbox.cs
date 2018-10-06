@@ -21,13 +21,6 @@ namespace DasBlog.Tests.Support
 	/// </summary>
 	public class DasBlogSandbox : IDasBlogSandbox
 	{
-		public class WorkingDirectoryModifiedException : Exception
-		{
-			public WorkingDirectoryModifiedException(string message) : base(message)
-			{
-				
-			}
-		}
 		private readonly IVersionedFileService fileService;
 		private readonly string environment;	// e.g, "Vanilla"
 		private readonly ILogger<DasBlogSandbox> logger;
@@ -113,6 +106,13 @@ namespace DasBlog.Tests.Support
 		public void Dispose()
 		{
 			Terminate();
+		}
+	}
+	public class WorkingDirectoryModifiedException : Exception
+	{
+		public WorkingDirectoryModifiedException(string message) : base(message)
+		{
+				
 		}
 	}
 }

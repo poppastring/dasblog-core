@@ -200,7 +200,13 @@ namespace DasBlog.Tests.FunctionalTests.ComponentTests
 
 		private bool DayEntryFileExists(string directory, DateTime dt)
 		{
-			var fileName = TestDataProcesor.GetBlogEntryFileName(DateTime.Today);
+			var fileName = TestDataProcesor.GetBlogEntryFileName(dt);
+			var path = Path.Combine(directory, fileName);
+			return File.Exists(path);
+		}
+		private bool DayFeedbackFileExists(string directory, DateTime dt)
+		{
+			var fileName = TestDataProcesor.GetBlogFeedbackFileName(dt);
 			var path = Path.Combine(directory, fileName);
 			return File.Exists(path);
 		}
