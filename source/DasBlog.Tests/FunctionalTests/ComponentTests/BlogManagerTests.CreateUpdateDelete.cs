@@ -113,7 +113,7 @@ namespace DasBlog.Tests.FunctionalTests.ComponentTests
 		// this test fails GetEntryForEdit() which presumably initialises the cache.
 		// presumably there is no way in the app for an entry suddenly to appear.
 		// the question is how to get the tests to run in isolation.
-		[Trait(Constants.FailureTraitTraitType, Constants.ApiFailureTraitValue)]
+		[Trait(Constants.FailureTraitTraitType, Constants.FailsInSuiteTraitValue)]
 		[Trait(Constants.DescriptionTraitType, "thows exception when run as part of suite")]
 		[Trait(Constants.CategoryTraitType, Constants.ComponentTestTraitValue)]
 		[Trait("Chosen", "1")]
@@ -198,6 +198,13 @@ namespace DasBlog.Tests.FunctionalTests.ComponentTests
 			File.WriteAllText(path, str);
 		}
 
+		private void DeleteDirectoryContentsDirect(string directory, string fileSpec = "*.*")
+		{
+			foreach (var file in Directory.EnumerateFiles(directory, fileSpec))
+			{
+				File.Delete(file);
+			}
+		}
 		private bool DayEntryFileExists(string directory, DateTime dt)
 		{
 			var fileName = TestDataProcesor.GetBlogEntryFileName(dt);

@@ -36,7 +36,8 @@ namespace DasBlog.Tests.Support.Common
 		public const string VanillaEnvironment = "Vanilla";
 		public const string CommentsEnvironment = "Comments";
 		public const string LanguageEnvironment = "Language";
-		public const string UrlContainsDateEnvironment = "UrlContainsDate";
+		public const string CategoriesEnvironment = "Categories";
+		public const string EmptyContentEnvironment = "EmptyContent";
 		// ****** XUnit Traits ******
 		public const string CategoryTraitType = "Category";
 		public const string TestInfrastructureTestTraitValue = "TestInfrastructureTest";
@@ -48,6 +49,7 @@ namespace DasBlog.Tests.Support.Common
 		public const string DescriptionTraitType = "Description";
 		public const string FailureTraitTraitType = "Failure";
 		public const string ApiFailureTraitValue = "API Failure";
+		public const string FailsInSuiteTraitValue = "Fails in Suite";
 				// this implies that although the test fails - the API may not be used currently in the app.
 		// ****** DasBlog Content Directories and other path fragments ******
 		public const string ConfigDirectory = "Config";
