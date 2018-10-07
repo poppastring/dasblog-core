@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DayEntry xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="urn:newtelligence-com:dasblog:runtime:data">
+  <Date>2018-10-07T01:00:00+01:00</Date>
+  <Entries>
+    <Entry>
+      <Created>2018-10-07T07:20:43.4905148+01:00</Created>
+      <Modified>2018-10-07T07:20:43.4905202+01:00</Modified>
+      <EntryId>52a19f48-fd99-416c-ab36-0c88a2231f66</EntryId>
+      <Description />
+      <Title>cat 1</Title>
+      <Categories>my first cat</Categories>
+      <Author>myemail@myemail.com</Author>
+      <IsPublic>true</IsPublic>
+      <Syndicated>true</Syndicated>
+      <ShowOnFrontPage>true</ShowOnFrontPage>
+      <AllowComments>true</AllowComments>
+      <Attachments />
+      <Crossposts />
+      <Latitude xsi:nil="true" />
+      <Longitude xsi:nil="true" />
+    </Entry>
+  </Entries>
+</DayEntry>
