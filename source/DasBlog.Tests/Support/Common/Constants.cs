@@ -47,7 +47,7 @@ namespace DasBlog.Tests.Support.Common
 		public const string BrowserBasedTestTraitValue = "BrowserBasedTest";
 		public const string TestInfrastructureUsersCollection = "TestInfrastructureUsers";
 		public const string DescriptionTraitType = "Description";
-		public const string FailureTraitTraitType = "Failure";
+		public const string FailureTraitType = "Failure";
 		public const string ApiFailureTraitValue = "API Failure";
 		public const string FailsInSuiteTraitValue = "Fails in Suite";
 				// this implies that although the test fails - the API may not be used currently in the app.

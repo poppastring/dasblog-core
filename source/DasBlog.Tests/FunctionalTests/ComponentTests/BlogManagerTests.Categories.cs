@@ -25,8 +25,8 @@ namespace DasBlog.Tests.FunctionalTests.ComponentTests
 		// when this runs before GetCategories_ForMultipleDays_ReturnsAllCategories
 		// which it does due to the runner's sort order then the other test fails
 		// because of caching issues
-		[Trait(Constants.FailureTraitTraitType, Constants.FailsInSuiteTraitValue)]
-		[Trait(Constants.DescriptionTraitType, "thows exception when run as part of suite")]
+		[Trait(Constants.FailureTraitType, Constants.FailsInSuiteTraitValue)]
+		[Trait(Constants.DescriptionTraitType, "throws exception when run as part of suite")]
 		[Trait(Constants.CategoryTraitType, Constants.ComponentTestTraitValue)]
 		public void GetCategories_ForEmptyContentDiretory_ReturnsNothing()
 		{
