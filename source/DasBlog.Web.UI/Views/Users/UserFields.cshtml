@@ -1,4 +1,5 @@
-﻿@using DasBlog.Core.Security
+﻿@using DasBlog.Core.Common
+@using DasBlog.Core.Security
 @model DasBlog.Web.Models.UsersViewModel
 
 @* **** NOTE **** *@
@@ -6,6 +7,7 @@
 The problem is that it did not seem possible to combine ViewBang.Writability
 /ViewBag.Clicability with asp- tag helpers *@
 
+<div id="@Constants.UsersPageTestId" class="@Constants.PageTestIdClass"></div>
 
 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 <input type="hidden" name="originalEmail" value="@Model.EmailAddress" />        

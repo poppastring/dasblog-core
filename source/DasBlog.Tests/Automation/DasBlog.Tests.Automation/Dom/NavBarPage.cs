@@ -8,7 +8,7 @@ namespace DasBlog.Tests.Automation.Dom
 	public class NavBarPage : Page
 	{
 		Dictionary<string, LinkPageElement> elements = new Dictionary<string, LinkPageElement>();
-		public NavBarPage(IBrowser browser) : base(browser, Constants.NavBarPage)
+		public NavBarPage(IBrowser browser) : base(browser, Constants.NavBarPage, "there is no page test id for navbar")
 		{
 		}
 

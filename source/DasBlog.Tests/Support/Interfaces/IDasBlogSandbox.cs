@@ -1,6 +1,8 @@
-﻿namespace DasBlog.Tests.Support.Interfaces
+﻿using System;
+
+namespace DasBlog.Tests.Support.Interfaces
 {
-	public interface IDasBlogSandbox
+	public interface IDasBlogSandbox : IDisposable
 	{
 		/// <summary>
 		/// Ensures that the file system is clean and ready for tests
@@ -12,5 +14,6 @@
 		string GetContentDirectoryPath();
 		string GetLogDirectoryPath();
 		string GetWwwRootDirectoryPath();
+		string TestEnvironmentPath { get; }
 	}
 }

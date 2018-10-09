@@ -12,5 +12,7 @@ namespace DasBlog.Tests.Automation.Selenium.Interfaces
 		SpanPageElement GetElementById(string id);
 		LinkPageElement GetLinkById(string categoryId);
 		AnyPageElement GetAnyElementById(string navBarId);
+		DivPageElement GetPageTestIdDiv(string pageTestId);
+
 	}
 }

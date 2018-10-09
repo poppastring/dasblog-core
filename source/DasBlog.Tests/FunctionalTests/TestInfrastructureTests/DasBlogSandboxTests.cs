@@ -10,6 +10,7 @@ using Constants = DasBlog.Tests.Support.Common.Constants;
 
 namespace DasBlog.Tests.FunctionalTests.TestInfrastructureTests
 {
+	[Collection(Constants.TestInfrastructureUsersCollection)]
 	public class DasBlogSandboxTests : IClassFixture<InfrastructureTestPlatform>
 	{
 		private readonly InfrastructureTestPlatform platform;
@@ -19,9 +20,30 @@ namespace DasBlog.Tests.FunctionalTests.TestInfrastructureTests
 		{
 			this.platform = platform;
 			this.platform.CompleteSetup(testOutputHelper);
-			dasBlogSandbox = platform.ServiceProvider.GetService<IDasBlogSandbox>();
-			
+			dasBlogSandbox = platform.CreateSandbox(Constants.VanillaEnvironment);
+
 		}
+
+/*
+		[Fact]
+		public void TextEx()
+		{
+			Assert.Throws<Exception>(() => DoStuff());
+		}
+
+		private void DoStuff()
+		{
+			try
+			{
+				throw new Exception("exceptional");
+
+			}
+			catch (Exception)
+			{
+				throw;
+			}
+		}
+*/
 
 		[Fact]
 		[Trait(Constants.CategoryTraitType, Constants.TestInfrastructureTestTraitValue)]
@@ -29,12 +51,12 @@ namespace DasBlog.Tests.FunctionalTests.TestInfrastructureTests
 		{
 			try
 			{
-				dasBlogSandbox.Init();
+//				dasBlogSandbox.Init();
 				Assert.True(true);
 			}
 			finally
 			{
-				dasBlogSandbox.Terminate();
+				dasBlogSandbox?.Terminate();
 			}
 		}
 

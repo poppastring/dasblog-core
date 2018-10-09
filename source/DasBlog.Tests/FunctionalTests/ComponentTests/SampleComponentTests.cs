@@ -1,9 +1,10 @@
 using System;
 using DasBlog.Tests.Support.Interfaces;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
+using Constants = DasBlog.Tests.Support.Common.Constants;
 using Xunit;
 using Xunit.Abstractions;
+using newtelligence.DasBlog.Runtime;
+
 /*
  * THERE IS NO logging to the console - in the debugger the log appears in the detail of the test results
  * when run from the console the log appears in a log file assuming you provide the correct command line
@@ -12,18 +13,16 @@ using Xunit.Abstractions;
  */
 namespace DasBlog.Tests.FunctionalTests.ComponentTests
 {
-	public class PrototypeComponentTests : IClassFixture<ComponentTestPlatform>
+	[Collection(Constants.TestInfrastructureUsersCollection)]
+	public class SampleComponentTests : IClassFixture<ComponentTestPlatform>, IDisposable
 	{
 
 		private ComponentTestPlatform platform;
 		private ITestOutputHelper testOutputHelper;
-		private ILogger<PrototypeComponentTests> logger;
-		private IVersionedFileService versionedFileService;
 		private IDasBlogSandbox dasBlogSandbox;
-		public PrototypeComponentTests(ITestOutputHelper testOutputHelper, ComponentTestPlatform componentTestPlatform)
+		public SampleComponentTests(ITestOutputHelper testOutputHelper, ComponentTestPlatform componentTestPlatform)
 		{
-			testOutputHelper.WriteLine("hello from component constructor");
-					// this and others like it appear in the detail pane of Rider's test runner for
+					// logged messagees appear in the detail pane of Rider's test runner for
 					// Running a successful test
 					// Debugging a successful test
 					// Running a failed test
@@ -45,62 +44,20 @@ namespace DasBlog.Tests.FunctionalTests.ComponentTests
 			componentTestPlatform.CompleteSetup(testOutputHelper);
 			this.platform = componentTestPlatform;
 			this.testOutputHelper = testOutputHelper;
+			dasBlogSandbox = platform.CreateSandbox(Constants.VanillaEnvironment);
+//			dasBlogSandbox.Init();
 		}
 
 		[Fact]
-		[Trait("Category", "ComponentTest")]
+		[Trait(Constants.CategoryTraitType, Constants.ComponentTestTraitValue)]
 		public void SimpleTest()
 		{
+			_ = platform;
 			Assert.True(true);
 		}
-	}
-
-	// from https://stackoverflow.com/questions/46169169/net-core-2-0-configurelogging-xunit-test
-	public class XunitLoggerProvider : ILoggerProvider
-	{
-		private readonly ITestOutputHelper _testOutputHelper;
-
-		public XunitLoggerProvider(ITestOutputHelper testOutputHelper)
-		{
-			_testOutputHelper = testOutputHelper;
-		}
-
-		public ILogger CreateLogger(string categoryName)
-			=> new XunitLogger(_testOutputHelper, categoryName);
-
 		public void Dispose()
-		{ }
-	}
-
-	public class XunitLogger : ILogger
-	{
-		private readonly ITestOutputHelper _testOutputHelper;
-		private readonly string _categoryName;
-
-		public XunitLogger(ITestOutputHelper testOutputHelper, string categoryName)
 		{
-			_testOutputHelper = testOutputHelper;
-			_categoryName = categoryName;
-		}
-
-		public IDisposable BeginScope<TState>(TState state)
-			=> NoopDisposable.Instance;
-
-		public bool IsEnabled(LogLevel logLevel)
-			=> true;
-
-		public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
-		{
-			_testOutputHelper.WriteLine($"{_categoryName} [{eventId}] {formatter(state, exception)}");
-			if (exception != null)
-				_testOutputHelper.WriteLine(exception.ToString());
-		}
-
-		private class NoopDisposable : IDisposable
-		{
-			public static NoopDisposable Instance = new NoopDisposable();
-			public void Dispose()
-			{ }
+			dasBlogSandbox?.Terminate();
 		}
 	}
 }

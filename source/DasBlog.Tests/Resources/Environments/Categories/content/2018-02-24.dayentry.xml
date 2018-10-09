@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DayEntry xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="urn:newtelligence-com:dasblog:runtime:data">
+  <Date>2018-02-23T19:00:00-05:00</Date>
+  <Entries>
+    <Entry xml:lang="en-us">
+      <Content>
+&lt;p&gt;Welcome to the new &lt;strong&gt;DasBlog Core&lt;/strong&gt; blog engine reintroduced on the ASP.NET Core platform! DasBlog Core is an open source application based on a fork of the &lt;a href="https://msdn.microsoft.com/en-us/library/aa480016.aspx"&gt;original DasBlog developed by newtelligence AG&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Be sure to visit our &lt;a href="https://github.com/poppastring/dasblog-core/wiki"&gt;wiki&lt;/a&gt; for more information on setup and configuration, you can also &lt;a href="https://github.com/poppastring/dasblog-core/issues"&gt;submit issues or request features here&lt;/a&gt;.&lt;/p&gt;
+</Content>
+      <Created>2018-02-24T12:00:00-05:00</Created>
+      <Modified>2018-04-09T14:34:09.4605853-04:00</Modified>
+      <EntryId>b705c37b-b47f-4e8d-8f8b-091efc4cb684</EntryId>
+      <Description />
+      <Title>Congratulations, you've installed dasBlog!</Title>
+      <Categories>dasBlog</Categories>
+      <Author>Admin Name</Author>
+      <IsPublic>true</IsPublic>
+      <Syndicated>true</Syndicated>
+      <ShowOnFrontPage>true</ShowOnFrontPage>
+      <AllowComments>true</AllowComments>
+      <Attachments />
+      <Crossposts />
+      <Latitude xsi:nil="true" />
+      <Longitude xsi:nil="true" />
+    </Entry>
+  </Entries>
+</DayEntry>

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
 using System.Text.RegularExpressions;
 using DasBlog.SmokeTest;
 using DasBlog.Tests.Support.Common;
@@ -20,7 +21,7 @@ namespace DasBlog.Tests.Support
 	public class GitVersionedFileService : IVersionedFileService
 	{
 		private ILogger<GitVersionedFileService> logger;
-		private readonly string path;
+		private readonly string testDataPath;
 		private IScriptRunner scriptRunner;
 
 		public GitVersionedFileService(ILogger<GitVersionedFileService> logger
@@ -28,7 +29,7 @@ namespace DasBlog.Tests.Support
 		  ,IScriptRunner scriptRunner)
 		{
 			this.scriptRunner = scriptRunner;
-			this.path = Path.Combine(optionsAccessor.Value.GitRepoDirectory, optionsAccessor.Value.TestDataDirectroy);
+			this.testDataPath = Path.Combine(optionsAccessor.Value.GitRepoDirectory, optionsAccessor.Value.TestDataDirectroy);
 			logger.LogInformation("Git Repo specified at {Path}", optionsAccessor.Value.GitRepoDirectory);
 			this.logger = logger;
 		}
@@ -114,6 +115,7 @@ namespace DasBlog.Tests.Support
 			}
 			catch (Exception e)
 			{
+				_ = e;
 				return (0, 0);
 			}
 		}
@@ -121,13 +123,13 @@ namespace DasBlog.Tests.Support
 		/// <summary>
 		/// throws an exception if git acccess fails for some reason
 		/// </summary>
-		/// <param name="environment"></param>
+		/// <param name="environment">e.g. "Vanilla"</param>
 		/// <returns>the list of modified files (or any extraneous output from "git status --short"</returns>
 		public (bool clean, string errorMessage) IsClean(string environment)
 		{
 			(int exitCode, string[] outputs, string[] errors ) = scriptRunner.Run(
 				Constants.DetectChangesScriptName, scriptRunner.DefaultEnv
-				,Path.Combine(this.path, environment));
+				,Path.Combine(this.testDataPath, environment));
 					// e.g. "C:\alt\projs\dasblog-core\source\DasBlog.Tests\Resources\Environments\Vanilla"
 			if (exitCode != 0)
 			{
@@ -147,7 +149,7 @@ namespace DasBlog.Tests.Support
 			Guid guid = Guid.NewGuid();
 			(int exitCode, string[] outputs, string[] errors ) = scriptRunner.Run(
 				Constants.StashCurrentStateScriptName, scriptRunner.DefaultEnv
-				,Path.Combine(this.path, environment)
+				,Path.Combine(this.testDataPath, environment)
 				,guid.ToString());
 			if (exitCode != 0)
 			{
@@ -159,6 +161,8 @@ namespace DasBlog.Tests.Support
 			logger.LogInformation("A copy of the state of the file system has been made at the end of this test"
 			  + Environment.NewLine + $"You can restore the state by doing 'git stash apply {stashHash}'");
 		}
+
+		public string TestDataPath => testDataPath;
 
 		private void ConfirmValidStash(string stashHash, Guid guid)
 		{

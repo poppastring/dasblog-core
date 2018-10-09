@@ -1,10 +1,10 @@
 using System;
 using System.IO;
 using DasBlog.SmokeTest;
-using DasBlog.Tests.FunctionalTests.BrowserBasedTests;
 using DasBlog.Tests.Support;
 using DasBlog.Tests.Support.Common;
 using DasBlog.Tests.Support.Interfaces;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Xunit.Abstractions;
@@ -15,18 +15,12 @@ namespace DasBlog.Tests.FunctionalTests.Common
 	{
 		protected IServiceCollection services = new ServiceCollection();
 		public IServiceProvider ServiceProvider { get; private set; }
-		protected ILogger<TestSupportPlatform> logger;
+		private ILogger<TestSupportPlatform> logger;
 		private bool init;
 
 		public TestSupportPlatform()
 		{
 			InjectDependenciesAll();
-/*
-			var loggerFactory = services.BuildServiceProvider()
-				.GetService<ILoggerFactory>();
-			loggerFactory.AddConsole(LogLevel.Debug)
-				.AddDebug(LogLevel.Debug);
-*/
 		}
 		/// <summary>
 		/// the derived class should call AddSingleton() and its peers on Services
@@ -36,6 +30,11 @@ namespace DasBlog.Tests.FunctionalTests.Common
 		protected abstract void InjectDependencies(IServiceCollection services);
 
 		protected abstract void CompleteSetupLocal();
+		/// <summary>
+		/// the path where the appsettings.json file is located for each derived platfrom
+		/// e.g. "source/DasBlog.Tests/FunctionTests/ComponentTests"
+		/// </summary>
+		protected abstract string AppSettingsPathRelativeToProject { get; set; }
 
 		/// <summary>
 		/// completes the platform setup by activating the logger
@@ -49,10 +48,8 @@ namespace DasBlog.Tests.FunctionalTests.Common
 			{
 				init = true;
 				var loggerFactory = ServiceProvider.GetService<ILoggerFactory>();
-				loggerFactory.AddProvider(new XunitLoggerProvider(testOutputHelper));
+				loggerFactory.AddProvider(new BrowserBasedTests.XunitLoggerProvider(testOutputHelper));
 				logger = loggerFactory.CreateLogger<TestSupportPlatform>();
-				var dasBlogSandbox = this.ServiceProvider.GetService<IDasBlogSandbox>();
-				dasBlogSandbox.Init();
 				CompleteSetupLocal();
 			}
 		}
@@ -76,29 +73,34 @@ namespace DasBlog.Tests.FunctionalTests.Common
 						opts.ScriptExitTimeout = envScriptExitTimeout;
 					}
 				});
-			services.Configure<DasBlogISandboxOptions>(
-				opts => opts.Environment =
-					Path.Combine(Utils.GetProjectRootDirectory(), Constants.VanillaTestData));
 			var repoPathEnvVar = Environment.GetEnvironmentVariable(Constants.DasBlogGitRepo);
-			string repoPath;
-			if (string.IsNullOrWhiteSpace(repoPathEnvVar))
-			{
-				repoPath = Utils.GetProjectRootDirectory();
-			}
-			else
-			{
-				repoPath = repoPathEnvVar;
-			}
 			services.Configure<GitVersionedFileServiceOptions>(
 				opts =>
 				{
 					opts.GitRepoDirectory = Utils.GetProjectRootDirectory();
 					opts.TestDataDirectroy = Constants.TestDataDirectory;
 				});
-			services.AddLogging();
 			services.AddSingleton<IScriptRunner, ScriptRunner>();
 			services.AddSingleton<IVersionedFileService, GitVersionedFileService>();
-			services.AddTransient<IDasBlogSandbox, DasBlogSandbox>();
+			services.AddSingleton<IDasBlogSandboxFactory, DasBlogSandboxFactory>();
+			services.AddSingleton<ITestDataProcesorFactory, TestDataProcesorFactory>();
+			ConfigurationBuilder configBuilder = new ConfigurationBuilder();
+			configBuilder.AddJsonFile(
+				Path.Combine(Utils.GetProjectRootDirectory(), Constants.FunctionalTestsRelativeToProject, "appsettings.json")
+				, optional: false, reloadOnChange: false);
+			// the derived platform app settings will have precedence over the more general ones
+			// by dint of being added to the configuration later
+			configBuilder.AddJsonFile(
+				Path.Combine(Utils.GetProjectRootDirectory(), AppSettingsPathRelativeToProject, "appsettings.json")
+				, optional: false, reloadOnChange: false);
+			IConfigurationRoot config = configBuilder.Build();
+			services.Configure<ILoggerFactory>(config);
+			services.AddLogging(
+				opts =>
+				{
+					opts.AddConfiguration(config.GetSection("Logging"));
+					opts.SetMinimumLevel(LogLevel.Information);
+				});
 			InjectDependencies(services);	// add in the derived class's dependencies
 			ServiceProvider = services.BuildServiceProvider();
 		}

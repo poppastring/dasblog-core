@@ -6,6 +6,7 @@ using Microsoft.Extensions.Options;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Support.UI;
+using AppConstants = DasBlog.Core.Common.Constants;
 
 namespace DasBlog.Tests.Automation.Selenium
 {
@@ -91,6 +92,19 @@ namespace DasBlog.Tests.Automation.Selenium
 				_ = e;
 				return null;
 			}
+		}
+
+		public DivPageElement GetPageTestIdDiv(string pageTestId)
+		{
+			var we = driver.FindElement(By.Id(pageTestId));
+			if (we != null)
+			{
+				var pe = new DivPageElement();
+				pe.WebElement = we;
+				return pe;
+			}
+
+			return null;
 		}
 	}
 }

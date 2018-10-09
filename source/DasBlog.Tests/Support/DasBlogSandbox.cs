@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using DasBlog.Tests.Support.Interfaces;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -21,7 +22,7 @@ namespace DasBlog.Tests.Support
 	public class DasBlogSandbox : IDasBlogSandbox
 	{
 		private readonly IVersionedFileService fileService;
-		private readonly string environment;
+		private readonly string environment;	// e.g, "Vanilla"
 		private readonly ILogger<DasBlogSandbox> logger;
 		public DasBlogSandbox(ILogger<DasBlogSandbox> logger
 			,IVersionedFileService fileService, IOptions<DasBlogISandboxOptions> optionsAccessor)
@@ -36,12 +37,14 @@ namespace DasBlog.Tests.Support
 			if (!active)
 			{
 				logger.LogError(errorMessage);
+				throw new Exception(errorMessage);
 			}
 
 			(bool clean, string errorMessage2) = fileService.IsClean(environment);
 			if (!clean)
 			{
 				logger.LogError(errorMessage2);
+				throw new WorkingDirectoryModifiedException(errorMessage2);
 			}
 		}
 		/// <summary>
@@ -62,17 +65,17 @@ namespace DasBlog.Tests.Support
 		{
 			throw new NotImplementedException();
 		}
+		public void SaveState()
+		{
+			throw new NotImplementedException();
+		}
+
 		/// <summary>
 		/// Typically called if a test fails
 		/// stashes the current state of the test environment under a commit hash and logs this.
 		/// The user can do commit apply hash to restore the state and
 		/// then commit reset --hard -- &lt;testenvironment-root-directory&gt;
 		/// </summary>
-		public void SaveState()
-		{
-			throw new NotImplementedException();
-		}
-
 		public void Terminate()
 		{
 			fileService.StashCurrentState(environment);
@@ -96,6 +99,20 @@ namespace DasBlog.Tests.Support
 		public string GetWwwRootDirectoryPath()
 		{
 			throw new NotImplementedException();
+		}
+		/// <returns>e.g. "c:/alt/projs/dasblog-core/source/DasBlog.Tests/Resources/Environments/Vanilla"</returns> 
+		public string TestEnvironmentPath => Path.Combine(fileService.TestDataPath, environment);
+
+		public void Dispose()
+		{
+			Terminate();
+		}
+	}
+	public class WorkingDirectoryModifiedException : Exception
+	{
+		public WorkingDirectoryModifiedException(string message) : base(message)
+		{
+				
 		}
 	}
 }

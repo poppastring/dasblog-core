@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DayEntry xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="urn:newtelligence-com:dasblog:runtime:data">
+  <Date>2018-10-01T01:00:00+01:00</Date>
+  <Entries>
+    <Entry xml:lang="fr-FR">
+      <Content>&lt;p&gt;Une histoire&amp;nbsp;francaise&lt;/p&gt;</Content>
+      <Created>2018-10-01T07:46:17.19449+01:00</Created>
+      <Modified>2018-10-01T07:46:17.1944942+01:00</Modified>
+      <EntryId>30bd4b94-0b68-45de-9505-bc78e28e3cf1</EntryId>
+      <Description />
+      <Title>A French post</Title>
+      <Categories />
+      <Author>myemail@myemail.com</Author>
+      <IsPublic>true</IsPublic>
+      <Syndicated>true</Syndicated>
+      <ShowOnFrontPage>true</ShowOnFrontPage>
+      <AllowComments>true</AllowComments>
+      <Attachments />
+      <Crossposts />
+      <Latitude xsi:nil="true" />
+      <Longitude xsi:nil="true" />
+    </Entry>
+  </Entries>
+</DayEntry>
