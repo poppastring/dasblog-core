@@ -18,7 +18,6 @@ namespace DasBlog.Tests.FunctionalTests.ComponentTests
 			using (var sandbox = platform.CreateSandbox(Constants.CategoriesEnvironment))
 			{
 				var blogManager = platform.CreateBlogManager(sandbox);
-				new CacheFixer().InvalidateCache(blogManager);
 				CategoryCacheEntryCollection categories = blogManager.GetCategories();
 				Assert.Equal(2, categories.Count);
 			}
@@ -35,7 +34,6 @@ namespace DasBlog.Tests.FunctionalTests.ComponentTests
 			using (var sandbox = platform.CreateSandbox(Constants.EmptyContentEnvironment))
 			{
 				var blogManager = platform.CreateBlogManager(sandbox);
-				new CacheFixer().InvalidateCache(blogManager);
 				CategoryCacheEntryCollection categories = blogManager.GetCategories();
 				Assert.Empty(categories);
 			}

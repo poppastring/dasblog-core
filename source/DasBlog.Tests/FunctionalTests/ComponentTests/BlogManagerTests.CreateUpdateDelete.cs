@@ -128,11 +128,6 @@ namespace DasBlog.Tests.FunctionalTests.ComponentTests
 				// create the file and seed with an uncached post
 				var blogManager = platform.CreateBlogManager(sandbox);
 				SaveEntryDirect(blogManager, Path.Combine(sandbox.TestEnvironmentPath, Constants.ContentDirectory), entryId);
-				//
-				logger.LogDebug($"before CreateBlogManager: dayentry file exists for {DateTime.Today} {DayEntryFileExists(Path.Combine(sandbox.TestEnvironmentPath, Constants.ContentDirectory), DateTime.Today)}");
-				new CacheFixer().InvalidateCache(blogManager);
-//				blogManager.dataService.data.IncrementEntryChange();
-				logger.LogDebug($"after CreateBlogManager: dayentry file exists for {DateTime.Today} {DayEntryFileExists(Path.Combine(sandbox.TestEnvironmentPath, Constants.ContentDirectory), DateTime.Today)}");
 				// make sure it is a valid entry which should cache it.
 				Entry entry = blogManager.GetEntryForEdit(entryId);
 				Assert.NotNull(entry);
@@ -142,11 +137,6 @@ namespace DasBlog.Tests.FunctionalTests.ComponentTests
 				Assert.Throws<NullReferenceException>(() => blogManager.GetEntryForEdit(entryId));
 				//
 				var testDataProcessor = platform.CreateTestDataProcessor(sandbox);
-/*
-				var result = testDataProcessor.GetBlogPostValue(DateTime.Today, entry.EntryId, "Title");
-				Assert.False(result.success); // the file should have been removed when the the one and only
-				// post was deleted
-*/
 
 				Assert.Throws<System.IO.FileNotFoundException>(
 					() => testDataProcessor.GetBlogPostValue(DateTime.Today, entry.EntryId, "Title"));
@@ -198,7 +188,7 @@ namespace DasBlog.Tests.FunctionalTests.ComponentTests
 			  , DateTime.Now.ToString("s", CultureInfo.InvariantCulture)
 			  , entryId ?? Guid.NewGuid().ToString());
 			File.WriteAllText(path, str);
-			new CacheFixer().InvalidateCache(blogManager);
+//			new CacheFixer().InvalidateCache(blogManager);
 		}
 
 		private void DeleteDirectoryContentsDirect(string directory, string fileSpec = "*.*")

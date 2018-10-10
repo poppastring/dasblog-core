@@ -33,7 +33,10 @@ namespace DasBlog.Tests.FunctionalTests.ComponentTests
 		{
 			var dasBlogSettings = CreateDasBlogSettings(sandbox);
 			ILogger<BlogManager> logger = ServiceProvider.GetService<ILoggerFactory>().CreateLogger<BlogManager>();
-			return new BlogManager(dasBlogSettings, logger);
+			var bm = new BlogManager(dasBlogSettings, logger);
+			var cacheFixer = ServiceProvider.GetService<ICacheFixer>();
+			cacheFixer.InvalidateCache(bm);
+			return bm;
 		}
 
 		public IDasBlogSandbox CreateSandbox(string environment)
@@ -92,6 +95,7 @@ namespace DasBlog.Tests.FunctionalTests.ComponentTests
 		}
 		protected override void InjectDependencies(IServiceCollection services)
 		{
+			services.AddSingleton<ICacheFixer, CacheFixer>();
 		}
 
 		protected override void CompleteSetupLocal()
