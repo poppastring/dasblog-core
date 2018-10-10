@@ -16,7 +16,7 @@ namespace DasBlog.Managers
 {
 	public class BlogManager : IBlogManager
 	{
-		private readonly IBlogDataService dataService;
+		public readonly IBlogDataService dataService;
 		private readonly IDasBlogSettings dasBlogSettings;
 		private readonly ILogger logger;
 		private static Regex stripTags = new Regex("<[^>]*>", RegexOptions.Compiled | RegexOptions.CultureInvariant);
