@@ -13,6 +13,19 @@ namespace DasBlog.Tests.FunctionalTests.Common
 		/// <inheritdoc cref="ICacheFixer.InvalidateCache"/>
 		public void InvalidateCache(IBlogManager blogManager)
 		{
+			var categoryCacheType = GetType("newtelligence.DasBlog.Runtime.CategoryCache");
+			if (categoryCacheType == null)
+			{
+				throw new Exception("failed to find type CategoryCache");
+			}
+
+			var changeNumberField =
+				categoryCacheType.GetField("_changeNumber", BindingFlags.NonPublic | BindingFlags.Static);
+			if (changeNumberField == null)
+			{
+				throw new Exception("Failed ot find static field _changeNumber on CategoryCache");
+			}
+			changeNumberField.SetValue(null, -1L);
 			var dataServiceField = typeof(BlogManager).GetFields().Where(f => f.Name == "dataService").FirstOrDefault();
 			if (dataServiceField == null)
 			{
