@@ -33,10 +33,16 @@ namespace DasBlog.Tests.FunctionalTests.ComponentTests
 		{
 			var dasBlogSettings = CreateDasBlogSettings(sandbox);
 			ILogger<BlogManager> logger = ServiceProvider.GetService<ILoggerFactory>().CreateLogger<BlogManager>();
+			BlogManagerOptions opts = BuildBlogManagerOptions();
 			var bm = new BlogManager(dasBlogSettings, logger);
 			var cacheFixer = ServiceProvider.GetService<ICacheFixer>();
 			cacheFixer.InvalidateCache(bm);
 			return bm;
+		}
+
+		private BlogManagerOptions BuildBlogManagerOptions()
+		{
+			return new BlogManagerOptions();
 		}
 
 		public IDasBlogSandbox CreateSandbox(string environment)

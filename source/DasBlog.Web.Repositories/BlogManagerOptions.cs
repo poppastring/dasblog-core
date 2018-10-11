@@ -21,6 +21,9 @@ dasBlogSettings.SiteConfiguration.Root
 dasBlogSettings.RelativeToRoot(
 dasBlogSettings.GetPermaTitle()
  */
+	/// <summary>
+	/// loaded from site.config file
+	/// </summary>
 	public class BlogManagerOptions
 	{
 		public bool AdjustDisplayTimeZone { get; set; }
@@ -38,5 +41,16 @@ dasBlogSettings.GetPermaTitle()
 		public string Root { get; set; }
 		public string Title { get; set; }
 		public string TitlePermalinkSpaceReplacement { get; set; }
+	}
+	/// <summary>
+	/// options not loaded from site.config
+	/// </summary>
+	public class BlogMangerExtraOptions
+	{
+		/// <summary>
+		/// avoiding passing IHostingEnvironment (whose ContentRootPath is operative)
+		/// so that we don't create an unnecessary dependency between DasBlog.Managers and ASP.NET
+		/// </summary>
+		public string ContentRootPath { get; set; }
 	}
 }
