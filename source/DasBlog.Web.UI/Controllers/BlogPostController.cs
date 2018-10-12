@@ -499,11 +499,11 @@ namespace DasBlog.Web.Controllers
 		{
 			RouteAffectedFunctions routeAffectedFunctions = new RouteAffectedFunctions(
 			  dasBlogSettings.SiteConfiguration.EnableTitlePermaLinkUnique);
+
 			DateTime? dt = routeAffectedFunctions.SelectDate(post);
-			Entry entry = blogManager.GetBlogPost(
-			  post.Title.Replace(" ", string.Empty)
-			  ,dt);
-			if (entry != null)
+			Entry entry = blogManager.GetBlogPost(post.Title.Replace(" ", string.Empty),dt);
+
+			if (entry != null && string.Compare(entry.EntryId, post.EntryId, true) > 0 )
 			{
 				ModelState.AddModelError(string.Empty, "A post with this title already exists.  Titles must be unique");
 			}
