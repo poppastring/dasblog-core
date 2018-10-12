@@ -412,9 +412,10 @@ namespace DasBlog.Web.Controllers
 		[HttpPost("/blogpost/search", Name=Constants.SearcherRouteName)]
 		public IActionResult Search(string searchText)
 		{
-			ListPostsViewModel lpvm = new ListPostsViewModel();
-			List<Entry> entries = blogManager.SearchEntries(WebUtility.HtmlEncode(searchText), Request.Headers["Accept-Language"]);
-			if (entries != null)
+			var lpvm = new ListPostsViewModel();
+			var entries = blogManager.SearchEntries(WebUtility.HtmlEncode(searchText), Request.Headers["Accept-Language"])?.Where(e => e.IsPublic)?.ToList();
+
+			if (entries != null )
 			{
 				lpvm.Posts = entries.Select(entry => mapper.Map<PostViewModel>(entry)).ToList();
 
