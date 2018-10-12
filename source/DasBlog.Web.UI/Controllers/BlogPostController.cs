@@ -34,9 +34,9 @@ namespace DasBlog.Web.Controllers
 		private readonly IBlogPostViewModelCreator modelViewCreator;
 
 		public BlogPostController(IBlogManager blogManager, IHttpContextAccessor httpContextAccessor,
-		  IDasBlogSettings settings, IMapper mapper, ICategoryManager categoryManager
-		  ,IFileSystemBinaryManager binaryManager, ILogger<BlogPostController> logger
-		  ,IBlogPostViewModelCreator modelViewCreator) : base(settings)
+		  IDasBlogSettings settings, IMapper mapper, ICategoryManager categoryManager,
+		  IFileSystemBinaryManager binaryManager, ILogger<BlogPostController> logger,IBlogPostViewModelCreator modelViewCreator) 
+			: base(settings)
 		{
 			this.blogManager = blogManager;
 			this.categoryManager = categoryManager;
@@ -189,13 +189,7 @@ namespace DasBlog.Web.Controllers
 		[HttpGet("post/create")]
 		public IActionResult CreatePost()
 		{
-			PostViewModel post = modelViewCreator.CreateBlogPostVM();
-/*
-			PostViewModel post = new PostViewModel();
-			post.CreatedDateTime = DateTime.UtcNow;  //TODO: Set to the timezone configured???
-			post.AllCategories = mapper.Map<List<CategoryViewModel>>(blogManager.GetCategories());
-			post.Languages = GetAlllanguages();
-*/
+			var post = modelViewCreator.CreateBlogPostVM();
 
 			return View(post);
 		}
@@ -400,7 +394,7 @@ namespace DasBlog.Web.Controllers
 				return RedirectToAction("Index", "Home");
 			}
 
-			ListPostsViewModel lpvm = new ListPostsViewModel();
+			var lpvm = new ListPostsViewModel();
 			lpvm.Posts = categoryManager.GetEntries(category, httpContextAccessor.HttpContext.Request.Headers["Accept-Language"])
 								.Select(entry => mapper.Map<PostViewModel>(entry)).ToList();
 
@@ -488,8 +482,7 @@ namespace DasBlog.Web.Controllers
 				return View(post);
 			}
 
-			string linkText = String.Format("<p><img border=\"0\" src=\"{0}\"></p>",
-				relativePath);
+			var linkText = String.Format("<p><img border=\"0\" src=\"{0}\"></p>", relativePath);
 			post.Content += linkText;
 			ModelState.Remove(nameof(post.Content)); // ensure that model change is included in response
 			return View(post);
@@ -497,11 +490,10 @@ namespace DasBlog.Web.Controllers
 
 		private void ValidatePost(PostViewModel post)
 		{
-			RouteAffectedFunctions routeAffectedFunctions = new RouteAffectedFunctions(
-			  dasBlogSettings.SiteConfiguration.EnableTitlePermaLinkUnique);
+			var routeAffectedFunctions = new RouteAffectedFunctions(dasBlogSettings.SiteConfiguration.EnableTitlePermaLinkUnique);
 
-			DateTime? dt = routeAffectedFunctions.SelectDate(post);
-			Entry entry = blogManager.GetBlogPost(post.Title.Replace(" ", string.Empty),dt);
+			var dt = routeAffectedFunctions.SelectDate(post);
+			var entry = blogManager.GetBlogPost(post.Title.Replace(" ", string.Empty),dt);
 
 			if (entry != null && string.Compare(entry.EntryId, post.EntryId, true) > 0 )
 			{
