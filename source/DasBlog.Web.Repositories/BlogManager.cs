@@ -13,18 +13,27 @@ using EventCodes = DasBlog.Core.EventCodes;
 using DasBlog.Core.Extensions;
 using DasBlog.Core.Exceptions;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace DasBlog.Managers
 {
 	public class BlogManager : IBlogManager
 	{
+//		private const 
 		public readonly IBlogDataService dataService;
 		private readonly IDasBlogSettings dasBlogSettings;
 		private readonly ILogger logger;
 		private static Regex stripTags = new Regex("<[^>]*>", RegexOptions.Compiled | RegexOptions.CultureInvariant);
 
-		public BlogManager(IDasBlogSettings settings , ILogger<BlogManager> logger)
+		
+		
+		
+		public BlogManager(IDasBlogSettings settings , ILogger<BlogManager> logger
+		  ,IOptions<BlogManagerOptions> settingsOptionsAccessor
+		  ,IOptionsMonitor<BlogManagerModifiableOptions> monitoredOptionsAccessor
+			)
 		{
+			var opts = settingsOptionsAccessor.Value;
 			this.logger = logger;
 			dasBlogSettings = settings;
 			var loggingDataService = LoggingDataServiceFactory.GetService(Pass(() => dasBlogSettings.WebRootDirectory) + Pass(() => dasBlogSettings.SiteConfiguration.LogDir));
