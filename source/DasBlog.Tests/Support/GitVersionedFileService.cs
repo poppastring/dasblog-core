@@ -124,16 +124,17 @@ namespace DasBlog.Tests.Support
 		/// throws an exception if git acccess fails for some reason
 		/// </summary>
 		/// <param name="environment">e.g. "Vanilla"</param>
-		/// <returns>the list of modified files (or any extraneous output from "git status --short"</returns>
+		/// <returns>false if there were changes in the working directory
+		///   and the list of modified files (or any extraneous output from "git status --short"</returns>
 		public (bool clean, string errorMessage) IsClean(string environment)
 		{
-			(int exitCode, string[] outputs, string[] errors ) = scriptRunner.Run(
+			(int exitCode, string[] outputs ) = scriptRunner.Run(
 				Constants.DetectChangesScriptName, scriptRunner.DefaultEnv
 				,Path.Combine(this.testDataPath, environment));
 					// e.g. "C:\alt\projs\dasblog-core\source\DasBlog.Tests\Resources\Environments\Vanilla"
 			if (exitCode != 0)
 			{
-				FormatErrorsAndThrow(Constants.DetectChangesScriptName, exitCode, errors);
+				FormatErrorsAndThrow(Constants.DetectChangesScriptName, exitCode, outputs);
 			}
 			int numChanges = outputs.Count(o => !string.IsNullOrWhiteSpace(o));
 			if (numChanges > 0)
@@ -144,16 +145,21 @@ namespace DasBlog.Tests.Support
 			return (true, string.Empty);
 		}
 
-		public void StashCurrentState(string environment)
+		public void StashCurrentStateIfDirty(string environment)
 		{
+			if (IsClean(environment).clean)
+			{
+				logger.LogInformation("No changes were made to the test environment during the course of this test");
+				return;
+			}
 			Guid guid = Guid.NewGuid();
-			(int exitCode, string[] outputs, string[] errors ) = scriptRunner.Run(
+			(int exitCode, string[] outputs ) = scriptRunner.Run(
 				Constants.StashCurrentStateScriptName, scriptRunner.DefaultEnv
 				,Path.Combine(this.testDataPath, environment)
 				,guid.ToString());
 			if (exitCode != 0)
 			{
-				FormatErrorsAndThrow(Constants.StashCurrentStateScriptName, exitCode, errors);
+				FormatErrorsAndThrow(Constants.StashCurrentStateScriptName, exitCode, outputs);
 			}
 
 			string stashHash = GetHashField(outputs);
@@ -166,12 +172,12 @@ namespace DasBlog.Tests.Support
 
 		private void ConfirmValidStash(string stashHash, Guid guid)
 		{
-			(int exitCode, string[] outputs, string[] errors ) = scriptRunner.Run(
+			(int exitCode, string[] outputs) = scriptRunner.Run(
 				Constants.ConfirmStashScriptName, scriptRunner.DefaultEnv
 				,stashHash);
 			if (exitCode != 0)
 			{
-				FormatErrorsAndThrow(Constants.ConfirmStashScriptName, exitCode, errors);
+				FormatErrorsAndThrow(Constants.ConfirmStashScriptName, exitCode, outputs);
 			}
 
 			string stashGuid = GetGuidFromStash(outputs);
@@ -179,8 +185,18 @@ namespace DasBlog.Tests.Support
 			{
 				throw new Exception($"Was expecting the stash, {stashHash}, to contain the guid {guid}."
 				                    + Environment.NewLine +
-				                    $"Please examine the git log and stash to ensure all is well.");
+				                    "Please examine the git log and stash to ensure all is well."
+				                    + Environment.NewLine +
+				                    Environment.NewLine +
+				                    $"Errors:{Environment.NewLine}{FormatForDisplay(outputs)}{Environment.NewLine}Outputs:{FormatForDisplay(outputs)}"
+				                    );
 			}
+		}
+
+		private string FormatForDisplay(string[] lines)
+		{
+			string message = string.Join(Environment.NewLine, lines.Where(e => !string.IsNullOrWhiteSpace(e)).DefaultIfEmpty(string.Empty));
+			return message;
 		}
 
 		private string GetGuidFromStash(string[] outputs)
@@ -219,14 +235,14 @@ namespace DasBlog.Tests.Support
 		///   "'git' is not recognized as an internal or external command,"</returns>
 		private (bool success, string versionString) GetGitVersionString()
 		{
-			(int exitCode, string[] outputs, string[] errors ) = scriptRunner.Run(
+			(int exitCode, string[] outputs ) = scriptRunner.Run(
 				Constants.GetGitVersionScriptName, scriptRunner.DefaultEnv);
 			if (exitCode != 0)
 			{
-				string detail = FormatOutputOrErrors(errors);
+				string detail = FormatOutputOrErrors(outputs);
 				return (false, "Detail: " + detail);
 			}
-			string versionString = outputs.FirstOrDefault(e => !string.IsNullOrWhiteSpace(e));
+			string versionString = outputs.FirstOrDefault(e => !string.IsNullOrWhiteSpace(e) && e.StartsWith("git version"));
 			return (true, versionString);
 		}
 		private void FormatErrorsAndThrow(string scriptName, int exitCode, string[] errors)

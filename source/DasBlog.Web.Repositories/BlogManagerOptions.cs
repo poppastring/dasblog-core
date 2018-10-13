@@ -71,7 +71,7 @@ dasBlogSettings.GetPermaTitle()
 	/// <summary>
 	/// options not loaded from site.config
 	/// </summary>
-	public class BlogMangerExtraOptions
+	public class BlogManagerExtraOptions
 	{
 		/// <summary>
 		/// avoiding passing IHostingEnvironment (whose ContentRootPath is operative)

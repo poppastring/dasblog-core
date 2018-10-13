@@ -5,6 +5,8 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using DasBlog.Tests.Support.Common;
 using DasBlog.Tests.Support.Interfaces;
 using Microsoft.Extensions.Logging;
@@ -30,16 +32,8 @@ namespace DasBlog.Tests.Support
 		}
 
 		/// <inheritdoc cref="DasBlog.Tests.Support.Interfaces"/>
-		/// some unpleasantness with capturing output
-		/// The following applied when only "echo" statements appeared in the script.
-		/// cmd /C - no output was returned
-		/// cmd /K with "exit" in the script - no output was returned
-		/// cmd /K with "exit /b" in the script - output was returned but the process timed out.
-		/// added the statement "set" on the line after "echo" and the echoed expressions appeared.
-		/// conclusion: the script exits before the process has an opportunity to get the output
-		/// DON'T have scripts that comprise only "echo" statements
-		public (int exitCode, string[] output, string[] errors) Run(
-			string scriptName, IReadOnlyDictionary<string, string> envirnmentVariables,
+		public (int exitCode, string[] output) Run(string scriptName,
+			IReadOnlyDictionary<string, string> envirnmentVariables,
 			params object[] arguments)
 		{
 			try
@@ -47,6 +41,8 @@ namespace DasBlog.Tests.Support
 				var cmdexe = GetCmdExe();
 				var output = new List<string>();
 				var errs = new List<string>();
+				var sw = new Stopwatch();
+				sw.Start();
 				
 				ProcessStartInfo psi = new ProcessStartInfo(cmdexe);
 				var scriptPathAndFileName = Path.Combine(scriptDirectory, scriptName);
@@ -54,31 +50,68 @@ namespace DasBlog.Tests.Support
 				SetArguments(psi.ArgumentList
 					, new string[]
 					{
-						"/K", scriptPathAndFileName, scriptExitTimeout.ToString()
+						"/K", scriptPathAndFileName
 					}.Concat(arguments).ToArray());
 				psi.RedirectStandardOutput = true;
-				psi.RedirectStandardError = true;
-				logger.LogDebug($"script timeout: {scriptTimeout}, script exit timeout {scriptExitTimeout} for {scriptPathAndFileName}");
+//				psi.RedirectStandardError = true;
+				logger.LogDebug($"script timeout: {scriptTimeout}, script exit delay {scriptExitTimeout}ms for {scriptPathAndFileName}");
 
-				int exitCode = int.MaxValue;
-				using (var ps = Process.Start(psi))
-				{
-					ps.OutputDataReceived += (sender, e) => output.Add(e.Data);
-					ps.ErrorDataReceived += (sender, e) => errs.Add(e.Data);
-					ps.BeginOutputReadLine();
-					ps.BeginErrorReadLine();
-					var result = ps.WaitForExit(scriptTimeout);
-					exitCode = result ? ps.ExitCode : int.MaxValue - 1;
-				}
-				logger.LogDebug($"exit code: {exitCode}");
-
+				var exitCode = RunCmdProcess(psi, output);
+				logger.LogDebug($"elapsed time {sw.ElapsedMilliseconds} on thread {Thread.CurrentThread.ManagedThreadId}");
+				
 				ThrowExceptionForBadExitCode(exitCode, scriptPathAndFileName, scriptTimeout, psi);
-				return (exitCode, output.ToArray(), errs.ToArray());
+				ThrowExceptionForIncompleteOutput(output, errs, scriptName);
+				return (exitCode, output.Skip(1).Where(o => o != null && !o.Contains("dasmeta")).ToArray());
 			}
 //			finally
 			catch (Exception e)
 			{
 				throw new Exception(e.Message, e);
+			}
+		}
+
+		/// <summary>
+		/// start the process and collect std output until it dies or the timeout is run down
+		/// </summary>
+		/// <param name="psi">RedirectStandardOutput/Error set to true, Shell
+		///     Execute=false, fully loaded arglist including /K to keep the command shell open</param>
+		/// <param name="output">on entry an empty list
+		/// on exit -
+		/// all lines from cmd.exe stdout and stderr or empty list</param>
+		/// <returns>exit code from script (which is whatever the last executed step exits with
+		///   or 1 if the args are wrong) or int.MaxValue - 1 to indicate timeout</returns>
+		private int RunCmdProcess(ProcessStartInfo psi, List<string> output)
+		{
+			int exitCode;
+			Process ps;
+			using (ps = Process.Start(psi))
+			{
+				string s;
+				do
+				{
+					s = ps.StandardOutput.ReadLine();
+					if (s != null)
+					{
+						output.Add(s);
+					}
+				} while (s != null);
+
+				var result = ps.WaitForExit(scriptTimeout);
+				exitCode = result ? ps.ExitCode : int.MaxValue - 1;
+						// I suspect reult will always be true.  ReadLine should be blocked until the
+						// process exits so there will be no wait period - still, who knows?
+			}
+			logger.LogDebug($"exit code: {exitCode}");
+			return exitCode;
+		}
+
+		private void ThrowExceptionForIncompleteOutput(List<string> output, List<string> errs, string scriptName)
+		{
+			output.Where(o => o != null).ToList().ForEach(o => logger.LogDebug(o));
+			errs.Where(o => o != null).ToList().ForEach(o => logger.LogDebug(o));
+			if (!(output.Any(o => o.StartsWith("dasmeta_output_complete")) || output.Any(o => o.StartsWith("dasmeta_errors_complete"))))
+			{
+				throw new Exception($"incomplete output from script {scriptName}");
 			}
 		}
 

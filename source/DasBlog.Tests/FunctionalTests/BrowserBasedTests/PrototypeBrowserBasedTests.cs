@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Threading;
+using DasBlog.Core.XmlRpc.Blogger;
 using DasBlog.Tests.Automation.Selenium;
 using DasBlog.Tests.FunctionalTests.Common;
 using DasBlog.Tests.Support;
+using DasBlog.Tests.Support.Common;
 using DasBlog.Tests.Support.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -64,11 +66,13 @@ namespace DasBlog.Tests.FunctionalTests.BrowserBasedTests
 		}
 
 		[Fact]
+		[Trait(Constants.CategoryTraitType, Constants.BrowserBasedTestTraitValue )]
 		public void Test1()
 		{
 			Assert.True(true);
 		}
 		[Fact(Skip="")]
+		[Trait(Constants.CategoryTraitType, Constants.BrowserBasedTestTraitValue )]
 		public void MinimalTest()
 		{
 //			Thread.Sleep(5000);
@@ -100,6 +104,7 @@ namespace DasBlog.Tests.FunctionalTests.BrowserBasedTests
 			}
 		}
 		[Fact(Skip="")]
+		[Trait(Constants.CategoryTraitType, Constants.BrowserBasedTestTraitValue )]
 		public void MinimalTest2()
 		{
 			Thread.Sleep(5000);
