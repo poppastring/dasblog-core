@@ -64,14 +64,19 @@ namespace DasBlog.Web.Controllers
 			
 			if (routeAffectedFunctions.IsSpecificPostRequested(posttitle, day))
 			{
-				var entry = blogManager.GetBlogPost(posttitle.Replace(dasBlogSettings.SiteConfiguration.TitlePermalinkSpaceReplacement, 
-																				string.Empty), dt);
+				var entry = blogManager.GetBlogPost(posttitle.Replace(
+											dasBlogSettings.SiteConfiguration.TitlePermalinkSpaceReplacement, string.Empty), dt);
 				if (entry != null)
 				{
-					lpvm.Posts = new List<PostViewModel>() { mapper.Map<PostViewModel>(entry) };
+					var pvm = mapper.Map<PostViewModel>(entry);
 
+					if (httpContextAccessor.HttpContext.Request.Path.Value.EndsWith(".aspx", StringComparison.OrdinalIgnoreCase))
+					{
+						return RedirectPermanent(pvm.PermaLink);
+					}
+
+					lpvm.Posts = new List<PostViewModel>() { pvm };
 					SinglePost(lpvm.Posts.First());
-
 					return View("Page", lpvm);
 				}
 				else
