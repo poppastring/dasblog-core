@@ -11,8 +11,16 @@ namespace DasBlog.Web.Models.BlogViewModels
 		{
 			var viewModel = new CategoryListViewModel();
 			foreach (var entry in entries)
-			{				
-				var categories = entry.GetSplitCategories();
+			{
+				string[] categories = null;
+				if (categoryName == string.Empty)
+				{
+					categories = entry.GetSplitCategories();
+				}
+				else
+				{
+					categories = new string[] { categoryName };
+				}
 
 				foreach (var category in categories)
 				{
