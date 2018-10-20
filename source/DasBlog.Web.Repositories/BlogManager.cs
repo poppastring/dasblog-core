@@ -182,8 +182,10 @@ namespace DasBlog.Managers
 
 		public void DeleteEntry(string postid)
 		{
-			Entry entry = GetEntryForEdit(postid);
+			var entry = GetEntryForEdit(postid);
 			dataService.DeleteEntry(postid, null);
+			// BreakCache(entry.GetSplitCategories());
+
 			LogEvent(EventCodes.EntryDeleted, entry);
 		}
 
@@ -309,14 +311,14 @@ namespace DasBlog.Managers
 			}
 
 			// we want to invalidate all the caches so users get the new post
-			// TODO: BreakCache(entry.GetSplitCategories());
+			// BreakCache(entry.GetSplitCategories());
 
 			return rtn;
 		}
 
 		private void BreakCache(string[] categories)
 		{
-			newtelligence.DasBlog.Web.Core.DataCache cache = newtelligence.DasBlog.Web.Core.CacheFactory.GetCache();
+			var cache = newtelligence.DasBlog.Web.Core.CacheFactory.GetCache();
 
 			// break the caching
 			cache.Remove("BlogCoreData");
