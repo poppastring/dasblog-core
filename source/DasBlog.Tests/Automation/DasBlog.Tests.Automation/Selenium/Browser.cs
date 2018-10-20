@@ -89,6 +89,13 @@ namespace DasBlog.Tests.Automation.Selenium
 			return driver.Title;
 		}
 
+		public string GetPageSource()
+		{
+			return driver.PageSource;
+		}
+
+		public ILogger<Browser> Logger => logger;
+
 		public ButtonPageElement GetButtonById(string id)
 		{
 			return GetElementById<ButtonPageElement>(id);

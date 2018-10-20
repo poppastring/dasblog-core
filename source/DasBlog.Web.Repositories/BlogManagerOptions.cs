@@ -30,19 +30,10 @@ dasBlogSettings.GetPermaTitle()
 	/// </summary>
 	public class BlogManagerOptions
 	{
-//		public bool AdjustDisplayTimeZone { get; set; }
 		public string ContentDir { get; set; }
-//		public int ContentLookaheadDays { get; set; }
-//		public int DaysCommentsAllowed { get; set; }
-//		public decimal DisplayTimeZoneIndex { get; set; }
 		public bool EnableAutoPingback { get; set; }
-//		public bool EnableCommentDays { get; set; }
-//		public bool EnableCrossPostFooter { get; set; }
 		public bool EnableTitlePermaLinkUnique { get; set; }
-//		public int FrontPageEntryCount { get; set; }
 		public string LogDir { get; set; }
-		//public object PingServices { get; set; }
-				// currently hardcoded in BlogManager - will be sorted when strategy is clear
 		public string Root { get; set; }
 		public string Title { get; set; }
 		public string TitlePermalinkSpaceReplacement { get; set; }
@@ -50,28 +41,21 @@ dasBlogSettings.GetPermaTitle()
 	public class BlogManagerModifiableOptions
 	{
 		public bool AdjustDisplayTimeZone { get; set; }
-//		public string ContentDir { get; set; }
 		public int ContentLookaheadDays { get; set; }
 		public string CrossPostFooter { get; set; }
 		public int DaysCommentsAllowed { get; set; }
 		public decimal DisplayTimeZoneIndex { get; set; }
-//		public bool EnableAutoPingback { get; set; }
 		public bool EnableCommentDays { get; set; }
 		public bool EnableComments { get; set; }
 		public bool EnableCrossPostFooter { get; set; }
-//		public bool EnableTitlePermaLinkUnique { get; set; }
 		public int EntriesPerPage { get; set; }
 		public int FrontPageEntryCount { get; set; }
-//		public string LogDir { get; set; }
 
 		//public object PingServices { get; set; }
 				// currently hardcoded in BlogManager - will be sorted when strategy is clear
 
-//		public string Root { get; set; }
 		public int RssDayCount { get; set; }
 		public int RssEntryCount { get; set; }
-//		public string Title { get; set; }
-//		public string TitlePermalinkSpaceReplacement { get; set; }
 	}
 	/// <summary>
 	/// options not loaded from site.config
