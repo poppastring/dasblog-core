@@ -87,7 +87,7 @@ namespace DasBlog.Tests.FunctionalTests.ComponentTests
 		}
 		[Fact]
 		[Trait(Constants.CategoryTraitType, Constants.ComponentTestTraitValue)]
-		[Trait("Chosen", "2")]
+		[Trait(Constants.ChosenTraitType, "3")]
 		public void UpdateExistingPost_WithoutCache_ModifiesDayEntryFile()
 		{
 			using (var sandbox = platform.CreateSandbox(Constants.VanillaEnvironment))
@@ -116,7 +116,7 @@ namespace DasBlog.Tests.FunctionalTests.ComponentTests
 		[Trait(Constants.FailureTraitType, Constants.FailsInSuiteTraitValue)]
 		[Trait(Constants.DescriptionTraitType, "thows exception when run as part of suite")]
 		[Trait(Constants.CategoryTraitType, Constants.ComponentTestTraitValue)]
-		[Trait("Chosen", "1")]
+		[Trait(Constants.ChosenTraitType, "3")]
 		public void DeletePost_WithCache_ModifiesDayEntryFile()
 		{
 			using (var sandbox = platform.CreateSandbox(Constants.VanillaEnvironment))
@@ -146,7 +146,7 @@ namespace DasBlog.Tests.FunctionalTests.ComponentTests
 
 		[Fact]
 		[Trait(Constants.CategoryTraitType, Constants.ComponentTestTraitValue)]
-		[Trait("Chosen", "1")]
+		[Trait(Constants.ChosenTraitType, "3")]
 		public void DeletePost_WithoutCache_ModifiesDayEntryFile()
 		{
 			Thread.Sleep(5000);

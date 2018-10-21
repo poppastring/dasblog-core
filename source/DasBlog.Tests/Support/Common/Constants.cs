@@ -40,6 +40,7 @@ namespace DasBlog.Tests.Support.Common
 		public const string EmptyContentEnvironment = "EmptyContent";
 		// ****** XUnit Traits ******
 		public const string CategoryTraitType = "Category";
+		public const string ChosenTraitType = "Chosen";
 		public const string TestInfrastructureTestTraitValue = "TestInfrastructureTest";
 		public const string UnitTestTraitValue = "UnitTest";
 		public const string ComponentTestTraitValue = "ComponentTest";
