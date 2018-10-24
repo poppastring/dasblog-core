@@ -34,4 +34,18 @@ namespace DasBlog.Tests.Support
 			get { return description ?? (action == null ? (object) func : (object) action); }
 		}
 	}
+
+	public class ActionStep : TestStep
+	{
+		public ActionStep(Expression<Action> action, string description = null) : base(action, description)
+		{
+		}
+	}
+
+	public class VerificationStep : TestStep
+	{
+		public VerificationStep(Expression<Func<bool>> func, string description = null) : base(func, description)
+		{
+		}
+	}
 }

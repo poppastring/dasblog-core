@@ -81,13 +81,13 @@ namespace DasBlog.Tests.FunctionalTests.BrowserBasedTests
 				logger.LogError("logging starts here");
 				List<TestStep> testSteps = new List<TestStep>
 				{
-					new TestStep(() => platform.Pages.Login.Goto()),
-					new TestStep(() => platform.Pages.Login.IsDisplayed()),
-					new TestStep(() => platform.Pages.Login.LoginButton != null),
-					new TestStep(() => platform.Pages.Login.LoginButton.Click()),
+					new TestStep(() => platform.Pages.LoginPage.Goto()),
+					new TestStep(() => platform.Pages.LoginPage.IsDisplayed()),
+					new TestStep(() => platform.Pages.LoginPage.LoginButton != null),
+					new TestStep(() => platform.Pages.LoginPage.LoginButton.Click()),
 					new TestStep(() =>
-						platform.Pages.Login.PasswordValidation.Text.ToLower().Contains("the password field is required")),
-					new TestStep(() => platform.Pages.Login.IsDisplayed())
+						platform.Pages.LoginPage.PasswordValidation.Text.ToLower().Contains("the password field is required")),
+					new TestStep(() => platform.Pages.LoginPage.IsDisplayed())
 				};
 				var results = new TestResults();
 				platform.TestExecutor.Execute(testSteps, results);
@@ -113,13 +113,13 @@ namespace DasBlog.Tests.FunctionalTests.BrowserBasedTests
 				logger.LogError("logging starts here");
 				List<TestStep> testSteps = new List<TestStep>
 				{
-					new TestStep(() => platform.Pages.Login.Goto()),
-					new TestStep(() => platform.Pages.Login.IsDisplayed()),
-					new TestStep(() => platform.Pages.Login.LoginButton != null),
-					new TestStep(() => platform.Pages.Login.LoginButton.Click()),
+					new TestStep(() => platform.Pages.LoginPage.Goto()),
+					new TestStep(() => platform.Pages.LoginPage.IsDisplayed()),
+					new TestStep(() => platform.Pages.LoginPage.LoginButton != null),
+					new TestStep(() => platform.Pages.LoginPage.LoginButton.Click()),
 					new TestStep(() =>
-						platform.Pages.Login.PasswordValidation.Text.ToLower().Contains("the password field is required")),
-					new TestStep(() => platform.Pages.Login.IsDisplayed())
+						platform.Pages.LoginPage.PasswordValidation.Text.ToLower().Contains("the password field is required")),
+					new TestStep(() => platform.Pages.LoginPage.IsDisplayed())
 				};
 				var results = new TestResults();
 				platform.TestExecutor.Execute(testSteps, results);

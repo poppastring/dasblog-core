@@ -9,27 +9,27 @@ namespace DasBlog.Tests.Automation.Dom
 		{
 			this.Browser = browser;
 			this.NavBar = new NavBarPage(browser);
-			this.Home = new HomePage(browser);
-			this.Category = new CategoryPage(browser);
-			this.Archive = new ArchivePage(browser);
-			this.Subscribe = new SubscribePage(browser);
-			this.PostMaintenance = new PostMaintenancePage(browser);
-			this.Users = new UsersPage(browser);
-			this.Activity = new ActivityPage(browser);
-			this.Http404 = new Http404Page(browser);
-			this.Login = new LoginPage(browser);
+			this.HomePage = new HomePage(browser);
+			this.CategoryPage = new CategoryPage(browser);
+			this.ArchivePage = new ArchivePage(browser);
+			this.SubscribePage = new SubscribePage(browser);
+			this.PostMaintenancePage = new PostMaintenancePage(browser);
+			this.UsersPage = new UsersPage(browser);
+			this.ActivityPage = new ActivityPage(browser);
+			this.Http404Page = new Http404Page(browser);
+			this.LoginPage = new LoginPage(browser);
 		}
 
 
 		public NavBarPage NavBar { get; private set; }
-		public HomePage Home { get; private set; }
-		public CategoryPage Category { get; private set; }
-		public ArchivePage Archive { get; private set; }
-		public SubscribePage Subscribe { get; private set; }
-		public PostMaintenancePage PostMaintenance { get; private set; }
-		public UsersPage Users { get; private set; }
-		public ActivityPage Activity { get; private set; }
-		public Http404Page Http404 { get; private set; }
-		public LoginPage Login { get; private set; }
+		public HomePage HomePage { get; private set; }
+		public CategoryPage CategoryPage { get; private set; }
+		public ArchivePage ArchivePage { get; private set; }
+		public SubscribePage SubscribePage { get; private set; }
+		public PostMaintenancePage PostMaintenancePage { get; private set; }
+		public UsersPage UsersPage { get; private set; }
+		public ActivityPage ActivityPage { get; private set; }
+		public Http404Page Http404Page { get; private set; }
+		public LoginPage LoginPage { get; private set; }
 	}
 }

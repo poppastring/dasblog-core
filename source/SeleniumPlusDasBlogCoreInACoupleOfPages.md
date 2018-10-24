@@ -2,7 +2,7 @@
 * You need Firefox installed to use Selenium here
 
 ##### Use Cases
-1. Smoke Test (see [readme.md](DasBlog.SmokeTest/readme.md) at DasBlog.SmokeTest)
+1. Smoke Test (see [readme.md](DasBlog.Tests/SmokeTest/readme.md) at DasBlog.SmokeTest)
 2. Functional Tests (not yet implemented)
 
 ##### Configuration
@@ -58,21 +58,22 @@ automation framework in the Pluralsight course  [Automated Web Testing with Sele
 components are unaware of the automation mechanism.
 * Tests call into the pages to manipulate and retrieve information
 * There is a set of **PageElement** objects which link the dasblog components to the Selenium web components.  It would
-be possible to write these with or convert them to an approach independent of the automation mechanism
+be possible to write these with or convert them to an approach independent of this specific automation mechanism
 but this doesn't currently seem necessary.
 
 #### Design Choices
 * A key goal has been to enable contributors to create functional tests for the features they introduce
 without the need for a deep understanding of Selenium.
 * To that end the decision was made to identify all page elements by their id.  (Selenium has
-miriad ways to identify elements which would entail a richer association with Selenium.)
+miriad ways to identify elements which would entail a richer association with Selenium).
   This is slgithly intrusive necessitating giving components
 ids purely for testing purposes.
 
-#### Pattens of Delvelopent
+#### Development Workflow
 1. The user will add a test to the existing functional or smoke tests.
-2. This will use existing functionlity on the dasblog **Page** objects to carry out the test.
-3. New dasblog **PageElement**s will have to be added to the **Page** objects to reflect new elements added by the
+2. Either this will use existing functionlity on the dasblog **Page** objects to carry out the test.
+3. Or new dasblog **PageElement**s will have to be added to the **Page** objects to reflect new elements added by the
 feature under test
-4. More infrequently, it may be necessary to add functionality to the **Browser** where new behaviour has been introduced.
+4. More infrequently, it may be necessary to add functionality to the **Browser** where new types of behaviour has been introduced
+within the web app.
 
