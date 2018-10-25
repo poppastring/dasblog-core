@@ -1,32 +1,31 @@
 using System;
-using DasBlog.Tests.Support.Interfaces;
 using Constants = DasBlog.Tests.Support.Common.Constants;
 using Xunit;
 using Xunit.Abstractions;
 using newtelligence.DasBlog.Runtime;
 
-namespace DasBlog.Tests.FunctionalTests.ComponentTests
+namespace DasBlog.Tests.FunctionalTests.ComponentTests	// (1)
 {
-	[Collection(Constants.TestInfrastructureUsersCollection)]
-	public partial class BlogManagerTests : IClassFixture<ComponentTestPlatform>, IDisposable
+	[Collection(Constants.TestInfrastructureUsersCollection)]  // (2)
+	public partial class BlogManagerTests : IClassFixture<ComponentTestPlatform>, IDisposable // (3)
 	{
 
 		private ComponentTestPlatform platform;
-		public BlogManagerTests(ITestOutputHelper testOutputHelper, ComponentTestPlatform componentTestPlatform)
+		public BlogManagerTests(ITestOutputHelper testOutputHelper, ComponentTestPlatform componentTestPlatform)  // (4)
 		{
-			componentTestPlatform.CompleteSetup(testOutputHelper);
+			componentTestPlatform.CompleteSetup(testOutputHelper);  // (5)
 			this.platform = componentTestPlatform;
 		}
 
-		[Fact]
-		[Trait(Constants.CategoryTraitType, Constants.ComponentTestTraitValue)]
-		public void SearchingBlog_WithUnmatchableData_ReturnsNull()
+		[Fact]	// (6)
+		[Trait(Constants.CategoryTraitType, Constants.ComponentTestTraitValue)]		// (7)
+		public void SearchingBlog_WithUnmatchableData_ReturnsNull()		// (8)
 		{
-			using (var sandbox = platform.CreateSandbox(Constants.VanillaEnvironment))
+			using (var sandbox = platform.CreateSandbox(Constants.VanillaEnvironment))  // (9)
 			{
-				var blogManager = platform.CreateBlogManager(sandbox);
-				EntryCollection entries = blogManager.SearchEntries("this cannot be found", null);
-				Assert.Empty(entries);
+				var blogManager = platform.CreateBlogManager(sandbox);		// (10)
+				EntryCollection entries = blogManager.SearchEntries("this cannot be found", null);  // (11)
+				Assert.Empty(entries);		// (12)
 			}
 		}
 		[Fact]
@@ -135,7 +134,7 @@ namespace DasBlog.Tests.FunctionalTests.ComponentTests
 				Assert.Null(entry);
 			}
 		}
-		public void Dispose()
+		public void Dispose()		// (14)
 		{
 		}
 	}

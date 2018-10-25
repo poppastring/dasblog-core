@@ -16,7 +16,7 @@ or the Selenium Server but of course no reason why not to grab the IDE.
 No actual configuration is required.  DasBlog.SmokeTest and DasBlog.FunctionalTests are fully
 set up to use Selenium.  Famous last words, so when you do find yourself
 knocking up an installation (for a simple test case or whatever) have a look at
-DasBlog.FuncionalTests.csproj which describes our slightly unconventional approach
+[DasBlog.Tests.Automation.csproj](DasBlog.Tests/Automation/DasBlog.Tests.Automation/DasBlog.Tests.Automation.csproj) which describes our slightly unconventional approach
 to configuration
 
 ##### Resources
