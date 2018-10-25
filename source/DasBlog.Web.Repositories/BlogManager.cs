@@ -62,7 +62,7 @@ namespace DasBlog.Managers
 				this.monitoredOptionsAccessor = monitoredOptionsAccessor;
 			}
 		}
-		public readonly IBlogDataService dataService;
+		private readonly IBlogDataService dataService;
 		private readonly IDasBlogSettings dasBlogSettings;
 		private readonly ILogger logger;
 		private static Regex stripTags = new Regex("<[^>]*>", RegexOptions.Compiled | RegexOptions.CultureInvariant);
