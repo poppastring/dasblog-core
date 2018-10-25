@@ -98,7 +98,6 @@ namespace DasBlog.Tests.FunctionalTests.ComponentTests
 			using (var sandbox = platform.CreateSandbox(Constants.CommentsEnvironment))
 			{
 				var testDataProcessor = platform.CreateTestDataProcessor(sandbox);
-//				testDataProcessor.SetSiteConfigValue("DaysCommentsAllowed", "9999");
 				var blogManager = platform.CreateBlogManager(sandbox);
 				blogManager.DeleteComment("b705c37b-b47f-4e8d-8f8b-091efc4cb684", "3a162ecd-982d-4277-b4c7-204e547df749");
 				var savedCommentResult = testDataProcessor.GetDayExtraValue(new DateTime(2018, 2, 24), "3a162ecd-982d-4277-b4c7-204e547df749", "EntryId");

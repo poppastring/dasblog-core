@@ -120,7 +120,7 @@ namespace DasBlog.Tests.FunctionalTests.ComponentTests
 		}
 		[Fact(Skip="true")]
 		[Trait(Constants.DescriptionTraitType, "returns entry irrespective of date")]
-		[Trait(Constants.FailureTraitTraitType, Constants.ApiFailureTraitValue)]
+		[Trait(Constants.FailureTraitType, Constants.ApiFailureTraitValue)]
 		[Trait(Constants.CategoryTraitType, Constants.ComponentTestTraitValue)]
 		public void GetBlogPost_ForValidEntryOnWrongDate_ReturnsNull()
 		{

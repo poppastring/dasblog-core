@@ -14,7 +14,7 @@ namespace DasBlog.Tests.Support
 			return (true, string.Empty);
 		}
 
-		public void StashCurrentState(string environment)
+		public void StashCurrentStateIfDirty(string environment)
 		{
 		}
 

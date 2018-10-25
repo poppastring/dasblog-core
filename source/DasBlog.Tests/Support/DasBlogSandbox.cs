@@ -78,7 +78,7 @@ namespace DasBlog.Tests.Support
 		/// </summary>
 		public void Terminate()
 		{
-			fileService.StashCurrentState(environment);
+			fileService.StashCurrentStateIfDirty(environment);
 		}
 
 		public string GetConfigPathAndFile()

@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Diagnostics;
 using DasBlog.Tests.Automation.Common;
 using DasBlog.Tests.Automation.Selenium.Interfaces;
 using DasBlog.Tests.Automation.Dom;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
@@ -15,9 +17,11 @@ namespace DasBlog.Tests.Automation.Selenium
 		private readonly string homeUrl;
 		private IWebDriver driver;
 		private readonly string driverId;
+		private ILogger<Browser> logger;
 
-		public Browser(IOptions<BrowserOptions> optionsAccessor)
+		public Browser(IOptions<BrowserOptions> optionsAccessor, ILogger<Browser> logger)
 		{
+			this.logger = logger;
 			this.homeUrl = optionsAccessor.Value.HomeUrl;
 			driverId = optionsAccessor.Value.Driver;
 		}
@@ -28,10 +32,44 @@ namespace DasBlog.Tests.Automation.Selenium
 			switch (driverId)
 			{
 				case Constants.FirefoxDriverId:
-					driver = new FirefoxDriver();
+					driver = CreateFireFoxWebDriver();
 					break;
 				default:
 					throw new Exception("firefox is the only supported browser at present");
+			}
+		}
+
+		private IWebDriver CreateFireFoxWebDriver()
+		{
+			IWebDriver candidateDriver = null;
+			const int NUM_TRIALS = 3;
+			for (int trial = 0; trial < NUM_TRIALS + 1; trial++)
+			{
+				try
+				{
+					candidateDriver = new FirefoxDriver();
+					return candidateDriver;
+				}
+				catch (WebDriverException wde)
+				{
+					if (trial >= NUM_TRIALS)
+					{
+						throw;
+					}
+					candidateDriver?.Dispose();
+					KillDriverExe();
+					logger.LogInformation($"Attempt to start web driver faailed attempt {trial+1} of {NUM_TRIALS}");
+				}
+			}
+
+			return null;
+		}
+
+		private void KillDriverExe()
+		{
+			foreach (var process in Process.GetProcessesByName("geckodriver.exe"))
+			{
+				process.Kill();
 			}
 		}
 
@@ -50,6 +88,13 @@ namespace DasBlog.Tests.Automation.Selenium
 		{
 			return driver.Title;
 		}
+
+		public string GetPageSource()
+		{
+			return driver.PageSource;
+		}
+
+		public ILogger<Browser> Logger => logger;
 
 		public ButtonPageElement GetButtonById(string id)
 		{

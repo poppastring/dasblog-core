@@ -1,5 +1,6 @@
 ﻿using System;
 using DasBlog.Tests.Automation.Dom;
+using Microsoft.Extensions.Logging;
 
 namespace DasBlog.Tests.Automation.Selenium.Interfaces
 {
@@ -13,6 +14,7 @@ namespace DasBlog.Tests.Automation.Selenium.Interfaces
 		LinkPageElement GetLinkById(string categoryId);
 		AnyPageElement GetAnyElementById(string navBarId);
 		DivPageElement GetPageTestIdDiv(string pageTestId);
-
+		string GetPageSource();
+		ILogger<Browser> Logger { get; }
 	}
 }

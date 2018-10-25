@@ -60,7 +60,7 @@ namespace DasBlog.Tests.FunctionalTests.TestInfrastructureTests
 			try
 			{
 				File.WriteAllText(testPath, "aaa");
-				gitFileService.StashCurrentState(Constants.VanillaEnvironment);
+				gitFileService.StashCurrentStateIfDirty(Constants.VanillaEnvironment);
 				Assert.False(File.Exists(testPath));
 			}
 			finally

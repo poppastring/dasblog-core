@@ -1,5 +1,6 @@
 ﻿using DasBlog.Tests.Automation.Common;
 using DasBlog.Tests.Automation.Selenium.Interfaces;
+using Microsoft.Extensions.Logging;
 
 namespace DasBlog.Tests.Automation.Dom
 {
@@ -21,7 +22,13 @@ namespace DasBlog.Tests.Automation.Dom
 
 		public virtual bool IsDisplayed()
 		{
-			return browser.GetPageTestIdDiv(pageTestId) != null;
+			var elem = browser.GetPageTestIdDiv(pageTestId);
+			if (elem == null)
+			{
+				browser.Logger.LogInformation( browser.GetPageSource());
+			}
+
+			return elem != null;
 		}
 	}
 }

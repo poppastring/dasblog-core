@@ -44,13 +44,12 @@ namespace DasBlog.Tests.FunctionalTests.TestInfrastructureTests
 		public void Test()
 		{
 			var scriptRunner = platform.ServiceProvider.GetService<IScriptRunner>();
-			(var exitCode, var outputs, var errors) = scriptRunner.Run("TestScript.cmd", new Dictionary<string, string>());
+			(var exitCode, var outputs) = scriptRunner.Run("TestScript.cmd", new Dictionary<string, string>());
 			Assert.Equal(0, exitCode);
 			Assert.True(outputs.Length > 0);
-			Assert.True(errors.Length > 0);
 		}
 
-		[Fact]
+		[Fact(Skip="resurrect when a new timeout mechanism has been implemented")]
 		[Trait(Constants.CategoryTraitType, Constants.TestInfrastructureTestTraitValue)]
 		public void Runner_WhenTimedOut_ThrowsExcption()
 		{
@@ -70,7 +69,7 @@ namespace DasBlog.Tests.FunctionalTests.TestInfrastructureTests
 		public void DetectChangesScript_WhenCleanDirectory_ReturnsNothing()
 		{
 			var runner = platform.ServiceProvider.GetService<IScriptRunner>();
-			(var exitCode, var outputs, var errors) = runner.Run("DetectChanges.cmd", runner.DefaultEnv
+			(var exitCode, _) = runner.Run("DetectChanges.cmd", runner.DefaultEnv
 //			  );
 			  ,Path.Combine(Utils.GetProjectRootDirectory(), Constants.VanillaTestData));
 			Assert.Equal(0, exitCode);

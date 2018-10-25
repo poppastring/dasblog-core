@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Threading;
+using DasBlog.Managers.Interfaces;
 using DasBlog.Tests.FunctionalTests.Common;
 using DasBlog.Tests.Support.Common;
 using Microsoft.Extensions.Logging;
@@ -53,9 +54,9 @@ namespace DasBlog.Tests.FunctionalTests.ComponentTests
 		{
 			using (var sandbox = platform.CreateSandbox(Constants.VanillaEnvironment))
 			{
-				SaveEntryDirect(Path.Combine(sandbox.TestEnvironmentPath, Constants.ContentDirectory));
-						// create the file and seed with an uncached post
 				var blogManager = platform.CreateBlogManager(sandbox);
+				SaveEntryDirect(blogManager, Path.Combine(sandbox.TestEnvironmentPath, Constants.ContentDirectory));
+						// create the file and seed with an uncached post
 				var entry = MakeMiniimalEntry();
 				blogManager.CreateEntry(entry);
 				var testDataProcessor = platform.CreateTestDataProcessor(sandbox);
@@ -86,17 +87,16 @@ namespace DasBlog.Tests.FunctionalTests.ComponentTests
 		}
 		[Fact]
 		[Trait(Constants.CategoryTraitType, Constants.ComponentTestTraitValue)]
-		[Trait("Chosen", "2")]
+		[Trait(Constants.ChosenTraitType, "3")]
 		public void UpdateExistingPost_WithoutCache_ModifiesDayEntryFile()
 		{
 			using (var sandbox = platform.CreateSandbox(Constants.VanillaEnvironment))
 			{
 				var entryId = Guid.NewGuid().ToString();
 				// create the file and seed with an uncached post
-				SaveEntryDirect(Path.Combine(sandbox.TestEnvironmentPath, Constants.ContentDirectory)
-				  ,entryId);
-				//
 				var blogManager = platform.CreateBlogManager(sandbox);
+				SaveEntryDirect(blogManager, Path.Combine(sandbox.TestEnvironmentPath, Constants.ContentDirectory), entryId);
+				//
 				var entry = MakeMiniimalEntry();
 				entry.Title = "updated";
 				entry.EntryId = entryId;
@@ -107,16 +107,16 @@ namespace DasBlog.Tests.FunctionalTests.ComponentTests
 			}
 		}
 
-		[Fact(Skip="true")]
+		[Fact(Skip="")]
 		// TODO unskip: skipped as although it runs well in isolation it fails as port of a suite
 		// turns out that if "DeletePost_WithoutCache_ModifiesDayEntryFile" runs first then
 		// this test fails GetEntryForEdit() which presumably initialises the cache.
 		// presumably there is no way in the app for an entry suddenly to appear.
 		// the question is how to get the tests to run in isolation.
-		[Trait(Constants.FailureTraitTraitType, Constants.FailsInSuiteTraitValue)]
+		[Trait(Constants.FailureTraitType, Constants.FailsInSuiteTraitValue)]
 		[Trait(Constants.DescriptionTraitType, "thows exception when run as part of suite")]
 		[Trait(Constants.CategoryTraitType, Constants.ComponentTestTraitValue)]
-		[Trait("Chosen", "1")]
+		[Trait(Constants.ChosenTraitType, "3")]
 		public void DeletePost_WithCache_ModifiesDayEntryFile()
 		{
 			using (var sandbox = platform.CreateSandbox(Constants.VanillaEnvironment))
@@ -126,12 +126,8 @@ namespace DasBlog.Tests.FunctionalTests.ComponentTests
 				var entryId = Guid.NewGuid().ToString();
 				logger.LogDebug($"entryIId=={entryId}");
 				// create the file and seed with an uncached post
-				SaveEntryDirect(Path.Combine(sandbox.TestEnvironmentPath, Constants.ContentDirectory)
-					, entryId);
-				//
-				logger.LogDebug($"before CreateBlogManager: dayentry file exists for {DateTime.Today} {DayEntryFileExists(Path.Combine(sandbox.TestEnvironmentPath, Constants.ContentDirectory), DateTime.Today)}");
 				var blogManager = platform.CreateBlogManager(sandbox);
-				logger.LogDebug($"after CreateBlogManager: dayentry file exists for {DateTime.Today} {DayEntryFileExists(Path.Combine(sandbox.TestEnvironmentPath, Constants.ContentDirectory), DateTime.Today)}");
+				SaveEntryDirect(blogManager, Path.Combine(sandbox.TestEnvironmentPath, Constants.ContentDirectory), entryId);
 				// make sure it is a valid entry which should cache it.
 				Entry entry = blogManager.GetEntryForEdit(entryId);
 				Assert.NotNull(entry);
@@ -141,11 +137,6 @@ namespace DasBlog.Tests.FunctionalTests.ComponentTests
 				Assert.Throws<NullReferenceException>(() => blogManager.GetEntryForEdit(entryId));
 				//
 				var testDataProcessor = platform.CreateTestDataProcessor(sandbox);
-/*
-				var result = testDataProcessor.GetBlogPostValue(DateTime.Today, entry.EntryId, "Title");
-				Assert.False(result.success); // the file should have been removed when the the one and only
-				// post was deleted
-*/
 
 				Assert.Throws<System.IO.FileNotFoundException>(
 					() => testDataProcessor.GetBlogPostValue(DateTime.Today, entry.EntryId, "Title"));
@@ -155,7 +146,7 @@ namespace DasBlog.Tests.FunctionalTests.ComponentTests
 
 		[Fact]
 		[Trait(Constants.CategoryTraitType, Constants.ComponentTestTraitValue)]
-		[Trait("Chosen", "1")]
+		[Trait(Constants.ChosenTraitType, "3")]
 		public void DeletePost_WithoutCache_ModifiesDayEntryFile()
 		{
 			Thread.Sleep(5000);
@@ -165,10 +156,9 @@ namespace DasBlog.Tests.FunctionalTests.ComponentTests
 			{
 				var entryId = Guid.NewGuid().ToString();
 				// create the file and seed with an uncached post
-				SaveEntryDirect(Path.Combine(sandbox.TestEnvironmentPath, Constants.ContentDirectory)
-					,entryId);
-				//
 				var blogManager = platform.CreateBlogManager(sandbox);
+				SaveEntryDirect(blogManager, Path.Combine(sandbox.TestEnvironmentPath, Constants.ContentDirectory), entryId);
+				//
 				blogManager.DeleteEntry(entryId);
 				// make sure it has gone
 				Assert.Throws<NullReferenceException>(() => blogManager.GetEntryForEdit(entryId));
@@ -185,8 +175,10 @@ namespace DasBlog.Tests.FunctionalTests.ComponentTests
 		/// <summary>
 		/// writes day entry file into the content directory 
 		/// </summary>
+		/// <param name="blogManager"></param>
 		/// <param name="directory">e.g. c:/projects/dasblog-core.../Environments/Vanilla/content</param>
-		private void SaveEntryDirect(string directory, string entryId = null)
+		/// <param name="entryId"></param>
+		private void SaveEntryDirect(IBlogManager blogManager, string directory, string entryId = null)
 		{
 			var fileName = TestDataProcesor.GetBlogEntryFileName(DateTime.Today);
 			var path = Path.Combine(directory, fileName);
@@ -196,6 +188,7 @@ namespace DasBlog.Tests.FunctionalTests.ComponentTests
 			  , DateTime.Now.ToString("s", CultureInfo.InvariantCulture)
 			  , entryId ?? Guid.NewGuid().ToString());
 			File.WriteAllText(path, str);
+//			new CacheFixer().InvalidateCache(blogManager);
 		}
 
 		private void DeleteDirectoryContentsDirect(string directory, string fileSpec = "*.*")

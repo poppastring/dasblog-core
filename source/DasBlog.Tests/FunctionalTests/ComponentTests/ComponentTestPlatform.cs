@@ -33,7 +33,26 @@ namespace DasBlog.Tests.FunctionalTests.ComponentTests
 		{
 			var dasBlogSettings = CreateDasBlogSettings(sandbox);
 			ILogger<BlogManager> logger = ServiceProvider.GetService<ILoggerFactory>().CreateLogger<BlogManager>();
-			return new BlogManager(dasBlogSettings, logger);
+			IOptions<BlogManagerOptions> optsAccessor = BuildBlogManagerOptions(sandbox);
+			var modifiableOptsAccessor = BuildBlogManagerModifiableOptions(sandbox);
+			var bm = new BlogManager(dasBlogSettings, logger, optsAccessor, modifiableOptsAccessor
+			  , new OptionsWrapper<BlogManagerExtraOptions>(new BlogManagerExtraOptions{ ContentRootPath = sandbox.TestEnvironmentPath}));
+			var cacheFixer = ServiceProvider.GetService<ICacheFixer>();
+			cacheFixer.InvalidateCache(bm);
+			return bm;
+		}
+
+		private IOptions<BlogManagerOptions> BuildBlogManagerOptions(IDasBlogSandbox sandbox)
+		{
+			var configuration = GetDasBlogAppConfiguration(sandbox);
+			return new OptionsWrapper<BlogManagerOptions>(
+			  new OptionsBuilder<BlogManagerOptions>().Build(configuration));
+		}
+		private IOptionsMonitor<BlogManagerModifiableOptions> BuildBlogManagerModifiableOptions(IDasBlogSandbox sandbox)
+		{
+			var configuration = GetDasBlogAppConfiguration(sandbox);
+			return new FakeOptionsMonitor<BlogManagerModifiableOptions>(
+			  new OptionsBuilder<BlogManagerModifiableOptions>().Build(configuration));
 		}
 
 		public IDasBlogSandbox CreateSandbox(string environment)
@@ -57,24 +76,12 @@ namespace DasBlog.Tests.FunctionalTests.ComponentTests
 				, null);
 			return dasBlogSettings;
 		}
-		/// <summary>
-		/// I have no idea how you get hold of options outside of DI
-		/// and no time to find out
-		/// </summary>
-		/// <param name="sandbox">provides file system details</param>
-		/// <returns>two sets of options required by DasBlogSettings</returns>
 		private (IOptions<SiteConfig> siteConfigAccessor, IOptions<MetaTags> metaTagsAccessor) 
 		  GetOptions(IDasBlogSandbox sandbox)
 		{
-			var Configuration = GetDasBlogAppConfiguration(sandbox);
-			var localServices = new ServiceCollection();
-			localServices.Configure<TimeZoneProviderOptions>(Configuration);
-			localServices.Configure<SiteConfig>(Configuration);
-			localServices.Configure<MetaTags>(Configuration);
-			localServices.AddSingleton <OptionsExpsoer>();
-			IServiceProvider localServiceProvider = localServices.BuildServiceProvider();
-			var optionsExposer = localServiceProvider.GetService<OptionsExpsoer>();
-			return (optionsExposer.SiteConfigAccessor, optionsExposer.MetatagsAccessor);
+			var configuration = GetDasBlogAppConfiguration(sandbox);
+			return (new OptionsWrapper<SiteConfig>(new OptionsBuilder<SiteConfig>().Build(configuration))
+				, new OptionsWrapper<MetaTags>(new OptionsBuilder<MetaTags>().Build(configuration)));
 		}
 
 		private IConfiguration GetDasBlogAppConfiguration(IDasBlogSandbox sandbox)
@@ -92,6 +99,7 @@ namespace DasBlog.Tests.FunctionalTests.ComponentTests
 		}
 		protected override void InjectDependencies(IServiceCollection services)
 		{
+			services.AddSingleton<ICacheFixer, CacheFixer>();
 		}
 
 		protected override void CompleteSetupLocal()
@@ -105,17 +113,36 @@ namespace DasBlog.Tests.FunctionalTests.ComponentTests
 
 	}
 
-	internal class OptionsExpsoer
+	/// <summary>
+	/// This builds the options instance and configures it from the configuration passed into Build()
+	/// I have no idea how you get hold of options outside of DI
+	/// and no time to find out
+	/// </summary>
+	internal class OptionsBuilder<TOptions> where TOptions : class, new()
 	{
-		public OptionsExpsoer(IOptions<SiteConfig> siteConfigAccessor, IOptions<MetaTags> metaTagsAccessor)
+		private class OptionsExpsoer<U>  where U : class, new()
 		{
-			this.SiteConfigAccessor = siteConfigAccessor;
-			this.MetatagsAccessor = metaTagsAccessor;
+			public OptionsExpsoer(IOptions<U> accessor)
+			{
+				this.Accessor = accessor;
+			}
+
+			public IOptions<U> Accessor { get; }
 		}
-
-		public IOptions<MetaTags> MetatagsAccessor { get; }
-
-		public IOptions<SiteConfig> SiteConfigAccessor { get; }
+		public TOptions Build(IConfiguration configuration)
+		{
+			var opts = new TOptions();
+			configuration.Bind(opts);
+			configuration.GetSection("PingServices").Bind(opts);
+			return opts;
+/*
+			var localServices = new ServiceCollection();
+			localServices.Configure<TOptions>(configuration);
+			localServices.AddSingleton<OptionsExpsoer<TOptions>>();
+			IServiceProvider localServiceProvider = localServices.BuildServiceProvider();
+			return localServiceProvider.GetService<OptionsExpsoer<TOptions>>().Accessor;
+*/
+		}
 	}
 
 	internal class HostingEnvironmentTest : IHostingEnvironment
