@@ -30,6 +30,7 @@ namespace DasBlog.Tests.FunctionalTests.BrowserBasedTests
 		}
 		public BrowserOptions Value { get; }
 	}
+	[Collection(Constants.TestInfrastructureUsersCollection)]
 	public class PrototypeBrowserBasedTests : IClassFixture<BrowserTestPlatform>
 	{
 
@@ -75,7 +76,6 @@ namespace DasBlog.Tests.FunctionalTests.BrowserBasedTests
 		[Trait(Constants.CategoryTraitType, Constants.BrowserBasedTestTraitValue )]
 		public void MinimalTest()
 		{
-//			Thread.Sleep(5000);
 			try
 			{
 				logger.LogError("logging starts here");

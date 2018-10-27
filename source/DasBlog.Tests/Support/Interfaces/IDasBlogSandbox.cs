@@ -9,11 +9,7 @@ namespace DasBlog.Tests.Support.Interfaces
 		/// </summary>
 		/// <throws exception="Exception">if the environment is not in good order</throws>
 		void Init();
-		void Terminate();
-		string GetConfigPathAndFile();
-		string GetContentDirectoryPath();
-		string GetLogDirectoryPath();
-		string GetWwwRootDirectoryPath();
+		void Terminate(bool suppressLog);
 		string TestEnvironmentPath { get; }
 	}
 }

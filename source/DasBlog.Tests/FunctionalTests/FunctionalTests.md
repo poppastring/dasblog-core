@@ -45,17 +45,23 @@ environment to use in each test.
 Component tests exercise specific services or data repositories such as the BlogManager. They are entirely synchronous
 and do not use the browser.
 
-See [ComponentTests](ComponentTests/ComponentTests.md)
+See [Component Tests](ComponentTests/ComponentTests.md)
 
 ###### Browser Based Tests
 Browser based tests use Selenium to drive the browser and run the dasblog-core web app as a server albeit on
 purpose built test data.  These are the coarsest grained tests.
 
+See [Browser Based Tests](BrowserBasedTests/BrowserBasedTests.md)
 
 ###### Integration Tests
 Integration tests (so called because the author ran out of names) use the ASP.net core testing framework which creates
-an http client and an http server (using the dasblog-core web app code).
+an http client and an http server (using the dasblog-core web app code running in the test runner's process).  They
+might be useful where the main test verification is inspection of HTML markup or HTTP return codes.
 
+Integration tests, unlike Component and Browser Based, currently employ no dasblog-core specific framework or platform.
+Tests interact directly with `Microsoft.AspNetCore.Mvc.Testing` see [Integration tests in ASP.NET Core](https://docs.microsoft.com/en-gb/aspnet/core/test/integration-tests?view=aspnetcore-2.1).
+There is no reason why the sand box system used by the Component Tests cannot be employed with
+integration tests.
 
 ###### Test Infrastructure Tests
 Yes.  The test framework is sufficiently complex that tests of the framework itself are necessary.  These are not
