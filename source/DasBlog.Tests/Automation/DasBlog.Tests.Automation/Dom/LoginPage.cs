@@ -22,5 +22,14 @@ namespace DasBlog.Tests.Automation.Dom
 		{
 			get { return browser.GetElementById(AppConstants.PasswordValidationId); }
 		}
+
+		public TextBoxPageElement EmailTextBox
+		{
+			get { return browser.GetTextBoxElementById(AppConstants.Email); }
+		}
+		public TextBoxPageElement PasswordTextBox
+		{
+			get { return browser.GetTextBoxElementById(AppConstants.Password); }
+		}
 	}
 }

@@ -6,11 +6,9 @@ using DasBlog.Tests.Automation.Selenium;
 using DasBlog.Tests.FunctionalTests.Common;
 using DasBlog.Tests.Support;
 using DasBlog.Tests.Support.Common;
-using DasBlog.Tests.Support.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Xml;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -39,7 +37,7 @@ namespace DasBlog.Tests.FunctionalTests.BrowserBasedTests
 		private ILogger<PrototypeBrowserBasedTests> logger;
 		public PrototypeBrowserBasedTests(ITestOutputHelper testOutputHelper, BrowserTestPlatform browserTestPlatform)
 		{
-			testOutputHelper.WriteLine("hello from browser constructor");
+//			testOutputHelper.WriteLine("hello from browser constructor");
 					// the above message and others like it appear in the detail pane of Rider's test runner for
 					// Running a successful test
 					// Debugging a successful test
@@ -72,22 +70,17 @@ namespace DasBlog.Tests.FunctionalTests.BrowserBasedTests
 		{
 			Assert.True(true);
 		}
-		[Fact(Skip="")]
-		[Trait(Constants.CategoryTraitType, Constants.BrowserBasedTestTraitValue )]
-		public void MinimalTest()
+
+		[Fact]
+		[Trait(Constants.CategoryTraitType, Constants.BrowserBasedTestTraitValue)]
+		public void Goto_HomePage_DisplaysNavBar()
 		{
 			try
 			{
-				logger.LogError("logging starts here");
 				List<TestStep> testSteps = new List<TestStep>
 				{
-					new TestStep(() => platform.Pages.LoginPage.Goto()),
-					new TestStep(() => platform.Pages.LoginPage.IsDisplayed()),
-					new TestStep(() => platform.Pages.LoginPage.LoginButton != null),
-					new TestStep(() => platform.Pages.LoginPage.LoginButton.Click()),
-					new TestStep(() =>
-						platform.Pages.LoginPage.PasswordValidation.Text.ToLower().Contains("the password field is required")),
-					new TestStep(() => platform.Pages.LoginPage.IsDisplayed())
+					new ActionStep(() => platform.Pages.HomePage.Goto()),
+					new VerificationStep(() => platform.Pages.NavBar.IsDisplayed()),
 				};
 				var results = new TestResults();
 				platform.TestExecutor.Execute(testSteps, results);
@@ -105,21 +98,54 @@ namespace DasBlog.Tests.FunctionalTests.BrowserBasedTests
 		}
 		[Fact(Skip="")]
 		[Trait(Constants.CategoryTraitType, Constants.BrowserBasedTestTraitValue )]
-		public void MinimalTest2()
+		public void LogIn_WithBlankPassword_ShowsErrorMessage()
+		{
+			try
+			{
+				List<TestStep> testSteps = new List<TestStep>
+				{
+					new ActionStep(() => platform.Pages.LoginPage.Goto()),
+					new VerificationStep(() => platform.Pages.LoginPage.IsDisplayed()),
+					new VerificationStep(() => platform.Pages.LoginPage.PasswordTextBox != null),
+					new ActionStep(() => platform.Pages.LoginPage.PasswordTextBox.SetText(string.Empty)),
+					new VerificationStep(() => platform.Pages.LoginPage.LoginButton != null),
+					new ActionStep(() => platform.Pages.LoginPage.LoginButton.Click()),
+					new VerificationStep(() =>
+						platform.Pages.LoginPage.PasswordValidation.Text.ToLower().Contains("the password field is required")),
+					new VerificationStep(() => platform.Pages.LoginPage.IsDisplayed())
+				};
+				var results = new TestResults();
+				platform.TestExecutor.Execute(testSteps, results);
+				platform.Publisher.Publish(results.Results);
+				Assert.True(results.TestPassed);
+			}
+			catch (Exception e)
+			{
+				_ = e;
+				throw;
+			}
+			finally
+			{
+			}
+		}
+		[Fact(Skip="")]
+		[Trait(Constants.CategoryTraitType, Constants.BrowserBasedTestTraitValue )]
+		public void Login_WithValidCredentials_ShowsHomePage()
 		{
 			Thread.Sleep(5000);
 			try
 			{
-				logger.LogError("logging starts here");
 				List<TestStep> testSteps = new List<TestStep>
 				{
-					new TestStep(() => platform.Pages.LoginPage.Goto()),
-					new TestStep(() => platform.Pages.LoginPage.IsDisplayed()),
-					new TestStep(() => platform.Pages.LoginPage.LoginButton != null),
-					new TestStep(() => platform.Pages.LoginPage.LoginButton.Click()),
-					new TestStep(() =>
-						platform.Pages.LoginPage.PasswordValidation.Text.ToLower().Contains("the password field is required")),
-					new TestStep(() => platform.Pages.LoginPage.IsDisplayed())
+					new ActionStep(() => platform.Pages.LoginPage.Goto()),
+					new VerificationStep(() => platform.Pages.LoginPage.IsDisplayed()),
+					new VerificationStep(() => platform.Pages.LoginPage.LoginButton != null),
+					new VerificationStep(() => platform.Pages.LoginPage.EmailTextBox != null),
+					new ActionStep(() => platform.Pages.LoginPage.EmailTextBox.SetText( "myemail@myemail.com")),
+					new VerificationStep(() => platform.Pages.LoginPage.PasswordTextBox != null),
+					new ActionStep(() => platform.Pages.LoginPage.PasswordTextBox.SetText("admin")),
+					new ActionStep(() => platform.Pages.LoginPage.LoginButton.Click()),
+					new VerificationStep(() => platform.Pages.HomePage.IsDisplayed())
 				};
 				var results = new TestResults();
 				platform.TestExecutor.Execute(testSteps, results);
@@ -134,55 +160,6 @@ namespace DasBlog.Tests.FunctionalTests.BrowserBasedTests
 			finally
 			{
 			}
-		}
-	}
-
-	// from https://stackoverflow.com/questions/46169169/net-core-2-0-configurelogging-xunit-test
-	public class XunitLoggerProvider : ILoggerProvider
-	{
-		private readonly ITestOutputHelper _testOutputHelper;
-
-		public XunitLoggerProvider(ITestOutputHelper testOutputHelper)
-		{
-			_testOutputHelper = testOutputHelper;
-		}
-
-		public ILogger CreateLogger(string categoryName)
-			=> new XunitLogger(_testOutputHelper, categoryName);
-
-		public void Dispose()
-		{ }
-	}
-
-	public class XunitLogger : ILogger
-	{
-		private readonly ITestOutputHelper _testOutputHelper;
-		private readonly string _categoryName;
-
-		public XunitLogger(ITestOutputHelper testOutputHelper, string categoryName)
-		{
-			_testOutputHelper = testOutputHelper;
-			_categoryName = categoryName;
-		}
-
-		public IDisposable BeginScope<TState>(TState state)
-			=> NoopDisposable.Instance;
-
-		public bool IsEnabled(LogLevel logLevel)
-			=> true;
-
-		public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
-		{
-			_testOutputHelper.WriteLine($"{_categoryName} [{eventId}] {formatter(state, exception)}");
-			if (exception != null)
-				_testOutputHelper.WriteLine(exception.ToString());
-		}
-
-		private class NoopDisposable : IDisposable
-		{
-			public static NoopDisposable Instance = new NoopDisposable();
-			public void Dispose()
-			{ }
 		}
 	}
 }

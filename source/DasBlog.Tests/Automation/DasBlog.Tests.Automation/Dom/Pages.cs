@@ -21,15 +21,15 @@ namespace DasBlog.Tests.Automation.Dom
 		}
 
 
-		public NavBarPage NavBar { get; private set; }
-		public HomePage HomePage { get; private set; }
-		public CategoryPage CategoryPage { get; private set; }
-		public ArchivePage ArchivePage { get; private set; }
-		public SubscribePage SubscribePage { get; private set; }
-		public PostMaintenancePage PostMaintenancePage { get; private set; }
-		public UsersPage UsersPage { get; private set; }
-		public ActivityPage ActivityPage { get; private set; }
-		public Http404Page Http404Page { get; private set; }
-		public LoginPage LoginPage { get; private set; }
+		public NavBarPage NavBar { get; }
+		public HomePage HomePage { get; }
+		public CategoryPage CategoryPage { get; }
+		public ArchivePage ArchivePage { get; }
+		public SubscribePage SubscribePage { get; }
+		public PostMaintenancePage PostMaintenancePage { get; }
+		public UsersPage UsersPage { get; }
+		public ActivityPage ActivityPage { get; }
+		public Http404Page Http404Page { get; }
+		public LoginPage LoginPage { get; }
 	}
 }

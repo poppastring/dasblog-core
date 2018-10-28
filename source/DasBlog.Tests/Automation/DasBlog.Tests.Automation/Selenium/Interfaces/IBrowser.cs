@@ -11,6 +11,7 @@ namespace DasBlog.Tests.Automation.Selenium.Interfaces
 		string GetTitle();
 		ButtonPageElement GetButtonById(string id);
 		SpanPageElement GetElementById(string id);
+		TextBoxPageElement GetTextBoxElementById(string id);
 		LinkPageElement GetLinkById(string categoryId);
 		AnyPageElement GetAnyElementById(string navBarId);
 		DivPageElement GetPageTestIdDiv(string pageTestId);
