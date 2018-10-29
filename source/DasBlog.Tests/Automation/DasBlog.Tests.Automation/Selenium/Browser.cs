@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO;
 using DasBlog.Tests.Automation.Common;
 using DasBlog.Tests.Automation.Selenium.Interfaces;
 using DasBlog.Tests.Automation.Dom;
