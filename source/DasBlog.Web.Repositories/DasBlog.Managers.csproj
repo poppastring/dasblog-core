@@ -8,7 +8,7 @@
   <ItemGroup>
     <ProjectReference Include="..\DasBlog.Web.Core\DasBlog.Core.csproj" />
     <ProjectReference Include="..\NetEscapades.Extensions.Logging.RollingFile\NetEscapades.Extensions.Logging.RollingFile.csproj" />
-    <ProjectReference Include="..\newteillgence.DasBlog.Runtime.netstd\newteillgence.DasBlog.Runtime.netstd.csproj" />
+    <ProjectReference Include="..\newtelligence.DasBlog.Runtime.netstd\newtelligence.DasBlog.Runtime.netstd.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\newtelligence.DasBlog.Web.Services\GoogleSitemap.cs">
