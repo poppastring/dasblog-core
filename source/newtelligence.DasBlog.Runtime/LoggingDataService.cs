@@ -43,8 +43,10 @@ using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
-using newtelligence.DasBlog.Runtime.Proxies;
 using newtelligence.DasBlog.Util.Zip;
+
+//using newtelligence.DasBlog.Runtime.Proxies;
+//using newtelligence.DasBlog.Util.Zip;
 
 namespace newtelligence.DasBlog.Runtime
 {
@@ -442,7 +444,7 @@ namespace newtelligence.DasBlog.Runtime
 
 			try
 			{
-				using (Impersonation.Impersonate())
+				//using (Impersonation.Impersonate())
 				{
 					lockObject.AcquireWriterLock(TimeSpan.FromMilliseconds(250));
 
@@ -485,7 +487,7 @@ namespace newtelligence.DasBlog.Runtime
 
 			try
 			{
-				using (Impersonation.Impersonate())
+				//using (Impersonation.Impersonate())
 				{
 					// Archive last day's log files.
 					if (!File.Exists(String.Format("{0}.zip", GetLogPath(logItem.EventTimeUtc, LogCategory.Event))))

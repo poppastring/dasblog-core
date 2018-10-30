@@ -203,6 +203,14 @@
       <Compile Include="..\newtelligence.DasBlog.Runtime\WeblogUpdatePingInfo.cs">
         <Link>WeblogUpdatePingInfo.cs</Link>
       </Compile>
+      <Compile Include="..\newtelligence.DasBlog.Util\FileUtils.cs">
+        <Link>FileUtils.cs</Link>
+      </Compile>
+      <Compile Include="..\newtelligence.DasBlog.Util\Zip\Crc32.cs" />
+      <Compile Include="..\newtelligence.DasBlog.Util\Zip\Shared.cs" />
+      <Compile Include="..\newtelligence.DasBlog.Util\Zip\ZipDirEntry.cs" />
+      <Compile Include="..\newtelligence.DasBlog.Util\Zip\ZipEntry.cs" />
+      <Compile Include="..\newtelligence.DasBlog.Util\Zip\ZipFile.cs" />
     </ItemGroup>
 
     <ItemGroup>
@@ -215,6 +223,10 @@
       <Content Include="..\newtelligence.DasBlog.Runtime\newtelligence.DasBlog.Runtime.csproj">
         <Link>newtelligence.DasBlog.Runtime.csproj</Link>
       </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="NodaTime" Version="2.3.0" />
     </ItemGroup>
 
 </Project>

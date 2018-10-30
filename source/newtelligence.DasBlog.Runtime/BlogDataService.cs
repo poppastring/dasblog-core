@@ -47,8 +47,8 @@ using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Web;
-using CookComputing.XmlRpc;
-using newtelligence.DasBlog.Runtime.Proxies;
+//using CookComputing.XmlRpc;
+//using newtelligence.DasBlog.Runtime.Proxies;
 using NodaTime;
 
 namespace newtelligence.DasBlog.Runtime
@@ -322,6 +322,7 @@ namespace newtelligence.DasBlog.Runtime
             return InternalGetDayExtra(date);
         }
 
+/*
         protected void PingWeblogsWorker(object argument)
         {
             WeblogUpdatePingInfo weblogInfo = argument as WeblogUpdatePingInfo;
@@ -372,6 +373,7 @@ namespace newtelligence.DasBlog.Runtime
                 }
             }
         }
+*/
 
         protected class PingbackJob
         {
@@ -385,6 +387,7 @@ namespace newtelligence.DasBlog.Runtime
             }
         }
 
+/*
         protected void Pingback(string sourceUri, string pingbackService, string pingbackTarget, string entryTitle)
         {
             try
@@ -427,10 +430,12 @@ namespace newtelligence.DasBlog.Runtime
                 }
             }
         }
+*/
 
         private static readonly Regex anchors = new Regex("href\\s*=\\s*(?:(?:\\\"(?<url>[^\\\"]*)\\\")|(?<url>[^\\s]* ))", RegexOptions.Compiled);
         private static readonly Regex pingbackRegex = new Regex("<link rel=\"pingback\" href=\"([^\"]+)\" ?/?>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
+/*
         protected void PingbackWorker(object argument)
         {
             PingbackJob job = argument as PingbackJob;
@@ -517,6 +522,7 @@ namespace newtelligence.DasBlog.Runtime
                 }
             }
         }
+*/
 
         private class TrackbackJob
         {
@@ -630,6 +636,7 @@ namespace newtelligence.DasBlog.Runtime
         }
 
 
+/*
         protected void HandleCrosspost(CrosspostInfo ci, Entry entry)
         {
             try
@@ -812,6 +819,7 @@ namespace newtelligence.DasBlog.Runtime
                 }
             }
         }
+*/
 
         protected Entry InternalGetEntry(string entryId)
         {

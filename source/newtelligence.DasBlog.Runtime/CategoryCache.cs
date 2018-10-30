@@ -41,7 +41,7 @@
 using System.Collections.Generic;
 using System.Xml;
 using System.Xml.Serialization;
-using newtelligence.DasBlog.Util;
+//using newtelligence.DasBlog.Util;
 
 namespace newtelligence.DasBlog.Runtime
 {
@@ -156,5 +156,13 @@ namespace newtelligence.DasBlog.Runtime
         {
             _entries.Sort(new CategorySorter());
         }
+	    private static class HttpHelper
+	    {
+		    public static string GetURLSafeString(string s)
+		    {
+			    //TODO use System.Net.WebUtility.HtmlEncoding()
+			    return s;
+		    }
+	    }
     }
 }

@@ -204,6 +204,8 @@ namespace DasBlog.Web.Settings
 
 		public string FilterHtml(string input)
 		{
+			return input;
+/*
 			if (SiteConfiguration.AllowedTags == null || SiteConfiguration.AllowedTags.Count == 0)
 			{
 				return WebUtility.HtmlEncode(input);
@@ -248,6 +250,7 @@ namespace DasBlog.Web.Settings
 			}
 
 			return sb.ToString();
+*/
 		}
 
 		public bool AreCommentsPermitted(DateTime blogpostdate)
