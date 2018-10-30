@@ -20,4 +20,12 @@
     <!--<PackageReference Include="NetEscapades.Extensions.Logging.RollingFile" Version="1.0.0" />-->
     <PackageReference Include="xmlrpcnet" Version="2.5.0" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\newtelligence.DasBlog.Web.Core\ValidTag.cs">
+      <Link>ValidTag.cs</Link>
+    </Compile>
+    <Compile Include="..\newtelligence.DasBlog.Web.Core\ValidTagCollection.cs">
+      <Link>ValidTagCollection.cs</Link>
+    </Compile>
+  </ItemGroup>
 </Project>

@@ -59,6 +59,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetEscapades.Extensions.Log
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DasBlog.Tests.Support", "DasBlog.Tests\Support\DasBlog.Tests.Support.csproj", "{15AF8476-4228-4E90-802F-BC8E77567563}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "newteillgence.DasBlog.Runtime.netstd", "newteillgence.DasBlog.Runtime.netstd\newteillgence.DasBlog.Runtime.netstd.csproj", "{D1503BC8-61D9-4AD1-956B-9CE4E090AABD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug - All|Any CPU = Debug - All|Any CPU
@@ -176,6 +178,12 @@ Global
 		{15AF8476-4228-4E90-802F-BC8E77567563}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{15AF8476-4228-4E90-802F-BC8E77567563}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{15AF8476-4228-4E90-802F-BC8E77567563}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D1503BC8-61D9-4AD1-956B-9CE4E090AABD}.Debug - All|Any CPU.ActiveCfg = Debug|Any CPU
+		{D1503BC8-61D9-4AD1-956B-9CE4E090AABD}.Debug - All|Any CPU.Build.0 = Debug|Any CPU
+		{D1503BC8-61D9-4AD1-956B-9CE4E090AABD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D1503BC8-61D9-4AD1-956B-9CE4E090AABD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D1503BC8-61D9-4AD1-956B-9CE4E090AABD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D1503BC8-61D9-4AD1-956B-9CE4E090AABD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

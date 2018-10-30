@@ -1,0 +1,220 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Compile Include="..\newtelligence.DasBlog.Runtime\Attachment.cs">
+        <Link>Attachment.cs</Link>
+      </Compile>
+      <Compile Include="..\newtelligence.DasBlog.Runtime\AttachmentType.cs">
+        <Link>AttachmentType.cs</Link>
+      </Compile>
+      <Compile Include="..\newtelligence.DasBlog.Runtime\BlogCoreData.cs">
+        <Link>BlogCoreData.cs</Link>
+      </Compile>
+      <Compile Include="..\newtelligence.DasBlog.Runtime\BlogDataService.cs">
+        <Link>BlogDataService.cs</Link>
+      </Compile>
+      <Compile Include="..\newtelligence.DasBlog.Runtime\CategoryCache.cs">
+        <Link>CategoryCache.cs</Link>
+      </Compile>
+      <Compile Include="..\newtelligence.DasBlog.Runtime\CategoryCacheEntry.cs">
+        <Link>CategoryCacheEntry.cs</Link>
+      </Compile>
+      <Compile Include="..\newtelligence.DasBlog.Runtime\CategoryCacheEntryCollection.cs">
+        <Link>CategoryCacheEntryCollection.cs</Link>
+      </Compile>
+      <Compile Include="..\newtelligence.DasBlog.Runtime\CategoryCacheEntryDetail.cs">
+        <Link>CategoryCacheEntryDetail.cs</Link>
+      </Compile>
+      <Compile Include="..\newtelligence.DasBlog.Runtime\CategoryCacheEntryDetailCollection.cs">
+        <Link>CategoryCacheEntryDetailCollection.cs</Link>
+      </Compile>
+      <Compile Include="..\newtelligence.DasBlog.Runtime\CollectionFilter.cs">
+        <Link>CollectionFilter.cs</Link>
+      </Compile>
+      <Compile Include="..\newtelligence.DasBlog.Runtime\Comment.cs">
+        <Link>Comment.cs</Link>
+      </Compile>
+      <Compile Include="..\newtelligence.DasBlog.Runtime\CommentCollection.cs">
+        <Link>CommentCollection.cs</Link>
+      </Compile>
+      <Compile Include="..\newtelligence.DasBlog.Runtime\CommentFile.cs">
+        <Link>CommentFile.cs</Link>
+      </Compile>
+      <Compile Include="..\newtelligence.DasBlog.Runtime\CommentSaveState.cs">
+        <Link>CommentSaveState.cs</Link>
+      </Compile>
+      <Compile Include="..\newtelligence.DasBlog.Runtime\CommentSorter.cs">
+        <Link>CommentSorter.cs</Link>
+      </Compile>
+      <Compile Include="..\newtelligence.DasBlog.Runtime\Crosspost.cs">
+        <Link>Crosspost.cs</Link>
+      </Compile>
+      <Compile Include="..\newtelligence.DasBlog.Runtime\CrosspostInfo.cs">
+        <Link>CrosspostInfo.cs</Link>
+      </Compile>
+      <Compile Include="..\newtelligence.DasBlog.Runtime\CrosspostInfoCollection.cs">
+        <Link>CrosspostInfoCollection.cs</Link>
+      </Compile>
+      <Compile Include="..\newtelligence.DasBlog.Runtime\CrossPostServerInfo.cs">
+        <Link>CrossPostServerInfo.cs</Link>
+      </Compile>
+      <Compile Include="..\newtelligence.DasBlog.Runtime\CrosspostSite.cs">
+        <Link>CrosspostSite.cs</Link>
+      </Compile>
+      <Compile Include="..\newtelligence.DasBlog.Runtime\DataManager.cs">
+        <Link>DataManager.cs</Link>
+      </Compile>
+      <Compile Include="..\newtelligence.DasBlog.Runtime\DataNamespace.cs">
+        <Link>DataNamespace.cs</Link>
+      </Compile>
+      <Compile Include="..\newtelligence.DasBlog.Runtime\DayEntry.cs">
+        <Link>DayEntry.cs</Link>
+      </Compile>
+      <Compile Include="..\newtelligence.DasBlog.Runtime\DayEntryCollection.cs">
+        <Link>DayEntryCollection.cs</Link>
+      </Compile>
+      <Compile Include="..\newtelligence.DasBlog.Runtime\DayEntryCollectionFilter.cs">
+        <Link>DayEntryCollectionFilter.cs</Link>
+      </Compile>
+      <Compile Include="..\newtelligence.DasBlog.Runtime\DayExtra.cs">
+        <Link>DayExtra.cs</Link>
+      </Compile>
+      <Compile Include="..\newtelligence.DasBlog.Runtime\DayExtraCollection.cs">
+        <Link>DayExtraCollection.cs</Link>
+      </Compile>
+      <Compile Include="..\newtelligence.DasBlog.Runtime\DaySorter.cs">
+        <Link>DaySorter.cs</Link>
+      </Compile>
+      <Compile Include="..\newtelligence.DasBlog.Runtime\Entry.cs">
+        <Link>Entry.cs</Link>
+      </Compile>
+      <Compile Include="..\newtelligence.DasBlog.Runtime\EntryBase.cs">
+        <Link>EntryBase.cs</Link>
+      </Compile>
+      <Compile Include="..\newtelligence.DasBlog.Runtime\EntryCollection.cs">
+        <Link>EntryCollection.cs</Link>
+      </Compile>
+      <Compile Include="..\newtelligence.DasBlog.Runtime\EntryCollectionFilter.cs">
+        <Link>EntryCollectionFilter.cs</Link>
+      </Compile>
+      <Compile Include="..\newtelligence.DasBlog.Runtime\EntryIdCache.cs">
+        <Link>EntryIdCache.cs</Link>
+      </Compile>
+      <Compile Include="..\newtelligence.DasBlog.Runtime\EntryIdCacheEntry.cs">
+        <Link>EntryIdCacheEntry.cs</Link>
+      </Compile>
+      <Compile Include="..\newtelligence.DasBlog.Runtime\EntryIdCacheEntryCollection.cs">
+        <Link>EntryIdCacheEntryCollection.cs</Link>
+      </Compile>
+      <Compile Include="..\newtelligence.DasBlog.Runtime\ErrorTrace.cs">
+        <Link>ErrorTrace.cs</Link>
+      </Compile>
+      <Compile Include="..\newtelligence.DasBlog.Runtime\EventCodes.cs">
+        <Link>EventCodes.cs</Link>
+      </Compile>
+      <Compile Include="..\newtelligence.DasBlog.Runtime\EventDataItem.cs">
+        <Link>EventDataItem.cs</Link>
+      </Compile>
+      <Compile Include="..\newtelligence.DasBlog.Runtime\EventDataItemCollection.cs">
+        <Link>EventDataItemCollection.cs</Link>
+      </Compile>
+      <Compile Include="..\newtelligence.DasBlog.Runtime\EventMessageTemplates.cs">
+        <Link>EventMessageTemplates.cs</Link>
+      </Compile>
+      <Compile Include="..\newtelligence.DasBlog.Runtime\FileSystemBinaryDataService.cs">
+        <Link>FileSystemBinaryDataService.cs</Link>
+      </Compile>
+      <Compile Include="..\newtelligence.DasBlog.Runtime\IBinaryDataService.cs">
+        <Link>IBinaryDataService.cs</Link>
+      </Compile>
+      <Compile Include="..\newtelligence.DasBlog.Runtime\IBlogDataService.cs">
+        <Link>IBlogDataService.cs</Link>
+      </Compile>
+      <Compile Include="..\newtelligence.DasBlog.Runtime\IDayEntry.cs">
+        <Link>IDayEntry.cs</Link>
+      </Compile>
+      <Compile Include="..\newtelligence.DasBlog.Runtime\IFeedback.cs">
+        <Link>IFeedback.cs</Link>
+      </Compile>
+      <Compile Include="..\newtelligence.DasBlog.Runtime\ILoggingDataService.cs">
+        <Link>ILoggingDataService.cs</Link>
+      </Compile>
+      <Compile Include="..\newtelligence.DasBlog.Runtime\ISpamBlockingService.cs">
+        <Link>ISpamBlockingService.cs</Link>
+      </Compile>
+      <Compile Include="..\newtelligence.DasBlog.Runtime\ITitledEntry.cs">
+        <Link>ITitledEntry.cs</Link>
+      </Compile>
+      <Compile Include="..\newtelligence.DasBlog.Runtime\LogCategory.cs">
+        <Link>LogCategory.cs</Link>
+      </Compile>
+      <Compile Include="..\newtelligence.DasBlog.Runtime\LogDataItem.cs">
+        <Link>LogDataItem.cs</Link>
+      </Compile>
+      <Compile Include="..\newtelligence.DasBlog.Runtime\LogDataItemCollection.cs">
+        <Link>LogDataItemCollection.cs</Link>
+      </Compile>
+      <Compile Include="..\newtelligence.DasBlog.Runtime\LogEncoder.cs">
+        <Link>LogEncoder.cs</Link>
+      </Compile>
+      <Compile Include="..\newtelligence.DasBlog.Runtime\LoggingDataService.cs">
+        <Link>LoggingDataService.cs</Link>
+      </Compile>
+      <Compile Include="..\newtelligence.DasBlog.Runtime\LoggingDataServiceFactory.cs">
+        <Link>LoggingDataServiceFactory.cs</Link>
+      </Compile>
+      <Compile Include="..\newtelligence.DasBlog.Runtime\PingbackInfo.cs">
+        <Link>PingbackInfo.cs</Link>
+      </Compile>
+      <Compile Include="..\newtelligence.DasBlog.Runtime\PingbackInfoCollection.cs">
+        <Link>PingbackInfoCollection.cs</Link>
+      </Compile>
+      <Compile Include="..\newtelligence.DasBlog.Runtime\PingService.cs">
+        <Link>PingService.cs</Link>
+      </Compile>
+      <Compile Include="..\newtelligence.DasBlog.Runtime\SendMailInfo.cs">
+        <Link>SendMailInfo.cs</Link>
+      </Compile>
+      <Compile Include="..\newtelligence.DasBlog.Runtime\SpamState.cs">
+        <Link>SpamState.cs</Link>
+      </Compile>
+      <Compile Include="..\newtelligence.DasBlog.Runtime\SynchronisedList.cs">
+        <Link>SynchronisedList.cs</Link>
+      </Compile>
+      <Compile Include="..\newtelligence.DasBlog.Runtime\TrackbackInfo.cs">
+        <Link>TrackbackInfo.cs</Link>
+      </Compile>
+      <Compile Include="..\newtelligence.DasBlog.Runtime\TrackbackInfoCollection.cs">
+        <Link>TrackbackInfoCollection.cs</Link>
+      </Compile>
+      <Compile Include="..\newtelligence.DasBlog.Runtime\Tracking.cs">
+        <Link>Tracking.cs</Link>
+      </Compile>
+      <Compile Include="..\newtelligence.DasBlog.Runtime\TrackingCollection.cs">
+        <Link>TrackingCollection.cs</Link>
+      </Compile>
+      <Compile Include="..\newtelligence.DasBlog.Runtime\TrackingType.cs">
+        <Link>TrackingType.cs</Link>
+      </Compile>
+      <Compile Include="..\newtelligence.DasBlog.Runtime\WeblogUpdatePingInfo.cs">
+        <Link>WeblogUpdatePingInfo.cs</Link>
+      </Compile>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="..\newtelligence.DasBlog.Runtime\BlogDataService.resx">
+        <Link>BlogDataService.resx</Link>
+      </Content>
+      <Content Include="..\newtelligence.DasBlog.Runtime\license.txt">
+        <Link>license.txt</Link>
+      </Content>
+      <Content Include="..\newtelligence.DasBlog.Runtime\newtelligence.DasBlog.Runtime.csproj">
+        <Link>newtelligence.DasBlog.Runtime.csproj</Link>
+      </Content>
+    </ItemGroup>
+
+</Project>
