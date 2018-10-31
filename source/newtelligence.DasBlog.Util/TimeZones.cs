@@ -58,7 +58,7 @@ namespace newtelligence.DasBlog.Util
         /// <summary>
         /// Daylight savings time bias as an offset to the base bias. Subtracting this value from
         /// the local time results in the standard time. For Western Europe, this value is -60,
-        /// for US Eastern time ít's also -60 and for India Standard Time it's 0.
+        /// for US Eastern time Ã­t's also -60 and for India Standard Time it's 0.
         /// </summary>
         public int daylightBias;
         /// <summary>

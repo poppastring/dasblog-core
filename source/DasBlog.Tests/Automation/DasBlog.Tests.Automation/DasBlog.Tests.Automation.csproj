@@ -59,4 +59,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\DasBlog.Web.Core\DasBlog.Core.csproj" />
   </ItemGroup>
+  <PropertyGroup Condition="'$(Configuration)'=='posix'">
+    <DefineConstants>POSIX</DefineConstants>
+  </PropertyGroup>
 </Project>

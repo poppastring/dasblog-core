@@ -6,4 +6,7 @@
     <PackageReference Include="LibGit2Sharp" Version="0.26.0-preview-0027" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="2.1.0" />
   </ItemGroup>
+  <PropertyGroup Condition="'$(Configuration)'=='posix'">
+    <DefineConstants>POSIX</DefineConstants>
+  </PropertyGroup>
 </Project>

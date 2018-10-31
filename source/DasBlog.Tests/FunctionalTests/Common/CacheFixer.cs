@@ -62,14 +62,14 @@ namespace DasBlog.Tests.FunctionalTests.Common
 		/// <returns>typically a class</returns>
 		private Type GetType(string typeName)
 		{
-			var asss = AppDomain.CurrentDomain.GetAssemblies();
-			var ass = AppDomain.CurrentDomain
-				.GetAssemblies()
-				.FirstOrDefault(a => a.FullName.StartsWith("newtelligence.DasBlog.Runtime.netstd,"));
-			var types = ass?.GetTypes();
+#if POSIX
+			const string DasBlogAssemblyPrefix = "newtelligence.DasBlog.Runtime.netstd,";
+#else
+			const string DasBlogAssemblyPrefix = "newtelligence.DasBlog.Runtime,";
+#endif
 			return AppDomain.CurrentDomain
 				.GetAssemblies()
-				.FirstOrDefault(a => a.FullName.StartsWith("newtelligence.DasBlog.Runtime.netstd,"))
+				.FirstOrDefault(a => a.FullName.StartsWith(DasBlogAssemblyPrefix))
 				?.GetType(typeName);
 		}
 	}

@@ -14,12 +14,6 @@
       <Compile Include="..\newtelligence.DasBlog.Runtime\BlogCoreData.cs">
         <Link>BlogCoreData.cs</Link>
       </Compile>
-      <Compile Include="..\newtelligence.DasBlog.Runtime\BlogDataService.cs">
-        <Link>BlogDataService.cs</Link>
-      </Compile>
-      <Compile Include="..\newtelligence.DasBlog.Runtime\CategoryCache.cs">
-        <Link>CategoryCache.cs</Link>
-      </Compile>
       <Compile Include="..\newtelligence.DasBlog.Runtime\CategoryCacheEntry.cs">
         <Link>CategoryCacheEntry.cs</Link>
       </Compile>
@@ -71,17 +65,11 @@
       <Compile Include="..\newtelligence.DasBlog.Runtime\DataNamespace.cs">
         <Link>DataNamespace.cs</Link>
       </Compile>
-      <Compile Include="..\newtelligence.DasBlog.Runtime\DayEntry.cs">
-        <Link>DayEntry.cs</Link>
-      </Compile>
       <Compile Include="..\newtelligence.DasBlog.Runtime\DayEntryCollection.cs">
         <Link>DayEntryCollection.cs</Link>
       </Compile>
       <Compile Include="..\newtelligence.DasBlog.Runtime\DayEntryCollectionFilter.cs">
         <Link>DayEntryCollectionFilter.cs</Link>
-      </Compile>
-      <Compile Include="..\newtelligence.DasBlog.Runtime\DayExtra.cs">
-        <Link>DayExtra.cs</Link>
       </Compile>
       <Compile Include="..\newtelligence.DasBlog.Runtime\DayExtraCollection.cs">
         <Link>DayExtraCollection.cs</Link>
@@ -161,9 +149,6 @@
       <Compile Include="..\newtelligence.DasBlog.Runtime\LogEncoder.cs">
         <Link>LogEncoder.cs</Link>
       </Compile>
-      <Compile Include="..\newtelligence.DasBlog.Runtime\LoggingDataService.cs">
-        <Link>LoggingDataService.cs</Link>
-      </Compile>
       <Compile Include="..\newtelligence.DasBlog.Runtime\LoggingDataServiceFactory.cs">
         <Link>LoggingDataServiceFactory.cs</Link>
       </Compile>
@@ -211,12 +196,12 @@
       <Compile Include="..\newtelligence.DasBlog.Util\Zip\ZipDirEntry.cs" />
       <Compile Include="..\newtelligence.DasBlog.Util\Zip\ZipEntry.cs" />
       <Compile Include="..\newtelligence.DasBlog.Util\Zip\ZipFile.cs" />
+      <Compile Update="BlogDataService.cs">
+        <DependentUpon>BlogDataService.resx</DependentUpon>
+      </Compile>
     </ItemGroup>
 
     <ItemGroup>
-      <Content Include="..\newtelligence.DasBlog.Runtime\BlogDataService.resx">
-        <Link>BlogDataService.resx</Link>
-      </Content>
       <Content Include="..\newtelligence.DasBlog.Runtime\license.txt">
         <Link>license.txt</Link>
       </Content>

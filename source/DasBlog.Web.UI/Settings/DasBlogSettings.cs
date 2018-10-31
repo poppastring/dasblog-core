@@ -11,7 +11,6 @@ using Microsoft.Extensions.Options;
 using NodaTime;
 using System.Text.RegularExpressions;
 using System.Text;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using newtelligence.DasBlog.Web.Core;
 
 namespace DasBlog.Web.Settings
@@ -204,8 +203,9 @@ namespace DasBlog.Web.Settings
 
 		public string FilterHtml(string input)
 		{
+#if POSIX
 			return input;
-/*
+#else
 			if (SiteConfiguration.AllowedTags == null || SiteConfiguration.AllowedTags.Count == 0)
 			{
 				return WebUtility.HtmlEncode(input);
@@ -250,7 +250,7 @@ namespace DasBlog.Web.Settings
 			}
 
 			return sb.ToString();
-*/
+#endif // #if POSIX #else
 		}
 
 		public bool AreCommentsPermitted(DateTime blogpostdate)

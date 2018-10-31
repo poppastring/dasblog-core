@@ -33,6 +33,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="config\site.config" />
+  </ItemGroup>
+  <PropertyGroup Condition="'$(Configuration)'=='posix'">
+    <DefineConstants>POSIX</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup Condition="'$(Configuration)'=='posix'">
     <Compile Remove="Controllers\FeedController.cs" />
     <None Include="Controllers\FeedController.cs" />
   </ItemGroup>
