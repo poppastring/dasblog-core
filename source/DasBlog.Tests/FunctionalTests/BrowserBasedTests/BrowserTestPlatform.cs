@@ -6,10 +6,10 @@ using DasBlog.Tests.Automation.Selenium.Interfaces;
 using DasBlog.Tests.FunctionalTests.Common;
 using DasBlog.Tests.Support;
 using DasBlog.Tests.Support.Interfaces;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using DasBlog.Tests.Support.Common;
+using Microsoft.Extensions.Logging;
+using WebAppConstants = DasBlog.Core.Common.Constants;
 
 namespace DasBlog.Tests.FunctionalTests.BrowserBasedTests
 {
@@ -20,6 +20,7 @@ namespace DasBlog.Tests.FunctionalTests.BrowserBasedTests
 		public IPublisher Publisher { get; private set; }
 		public ITestExecutor TestExecutor { get; private set; }
 		public Pages Pages { get; private set; }
+		private IDasBlogSandbox sandbox;
 
 		/// <summary>
 		/// completes the platform setup after the logger has been created although
@@ -32,6 +33,10 @@ namespace DasBlog.Tests.FunctionalTests.BrowserBasedTests
 			TestExecutor = ServiceProvider.GetService<ITestExecutor>();
 			Publisher = ServiceProvider.GetService<IPublisher>();
 			Pages = new Pages(Browser);
+			var sandboxFactory = ServiceProvider.GetService<IDasBlogSandboxFactory>();
+			sandbox = sandboxFactory.CreateSandbox(ServiceProvider, Constants.VanillaEnvironment);
+			sandbox.Init();
+			Environment.SetEnvironmentVariable(WebAppConstants.DasBlogDataRoot, sandbox.TestEnvironmentPath);
 			this.Runner.RunDasBlog();
 			this.Browser.Init();
 		}
@@ -54,6 +59,7 @@ namespace DasBlog.Tests.FunctionalTests.BrowserBasedTests
 			{
 				if (disposing)
 				{
+					sandbox?.Terminate(suppressLog: true);
 					Runner?.Kill();
 					Browser?.Dispose();
 				}

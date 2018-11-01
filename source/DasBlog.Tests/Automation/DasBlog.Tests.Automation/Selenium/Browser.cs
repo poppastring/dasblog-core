@@ -106,6 +106,11 @@ namespace DasBlog.Tests.Automation.Selenium
 			return GetElementById<SpanPageElement>(id);
 		}
 
+		public TextBoxPageElement GetTextBoxElementById(string id)
+		{
+			return GetElementById<TextBoxPageElement>(id);
+		}
+
 		public LinkPageElement GetLinkById(string id)
 		{
 			return GetElementById<LinkPageElement>(id);

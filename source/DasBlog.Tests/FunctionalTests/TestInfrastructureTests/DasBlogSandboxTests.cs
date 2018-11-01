@@ -56,7 +56,7 @@ namespace DasBlog.Tests.FunctionalTests.TestInfrastructureTests
 			}
 			finally
 			{
-				dasBlogSandbox?.Terminate();
+				dasBlogSandbox?.Terminate(false);
 			}
 		}
 

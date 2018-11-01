@@ -57,7 +57,7 @@ namespace DasBlog.Tests.FunctionalTests.ComponentTests
 		}
 		public void Dispose()
 		{
-			dasBlogSandbox?.Terminate();
+			dasBlogSandbox?.Terminate(false);
 		}
 	}
 }

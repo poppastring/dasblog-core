@@ -7,9 +7,9 @@ namespace DasBlog.Tests.Support
 	{
 		public class Result
 		{
-			public string TestId { get; private set; }
-			public bool Success { get; private set; }
-			public string ErrorMessge { get; private set; }
+			public string TestId { get; }
+			public bool Success { get; }
+			public string ErrorMessge { get; }
 			public Result(string testid, bool success, string errorMessge)
 			{
 				this.TestId = testid;

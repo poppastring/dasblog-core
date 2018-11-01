@@ -65,3 +65,7 @@ So far deployment to Azure and to a .NET based hosting service provider worked f
 - Support for Live Writer
 - Security and User Management
 - Selenium integration
+
+## Documentation
+- [Functonal Tests Guide](source/DasBlog.Tests/FunctionalTests/FunctionalTests.md)
+- [Test Documentation](source/TestDocumentationIndex.md)

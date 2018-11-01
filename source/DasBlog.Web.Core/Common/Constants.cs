@@ -40,6 +40,12 @@ namespace DasBlog.Core.Common
 	
 		// element ids
 		public const string PasswordValidationId = "passwordValidation";
+		// ****** NOTE *******
+		// asp-for and its friends cannot handle const. so a field is required
+		// BUT razor uses the FIELD NAME not the field value as the cshtml value
+		// This may well change in future
+		public static readonly string Email = "Email";
+		public static readonly string Password = "Password";
 		public const string NavBarId = "navbar";
 		public const string CategoryPageTitle = "Category";
 	

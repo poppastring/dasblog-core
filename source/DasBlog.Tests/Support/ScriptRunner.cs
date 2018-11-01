@@ -34,11 +34,12 @@ namespace DasBlog.Tests.Support
 		/// <inheritdoc cref="DasBlog.Tests.Support.Interfaces"/>
 		public (int exitCode, string[] output) Run(string scriptName,
 			IReadOnlyDictionary<string, string> envirnmentVariables,
+			bool suppressLog,
 			params object[] arguments)
 		{
 			try
 			{
-				var cmdexe = GetCmdExe();
+				var cmdexe = GetCmdExe(suppressLog);
 				var output = new List<string>();
 				var errs = new List<string>();
 				var sw = new Stopwatch();
@@ -53,11 +54,10 @@ namespace DasBlog.Tests.Support
 						"/K", scriptPathAndFileName
 					}.Concat(arguments).ToArray());
 				psi.RedirectStandardOutput = true;
-//				psi.RedirectStandardError = true;
-				logger.LogDebug($"script timeout: {scriptTimeout}, script exit delay {scriptExitTimeout}ms for {scriptPathAndFileName}");
+				if (!suppressLog) logger.LogDebug($"script timeout: {scriptTimeout}, script exit delay {scriptExitTimeout}ms for {scriptPathAndFileName}");
 
-				var exitCode = RunCmdProcess(psi, output);
-				logger.LogDebug($"elapsed time {sw.ElapsedMilliseconds} on thread {Thread.CurrentThread.ManagedThreadId}");
+				var exitCode = RunCmdProcess(psi, output, suppressLog);
+				if (!suppressLog) logger.LogDebug($"elapsed time {sw.ElapsedMilliseconds} on thread {Thread.CurrentThread.ManagedThreadId}");
 				
 				ThrowExceptionForBadExitCode(exitCode, scriptPathAndFileName, scriptTimeout, psi);
 				ThrowExceptionForIncompleteOutput(output, errs, scriptName);
@@ -76,11 +76,12 @@ namespace DasBlog.Tests.Support
 		/// <param name="psi">RedirectStandardOutput/Error set to true, Shell
 		///     Execute=false, fully loaded arglist including /K to keep the command shell open</param>
 		/// <param name="output">on entry an empty list
-		/// on exit -
-		/// all lines from cmd.exe stdout and stderr or empty list</param>
+		///     on exit -
+		///     all lines from cmd.exe stdout and stderr or empty list</param>
+		/// <param name="suppressLog"></param>
 		/// <returns>exit code from script (which is whatever the last executed step exits with
 		///   or 1 if the args are wrong) or int.MaxValue - 1 to indicate timeout</returns>
-		private int RunCmdProcess(ProcessStartInfo psi, List<string> output)
+		private int RunCmdProcess(ProcessStartInfo psi, List<string> output, bool suppressLog)
 		{
 			int exitCode;
 			Process ps;
@@ -101,7 +102,7 @@ namespace DasBlog.Tests.Support
 						// I suspect reult will always be true.  ReadLine should be blocked until the
 						// process exits so there will be no wait period - still, who knows?
 			}
-			logger.LogDebug($"exit code: {exitCode}");
+			if (!suppressLog) logger.LogDebug($"exit code: {exitCode}");
 			return exitCode;
 		}
 
@@ -145,12 +146,12 @@ namespace DasBlog.Tests.Support
 			}
 		}
 
-		private string GetCmdExe()
+		private string GetCmdExe(bool suppressLog)
 		{
 			var cmdexe = Environment.GetEnvironmentVariable("ComSpec");
 			if (string.IsNullOrWhiteSpace(cmdexe))
 			{
-				logger.LogInformation("comspec environment variable was empty - will use cmd.exe");
+				if (!suppressLog) logger.LogInformation("comspec environment variable was empty - will use cmd.exe");
 				return "cmd.exe";
 			}
 

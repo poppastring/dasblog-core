@@ -44,7 +44,7 @@ namespace DasBlog.Tests.FunctionalTests.TestInfrastructureTests
 		public void Test()
 		{
 			var scriptRunner = platform.ServiceProvider.GetService<IScriptRunner>();
-			(var exitCode, var outputs) = scriptRunner.Run("TestScript.cmd", new Dictionary<string, string>());
+			(var exitCode, var outputs) = scriptRunner.Run("TestScript.cmd", new Dictionary<string, string>(), false);
 			Assert.Equal(0, exitCode);
 			Assert.True(outputs.Length > 0);
 		}
@@ -61,7 +61,7 @@ namespace DasBlog.Tests.FunctionalTests.TestInfrastructureTests
 			ILogger<ScriptRunner> logger =
 				platform.ServiceProvider.GetService<ILoggerFactory>().CreateLogger<ScriptRunner>();
 			ScriptRunner runner = new ScriptRunner(accessor, logger);
-			Assert.Throws<Exception>(() => runner.Run("TestScript.cmd", runner.DefaultEnv));
+			Assert.Throws<Exception>(() => runner.Run("TestScript.cmd", runner.DefaultEnv, false));
 		}
 
 		[Fact]
@@ -69,7 +69,7 @@ namespace DasBlog.Tests.FunctionalTests.TestInfrastructureTests
 		public void DetectChangesScript_WhenCleanDirectory_ReturnsNothing()
 		{
 			var runner = platform.ServiceProvider.GetService<IScriptRunner>();
-			(var exitCode, _) = runner.Run("DetectChanges.cmd", runner.DefaultEnv
+			(var exitCode, _) = runner.Run("DetectChanges.cmd", runner.DefaultEnv, false
 //			  );
 			  ,Path.Combine(Utils.GetProjectRootDirectory(), Constants.VanillaTestData));
 			Assert.Equal(0, exitCode);

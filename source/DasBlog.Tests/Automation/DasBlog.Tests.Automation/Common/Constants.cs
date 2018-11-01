@@ -8,7 +8,7 @@
 		// bring up a page from the address bar
 		public const string ApplicationName = "SmokeTest";
 		public const string FirefoxDriverId = "firefox";
-		public const string HomePage = "";
+		public const string HomePage = "page";
 		public const string CategoryPage = "category";
 		public const string ArchivePage = "archive";
 		public const string SubscribePage = "feed/rss";

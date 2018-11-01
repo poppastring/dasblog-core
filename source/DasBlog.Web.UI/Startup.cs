@@ -58,7 +58,7 @@ namespace DasBlog.Web
 			services.Configure<BlogManagerOptions>(Configuration);
 			services.Configure<BlogManagerModifiableOptions>(Configuration);
 			services.Configure<BlogManagerExtraOptions>(opts =>
-				opts.ContentRootPath = hostingEnvironment.ContentRootPath);
+				opts.ContentRootPath = GetDataRoot(hostingEnvironment));
 			services.Configure<TimeZoneProviderOptions>(Configuration);
 			services.Configure<SiteConfig>(Configuration);
 			services.Configure<MetaTags>(Configuration);

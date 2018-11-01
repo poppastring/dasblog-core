@@ -33,6 +33,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		ContributorFAQ.md = ContributorFAQ.md
 		SeleniumPlusDasBlogCoreInACoupleOfPages.md = SeleniumPlusDasBlogCoreInACoupleOfPages.md
 		SmokeTestArch.png = SmokeTestArch.png
+		TestDocumentationIndex.md = TestDocumentationIndex.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "newtelligence", "newtelligence", "{4383190A-97AC-435E-9FBB-E203AC4497ED}"

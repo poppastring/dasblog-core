@@ -9,12 +9,12 @@ namespace DasBlog.Tests.Support
 			return (true, string.Empty);
 		}
 
-		public (bool clean, string errorMessage) IsClean(string environment)
+		public (bool clean, string errorMessage) IsClean(string environment, bool suppressLog)
 		{
 			return (true, string.Empty);
 		}
 
-		public void StashCurrentStateIfDirty(string environment)
+		public void StashCurrentStateIfDirty(string environment, bool suppressLog)
 		{
 		}
 

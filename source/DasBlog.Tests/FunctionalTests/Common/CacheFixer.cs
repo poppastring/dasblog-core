@@ -26,7 +26,7 @@ namespace DasBlog.Tests.FunctionalTests.Common
 				throw new Exception("Failed ot find static field _changeNumber on CategoryCache");
 			}
 			changeNumberField.SetValue(null, -1L);
-			var dataServiceField = typeof(BlogManager).GetFields().Where(f => f.Name == "dataService").FirstOrDefault();
+			var dataServiceField = typeof(BlogManager).GetFields(BindingFlags.NonPublic | BindingFlags.Instance).Where(f => f.Name == "dataService").FirstOrDefault();
 			if (dataServiceField == null)
 			{
 				throw new Exception("failed to find a field called dataSerice on BlogManager");

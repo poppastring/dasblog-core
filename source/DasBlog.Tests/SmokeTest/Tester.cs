@@ -35,12 +35,12 @@ namespace DasBlog.Tests.SmokeTest
 		{
 			List<TestStep> testSteps = new List<TestStep>
 			{
-				new TestStep(() => pages.Login.Goto())
-				, new TestStep(() => pages.Login.IsDisplayed())
-				, new TestStep(() => pages.Login.LoginButton != null)
-				, new TestStep(() => pages.Login.LoginButton.Click())
-				, new TestStep(() => pages.Login.PasswordValidation.Text.ToLower().Contains("the password field is required"))
-				, new TestStep(() => pages.Login.IsDisplayed())
+				new ActionStep(() => pages.LoginPage.Goto())
+				, new VerificationStep(() => pages.LoginPage.IsDisplayed())
+				, new VerificationStep(() => pages.LoginPage.LoginButton != null)
+				, new ActionStep(() => pages.LoginPage.LoginButton.Click())
+				, new VerificationStep(() => pages.LoginPage.PasswordValidation.Text.ToLower().Contains("the password field is required"))
+				, new VerificationStep(() => pages.LoginPage.IsDisplayed())
 			};
 			testExecutor.Execute(testSteps, Results);
 		}
@@ -49,20 +49,20 @@ namespace DasBlog.Tests.SmokeTest
 		{
 			List<TestStep> testSteps = new List<TestStep>
 			{
-				new TestStep(() => pages.Home.Goto()),
+				new TestStep(() => pages.HomePage.Goto()),
 				new TestStep(() => pages.NavBar.IsDisplayed()),
 				
 				new TestStep(() => pages.NavBar[AppConstants.CategoryNavId] != null),
 				new TestStep(() => pages.NavBar[AppConstants.CategoryNavId].Click()),
-				new TestStep(() => pages.Category.IsDisplayed()),
+				new TestStep(() => pages.CategoryPage.IsDisplayed()),
 				
 				new TestStep(() => pages.NavBar[AppConstants.ArchiveNavId] != null),
 				new TestStep(() => pages.NavBar[AppConstants.ArchiveNavId].Click()),
-				new TestStep(() => pages.Archive.IsDisplayed()),
+				new TestStep(() => pages.ArchivePage.IsDisplayed()),
 				
 				new TestStep(() => pages.NavBar[AppConstants.HomeNavId] != null),
 				new TestStep(() => pages.NavBar[AppConstants.HomeNavId].Click()),
-				new TestStep(() => pages.Home.IsDisplayed())
+				new TestStep(() => pages.HomePage.IsDisplayed())
 
 			};
 			testExecutor.Execute(testSteps, Results);
@@ -72,16 +72,16 @@ namespace DasBlog.Tests.SmokeTest
 		{
 			List<TestStep> testSteps = new List<TestStep>
 			{
-				new TestStep(() => pages.Users.Goto()),
-				new TestStep(() => pages.Login.IsDisplayed()),
+				new TestStep(() => pages.UsersPage.Goto()),
+				new TestStep(() => pages.LoginPage.IsDisplayed()),
 
-				new TestStep(() => pages.Home.Goto()),
-				new TestStep(() => pages.PostMaintenance.Goto()),
-				new TestStep(() => pages.Login.IsDisplayed()),
+				new TestStep(() => pages.HomePage.Goto()),
+				new TestStep(() => pages.PostMaintenancePage.Goto()),
+				new TestStep(() => pages.LoginPage.IsDisplayed()),
 
-				new TestStep(() => pages.Home.Goto()),
-				new TestStep(() => pages.Activity.Goto()),
-				new TestStep(() => pages.Login.IsDisplayed())
+				new TestStep(() => pages.HomePage.Goto()),
+				new TestStep(() => pages.ActivityPage.Goto()),
+				new TestStep(() => pages.LoginPage.IsDisplayed())
 			};
 			testExecutor.Execute(testSteps, Results);
 		}

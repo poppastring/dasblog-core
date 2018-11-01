@@ -124,13 +124,13 @@ namespace DasBlog.Tests.Support
 		/// throws an exception if git acccess fails for some reason
 		/// </summary>
 		/// <param name="environment">e.g. "Vanilla"</param>
+		/// <param name="suppressLog"></param>
 		/// <returns>false if there were changes in the working directory
 		///   and the list of modified files (or any extraneous output from "git status --short"</returns>
-		public (bool clean, string errorMessage) IsClean(string environment)
+		public (bool clean, string errorMessage) IsClean(string environment, bool suppressLog)
 		{
 			(int exitCode, string[] outputs ) = scriptRunner.Run(
-				Constants.DetectChangesScriptName, scriptRunner.DefaultEnv
-				,Path.Combine(this.testDataPath, environment));
+				Constants.DetectChangesScriptName, scriptRunner.DefaultEnv, suppressLog,Path.Combine(this.testDataPath, environment));
 					// e.g. "C:\alt\projs\dasblog-core\source\DasBlog.Tests\Resources\Environments\Vanilla"
 			if (exitCode != 0)
 			{
@@ -145,17 +145,16 @@ namespace DasBlog.Tests.Support
 			return (true, string.Empty);
 		}
 
-		public void StashCurrentStateIfDirty(string environment)
+		public void StashCurrentStateIfDirty(string environment, bool suppressLog)
 		{
-			if (IsClean(environment).clean)
+			if (IsClean(environment, suppressLog).clean)
 			{
-				logger.LogInformation("No changes were made to the test environment during the course of this test");
+				if (!suppressLog) logger.LogInformation("No changes were made to the test environment during the course of this test");
 				return;
 			}
 			Guid guid = Guid.NewGuid();
 			(int exitCode, string[] outputs ) = scriptRunner.Run(
-				Constants.StashCurrentStateScriptName, scriptRunner.DefaultEnv
-				,Path.Combine(this.testDataPath, environment)
+				Constants.StashCurrentStateScriptName, scriptRunner.DefaultEnv, suppressLog,Path.Combine(this.testDataPath, environment)
 				,guid.ToString());
 			if (exitCode != 0)
 			{
@@ -163,18 +162,17 @@ namespace DasBlog.Tests.Support
 			}
 
 			string stashHash = GetHashField(outputs);
-			ConfirmValidStash(stashHash, guid);
-			logger.LogInformation("A copy of the state of the file system has been made at the end of this test"
+			ConfirmValidStash(stashHash, guid, suppressLog);
+			if (!suppressLog) logger.LogInformation("A copy of the state of the file system has been made at the end of this test"
 			  + Environment.NewLine + $"You can restore the state by doing 'git stash apply {stashHash}'");
 		}
 
 		public string TestDataPath => testDataPath;
 
-		private void ConfirmValidStash(string stashHash, Guid guid)
+		private void ConfirmValidStash(string stashHash, Guid guid, bool suppressLog)
 		{
 			(int exitCode, string[] outputs) = scriptRunner.Run(
-				Constants.ConfirmStashScriptName, scriptRunner.DefaultEnv
-				,stashHash);
+				Constants.ConfirmStashScriptName, scriptRunner.DefaultEnv, suppressLog,stashHash);
 			if (exitCode != 0)
 			{
 				FormatErrorsAndThrow(Constants.ConfirmStashScriptName, exitCode, outputs);
@@ -236,7 +234,7 @@ namespace DasBlog.Tests.Support
 		private (bool success, string versionString) GetGitVersionString()
 		{
 			(int exitCode, string[] outputs ) = scriptRunner.Run(
-				Constants.GetGitVersionScriptName, scriptRunner.DefaultEnv);
+				Constants.GetGitVersionScriptName, scriptRunner.DefaultEnv, false);
 			if (exitCode != 0)
 			{
 				string detail = FormatOutputOrErrors(outputs);

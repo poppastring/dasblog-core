@@ -48,9 +48,9 @@ namespace DasBlog.Tests.FunctionalTests.ComponentTests
 			using (var sandbox = platform.CreateSandbox(Constants.CommentsEnvironment))
 			{
 				var testDataProcessor = platform.CreateTestDataProcessor(sandbox);
-				testDataProcessor.SetSiteConfigValue("DaysCommentsAllowed", "9999");
+				testDataProcessor.SetSiteConfigValue("DaysCommentsAllowed", "9999");		// (13)
 				var blogManager = platform.CreateBlogManager(sandbox);
-				var comment = MakeMiniimalComment("entry-id-2018-02-25-0001");
+				var comment = MakeMinimalComment("entry-id-2018-02-25-0001");
 				blogManager.AddComment("entry-id-2018-02-25-0001", comment);
 				Assert.True(DayFeedbackFileExists(Path.Combine(sandbox.TestEnvironmentPath, Constants.ContentDirectory)
 				  ,new DateTime(2018, 2, 25) ));
@@ -65,7 +65,7 @@ namespace DasBlog.Tests.FunctionalTests.ComponentTests
 				var testDataProcessor = platform.CreateTestDataProcessor(sandbox);
 				testDataProcessor.SetSiteConfigValue("DaysCommentsAllowed", "9999");
 				var blogManager = platform.CreateBlogManager(sandbox);
-				var comment = MakeMiniimalComment("b705c37b-b47f-4e8d-8f8b-091efc4cb684");
+				var comment = MakeMinimalComment("b705c37b-b47f-4e8d-8f8b-091efc4cb684");
 				comment.EntryId = "comment-id-2018-02-24-0001";
 				blogManager.AddComment("b705c37b-b47f-4e8d-8f8b-091efc4cb684", comment);
 				Assert.True(DayFeedbackFileExists(Path.Combine(sandbox.TestEnvironmentPath, Constants.ContentDirectory)
@@ -81,7 +81,7 @@ namespace DasBlog.Tests.FunctionalTests.ComponentTests
 				var testDataProcessor = platform.CreateTestDataProcessor(sandbox);
 				testDataProcessor.SetSiteConfigValue("DaysCommentsAllowed", "9999");
 				var blogManager = platform.CreateBlogManager(sandbox);
-				var comment = MakeMiniimalComment("entry-id-2018-02-25-0001");
+				var comment = MakeMinimalComment("entry-id-2018-02-25-0001");
 				comment.EntryId = "comment-id-2018-02-25-0001";
 				blogManager.AddComment("entry-id-2018-02-25-0001", comment);
 				var savedCommentId = testDataProcessor.GetDayExtraValue(new DateTime(2018, 2, 25), "comment-id-2018-02-25-0001", "EntryId");
@@ -127,7 +127,7 @@ namespace DasBlog.Tests.FunctionalTests.ComponentTests
 			}
 		}
 
-		private static Comment MakeMiniimalComment(string entryId)
+		private static Comment MakeMinimalComment(string entryId)
 		{
 			Comment comment = new Comment();
 			comment.Initialize();

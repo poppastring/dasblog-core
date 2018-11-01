@@ -3,11 +3,18 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 using DasBlog.Tests.Support.Interfaces;
+using Microsoft.Extensions.Logging;
 
 namespace DasBlog.Tests.Support
 {
 	public class TestExecutor : ITestExecutor
 	{
+		private ILogger<TestExecutor> logger;
+
+		public TestExecutor(ILogger<TestExecutor> logger)
+		{
+			this.logger = logger;
+		}
 		public void Execute(IList<TestStep> testSteps, TestResults testResults, [CallerMemberName]string testName = null)
 		{
 			foreach (var step in testSteps)
@@ -34,21 +41,21 @@ namespace DasBlog.Tests.Support
 				catch (Exception e)
 				{
 					_  = e;
-					Console.WriteLine();
-					Console.WriteLine("Error Details:");
+					logger.LogError(string.Empty);
+					logger.LogError("Error Details:");
 					if (step.Value == null)
 					{
-						Console.WriteLine($"a step has been encountered in {testName} with no action or fun");
+						logger.LogError($"a step has been encountered in {testName} with no action or fun");
 					}
 					else if (step.Value is Action || step.Value is Func<bool>)
 					{
-						Console.WriteLine($"the step {step.Description} has failed");
+						logger.LogError($"the step {step.Description} has failed");
 					}
 					else
 					{
-						Console.WriteLine("a step of unknown type has been encountered");
+						logger.LogError("a step of unknown type has been encountered");
 					}
-					Console.WriteLine();
+					logger.LogError(string.Empty);
 
 					throw;
 				}
