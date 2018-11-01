@@ -9,6 +9,8 @@
     <Authors>Mark Downie</Authors>
     <Company />
     <Product>DasBlog Core</Product>
+    <Configurations>Debug;Release;posix</Configurations>
+    <Platforms>AnyCPU</Platforms>
   </PropertyGroup>
   <ItemGroup>
     <Content Include="Config\metaConfig.xml">

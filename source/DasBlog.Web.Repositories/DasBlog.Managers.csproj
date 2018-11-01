@@ -1,6 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
+    <Configurations>Debug;Release;posix</Configurations>
+    <Platforms>AnyCPU</Platforms>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="NodaTime" Version="2.3.0" />
@@ -9,7 +11,7 @@
     <DefineConstants>POSIX</DefineConstants>
   </PropertyGroup>
   <ItemGroup Condition="'$(Configuration)'=='posix'">
-    <ProjectReference Include="..\..\newtelligence.DasBlog.Runtime.netstd\newtelligence.DasBlog.Runtime.netstd.csproj" />
+    <ProjectReference Include="..\newtelligence.DasBlog.Runtime.netstd\newtelligence.DasBlog.Runtime.netstd.csproj" />
   </ItemGroup>
   <ItemGroup Condition="'$(Configuration)'!='posix'">
     <ProjectReference Include="..\newtelligence.DasBlog.Runtime\newtelligence.DasBlog.Runtime.csproj" />

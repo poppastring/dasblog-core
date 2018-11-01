@@ -1,6 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
+    <Configurations>Debug;Release;posix</Configurations>
+    <Platforms>AnyCPU</Platforms>
   </PropertyGroup>
   <!--
       We do not follow the expected Selenium way of doing things.
