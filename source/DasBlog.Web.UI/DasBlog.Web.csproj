@@ -11,6 +11,9 @@
     <Product>DasBlog Core</Product>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="Themes\dasblog\site.min.css" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="Config\metaConfig.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -76,6 +79,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Update="Config\IISUrlRewrite.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Themes\dasblog\custom.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
