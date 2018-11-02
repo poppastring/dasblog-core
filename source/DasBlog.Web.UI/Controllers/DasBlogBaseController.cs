@@ -9,6 +9,7 @@ namespace DasBlog.Web.Settings
 	public abstract class DasBlogBaseController : DasBlogController
 	{
 		private readonly IDasBlogSettings dasBlogSettings;
+		protected const string BLOG_PAGE = "_BlogPage";
 
 		protected DasBlogBaseController(IDasBlogSettings settings)
 		{

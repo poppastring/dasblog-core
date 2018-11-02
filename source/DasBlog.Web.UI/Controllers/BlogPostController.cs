@@ -77,7 +77,7 @@ namespace DasBlog.Web.Controllers
 
 					lpvm.Posts = new List<PostViewModel>() { pvm };
 					SinglePost(lpvm.Posts.First());
-					return View("Page", lpvm);
+					return View(BLOG_PAGE, lpvm);
 				}
 				else
 				{
@@ -102,7 +102,7 @@ namespace DasBlog.Web.Controllers
 
 				SinglePost(lpvm.Posts.First());
 
-				return View("Page", lpvm);
+				return View(BLOG_PAGE, lpvm);
 			}
 			else
 			{
@@ -405,7 +405,7 @@ namespace DasBlog.Web.Controllers
 
 			DefaultPage();
 
-			return View("Page", lpvm);
+			return View(BLOG_PAGE, lpvm);
 		}
 		[AllowAnonymous]
 		[HttpPost("/blogpost/search", Name=Constants.SearcherRouteName)]
@@ -418,7 +418,7 @@ namespace DasBlog.Web.Controllers
 			{
 				lpvm.Posts = entries.Select(entry => mapper.Map<PostViewModel>(entry)).ToList();
 
-				return View("Page", lpvm);
+				return View(BLOG_PAGE, lpvm);
 			}
 
 			return RedirectToAction("index", "home");
