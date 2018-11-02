@@ -35,7 +35,7 @@ namespace DasBlog.Web.Settings
 			MicroSummaryUrl = RelativeToRoot("microsummary");
 			RsdUrl = RelativeToRoot("feed/rsd");
 			ShortCutIconUrl = RelativeToRoot("icon.jpg");
-			ThemeCssUrl = RelativeToRoot(string.Format("{0}.css",SiteConfiguration.Theme));
+			ThemeCssUrl = RelativeToRoot(string.Format("theme/{0}/custom.css",SiteConfiguration.Theme));
 		}
 
 		public string WebRootDirectory { get; }

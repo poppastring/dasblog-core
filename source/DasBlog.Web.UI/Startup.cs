@@ -95,7 +95,7 @@ namespace DasBlog.Web
 			{
 				options.LoginPath = "/account/login"; // If the LoginPath is not set here, ASP.NET Core will default to /Account/Login
 				options.LogoutPath = "/account/logout"; // If the LogoutPath is not set here, ASP.NET Core will default to /Account/Logout
-				options.AccessDeniedPath = "/account/accessDenied"; // If the AccessDeniedPath is not set here, ASP.NET Core will default to /Account/AccessDenied
+				options.AccessDeniedPath = "/account/accessdenied"; // If the AccessDeniedPath is not set here, ASP.NET Core will default to /Account/AccessDenied
 				options.SlidingExpiration = true;
 				options.Cookie.Expiration = TimeSpan.FromSeconds(10000);
 				options.Cookie = new CookieBuilder
@@ -122,11 +122,10 @@ namespace DasBlog.Web
 				.AddTransient<IUserStore<DasBlogUser>, DasBlogUserStore>()
 				.AddTransient<IRoleStore<DasBlogRole>, DasBlogUserRoleStore>()
 				.AddTransient<IPrincipal>(provider => provider.GetService<IHttpContextAccessor>().HttpContext.User)
-				.AddTransient<ISiteRepairer, SiteRepairer>()
-				;
+				.AddTransient<ISiteRepairer, SiteRepairer>();
+
 			services.AddScoped<IRichEditBuilder>(SelectRichEditor)
-				.AddScoped<IBlogPostViewModelCreator, BlogPostViewModelCreator>()
-				;
+				.AddScoped<IBlogPostViewModelCreator, BlogPostViewModelCreator>();
 
 			services
 				.AddSingleton(hostingEnvironment.ContentRootFileProvider)
@@ -147,8 +146,8 @@ namespace DasBlog.Web
 				.AddSingleton<IActivityService, ActivityService>()
 				.AddSingleton<IActivityRepoFactory, ActivityRepoFactory>()
 				.AddSingleton<IEventLineParser, EventLineParser>()
-				.AddSingleton<ITimeZoneProvider, TimeZoneProvider>()
-				;
+				.AddSingleton<ITimeZoneProvider, TimeZoneProvider>();
+
 			services
 				.AddAutoMapper(mapperConfig =>
 				{
@@ -162,7 +161,7 @@ namespace DasBlog.Web
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-		public void Configure(IApplicationBuilder app, IHostingEnvironment env, IOptions<RouteOptions> routeOptionsAccessor)
+		public void Configure(IApplicationBuilder app, IHostingEnvironment env, IOptions<RouteOptions> routeOptionsAccessor, IDasBlogSettings dasBlogSettings)
 		{
 			(var siteOk, string siteError) = RepairSite(app);
 			if (env.IsDevelopment())
@@ -191,6 +190,14 @@ namespace DasBlog.Web
 				FileProvider = new PhysicalFileProvider(Path.Combine(GetDataRoot(env), binariesPath.TrimStart('/'))),
 				RequestPath = binariesPath
 			});
+
+			app.UseStaticFiles(new StaticFileOptions
+			{
+				FileProvider = new PhysicalFileProvider(Path.Combine(GetDataRoot(env), 
+										string.Format("Themes", dasBlogSettings.SiteConfiguration.Theme))),
+				RequestPath = string.Format("/Themes", dasBlogSettings.SiteConfiguration.Theme)
+			});
+
 			app.UseAuthentication();
 			app.Use(PopulateThreadCurrentPrincipalForMvc);
 			app.UseMvc(routes =>
