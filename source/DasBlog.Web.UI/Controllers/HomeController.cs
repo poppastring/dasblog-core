@@ -37,7 +37,7 @@ namespace DasBlog.Web.Controllers
 			logger.LogDebug($"In Index - {lpvm.Posts.Count} post found");
 			DefaultPage();
 
-			return View("Page", lpvm);
+			return View(BLOG_PAGE, lpvm);
 		}
 
 		[HttpGet("page")]
@@ -62,7 +62,7 @@ namespace DasBlog.Web.Controllers
 
 			DefaultPage();
 
-			return View("Page", lpvm);
+			return View(BLOG_PAGE, lpvm);
 		}
 
 		public IActionResult About()
