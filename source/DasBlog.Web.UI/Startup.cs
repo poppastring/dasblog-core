@@ -161,7 +161,7 @@ namespace DasBlog.Web
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-		public void Configure(IApplicationBuilder app, IHostingEnvironment env, IOptions<RouteOptions> routeOptionsAccessor, IDasBlogSettings dasBlogSettings)
+		public void Configure(IApplicationBuilder app, IHostingEnvironment env, IOptions<RouteOptions> routeOptionsAccessor)
 		{
 			(var siteOk, string siteError) = RepairSite(app);
 			if (env.IsDevelopment())
@@ -193,9 +193,8 @@ namespace DasBlog.Web
 
 			app.UseStaticFiles(new StaticFileOptions
 			{
-				FileProvider = new PhysicalFileProvider(Path.Combine(GetDataRoot(env), 
-										string.Format("Themes", dasBlogSettings.SiteConfiguration.Theme))),
-				RequestPath = string.Format("/Themes", dasBlogSettings.SiteConfiguration.Theme)
+				FileProvider = new PhysicalFileProvider(Path.Combine(GetDataRoot(env), "Themes")),
+				RequestPath = "/theme"
 			});
 
 			app.UseAuthentication();
