@@ -18,6 +18,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using newtelligence.DasBlog.Runtime;
 using static DasBlog.Core.Common.Utils;
 using Microsoft.Extensions.Logging;
+using System.IO;
 
 namespace DasBlog.Web.Controllers
 {
@@ -471,7 +472,7 @@ namespace DasBlog.Web.Controllers
 			{
 				using (var s = post.Image.OpenReadStream())
 				{
-					relativePath = binaryManager.SaveFile(s, fileName);
+					relativePath = binaryManager.SaveFile(s, Path.GetFileName(fileName));
 				}
 			}
 			catch (Exception e)
