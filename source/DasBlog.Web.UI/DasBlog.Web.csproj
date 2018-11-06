@@ -9,6 +9,8 @@
     <Authors>Mark Downie</Authors>
     <Company />
     <Product>DasBlog Core</Product>
+    <Configurations>Debug;Release;posix</Configurations>
+    <Platforms>AnyCPU</Platforms>
   </PropertyGroup>
   <ItemGroup>
     <Content Include="Config\metaConfig.xml">
@@ -33,6 +35,13 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="config\site.config" />
+  </ItemGroup>
+  <PropertyGroup Condition="'$(Configuration)'=='posix'">
+    <DefineConstants>POSIX</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup Condition="'$(Configuration)'=='posix'">
+    <Compile Remove="Controllers\FeedController.cs" />
+    <None Include="Controllers\FeedController.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DasBlog.Web.Core\DasBlog.Core.csproj" />

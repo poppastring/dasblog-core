@@ -69,3 +69,4 @@ So far deployment to Azure and to a .NET based hosting service provider worked f
 ## Documentation
 - [Functonal Tests Guide](source/DasBlog.Tests/FunctionalTests/FunctionalTests.md)
 - [Test Documentation](source/TestDocumentationIndex.md)
+- [Cross-platform Guide](source/CrossPlatform.md)

@@ -22,17 +22,20 @@ namespace DasBlog.Tests.Support
 		private readonly string scriptDirectory;
 		private readonly int scriptTimeout = 5_000;
 		private readonly int scriptExitTimeout = 10;
+		private readonly IScriptPlatform scriptPlatform;
 
-		public ScriptRunner(IOptions<ScriptRunnerOptions> opts, ILogger<ScriptRunner> logger)
+		public ScriptRunner(IOptions<ScriptRunnerOptions> opts, ILogger<ScriptRunner> logger
+		  , IScriptPlatform scriptPlatform)
 		{
 			this.scriptDirectory = opts.Value.ScriptDirectory;
 			this.scriptTimeout = opts.Value.ScriptTimeout;
 			this.scriptExitTimeout = opts.Value.ScriptExitTimeout;
+			this.scriptPlatform = scriptPlatform;
 			this.logger = logger;
 		}
 
 		/// <inheritdoc cref="DasBlog.Tests.Support.Interfaces"/>
-		public (int exitCode, string[] output) Run(string scriptName,
+		public (int exitCode, string[] output) Run(string scriptId,
 			IReadOnlyDictionary<string, string> envirnmentVariables,
 			bool suppressLog,
 			params object[] arguments)
@@ -46,13 +49,11 @@ namespace DasBlog.Tests.Support
 				sw.Start();
 				
 				ProcessStartInfo psi = new ProcessStartInfo(cmdexe);
-				var scriptPathAndFileName = Path.Combine(scriptDirectory, scriptName);
+				var scriptPathAndFileName = Path.Combine(scriptDirectory
+				  , scriptPlatform.GetNameAndScriptSubDirectory(scriptId));
+				var shellFlags = scriptPlatform.GetShellFlags();
 				psi.UseShellExecute = false;
-				SetArguments(psi.ArgumentList
-					, new string[]
-					{
-						"/K", scriptPathAndFileName
-					}.Concat(arguments).ToArray());
+				scriptPlatform.GatherArgsForPsi(psi.ArgumentList, shellFlags, scriptPathAndFileName, arguments);
 				psi.RedirectStandardOutput = true;
 				if (!suppressLog) logger.LogDebug($"script timeout: {scriptTimeout}, script exit delay {scriptExitTimeout}ms for {scriptPathAndFileName}");
 
@@ -60,10 +61,9 @@ namespace DasBlog.Tests.Support
 				if (!suppressLog) logger.LogDebug($"elapsed time {sw.ElapsedMilliseconds} on thread {Thread.CurrentThread.ManagedThreadId}");
 				
 				ThrowExceptionForBadExitCode(exitCode, scriptPathAndFileName, scriptTimeout, psi);
-				ThrowExceptionForIncompleteOutput(output, errs, scriptName);
+				ThrowExceptionForIncompleteOutput(output, errs, scriptId);
 				return (exitCode, output.Skip(1).Where(o => o != null && !o.Contains("dasmeta")).ToArray());
 			}
-//			finally
 			catch (Exception e)
 			{
 				throw new Exception(e.Message, e);
@@ -99,7 +99,7 @@ namespace DasBlog.Tests.Support
 
 				var result = ps.WaitForExit(scriptTimeout);
 				exitCode = result ? ps.ExitCode : int.MaxValue - 1;
-						// I suspect reult will always be true.  ReadLine should be blocked until the
+						// I suspect result will always be true.  ReadLine should be blocked until the
 						// process exits so there will be no wait period - still, who knows?
 			}
 			if (!suppressLog) logger.LogDebug($"exit code: {exitCode}");
@@ -138,24 +138,9 @@ namespace DasBlog.Tests.Support
 			throw new Exception(message);
 		}
 
-		private void SetArguments(Collection<string> psiArgumentList, object[] arguments)
-		{
-			foreach (var arg in arguments)
-			{
-				psiArgumentList.Add((string)arg);
-			}
-		}
-
 		private string GetCmdExe(bool suppressLog)
 		{
-			var cmdexe = Environment.GetEnvironmentVariable("ComSpec");
-			if (string.IsNullOrWhiteSpace(cmdexe))
-			{
-				if (!suppressLog) logger.LogInformation("comspec environment variable was empty - will use cmd.exe");
-				return "cmd.exe";
-			}
-
-			return cmdexe;
+			return scriptPlatform.GetCmdExe(suppressLog);
 		}
 	}
 

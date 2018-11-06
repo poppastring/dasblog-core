@@ -3,6 +3,8 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <LangVersion>latest</LangVersion>
+    <Configurations>Debug;Release;posix</Configurations>
+    <Platforms>AnyCPU</Platforms>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="fm.Extensions.Configuration.Json" Version="2.0.0" />
@@ -20,4 +22,7 @@
     <ProjectReference Include="..\Automation\DasBlog.Tests.Automation\DasBlog.Tests.Automation.csproj" />
     <ProjectReference Include="..\Support\DasBlog.Tests.Support.csproj" />
   </ItemGroup>
+  <PropertyGroup Condition="'$(Configuration)'=='posix'">
+    <DefineConstants>POSIX</DefineConstants>
+  </PropertyGroup>
 </Project>

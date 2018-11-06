@@ -12,7 +12,7 @@ namespace DasBlog.Tests.Support.Interfaces
 		/// <summary>
 		/// runs a script and returns the exit code, anything written to stdout and stderr to the caller as lists of lines
 		/// </summary>
-		/// <param name="scriptName">no path, must include file extension e.g. DetectChanges.cmd</param>
+		/// <param name="scriptId">no path, must include file extension e.g. DetectChanges.cmd</param>
 		/// <param name="envirnmentVariables">any additional env vars required for the script
 		///     which has access to this process's environment as well</param>
 		/// <param name="suppressLog">yuk - this is here because XUnit fails a test
@@ -22,7 +22,7 @@ namespace DasBlog.Tests.Support.Interfaces
 		///    written to stdout and a list of lines written to stderr
 		///   int.MaxValue indicates that the script was not run
 		///   The last element in output and errors appears to be a null</returns>
-		(int exitCode, string[] output) Run(string scriptName, IReadOnlyDictionary<string, string> envirnmentVariables,
+		(int exitCode, string[] output) Run(string scriptId, IReadOnlyDictionary<string, string> envirnmentVariables,
 			bool suppressLog,
 			params object[] agruments);
 	}

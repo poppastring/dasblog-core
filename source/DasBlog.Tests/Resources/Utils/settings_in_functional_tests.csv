@@ -14,7 +14,7 @@
 "dasBlogSettings.SiteConfiguration.EnableTitlePermaLinkUnique," "False",,,TRUE,FALSE,TRUE
 "dasBlogSettings.SiteConfiguration.FrontPageDayCount," "5",,,TRUE,TRUE,FALSE
 "dasBlogSettings.SiteConfiguration.FrontPageEntryCount," "5",,,TRUE,FALSE,TRUE
-"dasBlogSettings.SiteConfiguration.LogDir," "\logs\",,,TRUE,TRUE,FALSE
+"dasBlogSettings.SiteConfiguration.LogDir," "/logs/",,,TRUE,TRUE,FALSE
 "dasBlogSettings.SiteConfiguration.PingServices," "newtelligence.DasBlog.Runtime.PingServiceCollection",,,TRUE,TRUE,FALSE
 "dasBlogSettings.SiteConfiguration.Root," "http://localhost:50431/",,,TRUE,TRUE,FALSE
 "dasBlogSettings.SiteConfiguration.Title," "My DasBlog!",,,TRUE,TRUE,FALSE

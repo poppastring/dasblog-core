@@ -16,7 +16,7 @@ namespace DasBlog.Tests.UnitTests.Services
 		{
 			IUserDataRepo repo = new UserDataRepo(
 			  new OptionsAccessor<LocalUserDataOptions>{ Value = 
-			  new LocalUserDataOptions{Path = "..\\..\\..\\config\\SiteSecurity.config"}});
+			  new LocalUserDataOptions{Path = "../../../Config/SiteSecurity.config"}});
 			List<User> users = repo.LoadUsers().ToList();
 
 			Assert.Single(users, u => u.Name == "myemail@myemail.com");		// email is switched in for name by design

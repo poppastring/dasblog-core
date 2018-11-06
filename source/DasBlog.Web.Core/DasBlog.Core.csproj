@@ -1,12 +1,22 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
+    <Configurations>Debug;Release;posix</Configurations>
+    <Platforms>AnyCPU</Platforms>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <NoWarn>1701;1702;NU1701</NoWarn>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\NetEscapades.Extensions.Logging.RollingFile\NetEscapades.Extensions.Logging.RollingFile.csproj" />
+  </ItemGroup>
+  <PropertyGroup Condition="'$(Configuration)'=='posix'">
+    <DefineConstants>POSIX</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup Condition="'$(Configuration)'=='posix'">
+    <ProjectReference Include="..\newtelligence.DasBlog.Runtime.netstd\newtelligence.DasBlog.Runtime.netstd.csproj" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(Configuration)'!='posix'">
     <ProjectReference Include="..\newtelligence.DasBlog.Runtime\newtelligence.DasBlog.Runtime.csproj" />
     <ProjectReference Include="..\newtelligence.DasBlog.Web.Core\newtelligence.DasBlog.Web.Core.csproj" />
     <ProjectReference Include="..\newtelligence.DasBlog.Web.Services\newtelligence.DasBlog.Web.Services.csproj" />
@@ -19,5 +29,19 @@
     <PackageReference Include="NodaTime" Version="2.3.0" />
     <!--<PackageReference Include="NetEscapades.Extensions.Logging.RollingFile" Version="1.0.0" />-->
     <PackageReference Include="xmlrpcnet" Version="2.5.0" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(Configuration)'=='posix'">
+    <Compile Include="..\newtelligence.DasBlog.Web.Core\ValidTag.cs">
+      <Link>ValidTag.cs</Link>
+    </Compile>
+    <Compile Include="..\newtelligence.DasBlog.Web.Core\ValidTagCollection.cs">
+      <Link>ValidTagCollection.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Common\Comments\MatchedTag.cs" />
+    <None Include="Common\Comments\MatchedTag.cs" />
+    <Compile Remove="Common\Comments\MatchedTagCollection.cs" />
+    <None Include="Common\Comments\MatchedTagCollection.cs" />
   </ItemGroup>
 </Project>

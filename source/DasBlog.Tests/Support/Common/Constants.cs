@@ -28,10 +28,10 @@ namespace DasBlog.Tests.Support.Common
 		public const int GitRequiredMajorVersion = 2;
 		public const int GitRequiredMinorVersion = 15;
 		// ****** script names ******
-		public const string DetectChangesScriptName = "DetectChanges.cmd";
-		public const string GetGitVersionScriptName = "GetVersion.cmd";
-		public const string StashCurrentStateScriptName = "StashCurrentState.cmd";
-		public const string ConfirmStashScriptName = "ConfirmStash.cmd";
+		public const string DetectChangesScriptId = "DetectChanges";
+		public const string GetGitVersionScriptId = "GetVersion";
+		public const string StashCurrentStateScriptId = "StashCurrentState";
+		public const string ConfirmStashScriptId = "ConfirmStash";
 		// ****** Environments ******
 		public const string VanillaEnvironment = "Vanilla";
 		public const string CommentsEnvironment = "Comments";

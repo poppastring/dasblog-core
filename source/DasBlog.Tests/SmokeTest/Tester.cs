@@ -37,6 +37,8 @@ namespace DasBlog.Tests.SmokeTest
 			{
 				new ActionStep(() => pages.LoginPage.Goto())
 				, new VerificationStep(() => pages.LoginPage.IsDisplayed())
+				, new VerificationStep(() => pages.LoginPage.PasswordTextBox != null)
+				, new ActionStep(() => pages.LoginPage.PasswordTextBox.SetText(string.Empty))
 				, new VerificationStep(() => pages.LoginPage.LoginButton != null)
 				, new ActionStep(() => pages.LoginPage.LoginButton.Click())
 				, new VerificationStep(() => pages.LoginPage.PasswordValidation.Text.ToLower().Contains("the password field is required"))

@@ -10,7 +10,7 @@ namespace DasBlog.Tests.UnitTests.Services
 		[Trait("Category", "UnitTest")]
 		public void GetEventLines_SingleLineLog_ReturnsOneLIne()
 		{
-			string path = "..\\..\\..\\logs";		// up from bin/netcoreappn.n
+			string path = "../../../logs";		// up from bin/netcoreappn.n
 			int ctr = 0;
 			using (ActivityRepo repo = new ActivityRepo(path))
 			{

@@ -130,11 +130,11 @@ namespace DasBlog.Tests.Support
 		public (bool clean, string errorMessage) IsClean(string environment, bool suppressLog)
 		{
 			(int exitCode, string[] outputs ) = scriptRunner.Run(
-				Constants.DetectChangesScriptName, scriptRunner.DefaultEnv, suppressLog,Path.Combine(this.testDataPath, environment));
+				Constants.DetectChangesScriptId, scriptRunner.DefaultEnv, suppressLog,Path.Combine(this.testDataPath, environment));
 					// e.g. "C:\alt\projs\dasblog-core\source\DasBlog.Tests\Resources\Environments\Vanilla"
 			if (exitCode != 0)
 			{
-				FormatErrorsAndThrow(Constants.DetectChangesScriptName, exitCode, outputs);
+				FormatErrorsAndThrow(Constants.DetectChangesScriptId, exitCode, outputs);
 			}
 			int numChanges = outputs.Count(o => !string.IsNullOrWhiteSpace(o));
 			if (numChanges > 0)
@@ -154,11 +154,11 @@ namespace DasBlog.Tests.Support
 			}
 			Guid guid = Guid.NewGuid();
 			(int exitCode, string[] outputs ) = scriptRunner.Run(
-				Constants.StashCurrentStateScriptName, scriptRunner.DefaultEnv, suppressLog,Path.Combine(this.testDataPath, environment)
+				Constants.StashCurrentStateScriptId, scriptRunner.DefaultEnv, suppressLog,Path.Combine(this.testDataPath, environment)
 				,guid.ToString());
 			if (exitCode != 0)
 			{
-				FormatErrorsAndThrow(Constants.StashCurrentStateScriptName, exitCode, outputs);
+				FormatErrorsAndThrow(Constants.StashCurrentStateScriptId, exitCode, outputs);
 			}
 
 			string stashHash = GetHashField(outputs);
@@ -172,10 +172,10 @@ namespace DasBlog.Tests.Support
 		private void ConfirmValidStash(string stashHash, Guid guid, bool suppressLog)
 		{
 			(int exitCode, string[] outputs) = scriptRunner.Run(
-				Constants.ConfirmStashScriptName, scriptRunner.DefaultEnv, suppressLog,stashHash);
+				Constants.ConfirmStashScriptId, scriptRunner.DefaultEnv, suppressLog,stashHash);
 			if (exitCode != 0)
 			{
-				FormatErrorsAndThrow(Constants.ConfirmStashScriptName, exitCode, outputs);
+				FormatErrorsAndThrow(Constants.ConfirmStashScriptId, exitCode, outputs);
 			}
 
 			string stashGuid = GetGuidFromStash(outputs);
@@ -234,7 +234,7 @@ namespace DasBlog.Tests.Support
 		private (bool success, string versionString) GetGitVersionString()
 		{
 			(int exitCode, string[] outputs ) = scriptRunner.Run(
-				Constants.GetGitVersionScriptName, scriptRunner.DefaultEnv, false);
+				Constants.GetGitVersionScriptId, scriptRunner.DefaultEnv, false);
 			if (exitCode != 0)
 			{
 				string detail = FormatOutputOrErrors(outputs);

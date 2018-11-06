@@ -431,6 +431,7 @@ namespace DasBlog.Managers
 				: null;
 		}
 
+#if !POSIX
 		private void BreakCache(string[] categories)
 		{
 			var cache = newtelligence.DasBlog.Web.Core.CacheFactory.GetCache();
@@ -445,6 +446,7 @@ namespace DasBlog.Managers
 				cache.Remove(CacheKey);
 			}
 		}
+#endif
 
 		public CommentSaveState AddComment(string postid, Comment comment)
 		{

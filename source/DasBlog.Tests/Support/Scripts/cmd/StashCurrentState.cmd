@@ -9,9 +9,8 @@ rem # It then drops stash@{0} which will output the hash of the stash to stdoutp
 rem #
 rem # Would like to use 'git create' but it does not take a path spec.  So Heath Robinson measures are required...
 rem #
-rem # $1 = linger time for script
-rem # $2 = root of test resources
-rem # $3 = string to identify the stash
+rem # $1 = root of test resources
+rem # $2 = string to identify the stash
 rem # usage cmd TakeSnapshot.cmd <path-spec: root of test resources> <unique-id> <display-name>
 rem # e.g. cmd /c StashCurrentState.cmd C:\alt\projs\dasblog-core\source\DasBlog.Tests\Resources Shearch_withBlankText_ShowsError 71923
 

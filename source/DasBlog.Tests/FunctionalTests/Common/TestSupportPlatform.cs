@@ -1,13 +1,15 @@
 using System;
 using System.IO;
+using DasBlog.Core.Common;
 using DasBlog.SmokeTest;
 using DasBlog.Tests.Support;
-using DasBlog.Tests.Support.Common;
 using DasBlog.Tests.Support.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Xunit.Abstractions;
+using Constants = DasBlog.Tests.Support.Common.Constants;
+using Utils = DasBlog.Tests.Support.Common.Utils;
 
 namespace DasBlog.Tests.FunctionalTests.Common
 {
@@ -102,6 +104,14 @@ namespace DasBlog.Tests.FunctionalTests.Common
 					opts.GitRepoDirectory = Utils.GetProjectRootDirectory();
 					opts.TestDataDirectroy = Constants.TestDataDirectory;
 				});
+			if (new DasBlog.Core.Common.StdOSDetector().DetectOS() == Os.Windows)
+			{
+				services.AddSingleton<IScriptPlatform, CmdScriptPlatform>();
+			}
+			else
+			{
+				services.AddSingleton<IScriptPlatform, BashScriptPlatform>();				
+			}
 			services.AddSingleton<IScriptRunner, ScriptRunner>();
 			services.AddSingleton<IVersionedFileService, GitVersionedFileService>();
 			services.AddSingleton<IDasBlogSandboxFactory, DasBlogSandboxFactory>();

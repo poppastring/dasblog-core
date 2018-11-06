@@ -1,16 +1,37 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
+    <Configurations>Debug;Release;posix</Configurations>
+    <Platforms>AnyCPU</Platforms>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="NodaTime" Version="2.3.0" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\DasBlog.Web.Core\DasBlog.Core.csproj" />
-    <ProjectReference Include="..\NetEscapades.Extensions.Logging.RollingFile\NetEscapades.Extensions.Logging.RollingFile.csproj" />
+  <PropertyGroup Condition="'$(Configuration)'=='posix'">
+    <DefineConstants>POSIX</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup Condition="'$(Configuration)'=='posix'">
+    <ProjectReference Include="..\newtelligence.DasBlog.Runtime.netstd\newtelligence.DasBlog.Runtime.netstd.csproj" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(Configuration)'!='posix'">
     <ProjectReference Include="..\newtelligence.DasBlog.Runtime\newtelligence.DasBlog.Runtime.csproj" />
     <ProjectReference Include="..\newtelligence.DasBlog.Util\newtelligence.DasBlog.Util.csproj" />
     <ProjectReference Include="..\newtelligence.DasBlog.Web.Core\newtelligence.DasBlog.Web.Core.csproj" />
     <ProjectReference Include="..\newtelligence.DasBlog.Web.Services\newtelligence.DasBlog.Web.Services.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DasBlog.Web.Core\DasBlog.Core.csproj" />
+    <ProjectReference Include="..\NetEscapades.Extensions.Logging.RollingFile\NetEscapades.Extensions.Logging.RollingFile.csproj" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(Configuration)'=='posix'">
+    <Compile Include="..\newtelligence.DasBlog.Web.Services\GoogleSitemap.cs">
+      <Link>GoogleSitemap.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup Condition="'$(Configuration)'=='posix'">
+    <Compile Remove="Interfaces\ISubscriptionManager.cs" />
+    <None Include="Interfaces\ISubscriptionManager.cs" />
+    <Compile Remove="SubscriptionManager.cs" />
+    <None Include="SubscriptionManager.cs" />
   </ItemGroup>
 </Project>
