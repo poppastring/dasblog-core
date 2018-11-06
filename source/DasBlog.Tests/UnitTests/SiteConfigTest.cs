@@ -153,5 +153,6 @@ namespace DasBlog.Tests.UnitTests
 		public string CheesySpamA { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 		public XmlElement[] anyElements { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 		public XmlAttribute[] anyAttributes { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+		public bool ShowItemSummaryInAggregatedViews { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 	}
 }
