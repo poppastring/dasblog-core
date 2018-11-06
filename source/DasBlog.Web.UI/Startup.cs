@@ -107,7 +107,7 @@ namespace DasBlog.Web
 
 			services.Configure<RazorViewEngineOptions>(rveo =>
 			{
-				rveo.ViewLocationExpanders.Add(new DasBlogLocationExpander(Configuration.GetSection("DasBlogSettings")["Theme"]));
+				rveo.ViewLocationExpanders.Add(new DasBlogLocationExpander(Configuration.GetSection("Theme").Value));
 			});
 			services.Configure<RouteOptions>(Configuration);
 			
