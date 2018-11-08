@@ -21,7 +21,7 @@
 @{
     ViewBag.Title = "title";
 }
-@await Html.PartialAsync("_NavBar")
+@await Html.PartialAsync("_AdminNavBar")
 
 <div class="workaround-users-3" role="navigation">
     
@@ -30,12 +30,10 @@
     </div>
 </div>
 
-
-
-
 <div id="page-wrapper">
     @RenderBody()
 </div>
+
 <environment include="Development">
     <script src="~/lib/jquery/dist/jquery.js"></script>
     <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>

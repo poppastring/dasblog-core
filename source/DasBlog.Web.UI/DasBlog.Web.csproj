@@ -58,6 +58,12 @@
     <Content Update="Config\siteSecurity.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Update="Themes\dasblog\_BlogItemSummary.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Themes\dasblog\_BlogPageSummary.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Themes\fulcrum\_BlogItemSummary.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
