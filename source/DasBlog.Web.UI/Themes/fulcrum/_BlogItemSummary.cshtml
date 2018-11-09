@@ -4,9 +4,9 @@
     <div class="card flex-md-row mb-4 shadow-sm h-md-250">
         <div class="card-body d-flex flex-column align-items-start">
             <small class="text-muted"><categories-list categories=@Model.Categories></categories-list></small>
-            <h4 class="mb-0">
-                <title-link post=@Model>somecss</title-link>
-            </h4>
+            <h3 class="mb-0">
+                <a class="text-dark" href="@Model.PermaLink">@Model.Title</a>
+            </h3>
             <small class="mb-1 text-muted">@Model.CreatedDateTime.ToString("MMMM dd, yyyy")</small>
             <p class="card-text mb-auto">@Html.Raw(@Model.Description)</p>
             <a href="@Model.PermaLink">Continue reading</a>

@@ -32,41 +32,44 @@
 </head>
 
 <body>
-    <div id="@Constants.NavBarId" class="navbar navbar-dark navbar-expand-lg sticky-top bg-dark">
-        <div class="navbar-collapse">
-            @* navbar-collapse is required to stop the div putting the site title above the other nav items *@
-            @* removing "navbar" from above class to allow the login/logout div to right justify *@
-            @* the docs say that fixed-top belongs to a tag with a nav class - apparently navbar is ok too *@
-            <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand"><site-title /></a>
-            <div class="container">
-                <div>
-                    <ul class="navbar-nav mr-auto">
-                        <li class="nav-item nav-item-active"><a class="nav-link" asp-area="" id="@Constants.HomeNavId" asp-controller="home" asp-action="index">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" asp-area="" id="@Constants.CategoryNavId" asp-controller="category" asp-action="category">Category</a></li>
-                        <li class="nav-item"><a class="nav-link" asp-area="" id="@Constants.ArchiveNavId" asp-controller="archive" asp-action="archive">Archive</a></li>
-                        <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="feed" asp-action="rss">Subscribe</a></li>
-                        <li class="nav-item" dasblog-authorized><a class="nav-link" asp-area="" asp-controller="post" asp-action="create">Create Post</a></li>
-                        <li class="nav-item" dasblog-authorized><a class="nav-link" asp-area="" asp-controller="users" asp-action="index">Users</a></li>
-                        <li class="nav-item" dasblog-authorized><a class="nav-link" asp-area="" asp-controller="Activity" asp-action="ActivityList">Activity</a></li>
-                    </ul>
+
+    <div class="container">
+        <header class="blog-header py-3">
+            <div class="row flex-nowrap justify-content-between align-items-center">
+                <div class="col-4 pt-1">
+                    <a class="text-muted" asp-area="" asp-controller="feed" asp-action="rss">Subscribe</a>
+                </div>
+                <div class="col-4 text-center">
+                    <a class="blog-header-logo text-dark" href="@dasBlogSettings.SiteConfiguration.Root"><site-title /></a>
+                </div>
+                <div class="col-4 d-flex justify-content-end align-items-center">
+                    <a dasblog-unauthorized class="btn btn-sm btn-outline-secondary" asp-controller="account" asp-action="login">Log in</a>
+                    <a dasblog-authorized class="btn btn-sm btn-outline-secondary" asp-controller="account" asp-action="logout">Log out</a>
                 </div>
             </div>
-            <div class="navbar navbar-collapse  col-md-offset-10 col-md-2">
-                @* could not make this go further right (or perhaps it already was fully justified on an indented column *@
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item" dasblog-unauthorized><a class="nav-link" asp-controller="account" asp-action="login">Log in</a></li>
-                    <li class="nav-item" dasblog-authorized><a class="nav-link" asp-controller="account" asp-action="logout">Log out</a></li>
-                </ul>
-            </div>
+        </header>
+
+        <div class="nav-scroller py-1 mb-2">
+            <nav class="nav d-flex justify-content-between">
+                <a class="p-2 text-muted" asp-area="" asp-controller="home" asp-action="index">Home</a>
+                <a class="p-2 text-muted" asp-area="" asp-controller="category" asp-action="category">Category</a>
+                <a class="p-2 text-muted" asp-area="" asp-controller="archive" asp-action="archive">Archive</a>
+                <a dasblog-authorized class="p-2 text-muted" asp-area="" asp-controller="post" asp-action="create">Create Post</a>
+                <a dasblog-authorized class="p-2 text-muted" asp-area="" asp-controller="users" asp-action="index">Users</a>
+                <a dasblog-authorized class="p-2 text-muted" asp-area="" asp-controller="Activity" asp-action="ActivityList">Activity</a>
+            </nav>
         </div>
     </div>
 
-    @await Html.PartialAsync("_AdminNavBar")
-
-    <div class="container body-content p-3 p-md-5">
+    <div class="container body-content">
         @RenderBody()
         <footer>
-            <p>&copy; @DateTime.Now.Year - @dasBlogSettings.SiteConfiguration.Copyright</p>
+            <div class="col-12 text-center">
+                &copy; @DateTime.Now.Year - @dasBlogSettings.SiteConfiguration.Copyright
+            </div>
+            <div class="col-12 text-center">
+                Blog template built for <a href="https://getbootstrap.com/">Bootstrap</a> by <a href="https://twitter.com/mdo">@@mdo</a>.
+            </div>
         </footer>
     </div>
 

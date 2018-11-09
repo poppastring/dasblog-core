@@ -7,7 +7,8 @@
 <div class="post">
     <div class="row post-title">
         <div class="col-md-12 mb-6">
-            <h1><a href="@Model.PermaLink" class="text-dark">@Model.Title</a></h1>
+            <h2><title-link post=@Model>somecss</title-link></h2>
+            @Model.CreatedDateTime.ToString("MMMM dd, yyyy H:mm")
         </div>
     </div>
 
@@ -18,8 +19,7 @@
     </div>
     <div class="row post-footer">
         <div class="col-md-12 mb-6">
-            Tagged in: <categories-list categories=@Model.Categories>, </categories-list><br />
-            <comment-post post="@Model"></comment-post>
+            <categories-list categories=@Model.Categories> </categories-list>
         </div>
         <div class="col-md-12 mb-6">
             @Model.CreatedDateTime.ToString("MMMM dd, yyyy")
@@ -27,10 +27,16 @@
         <div class="col-md-12 mb-6">
             <post-to-twitter post="@Model">Share on Twitter</post-to-twitter>
         </div>
+        <div class="col-md-12 mb-6">
+            <post-to-facebook post="@Model">Share on Facebook</post-to-facebook>
+        </div>
         <div dasblog-authorized class="col-md-12 mb-6">
             <edit-post blog-post-id="@Model.EntryId"></edit-post>
             <span style="display:inline-block; width: 1em;"></span>
             <delete-post blog-post-id="@Model.EntryId" blog-title="@Model.Title"></delete-post>
+        </div>
+        <div class="col-md-12 mb-6">
+            <comment-post post="@Model"></comment-post>
         </div>
     </div>
     @await Html.PartialAsync("_CommentBlockPartial", @Model.Comments)
