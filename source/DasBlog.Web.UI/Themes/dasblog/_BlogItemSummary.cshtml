@@ -7,8 +7,8 @@
 <div class="post">
     <div class="row post-title">
         <div class="col-md-12 mb-6">
-            <h2><title-link post=@Model>somecss</title-link></h2>
-            @Model.CreatedDateTime.ToString("MMMM dd, yyyy H:mm")
+            <h2><title-link post=@Model></title-link></h2>
+            <small class="text-muted">@Model.CreatedDateTime.ToString("MMMM dd, yyyy H:mm")</small>
         </div>
     </div>
 

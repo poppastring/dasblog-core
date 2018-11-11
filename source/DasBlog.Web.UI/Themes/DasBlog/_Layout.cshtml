@@ -68,7 +68,9 @@
         @RenderBody()
 
         <footer>
-            <p>&copy; @DateTime.Now.Year - @dasBlogSettings.SiteConfiguration.Copyright</p>
+            <div class="container text-center">
+                <p class="text-muted credit">&copy; @DateTime.Now.Year - @dasBlogSettings.SiteConfiguration.Copyright</p>
+            </div>
         </footer>
     </div>
 

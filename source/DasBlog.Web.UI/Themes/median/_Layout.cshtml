@@ -30,46 +30,70 @@
 
     <link rel="stylesheet" href="~/css/site.css" />
     <link rel="stylesheet" href="@dasBlogSettings.ThemeCssUrl" />
-
 </head>
 
 <body>
-    <div id="@Constants.NavBarId" class="navbar navbar-dark navbar-expand-lg sticky-top bg-dark">
-        <div class="navbar-collapse">
-            @* navbar-collapse is required to stop the div putting the site title above the other nav items *@
-            @* removing "navbar" from above class to allow the login/logout div to right justify *@
-            @* the docs say that fixed-top belongs to a tag with a nav class - apparently navbar is ok too *@
-            <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand"><site-title /></a>
-            <div class="container">
-                <div>
-                    <ul class="navbar-nav mr-auto">
-                        <li class="nav-item nav-item-active"><a class="nav-link" asp-area="" id="@Constants.HomeNavId" asp-controller="home" asp-action="index">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" asp-area="" id="@Constants.CategoryNavId" asp-controller="category" asp-action="category">Category</a></li>
-                        <li class="nav-item"><a class="nav-link" asp-area="" id="@Constants.ArchiveNavId" asp-controller="archive" asp-action="archive">Archive</a></li>
-                        <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="feed" asp-action="rss">Subscribe</a></li>
-                        <li class="nav-item" dasblog-authorized><a class="nav-link" asp-area="" asp-controller="post" asp-action="create">Create Post</a></li>
-                        <li class="nav-item" dasblog-authorized><a class="nav-link" asp-area="" asp-controller="users" asp-action="index">Users</a></li>
-                        <li class="nav-item" dasblog-authorized><a class="nav-link" asp-area="" asp-controller="Activity" asp-action="ActivityList">Activity</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="navbar navbar-collapse  col-md-offset-10 col-md-2">
-                @* could not make this go further right (or perhaps it already was fully justified on an indented column *@
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item" dasblog-unauthorized><a class="nav-link" asp-controller="account" asp-action="login">Log in</a></li>
-                    <li class="nav-item" dasblog-authorized><a class="nav-link" asp-controller="account" asp-action="logout">Log out</a></li>
+
+    <div class="container-fluid" id="wrapper">
+        <div class="row">
+            <nav class="sidebar col-xs-12 col-sm-4 col-lg-3 col-xl-2">
+
+                <a href="#menu-toggle" class="btn btn-default" id="menu-toggle"><em class="fa fa-bars"></em></a>
+                <ul class="nav nav-pills flex-column sidebar-nav">
+                    <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="home" asp-action="index"><em class="fa fa-dashboard"></em>Home</a></li>
+                    <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="category" asp-action="category">Category</a></li>
+                    <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="archive" asp-action="archive">Archive</a></li>
+                    <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="feed" asp-action="rss">Subscribe</a></li>
+                    <li class="nav-item"><a dasblog-authorized class="nav-link" asp-area="" asp-controller="post" asp-action="create">Create Post</a></li>
+                    <li class="nav-item"><a dasblog-authorized class="nav-link" asp-area="" asp-controller="users" asp-action="index">Users</a></li>
+                    <li class="nav-item"><a dasblog-authorized class="nav-link" asp-area="" asp-controller="Activity" asp-action="ActivityList">Activity</a></li>
                 </ul>
-            </div>
+                <a dasblog-unauthorized class="logout-button" asp-controller="account" asp-action="login"><em class="fa fa-power-off"></em>Signin</a>
+                <a dasblog-authorized class="logout-button" asp-controller="account" asp-action="logout"><em class="fa fa-power-off"></em>Signout</a>
+            </nav>
+            <main class="col-xs-12 col-sm-8 col-lg-9 col-xl-10 pt-3 pl-4 ml-auto">
+                <header class="page-header row justify-center">
+                    <div class="col-md-6 col-lg-8">
+                        <h1 class="site-title"><a href="@dasBlogSettings.SiteConfiguration.Root"><em class="fa fa-rocket"></em>@dasBlogSettings.SiteConfiguration.Title</a></h1>
+                    </div>
+                    <div class="dropdown user-dropdown col-md-6 col-lg-4 text-center text-md-right">
+
+                    </div>
+                    <div class="clear"></div>
+                </header>
+
+                <section class="row">
+                    <div class="col-sm-12">
+                        <section class="row">
+                            <div class="col-md-12 col-lg-8">
+                                @RenderBody()
+                            </div>
+                            
+                            <div class="col-md-12 col-lg-4">
+                                <div class="card-block">
+                                    <div class="card-footer todo-list-footer">
+                                        <div class="input-group">
+                                            <form action="/post/search" method="post">
+                                                <input id="searchText" name="searchText" type="text" class="form-control input-md" placeholder="Ask a question..." />
+                                                <span class="input-group-btn">
+                                                    <button class="btn btn-primary btn-md" id="btn-todo" type="submit">Search</button>
+                                                </span>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </section>
+                        
+                        <section class="row">
+                            <!-- Attribution is required for this theme -->
+                            <div class="col-12 mt-1 mb-4">Template theme by <a href="https://www.medialoot.com">Medialoot</a></div>
+                        </section>
+                    </div>
+                </section>
+            </main>
         </div>
-    </div>
-
-    <div class="container body-content">
-
-        @RenderBody()
-
-        <footer>
-            <p>&copy; @DateTime.Now.Year - @dasBlogSettings.SiteConfiguration.Copyright</p>
-        </footer>
     </div>
 
     <environment names="Development">
@@ -91,4 +115,5 @@
 
     @RenderSection("scripts", required: false)
 </body>
+
 </html>

@@ -403,7 +403,7 @@ namespace DasBlog.Web.Controllers
 		}
 
 		[AllowAnonymous]
-		[HttpPost("/blogpost/search", Name=Constants.SearcherRouteName)]
+		[HttpPost("/post/search", Name=Constants.SearcherRouteName)]
 		public IActionResult Search(string searchText)
 		{
 			var lpvm = new ListPostsViewModel();

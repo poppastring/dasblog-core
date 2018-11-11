@@ -114,9 +114,9 @@
     <None Update="Themes\dasblog\custom.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Themes\median\custom.css">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="content\binary\" />
   </ItemGroup>
   <!--
   <ItemGroup>

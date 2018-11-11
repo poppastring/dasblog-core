@@ -6,11 +6,6 @@
     ViewBag.Title = Constants.HomePageTitle;
 }
 
-<div id="@Constants.HomePageTestId" class="@Constants.PageTestIdClass"></div>
 
-<div class="row">
-    <div id="contents" class="container col-md-9">
-        @await Html.PartialAsync("_BlogItems", Model)
-    </div>
-    <search-box/>
-</div>
+@await Html.PartialAsync("_BlogItems", Model)
+

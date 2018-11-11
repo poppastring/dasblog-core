@@ -1,44 +1,18 @@
 ﻿@model PostViewModel
 
-@{
-    ViewData["Title"] = @Model.Title;
-}
-
-<div class="post">
-    <div class="row post-title">
-        <div class="col-md-12 mb-6">
-            <h2><title-link post=@Model>somecss</title-link></h2>
-            @Model.CreatedDateTime.ToString("MMMM dd, yyyy H:mm")
-        </div>
+<div class="jumbotron">
+    <h3 class="mb-0">
+        <a class="text-dark" href="@Model.PermaLink">@Model.Title</a>
+    </h3>
+    <p>
+        <small class="mb-1 text-muted">@Model.CreatedDateTime.ToString("MMMM dd, yyyy")</small>
+    </p>
+    <div>
+            @Html.Raw(@Model.Description)
     </div>
 
-    <div class="row post-body">
-        <div class="col-md-12 mb-6">
-            @Html.Raw(@Model.Content)
-        </div>
-    </div>
-    <div class="row post-footer">
-        <div class="col-md-12 mb-6">
-            <categories-list categories=@Model.Categories> </categories-list>
-        </div>
-        <div class="col-md-12 mb-6">
-            @Model.CreatedDateTime.ToString("MMMM dd, yyyy")
-        </div>
-        <div class="col-md-12 mb-6">
-            <post-to-twitter post="@Model">Share on Twitter</post-to-twitter>
-        </div>
-        <div class="col-md-12 mb-6">
-            <post-to-facebook post="@Model">Share on Facebook</post-to-facebook>
-        </div>
-        <div dasblog-authorized class="col-md-12 mb-6">
-            <edit-post blog-post-id="@Model.EntryId"></edit-post>
-            <span style="display:inline-block; width: 1em;"></span>
-            <delete-post blog-post-id="@Model.EntryId" blog-title="@Model.Title"></delete-post>
-        </div>
-        <div class="col-md-12 mb-6">
-            <comment-post post="@Model"></comment-post>
-        </div>
-    </div>
-    @await Html.PartialAsync("_CommentBlockPartial", @Model.Comments)
+    <p class="lead"><a class="btn btn-primary btn-lg mt-2" href="@Model.PermaLink" role="button">Continue Reading</a></p>
 </div>
-<hr />
+
+
+
