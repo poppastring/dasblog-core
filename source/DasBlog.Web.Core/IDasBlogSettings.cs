@@ -21,6 +21,7 @@ namespace DasBlog.Core
 		string RsdUrl { get; }
 
 		string ShortCutIconUrl { get; }
+		string ThemeCssUrl { get; }
 
 		string RelativeToRoot(string relative);
 		string GetBaseUrl();

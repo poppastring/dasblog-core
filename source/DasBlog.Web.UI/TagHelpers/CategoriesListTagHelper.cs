@@ -11,7 +11,7 @@ namespace DasBlog.Web.TagHelpers
 		public IList<CategoryViewModel> Categories { get; set; }
 
 		private readonly IDasBlogSettings dasBlogSettings;
-		private const string CATEGORY_ITEM_TEMPLATE = "<li><a href='{0}'>{1}</a></li>";
+		private const string CATEGORY_ITEM_TEMPLATE = "<a href='{0}' class='dbc-a-category'>{1}</a>";
 
 		public CategoriesListTagHelper(IDasBlogSettings dasBlogSettings)
 		{
@@ -20,18 +20,25 @@ namespace DasBlog.Web.TagHelpers
 
 		public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
 		{
-			string categorylist = string.Empty;
-			output.TagName = "ul";
+			var categorylist = string.Empty;
+			output.TagName = "span";
 			output.TagMode = TagMode.StartTagAndEndTag;
-			output.Attributes.SetAttribute("class", "dbc-ul-category");
+			output.Attributes.SetAttribute("class", "dbc-span-category");
 
 			var content = await output.GetChildContentAsync();
-			string format = content.GetContent();
+			var format = content.GetContent();
 
-			foreach (CategoryViewModel category in Categories)
+			if(string.IsNullOrWhiteSpace(format))
+			{
+				format = " ";
+			}
+
+			foreach (var category in Categories)
 			{
 				categorylist = categorylist + string.Format(CATEGORY_ITEM_TEMPLATE, dasBlogSettings.GetCategoryViewUrl(category.CategoryUrl), category.Category) + format;
 			}
+
+			categorylist = categorylist.Remove(categorylist.Length - format.Length);
 
 			output.Content.SetHtmlContent(categorylist);
 		}

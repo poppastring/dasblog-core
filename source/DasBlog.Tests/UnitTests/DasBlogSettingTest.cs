@@ -35,6 +35,7 @@ namespace DasBlog.Tests.UnitTests
 			MicroSummaryUrl = RelativeToRoot("microsummary");
 			RsdUrl = RelativeToRoot("rsd");
 			ShortCutIconUrl = RelativeToRoot("icon.jpg");
+			ThemeCssUrl = RelativeToRoot(string.Format("{0}.css", SiteConfiguration.Theme));
 		}
 
 		public string WebRootDirectory { get; }
@@ -52,6 +53,8 @@ namespace DasBlog.Tests.UnitTests
 		public string RsdUrl { get; }
 
 		public string ShortCutIconUrl { get; }
+
+		public string ThemeCssUrl { get; }
 
 		public IMetaTags MetaTags { get; }
 

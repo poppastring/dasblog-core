@@ -88,7 +88,9 @@ namespace DasBlog.Core.Configuration
 
         bool ShowItemDescriptionInAggregatedViews { get; set; }
 
-        bool EnableClickThrough { get; set; }
+		bool ShowItemSummaryInAggregatedViews { get; set; }
+
+		bool EnableClickThrough { get; set; }
 
         bool EnableAggregatorBugging { get; set; }
 

@@ -20,8 +20,8 @@ namespace DasBlog.Web.Controllers
 		private readonly IMapper mapper;
 		private readonly ILogger<HomeController> logger;
 		
-		public HomeController(IBlogManager blogManager, IDasBlogSettings settings, 
-			IXmlRpcManager rpcManager, IMapper mapper, ILogger<HomeController> logger) : base(settings)
+		public HomeController(IBlogManager blogManager, IDasBlogSettings settings, IXmlRpcManager rpcManager, 
+							IMapper mapper, ILogger<HomeController> logger) : base(settings)
 		{
 			this.blogManager = blogManager;
 			dasBlogSettings = settings;
@@ -31,13 +31,16 @@ namespace DasBlog.Web.Controllers
 
 		public IActionResult Index()
 		{
-			ListPostsViewModel lpvm = new ListPostsViewModel();
-			lpvm.Posts = blogManager.GetFrontPagePosts(Request.Headers["Accept-Language"])
-							.Select(entry => mapper.Map<PostViewModel>(entry)).ToList();
-			logger.LogDebug($"In Index - {lpvm.Posts.Count} post found");
-			DefaultPage();
+			var lpvm = new ListPostsViewModel
+			{
+				Posts = blogManager.GetFrontPagePosts(Request.Headers["Accept-Language"])
+							.Select(entry => mapper.Map<PostViewModel>(entry)).
+							Select(editentry => editentry).ToList()
+			};
 
-			return View("Page", lpvm);
+			logger.LogDebug($"In Index - {lpvm.Posts.Count} post found");
+
+			return AggregatePostView(lpvm);
 		}
 
 		[HttpGet("page")]
@@ -56,13 +59,13 @@ namespace DasBlog.Web.Controllers
 
 			ViewData["Message"] = string.Format("Page...{0}", index);
 
-			ListPostsViewModel lpvm = new ListPostsViewModel();
-			lpvm.Posts = blogManager.GetEntriesForPage(index, Request.Headers["Accept-Language"])
-								.Select(entry => mapper.Map<PostViewModel>(entry)).ToList();
+			var lpvm = new ListPostsViewModel
+			{
+				Posts = blogManager.GetEntriesForPage(index, Request.Headers["Accept-Language"])
+								.Select(entry => mapper.Map<PostViewModel>(entry)).ToList()
+			};
 
-			DefaultPage();
-
-			return View("Page", lpvm);
+			return AggregatePostView(lpvm);
 		}
 
 		public IActionResult About()
@@ -90,8 +93,8 @@ namespace DasBlog.Web.Controllers
 				var feature = HttpContext.Features.Get<IExceptionHandlerPathFeature>();
 				if (feature != null)
 				{
-					string path = feature.Path;
-					Exception ex = feature.Error;
+					var path = feature.Path;
+					var ex = feature.Error;
 				}
 				return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
 
@@ -99,8 +102,7 @@ namespace DasBlog.Web.Controllers
 			catch (Exception ex)
 			{
 				logger.LogError(ex, ex.Message, null);
-				return Content(
-					"DasBlog - an error occurred (and reporting gailed) - Click the browser 'Back' button to try using the application");
+				return Content("DasBlog - an error occurred (and reporting gailed) - Click the browser 'Back' button to try using the application");
 			}
 		}
 	}

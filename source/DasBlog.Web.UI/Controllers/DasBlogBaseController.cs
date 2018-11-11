@@ -9,10 +9,36 @@ namespace DasBlog.Web.Settings
 	public abstract class DasBlogBaseController : DasBlogController
 	{
 		private readonly IDasBlogSettings dasBlogSettings;
+		protected const string BLOG_PAGE = "_BlogPage";
+		protected const string BLOG_PAGESUMMARY = "_BlogPageSummary";
 
 		protected DasBlogBaseController(IDasBlogSettings settings)
 		{
 			dasBlogSettings = settings;
+		}
+
+		protected ViewResult SinglePostView(ListPostsViewModel listPostsViewModel)
+		{
+			SinglePost(listPostsViewModel?.Posts?.First());
+
+			return View(BLOG_PAGE, listPostsViewModel);
+		}
+
+		protected ViewResult AggregatePostView(ListPostsViewModel listPostsViewModel)
+		{
+			DefaultPage();
+
+			if (dasBlogSettings.SiteConfiguration.ShowItemDescriptionInAggregatedViews)
+			{
+				listPostsViewModel = EditContentDescription(listPostsViewModel);
+			}
+
+			if (dasBlogSettings.SiteConfiguration.ShowItemSummaryInAggregatedViews)
+			{
+				return View(BLOG_PAGESUMMARY, listPostsViewModel);
+			}
+
+			return View(BLOG_PAGE, listPostsViewModel);
 		}
 
 		protected void SinglePost(PostViewModel post)
@@ -49,6 +75,22 @@ namespace DasBlog.Web.Settings
 				ViewData["Canonical"] = dasBlogSettings.SiteConfiguration.Root;
 				ViewData["Author"] = dasBlogSettings.SiteConfiguration.Copyright;
 			}
+		}
+
+		private ListPostsViewModel EditContentDescription(ListPostsViewModel listPostsViewModel)
+		{
+			if (dasBlogSettings.SiteConfiguration.ShowItemDescriptionInAggregatedViews)
+			{
+				if (listPostsViewModel != null && listPostsViewModel.Posts != null)
+				{
+					foreach (var post in listPostsViewModel.Posts)
+					{
+						post.Content = post.Description;
+					}
+				}
+			}
+
+			return listPostsViewModel;
 		}
 	}
 }

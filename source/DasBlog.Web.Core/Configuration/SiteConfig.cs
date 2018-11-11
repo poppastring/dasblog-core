@@ -151,5 +151,6 @@ namespace DasBlog.Core.Configuration
         public string CheesySpamA { get; set; }
         public XmlElement[] anyElements { get; set; }
         public XmlAttribute[] anyAttributes { get; set; }
-    }
+		public bool ShowItemSummaryInAggregatedViews { get; set; }
+	}
 }

@@ -1,23 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Net;
-using AutoMapper;
+﻿using AutoMapper;
 using DasBlog.Core;
 using DasBlog.Managers.Interfaces;
 using DasBlog.Core.Common;
 using DasBlog.Web.Models.BlogViewModels;
-using DasBlog.Web.Services;
 using DasBlog.Web.Services.Interfaces;
 using DasBlog.Web.Settings;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using newtelligence.DasBlog.Runtime;
 using static DasBlog.Core.Common.Utils;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Net;
 
 namespace DasBlog.Web.Controllers
 {
@@ -76,8 +75,7 @@ namespace DasBlog.Web.Controllers
 					}
 
 					lpvm.Posts = new List<PostViewModel>() { pvm };
-					SinglePost(lpvm.Posts.First());
-					return View("Page", lpvm);
+					return SinglePostView(lpvm);
 				}
 				else
 				{
@@ -100,9 +98,7 @@ namespace DasBlog.Web.Controllers
 			{
 				lpvm.Posts = new List<PostViewModel>() { mapper.Map<PostViewModel>(entry) };
 
-				SinglePost(lpvm.Posts.First());
-
-				return View("Page", lpvm);
+				return SinglePostView(lpvm);
 			}
 			else
 			{
@@ -163,19 +159,19 @@ namespace DasBlog.Web.Controllers
 
 			if (!string.IsNullOrWhiteSpace(post.NewCategory))
 			{
-				ModelState.AddModelError(nameof(post.NewCategory)
-				  , $"Please click 'Add' to add the category, \"{post.NewCategory}\" or clear the text before continuing");
+				ModelState.AddModelError(nameof(post.NewCategory), 
+					$"Please click 'Add' to add the category, \"{post.NewCategory}\" or clear the text before continuing");
 				return View(post);
 			}
 			try
 			{
-				Entry entry = mapper.Map<Entry>(post);
+				var entry = mapper.Map<Entry>(post);
 				entry.Author = httpContextAccessor.HttpContext.User.Identity.Name;
 				entry.Language = "en-us"; //TODO: We inject this fron http context?
 				entry.Latitude = null;
 				entry.Longitude = null;
 				
-				EntrySaveState sts = blogManager.UpdateEntry(entry);
+				var sts = blogManager.UpdateEntry(entry);
 				if (sts != EntrySaveState.Updated)
 				{
 					ModelState.AddModelError("", "Failed to edit blog post. Please check Logs for more details.");
@@ -220,14 +216,14 @@ namespace DasBlog.Web.Controllers
 			}
 			if (!string.IsNullOrWhiteSpace(post.NewCategory))
 			{
-				ModelState.AddModelError(nameof(post.NewCategory)
-					, $"Please click 'Add' to add the category, \"{post.NewCategory}\" or clear the text before continuing");
+				ModelState.AddModelError(nameof(post.NewCategory), 
+					$"Please click 'Add' to add the category, \"{post.NewCategory}\" or clear the text before continuing");
 				return View(post);
 			}
 
 			try
 			{
-				Entry entry = mapper.Map<Entry>(post);
+				var entry = mapper.Map<Entry>(post);
 
 				entry.Initialize();
 				entry.Author = httpContextAccessor.HttpContext.User.Identity.Name;
@@ -235,7 +231,7 @@ namespace DasBlog.Web.Controllers
 				entry.Latitude = null;
 				entry.Longitude = null;
 
-				EntrySaveState sts = blogManager.CreateEntry(entry);
+				var sts = blogManager.CreateEntry(entry);
 				if (sts != EntrySaveState.Added)
 				{
 					ModelState.AddModelError("", "Failed to create blog post. Please check Logs for more details.");
@@ -297,9 +293,7 @@ namespace DasBlog.Web.Controllers
 				}
 			}
 
-			SinglePost(lpvm?.Posts?.First());
-
-			return View("page", lpvm);
+			return SinglePostView(lpvm);
 		}
 
 		[AllowAnonymous]
@@ -405,10 +399,11 @@ namespace DasBlog.Web.Controllers
 
 			DefaultPage();
 
-			return View("Page", lpvm);
+			return View(BLOG_PAGE, lpvm);
 		}
+
 		[AllowAnonymous]
-		[HttpPost("/blogpost/search", Name=Constants.SearcherRouteName)]
+		[HttpPost("/post/search", Name=Constants.SearcherRouteName)]
 		public IActionResult Search(string searchText)
 		{
 			var lpvm = new ListPostsViewModel();
@@ -418,11 +413,12 @@ namespace DasBlog.Web.Controllers
 			{
 				lpvm.Posts = entries.Select(entry => mapper.Map<PostViewModel>(entry)).ToList();
 
-				return View("Page", lpvm);
+				return View(BLOG_PAGE, lpvm);
 			}
 
 			return RedirectToAction("index", "home");
 		}
+
 		private IActionResult HandleNewCategory(PostViewModel post)
 		{
 			ModelState.ClearValidationState("");
@@ -458,7 +454,7 @@ namespace DasBlog.Web.Controllers
 		private IActionResult HandleImageUpload(PostViewModel post)
 		{
 			ModelState.ClearValidationState("");
-			String fileName = post.Image?.FileName;
+			var fileName = post.Image?.FileName;
 			if (string.IsNullOrEmpty(fileName))
 			{
 				ModelState.AddModelError(nameof(post.Image)
@@ -471,7 +467,7 @@ namespace DasBlog.Web.Controllers
 			{
 				using (var s = post.Image.OpenReadStream())
 				{
-					relativePath = binaryManager.SaveFile(s, fileName);
+					relativePath = binaryManager.SaveFile(s, Path.GetFileName(fileName));
 				}
 			}
 			catch (Exception e)
