@@ -19,16 +19,10 @@
     </div>
     <div class="row post-footer">
         <div class="col-md-12 mb-6">
-            <categories-list categories=@Model.Categories> </categories-list>
+            Categories: <categories-list categories=@Model.Categories> </categories-list>
         </div>
         <div class="col-md-12 mb-6">
-            @Model.CreatedDateTime.ToString("MMMM dd, yyyy")
-        </div>
-        <div class="col-md-12 mb-6">
-            <post-to-twitter post="@Model">Share on Twitter</post-to-twitter>
-        </div>
-        <div class="col-md-12 mb-6">
-            <post-to-facebook post="@Model">Share on Facebook</post-to-facebook>
+            Share on <post-to-twitter post="@Model">Twitter</post-to-twitter> or <post-to-facebook post="@Model">Facebook</post-to-facebook>
         </div>
         <div dasblog-authorized class="col-md-12 mb-6">
             <edit-post blog-post-id="@Model.EntryId"></edit-post>

@@ -7,8 +7,8 @@
 <div class="post">
     <div class="row post-title">
         <div class="col-md-12 mb-6">
-            <h1><title-link post=@Model>somecss</title-link></h1>
-            @Model.CreatedDateTime.ToString("MMMM dd, yyyy H:mm")
+            <h2><title-link post=@Model></title-link></h2>
+            <small class="text-muted">@Model.CreatedDateTime.ToString("MMMM dd, yyyy H:mm")</small>
         </div>
     </div>
 
@@ -19,16 +19,10 @@
     </div>
     <div class="row post-footer">
         <div class="col-md-12 mb-6">
-            Categories: <categories-list categories=@Model.Categories>,</categories-list>
+            Categories: <categories-list categories=@Model.Categories> </categories-list>
         </div>
         <div class="col-md-12 mb-6">
-            @Model.CreatedDateTime.ToString("MMMM dd, yyyy")
-        </div>
-        <div class="col-md-12 mb-6">
-            <post-to-twitter post="@Model">Share on Twitter</post-to-twitter>
-        </div>
-        <div class="col-md-12 mb-6">
-            <post-to-facebook post="@Model">Share on Facebook</post-to-facebook>
+            Share on <post-to-twitter post="@Model">Twitter</post-to-twitter> or <post-to-facebook post="@Model">Facebook</post-to-facebook>
         </div>
         <div dasblog-authorized class="col-md-12 mb-6">
             <edit-post blog-post-id="@Model.EntryId"></edit-post>
