@@ -5,7 +5,7 @@
         <div class="card-body d-flex flex-column align-items-start">
             <small class="text-muted"><categories-list categories=@Model.Categories></categories-list></small>
             <h3 class="mb-0">
-                <a class="text-dark" href="@Model.PermaLink">@Model.Title</a>
+                <title-link post=@Model css="text-dark"></title-link>
             </h3>
             <small class="mb-1 text-muted">@Model.CreatedDateTime.ToString("MMMM dd, yyyy")</small>
             <p class="card-text mb-auto">@Html.Raw(@Model.Description)</p>
