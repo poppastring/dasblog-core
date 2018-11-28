@@ -70,7 +70,7 @@ namespace DasBlog.Managers
                     }
 
                     //then add permalinks
-                    url permaPage = new url(dasBlogSettings.GetPermaLinkUrl(e.EntryId), e.CreatedLocalTime, freq, 0.9M);
+                    url permaPage = new url(dasBlogSettings.RelativeToRoot(dasBlogSettings.GetPermaTitle(e.CompressedTitle)), e.CreatedLocalTime, freq, 0.9M);
                     root.url.Add(permaPage);
                 }
             }
