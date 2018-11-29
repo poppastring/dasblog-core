@@ -102,15 +102,5 @@ namespace DasBlog.Web.Controllers
 
 			return Content(blogger);
 		}
-
-		public IActionResult Atom()
-        {
-            return NoContent();
-        }
-
-        public IActionResult Atom(string category)
-        {
-            return NoContent();
-        }
     }
 }
