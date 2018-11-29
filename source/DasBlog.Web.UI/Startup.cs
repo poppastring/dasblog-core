@@ -197,6 +197,11 @@ namespace DasBlog.Web
 				RequestPath = "/theme"
 			});
 
+			var options = new RewriteOptions()
+				 .AddIISUrlRewrite(env.ContentRootFileProvider, @"Config/IISUrlRewrite.xml");
+
+			app.UseRewriter(options);
+
 			app.UseAuthentication();
 			app.Use(PopulateThreadCurrentPrincipalForMvc);
 			app.UseMvc(routes =>
@@ -231,11 +236,6 @@ namespace DasBlog.Web
 					name: "default",
 					template: "{controller=Home}/{action=Index}/{id?}");
 			});
-
-			RewriteOptions options = new RewriteOptions()
-				 .AddIISUrlRewrite(env.ContentRootFileProvider, @"Config/IISUrlRewrite.xml");
-
-			app.UseRewriter(options);
 		}
 		/// <summary>
 		/// BlogDataService and DayEntry rely on the thread's CurrentPrincipal and its role to determine if users
