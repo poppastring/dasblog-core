@@ -1,0 +1,18 @@
+﻿@model PostViewModel
+
+<div class="jumbotron">
+    <h3 class="mb-0">
+        <title-link post=@Model css="text-dark"></title-link>
+    </h3>
+    <p>
+        <small class="mb-1 text-muted">@Model.CreatedDateTime.ToString("MMMM dd, yyyy")</small>
+    </p>
+    <div>
+            @Html.Raw(@Model.Description)
+    </div>
+
+    <p class="lead"><a class="btn btn-primary btn-lg mt-2" href="@Model.PermaLink" role="button">Continue Reading</a></p>
+</div>
+
+
+
