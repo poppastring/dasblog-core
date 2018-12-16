@@ -300,15 +300,17 @@ namespace DasBlog.Managers
 			{
 				throw new ServiceDisabledException();
 			}
-			var arrayList = new List<string>();
-			arrayList.Add("mt.getCategoryList");
-			arrayList.Add("mt.getPostCategories");
-			arrayList.Add("mt.getRecentPostTitles");
-			arrayList.Add("mt.getTrackbackPings");
-			arrayList.Add("mt.publishPost");
-			arrayList.Add("mt.setPostCategories");
-			arrayList.Add("mt.supportedMethods");
-			arrayList.Add("mt.supportedTextFilters");
+			var arrayList = new List<string>
+			{
+				"mt.getCategoryList",
+				"mt.getPostCategories",
+				"mt.getRecentPostTitles",
+				"mt.getTrackbackPings",
+				"mt.publishPost",
+				"mt.setPostCategories",
+				"mt.supportedMethods",
+				"mt.supportedTextFilters"
+			};
 
 			return arrayList.ToArray();
 		}
@@ -353,9 +355,11 @@ namespace DasBlog.Managers
 
 		private MoveableType.Category InternalGetFrontPageCategory()
 		{
-			var mcat = new MoveableType.Category();
-			mcat.categoryId = "Front Page";
-			mcat.categoryName = "Front Page";
+			var mcat = new MoveableType.Category
+			{
+				categoryId = "Front Page",
+				categoryName = "Front Page"
+			};
 			//mcat.isPrimary = true;
 			return mcat;
 		}
@@ -546,10 +550,12 @@ namespace DasBlog.Managers
 			}
 
 			var blogs = new Blogger.BlogInfo[1];
-			var blog = new Blogger.BlogInfo();
-			blog.blogid = "0";
-			blog.blogName = NoNull(dasBlogSettings.SiteConfiguration.Title);
-			blog.url = NoNull(dasBlogSettings.SiteConfiguration.Root);
+			var blog = new Blogger.BlogInfo
+			{
+				blogid = "0",
+				blogName = NoNull(dasBlogSettings.SiteConfiguration.Title),
+				url = NoNull(dasBlogSettings.SiteConfiguration.Root)
+			};
 			blogs[0] = blog;
 			return blogs;
 		}

@@ -32,36 +32,34 @@ namespace DasBlog.Web.Controllers
         [HttpGet("feed/rss")]
         public IActionResult Rss()
         {
-            RssRoot rss = null; 
 
-            if (!memoryCache.TryGetValue(RSS_CACHE_KEY, out rss))
-            {
-                rss = subscriptionManager.GetRss();
+			if (!memoryCache.TryGetValue(RSS_CACHE_KEY, out RssRoot rss))
+			{
+				rss = subscriptionManager.GetRss();
 
-                var cacheEntryOptions = new MemoryCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromMinutes(5));
+				var cacheEntryOptions = new MemoryCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromMinutes(5));
 
-                memoryCache.Set(RSS_CACHE_KEY, rss, cacheEntryOptions);
-            }
+				memoryCache.Set(RSS_CACHE_KEY, rss, cacheEntryOptions);
+			}
 
-            return Ok(rss);
+			return Ok(rss);
         }
 
 		[Produces("text/xml")]
 		[HttpGet("feed/rss/{category}")]
         public IActionResult RssByCategory(string category)
         {
-            RssRoot rss = null;
 
-            if (!memoryCache.TryGetValue(RSS_CACHE_KEY + "_" + category, out rss))
-            {
-                rss = subscriptionManager.GetRssCategory(category);
+			if (!memoryCache.TryGetValue(RSS_CACHE_KEY + "_" + category, out RssRoot rss))
+			{
+				rss = subscriptionManager.GetRssCategory(category);
 
-                var cacheEntryOptions = new MemoryCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromMinutes(5));
+				var cacheEntryOptions = new MemoryCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromMinutes(5));
 
-                memoryCache.Set(RSS_CACHE_KEY + "_" + category, rss, cacheEntryOptions);
-            }
+				memoryCache.Set(RSS_CACHE_KEY + "_" + category, rss, cacheEntryOptions);
+			}
 
-            return Ok(rss);
+			return Ok(rss);
         }
 
 		[Produces("text/xml")]
@@ -92,7 +90,7 @@ namespace DasBlog.Web.Controllers
 		[HttpPost("feed/blogger")]
 		public IActionResult BloggerPost()
 		{
-			string blogger = string.Empty;
+			var blogger = string.Empty;
 
 			using (var mem = new MemoryStream())
 			{
