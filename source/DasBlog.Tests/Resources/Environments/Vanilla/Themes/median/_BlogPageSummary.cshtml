@@ -1,0 +1,14 @@
+@using DasBlog.Core;
+@using DasBlog.Web.Models.BlogViewModels;
+@using Constants = DasBlog.Core.Common.Constants;
+
+@model ListPostsViewModel
+
+@inject IDasBlogSettings dasBlogSettings
+
+@{
+    ViewBag.Title = Constants.HomePageTitle;
+}
+
+@await Html.PartialAsync("_BlogItemsSummary", Model)
+
