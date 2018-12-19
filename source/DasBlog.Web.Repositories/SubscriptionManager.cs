@@ -28,7 +28,7 @@ namespace DasBlog.Managers
 
         public RssRoot GetRss()
         {
-            return GetRssCore(null,  this.dasBlogSettings.SiteConfiguration.RssDayCount, this.dasBlogSettings.SiteConfiguration.RssMainEntryCount);
+            return GetRssCore(null,  dasBlogSettings.SiteConfiguration.RssDayCount, dasBlogSettings.SiteConfiguration.RssMainEntryCount);
         }
 
         public RssRoot GetRssCategory(string categoryName)
@@ -55,11 +55,7 @@ namespace DasBlog.Managers
                 entries = BuildEntries(category, maxDayCount, maxEntryCount);
             }
 
-            // TODO: Detecting modified data?
-            //DateTime lastModified = this.GetLatestModifedEntryDateTime(entries);
 
-            //if (SiteUtilities.GetStatusNotModified(lastModified))
-            //    return null;
 
             RssRoot documentRoot = new RssRoot(); ;
 
@@ -342,30 +338,30 @@ namespace DasBlog.Managers
 
         public RsdRoot GetRsd()
         {
-            RsdApiCollection apiCollection = new RsdApiCollection();
+            var apiCollection = new RsdApiCollection();
 
             // UriBuilder home = new UriBuilder(dasBlogSettings.RelativeToRoot("feed/blogger"));
-            string blogapiurl = dasBlogSettings.RelativeToRoot("feed/blogger");
+            var blogapiurl = dasBlogSettings.RelativeToRoot("feed/blogger");
 
-            RsdRoot rsd = new RsdRoot();
-            RsdService dasBlogService = new RsdService();
+            var rsd = new RsdRoot();
+            var dasBlogService = new RsdService();
             dasBlogService.HomePageLink = dasBlogSettings.GetBaseUrl();
 
-            RsdApi metaWeblog = new RsdApi();
+            var metaWeblog = new RsdApi();
             metaWeblog.Name = "MetaWeblog";
             metaWeblog.Preferred = (dasBlogSettings.SiteConfiguration.PreferredBloggingAPI == metaWeblog.Name);
             metaWeblog.ApiLink = blogapiurl;
             metaWeblog.BlogID = dasBlogService.HomePageLink;
             apiCollection.Add(metaWeblog);
 
-            RsdApi blogger = new RsdApi();
+            var blogger = new RsdApi();
             blogger.Name = "Blogger";
             blogger.Preferred = (dasBlogSettings.SiteConfiguration.PreferredBloggingAPI == blogger.Name);
             blogger.ApiLink = blogapiurl;
             blogger.BlogID = dasBlogService.HomePageLink;
             apiCollection.Add(blogger);
 
-            RsdApi moveableType = new RsdApi();
+            var moveableType = new RsdApi();
             moveableType.Name = "Moveable Type";
             moveableType.Preferred = (dasBlogSettings.SiteConfiguration.PreferredBloggingAPI == moveableType.Name);
             moveableType.ApiLink = blogapiurl;

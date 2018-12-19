@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using newtelligence.DasBlog.Runtime;
 
 #region Copyright (c) 2003, newtelligence AG. All rights reserved.
@@ -105,8 +105,8 @@ namespace newtelligence.DasBlog.Web.Services.Rsd
 
 		public RsdService()
 		{
-			engineName = "newtelligence dasBlog "+GetType().Assembly.GetName().Version;
-			engineLink = "http://dasblog.info/";
+			engineName = "dasBlog Core " + GetType().Assembly.GetName().Version;
+			engineLink = "https://github.com/poppastring/dasblog-core";
 		}
     }
 
