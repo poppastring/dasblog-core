@@ -215,7 +215,7 @@ namespace DasBlog.Managers
 			var arrayList = new List<MoveableType.PostTitle>();
 			foreach (Entry entry in entries)
 			{
-				MoveableType.PostTitle post = new MoveableType.PostTitle();
+				var post = new MoveableType.PostTitle();
 				post.title = NoNull(entry.Title);
 				post.dateCreated = entry.CreatedUtc;
 				post.postid = NoNull(entry.EntryId);
@@ -437,7 +437,9 @@ namespace DasBlog.Managers
 				bcat.title = NoNull(bcat.description);
 				arrayList.Add(bcat);
 			}
-			else foreach (CategoryCacheEntry cat in categories)
+			else
+			{
+				foreach (CategoryCacheEntry cat in categories)
 				{
 					var bcat = new Blogger.Category();
 					bcat.categoryid = NoNull(cat.Name);
@@ -447,6 +449,7 @@ namespace DasBlog.Managers
 					bcat.title = NoNull(cat.Name);
 					arrayList.Add(bcat);
 				}
+			}
 			return arrayList.ToArray();
 		}
 
@@ -465,7 +468,7 @@ namespace DasBlog.Managers
 			var entry = dataService.GetEntry(postid);
 			if (entry != null)
 			{
-				Blogger.Post post = new Blogger.Post();
+				var post = new Blogger.Post();
 				FillBloggerPostFromEntry(entry, ref post);
 				return post;
 			}
@@ -676,7 +679,7 @@ namespace DasBlog.Managers
 			var categories = dataService.GetCategories();
 			if (categories.Count == 0)
 			{
-				MetaWeblog.CategoryInfo bcat = new MetaWeblog.CategoryInfo();
+				var bcat = new MetaWeblog.CategoryInfo();
 				bcat.categoryid = "Front Page";
 				bcat.description = "Front Page";
 				bcat.htmlUrl = dasBlogSettings.GetCategoryViewUrl(bcat.categoryid);
@@ -886,7 +889,7 @@ namespace DasBlog.Managers
 		{
 			if (entry == null) throw new ArgumentNullException("entry");
 
-			MetaWeblog.Post post = new MetaWeblog.Post();
+			var post = new MetaWeblog.Post();
 			post.description = entry.Content ?? "";
 			post.mt_excerpt = entry.Description ?? "";
 			post.dateCreated = entry.CreatedUtc;
