@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using newtelligence.DasBlog.Runtime;
-using static DasBlog.Core.Common.Utils;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -432,7 +431,7 @@ namespace DasBlog.Web.Controllers
 
 			var newCategory = post.NewCategory?.Trim();
 			var newCategoryDisplayName = newCategory;
-			var newCategoryUrl = EncodeCategoryUrl(newCategory, string.Empty );
+			var newCategoryUrl = Entry.InternalCompressTitle(newCategory);
 					// Category names should not include special characters #200
 			if (post.AllCategories.Any(c => c.CategoryUrl == newCategoryUrl))
 			{

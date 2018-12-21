@@ -396,6 +396,11 @@ namespace newtelligence.DasBlog.Runtime
 			return HttpUtility.UrlEncode(retVal.ToString()).Replace("%2b", "+");
 		}
 
+		public static string InternalCompressTitle(string titleParam, string replacement)
+		{
+			return InternalCompressTitle(titleParam).Replace("+", replacement);
+		}
+
 		public string[] GetSplitCategories()
 		{
 			if (Categories == null || Categories.Length == 0)

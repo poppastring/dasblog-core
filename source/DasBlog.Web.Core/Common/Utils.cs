@@ -1,21 +1,32 @@
 ﻿using System;
 using System.Linq.Expressions;
+using System.Security.Cryptography;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace DasBlog.Core.Common
 {
 	public static class Utils
 	{
-		/// DUPLICATE of newtelligence.DasBlog.Util.HtmlHelper.EncodeCategoryUrl
-		/// <summary>
-		/// converts a category display text to a safe url using separator (typically '-') to replace
-		/// dangwerous characters
-		/// </summary>
-		/// <param name="displayText">e.g Pots&amp;Pans</param>
-		/// <param name="separator">typically config TitlePermalinkSpaceReplacement - '-'</param>
-		/// <returns>pots-pans</returns>
-		public static string EncodeCategoryUrl(string displayText, string separator)
-			=> Regex.Replace(displayText.ToLower(), @"[^A-Za-z0-9_~]+", separator);
+		public static string GetGravatarHash(string email)
+		{
+			string hash = string.Empty;
+			byte[] data, enc;
+
+			data = Encoding.Default.GetBytes(email.ToLowerInvariant());
+
+			using (MD5 md5 = new MD5CryptoServiceProvider())
+			{
+				enc = md5.TransformFinalBlock(data, 0, data.Length);
+				foreach (byte b in md5.Hash)
+				{
+					hash += Convert.ToString(b, 16).ToLower().PadLeft(2, '0');
+				}
+				md5.Clear();
+			}
+
+			return hash;
+		}
 	}
 
 	public static class Veriifier
