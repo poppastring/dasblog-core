@@ -7,7 +7,7 @@ namespace DasBlog.Managers
 	public class CategoryManager : ICategoryManager
     {
         private IBlogDataService dataService;
-        private ILoggingDataService loggingDataService;
+        private readonly ILoggingDataService loggingDataService;
         private readonly IDasBlogSettings dasBlogSettings;
 
         public CategoryManager(IDasBlogSettings settings)
@@ -24,6 +24,7 @@ namespace DasBlog.Managers
 
         public EntryCollection GetEntries(string category, string acceptLanguages)
         {
+			category = category.Replace(dasBlogSettings.SiteConfiguration.TitlePermalinkSpaceReplacement, " ");
             return dataService.GetEntriesForCategory(category, acceptLanguages);
         }
     }
