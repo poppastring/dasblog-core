@@ -63,12 +63,11 @@ namespace DasBlog.Managers
 			}
 		}
 		private readonly IBlogDataService dataService;
-//		private readonly IDasBlogSettings dasBlogSettings;
 		private readonly ILogger logger;
 		private static Regex stripTags = new Regex("<[^>]*>", RegexOptions.Compiled | RegexOptions.CultureInvariant);
 		private Options opts;
 
-		public BlogManager(/*IDasBlogSettings settings ,*/ ILogger<BlogManager> logger
+		public BlogManager( ILogger<BlogManager> logger
 		  ,IOptions<BlogManagerOptions> settingsOptionsAccessor
 		  ,IOptionsMonitor<BlogManagerModifiableOptions> monitoredOptionsAccessor
 		  ,IOptions<BlogManagerExtraOptions> extraOptionsAccessor
@@ -76,7 +75,6 @@ namespace DasBlog.Managers
 		{
 			opts = new Options(settingsOptionsAccessor, monitoredOptionsAccessor, extraOptionsAccessor);
 			this.logger = logger;
-//			dasBlogSettings = settings;
 			var loggingDataService = LoggingDataServiceFactory.GetService(opts.WebRootDirectory 
 			  + opts.LogDir);
 			dataService = BlogDataServiceFactory.GetService(opts.WebRootDirectory 
@@ -519,40 +517,6 @@ namespace DasBlog.Managers
 		{
 			return dataService.GetCategories();
 		}
-
-		private static bool AreStringsEqual<T>(T _this, T other)
-		{
-			return _this.ToString() == other.ToString();
-		}
-		private bool ArePingServiceCollectionsEqual(PingServiceCollection aze, PingServiceCollection beeze)
-		{
-			if (aze == null || beeze == null || aze.Count != beeze.Count)
-			{
-				return false;
-			}
-
-			for (int ii = 0; ii < aze.Count; ii++)
-			{
-				(var a, var b) = (aze[ii], beeze[ii]);
-				if (
-					a.Endpoint != b.Endpoint
-					|| a.Name != b.Name
-					|| a.Url != b.Url
-					|| a.PingApi != b.PingApi
-				)
-				{
-					return false;
-				}
-			}
-			return true;
-		}
-	}
-
-	internal class DifferenceFoundException : Exception
-	{
-		public DifferenceFoundException(string s) : base(s)
-		{
-		}
 	}
 
 	internal static class SettingsUtils
@@ -602,17 +566,6 @@ namespace DasBlog.Managers
 			return RelativeToRoot("feed/rsd", root);
 		}
 
-/*
-		/// <summary>
-		/// parent directory for Config, content and logs
-		/// </summary>
-		/// <param name="env">this is a nuissance</param>
-		/// <returns>e.g. C:\alt\projects\dasblog-core\source/DasBlog.Web.UI</returns>
-		public static string GetWebHostingDirectory(IHostingEnvironment env)
-		{
-			return Startup.GetDataRoot(env);
-		}
-*/
 	}
 }
 
