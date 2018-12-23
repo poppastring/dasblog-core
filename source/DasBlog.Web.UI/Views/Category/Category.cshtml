@@ -15,7 +15,6 @@
         <p>
             @foreach (var item in Model.Categories)
             {
-                
                 <span>
                     <a href="@dasBlogSettings.RelativeToRoot("category#" + UrlEncoder.Default.Encode(item.Key))">@item.Key (@item.Value.Count())</a>&nbsp; &#9679;
                 </span>
