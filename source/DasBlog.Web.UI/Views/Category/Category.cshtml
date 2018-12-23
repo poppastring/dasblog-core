@@ -1,5 +1,6 @@
 ﻿@using DasBlog.Core;
-@using DasBlog.Core.Common
+@using DasBlog.Core.Common;
+@using System.Text.Encodings.Web;
 @inject IDasBlogSettings dasBlogSettings
 @model DasBlog.Web.Models.BlogViewModels.CategoryListViewModel
 
@@ -14,7 +15,10 @@
         <p>
             @foreach (var item in Model.Categories)
             {
-                <span>@item.Key (@item.Value.Count())&nbsp;&#9679;</span>
+                
+                <span>
+                    <a href="@dasBlogSettings.RelativeToRoot("category#" + UrlEncoder.Default.Encode(item.Key))">@item.Key (@item.Value.Count())</a>&nbsp; &#9679;
+                </span>
             }
         </p>
     </div>
@@ -22,11 +26,11 @@
     <div>
         @foreach (var category in Model.Categories)
         {
-            <h4>@category.Key (@category.Value.Count())</h4>
+            <a name="@UrlEncoder.Default.Encode(category.Key)"><h4>@category.Key (@category.Value.Count())</h4></a>
             @foreach (var post in category.Value)
             {
                 <div>
-                    <a href="@dasBlogSettings.RelativeToRoot(@dasBlogSettings.GetPermaTitle(post.BlogId))">@post.BlogTitle</a><br />                    
+                    <a href="@dasBlogSettings.RelativeToRoot(@dasBlogSettings.GetPermaTitle(post.BlogId))">@post.BlogTitle</a><br />
                 </div>
             }
         }
