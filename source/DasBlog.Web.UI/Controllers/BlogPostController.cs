@@ -47,23 +47,29 @@ namespace DasBlog.Web.Controllers
 		}
 
 		[AllowAnonymous]
-		public IActionResult Post(string posttitle, int day)
+		public IActionResult Post(string posttitle, string day, string month, string year)
 		{
-			ListPostsViewModel lpvm = new ListPostsViewModel();
-			RouteAffectedFunctions routeAffectedFunctions = new RouteAffectedFunctions(
-			  dasBlogSettings.SiteConfiguration.EnableTitlePermaLinkUnique);
+			var lpvm = new ListPostsViewModel();
+			DateTime postDtTime = DateTime.MinValue;
+			int dayYear = 0;
 
-			if (!routeAffectedFunctions.IsValidDay(day))
+			if (dasBlogSettings.SiteConfiguration.EnableTitlePermaLinkUnique)
+			{
+				dayYear = Convert.ToInt32(string.Format("{0}{1}{2}", year, month, day));
+			}
+
+			var routeAffectedFunctions = new RouteAffectedFunctions(dasBlogSettings.SiteConfiguration.EnableTitlePermaLinkUnique);
+
+			if (!routeAffectedFunctions.IsValidDay(dayYear))
 			{
 				return NotFound();
 			}
 
-			DateTime? dt = routeAffectedFunctions.ConvertDayToDate(day);
+			var dt = routeAffectedFunctions.ConvertDayToDate(dayYear);
 			
-			if (routeAffectedFunctions.IsSpecificPostRequested(posttitle, day))
+			if (routeAffectedFunctions.IsSpecificPostRequested(posttitle, dayYear))
 			{
-				var entry = blogManager.GetBlogPost(posttitle.Replace(
-											dasBlogSettings.SiteConfiguration.TitlePermalinkSpaceReplacement, string.Empty), dt);
+				var entry = blogManager.GetBlogPost(posttitle.Replace(dasBlogSettings.SiteConfiguration.TitlePermalinkSpaceReplacement, string.Empty), dt);
 				if (entry != null)
 				{
 					var pvm = mapper.Map<PostViewModel>(entry);
@@ -92,7 +98,7 @@ namespace DasBlog.Web.Controllers
 		public IActionResult PostGuid(Guid postid)
 		{
 			var lpvm = new ListPostsViewModel();
-			var entry = blogManager.GetBlogPost(postid.ToString(), null);
+			var entry = blogManager.GetBlogPost(postid);
 			if (entry != null)
 			{
 				lpvm.Posts = new List<PostViewModel>() { mapper.Map<PostViewModel>(entry) };
@@ -269,7 +275,7 @@ namespace DasBlog.Web.Controllers
 		{
 			ListPostsViewModel lpvm = null;
 
-			var entry = blogManager.GetBlogPost(postid.ToString(), null);
+			var entry = blogManager.GetBlogPost(postid);
 
 			if (entry != null)
 			{
@@ -497,7 +503,7 @@ namespace DasBlog.Web.Controllers
 
 			if (entry != null && string.Compare(entry.EntryId, post.EntryId, true) > 0 )
 			{
-				ModelState.AddModelError(string.Empty, "A post with this title already exists.  Titles must be unique");
+				ModelState.AddModelError(string.Empty, "A post with this title already exists. Titles must be unique");
 			}
 		}
 
@@ -536,8 +542,7 @@ namespace DasBlog.Web.Controllers
 					IDictionary<RouteType, Func<int, bool>> isValidDay = new Dictionary<RouteType, Func<int, bool>>
 					{
 						{RouteType.PostTitleOnly, day => true},
-						{RouteType.IncludesDay, day => DateTime.TryParseExact(day.ToString(), DATE_FORMAT
-							, null, DateTimeStyles.AdjustToUniversal, out _)}
+						{RouteType.IncludesDay, day => DateTime.TryParseExact(day.ToString(), DATE_FORMAT, null, DateTimeStyles.AdjustToUniversal, out _)}
 					};
 					return isValidDay[routeType];
 				}

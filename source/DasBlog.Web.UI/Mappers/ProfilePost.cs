@@ -87,8 +87,7 @@ namespace DasBlog.Web.Mappers
 
 			if (_dasBlogSettings.SiteConfiguration.EnableTitlePermaLinkUnique)
 			{
-				link = entry.CreatedUtc.ToString("yyyyMMdd") + "/" 
-				  + _dasBlogSettings.GetPermaTitle(entry.CompressedTitle);
+				link = _dasBlogSettings.GetPermaTitle(entry.CompressedTitleUnique);
 			}
 			else
 			{

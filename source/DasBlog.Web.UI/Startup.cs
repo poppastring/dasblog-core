@@ -210,12 +210,12 @@ namespace DasBlog.Web
 				{
 					routes.MapRoute(
 						"Original Post Format",
-						"{day:int}/{posttitle}.aspx",
+						"{year:int}/{month:int}/{day:int}/{posttitle}.aspx",
 						new { controller = "BlogPost", action = "Post", posttitle = "" });
 
 					routes.MapRoute(
 						"New Post Format",
-						"{day:int}/{posttitle}",
+						"{year:int}/{month:int}/{day:int}/{posttitle}",
 						new { controller = "BlogPost", action = "Post", postitle = ""  });
 
 				}
