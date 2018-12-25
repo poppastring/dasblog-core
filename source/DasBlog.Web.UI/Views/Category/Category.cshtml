@@ -1,6 +1,6 @@
 ﻿@using DasBlog.Core;
 @using DasBlog.Core.Common;
-@using System.Text.Encodings.Web;
+@using System.Net;
 @inject IDasBlogSettings dasBlogSettings
 @model DasBlog.Web.Models.BlogViewModels.CategoryListViewModel
 
@@ -16,7 +16,7 @@
             @foreach (var item in Model.Categories)
             {
                 <span>
-                    <a href="@dasBlogSettings.RelativeToRoot("category#" + UrlEncoder.Default.Encode(item.Key))">@item.Key (@item.Value.Count())</a>&nbsp; &#9679;
+                    <a href="@dasBlogSettings.RelativeToRoot("category#" + WebUtility.UrlEncode(item.Key))">@item.Key (@item.Value.Count())</a>&nbsp; &#9679;
                 </span>
             }
         </p>
@@ -25,7 +25,7 @@
     <div>
         @foreach (var category in Model.Categories)
         {
-            <a name="@UrlEncoder.Default.Encode(category.Key)"><h4>@category.Key (@category.Value.Count())</h4></a>
+            <a name="@WebUtility.UrlEncode(category.Key)"><h4>@category.Key (@category.Value.Count())</h4></a>
             @foreach (var post in category.Value)
             {
                 <div>
