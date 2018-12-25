@@ -82,6 +82,7 @@ namespace DasBlog.Managers
 			dataService = BlogDataServiceFactory.GetService(Pass(() => dasBlogSettings.WebRootDirectory, () => opts.WebRootDirectory) 
 			  + Pass(() => dasBlogSettings.SiteConfiguration.ContentDir,() => opts.ContentDir), loggingDataService);
 		}
+
 		/// <param name="dt">if non-null then the post must be dated on that date</param>
 		public Entry GetBlogPost(string postid, DateTime? dt)
 		{
@@ -97,6 +98,11 @@ namespace DasBlog.Managers
 				  .Replace(Pass(() => dasBlogSettings.SiteConfiguration.TitlePermalinkSpaceReplacement, () => opts.TitlePermalinkSpaceReplacement), string.Empty)
 				  == postid);
 			}
+		}
+
+		public Entry GetBlogPost(Guid postid)
+		{
+			return GetBlogPost(postid.ToString(), null);
 		}
 
 		public Entry GetEntryForEdit(string postid)

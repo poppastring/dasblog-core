@@ -7,6 +7,8 @@ namespace DasBlog.Managers.Interfaces
     {
         Entry GetBlogPost(string postid, DateTime? postDate);
 
+		Entry GetBlogPost(Guid postid);
+
 		Entry GetEntryForEdit(string postid);
 
 		EntryCollection GetFrontPagePosts(string acceptLanguageHeader);
