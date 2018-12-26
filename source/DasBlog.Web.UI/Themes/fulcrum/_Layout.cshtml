@@ -20,8 +20,10 @@
     <link rel="microsummary" type="application/x.microsummary+xml" href="@dasBlogSettings.MicroSummaryUrl" />
 
     <link rel="shortcut icon" href="@dasBlogSettings.ShortCutIconUrl" />
-    <link rel="stylesheet" href="@dasBlogSettings.ThemeCssUrl" />
-    <link rel="stylesheet" href="~/css/site.css" />
+
+    @await Html.PartialAsync("_TwitterCardPartial")
+    @await Html.PartialAsync("_OpenGraphPartial")
+    @await Html.PartialAsync("_BlogPostingSchemaOrgPartial")
 
     <environment names="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
@@ -29,6 +31,10 @@
     <environment names="Staging,Production">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     </environment>
+
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="@dasBlogSettings.ThemeCssUrl" />
+
 </head>
 
 <body>

@@ -1,8 +1,8 @@
-﻿@model TwitterCardViewModel
+﻿@inject IDasBlogSettings dasBlogSettings
 
-<meta name="twitter:card" content=">@Model.Card" />
-<meta name="twitter:site" content="@Model.Site" />
-<meta name="twitter:creator" content="@Model.Creator" />
-<meta name="twitter:title" content="@Model.Title" />
-<meta name="twitter:description" content="@Model.Description" />
-<meta name="twitter:image" content="@Model.Image" />
+<meta name="twitter:card" content=">@dasBlogSettings.MetaTags.TwitterCard" />
+<meta name="twitter:site" content="@dasBlogSettings.MetaTags.TwitterSite" />
+<meta name="twitter:creator" content="@dasBlogSettings.MetaTags.TwitterCreator" />
+<meta name="twitter:title" content="@ViewData["PageTitle"]" />
+<meta name="twitter:description" content="@ViewData["Description"]" />
+<meta name="twitter:image" content="@ViewData["PageImageUrl"]" />

@@ -1,7 +1,7 @@
-﻿@model OpenGraphViewModel
+﻿@inject IDasBlogSettings dasBlogSettings
 
-<meta name="og:url" content="@Model.Url" />
-<meta name="og:title" content="@Model.Title" />
-<meta name="og:image" content="@Model.Image" />
-<meta name="og:description" content="@Model.Description" />
+<meta name="og:url" content="@ViewData["Canonical"]" />
+<meta name="og:title" content="@ViewData["PageTitle"]" />
+<meta name="og:image" content="@ViewData["PageImageUrl"]" />
+<meta name="og:description" content="@ViewData["Description"]" />
 <meta name="og:type" content="blog" />
