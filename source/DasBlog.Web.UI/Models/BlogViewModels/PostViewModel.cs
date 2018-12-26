@@ -52,5 +52,7 @@ namespace DasBlog.Web.Models.BlogViewModels
 		public string Language { get; set; }
 
 		public IEnumerable<SelectListItem> Languages { get; set; }= new List<SelectListItem>();
+
+		public string ImageUrl { get; set; } = string.Empty;
 	}
 }

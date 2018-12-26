@@ -1,7 +1,9 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using DasBlog.Core;
 using DasBlog.Web.Controllers;
 using DasBlog.Web.Models.BlogViewModels;
+using DasBlog.Core.Extensions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DasBlog.Web.Settings
@@ -46,10 +48,11 @@ namespace DasBlog.Web.Settings
 			if (post != null)
 			{
 				ViewData["PageTitle"] = post.Title;
-				ViewData["Description"] = post.Title;
+				ViewData["Description"] = post.Description.StripHtml().CutLongString(60); 
 				ViewData["Keywords"] = string.Join(",", post.Categories.Select(x => x.Category).ToArray());
 				ViewData["Canonical"] = post.PermaLink;
 				ViewData["Author"] = post.Author;
+				ViewData["PageImageUrl"] = (post.ImageUrl.Length > 0) ? post.ImageUrl : dasBlogSettings.MetaTags.TwitterImage;
 			}
 			else
 			{
@@ -66,6 +69,7 @@ namespace DasBlog.Web.Settings
 				ViewData["Keywords"] = string.Empty;
 				ViewData["Canonical"] = string.Empty;
 				ViewData["Author"] = dasBlogSettings.SiteConfiguration.Copyright;
+				ViewData["PageImageUrl"] = dasBlogSettings.MetaTags.TwitterImage;
 			}
 			else
 			{
@@ -74,6 +78,7 @@ namespace DasBlog.Web.Settings
 				ViewData["Keywords"] = dasBlogSettings.MetaTags.MetaKeywords;
 				ViewData["Canonical"] = dasBlogSettings.SiteConfiguration.Root;
 				ViewData["Author"] = dasBlogSettings.SiteConfiguration.Copyright;
+				ViewData["PageImageUrl"] = dasBlogSettings.MetaTags.TwitterImage;
 			}
 		}
 
