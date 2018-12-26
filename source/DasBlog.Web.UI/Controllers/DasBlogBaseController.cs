@@ -48,11 +48,11 @@ namespace DasBlog.Web.Settings
 			if (post != null)
 			{
 				ViewData["PageTitle"] = post.Title;
-				ViewData["Description"] = post.Description.StripHtml().CutLongString(60); 
+				ViewData["Description"] = post.Description.StripHTMLFromText().CutLongString(80); 
 				ViewData["Keywords"] = string.Join(",", post.Categories.Select(x => x.Category).ToArray());
 				ViewData["Canonical"] = post.PermaLink;
 				ViewData["Author"] = post.Author;
-				ViewData["PageImageUrl"] = (post.ImageUrl.Length > 0) ? post.ImageUrl : dasBlogSettings.MetaTags.TwitterImage;
+				ViewData["PageImageUrl"] = (post.ImageUrl?.Length > 0) ? post.ImageUrl : dasBlogSettings.MetaTags.TwitterImage;
 			}
 			else
 			{

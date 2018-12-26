@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -20,6 +21,19 @@ namespace DasBlog.Core.Extensions
 			text = text.Replace("<", "");
 			text = text.Replace(">", "");
 			text = text.Replace("&quot;", "");
+			return text;
+		}
+
+		public static string StripHTMLFromText(this string text)
+		{
+			text = WebUtility.HtmlDecode(text);
+			text = text.RemoveLineBreaks();
+			text = text.StripHtml();
+			text = text.RemoveDoubleSpaceCharacters();
+			text = text.Trim();
+			text = text.CutLongString(160);
+			text = text.RemoveQuotationMarks();
+
 			return text;
 		}
 
@@ -56,6 +70,46 @@ namespace DasBlog.Core.Extensions
 			text = text.Replace((char)8222, singleQuotationMark); // „
 
 			return text;
+		}
+
+		public static string FindFirstImage(this string blogcontent)
+		{
+			var firstimage = string.Empty;
+
+			//Look for all the img src tags...
+			var urlRx = new Regex("<img.+?src=[\"'](.+?)[\"'].*?>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+
+			var matches = urlRx.Matches(blogcontent);
+
+			if (matches != null && matches.Count > 0)
+			{
+				if (matches[0].Groups != null && matches[0].Groups.Count > 0)
+				{
+					firstimage = matches[0].Groups[1].Value.Trim();
+				}
+			}
+
+			return firstimage.Trim();
+		}
+
+		public static string FindFirstYouTubeVideo(this string blogcontent)
+		{
+			var firstVideo = string.Empty;
+
+			//Look for all the img src tags...
+			var urlRx = new Regex("<iframe.+?src=[\"'](.+?)[\"'].*?>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+
+			var matches = urlRx.Matches(blogcontent);
+
+			if (matches != null && matches.Count > 0)
+			{
+				if (matches[0].Groups != null && matches[0].Groups.Count > 0)
+				{
+					firstVideo = matches[0].Groups[1].Value.Trim();
+				}
+			}
+
+			return firstVideo.Trim();
 		}
 	}
 }
