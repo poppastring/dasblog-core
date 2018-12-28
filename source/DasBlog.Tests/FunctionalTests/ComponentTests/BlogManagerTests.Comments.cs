@@ -43,7 +43,7 @@ namespace DasBlog.Tests.FunctionalTests.ComponentTests
 		}
 		[Fact]
 		[Trait(Constants.CategoryTraitType, Constants.ComponentTestTraitValue)]
-		public void AddComment_ForFirstComent_CreatesDayFeedbackFile()
+		public void AddComment_ForFirstComment_CreatesDayFeedbackFile()
 		{
 			using (var sandbox = platform.CreateSandbox(Constants.CommentsEnvironment))
 			{
@@ -58,7 +58,7 @@ namespace DasBlog.Tests.FunctionalTests.ComponentTests
 		}
 		[Fact]
 		[Trait(Constants.CategoryTraitType, Constants.ComponentTestTraitValue)]
-		public void AddComment_ForFurtherComent_ModifiesDayFeedbackFile()
+		public void AddComment_ForFurtherComment_ModifiesDayFeedbackFile()
 		{
 			using (var sandbox = platform.CreateSandbox(Constants.CommentsEnvironment))
 			{

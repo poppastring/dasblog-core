@@ -69,6 +69,7 @@ namespace DasBlog.Core.Common
 		public const string ActivityPageTestId = "activity-page";
 		//
 		public const string DasBlogDataRoot = "DAS_BLOG_DATA_ROOT";
+				// e.g. C:/alt/projects3/dasblog-core/source/DasBlog.Tests/Resources/Environments/Vanilla
 	}
 
 }
