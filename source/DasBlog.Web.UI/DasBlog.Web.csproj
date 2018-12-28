@@ -126,6 +126,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="content\binary\" />
+    <Folder Include="Properties" />
   </ItemGroup>
   <!--
   <ItemGroup>

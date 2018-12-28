@@ -8,6 +8,8 @@
  * TODO - fix this gotcha
  */
 
+using System.Data;
+
 namespace DasBlog.Core.Common
 {
 	public static class Constants // has to be public for razor
@@ -70,6 +72,11 @@ namespace DasBlog.Core.Common
 		//
 		public const string DasBlogDataRoot = "DAS_BLOG_DATA_ROOT";
 				// e.g. C:/alt/projects3/dasblog-core/source/DasBlog.Tests/Resources/Environments/Vanilla
+		public const string DasBlogOverrideRootUrl = "DAS_BLOG_OVERRIDE_ROOT_URL";
+				// set = 1 to override.  Absence of any other value will not override
+		public const string AspNetCoreUrls = "ASPNETCORE_URLS";		// set by VS or dotnet cli if luanchsettings.json is presnet
+				// typically "http://localhost:50432/"
+
 	}
 
 }
