@@ -161,5 +161,77 @@ namespace DasBlog.Tests.FunctionalTests.BrowserBasedTests
 			{
 			}
 		}
+		[Fact(Skip="")]
+		[Trait(Constants.CategoryTraitType, Constants.BrowserBasedTestTraitValue )]
+		public void AddComment_AfterActivatingComments_AddsComment()
+		{
+			try
+			{
+				var dp = platform.CreateTestDataProcessor();
+				dp.SetSiteConfigValue("EnableComments", "true");
+				List<TestStep> testSteps = new List<TestStep>
+				{
+					new ActionStep(() => platform.Browser.Goto("post/5125c596-d6d5-46fe-9f9b-c13f851d8b0d/comments")),
+					new VerificationStep(() => platform.Pages.HomePage.IsDisplayed()),
+					new VerificationStep(() => platform.Pages.HomePage.NameTextBox != null),
+					new VerificationStep(() => platform.Pages.HomePage.EmailTextBox != null),
+					new VerificationStep(() => platform.Pages.HomePage.ContentTextBox != null),
+					new VerificationStep(() => platform.Pages.HomePage.SaveContentButton != null),
+					new ActionStep(() => platform.Pages.HomePage.NameTextBox.SetText( "myemail@myemail.com")),
+					new ActionStep(() => platform.Pages.HomePage.EmailTextBox.SetText( "myemail@myemail.com")),
+					new ActionStep(() => platform.Pages.HomePage.ContentTextBox.SetText( "myemail@myemail.com")),
+					new ActionStep(() => platform.Pages.HomePage.SaveContentButton.Click()),
+					new VerificationStep(() => platform.Pages.HomePage.IsDisplayed())
+				};
+				var results = new TestResults();
+				platform.TestExecutor.Execute(testSteps, results);
+				platform.Publisher.Publish(results.Results);
+				Assert.True(results.TestPassed);
+			}
+			catch (Exception e)
+			{
+				_ = e;
+				throw;
+			}
+			finally
+			{
+			}
+		}
+		[Fact(Skip="")]
+		[Trait(Constants.CategoryTraitType, Constants.BrowserBasedTestTraitValue )]
+		public void AddComment_AfterDeactivatingComments_DoesNotAddComment()
+		{
+			try
+			{
+				var dp = platform.CreateTestDataProcessor();
+				dp.SetSiteConfigValue("EnableComments", "false");
+				List<TestStep> testSteps = new List<TestStep>
+				{
+					new ActionStep(() => platform.Browser.Goto("post/5125c596-d6d5-46fe-9f9b-c13f851d8b0d/comments")),
+					new VerificationStep(() => platform.Pages.HomePage.IsDisplayed()),
+					new VerificationStep(() => platform.Pages.HomePage.NameTextBox != null),
+					new VerificationStep(() => platform.Pages.HomePage.EmailTextBox != null),
+					new VerificationStep(() => platform.Pages.HomePage.ContentTextBox != null),
+					new VerificationStep(() => platform.Pages.HomePage.SaveContentButton != null),
+					new ActionStep(() => platform.Pages.HomePage.NameTextBox.SetText( "myemail@myemail.com")),
+					new ActionStep(() => platform.Pages.HomePage.EmailTextBox.SetText( "myemail@myemail.com")),
+					new ActionStep(() => platform.Pages.HomePage.ContentTextBox.SetText( "myemail@myemail.com")),
+					new ActionStep(() => platform.Pages.HomePage.SaveContentButton.Click()),
+					new VerificationStep(() => !platform.Pages.HomePage.IsDisplayed())
+				};
+				var results = new TestResults();
+				platform.TestExecutor.Execute(testSteps, results);
+				platform.Publisher.Publish(results.Results);
+				Assert.True(results.TestPassed);
+			}
+			catch (Exception e)
+			{
+				_ = e;
+				throw;
+			}
+			finally
+			{
+			}
+		}
 	}
 }

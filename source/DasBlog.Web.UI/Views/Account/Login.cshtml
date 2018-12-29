@@ -20,17 +20,22 @@
                 <hr />
                 <div asp-validation-summary="All" class="text-danger"></div>
                 <div class="form-group">
-                    <label asp-for="Email" class="col-md-2 control-label"></label>
+                    <label for="@Constants.Email" class="col-md-2 control-label">@Constants.Email</label>
                     <div class="col-md-10">
-                        <input asp-for="@Constants.Email" class="form-control" />
-                        <span asp-validation-for="Email" class="text-danger"></span>
+                        <input id="@Constants.Email" name="@Constants.Email" value="" class="form-control" />
+                        @* value="Model.Email" causes an error when building the razor.
+                           We're not using asp-for as that does not mix well with use of constants (rather than literal values).
+                           This combination works ok for _CommentAddPartial.cshtml so why not here?
+                           Hopefully time will tell.  Meanwhile users will have to retype email if the password is rejected. 
+                        *@
+                        <span asp-validation-for="@Constants.Email" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label asp-for="Password" class="col-md-2 control-label"></label>
+                    <label for="@Constants.Password" class="col-md-2 control-label">@Constants.Password</label>
                     <div class="col-md-10">
-                        <input asp-for="@Constants.Password" class="form-control" />
-                        <span id="@Constants.PasswordValidationId" asp-validation-for="Password" class="text-danger"></span>
+                        <input id="@Constants.Password" name="@Constants.Password" value="" class="form-control" />
+                        <span id="@Constants.PasswordValidationId" asp-validation-for="@Constants.Password" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-group">

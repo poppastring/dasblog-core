@@ -1,4 +1,5 @@
-﻿using DasBlog.Tests.Automation.Common;
+﻿using System;
+using DasBlog.Tests.Automation.Common;
 using DasBlog.Tests.Automation.Selenium.Interfaces;
 using Microsoft.Extensions.Logging;
 
@@ -22,13 +23,21 @@ namespace DasBlog.Tests.Automation.Dom
 
 		public virtual bool IsDisplayed()
 		{
-			var elem = browser.GetPageTestIdDiv(pageTestId);
-			if (elem == null)
+			try
 			{
-				browser.Logger.LogInformation( browser.GetPageSource());
-			}
+				var elem = browser.GetPageTestIdDiv(pageTestId);
+				if (elem == null)
+				{
+					browser.Logger.LogInformation( browser.GetPageSource());
+				}
 
-			return elem != null;
+				return elem != null;
+			}
+			catch (OpenQA.Selenium.NoSuchElementException e)
+			{
+				_ = e;
+				return false;
+			}
 		}
 	}
 }

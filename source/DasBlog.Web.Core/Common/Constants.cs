@@ -48,6 +48,9 @@ namespace DasBlog.Core.Common
 		// This may well change in future
 		public static readonly string Email = "Email";
 		public static readonly string Password = "Password";
+		public const string Name = "Name";
+		public const string Content = "Content";
+		public const string SaveContentButtonId = "SaveContentButton";
 		public const string NavBarId = "navbar";
 		public const string CategoryPageTitle = "Category";
 	
