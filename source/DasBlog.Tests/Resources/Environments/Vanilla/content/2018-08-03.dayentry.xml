@@ -13,7 +13,7 @@
       <IsPublic>true</IsPublic>
       <Syndicated>false</Syndicated>
       <ShowOnFrontPage>true</ShowOnFrontPage>
-      <AllowComments>false</AllowComments>
+      <AllowComments>true</AllowComments>
       <Attachments />
       <Crossposts />
       <Latitude xsi:nil="true" />
@@ -36,7 +36,7 @@
       <IsPublic>true</IsPublic>
       <Syndicated>false</Syndicated>
       <ShowOnFrontPage>true</ShowOnFrontPage>
-      <AllowComments>false</AllowComments>
+      <AllowComments>true</AllowComments>
       <Attachments />
       <Crossposts />
       <Latitude xsi:nil="true" />
