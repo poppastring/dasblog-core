@@ -9,7 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Xunit.Abstractions;
 using Constants = DasBlog.Tests.Support.Common.Constants;
-using Utils = DasBlog.Tests.Support.Common.Utils;
+using SupportUtils = DasBlog.Tests.Support.Common.Utils;
 
 namespace DasBlog.Tests.FunctionalTests.Common
 {
@@ -83,7 +83,7 @@ namespace DasBlog.Tests.FunctionalTests.Common
 				opts =>
 				{
 					opts.ScriptDirectory =
-						Path.Combine(Utils.GetProjectRootDirectory(),Constants.ScriptsRelativePath);
+						Path.Combine(SupportUtils.GetProjectRootDirectory(),Constants.ScriptsRelativePath);
 					opts.ScriptTimeout = Constants.DefaultScriptTimeout;
 					if (Int32.TryParse(Environment.GetEnvironmentVariable(Constants.DasBlogTestScriptTimeout),
 						out var envScriptTimeout))
@@ -101,7 +101,7 @@ namespace DasBlog.Tests.FunctionalTests.Common
 			services.Configure<GitVersionedFileServiceOptions>(
 				opts =>
 				{
-					opts.GitRepoDirectory = Utils.GetProjectRootDirectory();
+					opts.GitRepoDirectory = SupportUtils.GetProjectRootDirectory();
 					opts.TestDataDirectroy = Constants.TestDataDirectory;
 				});
 			if (new DasBlog.Core.Common.StdOSDetector().DetectOS() == Os.Windows)
@@ -118,12 +118,12 @@ namespace DasBlog.Tests.FunctionalTests.Common
 			services.AddSingleton<ITestDataProcesorFactory, TestDataProcesorFactory>();
 			ConfigurationBuilder configBuilder = new ConfigurationBuilder();
 			configBuilder.AddJsonFile(
-				Path.Combine(Utils.GetProjectRootDirectory(), Constants.FunctionalTestsRelativeToProject, "appsettings.json")
+				Path.Combine(SupportUtils.GetProjectRootDirectory(), Constants.FunctionalTestsRelativeToProject, "appsettings.json")
 				, optional: false, reloadOnChange: false);
 			// the derived platform app settings will have precedence over the more general ones
 			// by dint of being added to the configuration later
 			configBuilder.AddJsonFile(
-				Path.Combine(Utils.GetProjectRootDirectory(), AppSettingsPathRelativeToProject, "appsettings.json")
+				Path.Combine(SupportUtils.GetProjectRootDirectory(), AppSettingsPathRelativeToProject, "appsettings.json")
 				, optional: false, reloadOnChange: false);
 			IConfigurationRoot config = configBuilder.Build();
 			services.Configure<ILoggerFactory>(config);

@@ -8,8 +8,10 @@ using DasBlog.Tests.FunctionalTests.Common;
 using DasBlog.Tests.Support.Common;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.DependencyInjection;
-using newtelligence.DasBlog.Runtime;
 using Xunit;
+using Utils = DasBlog.Tests.Support.Common.Utils;
+using TestUtils = DasBlog.Tests.FunctionalTests.Common.Utils;
+using newtelligence.DasBlog.Runtime;
 
 namespace DasBlog.Tests.FunctionalTests.ComponentTests
 {
@@ -180,46 +182,17 @@ namespace DasBlog.Tests.FunctionalTests.ComponentTests
 		/// <param name="entryId"></param>
 		private void SaveEntryDirect(IBlogManager blogManager, string directory, string entryId = null)
 		{
-			var fileName = TestDataProcesor.GetBlogEntryFileName(DateTime.Today);
-			var path = Path.Combine(directory, fileName);
-			var str = string.Format(minimalBlogPostXml
-			  , DateTime.Today.ToString("s", CultureInfo.InvariantCulture)
-			  , DateTime.Now.ToString("s", CultureInfo.InvariantCulture)
-			  , DateTime.Now.ToString("s", CultureInfo.InvariantCulture)
-			  , entryId ?? Guid.NewGuid().ToString());
-			File.WriteAllText(path, str);
-//			new CacheFixer().InvalidateCache(blogManager);
+			TestUtils.SaveEntryDirect(directory, entryId);
 		}
 
-		private void DeleteDirectoryContentsDirect(string directory, string fileSpec = "*.*")
-		{
-			foreach (var file in Directory.EnumerateFiles(directory, fileSpec))
-			{
-				File.Delete(file);
-			}
-		}
-		private bool DayEntryFileExists(string directory, DateTime dt)
-		{
-			var fileName = TestDataProcesor.GetBlogEntryFileName(dt);
-			var path = Path.Combine(directory, fileName);
-			return File.Exists(path);
-		}
 		private bool DayFeedbackFileExists(string directory, DateTime dt)
 		{
-			var fileName = TestDataProcesor.GetBlogFeedbackFileName(dt);
-			var path = Path.Combine(directory, fileName);
-			return File.Exists(path);
+			return TestUtils.DayFeedbackFileExists(directory, dt);
 		}
 		
 		private static Entry MakeMiniimalEntry()
 		{
-			Entry entry = new Entry();
-			entry.Initialize();
-			entry.Title = string.Empty;
-			entry.Content = string.Empty;
-			entry.Description = string.Empty;
-			entry.Categories = string.Empty;
-			return entry;
+			return TestUtils.MakeMiniimalEntry();
 		}
 
 
