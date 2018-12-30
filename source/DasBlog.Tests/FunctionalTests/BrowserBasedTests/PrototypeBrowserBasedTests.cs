@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Threading;
+using System.Linq;
+using System.Xml.Linq;
 using DasBlog.Core.XmlRpc.Blogger;
 using DasBlog.Tests.Automation.Selenium;
 using DasBlog.Tests.FunctionalTests.Common;
@@ -223,6 +225,45 @@ namespace DasBlog.Tests.FunctionalTests.BrowserBasedTests
 				platform.TestExecutor.Execute(testSteps, results);
 				platform.Publisher.Publish(results.Results);
 				Assert.True(results.TestPassed);
+			}
+			catch (Exception e)
+			{
+				_ = e;
+				throw;
+			}
+			finally
+			{
+			}
+		}
+		[Fact(Skip="")]
+		[Trait(Constants.CategoryTraitType, Constants.BrowserBasedTestTraitValue )]
+		public void AddComment_IfBlankForm_DoesNotAddPermanentComment()
+		{
+			try
+			{
+				var dp = platform.CreateTestDataProcessor();
+				dp.SetSiteConfigValue("EnableComments", "true");
+				List<TestStep> testSteps = new List<TestStep>
+				{
+					new ActionStep(() => platform.Browser.Goto("post/5125c596-d6d5-46fe-9f9b-c13f851d8b0d/comments")),
+					new VerificationStep(() => platform.Pages.HomePage.IsDisplayed()),
+					new VerificationStep(() => platform.Pages.HomePage.NameTextBox != null),
+					new VerificationStep(() => platform.Pages.HomePage.EmailTextBox != null),
+					new VerificationStep(() => platform.Pages.HomePage.ContentTextBox != null),
+					new VerificationStep(() => platform.Pages.HomePage.SaveContentButton != null),
+					new ActionStep(() => platform.Pages.HomePage.NameTextBox.SetText( string.Empty)),
+					new ActionStep(() => platform.Pages.HomePage.EmailTextBox.SetText( string.Empty)),
+					new ActionStep(() => platform.Pages.HomePage.ContentTextBox.SetText( string.Empty)),
+					new ActionStep(() => platform.Pages.HomePage.SaveContentButton.Click()),
+					new VerificationStep(() => platform.Pages.HomePage.IsDisplayed())
+				};
+				var results = new TestResults();
+				platform.TestExecutor.Execute(testSteps, results);
+				platform.Publisher.Publish(results.Results);
+				Assert.True(results.TestPassed);
+				var comments = dp.GetDayExtraFileContents(new DateTime(2018, 8, 3)).data;
+				var list = comments.Descendants().ToList();
+				Assert.False(comments.HasElements);
 			}
 			catch (Exception e)
 			{
