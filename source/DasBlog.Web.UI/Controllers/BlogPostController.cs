@@ -312,7 +312,7 @@ namespace DasBlog.Web.Controllers
 
 			if (!ModelState.IsValid)
 			{
-				Comment(new Guid(addcomment.TargetEntryId));
+				return Comment(new Guid(addcomment.TargetEntryId));
 			}
 
 			addcomment.Content = dasBlogSettings.FilterHtml(addcomment.Content);

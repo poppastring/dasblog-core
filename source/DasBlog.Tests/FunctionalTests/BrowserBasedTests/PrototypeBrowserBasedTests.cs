@@ -262,7 +262,6 @@ namespace DasBlog.Tests.FunctionalTests.BrowserBasedTests
 				platform.Publisher.Publish(results.Results);
 				Assert.True(results.TestPassed);
 				var comments = dp.GetDayExtraFileContents(new DateTime(2018, 8, 3)).data;
-				var list = comments.Descendants().ToList();
 				Assert.False(comments.HasElements);
 			}
 			catch (Exception e)
