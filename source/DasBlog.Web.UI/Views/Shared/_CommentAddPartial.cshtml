@@ -1,4 +1,5 @@
-﻿@model DasBlog.Web.Models.BlogViewModels.AddCommentViewModel
+﻿@using DasBlog.Core.Common
+@model DasBlog.Web.Models.BlogViewModels.AddCommentViewModel
 
 <div class="post-new-comment">
     <form asp-controller="post" asp-action="comments" method="post">
@@ -10,14 +11,14 @@
             </div>
             <div class="row">
                 <div class="col-md-6 mb-3">
-                    <label asp-for="Name" class="control-label"></label>
-                    <input asp-for="Name" class="form-control" />
+                    <label for="@Constants.Name" class="control-label">@Constants.Name</label>
+                    <input id="@Constants.Name" name="@Constants.Name" value="@Model.Name" class="form-control" />
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-6 mb-3">
-                    <label asp-for="Email" class="control-label"></label>
-                    <input asp-for="Email" class="form-control" />
+                    <label for="@Constants.Email" class="control-label">@Constants.Email</label>
+                    <input id="@Constants.Email" name="@Constants.Email" value="@Model.Email" class="form-control" />
                 </div>
             </div>
             <div class="row">
@@ -28,13 +29,13 @@
             </div>
             <div class="row">
                 <div class="col-md-12 mb-6">
-                    <label asp-for="Content" class="control-label"></label>
-                    <textarea asp-for="Content" rows="12" cols="60" class="form-control"></textarea>
+                    <label for="@Constants.Content" class="control-label">@Constants.Content</label>
+                    <textarea id="@Constants.Content" name="@Constants.Content" rows="12" cols="60" class="form-control">@Model.Content</textarea>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-4 mb-2">
-                    <button type="submit" class="btn btn-primary btn-block">SAVE COMMENT</button>
+                    <button type="submit" id="@Constants.SaveContentButtonId" class="btn btn-primary btn-block">SAVE COMMENT</button>
                 </div>
             </div>
         </div>

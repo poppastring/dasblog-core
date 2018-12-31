@@ -10,6 +10,22 @@ namespace DasBlog.Tests.Automation.Dom
 		{
 			
 		}
+		public TextBoxPageElement NameTextBox
+		{
+			get { return browser.GetTextBoxElementById(WebAppConstants.Name); }
+		}
+		public TextBoxPageElement EmailTextBox
+		{
+			get { return browser.GetTextBoxElementById(WebAppConstants.Email); }
+		}
+		public TextBoxPageElement ContentTextBox
+		{
+			get { return browser.GetTextBoxElementById(WebAppConstants.Content); }
+		}
+		public ButtonPageElement SaveContentButton
+		{
+			get { return browser.GetButtonById(WebAppConstants.SaveContentButtonId); }
+		}
 
 	}
 }

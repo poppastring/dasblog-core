@@ -1,26 +1,5 @@
 namespace DasBlog.Managers
 {
-/*
-dasBlogSettings.WebRootDirectory
-dasBlogSettings.SiteConfiguration.LogDir
-dasBlogSettings.WebRootDirectory
-dasBlogSettings.SiteConfiguration.ContentDir
-dasBlogSettings.GetPermaTitle(e.CompressedTitle)
-dasBlogSettings.SiteConfiguration.TitlePermalinkSpaceReplacement
-dasBlogSettings.GetContentLookAhead()
-dasBlogSettings.GetConfiguredTimeZone()
-dasBlogSettings.SiteConfiguration.FrontPageDayCount
-dasBlogSettings.SiteConfiguration.FrontPageEntryCount
-dasBlogSettings.SiteConfiguration.EntriesPerPage
-dasBlogSettings.GetConfiguredTimeZone()
-dasBlogSettings.SiteConfiguration.EnableTitlePermaLinkUnique
-dasBlogSettings.SiteConfiguration.Root
-dasBlogSettings.RelativeToRoot(
-dasBlogSettings.GetPermaTitle()
-dasBlogSettings.SiteConfiguration.Root
-dasBlogSettings.RelativeToRoot(
-dasBlogSettings.GetPermaTitle()
- */
 	public class PingServices
 	{
 		

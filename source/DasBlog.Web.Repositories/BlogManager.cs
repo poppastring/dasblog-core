@@ -63,12 +63,11 @@ namespace DasBlog.Managers
 			}
 		}
 		private readonly IBlogDataService dataService;
-		private readonly IDasBlogSettings dasBlogSettings;
 		private readonly ILogger logger;
 		private static Regex stripTags = new Regex("<[^>]*>", RegexOptions.Compiled | RegexOptions.CultureInvariant);
 		private Options opts;
 
-		public BlogManager(IDasBlogSettings settings , ILogger<BlogManager> logger
+		public BlogManager( ILogger<BlogManager> logger
 		  ,IOptions<BlogManagerOptions> settingsOptionsAccessor
 		  ,IOptionsMonitor<BlogManagerModifiableOptions> monitoredOptionsAccessor
 		  ,IOptions<BlogManagerExtraOptions> extraOptionsAccessor
@@ -76,11 +75,10 @@ namespace DasBlog.Managers
 		{
 			opts = new Options(settingsOptionsAccessor, monitoredOptionsAccessor, extraOptionsAccessor);
 			this.logger = logger;
-			dasBlogSettings = settings;
-			var loggingDataService = LoggingDataServiceFactory.GetService(Pass(() => dasBlogSettings.WebRootDirectory, () => opts.WebRootDirectory) 
-			  + Pass(() => dasBlogSettings.SiteConfiguration.LogDir, () => opts.LogDir));
-			dataService = BlogDataServiceFactory.GetService(Pass(() => dasBlogSettings.WebRootDirectory, () => opts.WebRootDirectory) 
-			  + Pass(() => dasBlogSettings.SiteConfiguration.ContentDir,() => opts.ContentDir), loggingDataService);
+			var loggingDataService = LoggingDataServiceFactory.GetService(opts.WebRootDirectory 
+			  + opts.LogDir);
+			dataService = BlogDataServiceFactory.GetService(opts.WebRootDirectory 
+			  + opts.ContentDir, loggingDataService);
 		}
 
 		/// <param name="dt">if non-null then the post must be dated on that date</param>
@@ -94,8 +92,8 @@ namespace DasBlog.Managers
 			{
 				EntryCollection entries = dataService.GetEntriesForDay(dt.Value, null, null, 1, 10, null);
 				return entries.FirstOrDefault(e => 
-				  Pass(() => dasBlogSettings.GetPermaTitle(e.CompressedTitle), () => SettingsUtils.GetPermaTitle(e.CompressedTitle, opts.TitlePermalinkSpaceReplacement))
-				  .Replace(Pass(() => dasBlogSettings.SiteConfiguration.TitlePermalinkSpaceReplacement, () => opts.TitlePermalinkSpaceReplacement), string.Empty)
+				  SettingsUtils.GetPermaTitle(e.CompressedTitle, opts.TitlePermalinkSpaceReplacement)
+				  .Replace(opts.TitlePermalinkSpaceReplacement, string.Empty)
 				  == postid);
 			}
 		}
@@ -112,10 +110,10 @@ namespace DasBlog.Managers
 
 		public EntryCollection GetFrontPagePosts(string acceptLanguageHeader)
 		{			
-			return dataService.GetEntriesForDay(Pass(() => dasBlogSettings.GetContentLookAhead(), () => SettingsUtils.GetContentLookAhead(opts.ContentLookaheadDays), AreStringsEqual)
-				, Pass(() =>dasBlogSettings.GetConfiguredTimeZone(), () => SettingsUtils.GetConfiguredTimeZone(opts.AdjustDisplayTimeZone, opts.DisplayTimeZoneIndex)),
-								acceptLanguageHeader, Pass(() =>dasBlogSettings.SiteConfiguration.FrontPageDayCount, () => opts.FrontPageEntryCount), 
-				Pass(() => dasBlogSettings.SiteConfiguration.FrontPageEntryCount, () => opts.FrontPageEntryCount), string.Empty);
+			return dataService.GetEntriesForDay(SettingsUtils.GetContentLookAhead(opts.ContentLookaheadDays)
+				, SettingsUtils.GetConfiguredTimeZone(opts.AdjustDisplayTimeZone, opts.DisplayTimeZoneIndex),
+								acceptLanguageHeader, opts.FrontPageEntryCount, 
+				opts.FrontPageEntryCount, string.Empty);
 		}
 
 		public EntryCollection GetEntriesForPage(int pageIndex, string acceptLanguageHeader)
@@ -130,7 +128,7 @@ namespace DasBlog.Managers
 
 			cache.RemoveRange(0, fp.Count);
 
-			int entriesPerPage = Pass(() => dasBlogSettings.SiteConfiguration.EntriesPerPage, () => opts.EntriesPerPage);
+			int entriesPerPage = opts.EntriesPerPage;
 
 			// compensate for frontpage
 			if ((pageIndex - 1) * entriesPerPage < cache.Count)
@@ -161,7 +159,7 @@ namespace DasBlog.Managers
 			var searchWords = GetSearchWords(searchString);
 
 			var entries = dataService.GetEntriesForDay(DateTime.MaxValue.AddDays(-2), 
-				Pass(() => dasBlogSettings.GetConfiguredTimeZone(),() => SettingsUtils.GetConfiguredTimeZone(opts.AdjustDisplayTimeZone, opts.DisplayTimeZoneIndex)), 
+				SettingsUtils.GetConfiguredTimeZone(opts.AdjustDisplayTimeZone, opts.DisplayTimeZoneIndex), 
 				acceptLanguageHeader,
 				int.MaxValue, 
 				int.MaxValue, 
@@ -300,33 +298,23 @@ namespace DasBlog.Managers
 
 		private Uri MakePermaLinkFromCompressedTitle(Entry entry)
 		{
-			if (Pass(() => dasBlogSettings.SiteConfiguration.EnableTitlePermaLinkUnique, () => opts.EnableTitlePermaLinkUnique))
+			if (opts.EnableTitlePermaLinkUnique)
 			{
-				return Pass(() => 
-					new Uri(new Uri(dasBlogSettings.SiteConfiguration.Root)
-					, dasBlogSettings.RelativeToRoot(
-						entry.CreatedUtc.ToString("yyyyMMdd") + "/" +
-						dasBlogSettings.GetPermaTitle(entry.CompressedTitle)))
-				  ,() =>
-						new Uri(new Uri(opts.Root)
-							, SettingsUtils.RelativeToRoot(
-								entry.CreatedUtc.ToString("yyyyMMdd") + "/" +
-								SettingsUtils.GetPermaTitle(entry.CompressedTitle, opts.TitlePermalinkSpaceReplacement)
-								, opts.Root))
-				);
+				return 
+					new Uri(new Uri(opts.Root)
+						, SettingsUtils.RelativeToRoot(
+							entry.CreatedUtc.ToString("yyyyMMdd") + "/" +
+							SettingsUtils.GetPermaTitle(entry.CompressedTitle, opts.TitlePermalinkSpaceReplacement)
+							, opts.Root))
+				;
 			}
 			else
 			{
-				return Pass( 
-				  () =>
-					new Uri(new Uri(dasBlogSettings.SiteConfiguration.Root)
-					,dasBlogSettings.RelativeToRoot(
-						dasBlogSettings.GetPermaTitle(entry.CompressedTitle)))
-				  ,() =>
+				return
 					  new Uri(new Uri(opts.Root)
 						  ,SettingsUtils.RelativeToRoot(
-							SettingsUtils.GetPermaTitle(entry.CompressedTitle,opts.TitlePermalinkSpaceReplacement), opts.Root))
-					);
+							  SettingsUtils.GetPermaTitle(entry.CompressedTitle,opts.TitlePermalinkSpaceReplacement), opts.Root))
+					;
 			}
 		}
 
@@ -335,12 +323,12 @@ namespace DasBlog.Managers
 
 			EntrySaveState rtn = EntrySaveState.Failed;
 			// we want to prepopulate the cross post collection with the crosspost footer
-			if (Pass(() => dasBlogSettings.SiteConfiguration.EnableCrossPostFooter,() => opts.EnableCrossPostFooter) && Pass(() => dasBlogSettings.SiteConfiguration.CrossPostFooter, () => opts.CrossPostFooter) != null 
-				&& Pass(() =>dasBlogSettings.SiteConfiguration.CrossPostFooter.Length, () => opts.CrossPostFooter.Length) > 0)
+			if (opts.EnableCrossPostFooter && opts.CrossPostFooter != null 
+				&& opts.CrossPostFooter.Length > 0)
 			{
 				foreach (CrosspostInfo info in crosspostList)
 				{
-					info.CrossPostFooter = Pass(() => dasBlogSettings.SiteConfiguration.CrossPostFooter, () => opts.CrossPostFooter);
+					info.CrossPostFooter = opts.CrossPostFooter;
 				}
 			}
 
@@ -403,21 +391,15 @@ namespace DasBlog.Managers
 					,PingApi = PingService.PingApiType.Basic
 				}
 			};
-			return Pass<PingServiceCollection>(
-				() => dasBlogSettings.SiteConfiguration.PingServices
-				,() => fakePingServices
-				, (a, b) => ArePingServiceCollectionsEqual((PingServiceCollection)a,(PingServiceCollection)b)
-				).Count > 0
+			return
+				fakePingServices.Count > 0
 				? new WeblogUpdatePingInfo(
-					Pass(() => dasBlogSettings.SiteConfiguration.Title, () => opts.Title), 
-					Pass(() => dasBlogSettings.GetBaseUrl(), () => SettingsUtils.GetBaseUrl(opts.Root)), 
-					Pass(() => dasBlogSettings.GetBaseUrl(), () => SettingsUtils.GetBaseUrl(opts.Root)),
-					Pass(() => dasBlogSettings.RsdUrl, () => SettingsUtils.RelativeToRoot("feed/rsd", opts.Root)), 
-					Pass<PingServiceCollection>(
-						() => dasBlogSettings.SiteConfiguration.PingServices
-						,() => fakePingServices
-						,(a, b) => ArePingServiceCollectionsEqual((PingServiceCollection)a,(PingServiceCollection)b)
-					)
+					opts.Title, 
+					SettingsUtils.GetBaseUrl(opts.Root), 
+					SettingsUtils.GetBaseUrl(opts.Root),
+					SettingsUtils.RelativeToRoot("feed/rsd", opts.Root), 
+					
+						fakePingServices
 				) 
 				: null;
 		}
@@ -428,12 +410,12 @@ namespace DasBlog.Managers
 		/// </summary>
 		private PingbackInfo MaybeBuildPingbackInfo(Entry entry)
 		{
-			return Pass(() =>dasBlogSettings.SiteConfiguration.EnableAutoPingback, () => opts.EnableAutoPingBack) && entry.IsPublic
+			return opts.EnableAutoPingBack && entry.IsPublic
 				? new PingbackInfo(
-					Pass(() => dasBlogSettings.GetPermaLinkUrl(entry.EntryId),() => SettingsUtils.GetPermaLinkUrl(entry.EntryId, opts.Root)),
+					SettingsUtils.GetPermaLinkUrl(entry.EntryId, opts.Root),
 					entry.Title,
 					entry.Description,
-					Pass(() => dasBlogSettings.SiteConfiguration.Title, () => opts.Title)) 
+					opts.Title) 
 				: null;
 		}
 
@@ -444,11 +426,11 @@ namespace DasBlog.Managers
 
 			// break the caching
 			cache.Remove("BlogCoreData");
-			cache.Remove("Rss::" + Pass(() =>dasBlogSettings.SiteConfiguration.RssDayCount.ToString(), () => opts.RssDayCount.ToString()) + ":" + Pass(() => dasBlogSettings.SiteConfiguration.RssEntryCount.ToString(), () => opts.RssEntryCount.ToString()));
+			cache.Remove("Rss::" + opts.RssDayCount.ToString() + ":" + opts.RssEntryCount.ToString());
 
 			foreach (string category in categories)
 			{
-				string CacheKey = "Rss:" + category + ":" + Pass(() =>dasBlogSettings.SiteConfiguration.RssDayCount.ToString(), () => opts.RssDayCount.ToString()) + ":" + Pass(() => dasBlogSettings.SiteConfiguration.RssEntryCount.ToString(), () => opts.RssEntryCount.ToString());
+				string CacheKey = "Rss:" + category + ":" + opts.RssDayCount.ToString() + ":" + opts.RssEntryCount.ToString();
 				cache.Remove(CacheKey);
 			}
 		}
@@ -458,7 +440,7 @@ namespace DasBlog.Managers
 		{
 			var saveState = CommentSaveState.Failed;
 
-			if (!Pass(() => dasBlogSettings.SiteConfiguration.EnableComments, () => opts.EnableComments))
+			if (!opts.EnableComments)
 			{
 				return CommentSaveState.SiteCommentsDisabled;
 			}
@@ -466,9 +448,9 @@ namespace DasBlog.Managers
 			var entry = dataService.GetEntry(postid);
 			if (entry != null)
 			{
-				if (Pass(() => dasBlogSettings.SiteConfiguration.EnableCommentDays, () => opts.EnableComments))
+				if (opts.EnableComments)
 				{
-					var targetComment = DateTime.UtcNow.AddDays(-1 * Pass(() =>dasBlogSettings.SiteConfiguration.DaysCommentsAllowed, () => opts.DaysCommentsAllowed));
+					var targetComment = DateTime.UtcNow.AddDays(-1 * opts.DaysCommentsAllowed);
 
 					if (targetComment > entry.CreatedUtc)
 					{
@@ -535,62 +517,6 @@ namespace DasBlog.Managers
 		{
 			return dataService.GetCategories();
 		}
-
-		private static bool AreStringsEqual<T>(T _this, T other)
-		{
-			return _this.ToString() == other.ToString();
-		}
-/*
-		private T Pass<T>(Expression<Func<T>> expr)
-		{
-			var fun = expr.Compile();
-			var result = fun();
-			logger.LogDebug($"pass £££expression = '{expr}' result = '{result}'[[[");
-			return result;
-		}
-*/
-		private T Pass<T>(Expression<Func<T>> oldExpr, Expression<Func<T>> newExpr, Func<T, T, bool> eqTest = null)
-		{
-			var oldFun = oldExpr.Compile();
-			var oldResult = oldFun();
-			var newFun = newExpr.Compile();
-			var newResult = newFun();
-			logger.LogDebug($"pass £££oldExpression = '{oldExpr}' oldResult = '{oldResult}', newExpression = '{newExpr}' newResult = '{newResult}'[[[");
-			if (eqTest != null ? !eqTest(oldResult, newResult) : !oldResult.Equals(newResult))
-			{
-				throw new DifferenceFoundException($"£££oldExpression = '{oldExpr}' oldResult = '{oldResult}', newExpression = '{newExpr}' newResult = '{newResult}'[[[");
-			}
-			return newResult;
-		}
-		private bool ArePingServiceCollectionsEqual(PingServiceCollection aze, PingServiceCollection beeze)
-		{
-			if (aze == null || beeze == null || aze.Count != beeze.Count)
-			{
-				return false;
-			}
-
-			for (int ii = 0; ii < aze.Count; ii++)
-			{
-				(var a, var b) = (aze[ii], beeze[ii]);
-				if (
-					a.Endpoint != b.Endpoint
-					|| a.Name != b.Name
-					|| a.Url != b.Url
-					|| a.PingApi != b.PingApi
-				)
-				{
-					return false;
-				}
-			}
-			return true;
-		}
-	}
-
-	internal class DifferenceFoundException : Exception
-	{
-		public DifferenceFoundException(string s) : base(s)
-		{
-		}
 	}
 
 	internal static class SettingsUtils
@@ -640,17 +566,6 @@ namespace DasBlog.Managers
 			return RelativeToRoot("feed/rsd", root);
 		}
 
-/*
-		/// <summary>
-		/// parent directory for Config, content and logs
-		/// </summary>
-		/// <param name="env">this is a nuissance</param>
-		/// <returns>e.g. C:\alt\projects\dasblog-core\source/DasBlog.Web.UI</returns>
-		public static string GetWebHostingDirectory(IHostingEnvironment env)
-		{
-			return Startup.GetDataRoot(env);
-		}
-*/
 	}
 }
 

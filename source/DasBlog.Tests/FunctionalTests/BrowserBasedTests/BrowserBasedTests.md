@@ -202,3 +202,12 @@ The test mechanism employs [Selenium](../../../SeleniumPlusDasBlogCoreInACoupleO
 
 All browser based tests must use the same test data environment as they rely on the web app running continuously
 in a separate process.
+
+##### Configuration
+One approach to inspecting and manipulating the Vanilla environment (used by the browser based tests)
+is to point the web app at the Vanilla environment and run it in normal interactive mode.
+
+To change the data environment set up the following environment variable:
+```
+DAS_BLOG_DATA_ROOT=<projects>/dasblog-core/source/DasBlog.Tests/Resources/Environments/Vanilla
+```

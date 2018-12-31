@@ -1,9 +1,15 @@
-﻿using System.IO;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using DasBlog.Core.Configuration;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.WebSockets.Internal;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+
+using AppConstants = DasBlog.Core.Common.Constants;
 
 namespace DasBlog.Web.UI
 {
@@ -31,6 +37,7 @@ namespace DasBlog.Web.UI
 						.AddJsonFile(Path.Combine(Startup.GetDataRoot(env),$"appsettings.{env.EnvironmentName}.json"), optional: true)
 						.AddEnvironmentVariables()
 						;
+					MaybeOverrideRootUrl(configBuilder);
 					configBuilder.Build();
 				})
 				.ConfigureLogging(loggingBuilder =>
@@ -45,5 +52,29 @@ namespace DasBlog.Web.UI
 				})
 				.UseStartup<Startup>();
 
+		/**
+		 * usage: set DAS_BLOG_OVERRIDE_ROOT_URL=1 in the environment where the app server runs.
+		 * 
+		 * In production the application is configured via site.config with the url for permalinks .e.g.
+		 * https://mikemay.com:8080/.  This is inconvenient during dev and test 
+		 * if not using iis xpress or some other port forwarding when we mostly want the published
+		 * link to be whatever port the app is listening on on local host, e.g. http://localhost:50432/.
+		 *
+		 * You can avoid this malarkey and achieve the same result by simply changing the Root entry in site.config
+		 */
+		private static void MaybeOverrideRootUrl(IConfigurationBuilder configBuilder)
+		{
+			if (string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable(AppConstants.DasBlogOverrideRootUrl)) 
+			  || Environment.GetEnvironmentVariable(AppConstants.DasBlogOverrideRootUrl)?.Trim() != "1" )
+				return;
+			var urlsEnvVar = System.Environment.GetEnvironmentVariable(AppConstants.AspNetCoreUrls);
+			if (string.IsNullOrWhiteSpace(urlsEnvVar))
+			{
+				urlsEnvVar = "http://localhost:5000/";
+			}
+
+			configBuilder.AddInMemoryCollection(new KeyValuePair<string, string>[]
+				{new KeyValuePair<string, string>(nameof(ISiteConfig.Root), urlsEnvVar)});
+		}
 	}
 }

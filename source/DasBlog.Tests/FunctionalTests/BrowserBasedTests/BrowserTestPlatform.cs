@@ -22,6 +22,10 @@ namespace DasBlog.Tests.FunctionalTests.BrowserBasedTests
 		public Pages Pages { get; private set; }
 		private IDasBlogSandbox sandbox;
 
+		public ITestDataProcessor CreateTestDataProcessor()
+		{
+			return new TestDataProcesor(sandbox.TestEnvironmentPath);
+		}
 		/// <summary>
 		/// completes the platform setup after the logger has been created although
 		/// it's not clear that the instantiation has to take place after the logger has been configured.
@@ -75,5 +79,6 @@ namespace DasBlog.Tests.FunctionalTests.BrowserBasedTests
 		}
 		protected override string AppSettingsPathRelativeToProject { get; set; } =
 			Constants.BrowserBasedTestsRelativeToProject;
+		
 	}
 }
