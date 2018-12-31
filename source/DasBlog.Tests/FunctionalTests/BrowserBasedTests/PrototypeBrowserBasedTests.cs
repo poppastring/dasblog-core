@@ -199,6 +199,14 @@ namespace DasBlog.Tests.FunctionalTests.BrowserBasedTests
 			{
 			}
 		}
+		/**
+		 * This test is living on borrowed time.  It relies on the fact that the BlogPostController uses
+		 * the dasBlogSettings which has EnableComments=true (as it does not respond to config changes
+		 * at runtime whereas the BlogManager does honour the runtime config change.
+		 * When the controller's config usage becomes responsive to runtime changes then
+		 * only the first three steps will be required and the third step will be changed to
+		 * verify that the NameTextBox does NOT exist.
+		 */
 		[Fact(Skip="")]
 		[Trait(Constants.CategoryTraitType, Constants.BrowserBasedTestTraitValue )]
 		public void AddComment_AfterDeactivatingComments_DoesNotAddComment()
