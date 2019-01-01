@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <IsPackable>false</IsPackable>
@@ -12,8 +12,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="Config\metaConfig.xml" />
-    <None Remove="Config\site.config" />
-    <None Remove="Config\siteSecurity.config" />
     <None Remove="TestContent\2003-07-31.dayentry.xml" />
     <None Remove="TestContent\2003-08-01.dayentry.xml" />
     <None Remove="TestContent\2004-01-13.dayentry.xml" />
@@ -27,12 +25,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Config\metaConfig.xml" />
-    <Content Include="Config\site.config">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-    <Content Include="Config\siteSecurity.config">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
     <Content Include="TestContent\2003-07-31.dayentry.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
