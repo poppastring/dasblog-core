@@ -1,5 +1,6 @@
 using System;
 using System.Linq.Expressions;
+using System.Xml.Linq;
 using newtelligence.DasBlog.Runtime;
 
 namespace DasBlog.Tests.FunctionalTests.Common
@@ -24,11 +25,20 @@ namespace DasBlog.Tests.FunctionalTests.Common
 		/// <param name="key">e.g. "Role"</param>
 		/// <returns>e.g. "admin", if operation fails then value is null otherwise it is the value identified by key</returns>
 		(bool success, string value) GetSiteSecurityConfigValue(string email, string key);
+		// TODO: what is the behaviour for an empty file?
 		/// <param name="dt">The date of the blog entry - should match the date in the file name</param>
 		/// <param name="entryId">typically a GUID</param>
 		/// <param name="key">e.g. "IsPublic"</param>
 		/// <returns>e.g. "false", if operation fails then value is null otherwise it is the value identified by key</returns>
 		(bool success, string value) GetBlogPostValue(DateTime dt, string entryId, string key);
+
+		/// <summary>
+		/// gets the complete contents of the dayentry xml file for the specified date
+		/// </summary>
+		/// <param name="dt">should match the date stamp on a dayentry file</param>
+		/// <returns>success=true, if the file exists otherwise false
+		///   data=linq ready tree starting at "DayEntry", immediate children "Date" and "Entries"</returns>
+		(bool success, XElement data) GetBlogPostFileContents(DateTime dt);
 /*
 		/// <summary>
 		/// set values in config and entry files
@@ -55,7 +65,16 @@ namespace DasBlog.Tests.FunctionalTests.Common
 		/// <param name="key">e.g. "IsPublic"</param>
 		/// <param name="value">.e.g "false"</param>
 		/// <exception cref="Exception">throown if the operation fails.  Message provides reason</exception>
-		void SetBlogPostValue(DateTime dt, Expression<Func<Entry, bool>> pred, string key);
+		void SetBlogPostValue(DateTime dt, Expression<Func<Entry, bool>> pred, string key, object value);
+
+		// TODO: what is the behaviour for an empty file?
+		/// <summary>
+		/// gets the complete contents of the dayfeedback xml file for the specified date
+		/// </summary>
+		/// <param name="dt">should match the date stamp on a dayfeedback file</param>
+		/// <returns>success=true, if the file exists otherwise false
+		///   data=linq ready tree starting at DayExtra, immediate children "Date" and "Comments"</returns>
+		(bool success, XElement data) GetDayExtraFileContents(DateTime dt);
 
 		/// <summary>
 		/// typically used to get comments - maybe other stuff - I don't know

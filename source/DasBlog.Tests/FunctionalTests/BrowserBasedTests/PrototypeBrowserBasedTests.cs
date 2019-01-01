@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Threading;
+using System.Linq;
+using System.Xml.Linq;
 using DasBlog.Core.XmlRpc.Blogger;
 using DasBlog.Tests.Automation.Selenium;
 using DasBlog.Tests.FunctionalTests.Common;
@@ -161,6 +163,13 @@ namespace DasBlog.Tests.FunctionalTests.BrowserBasedTests
 			{
 			}
 		}
+		/**
+		 * all the AddComment tests currently pass on my Imac/Parallels/Windows 10/1803 installation
+		 * but fail on my Surface Pro/Windows 10/1803.  Both with latest of everything as far as I know.
+		 * Selenium appears to take no action on the Click() step.
+		 *
+		 * Note that some of the AddComment tests appear to pass under these circumstances which is misleading.
+		 */
 		[Fact(Skip="")]
 		[Trait(Constants.CategoryTraitType, Constants.BrowserBasedTestTraitValue )]
 		public void AddComment_AfterActivatingComments_AddsComment()
@@ -197,6 +206,15 @@ namespace DasBlog.Tests.FunctionalTests.BrowserBasedTests
 			{
 			}
 		}
+		/**
+		 * This test is living on borrowed time.  It relies on the fact that the BlogPostController uses
+		 * the dasBlogSettings which has EnableComments=true (as it does not respond to config changes
+		 * at runtime whereas the BlogManager does honour the runtime config change.
+		 * When the controller's config usage becomes responsive to runtime changes then
+		 * only the first three steps will be required and the third step will be changed to
+		 * verify that the NameTextBox does NOT exist.
+		 * 
+		 */
 		[Fact(Skip="")]
 		[Trait(Constants.CategoryTraitType, Constants.BrowserBasedTestTraitValue )]
 		public void AddComment_AfterDeactivatingComments_DoesNotAddComment()
@@ -223,6 +241,44 @@ namespace DasBlog.Tests.FunctionalTests.BrowserBasedTests
 				platform.TestExecutor.Execute(testSteps, results);
 				platform.Publisher.Publish(results.Results);
 				Assert.True(results.TestPassed);
+			}
+			catch (Exception e)
+			{
+				_ = e;
+				throw;
+			}
+			finally
+			{
+			}
+		}
+		[Fact(Skip="")]
+		[Trait(Constants.CategoryTraitType, Constants.BrowserBasedTestTraitValue )]
+		public void AddComment_IfBlankForm_DoesNotAddPermanentComment()
+		{
+			try
+			{
+				var dp = platform.CreateTestDataProcessor();
+				dp.SetSiteConfigValue("EnableComments", "true");
+				List<TestStep> testSteps = new List<TestStep>
+				{
+					new ActionStep(() => platform.Browser.Goto("post/5125c596-d6d5-46fe-9f9b-c13f851d8b0d/comments")),
+					new VerificationStep(() => platform.Pages.HomePage.IsDisplayed()),
+					new VerificationStep(() => platform.Pages.HomePage.NameTextBox != null),
+					new VerificationStep(() => platform.Pages.HomePage.EmailTextBox != null),
+					new VerificationStep(() => platform.Pages.HomePage.ContentTextBox != null),
+					new VerificationStep(() => platform.Pages.HomePage.SaveContentButton != null),
+					new ActionStep(() => platform.Pages.HomePage.NameTextBox.SetText( string.Empty)),
+					new ActionStep(() => platform.Pages.HomePage.EmailTextBox.SetText( string.Empty)),
+					new ActionStep(() => platform.Pages.HomePage.ContentTextBox.SetText( string.Empty)),
+					new ActionStep(() => platform.Pages.HomePage.SaveContentButton.Click()),
+					new VerificationStep(() => platform.Pages.HomePage.IsDisplayed())
+				};
+				var results = new TestResults();
+				platform.TestExecutor.Execute(testSteps, results);
+				platform.Publisher.Publish(results.Results);
+				Assert.True(results.TestPassed);
+				var comments = dp.GetDayExtraFileContents(new DateTime(2018, 8, 3)).data;
+				Assert.False(comments.HasElements);
 			}
 			catch (Exception e)
 			{

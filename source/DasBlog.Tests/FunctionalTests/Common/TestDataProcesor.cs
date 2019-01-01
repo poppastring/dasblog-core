@@ -1,9 +1,11 @@
 using System;
 using System.IO;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Net.Http;
 using System.Security.Cryptography.Xml;
 using System.Xml;
+using System.Xml.Linq;
 using System.Xml.XPath;
 using System.Xml.Xsl;
 using DasBlog.Tests.Support;
@@ -84,6 +86,16 @@ namespace DasBlog.Tests.FunctionalTests.Common
 			return GetValue(Path.Combine(Constants.ContentDirectory, fileName)
 				, $"/post:DayEntry/post:Entries/post:Entry[post:EntryId='{entryId}']/post:{key}");
 		}
+		/// <inheritdoc cref="ITestDataProcessor.GetBlogPostValue"/>
+		public (bool success, XElement data) GetBlogPostFileContents(DateTime dt)
+		{
+			string fileName = GetBlogEntryFileName(dt);
+			var path = CombinePaths(Path.Combine(Constants.ContentDirectory, fileName));
+			if (!File.Exists(path))
+				return (false, new XElement("empty"));
+			var str = File.ReadAllText(path);
+			return (true, XElement.Parse(str));
+		}
 
 /*
 		/// <inheritdoc cref="ITestDataProcessor.SetValue"/>
@@ -112,7 +124,7 @@ namespace DasBlog.Tests.FunctionalTests.Common
 			SetValueUsingTemplate(Constants.SiteSecurityConfigPathFragment, siteSecurityConfigTransform, email, key, value);
 		}
 		/// <inheritdoc cref="ITestDataProcessor.SetBlogPostValue"/>
-		public void SetBlogPostValue(DateTime dt, Expression<Func<Entry, bool>> pred, string key)
+		public void SetBlogPostValue(DateTime dt, Expression<Func<Entry, bool>> pred, string key, object value)
 		{
 			throw new NotImplementedException();
 		}
@@ -122,6 +134,15 @@ namespace DasBlog.Tests.FunctionalTests.Common
 			return GetValue(Path.Combine(Constants.ContentDirectory, GetDayExtraFileName(dt))
 			  , $"/post:DayExtra/post:Comments/post:Comment[post:EntryId=\"{entryId}\"]/post:{key}");
 		}
+		/// <inheritdoc cref="ITestDataProcessor.GetDayExtraFileContents"/>
+		public (bool success, XElement data) GetDayExtraFileContents(DateTime dt)
+		{
+			var path = CombinePaths(Path.Combine(Constants.ContentDirectory, GetDayExtraFileName(dt)));
+			if (!File.Exists(path))
+				return (false, new XElement("empty"));
+			var str = File.ReadAllText(path);
+			return (true, XElement.Parse(str));
+		}
 		/// <inheritdoc cref="ITestDataProcessor.GetDayExtraValue"/>
 		public void SetDayExtraValue(DateTime dt, string entryId, string key, string value)
 		{
@@ -129,7 +150,8 @@ namespace DasBlog.Tests.FunctionalTests.Common
 			  Path.Combine(Constants.ContentDirectory, GetDayExtraFileName(dt))
 			  , dayExtraTransform, entryId, key, value);
 		}
-
+		/// <param name="filePathRelativeToEnvironment">e.g. contents/2018-2-8.dayentry.xml</param>
+		/// <returns>e.g. c:/projects/dasblog/.../Environments/Vanilla/Contents/2108-2-8.dayentry.xml</returns>
 		private string CombinePaths(string filePathRelativeToEnvironment)
 		{
 			return Path.Combine(testDataPath, filePathRelativeToEnvironment);

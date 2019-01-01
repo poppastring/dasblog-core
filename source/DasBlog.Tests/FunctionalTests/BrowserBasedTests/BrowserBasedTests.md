@@ -211,3 +211,6 @@ To change the data environment set up the following environment variable:
 ```
 DAS_BLOG_DATA_ROOT=<projects>/dasblog-core/source/DasBlog.Tests/Resources/Environments/Vanilla
 ```
+
+Remember to commit all changes in the Environments directory tree and remove any un-tracked files created 
+such as the logs to avoid subsequent tests failing
