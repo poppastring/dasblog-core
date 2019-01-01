@@ -125,8 +125,6 @@ namespace DasBlog.Core.Configuration
 
         bool UseUserCulture { get; set; }
 
-        bool ShowItemDescriptionInAggregatedViews { get; set; }
-
 		bool ShowItemSummaryInAggregatedViews { get; set; }
 
 		bool EnableClickThrough { get; set; }

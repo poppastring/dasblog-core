@@ -86,7 +86,6 @@ namespace DasBlog.Core.Configuration
         public bool EnableUrlRewriting { get; set; }
         public bool EnableCrossposts { get; set; }
         public bool UseUserCulture { get; set; }
-        public bool ShowItemDescriptionInAggregatedViews { get; set; }
         public bool EnableClickThrough { get; set; }
         public bool EnableAggregatorBugging { get; set; }
         public int DisplayTimeZoneIndex { get; set; }

@@ -30,11 +30,6 @@ namespace DasBlog.Web.Settings
 		{
 			DefaultPage();
 
-			if (dasBlogSettings.SiteConfiguration.ShowItemDescriptionInAggregatedViews)
-			{
-				listPostsViewModel = EditContentDescription(listPostsViewModel);
-			}
-
 			if (dasBlogSettings.SiteConfiguration.ShowItemSummaryInAggregatedViews)
 			{
 				return View(BLOG_PAGESUMMARY, listPostsViewModel);
@@ -80,22 +75,6 @@ namespace DasBlog.Web.Settings
 				ViewData["Author"] = dasBlogSettings.SiteConfiguration.Copyright;
 				ViewData["PageImageUrl"] = dasBlogSettings.MetaTags.TwitterImage;
 			}
-		}
-
-		private ListPostsViewModel EditContentDescription(ListPostsViewModel listPostsViewModel)
-		{
-			if (dasBlogSettings.SiteConfiguration.ShowItemDescriptionInAggregatedViews)
-			{
-				if (listPostsViewModel != null && listPostsViewModel.Posts != null)
-				{
-					foreach (var post in listPostsViewModel.Posts)
-					{
-						post.Content = post.Description;
-					}
-				}
-			}
-
-			return listPostsViewModel;
 		}
 	}
 }
