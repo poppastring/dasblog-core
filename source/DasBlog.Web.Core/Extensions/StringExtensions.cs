@@ -31,7 +31,6 @@ namespace DasBlog.Core.Extensions
 			text = text.StripHtml();
 			text = text.RemoveDoubleSpaceCharacters();
 			text = text.Trim();
-			text = text.CutLongString(160);
 			text = text.RemoveQuotationMarks();
 
 			return text;
