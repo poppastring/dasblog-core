@@ -163,6 +163,13 @@ namespace DasBlog.Tests.FunctionalTests.BrowserBasedTests
 			{
 			}
 		}
+		/**
+		 * all the AddComment tests currently pass on my Imac/Parallels/Windows 10/1803 installation
+		 * but fail on my Surface Pro/Windows 10/1803.  Both with latest of everything as far as I know.
+		 * Selenium appears to take no action on the Click() step.
+		 *
+		 * Note that some of the AddComment tests appear to pass under these circumstances which is misleading.
+		 */
 		[Fact(Skip="")]
 		[Trait(Constants.CategoryTraitType, Constants.BrowserBasedTestTraitValue )]
 		public void AddComment_AfterActivatingComments_AddsComment()
