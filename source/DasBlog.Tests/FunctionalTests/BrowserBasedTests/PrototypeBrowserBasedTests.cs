@@ -213,6 +213,7 @@ namespace DasBlog.Tests.FunctionalTests.BrowserBasedTests
 		 * When the controller's config usage becomes responsive to runtime changes then
 		 * only the first three steps will be required and the third step will be changed to
 		 * verify that the NameTextBox does NOT exist.
+		 * 
 		 */
 		[Fact(Skip="")]
 		[Trait(Constants.CategoryTraitType, Constants.BrowserBasedTestTraitValue )]
