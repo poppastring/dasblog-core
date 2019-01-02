@@ -109,7 +109,7 @@ namespace DasBlog.Tests.UnitTests.Services
 		public void BlogDataService_GetDaysWithEntries_Successful(IBlogDataService blogdataservice)
 		{
 			var dates = blogdataservice.GetDaysWithEntries(DateTimeZone.Utc).ToList<DateTime>();
-			Assert.Equal(11, dates.Count);
+			Assert.Equal(10, dates.Count);
 		}
 
 		[Theory]
