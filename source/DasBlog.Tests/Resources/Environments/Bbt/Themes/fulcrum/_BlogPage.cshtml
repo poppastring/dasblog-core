@@ -1,0 +1,13 @@
+@using DasBlog.Web.Models.BlogViewModels;
+@model ListPostsViewModel
+@using Constants = DasBlog.Core.Common.Constants;
+
+@{
+    ViewBag.Title = Constants.HomePageTitle;
+}
+
+<div class="row">
+    <div id="contents" class="container col-md-12">
+        @await Html.PartialAsync("_BlogItems", Model)
+    </div>
+</div>
