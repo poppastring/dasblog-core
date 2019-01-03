@@ -9,6 +9,74 @@
     <Platforms>AnyCPU</Platforms>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="Environments\Bbt\Themes\DasBlog\_BlogItem.cshtml">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <Pack>false</Pack>
+    </Content>
+    <Content Include="Environments\Bbt\Themes\DasBlog\_BlogItemSummary.cshtml">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <Pack>false</Pack>
+    </Content>
+    <Content Include="Environments\Bbt\Themes\DasBlog\_BlogPage.cshtml">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <Pack>false</Pack>
+    </Content>
+    <Content Include="Environments\Bbt\Themes\DasBlog\_BlogPageSummary.cshtml">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <Pack>false</Pack>
+    </Content>
+    <Content Include="Environments\Bbt\Themes\DasBlog\_Layout.cshtml">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <Pack>false</Pack>
+    </Content>
+    <Content Include="Environments\Bbt\Themes\fulcrum\_BlogItem.cshtml">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <Pack>false</Pack>
+    </Content>
+    <Content Include="Environments\Bbt\Themes\fulcrum\_BlogItemSummary.cshtml">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <Pack>false</Pack>
+    </Content>
+    <Content Include="Environments\Bbt\Themes\fulcrum\_BlogPage.cshtml">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <Pack>false</Pack>
+    </Content>
+    <Content Include="Environments\Bbt\Themes\fulcrum\_BlogPageSummary.cshtml">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <Pack>false</Pack>
+    </Content>
+    <Content Include="Environments\Bbt\Themes\fulcrum\_Layout.cshtml">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <Pack>false</Pack>
+    </Content>
+    <Content Include="Environments\Bbt\Themes\median\_BlogItem.cshtml">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <Pack>false</Pack>
+    </Content>
+    <Content Include="Environments\Bbt\Themes\median\_BlogItemSummary.cshtml">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <Pack>false</Pack>
+    </Content>
+    <Content Include="Environments\Bbt\Themes\median\_BlogPage.cshtml">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <Pack>false</Pack>
+    </Content>
+    <Content Include="Environments\Bbt\Themes\median\_BlogPageSummary.cshtml">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <Pack>false</Pack>
+    </Content>
+    <Content Include="Environments\Bbt\Themes\median\_Layout.cshtml">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <Pack>false</Pack>
+    </Content>
+    <Content Include="Environments\Bbt\Themes\_ViewImports.cshtml">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <Pack>false</Pack>
+    </Content>
+    <Content Include="Environments\Bbt\Themes\_ViewStart.cshtml">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <Pack>false</Pack>
+    </Content>
     <Content Include="Environments\Vanilla\Themes\DasBlog\_BlogItem.cshtml">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <Pack>false</Pack>

@@ -289,5 +289,38 @@ namespace DasBlog.Tests.FunctionalTests.BrowserBasedTests
 			{
 			}
 		}
+		[Fact(Skip="")]
+		[Trait(Constants.CategoryTraitType, Constants.BrowserBasedTestTraitValue )]
+		public void GotoComments_InLongPost_MakesCommentSectionVisible()
+		{
+			try
+			{
+				var dp = platform.CreateTestDataProcessor();
+				dp.SetSiteConfigValue("EnableComments", "true");
+				List<TestStep> testSteps = new List<TestStep>
+				{
+					new ActionStep(() => platform.Browser.Goto("post/cbc12a57-d377-4698-93ab-6d4b0622ba6e")),
+					new VerificationStep(() => platform.Pages.HomePage.IsDisplayed()),
+					new VerificationStep(() => platform.Pages.HomePage.CommentOnThisPostLink != null),
+					new ActionStep(() => platform.Pages.HomePage.CommentOnThisPostLink.Click()),
+					new VerificationStep(() => platform.Pages.HomePage.IsDisplayed()),
+					new VerificationStep(() => platform.Browser.IsElementVisible(platform.Pages.HomePage.CommentsStartDiv)),
+				};
+				var results = new TestResults();
+				platform.TestExecutor.Execute(testSteps, results);
+				platform.Publisher.Publish(results.Results);
+				Assert.True(results.TestPassed);
+				var comments = dp.GetDayExtraFileContents(new DateTime(2018, 8, 3)).data;
+				Assert.False(comments.HasElements);
+			}
+			catch (Exception e)
+			{
+				_ = e;
+				throw;
+			}
+			finally
+			{
+			}
+		}
 	}
 }

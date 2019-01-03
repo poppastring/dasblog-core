@@ -4,6 +4,7 @@ using System.Threading;
 using DasBlog.Tests.Support.Interfaces;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.VisualBasic;
 
 namespace DasBlog.Tests.Support
 {

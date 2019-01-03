@@ -53,6 +53,8 @@ namespace DasBlog.Core.Common
 		public const string SaveContentButtonId = "SaveContentButton";
 		public const string NavBarId = "navbar";
 		public const string CategoryPageTitle = "Category";
+		public const string CommentsStart = "comments-start";
+		public const string CommentOnThisPostId = "comment-on-this-post";
 	
 		public const string SearcherRouteName = "searcher";
 		public const string ArchivePageTitle = "Archive";

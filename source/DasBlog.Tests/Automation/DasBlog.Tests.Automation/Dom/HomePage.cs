@@ -10,6 +10,14 @@ namespace DasBlog.Tests.Automation.Dom
 		{
 			
 		}
+		public DivPageElement CommentsStartDiv
+		{
+			get { return browser.GetDivById(WebAppConstants.CommentsStart); }
+		}
+		public LinkPageElement CommentOnThisPostLink
+		{
+			get { return browser.GetLinkById(WebAppConstants.CommentOnThisPostId); }
+		}
 		public TextBoxPageElement NameTextBox
 		{
 			get { return browser.GetTextBoxElementById(WebAppConstants.Name); }

@@ -38,9 +38,10 @@ namespace DasBlog.Tests.FunctionalTests.BrowserBasedTests
 			Publisher = ServiceProvider.GetService<IPublisher>();
 			Pages = new Pages(Browser);
 			var sandboxFactory = ServiceProvider.GetService<IDasBlogSandboxFactory>();
-			sandbox = sandboxFactory.CreateSandbox(ServiceProvider, Constants.VanillaEnvironment);
+			sandbox = sandboxFactory.CreateSandbox(ServiceProvider, Constants.BbtEnvironment);
 			sandbox.Init();
 			Environment.SetEnvironmentVariable(WebAppConstants.DasBlogDataRoot, sandbox.TestEnvironmentPath);
+			Environment.SetEnvironmentVariable(WebAppConstants.DasBlogOverrideRootUrl, "1");
 			this.Runner.RunDasBlog();
 			this.Browser.Init();
 		}
