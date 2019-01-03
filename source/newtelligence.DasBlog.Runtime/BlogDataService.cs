@@ -1158,6 +1158,7 @@ namespace newtelligence.DasBlog.Runtime
             }
 
             day.Save(data);
+	        data.IncrementEntryChange();
         }
 
         EntrySaveState IBlogDataService.SaveEntry(Entry entry, params object[] trackingInfos)

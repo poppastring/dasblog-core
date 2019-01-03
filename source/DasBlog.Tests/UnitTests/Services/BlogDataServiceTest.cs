@@ -35,6 +35,7 @@ namespace DasBlog.Tests.UnitTests.Services
 		[Trait("Category", "UnitTest")]
 		public void BlogDataService_GetEntryForEditDelete_Successful(IBlogDataService blogdataservice)
 		{
+			var entriesBefore = blogdataservice.GetEntries(false);
 			var entry = TestEntry.CreateEntry(String.Format("Test Entry 2"), 5, 2);
 			blogdataservice.SaveEntry(entry, null);
 
@@ -46,6 +47,8 @@ namespace DasBlog.Tests.UnitTests.Services
 
 			var entryFailRetrieval = blogdataservice.GetEntry(entry.EntryId);
 			Assert.Null(entryFailRetrieval);
+			var entriesAfter = blogdataservice.GetEntries(false);
+			Assert.Equal(entriesBefore, entriesAfter);
 		}
 
 		[Theory]
@@ -106,7 +109,7 @@ namespace DasBlog.Tests.UnitTests.Services
 		public void BlogDataService_GetDaysWithEntries_Successful(IBlogDataService blogdataservice)
 		{
 			var dates = blogdataservice.GetDaysWithEntries(DateTimeZone.Utc).ToList<DateTime>();
-			Assert.Equal(11, dates.Count);
+			Assert.Equal(10, dates.Count);
 		}
 
 		[Theory]
