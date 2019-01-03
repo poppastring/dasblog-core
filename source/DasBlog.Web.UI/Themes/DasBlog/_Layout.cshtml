@@ -12,9 +12,10 @@
     <meta name="description" content="@ViewData["Description"]" />
     <meta name="keywords" content="@ViewData["Keywords"]" />
     <meta name="author" content="@ViewData["Author"]" />
-
     <meta name="copyright" content="@dasBlogSettings.SiteConfiguration.Copyright" />
 
+    <base href="@dasBlogSettings.SiteConfiguration.Root">
+    <link href="@ViewData["Canonical"]" rel="canonical">
     <link rel="alternate" type="application/rss+xml" title="@dasBlogSettings.SiteConfiguration.Description" href="@dasBlogSettings.RssUrl" />
     <link rel="EditURI" type="application/rsd+xml" title="RSD" href="@dasBlogSettings.RsdUrl" />
     <link rel="microsummary" type="application/x.microsummary+xml" href="@dasBlogSettings.MicroSummaryUrl" />

@@ -45,7 +45,7 @@ namespace DasBlog.Web.Settings
 				ViewData["PageTitle"] = post.Title;
 				ViewData["Description"] = post.Content.StripHTMLFromText().CutLongString(80); 
 				ViewData["Keywords"] = string.Join(",", post.Categories.Select(x => x.Category).ToArray());
-				ViewData["Canonical"] = post.PermaLink;
+				ViewData["Canonical"] = dasBlogSettings.RelativeToRoot(post.PermaLink);
 				ViewData["Author"] = post.Author;
 				ViewData["PageImageUrl"] = (post.ImageUrl?.Length > 0) ? post.ImageUrl : dasBlogSettings.MetaTags.TwitterImage;
 			}
