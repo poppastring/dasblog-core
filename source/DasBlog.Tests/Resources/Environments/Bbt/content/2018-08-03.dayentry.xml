@@ -19,6 +19,47 @@
       <Latitude xsi:nil="true" />
       <Longitude xsi:nil="true" />
     </Entry>
+    <Entry>
+      <Content>
+          &lt;p&gt;So Long&lt;/p&gt;
+          &lt;p&gt;&amp;nbsp;&lt;/p&gt;
+          &lt;p&gt;&amp;nbsp;&lt;/p&gt;
+          &lt;p&gt;&amp;nbsp;&lt;/p&gt;
+          &lt;p&gt;&amp;nbsp;&lt;/p&gt;
+          &lt;p&gt;&amp;nbsp;&lt;/p&gt;
+          &lt;p&gt;&amp;nbsp;&lt;/p&gt;
+          &lt;p&gt;&amp;nbsp;&lt;/p&gt;
+          &lt;p&gt;&amp;nbsp;&lt;/p&gt;
+          &lt;p&gt;&amp;nbsp;&lt;/p&gt;
+          &lt;p&gt;Still Going&lt;/p&gt;
+          &lt;p&gt;Still Going&lt;/p&gt;
+          &lt;p&gt;Still Going&lt;/p&gt;
+          &lt;p&gt;Still Going&lt;/p&gt;
+          &lt;p&gt;Still Going&lt;/p&gt;
+          &lt;p&gt;Still Going&lt;/p&gt;
+          &lt;p&gt;Still Going&lt;/p&gt;
+          &lt;p&gt;Still Going&lt;/p&gt;
+          &lt;p&gt;Still Going&lt;/p&gt;
+          &lt;p&gt;Still Going&lt;/p&gt;
+          &lt;p&gt;Still Going&lt;/p&gt;
+          
+      </Content>  
+      <Created>2018-08-03T06:21:20.0767732+01:00</Created>
+      <Modified>2018-08-03T06:21:20.0767837+01:00</Modified>
+      <EntryId>long-blog-post</EntryId>
+      <Description />
+      <Title>A Long Post</Title>
+      <Categories />
+      <Author>myemail@myemail.com</Author>
+      <IsPublic>true</IsPublic>
+      <Syndicated>false</Syndicated>
+      <ShowOnFrontPage>true</ShowOnFrontPage>
+      <AllowComments>true</AllowComments>
+      <Attachments />
+      <Crossposts />
+      <Latitude xsi:nil="true" />
+      <Longitude xsi:nil="true" />
+    </Entry>
     <Entry xml:lang="en-us">
       <Content>&lt;p&gt;&amp;nbsp;&lt;/p&gt;
 &lt;p&gt;&amp;nbsp;&lt;/p&gt;
