@@ -8,4 +8,36 @@
     <Configurations>Debug;Release;posix</Configurations>
     <Platforms>AnyCPU</Platforms>
   </PropertyGroup>
+  <ItemGroup>
+    <Content Include="Environments\Bbt\content\2003-07-31.dayentry.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Environments\Bbt\content\2003-08-01.dayentry.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Environments\Bbt\content\2004-01-13.dayentry.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Environments\Bbt\content\2004-01-25.dayentry.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Environments\Bbt\content\2004-02-06.dayentry.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Environments\Bbt\content\2004-02-19.dayentry.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Environments\Bbt\content\2004-03-01.dayentry.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Environments\Bbt\content\2004-03-02.dayentry.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Environments\Bbt\content\2004-03-14.dayentry.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Environments\Bbt\content\2004-03-27.dayentry.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
 </Project>

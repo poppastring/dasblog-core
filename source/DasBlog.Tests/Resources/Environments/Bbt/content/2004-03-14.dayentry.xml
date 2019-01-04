@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DayEntry xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="urn:newtelligence-com:dasblog:runtime:data">
+  <Date>2004-03-13T16:00:00.0000000-08:00</Date>
+  <Entries>
+    <Entry>
+      <Content>There are problems to whose solution I would attach an infinitely greater importance than to those of mathematics, for example touching ethics, or our relation to God, or concerning our destiny and our future; but their solution lies wholly beyond us and completely outside the province of science.</Content>
+      <Created>2004-03-14T15:31:12.0000000-08:00</Created>
+      <Modified>2004-03-14T15:31:12.0000000-08:00</Modified>
+      <EntryId>ba9b669f-4577-4e1c-8453-bb31fe62e5c8</EntryId>
+      <Title>Of Infinitely Greater Importance</Title>
+      <Categories>A Random Mathematical Quotation</Categories>
+      <Author>Karl Friedrich Gauss</Author>
+      <IsPublic>true</IsPublic>
+      <ShowOnFrontPage>true</ShowOnFrontPage>
+      <Crossposts />
+    </Entry>
+  </Entries>
+</DayEntry>
