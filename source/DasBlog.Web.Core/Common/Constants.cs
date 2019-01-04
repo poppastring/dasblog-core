@@ -55,6 +55,8 @@ namespace DasBlog.Core.Common
 		public const string CategoryPageTitle = "Category";
 		public const string CommentsStartId = "comments-start";
 		public const string CommentOnThisPostId = "comment-on-this-post";
+		public const string NextPageId = "next-page";
+		public const string PreviousPageId = "previous-page";
 	
 		public const string SearcherRouteName = "searcher";
 		public const string ArchivePageTitle = "Archive";

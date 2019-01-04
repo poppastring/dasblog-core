@@ -18,6 +18,14 @@ namespace DasBlog.Tests.Automation.Dom
 		{
 			get { return browser.GetLinkById(WebAppConstants.CommentOnThisPostId); }
 		}
+		public LinkPageElement NextPageLink
+		{
+			get { return browser.GetLinkById(WebAppConstants.NextPageId); }
+		}
+		public LinkPageElement PreviousPageLink
+		{
+			get { return browser.GetLinkById(WebAppConstants.PreviousPageId); }
+		}
 		public TextBoxPageElement NameTextBox
 		{
 			get { return browser.GetTextBoxElementById(WebAppConstants.Name); }
