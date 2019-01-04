@@ -75,7 +75,16 @@
         <footer>
             <div class="container text-center">
                 <p class="text-muted">
-                    <a href="">&lt;&lt;Older Posts</a> | <a href="">Newer Posts&gt;&gt;</a>
+                    @if ((int) ViewData[Constants.PostCount] > 0)
+                    {
+                        <a href="page/@((int) ViewData[Constants.PageNumber] + 1)"
+                           id="@Constants.NextPageId">&lt;&lt;Older Posts</a>
+                    }
+                    @if ((int) ViewData[Constants.PageNumber] > 0)
+                    {
+                        <a href = "page/@((int)ViewData[Constants.PageNumber] - 1)"
+                           id="@Constants.PreviousPageId">| Newer Posts &gt;&gt;</a>
+                    }
                 </p>
             </div>
             <div class="container text-center">

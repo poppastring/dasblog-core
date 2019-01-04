@@ -417,6 +417,8 @@ namespace DasBlog.Web.Controllers
 			if (entries != null )
 			{
 				lpvm.Posts = entries.Select(entry => mapper.Map<PostViewModel>(entry)).ToList();
+				ViewData[Constants.PageNumber] = 0;
+				ViewData[Constants.PostCount] = lpvm.Posts.Count;
 
 				return View(BLOG_PAGE, lpvm);
 			}
