@@ -12,7 +12,7 @@ namespace DasBlog.Tests.Automation.Dom
 		}
 		public DivPageElement CommentsStartDiv
 		{
-			get { return browser.GetDivById(WebAppConstants.CommentsStart); }
+			get { return browser.GetDivById(WebAppConstants.CommentsStartId); }
 		}
 		public LinkPageElement CommentOnThisPostLink
 		{
