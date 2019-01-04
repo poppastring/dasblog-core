@@ -32,6 +32,10 @@ namespace DasBlog.Core.Common
 		public const string CancelAction = "Cancel";
 		public const string DeleteAction = "Delete";
 
+		// ViewData
+		public const string PageNumber = "page-numbe";
+		public const string PostCount = "post-count";
+		//
 		public const string TinyMceEditor = "tinymce";
 		public const string NicEditEditor = "nicedit";
 		public const string TextAreaEditor = "textarea";
