@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using DasBlog.Tests.Support;
 using DasBlog.Tests.Support.Common;
 using Xunit;
@@ -20,8 +21,6 @@ namespace DasBlog.Tests.FunctionalTests.BrowserBasedTests
 		{
 			try
 			{
-				var dp = platform.CreateTestDataProcessor();
-				dp.SetSiteConfigValue("EnableComments", "true");
 				List<TestStep> testSteps = new List<TestStep>
 				{
 					new ActionStep(() => platform.Pages.HomePage.Goto()),
@@ -49,8 +48,6 @@ namespace DasBlog.Tests.FunctionalTests.BrowserBasedTests
 		{
 			try
 			{
-				var dp = platform.CreateTestDataProcessor();
-				dp.SetSiteConfigValue("EnableComments", "true");
 				List<TestStep> testSteps = new List<TestStep>
 				{
 					new ActionStep(() => platform.Browser.Goto("page/1")),
@@ -78,8 +75,6 @@ namespace DasBlog.Tests.FunctionalTests.BrowserBasedTests
 		{
 			try
 			{
-				var dp = platform.CreateTestDataProcessor();
-				dp.SetSiteConfigValue("EnableComments", "true");
 				List<TestStep> testSteps = new List<TestStep>
 				{
 					new ActionStep(() => platform.Browser.Goto("page/100")),
@@ -107,9 +102,6 @@ namespace DasBlog.Tests.FunctionalTests.BrowserBasedTests
 		{
 			try
 			{
-				var dp = platform.CreateTestDataProcessor();
-				dp.SetSiteConfigValue("EnableComments", "true");
-				string url;
 				List<TestStep> testSteps = new List<TestStep>
 				{
 					new ActionStep(() => platform.Browser.Goto("page/1")),
@@ -138,9 +130,6 @@ namespace DasBlog.Tests.FunctionalTests.BrowserBasedTests
 		{
 			try
 			{
-				var dp = platform.CreateTestDataProcessor();
-				dp.SetSiteConfigValue("EnableComments", "true");
-				string url;
 				List<TestStep> testSteps = new List<TestStep>
 				{
 					new ActionStep(() => platform.Browser.Goto("page/2")),
@@ -177,4 +166,44 @@ namespace DasBlog.Tests.FunctionalTests.BrowserBasedTests
 			return parts[parts.Length - 1] == pageNumber;
 		}
 	}
+
+	[Collection(Constants.TestInfrastructureUsersCollection)]
+	public class EmptyPageControlTests : BrowserBasedTestsBase
+	{
+		public EmptyPageControlTests(ITestOutputHelper testOutputHelper, BrowserTestPlatform browserTestPlatform)
+			: base(testOutputHelper, browserTestPlatform)
+		{
+		}
+
+		[Fact(Skip = "")]
+		[Trait(Constants.CategoryTraitType, Constants.BrowserBasedTestTraitValue)]
+		public void Browse_EmptyPage_ShowsNoPageControls()
+		{
+			try
+			{
+				DasBlog.Tests.FunctionalTests.Common.Utils.DeleteDirectoryContentsDirect(
+					Path.Combine(platform.Sandbox.TestEnvironmentPath, "content"));
+				List<TestStep> testSteps = new List<TestStep>
+				{
+					new ActionStep(() => platform.Pages.HomePage.Goto()),
+					new VerificationStep(() => platform.Pages.HomePage.IsDisplayed()),
+					new VerificationStep(() => platform.Pages.HomePage.NextPageLink == null),
+					new VerificationStep(() => platform.Pages.HomePage.PreviousPageLink == null),
+				};
+				var results = new TestResults();
+				platform.TestExecutor.Execute(testSteps, results);
+				platform.Publisher.Publish(results.Results);
+				Assert.True(results.TestPassed);
+			}
+			catch (Exception e)
+			{
+				_ = e;
+				throw;
+			}
+			finally
+			{
+			}
+		}
+	}
+
 }

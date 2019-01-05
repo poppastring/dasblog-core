@@ -20,11 +20,16 @@ namespace DasBlog.Tests.FunctionalTests.BrowserBasedTests
 		public IPublisher Publisher { get; private set; }
 		public ITestExecutor TestExecutor { get; private set; }
 		public Pages Pages { get; private set; }
+
 		private IDasBlogSandbox sandbox;
+		public IDasBlogSandbox Sandbox
+		{
+			get { return sandbox ?? throw new NullReferenceException("You must call TestPlatform.CompleteSetup before accessing the sandboxc"); }
+		}
 
 		public ITestDataProcessor CreateTestDataProcessor()
 		{
-			return new TestDataProcesor(sandbox.TestEnvironmentPath);
+			return new TestDataProcesor(Sandbox.TestEnvironmentPath);
 		}
 		/// <summary>
 		/// completes the platform setup after the logger has been created although
