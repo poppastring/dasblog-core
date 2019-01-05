@@ -404,6 +404,7 @@ namespace DasBlog.Web.Controllers
 
 			DefaultPage();
 
+			ViewData[Constants.ShowPageControl] = false;
 			return View(BLOG_PAGE, lpvm);
 		}
 
@@ -417,8 +418,7 @@ namespace DasBlog.Web.Controllers
 			if (entries != null )
 			{
 				lpvm.Posts = entries.Select(entry => mapper.Map<PostViewModel>(entry)).ToList();
-				ViewData[Constants.PageNumber] = 0;
-				ViewData[Constants.PostCount] = lpvm.Posts.Count;
+				ViewData[Constants.ShowPageControl] = false;
 
 				return View(BLOG_PAGE, lpvm);
 			}

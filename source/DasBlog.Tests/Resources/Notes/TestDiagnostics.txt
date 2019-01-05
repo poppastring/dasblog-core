@@ -1,0 +1,7 @@
+1. Use debugger - Rider, probably VS
+2. Tests must be in same collection to avoid clashes
+3. Log for failing step in browser based tests
+4. Need to clear modified files.
+5. Caching and component tests
+6. Browser based tests have incidental dependencies in class, component tests do not.
+7. Use of web app pointing at Bbt.

@@ -7,6 +7,7 @@ using Xunit.Abstractions;
 
 namespace DasBlog.Tests.FunctionalTests.BrowserBasedTests
 {
+	[Collection(Constants.TestInfrastructureUsersCollection)]
 	public class PageControlTests : BrowserBasedTestsBase
 	{
 		public PageControlTests(ITestOutputHelper testOutputHelper, BrowserTestPlatform browserTestPlatform)

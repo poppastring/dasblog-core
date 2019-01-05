@@ -38,6 +38,7 @@ namespace DasBlog.Web.Controllers
 							.Select(entry => mapper.Map<PostViewModel>(entry)).
 							Select(editentry => editentry).ToList()
 			};
+			ViewData[Constants.ShowPageControl] = true;			
 			ViewData[Constants.PageNumber] = 0;
 			ViewData[Constants.PostCount] = lpvm.Posts.Count;
 
@@ -67,6 +68,7 @@ namespace DasBlog.Web.Controllers
 								.Select(entry => mapper.Map<PostViewModel>(entry)).ToList()
 			};
 			ViewData["Message"] = string.Format("Page...{0}", index);
+			ViewData[Constants.ShowPageControl] = true;			
 			ViewData[Constants.PageNumber] = index;
 			ViewData[Constants.PostCount] = lpvm.Posts.Count;
 

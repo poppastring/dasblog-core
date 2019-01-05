@@ -74,20 +74,6 @@
 
         <footer>
             <div class="container text-center">
-                <p class="text-muted">
-                    @if ((int) ViewData[Constants.PostCount] > 0)
-                    {
-                        <a href="page/@((int) ViewData[Constants.PageNumber] + 1)"
-                           id="@Constants.NextPageId">&lt;&lt;Older Posts</a>
-                    }
-                    @if ((int) ViewData[Constants.PageNumber] > 0)
-                    {
-                        <a href = "page/@((int)ViewData[Constants.PageNumber] - 1)"
-                           id="@Constants.PreviousPageId">| Newer Posts &gt;&gt;</a>
-                    }
-                </p>
-            </div>
-            <div class="container text-center">
                 <p class="text-muted credit">&copy; @DateTime.Now.Year - @dasBlogSettings.SiteConfiguration.Copyright</p>
             </div>
         </footer>

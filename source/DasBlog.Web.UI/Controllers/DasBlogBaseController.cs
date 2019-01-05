@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using DasBlog.Core;
+using DasBlog.Core.Common;
 using DasBlog.Web.Controllers;
 using DasBlog.Web.Models.BlogViewModels;
 using DasBlog.Core.Extensions;
@@ -23,6 +24,7 @@ namespace DasBlog.Web.Settings
 		{
 			SinglePost(listPostsViewModel?.Posts?.First());
 
+			ViewData[Constants.ShowPageControl] = false;
 			return View(BLOG_PAGE, listPostsViewModel);
 		}
 

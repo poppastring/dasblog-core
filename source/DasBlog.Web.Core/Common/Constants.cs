@@ -33,7 +33,8 @@ namespace DasBlog.Core.Common
 		public const string DeleteAction = "Delete";
 
 		// ViewData
-		public const string PageNumber = "page-numbe";
+		public const string ShowPageControl = "show-page-control";
+		public const string PageNumber = "page-number";
 		public const string PostCount = "post-count";
 		//
 		public const string TinyMceEditor = "tinymce";
