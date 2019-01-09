@@ -792,7 +792,7 @@ namespace DasBlog.Managers
 
 			var urlInfo = new MetaWeblog.UrlInfo
 			{
-				url = Path.Combine(dasBlogSettings.RelativeToRoot(dasBlogSettings.SiteConfiguration.BinariesDir.TrimStart('~')), enc.name)
+				url = Path.Combine(dasBlogSettings.RelativeToRoot(dasBlogSettings.SiteConfiguration.BinariesDir.TrimStart('~', '/')), enc.name)
 			};
 
 			return urlInfo;
