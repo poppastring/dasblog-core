@@ -38,6 +38,7 @@ namespace DasBlog.Tests.Support.Common
 		public const string LanguageEnvironment = "Language";
 		public const string CategoriesEnvironment = "Categories";
 		public const string EmptyContentEnvironment = "EmptyContent";
+		public const string BbtEnvironment = "Bbt";
 		// ****** XUnit Traits ******
 		public const string CategoryTraitType = "Category";
 		public const string ChosenTraitType = "Chosen";

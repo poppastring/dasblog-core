@@ -5,6 +5,7 @@ using System.Xml.Serialization;
 using DasBlog.Core.Configuration;
 using DasBlog.Core.Security;
 using DasBlog.Core;
+using DasBlog.Core.Common;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Options;
@@ -119,7 +120,7 @@ namespace DasBlog.Web.Settings
 		}
 		public string GetCommentViewUrl(string entryId)
         {
-            return GetPermaLinkUrl(entryId) + "/comments";
+            return GetPermaLinkUrl(entryId) + $"/comments#{Constants.CommentsStartId}";
         }
 
         public string GetTrackbackUrl(string entryId)

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using System.IO;
 using DasBlog.Tests.Automation.Common;
 using DasBlog.Tests.Automation.Selenium.Interfaces;
 using DasBlog.Tests.Automation.Dom;
@@ -8,12 +7,13 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
+using OpenQA.Selenium.Support.Extensions;
 using OpenQA.Selenium.Support.UI;
 using AppConstants = DasBlog.Core.Common.Constants;
 
 namespace DasBlog.Tests.Automation.Selenium
 {
-	public class Browser : IBrowser
+	public partial class Browser : IBrowser
 	{
 		private readonly string homeUrl;
 		private IWebDriver driver;
@@ -122,6 +122,11 @@ namespace DasBlog.Tests.Automation.Selenium
 			return GetElementById<AnyPageElement>(id);
 		}
 
+		public DivPageElement GetDivById(string id)
+		{
+			return GetElementById<DivPageElement>(id);
+		}
+
 		public PE GetElementById<PE>(string id) where PE : PageElement, new()
 		{
 			try
@@ -131,6 +136,7 @@ namespace DasBlog.Tests.Automation.Selenium
 				{
 					PE pe = new PE();
 					pe.WebElement = el;
+					pe.Id = id;
 					return pe;
 				}
 				else
@@ -145,17 +151,12 @@ namespace DasBlog.Tests.Automation.Selenium
 			}
 		}
 
-		public DivPageElement GetPageTestIdDiv(string pageTestId)
+//		Much thanks to:
+//		https://stackoverflow.com/questions/2646195/how-to-check-if-an-element-is-visible-with-webdriver/52261060#52261060
+		public bool IsElementVisible(PageElement pe)
 		{
-			var we = driver.FindElement(By.Id(pageTestId));
-			if (we != null)
-			{
-				var pe = new DivPageElement();
-				pe.WebElement = we;
-				return pe;
-			}
-
-			return null;
+			return driver.ExecuteJavaScript<bool>(
+				isVisibleScript.Replace("element-id", pe.Id));
 		}
 	}
 }

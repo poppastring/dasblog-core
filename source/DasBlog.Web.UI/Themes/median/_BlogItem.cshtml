@@ -36,6 +36,7 @@
             <comment-post post="@Model"></comment-post>
         </div>
     </div>
+    <div id="@DasBlog.Core.Common.Constants.CommentsStartId" >&nbsp;</div>
     @await Html.PartialAsync("_CommentBlockPartial", @Model.Comments)
 </div>
 <hr />

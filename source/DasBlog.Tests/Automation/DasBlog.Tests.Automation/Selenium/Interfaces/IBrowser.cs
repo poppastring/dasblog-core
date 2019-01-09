@@ -14,8 +14,9 @@ namespace DasBlog.Tests.Automation.Selenium.Interfaces
 		TextBoxPageElement GetTextBoxElementById(string id);
 		LinkPageElement GetLinkById(string categoryId);
 		AnyPageElement GetAnyElementById(string navBarId);
-		DivPageElement GetPageTestIdDiv(string pageTestId);
+		DivPageElement GetDivById(string pageTestId);
 		string GetPageSource();
+		bool IsElementVisible(PageElement pe);
 		ILogger<Browser> Logger { get; }
 	}
 }

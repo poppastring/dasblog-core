@@ -2,6 +2,7 @@
 using DasBlog.Web.Models.BlogViewModels;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using System.Threading.Tasks;
+using DasBlog.Core.Common;
 
 namespace DasBlog.Web.TagHelpers
 {
@@ -21,6 +22,7 @@ namespace DasBlog.Web.TagHelpers
 			output.TagName = "a";
 			output.TagMode = TagMode.StartTagAndEndTag;
 			output.Attributes.SetAttribute("href", dasBlogSettings.GetCommentViewUrl(Post.EntryId));
+			output.Attributes.SetAttribute("id", Constants.CommentOnThisPostId);
 			output.Attributes.SetAttribute("class", "dbc-comment-on-post-link");
 			output.Content.SetHtmlContent("Comment on this post");
 		}

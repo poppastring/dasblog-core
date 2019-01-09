@@ -25,7 +25,7 @@ namespace DasBlog.Tests.Automation.Dom
 		{
 			try
 			{
-				var elem = browser.GetPageTestIdDiv(pageTestId);
+				var elem = browser.GetDivById(pageTestId);
 				if (elem == null)
 				{
 					browser.Logger.LogInformation( browser.GetPageSource());

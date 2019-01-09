@@ -1,9 +1,12 @@
 ﻿@using DasBlog.Web.Models.BlogViewModels;
+@using Constants = DasBlog.Core.Common.Constants;
+@using Microsoft.VisualBasic
 @model ListCommentsViewModel
 @inject IDasBlogSettings dasBlogSettings
 
 @if (Model != null && Model.Comments != null)
 {
+@*     <div id="@Constants.CommentsStart" >here</div> *@
     <hr />
     <div class="post-comments">
         <div class="post-comments-list">
@@ -16,7 +19,6 @@
                 }
             }
         </div>
-        
         @if (dasBlogSettings.AreCommentsPermitted(Model.PostDate))
         {
             @await Html.PartialAsync("_CommentAddPartial", new AddCommentViewModel() { Content = string.Empty, Email = string.Empty, HomePage = string.Empty, Name = string.Empty, TargetEntryId = Model.PostId })
