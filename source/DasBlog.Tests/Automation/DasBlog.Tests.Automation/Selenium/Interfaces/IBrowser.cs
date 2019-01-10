@@ -9,6 +9,7 @@ namespace DasBlog.Tests.Automation.Selenium.Interfaces
 		void Goto(string path);
 		void Init();
 		string GetTitle();
+		string GetUrl();
 		ButtonPageElement GetButtonById(string id);
 		SpanPageElement GetElementById(string id);
 		TextBoxPageElement GetTextBoxElementById(string id);

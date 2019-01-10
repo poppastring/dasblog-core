@@ -90,6 +90,11 @@ namespace DasBlog.Tests.Automation.Selenium
 			return driver.Title;
 		}
 
+		public string GetUrl()
+		{
+			return driver.Url;
+		}
+
 		public string GetPageSource()
 		{
 			return driver.PageSource;

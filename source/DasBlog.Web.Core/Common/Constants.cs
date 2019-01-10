@@ -32,6 +32,11 @@ namespace DasBlog.Core.Common
 		public const string CancelAction = "Cancel";
 		public const string DeleteAction = "Delete";
 
+		// ViewData
+		public const string ShowPageControl = "show-page-control";
+		public const string PageNumber = "page-number";
+		public const string PostCount = "post-count";
+		//
 		public const string TinyMceEditor = "tinymce";
 		public const string NicEditEditor = "nicedit";
 		public const string TextAreaEditor = "textarea";
@@ -55,6 +60,8 @@ namespace DasBlog.Core.Common
 		public const string CategoryPageTitle = "Category";
 		public const string CommentsStartId = "comments-start";
 		public const string CommentOnThisPostId = "comment-on-this-post";
+		public const string NextPageId = "next-page";
+		public const string PreviousPageId = "previous-page";
 	
 		public const string SearcherRouteName = "searcher";
 		public const string ArchivePageTitle = "Archive";

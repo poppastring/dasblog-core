@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Linq;
 using AutoMapper;
 using DasBlog.Core;
+using DasBlog.Core.Common;
 using DasBlog.Managers.Interfaces;
 using DasBlog.Web.Models;
 using DasBlog.Web.Models.BlogViewModels;
@@ -37,6 +38,9 @@ namespace DasBlog.Web.Controllers
 							.Select(entry => mapper.Map<PostViewModel>(entry)).
 							Select(editentry => editentry).ToList()
 			};
+			ViewData[Constants.ShowPageControl] = true;			
+			ViewData[Constants.PageNumber] = 0;
+			ViewData[Constants.PostCount] = lpvm.Posts.Count;
 
 			logger.LogDebug($"In Index - {lpvm.Posts.Count} post found");
 
@@ -57,13 +61,16 @@ namespace DasBlog.Web.Controllers
 				return Index();
 			}
 
-			ViewData["Message"] = string.Format("Page...{0}", index);
 
 			var lpvm = new ListPostsViewModel
 			{
 				Posts = blogManager.GetEntriesForPage(index, Request.Headers["Accept-Language"])
 								.Select(entry => mapper.Map<PostViewModel>(entry)).ToList()
 			};
+			ViewData["Message"] = string.Format("Page...{0}", index);
+			ViewData[Constants.ShowPageControl] = true;			
+			ViewData[Constants.PageNumber] = index;
+			ViewData[Constants.PostCount] = lpvm.Posts.Count;
 
 			return AggregatePostView(lpvm);
 		}
