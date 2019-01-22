@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using DasBlog.Managers.Interfaces;
+using DasBlog.Core.Services.Rss20;
+using DasBlog.Core.Services.Rsd;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
-using Microsoft.Extensions.Primitives;
-using DasBlog.Managers.Interfaces;
-using newtelligence.DasBlog.Web.Services.Rss20;
-using Microsoft.AspNetCore.Http;
-using newtelligence.DasBlog.Web.Services.Rsd;
+using System;
 using System.IO;
 
 namespace DasBlog.Web.Controllers

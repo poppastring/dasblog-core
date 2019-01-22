@@ -1,15 +1,14 @@
-﻿using DasBlog.Managers.Interfaces;
+﻿using DasBlog.Core;
+using DasBlog.Core.Security;
+using DasBlog.Core.Services.Rsd;
+using DasBlog.Core.Services.Rss20;
+using DasBlog.Managers.Interfaces;
+using newtelligence.DasBlog.Runtime;
+using newtelligence.DasBlog.Util.Html;
 using System;
 using System.Collections.Generic;
-using newtelligence.DasBlog.Web.Services.Rss20;
-using newtelligence.DasBlog.Runtime;
-using DasBlog.Core;
 using System.Xml;
 using System.Globalization;
-using newtelligence.DasBlog.Util.Html;
-using DasBlog.Core.Security;
-using newtelligence.DasBlog.Web.Services.Rsd;
-
 
 namespace DasBlog.Managers
 {
@@ -55,9 +54,7 @@ namespace DasBlog.Managers
                 entries = BuildEntries(category, maxDayCount, maxEntryCount);
             }
 
-
-
-            RssRoot documentRoot = new RssRoot(); ;
+            var documentRoot = new RssRoot(); ;
 
             //However, if we made it this far, the not-modified check didn't work, and we may not have entries...
             if (entries == null)
@@ -68,7 +65,8 @@ namespace DasBlog.Managers
             documentRoot.Namespaces.Add("dc", "http://purl.org/dc/elements/1.1/");
             documentRoot.Namespaces.Add("trackback", "http://madskills.com/public/xml/rss/module/trackback/");
             documentRoot.Namespaces.Add("pingback", "http://madskills.com/public/xml/rss/module/pingback/");
-            if (dasBlogSettings.SiteConfiguration.EnableComments)
+			documentRoot.Namespaces.Add("webfeeds", "http://webfeeds.org/rss/1.0");
+			if (dasBlogSettings.SiteConfiguration.EnableComments)
             {
                 documentRoot.Namespaces.Add("wfw", "http://wellformedweb.org/CommentAPI/");
                 documentRoot.Namespaces.Add("slash", "http://purl.org/rss/1.0/modules/slash/");
@@ -78,7 +76,7 @@ namespace DasBlog.Managers
                 documentRoot.Namespaces.Add("georss", "http://www.georss.org/georss");
             }
 
-            RssChannel ch = new RssChannel();
+            var ch = new RssChannel();
 
             if (category == null)
             {
@@ -89,7 +87,7 @@ namespace DasBlog.Managers
                 ch.Title = dasBlogSettings.SiteConfiguration.Title + " - " + category;
             }
 
-            if (dasBlogSettings.SiteConfiguration.Description == null || dasBlogSettings.SiteConfiguration.Description.Trim().Length == 0)
+            if (string.IsNullOrEmpty(dasBlogSettings.SiteConfiguration.Description))
             {
                 ch.Description = dasBlogSettings.SiteConfiguration.Subtitle;
             }
@@ -100,16 +98,18 @@ namespace DasBlog.Managers
 
             ch.Link = dasBlogSettings.GetBaseUrl();
             ch.Copyright = dasBlogSettings.SiteConfiguration.Copyright;
-            if (dasBlogSettings.SiteConfiguration.RssLanguage != null && dasBlogSettings.SiteConfiguration.RssLanguage.Length > 0)
+            if (!string.IsNullOrEmpty(dasBlogSettings.SiteConfiguration.RssLanguage))
             {
                 ch.Language = dasBlogSettings.SiteConfiguration.RssLanguage;
             }
+
             ch.ManagingEditor = dasBlogSettings.SiteConfiguration.Contact;
             ch.WebMaster = dasBlogSettings.SiteConfiguration.Contact;
             ch.Image = null;
-            if (dasBlogSettings.SiteConfiguration.ChannelImageUrl != null && dasBlogSettings.SiteConfiguration.ChannelImageUrl.Trim().Length > 0)
+
+            if (!string.IsNullOrWhiteSpace(dasBlogSettings.SiteConfiguration.ChannelImageUrl))
             {
-                newtelligence.DasBlog.Web.Services.Rss20.ChannelImage channelImage = new newtelligence.DasBlog.Web.Services.Rss20.ChannelImage();
+				var channelImage = new DasBlog.Core.Services.Rss20.ChannelImage();
                 channelImage.Title = ch.Title;
                 channelImage.Link = ch.Link;
                 if (dasBlogSettings.SiteConfiguration.ChannelImageUrl.StartsWith("http"))
@@ -123,19 +123,41 @@ namespace DasBlog.Managers
                 ch.Image = channelImage;
             }
 
-            documentRoot.Channels.Add(ch);
+			var xdoc = new XmlDocument();
+			var rootElements = new List<XmlElement>();
 
-            foreach (Entry entry in entries)
+			var wflogo = xdoc.CreateElement("webfeeds", "logo", "webfeeds");
+			wflogo.InnerText = dasBlogSettings.RelativeToRoot(dasBlogSettings.SiteConfiguration.ChannelImageUrl);
+			rootElements.Add(wflogo);
+
+			var wfanalytics = xdoc.CreateElement("webfeeds", "analytics", "webfeeds");
+
+			var attribId = xdoc.CreateAttribute("id");
+			attribId.Value = dasBlogSettings.MetaTags.GoogleAnalyticsID;
+			wfanalytics.Attributes.Append(attribId);
+
+			var attribEngine = xdoc.CreateAttribute("engine");
+			attribEngine.Value = "GoogleAnalytics";
+			wfanalytics.Attributes.Append(attribEngine);
+
+			rootElements.Add(wfanalytics);
+
+			ch.anyElements = rootElements.ToArray();
+
+			ch.Items = new RssItemCollection();
+			documentRoot.Channels.Add(ch);
+
+			foreach (var entry in entries)
             {
                 if (entry.IsPublic == false || entry.Syndicated == false)
                 {
                     continue;
                 }
-                XmlDocument doc2 = new XmlDocument();
-                List<XmlElement> anyElements = new List<XmlElement>();
-                RssItem item = new RssItem();
+                var doc2 = new XmlDocument();
+                var anyElements = new List<XmlElement>();
+                var item = new RssItem();
                 item.Title = entry.Title;
-                item.Guid = new newtelligence.DasBlog.Web.Services.Rss20.Guid();
+                item.Guid = new DasBlog.Core.Services.Rss20.Guid();
                 item.Guid.IsPermaLink = false;
                 item.Guid.Text = dasBlogSettings.GetPermaLinkUrl(entry.EntryId);
                 item.Link = dasBlogSettings.RelativeToRoot(dasBlogSettings.GetPermaTitle(entry.CompressedTitle));
@@ -153,7 +175,7 @@ namespace DasBlog.Managers
                 pingbackTarget.InnerText = dasBlogSettings.GetPermaLinkUrl(entry.EntryId);
                 anyElements.Add(pingbackTarget);
 
-                XmlElement dcCreator = doc2.CreateElement("dc", "creator", "http://purl.org/dc/elements/1.1/");
+				XmlElement dcCreator = doc2.CreateElement("dc", "creator", "http://purl.org/dc/elements/1.1/");
                 if (user != null)
                 {
                     dcCreator.InnerText = user.DisplayName;
@@ -163,8 +185,8 @@ namespace DasBlog.Managers
                 // Add GeoRSS if it exists.
                 if (dasBlogSettings.SiteConfiguration.EnableGeoRss)
                 {
-                    Nullable<double> latitude = new Nullable<double>();
-                    Nullable<double> longitude = new Nullable<double>();
+                    var latitude = new Nullable<double>();
+                    var longitude = new Nullable<double>();
 
                     if (entry.Latitude.HasValue)
                     {
@@ -249,7 +271,6 @@ namespace DasBlog.Managers
                 {
                     ch.LastBuildDate = item.PubDate;
                 }
-
 
                 if (!dasBlogSettings.SiteConfiguration.AlwaysIncludeContentInRSS &&
                     entry.Description != null &&

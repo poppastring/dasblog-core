@@ -8,4 +8,5 @@
   <TwitterImage>http://www.somesite.com/images/defaultsiteimage.png</TwitterImage>
   <FaceBookAdmins>fbadmin</FaceBookAdmins>
   <FaceBookAppID>AB124321234</FaceBookAppID>
+  <GoogleAnalyticsID>UA</GoogleAnalyticsID>
 </MetaTags>
