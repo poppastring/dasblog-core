@@ -14,5 +14,6 @@ namespace DasBlog.Core.Configuration
         string TwitterImage { get; set; }
         string FaceBookAdmins { get; set; }
         string FaceBookAppID { get; set; }
-    }
+		string GoogleAnalyticsID { get; set; }
+	}
 }

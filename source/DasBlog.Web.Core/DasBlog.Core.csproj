@@ -8,6 +8,11 @@
     <NoWarn>1701;1702;NU1701</NoWarn>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="Settings\**" />
+    <EmbeddedResource Remove="Settings\**" />
+    <None Remove="Settings\**" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\NetEscapades.Extensions.Logging.RollingFile\NetEscapades.Extensions.Logging.RollingFile.csproj" />
   </ItemGroup>
   <PropertyGroup Condition="'$(Configuration)'=='posix'">
@@ -20,9 +25,6 @@
     <ProjectReference Include="..\newtelligence.DasBlog.Runtime\newtelligence.DasBlog.Runtime.csproj" />
     <ProjectReference Include="..\newtelligence.DasBlog.Web.Core\newtelligence.DasBlog.Web.Core.csproj" />
     <ProjectReference Include="..\newtelligence.DasBlog.Web.Services\newtelligence.DasBlog.Web.Services.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Settings\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Options" Version="2.1.0" />
