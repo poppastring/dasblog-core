@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using DasBlog.Managers.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using DasBlog.Managers.Interfaces;
 
 namespace DasBlog.Web.Controllers
 {
@@ -23,7 +18,7 @@ namespace DasBlog.Web.Controllers
         [HttpGet("map")]
         public ActionResult Map()
         {
-            urlset sitemap = siteManager.GetGoogleSiteMap();
+            var sitemap = siteManager.GetGoogleSiteMap();
 
             return Ok(sitemap);
         }
