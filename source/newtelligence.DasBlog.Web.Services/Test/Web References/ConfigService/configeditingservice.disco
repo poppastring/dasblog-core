@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<discovery xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.xmlsoap.org/disco/">
-  <contractRef ref="http://localhost/omar/configeditingservice.asmx?wsdl" docRef="http://localhost/omar/configeditingservice.asmx" xmlns="http://schemas.xmlsoap.org/disco/scl/" />
-  <soap address="http://localhost/omar/configeditingservice.asmx" xmlns:q1="urn:schemas-newtelligence-com:dasblog:config-services" binding="q1:ConfigEditingServiceSoap" xmlns="http://schemas.xmlsoap.org/disco/soap/" />
-</discovery>
