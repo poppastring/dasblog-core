@@ -154,11 +154,6 @@
       <Project>{4DC29536-2515-4B8D-AEB6-EC397B950881}</Project>
       <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
     </ProjectReference>
-    <ProjectReference Include="..\WebControlCaptcha\WebControlCaptcha.vbproj">
-      <Name>WebControlCaptcha</Name>
-      <Project>{FF7F1D68-352E-4FEA-A7B4-EB6C25140316}</Project>
-      <Package>{F184B08F-C81C-45F6-A57F-5ABD9991F28F}</Package>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\AssemblyInfo.cs">
