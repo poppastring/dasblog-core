@@ -37,8 +37,9 @@
 */
 #endregion
 
+using DasBlog.Core.Common.Comments;
 using newtelligence.DasBlog.Runtime;
-using newtelligence.DasBlog.Web.Core;
+
 using System;
 using System.Xml;
 using System.Xml.Serialization;

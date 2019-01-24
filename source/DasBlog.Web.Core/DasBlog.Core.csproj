@@ -39,10 +39,4 @@
       <Link>ValidTagCollection.cs</Link>
     </Compile>
   </ItemGroup>
-  <ItemGroup>
-    <Compile Remove="Common\Comments\MatchedTag.cs" />
-    <None Include="Common\Comments\MatchedTag.cs" />
-    <Compile Remove="Common\Comments\MatchedTagCollection.cs" />
-    <None Include="Common\Comments\MatchedTagCollection.cs" />
-  </ItemGroup>
 </Project>
