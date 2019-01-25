@@ -1,1 +1,0 @@
-<%@ Control Language="c#" AutoEventWireup="True" Codebehind="SingleCommentView.ascx.cs" Inherits="newtelligence.DasBlog.Web.SingleCommentView" TargetSchema="http://schemas.microsoft.com/intellisense/ie5"%>
