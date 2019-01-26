@@ -47,8 +47,6 @@ using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Web;
-//using CookComputing.XmlRpc;
-//using newtelligence.DasBlog.Runtime.Proxies;
 using NodaTime;
 
 namespace newtelligence.DasBlog.Runtime
