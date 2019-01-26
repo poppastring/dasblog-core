@@ -99,10 +99,6 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\newtelligence.DasBlog.Util\newtelligence.DasBlog.Util.csproj">
-      <Project>{15c1672e-92a2-4faf-977a-d7ebc008ec42}</Project>
-      <Name>newtelligence.DasBlog.Util</Name>
-    </ProjectReference>
     <Reference Include="CookComputing.XmlRpc.NoSN">
       <Name>CookComputing.XmlRpc.NoSN</Name>
       <HintPath>..\..\lib\CookComputing.XmlRpc.NoSN.dll</HintPath>
@@ -312,9 +308,33 @@
     <Compile Include="TrackingType.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Html\ContentFormatter.cs" />
+    <Compile Include="Html\Formatting\ElementType.cs" />
+    <Compile Include="Html\Formatting\FormattedTextWriter.cs" />
+    <Compile Include="Html\Formatting\FormattingFlags.cs" />
+    <Compile Include="Html\Formatting\HtmlWriter.cs" />
+    <Compile Include="Html\Formatting\LITagInfo.cs" />
+    <Compile Include="Html\Formatting\OLTagInfo.cs" />
+    <Compile Include="Html\Formatting\PTagInfo.cs" />
+    <Compile Include="Html\Formatting\TagInfo.cs" />
+    <Compile Include="Html\Formatting\TDTagInfo.cs" />
+    <Compile Include="Html\Formatting\TRTagInfo.cs" />
+    <Compile Include="Html\Formatting\WhiteSpaceType.cs" />
+    <Compile Include="Html\Formatting\XmlWriter.cs" />
+    <Compile Include="Html\HtmlFormatter.cs" />
+    <Compile Include="Html\HtmlFormatterCase.cs" />
+    <Compile Include="Html\HtmlFormatterOptions.cs" />
+    <Compile Include="Html\HtmlTokenizer.cs" />
+    <Compile Include="Html\Token.cs" />
+    <Compile Include="Util\FileUtils.cs" />
     <Compile Include="WeblogUpdatePingInfo.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Zip\Crc32.cs" />
+    <Compile Include="Zip\Shared.cs" />
+    <Compile Include="Zip\ZipDirEntry.cs" />
+    <Compile Include="Zip\ZipEntry.cs" />
+    <Compile Include="Zip\ZipFile.cs" />
     <EmbeddedResource Include="BlogDataService.resx">
       <DependentUpon>BlogDataService.cs</DependentUpon>
       <SubType>Designer</SubType>
