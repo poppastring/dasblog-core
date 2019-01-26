@@ -133,11 +133,6 @@
     <Reference Include="System.Xml">
       <Name>System.XML</Name>
     </Reference>
-    <ProjectReference Include="..\newtelligence.DasBlog.Runtime.Proxies\newtelligence.DasBlog.Runtime.Proxies.csproj">
-      <Name>newtelligence.DasBlog.Runtime.Proxies</Name>
-      <Project>{9BAD4DCD-3C05-4716-A406-8B561EF0633F}</Project>
-      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\AssemblyInfo.cs">
