@@ -13,12 +13,10 @@
   <ItemGroup Condition="'$(Configuration)'=='posix'">
     <ProjectReference Include="..\newtelligence.DasBlog.Runtime.netstd\newtelligence.DasBlog.Runtime.netstd.csproj" />
   </ItemGroup>
-  <ItemGroup Condition="'$(Configuration)'!='posix'">
-    <ProjectReference Include="..\newtelligence.DasBlog.Runtime\newtelligence.DasBlog.Runtime.csproj" />
-  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DasBlog.Web.Core\DasBlog.Core.csproj" />
     <ProjectReference Include="..\NetEscapades.Extensions.Logging.RollingFile\NetEscapades.Extensions.Logging.RollingFile.csproj" />
+    <ProjectReference Include="..\newtelligence.DasBlog.Runtime\newtelligence.DasBlog.Runtime.csproj" />
   </ItemGroup>
   <ItemGroup Condition="'$(Configuration)'=='posix'">
     <Compile Include="..\newtelligence.DasBlog.Web.Services\GoogleSitemap.cs">

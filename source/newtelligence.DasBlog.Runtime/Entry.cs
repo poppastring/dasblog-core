@@ -37,16 +37,16 @@
 */
 #endregion
 
+using NodaTime;
 using System;
 using System.Collections;
 using System.Globalization;
 using System.IO;
+using System.Net;
 using System.Text;
-using System.Web;
 using System.Xml;
 using System.Xml.Serialization;
 using System.Collections.Generic;
-using NodaTime;
 
 namespace newtelligence.DasBlog.Runtime
 {
@@ -393,7 +393,7 @@ namespace newtelligence.DasBlog.Runtime
 				}
 			}
 
-			return HttpUtility.UrlEncode(retVal.ToString()).Replace("%2b", "+");
+			return WebUtility.UrlEncode(retVal.ToString()).Replace("%2b", "+");
 		}
 
 		public static string InternalCompressTitle(string titleParam, string replacement)

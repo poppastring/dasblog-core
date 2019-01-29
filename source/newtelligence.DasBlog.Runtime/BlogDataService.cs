@@ -46,7 +46,6 @@ using System.IO;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading;
-using System.Web;
 using NodaTime;
 
 namespace newtelligence.DasBlog.Runtime
@@ -567,19 +566,19 @@ namespace newtelligence.DasBlog.Runtime
                 if (trackbackUrl != null &&
                     trackbackUrl.Length > 0)
                 {
-                    string trackbackMsg = "url=" + HttpUtility.UrlEncode(job.info.SourceUrl);
+                    string trackbackMsg = "url=" + WebUtility.UrlEncode(job.info.SourceUrl);
                     if (job.info.SourceTitle != null && job.info.SourceTitle.Length > 0)
                     {
                         trackbackMsg +=
-                            "&title=" + HttpUtility.UrlEncode(job.info.SourceTitle.Length > 80 ? job.info.SourceTitle.Substring(0, 80) : job.info.SourceTitle);
+                            "&title=" + WebUtility.UrlEncode(job.info.SourceTitle.Length > 80 ? job.info.SourceTitle.Substring(0, 80) : job.info.SourceTitle);
                     }
 
                     if (job.info.SourceExcerpt != null && job.info.SourceExcerpt.Length > 0)
                     {
-                        trackbackMsg += "&excerpt=" + HttpUtility.UrlEncode(job.info.SourceExcerpt.Length > 80 ? job.info.SourceExcerpt.Substring(0, 80) : job.info.SourceExcerpt);
+                        trackbackMsg += "&excerpt=" + WebUtility.UrlEncode(job.info.SourceExcerpt.Length > 80 ? job.info.SourceExcerpt.Substring(0, 80) : job.info.SourceExcerpt);
                     }
 
-                    trackbackMsg += "&blog_name=" + HttpUtility.UrlEncode(job.info.SourceBlogName);
+                    trackbackMsg += "&blog_name=" + WebUtility.UrlEncode(job.info.SourceBlogName);
 
                     WebRequest request = WebRequest.Create(new Uri(trackbackUrl));
 
@@ -825,7 +824,7 @@ namespace newtelligence.DasBlog.Runtime
             DayEntry day;
 
             // The entry lookup hashtables use the UrlEncoded version of the title
-            entryId = HttpUtility.UrlEncode(entryId);
+            entryId = WebUtility.UrlEncode(entryId);
 
             DateTime foundDate = GetDateForEntry(entryId);
             if (foundDate == DateTime.MinValue)
