@@ -393,7 +393,7 @@ namespace newtelligence.DasBlog.Runtime
 				}
 			}
 
-			return WebUtility.UrlEncode(retVal.ToString()).Replace("%2b", "+");
+			return WebUtility.UrlEncode(retVal.ToString()).Replace("%2b", "+", StringComparison.OrdinalIgnoreCase);
 		}
 
 		public static string InternalCompressTitle(string titleParam, string replacement)
