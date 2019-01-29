@@ -37,15 +37,13 @@
 */
 #endregion
 
+using newtelligence.DasBlog.Runtime.Util;
 using System;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
-// using System.Security.Principal;
 using System.Xml;
 using System.Xml.Serialization;
-//using newtelligence.DasBlog.Runtime.Proxies;
-using newtelligence.DasBlog.Util;
 
 namespace newtelligence.DasBlog.Runtime
 {

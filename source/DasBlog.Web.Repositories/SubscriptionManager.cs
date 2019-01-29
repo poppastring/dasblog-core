@@ -4,7 +4,7 @@ using DasBlog.Core.Services.Rsd;
 using DasBlog.Core.Services.Rss20;
 using DasBlog.Managers.Interfaces;
 using newtelligence.DasBlog.Runtime;
-using newtelligence.DasBlog.Util.Html;
+using newtelligence.DasBlog.Runtime.Util.Html;
 using System;
 using System.Collections.Generic;
 using System.Xml;

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
-using AutoMapper.Internal;
-using DasBlog.Core.Common;
-using newtelligence.DasBlog.Util;
+﻿using System.IO;
 
 namespace DasBlog.Tests.UnitTests
 {

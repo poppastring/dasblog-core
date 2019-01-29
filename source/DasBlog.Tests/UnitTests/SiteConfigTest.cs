@@ -1,10 +1,10 @@
-﻿using System;
+﻿using DasBlog.Core.Common.Comments;
+using DasBlog.Core.Configuration;
+using newtelligence.DasBlog.Runtime;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Xml;
-using DasBlog.Core.Configuration;
-using newtelligence.DasBlog.Runtime;
-using newtelligence.DasBlog.Web.Core;
 
 namespace DasBlog.Tests.UnitTests
 {

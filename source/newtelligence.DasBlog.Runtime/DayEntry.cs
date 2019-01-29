@@ -37,7 +37,8 @@
 */
 #endregion
 
-
+using newtelligence.DasBlog.Runtime.Util;
+using NodaTime;
 using System;
 using System.Collections;
 using System.Diagnostics;
@@ -45,11 +46,6 @@ using System.Globalization;
 using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
-//using newtelligence.DasBlog.Runtime.Proxies;
-//using newtelligence.DasBlog.Util;
-using System.Security.Principal;
-using newtelligence.DasBlog.Util;
-using NodaTime;
 
 namespace newtelligence.DasBlog.Runtime
 {

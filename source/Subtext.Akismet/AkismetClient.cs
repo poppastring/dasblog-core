@@ -1,6 +1,6 @@
-using System;
+﻿using System;
 using System.Globalization;
-using System.Web;
+using System.Net;
 
 namespace Subtext.Akismet
 {
@@ -142,7 +142,7 @@ namespace Subtext.Akismet
 		/// <returns></returns>
 		public bool VerifyApiKey()
 		{
-			string parameters = "key=" + HttpUtility.UrlEncode(this.ApiKey) + "&blog=" + HttpUtility.UrlEncode(this.BlogUrl.ToString());
+			string parameters = "key=" + WebUtility.UrlEncode(this.ApiKey) + "&blog=" + WebUtility.UrlEncode(this.BlogUrl.ToString());
 			string result = this.httpClient.PostRequest(verifyUrl, this.UserAgent, this.Timeout, parameters);
 
 			if (String.IsNullOrEmpty(result))
@@ -194,36 +194,36 @@ namespace Subtext.Akismet
 		string SubmitComment(IComment comment, Uri url)
 		{
 			//Not too many concatenations.  Might not need a string builder.
-			string parameters = "blog=" + HttpUtility.UrlEncode(this.blogUrl.ToString())
+			string parameters = "blog=" + WebUtility.UrlEncode(this.blogUrl.ToString())
 								+ "&user_ip=" + comment.IpAddress.ToString()
-								+ "&user_agent=" + HttpUtility.UrlEncode(comment.UserAgent);
+								+ "&user_agent=" + WebUtility.UrlEncode(comment.UserAgent);
 
 			if (!String.IsNullOrEmpty(comment.Referer))
-				parameters += "&referer=" + HttpUtility.UrlEncode(comment.Referer);
+				parameters += "&referer=" + WebUtility.UrlEncode(comment.Referer);
 
 			if (comment.Permalink != null)
-				parameters += "&permalink=" + HttpUtility.UrlEncode(comment.Permalink.ToString());
+				parameters += "&permalink=" + WebUtility.UrlEncode(comment.Permalink.ToString());
 
 			if (!String.IsNullOrEmpty(comment.CommentType))
-				parameters += "&comment_type=" + HttpUtility.UrlEncode(comment.CommentType);
+				parameters += "&comment_type=" + WebUtility.UrlEncode(comment.CommentType);
 
 			if (!String.IsNullOrEmpty(comment.Author))
-				parameters += "&comment_author=" + HttpUtility.UrlEncode(comment.Author);
+				parameters += "&comment_author=" + WebUtility.UrlEncode(comment.Author);
 
 			if (!String.IsNullOrEmpty(comment.AuthorEmail))
-				parameters += "&comment_author_email=" + HttpUtility.UrlEncode(comment.AuthorEmail);
+				parameters += "&comment_author_email=" + WebUtility.UrlEncode(comment.AuthorEmail);
 
 			if (comment.AuthorUrl != null)
-				parameters += "&comment_author_url=" + HttpUtility.UrlEncode(comment.AuthorUrl.ToString());
+				parameters += "&comment_author_url=" + WebUtility.UrlEncode(comment.AuthorUrl.ToString());
 
 			if (!String.IsNullOrEmpty(comment.Content))
-				parameters += "&comment_content=" + HttpUtility.UrlEncode(comment.Content);
+				parameters += "&comment_content=" + WebUtility.UrlEncode(comment.Content);
 
 			if (comment.ServerEnvironmentVariables != null)
 			{
 				foreach (string key in comment.ServerEnvironmentVariables)
 				{
-					parameters += "&" + key + "=" + HttpUtility.UrlEncode(comment.ServerEnvironmentVariables[key]);
+					parameters += "&" + key + "=" + WebUtility.UrlEncode(comment.ServerEnvironmentVariables[key]);
 				}
 			}
 

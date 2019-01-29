@@ -1,18 +1,18 @@
-﻿using System;
-using System.IO;
-using System.Net;
-using System.Xml.Serialization;
+﻿using DasBlog.Core;
+using DasBlog.Core.Common;
+using DasBlog.Core.Common.Comments;
 using DasBlog.Core.Configuration;
 using DasBlog.Core.Security;
-using DasBlog.Core;
-using DasBlog.Core.Common;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Options;
 using NodaTime;
+using System;
+using System.IO;
+using System.Net;
 using System.Text.RegularExpressions;
 using System.Text;
-using newtelligence.DasBlog.Web.Core;
+using System.Xml.Serialization;
 
 namespace DasBlog.Web.Settings
 {
@@ -225,6 +225,7 @@ namespace DasBlog.Web.Settings
 			}
 
 			StringBuilder sb = new StringBuilder();
+
 
 			MatchedTagCollection collection = new MatchedTagCollection(SiteConfiguration.AllowedTags);
 			collection.Init(matches);

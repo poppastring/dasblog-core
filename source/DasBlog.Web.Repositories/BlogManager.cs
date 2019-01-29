@@ -1,22 +1,17 @@
-﻿using System;
+﻿using DasBlog.Core.Extensions;
+using DasBlog.Core.Exceptions;
+using DasBlog.Managers.Interfaces;
+using EventDataItem = DasBlog.Core.EventDataItem;
+using EventCodes = DasBlog.Core.EventCodes;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using newtelligence.DasBlog.Runtime;
+using NodaTime;
+using System;
 using System.Collections.Specialized;
-using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Text.RegularExpressions;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using newtelligence.DasBlog.Runtime;
-using DasBlog.Managers.Interfaces;
-using DasBlog.Core;
-using EventDataItem = DasBlog.Core.EventDataItem;
-using EventCodes = DasBlog.Core.EventCodes;
-using DasBlog.Core.Extensions;
-using DasBlog.Core.Exceptions;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using Microsoft.VisualBasic.CompilerServices;
-using NodaTime;
 
 namespace DasBlog.Managers
 {
@@ -67,11 +62,9 @@ namespace DasBlog.Managers
 		private static Regex stripTags = new Regex("<[^>]*>", RegexOptions.Compiled | RegexOptions.CultureInvariant);
 		private Options opts;
 
-		public BlogManager( ILogger<BlogManager> logger
-		  ,IOptions<BlogManagerOptions> settingsOptionsAccessor
-		  ,IOptionsMonitor<BlogManagerModifiableOptions> monitoredOptionsAccessor
-		  ,IOptions<BlogManagerExtraOptions> extraOptionsAccessor
-			)
+		public BlogManager( ILogger<BlogManager> logger, IOptions<BlogManagerOptions> settingsOptionsAccessor,
+							IOptionsMonitor<BlogManagerModifiableOptions> monitoredOptionsAccessor,
+							IOptions<BlogManagerExtraOptions> extraOptionsAccessor)
 		{
 			opts = new Options(settingsOptionsAccessor, monitoredOptionsAccessor, extraOptionsAccessor);
 			this.logger = logger;
@@ -243,7 +236,6 @@ namespace DasBlog.Managers
 		{
 			var entry = GetEntryForEdit(postid);
 			dataService.DeleteEntry(postid, null);
-			// BreakCache(entry.GetSplitCategories());
 
 			LogEvent(EventCodes.EntryDeleted, entry);
 		}
@@ -301,20 +293,17 @@ namespace DasBlog.Managers
 			if (opts.EnableTitlePermaLinkUnique)
 			{
 				return 
-					new Uri(new Uri(opts.Root)
-						, SettingsUtils.RelativeToRoot(
-							entry.CreatedUtc.ToString("yyyyMMdd") + "/" +
-							SettingsUtils.GetPermaTitle(entry.CompressedTitle, opts.TitlePermalinkSpaceReplacement)
-							, opts.Root))
+					new Uri(new Uri(opts.Root), 
+								SettingsUtils.RelativeToRoot(entry.CreatedUtc.ToString("yyyyMMdd") + "/" +
+								SettingsUtils.GetPermaTitle(entry.CompressedTitle, opts.TitlePermalinkSpaceReplacement), opts.Root))
 				;
 			}
 			else
 			{
 				return
-					  new Uri(new Uri(opts.Root)
-						  ,SettingsUtils.RelativeToRoot(
-							  SettingsUtils.GetPermaTitle(entry.CompressedTitle,opts.TitlePermalinkSpaceReplacement), opts.Root))
-					;
+					  new Uri(new Uri(opts.Root), 
+								SettingsUtils.RelativeToRoot(
+								SettingsUtils.GetPermaTitle(entry.CompressedTitle,opts.TitlePermalinkSpaceReplacement), opts.Root));
 			}
 		}
 
@@ -385,10 +374,10 @@ namespace DasBlog.Managers
 			{
 				new PingService
 				{
-					Endpoint = "http://ping.feedburner.com"
-					,Name = "FeedBurner"
-					,Url = "http://www.feedburner.com"
-					,PingApi = PingService.PingApiType.Basic
+					Endpoint = "http://ping.feedburner.com",
+					Name = "FeedBurner",
+					Url = "http://www.feedburner.com",
+					PingApi = PingService.PingApiType.Basic
 				}
 			};
 			return
@@ -418,23 +407,6 @@ namespace DasBlog.Managers
 					opts.Title) 
 				: null;
 		}
-
-#if !POSIX
-		private void BreakCache(string[] categories)
-		{
-			var cache = newtelligence.DasBlog.Web.Core.CacheFactory.GetCache();
-
-			// break the caching
-			cache.Remove("BlogCoreData");
-			cache.Remove("Rss::" + opts.RssDayCount.ToString() + ":" + opts.RssEntryCount.ToString());
-
-			foreach (string category in categories)
-			{
-				string CacheKey = "Rss:" + category + ":" + opts.RssDayCount.ToString() + ":" + opts.RssEntryCount.ToString();
-				cache.Remove(CacheKey);
-			}
-		}
-#endif
 
 		public CommentSaveState AddComment(string postid, Comment comment)
 		{

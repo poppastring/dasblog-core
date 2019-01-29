@@ -233,3 +233,4 @@ source/DasBlog.Web.UI/logs
 # dasblog-core test infrasructure
 test_results/
 test_results.xml
+/source/DasBlog.Tests/FunctionalTests/Properties/launchSettings.json

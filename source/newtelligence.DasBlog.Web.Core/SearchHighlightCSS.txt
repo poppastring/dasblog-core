@@ -1,3 +1,0 @@
-.searchword {
-    background-color: yellow;
-}

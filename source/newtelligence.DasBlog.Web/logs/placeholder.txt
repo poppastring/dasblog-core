@@ -1,1 +1,0 @@
-This is to make sure there is a LOGS folder when the app starts up first

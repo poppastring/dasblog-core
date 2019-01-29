@@ -1,9 +1,8 @@
 ﻿using DasBlog.Core;
+using DasBlog.Core.Services.GoogleSiteMap;
 using DasBlog.Managers.Interfaces;
 using newtelligence.DasBlog.Runtime;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace DasBlog.Managers
 {
