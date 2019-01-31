@@ -23,7 +23,7 @@ namespace DasBlog.Web.Controllers
 
 		public virtual MemoryCacheEntryOptions SiteCacheSettings()
 		{
-			return new MemoryCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromMinutes(720));
+			return new MemoryCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromMinutes(240));
 		}
 	}
 }
