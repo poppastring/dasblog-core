@@ -14,7 +14,6 @@ namespace DasBlog.Web.Controllers
         private IMemoryCache memoryCache;
         private readonly ISubscriptionManager subscriptionManager;
 		private readonly IXmlRpcManager xmlRpcManager;
-		private const string RSS_CACHE_KEY = "RSS_CACHE_KEY";
 
         public FeedController(ISubscriptionManager subscriptionManager, IHttpContextAccessor httpContextAccessor,
 								IXmlRpcManager xmlRpcManager, IMemoryCache memoryCache)
@@ -29,13 +28,11 @@ namespace DasBlog.Web.Controllers
         public IActionResult Rss()
         {
 
-			if (!memoryCache.TryGetValue(RSS_CACHE_KEY, out RssRoot rss))
+			if (!memoryCache.TryGetValue(CACHEKEY_RSS, out RssRoot rss))
 			{
 				rss = subscriptionManager.GetRss();
 
-				var cacheEntryOptions = new MemoryCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromMinutes(5));
-
-				memoryCache.Set(RSS_CACHE_KEY, rss, cacheEntryOptions);
+				memoryCache.Set(CACHEKEY_RSS, rss, SiteCacheSettings());
 			}
 
 			return Ok(rss);
@@ -46,13 +43,11 @@ namespace DasBlog.Web.Controllers
         public IActionResult RssByCategory(string category)
         {
 
-			if (!memoryCache.TryGetValue(RSS_CACHE_KEY + "_" + category, out RssRoot rss))
+			if (!memoryCache.TryGetValue(CACHEKEY_RSS + "_" + category, out RssRoot rss))
 			{
 				rss = subscriptionManager.GetRssCategory(category);
 
-				var cacheEntryOptions = new MemoryCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromMinutes(5));
-
-				memoryCache.Set(RSS_CACHE_KEY + "_" + category, rss, cacheEntryOptions);
+				memoryCache.Set(CACHEKEY_RSS + "_" + category, rss, SiteCacheSettings());
 			}
 
 			return Ok(rss);
@@ -94,7 +89,15 @@ namespace DasBlog.Web.Controllers
 				blogger = xmlRpcManager.Invoke(mem);
 			}
 
+			BreakSiteCache();
+
 			return Content(blogger);
 		}
-    }
+
+		private void BreakSiteCache()
+		{
+			memoryCache.Remove(CACHEKEY_RSS);
+			memoryCache.Remove(CACHEKEY_FRONTPAGE);
+		}
+	}
 }
