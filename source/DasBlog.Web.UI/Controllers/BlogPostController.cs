@@ -8,8 +8,9 @@ using DasBlog.Web.Settings;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using newtelligence.DasBlog.Runtime;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
+using newtelligence.DasBlog.Runtime;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -30,11 +31,12 @@ namespace DasBlog.Web.Controllers
 		private readonly IFileSystemBinaryManager binaryManager;
 		private readonly ILogger<BlogPostController> logger;
 		private readonly IBlogPostViewModelCreator modelViewCreator;
+		private IMemoryCache memoryCache;
 
-		public BlogPostController(IBlogManager blogManager, IHttpContextAccessor httpContextAccessor,
-		  IDasBlogSettings settings, IMapper mapper, ICategoryManager categoryManager,
-		  IFileSystemBinaryManager binaryManager, ILogger<BlogPostController> logger,IBlogPostViewModelCreator modelViewCreator) 
-			: base(settings)
+		public BlogPostController(IBlogManager blogManager, IHttpContextAccessor httpContextAccessor, IDasBlogSettings settings, 
+									IMapper mapper, ICategoryManager categoryManager, IFileSystemBinaryManager binaryManager, 
+									ILogger<BlogPostController> logger,IBlogPostViewModelCreator modelViewCreator, IMemoryCache memoryCache) 
+									: base(settings)
 		{
 			this.blogManager = blogManager;
 			this.categoryManager = categoryManager;
@@ -44,6 +46,7 @@ namespace DasBlog.Web.Controllers
 			this.binaryManager = binaryManager;
 			this.logger = logger;
 			this.modelViewCreator = modelViewCreator;
+			this.memoryCache = memoryCache;
 		}
 
 		[AllowAnonymous]
@@ -249,6 +252,8 @@ namespace DasBlog.Web.Controllers
 				ModelState.AddModelError("", "Failed to edit blog post. Please check Logs for more details.");
 			}
 
+			BreakSiteCache();
+
 			return View("views/blogpost/editPost.cshtml", post);
 		}
 
@@ -264,6 +269,8 @@ namespace DasBlog.Web.Controllers
 				logger.LogError(ex, ex.Message, null);
 				RedirectToAction("Error");
 			}
+
+			BreakSiteCache();
 
 			return RedirectToAction("Index", "Home");
 		}
@@ -350,6 +357,8 @@ namespace DasBlog.Web.Controllers
 				return NotFound();
 			}
 
+			BreakSiteCache();
+
 			return Comment(new Guid(addcomment.TargetEntryId));
 		}
 
@@ -368,6 +377,8 @@ namespace DasBlog.Web.Controllers
 				return NotFound();
 			}
 
+			BreakSiteCache();
+
 			return Ok();
 		}
 
@@ -385,6 +396,8 @@ namespace DasBlog.Web.Controllers
 			{
 				return NotFound();
 			}
+
+			BreakSiteCache();
 
 			return Ok();
 		}
@@ -507,6 +520,12 @@ namespace DasBlog.Web.Controllers
 			{
 				ModelState.AddModelError(string.Empty, "A post with this title already exists. Titles must be unique");
 			}
+		}
+
+		private void BreakSiteCache()
+		{
+			memoryCache.Remove(CACHEKEY_RSS);
+			memoryCache.Remove(CACHEKEY_FRONTPAGE);
 		}
 
 		private class RouteAffectedFunctions
