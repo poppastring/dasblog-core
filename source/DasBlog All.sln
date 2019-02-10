@@ -38,8 +38,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Resources", "DasBlog.Tests\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DasBlog.Tests.Support", "DasBlog.Tests\Support\DasBlog.Tests.Support.csproj", "{15AF8476-4228-4E90-802F-BC8E77567563}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subtext.Akismet", "Subtext.Akismet\Subtext.Akismet.csproj", "{4DC29536-2515-4B8D-AEB6-EC397B950881}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "newtelligence.DasBlog.Runtime", "newtelligence.DasBlog.Runtime\newtelligence.DasBlog.Runtime.csproj", "{B09225DE-330C-43F9-AAD0-3B25909EA5A2}"
 EndProject
 Global
@@ -120,14 +118,6 @@ Global
 		{15AF8476-4228-4E90-802F-BC8E77567563}.posix|Any CPU.Build.0 = posix|Any CPU
 		{15AF8476-4228-4E90-802F-BC8E77567563}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{15AF8476-4228-4E90-802F-BC8E77567563}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4DC29536-2515-4B8D-AEB6-EC397B950881}.Debug - All|Any CPU.ActiveCfg = Debug|Any CPU
-		{4DC29536-2515-4B8D-AEB6-EC397B950881}.Debug - All|Any CPU.Build.0 = Debug|Any CPU
-		{4DC29536-2515-4B8D-AEB6-EC397B950881}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4DC29536-2515-4B8D-AEB6-EC397B950881}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4DC29536-2515-4B8D-AEB6-EC397B950881}.posix|Any CPU.ActiveCfg = Release|Any CPU
-		{4DC29536-2515-4B8D-AEB6-EC397B950881}.posix|Any CPU.Build.0 = Release|Any CPU
-		{4DC29536-2515-4B8D-AEB6-EC397B950881}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4DC29536-2515-4B8D-AEB6-EC397B950881}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B09225DE-330C-43F9-AAD0-3B25909EA5A2}.Debug - All|Any CPU.ActiveCfg = Debug|Any CPU
 		{B09225DE-330C-43F9-AAD0-3B25909EA5A2}.Debug - All|Any CPU.Build.0 = Debug|Any CPU
 		{B09225DE-330C-43F9-AAD0-3B25909EA5A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
