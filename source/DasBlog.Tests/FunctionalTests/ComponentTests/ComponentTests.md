@@ -3,7 +3,7 @@
 ##### Usage
 change directory to the project directory (containing .git) usually called dasblog-core and do
 ```
-dotnet test source/DasBlog.Tests/FunctionalTests --logger trx;LogfileName=component_test_results.xml --results-directory=./test_results --filter Category=ComponentTest
+dotnet test source/DasBlog.Tests/FunctionalTests --logger trx;LogfileName=component_test_results.xml --results-directory ./test_results --filter Category=ComponentTest
 ``` 
 For failing tests the logs will be printed along with the results.  If you need to inspect the logs for passing tests
 the the location  is `source/DasBlog.Tests/FunctioalTests/test_results/component_test_results.xml`.  You will

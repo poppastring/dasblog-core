@@ -5,7 +5,7 @@ to run dasblog-core functional tests locally:
 
 change directory to the project directory (containing .git) usually called dasblog-core and do
 ```
-dotnet test source/DasBlog.Tests/FunctionalTests --logger trx;LogfileName=test_results.xml --results-directory=./test_results --filter Category!=TestInfrastructureTest
+dotnet test source/DasBlog.Tests/FunctionalTests --logger trx;LogfileName=test_results.xml --results-directory ./test_results --filter Category!=TestInfrastructureTest
 ``` 
 
 to run on AppVeyor configure the test script:
