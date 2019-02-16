@@ -28,6 +28,9 @@ To run component tests do `dotnet test source/DasBlog.Tests/FunctionalTests --lo
 
 Browser based tests are not currently functional on Linux or MacOS.  For Windows refer to the test documentation.
 
+It turns out that filtering does not currently work as expected on Linux and MacOS so these 
+platforms show 15 and 14 test failures respectively.  Possibly an xunit version problem 
+
 ###### Run
 Change directory to &lt;project dir&gt;/source/DasBlog.Web.UI (where project directory is typically dasblog-core).
 
