@@ -15,12 +15,12 @@ Guidance below discusses running with the embedded Kestrel server endpoint direc
 does not discuss configurations involving IIS or IIS XPress.
 
 ###### Build
-Change directory to &gt;project dir&lt;/source (where project directory is typically dasblog-core).
+Change directory to &lt;project dir&gt;/source (where project directory is typically dasblog-core).
 
 do `dotnet build`
 
 ###### Test
-Change directory to &gt;project dir&lt; (where project directory is typically dasblog-core).
+Change directory to &lt;project dir&gt; (where project directory is typically dasblog-core).
 
 To run unit tests do `dotnet test source/DasBlog.Tests/UnitTests --logger trx;LogfileName=test_results.xml --results-directory ./test_results --filter Category=UnitTest`
 
@@ -29,7 +29,7 @@ To run component tests do `dotnet test source/DasBlog.Tests/FunctionalTests --lo
 Browser based tests are not currently functional on Linux or MacOS.  For Windows refer to the test documentation.
 
 ###### Run
-Change directory to &gt;project dir&lt;/source/DasBlog.Web.UI (where project directory is typically dasblog-core).
+Change directory to &lt;project dir&gt;/source/DasBlog.Web.UI (where project directory is typically dasblog-core).
 
 from bash do:
 ```
