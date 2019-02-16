@@ -4,38 +4,39 @@
 The intention is for DasBlog-Core to run under Windows, Linux and MacOS.  This is a phase 3 activity.  The work described
 below (in phase 2) relates to ensuring there is an amenable codebase for the move to cross platform support.
 
-##### Status - November 2018
+##### Status - February 2019
 The application front-end currently builds and runs under Windows (10 1803+) MacOS (10.14.3+) and Linux (CentOs 7.5.1804 / Kernel 3.10).
 The status of non-front-end features such as RSS is not currently known.  No platform specific flags are used anywhere.
 
 Browser based tests currently fail on MacOS and Linux
 
 ##### Installation and Build
-Guidance below discusses running with the embedded Kestrel server endpoint directly exposed to browsers.  This document
+Guidance below discusses running with the embedded Kestrel server endpoint directly exposed to clients.  This document
 does not discuss configurations involving IIS or IIS XPress.
 
 ###### Build
-Change directory to <project dir>/source (where project directory is typically dasblog-core.
+Change directory to &gt;project dir&lt;/source (where project directory is typically dasblog-core).
+
 do `dotnet build`
 
 ###### Test
-Change directory to <project dir> (where project directory is typically dasblog-core.
+Change directory to &gt;project dir&lt; (where project directory is typically dasblog-core).
 
-To run unit tests do `dotnet test source/DasBlog.Tests/FunctionalTests --logger trx;LogfileName=test_results.xml --results-directory ./test_results --filter Category=UnitTest`
+To run unit tests do `dotnet test source/DasBlog.Tests/UnitTests --logger trx;LogfileName=test_results.xml --results-directory ./test_results --filter Category=UnitTest`
 
 To run component tests do `dotnet test source/DasBlog.Tests/FunctionalTests --logger trx;LogfileName=component_test_results.xml --results-directory ./test_results --filter Category=ComponentTest`
 
-Browser based tests are not currently functional on Linux or MacOs.  For Windows refer to the test documentation.
+Browser based tests are not currently functional on Linux or MacOS.  For Windows refer to the test documentation.
 
 ###### Run
-Change directory to <project dir>/source/DasBlog.Web.UI (where project directory is typically dasblog-core.
+Change directory to &gt;project dir&lt;/source/DasBlog.Web.UI (where project directory is typically dasblog-core).
 
 from bash do:
 ```
 export DAS_BLOG_OVERRIDE_ROOT_URL=1
 dotnet run
 ```
-or from Windows do:
+or from Windows/cmd do:
 ```
 set DAS_BLOG_OVERRIDE_ROOT_URL=1
 dotnet run
@@ -47,7 +48,7 @@ Note that no configuration has been attempted under WSL (Windows Subsystem for L
 you will have upgrade git to 2.15+.  On 1803 this is currently v1.9.
 
 
-###### Installation - MacOs
+###### Installation - MacOS
 Tested on v10.14.3
 
 install git (v2.15+) and dotnet (v2.1.403 currently). 
