@@ -1,66 +1,64 @@
 #### Cross-platform
 
 ##### Goals
-The intention is to port the app to MacOs and Linux in [Phase 3 of the project](https://github.com/poppastring/dasblog-core/projects)
+The intention is for DasBlog-Core to run under Windows, Linux and MacOS.  This is a phase 3 activity.  The work described
+below (in phase 2) relates to ensuring there is an amenable codebase for the move to cross platform support.
 
-One of the phase 2 goals is to increase test coverage and it is felt that a certain amount of cross-platform work
-should be done at this stage to ensure that tests are designed in a manner appropriate for cross-platform
-development ensuring that the final port will be relatively smooth.
+##### Status - February 2019
+The application front-end currently builds and runs under Windows (10 1803+) MacOS (10.14.3+) and Linux (CentOs 7.5.1804 / Kernel 3.10).
+The status of non-front-end features such as RSS is not currently known.  No platform specific flags are used anywhere.
 
-##### Status - November 2018
-A "Posix" configuration is available.
-
-The posix configuration includes all web-site functionality currently available on the windows version.  It excludes
-back-end operations such as RSS and Email.
-
-###### Windows
-The posix configuration is fully functional on Windows (Windows 10 Pro 1803 17134.345) in line with the scope summarised in the previous paragraph and
-all tests run and pass.  The major difference between the posix and windows configuration is that the latter includes the
-legacy newteillgence code and associated support assemblies.  All cross-platform decisions other than the exclusion
-of legacy code are handled at run-time.  All tests pass on Windows.  The SmokeTest is also fully functional.
-
-###### MacOs
-The posix configuration is fully functional on MacOs (10.13.6) subject to the above mentioned scope.  All tests
-pass except one Test Infrastructure test fail and all 4 Browser Based tests.  No attempt has been made yet
-to get Selenium operational on a posix platform.
-
-###### Linux
-The posix configuration fails to build on Linux (Centos 7.5.1804 (Core)).
-
-The killer error message is
-```
-usr/share/dotnet/sdk/NuGetFallbackFolder/microsoft.aspnetcore.razor.design/2.1.2/build/netstandard2.0/Microsoft.AspNetCore.Razor.Design.CodeGeneration.targets(121,5): error : rzc generate exited with code 1. 
-[/home/mike/projects/dasblog-core/source/DasBlog.Web.UI/DasBlog.Web.csproj]
-```
-Presumably this is a dotnet SDK or Runtime mismatch.  If not, I have seen dark mutterings on the
-web about Razor Generation issues being a mismatch between SDK version and nuget package versions so
-here's hoping.
+Browser based tests currently fail on MacOS and Linux
 
 ##### Installation and Build
+Guidance below discusses running with the embedded Kestrel server endpoint directly exposed to clients.  This document
+does not discuss configurations involving IIS or IIS XPress.
 
-###### Windows
-Build with the "posix" configuration and run tests with "--no-build" or some variation.  No platform specific
-flag or environment variable is required to run the web app in normal interactive mode.
+###### Build
+Change directory to &lt;project dir&gt;/source (where project directory is typically dasblog-core).
 
-dotnet build -c posix
+do `dotnet build`
+
+###### Test
+Change directory to &lt;project dir&gt; (where project directory is typically dasblog-core).
+
+To run unit tests do `dotnet test source/DasBlog.Tests/UnitTests --logger trx;LogfileName=test_results.xml --results-directory ./test_results --filter Category=UnitTest`
+
+To run component tests do `dotnet test source/DasBlog.Tests/FunctionalTests --logger trx;LogfileName=component_test_results.xml --results-directory ./test_results --filter Category=ComponentTest`
+
+Browser based tests are not currently functional on Linux or MacOS.  For Windows refer to the test documentation.
+
+It turns out that filtering does not currently work as expected on Linux and MacOS so these 
+platforms show 15 and 14 test failures respectively.  Possibly an xunit version problem 
+
+###### Run
+Change directory to &lt;project dir&gt;/source/DasBlog.Web.UI (where project directory is typically dasblog-core).
+
+from bash do:
+```
+export DAS_BLOG_OVERRIDE_ROOT_URL=1
+dotnet run
+```
+or from Windows/cmd do:
+```
+set DAS_BLOG_OVERRIDE_ROOT_URL=1
+dotnet run
+```
+
+In the browser go to localhost:50432/ - you should see the familiar home page.
 
 Note that no configuration has been attempted under WSL (Windows Subsystem for Linux).  If you do attempt this
 you will have upgrade git to 2.15+.  On 1803 this is currently v1.9.
 
-###### MacOs
-Tested on v10.13.6
+
+###### Installation - MacOS
+Tested on v10.14.3
 
 install git (v2.15+) and dotnet (v2.1.403 currently). 
 
 Git can be installed using Homebrew or some variation.  dotnet can be [downloaded](https://www.microsoft.com/net/download/dotnet-core/2.1).
 
-```
-cd <project dir>/source
-dotnet cleAN
-dotnet test -c posix
-```
-
-###### Linux
+###### Installation - Linux
 Tested on Centos 7.5.1804
 
 To install git:
@@ -73,14 +71,3 @@ To install dotnet
 ```
 TBA
 ```
-
-To build
-```
-cd <project dir>/source
-dotnet build -c posix
-```
-results in the razor generation error detailed above.
-
-
-##### Process
-The tests of the posix version should be run on a non-Windows platform once a week and be kept up-to-date.

@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
-    <Configurations>Debug;Release;posix</Configurations>
+    <Configurations>Debug;Release</Configurations>
     <Platforms>AnyCPU</Platforms>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -16,24 +16,10 @@
     <!--<ProjectReference Include="..\NetEscapades.Extensions.Logging.RollingFile\NetEscapades.Extensions.Logging.RollingFile.csproj" />-->
     <ProjectReference Include="..\newtelligence.DasBlog.Runtime\newtelligence.DasBlog.Runtime.csproj" />
   </ItemGroup>
-  <PropertyGroup Condition="'$(Configuration)'=='posix'">
-    <DefineConstants>POSIX</DefineConstants>
-  </PropertyGroup>
-  <ItemGroup Condition="'$(Configuration)'=='posix'">
-    <ProjectReference Include="..\newtelligence.DasBlog.Runtime.netstd\newtelligence.DasBlog.Runtime.netstd.csproj" />
-  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Options" Version="2.1.0" />
     <PackageReference Include="NodaTime" Version="2.3.0" />
     <PackageReference Include="NetEscapades.Extensions.Logging.RollingFile" Version="1.0.1" />
     <PackageReference Include="xmlrpcnet" Version="2.5.0" />
-  </ItemGroup>
-  <ItemGroup Condition="'$(Configuration)'=='posix'">
-    <Compile Include="..\newtelligence.DasBlog.Web.Core\ValidTag.cs">
-      <Link>ValidTag.cs</Link>
-    </Compile>
-    <Compile Include="..\newtelligence.DasBlog.Web.Core\ValidTagCollection.cs">
-      <Link>ValidTagCollection.cs</Link>
-    </Compile>
   </ItemGroup>
 </Project>

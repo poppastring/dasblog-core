@@ -130,9 +130,6 @@ namespace DasBlog.Web
 			services
 				.AddSingleton(hostingEnvironment.ContentRootFileProvider)
 				.AddSingleton<IBlogManager, BlogManager>()
-#if !POSIX
-				.AddSingleton<ISubscriptionManager, SubscriptionManager>()
-#endif
 				.AddSingleton<IArchiveManager, ArchiveManager>()
 				.AddSingleton<ICategoryManager, CategoryManager>()
 				.AddSingleton<ISiteSecurityManager, SiteSecurityManager>()
