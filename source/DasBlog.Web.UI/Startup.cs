@@ -143,7 +143,8 @@ namespace DasBlog.Web
 				.AddSingleton<IActivityService, ActivityService>()
 				.AddSingleton<IActivityRepoFactory, ActivityRepoFactory>()
 				.AddSingleton<IEventLineParser, EventLineParser>()
-				.AddSingleton<ITimeZoneProvider, TimeZoneProvider>();
+				.AddSingleton<ITimeZoneProvider, TimeZoneProvider>()
+				.AddSingleton<ISubscriptionManager, SubscriptionManager>();
 
 			services
 				.AddAutoMapper(mapperConfig =>

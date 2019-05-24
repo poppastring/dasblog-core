@@ -12,7 +12,7 @@
       <EntryId>b705c37b-b47f-4e8d-8f8b-091efc4cb684</EntryId>
       <Description>Welcome to the new DasBlog Core blog engine reintroduced on the ASP.NET Core platform!</Description>
       <Title>Congratulations, you've installed dasBlog!</Title>
-      <Categories>dasBlog</Categories>
+      <Categories>ASP.NET Core</Categories>
       <Author>Admin Name</Author>
       <IsPublic>true</IsPublic>
       <Syndicated>true</Syndicated>
