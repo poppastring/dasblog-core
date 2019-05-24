@@ -1,4 +1,4 @@
-#region Copyright (c) 2003, newtelligence AG. All rights reserved.
+﻿#region Copyright (c) 2003, newtelligence AG. All rights reserved.
 /*
 // Copyright (c) 2003, newtelligence AG. (http://www.newtelligence.com)
 // Original BlogX Source Code: Copyright (c) 2003, Chris Anderson (http://simplegeek.com)
@@ -110,9 +110,9 @@ namespace newtelligence.DasBlog.Runtime
                             categoryCacheEntry.Name = cat;
                             categoryCacheEntry.EntryDetails = new CategoryCacheEntryDetailCollection();
                             build[cat] = categoryCacheEntry;
-                            if (!_urlSafeCategories.ContainsKey(HttpHelper.GetURLSafeString(cat)))
+                            if (!_urlSafeCategories.ContainsKey(Entry.InternalCompressTitle(cat.ToLower())))
                             {
-                                _urlSafeCategories.Add(HttpHelper.GetURLSafeString(cat), cat);
+								_urlSafeCategories.Add(Entry.InternalCompressTitle(cat.ToLower()), cat);
                             }
                         }
                         else
@@ -156,13 +156,5 @@ namespace newtelligence.DasBlog.Runtime
         {
             _entries.Sort(new CategorySorter());
         }
-	    private static class HttpHelper
-	    {
-		    public static string GetURLSafeString(string s)
-		    {
-			    //TODO use System.Net.WebUtility.HtmlEncoding()
-			    return s;
-		    }
-	    }
     }
 }

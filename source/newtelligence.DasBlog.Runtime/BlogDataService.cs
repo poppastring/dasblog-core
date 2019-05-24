@@ -1054,7 +1054,21 @@ namespace newtelligence.DasBlog.Runtime
             return entryList;
         }
 
-        EntryCollection IBlogDataService.GetEntriesForUser(string user)
+		string IBlogDataService.GetCategoryTitle(string categoryurl)
+		{
+			var cache = new CategoryCache();
+			var categoryName = categoryurl;
+			cache.Ensure(data);
+
+			if (cache.UrlSafeCategories.ContainsKey(categoryurl))
+			{
+				categoryName = cache.UrlSafeCategories[categoryurl];
+			}
+
+			return categoryName;
+		}
+
+		EntryCollection IBlogDataService.GetEntriesForUser(string user)
         {
             Predicate<Entry> entryCriteria = null;
             EntryCollection entries = new EntryCollection();

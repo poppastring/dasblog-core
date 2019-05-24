@@ -53,7 +53,9 @@ namespace DasBlog.Web.Controllers
 				entryList.Add(entry);
 			}
 
-			var viewModel = CategoryListViewModel.Create(entryList, category);
+			var categoryTile = categoryManager.GetCategoryTitle(category);
+
+			var viewModel = CategoryListViewModel.Create(entryList, categoryTile);
 
 			DefaultPage(CATEGORY);
 			return viewModel;

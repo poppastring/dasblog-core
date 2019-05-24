@@ -99,6 +99,9 @@ namespace newtelligence.DasBlog.Runtime
 		/// <param name="categoryName"></param>
 		/// <returns></returns>
 		EntryCollection GetEntriesForCategory(string categoryName, string acceptLanguages);
+
+		string GetCategoryTitle(string categoryurl);
+		
 		/// <summary>
 		/// 
 		/// </summary>

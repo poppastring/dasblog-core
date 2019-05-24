@@ -24,8 +24,14 @@ namespace DasBlog.Managers
 
         public EntryCollection GetEntries(string category, string acceptLanguages)
         {
-			category = category.Replace(dasBlogSettings.SiteConfiguration.TitlePermalinkSpaceReplacement, " ");
+			category = category.Replace(dasBlogSettings.SiteConfiguration.TitlePermalinkSpaceReplacement, "+");
             return dataService.GetEntriesForCategory(category, acceptLanguages);
         }
-    }
+
+		public string GetCategoryTitle(string categoryurl)
+		{
+			categoryurl = categoryurl.Replace(dasBlogSettings.SiteConfiguration.TitlePermalinkSpaceReplacement, "+");
+			return dataService.GetCategoryTitle(categoryurl);
+		}
+	}
 }

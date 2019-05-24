@@ -10,5 +10,7 @@ namespace DasBlog.Managers.Interfaces
         EntryCollection GetEntries();
 
         EntryCollection GetEntries(string category, string acceptLanguages);
-    }
+
+		string GetCategoryTitle(string category);
+	}
 }

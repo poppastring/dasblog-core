@@ -27,7 +27,6 @@ namespace DasBlog.Web.Controllers
         [HttpGet("feed/rss")]
         public IActionResult Rss()
         {
-
 			if (!memoryCache.TryGetValue(CACHEKEY_RSS, out RssRoot rss))
 			{
 				rss = subscriptionManager.GetRss();
