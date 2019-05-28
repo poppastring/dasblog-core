@@ -1,6 +1,6 @@
 ﻿using DasBlog.Managers.Interfaces;
-using DasBlog.Core.Services.Rss20;
-using DasBlog.Core.Services.Rsd;
+using DasBlog.Services.Rss.Rss20;
+using DasBlog.Services.Rss.Rsd;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;

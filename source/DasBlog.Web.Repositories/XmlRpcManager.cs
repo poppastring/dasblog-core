@@ -41,7 +41,6 @@ using CookComputing.XmlRpc;
 using DasBlog.Core;
 using DasBlog.Managers.Interfaces;
 using DasBlog.Core.Exceptions;
-using DasBlog.Core.Security;
 using newtelligence.DasBlog.Runtime;
 using System;
 using System.Collections.Generic;
@@ -49,9 +48,9 @@ using System.IO;
 using System.Reflection;
 using System.Security;
 using System.Text;
-using Blogger = DasBlog.Core.XmlRpc.Blogger;
-using MoveableType = DasBlog.Core.XmlRpc.MoveableType;
-using MetaWeblog = DasBlog.Core.XmlRpc.MetaWeblog;
+using Blogger = DasBlog.Services.XmlRpc.Blogger;
+using MoveableType = DasBlog.Services.XmlRpc.MoveableType;
+using MetaWeblog = DasBlog.Services.XmlRpc.MetaWeblog;
 
 namespace DasBlog.Managers
 {

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using DasBlog.Core;
-using DasBlog.Core.Services;
-using DasBlog.Core.Services.Interfaces;
+using DasBlog.Services.ActivityLogs;
 using Xunit;
 
 namespace DasBlog.Tests.UnitTests.Services

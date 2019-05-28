@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Diagnostics;
 using DasBlog.Core.Exceptions;
-using DasBlog.Core.Services;
-using DasBlog.Web.Models;
+using DasBlog.Services.ActivityLogs;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DasBlog.Web.Controllers

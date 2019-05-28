@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using DasBlog.Core;
@@ -12,6 +11,7 @@ using DasBlog.Web.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
 using DasBlog.Core.Extensions;
+using DasBlog.Services.ActivityLogs;
 using static DasBlog.Core.Common.Veriifier;
 
 namespace DasBlog.Web.Controllers

@@ -1,5 +1,4 @@
-﻿using DasBlog.Core.Services;
-using DasBlog.Core.Services.Interfaces;
+﻿using DasBlog.Services.ActivityLogs;
 using Xunit;
 
 namespace DasBlog.Tests.UnitTests.Services

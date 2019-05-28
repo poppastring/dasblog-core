@@ -1,7 +1,7 @@
 ﻿using DasBlog.Core;
 using DasBlog.Core.Security;
-using DasBlog.Core.Services.Rsd;
-using DasBlog.Core.Services.Rss20;
+using DasBlog.Services.Rss.Rsd;
+using DasBlog.Services.Rss.Rss20;
 using DasBlog.Managers.Interfaces;
 using newtelligence.DasBlog.Runtime;
 using newtelligence.DasBlog.Runtime.Util.Html;
@@ -109,7 +109,7 @@ namespace DasBlog.Managers
 
             if (!string.IsNullOrWhiteSpace(dasBlogSettings.SiteConfiguration.ChannelImageUrl))
             {
-				var channelImage = new DasBlog.Core.Services.Rss20.ChannelImage();
+				var channelImage = new DasBlog.Services.Rss.Rss20.ChannelImage();
                 channelImage.Title = ch.Title;
                 channelImage.Link = ch.Link;
                 if (dasBlogSettings.SiteConfiguration.ChannelImageUrl.StartsWith("http"))
@@ -157,7 +157,7 @@ namespace DasBlog.Managers
                 var anyElements = new List<XmlElement>();
                 var item = new RssItem();
                 item.Title = entry.Title;
-                item.Guid = new DasBlog.Core.Services.Rss20.Guid();
+                item.Guid = new DasBlog.Services.Rss.Rss20.Guid();
                 item.Guid.IsPermaLink = false;
                 item.Guid.Text = dasBlogSettings.GetPermaLinkUrl(entry.EntryId);
                 item.Link = dasBlogSettings.RelativeToRoot(dasBlogSettings.GetPermaTitle(entry.CompressedTitle));
