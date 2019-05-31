@@ -38,13 +38,14 @@
 #endregion
 
 using DasBlog.Core.Common.Comments;
+using DasBlog.Core.Configuration;
 using newtelligence.DasBlog.Runtime;
 
 using System;
 using System.Xml;
 using System.Xml.Serialization;
 
-namespace DasBlog.Core.Configuration
+namespace DasBlog.Services.ConfigFile.Interfaces
 {
     public interface ISiteConfig
     {

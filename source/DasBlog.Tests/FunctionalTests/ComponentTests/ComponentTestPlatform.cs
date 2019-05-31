@@ -1,11 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using DasBlog.Core;
-using DasBlog.Core.Configuration;
+﻿using DasBlog.Core;
 using DasBlog.Core.Security;
-using DasBlog.Core.Services;
 using DasBlog.Managers;
+using DasBlog.Services;
+using DasBlog.Services.ConfigFile;
+using DasBlog.Services.ConfigFile.Interfaces;
 using DasBlog.Tests.FunctionalTests.Common;
 using DasBlog.Tests.Support.Common;
 using DasBlog.Tests.Support.Interfaces;
@@ -17,6 +15,9 @@ using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using LogLevel = Microsoft.Extensions.Logging.LogLevel;
+using System;
+using System.Collections.Generic;
+using System.IO;
 
 namespace DasBlog.Tests.FunctionalTests.ComponentTests
 {

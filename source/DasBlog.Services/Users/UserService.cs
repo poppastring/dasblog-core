@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using DasBlog.Core.Security;
-using DasBlog.Core.Services.Interfaces;
 
-namespace DasBlog.Core.Services
+namespace DasBlog.Services.Users
 {
 	public class UserService : IUserService
 	{

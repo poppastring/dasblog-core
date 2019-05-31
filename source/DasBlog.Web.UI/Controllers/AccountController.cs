@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using DasBlog.Core;
 using DasBlog.Managers.Interfaces;
+using DasBlog.Services;
 using DasBlog.Services.ActivityLogs;
 using DasBlog.Web.Identity;
 using DasBlog.Web.Models.AccountViewModels;

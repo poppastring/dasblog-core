@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using DasBlog.Core.Services.Interfaces;
-using DasBlog.Core.Extensions;
 using Microsoft.Extensions.Logging;
 using DasBlog.Core.Exceptions;
 

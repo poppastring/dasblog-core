@@ -1,9 +1,9 @@
 ﻿using System;
-using DasBlog.Core.Configuration;
 using DasBlog.Core.Security;
+using DasBlog.Services.ConfigFile.Interfaces;
 using NodaTime;
 
-namespace DasBlog.Core
+namespace DasBlog.Services
 {
 	public interface IDasBlogSettings
 	{

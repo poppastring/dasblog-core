@@ -38,9 +38,9 @@
 #endregion
 
 using CookComputing.XmlRpc;
-using DasBlog.Core;
 using DasBlog.Managers.Interfaces;
 using DasBlog.Core.Exceptions;
+using DasBlog.Services;
 using newtelligence.DasBlog.Runtime;
 using System;
 using System.Collections.Generic;

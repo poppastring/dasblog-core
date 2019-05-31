@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using DasBlog.Core;
 using DasBlog.Managers.Interfaces;
+using DasBlog.Services;
 using DasBlog.Web.Models.BlogViewModels;
 using DasBlog.Web.Settings;
 using Microsoft.AspNetCore.Http;

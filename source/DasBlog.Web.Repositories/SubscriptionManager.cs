@@ -1,5 +1,4 @@
-﻿using DasBlog.Core;
-using DasBlog.Core.Security;
+﻿using DasBlog.Core.Security;
 using DasBlog.Services.Rss.Rsd;
 using DasBlog.Services.Rss.Rss20;
 using DasBlog.Managers.Interfaces;
@@ -9,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Xml;
 using System.Globalization;
+using DasBlog.Services;
 
 namespace DasBlog.Managers
 {

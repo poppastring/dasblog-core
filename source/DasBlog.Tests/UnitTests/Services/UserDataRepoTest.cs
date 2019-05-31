@@ -2,9 +2,9 @@
 using DasBlog.Core.Security;
 using Xunit;
 using DasBlog.Core.Services;
-using DasBlog.Core.Services.Interfaces;
 using Microsoft.Extensions.Options;
 using System.Linq;
+using DasBlog.Services.Users;
 
 namespace DasBlog.Tests.UnitTests.Services
 {

@@ -38,19 +38,29 @@
 #endregion
 
 using DasBlog.Core.Security;
+using DasBlog.Services.ConfigFile.Interfaces;
+using DasBlog.Services.Users;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Xml.Serialization;
 
-namespace DasBlog.Core.Configuration
+namespace DasBlog.Services.ConfigFile
 {
-	[XmlRoot("SiteSecurityConfig")]
-	public interface ISiteSecurityConfig
+	[Serializable]
+	public class SiteSecurityConfig : ISiteSecurityConfig
 	{
-		[XmlElement(ElementName = "Users" )]
-		[XmlArrayItem(DataType = "string", ElementName = "User")]
-		List<User> Users { get; set; }
+		private readonly IUserService _userService;
+		public SiteSecurityConfig(IUserService userService)
+		{
+			_userService = userService;
+			Refresh();
+		}
 
-		void Refresh();
+		public void Refresh()
+		{
+			Users = _userService.GetAllUsers().ToList();
+		}
+
+		public List<User> Users { get; set; } = new List<User>();
 	}
 }

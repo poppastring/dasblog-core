@@ -1,13 +1,15 @@
-﻿using System;
-using System.IO;
-using System.Security.Principal;
-using System.Threading;
-using System.Threading.Tasks;
-using DasBlog.Core.Configuration;
+﻿using AutoMapper;
+using DasBlog.Core.Common;
 using DasBlog.Managers;
 using DasBlog.Managers.Interfaces;
+using DasBlog.Services.ActivityLogs;
+using DasBlog.Services.ConfigFile.Interfaces;
 using DasBlog.Web.Identity;
 using DasBlog.Web.Settings;
+using DasBlog.Web.Mappers;
+using DasBlog.Web.Services;
+using DasBlog.Web.Services.Interfaces;
+using DasBlog.Web.TagHelpers.RichEdit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -16,21 +18,19 @@ using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.Rewrite;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using AutoMapper;
-using DasBlog.Core;
-using DasBlog.Core.Common;
-using DasBlog.Core.Services;
-using DasBlog.Core.Services.Interfaces;
-using DasBlog.Services.ActivityLogs;
-using DasBlog.Web.Mappers;
-using DasBlog.Web.Services;
-using DasBlog.Web.Services.Interfaces;
 using Microsoft.Extensions.FileProviders;
-using DasBlog.Web.TagHelpers.RichEdit;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Hosting;
 using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
-
+using System;
+using System.IO;
+using System.Security.Principal;
+using System.Threading;
+using System.Threading.Tasks;
+using DasBlog.Services.Site;
+using DasBlog.Services.ConfigFile;
+using DasBlog.Services.Users;
+using DasBlog.Services;
 
 namespace DasBlog.Web
 {

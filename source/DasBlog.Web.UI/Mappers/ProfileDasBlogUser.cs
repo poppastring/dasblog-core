@@ -3,10 +3,8 @@ using DasBlog.Core.Security;
 using DasBlog.Web.Models.AccountViewModels;
 using DasBlog.Web.Identity;
 using System.Text.RegularExpressions;
-using DasBlog.Core.Services.Interfaces;
 using DasBlog.Managers.Interfaces;
 using DasBlog.Web.Models;
-using Microsoft.EntityFrameworkCore.Storage.Internal;
 
 namespace DasBlog.Web.Mappers
 {

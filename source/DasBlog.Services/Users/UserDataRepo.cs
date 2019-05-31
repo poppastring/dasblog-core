@@ -5,9 +5,9 @@ using Microsoft.Extensions.Options;
 using System.Xml.Serialization;
 using User = DasBlog.Core.Security.User;
 
-namespace DasBlog.Core.Services
+namespace DasBlog.Services.Users
 {
-	public class UserDataRepo : Interfaces.IUserDataRepo
+	public class UserDataRepo : IUserDataRepo
 	{
 		public class SiteSecurityConfig
 		{

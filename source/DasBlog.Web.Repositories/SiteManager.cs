@@ -1,6 +1,6 @@
-﻿using DasBlog.Core;
-using DasBlog.Core.Services.GoogleSiteMap;
+﻿using DasBlog.Core.Services.GoogleSiteMap;
 using DasBlog.Managers.Interfaces;
+using DasBlog.Services;
 using newtelligence.DasBlog.Runtime;
 using System;
 

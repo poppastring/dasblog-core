@@ -1,4 +1,4 @@
-﻿namespace DasBlog.Core.Services.Interfaces
+﻿namespace DasBlog.Services.Site
 {
 	public interface ISiteRepairer
 	{

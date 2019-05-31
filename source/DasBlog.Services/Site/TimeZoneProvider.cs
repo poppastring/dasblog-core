@@ -1,8 +1,7 @@
-using DasBlog.Core.Services.Interfaces;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 using NodaTime;
 
-namespace DasBlog.Core.Services
+namespace DasBlog.Services.Site
 {
 	public class TimeZoneProvider : ITimeZoneProvider
 	{

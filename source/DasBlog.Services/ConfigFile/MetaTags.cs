@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using DasBlog.Services.ConfigFile.Interfaces;
 
-namespace DasBlog.Core.Configuration
+namespace DasBlog.Services.ConfigFile
 {
     public class MetaTags : IMetaTags
     {

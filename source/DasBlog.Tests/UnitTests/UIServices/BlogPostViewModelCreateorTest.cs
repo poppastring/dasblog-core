@@ -1,21 +1,16 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
-using DasBlog.Core.Services;
-using DasBlog.Core.Services.Interfaces;
-using DasBlog.Managers;
 using DasBlog.Managers.Interfaces;
 using DasBlog.Web.Models.BlogViewModels;
 using DasBlog.Web.Services;
 using DasBlog.Web.Services.Interfaces;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using newtelligence.DasBlog.Runtime;
-using Remotion.Linq.Parsing.Structure.IntermediateModel;
 using Xunit;
 using Moq;
-
+using DasBlog.Services.Site;
 
 namespace DasBlog.Tests.UnitTests.UIServices
 {

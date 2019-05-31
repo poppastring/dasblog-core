@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DasBlog.Core.Configuration
+namespace DasBlog.Services.ConfigFile.Interfaces
 {
     public interface IMetaTags
     {

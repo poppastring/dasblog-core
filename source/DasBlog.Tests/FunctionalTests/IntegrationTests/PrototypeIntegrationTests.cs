@@ -1,6 +1,6 @@
 ﻿using System.Net;
 using System.Net.Http;
-using DasBlog.Core.Services.Interfaces;
+using DasBlog.Services.Users;
 using DasBlog.Tests.FunctionalTests.IntegrationTests.Support;
 using Xunit;
 

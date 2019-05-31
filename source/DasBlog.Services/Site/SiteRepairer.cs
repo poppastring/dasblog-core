@@ -1,16 +1,15 @@
 ﻿using System;
 using System.IO;
-using DasBlog.Core.Services.Interfaces;
 
-namespace DasBlog.Core.Services
+namespace DasBlog.Services.Site
 {
 	public class SiteRepairer : ISiteRepairer
 	{
 		private string _binariesPath = "";
 		public SiteRepairer(IDasBlogSettings dasBlogSettings)
 		{
-			_binariesPath = Path.Combine(dasBlogSettings.WebRootDirectory
-			  ,dasBlogSettings.SiteConfiguration.BinariesDir.TrimStart('~', '/'));
+			_binariesPath = Path.Combine(dasBlogSettings.WebRootDirectory,
+							dasBlogSettings.SiteConfiguration.BinariesDir.TrimStart('~', '/'));
 		}
 		public (bool result, string errorMessage) RepairSite()
 		{
