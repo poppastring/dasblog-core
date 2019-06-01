@@ -1,5 +1,5 @@
-﻿using DasBlog.Core.Services.Rsd;
-using DasBlog.Core.Services.Rss20;
+﻿using DasBlog.Services.Rss.Rsd;
+using DasBlog.Services.Rss.Rss20;
 
 namespace DasBlog.Managers.Interfaces
 {

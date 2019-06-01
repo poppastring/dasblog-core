@@ -1,8 +1,8 @@
-﻿using DasBlog.Core.Extensions;
-using DasBlog.Core.Exceptions;
+﻿using DasBlog.Core.Exceptions;
 using DasBlog.Managers.Interfaces;
-using EventDataItem = DasBlog.Core.EventDataItem;
-using EventCodes = DasBlog.Core.EventCodes;
+using DasBlog.Services.ActivityLogs;
+using EventDataItem = DasBlog.Services.ActivityLogs.EventDataItem;
+using EventCodes = DasBlog.Services.ActivityLogs.EventCodes;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using newtelligence.DasBlog.Runtime;
@@ -59,8 +59,8 @@ namespace DasBlog.Managers
 		}
 		private readonly IBlogDataService dataService;
 		private readonly ILogger logger;
-		private static Regex stripTags = new Regex("<[^>]*>", RegexOptions.Compiled | RegexOptions.CultureInvariant);
-		private Options opts;
+		private static readonly Regex stripTags = new Regex("<[^>]*>", RegexOptions.Compiled | RegexOptions.CultureInvariant);
+		private readonly Options opts;
 
 		public BlogManager( ILogger<BlogManager> logger, IOptions<BlogManagerOptions> settingsOptionsAccessor,
 							IOptionsMonitor<BlogManagerModifiableOptions> monitoredOptionsAccessor,
@@ -68,10 +68,8 @@ namespace DasBlog.Managers
 		{
 			opts = new Options(settingsOptionsAccessor, monitoredOptionsAccessor, extraOptionsAccessor);
 			this.logger = logger;
-			var loggingDataService = LoggingDataServiceFactory.GetService(opts.WebRootDirectory 
-			  + opts.LogDir);
-			dataService = BlogDataServiceFactory.GetService(opts.WebRootDirectory 
-			  + opts.ContentDir, loggingDataService);
+			var loggingDataService = LoggingDataServiceFactory.GetService(opts.WebRootDirectory + opts.LogDir);
+			dataService = BlogDataServiceFactory.GetService(opts.WebRootDirectory + opts.ContentDir, loggingDataService);
 		}
 
 		/// <param name="dt">if non-null then the post must be dated on that date</param>
@@ -83,11 +81,10 @@ namespace DasBlog.Managers
 			}
 			else
 			{
-				EntryCollection entries = dataService.GetEntriesForDay(dt.Value, null, null, 1, 10, null);
-				return entries.FirstOrDefault(e => 
-				  SettingsUtils.GetPermaTitle(e.CompressedTitle, opts.TitlePermalinkSpaceReplacement)
-				  .Replace(opts.TitlePermalinkSpaceReplacement, string.Empty)
-				  == postid);
+				var entries = dataService.GetEntriesForDay(dt.Value, null, null, 1, 10, null);
+
+				return entries.FirstOrDefault(e => SettingsUtils.GetPermaTitle(e.CompressedTitle, opts.TitlePermalinkSpaceReplacement)
+				  .Replace(opts.TitlePermalinkSpaceReplacement, string.Empty) == postid);
 			}
 		}
 
@@ -103,10 +100,10 @@ namespace DasBlog.Managers
 
 		public EntryCollection GetFrontPagePosts(string acceptLanguageHeader)
 		{			
-			return dataService.GetEntriesForDay(SettingsUtils.GetContentLookAhead(opts.ContentLookaheadDays)
-				, SettingsUtils.GetConfiguredTimeZone(opts.AdjustDisplayTimeZone, opts.DisplayTimeZoneIndex),
-								acceptLanguageHeader, opts.FrontPageEntryCount, 
-				opts.FrontPageEntryCount, string.Empty);
+			return dataService.GetEntriesForDay(
+					SettingsUtils.GetContentLookAhead(opts.ContentLookaheadDays), 
+					SettingsUtils.GetConfiguredTimeZone(opts.AdjustDisplayTimeZone, opts.DisplayTimeZoneIndex),
+					acceptLanguageHeader, opts.FrontPageEntryCount, opts.FrontPageEntryCount, string.Empty);
 		}
 
 		public EntryCollection GetEntriesForPage(int pageIndex, string acceptLanguageHeader)

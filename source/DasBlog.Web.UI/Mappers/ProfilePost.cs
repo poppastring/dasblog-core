@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
-using DasBlog.Core;
 using DasBlog.Web.Models.BlogViewModels;
 using DasBlog.Core.Common;
 using DasBlog.Core.Extensions;
 using newtelligence.DasBlog.Runtime;
 using System.Collections.Generic;
 using System.Linq;
+using DasBlog.Services;
 
 namespace DasBlog.Web.Mappers
 {

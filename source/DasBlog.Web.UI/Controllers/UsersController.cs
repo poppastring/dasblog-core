@@ -1,18 +1,16 @@
-﻿using System;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
+using DasBlog.Core.Security;
+using DasBlog.Core.Common;
+using static DasBlog.Core.Common.Veriifier;
+using DasBlog.Services.ActivityLogs;
+using DasBlog.Services.ConfigFile.Interfaces;
+using DasBlog.Services.Users;
+using DasBlog.Web.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Linq;
-using AutoMapper;
-using DasBlog.Core;
-using DasBlog.Core.Configuration;
-using DasBlog.Core.Security;
-using Microsoft.AspNetCore.Mvc;
-using DasBlog.Core.Services.Interfaces;
-using DasBlog.Core.Common;
-using DasBlog.Web.Models;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.Extensions.Logging;
-using DasBlog.Core.Extensions;
-using static DasBlog.Core.Common.Veriifier;
 
 namespace DasBlog.Web.Controllers
 {

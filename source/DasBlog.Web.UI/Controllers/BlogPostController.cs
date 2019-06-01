@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using DasBlog.Core;
-using DasBlog.Managers.Interfaces;
 using DasBlog.Core.Common;
+using DasBlog.Managers.Interfaces;
+using DasBlog.Services;
 using DasBlog.Web.Models.BlogViewModels;
 using DasBlog.Web.Services.Interfaces;
 using DasBlog.Web.Settings;

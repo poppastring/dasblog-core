@@ -39,8 +39,8 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DasBlog.Web.Core\DasBlog.Core.csproj" />
+    <ProjectReference Include="..\DasBlog.Services\DasBlog.Services.csproj" />
     <ProjectReference Include="..\DasBlog.Web.Repositories\DasBlog.Managers.csproj" />
-    <!--<ProjectReference Include="..\NetEscapades.Extensions.Logging.RollingFile\NetEscapades.Extensions.Logging.RollingFile.csproj" />-->
   </ItemGroup>
   <ItemGroup>
     <Content Update="Config\site.config">

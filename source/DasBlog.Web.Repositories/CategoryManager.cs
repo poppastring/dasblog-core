@@ -1,6 +1,6 @@
 ﻿using DasBlog.Managers.Interfaces;
+using DasBlog.Services;
 using newtelligence.DasBlog.Runtime;
-using DasBlog.Core;
 
 namespace DasBlog.Managers
 {

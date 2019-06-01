@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using DasBlog.Core.Security;
 using Microsoft.AspNetCore.Mvc;
-using DasBlog.Core.Services.Interfaces;
+using DasBlog.Services.Users;
 
 namespace DasBlog.Web.Components
 {

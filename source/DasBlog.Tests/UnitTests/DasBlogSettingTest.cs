@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
-using System.Xml.Serialization;
-using DasBlog.Core;
-using DasBlog.Core.Configuration;
 using DasBlog.Core.Security;
+using DasBlog.Services.ConfigFile;
+using DasBlog.Services.ConfigFile.Interfaces;
 using Microsoft.Extensions.FileProviders;
 using NodaTime;
+using System.Xml.Serialization;
+using DasBlog.Services;
 
 namespace DasBlog.Tests.UnitTests
 {

@@ -1,7 +1,7 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using DasBlog.Core.Services;
-using DasBlog.Core.Services.Interfaces;
+using DasBlog.Services.Site;
 using Microsoft.Extensions.DependencyInjection;
 using NodaTime;
 using Xunit;

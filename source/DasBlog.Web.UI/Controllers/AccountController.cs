@@ -1,16 +1,16 @@
-﻿using System.Threading.Tasks;
-using AutoMapper;
-using DasBlog.Core;
-using DasBlog.Web.Models.AccountViewModels;
+﻿using AutoMapper;
+using DasBlog.Managers.Interfaces;
+using DasBlog.Services;
+using DasBlog.Services.ActivityLogs;
 using DasBlog.Web.Identity;
+using DasBlog.Web.Models.AccountViewModels;
+using DasBlog.Web.Settings;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using DasBlog.Managers.Interfaces;
-using DasBlog.Core.Extensions;
-using DasBlog.Web.Settings;
+using System.Threading.Tasks;
 
 namespace DasBlog.Web.Controllers
 {
