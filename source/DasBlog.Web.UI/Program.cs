@@ -68,7 +68,7 @@ namespace DasBlog.Web.UI
 			var urlsEnvVar = System.Environment.GetEnvironmentVariable(AppConstants.AspNetCoreUrls);
 			if (string.IsNullOrWhiteSpace(urlsEnvVar))
 			{
-				urlsEnvVar = "http://localhost:5000/";
+				urlsEnvVar = "http://*:5000/";
 			}
 
 			configBuilder.AddInMemoryCollection(new KeyValuePair<string, string>[]

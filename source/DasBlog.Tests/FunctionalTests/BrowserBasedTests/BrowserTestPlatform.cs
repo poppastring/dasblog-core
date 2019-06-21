@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.IO;
 using DasBlog.Tests.Automation.Dom;
 using DasBlog.Tests.Automation.Selenium;
@@ -54,7 +54,7 @@ namespace DasBlog.Tests.FunctionalTests.BrowserBasedTests
 		{
 			services.Configure<BrowserOptions>(options =>
 			{
-				options.HomeUrl = "http://localhost:5000/";
+				options.HomeUrl = "http://localhost:50431/";
 				options.Driver = "firefox";
 			});
 			services.AddSingleton<IWebServerRunner, WebServerRunner>();

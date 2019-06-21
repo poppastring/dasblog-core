@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using DasBlog.Tests.Support;
@@ -9,6 +9,8 @@ using Xunit.Abstractions;
 namespace DasBlog.Tests.FunctionalTests.BrowserBasedTests
 {
 	[Collection(Constants.TestInfrastructureUsersCollection)]
+	[Trait("Category", "SkipWhenLiveUnitTesting")]
+
 	public class PageControlTests : BrowserBasedTestsBase
 	{
 		public PageControlTests(ITestOutputHelper testOutputHelper, BrowserTestPlatform browserTestPlatform)

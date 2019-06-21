@@ -1,4 +1,4 @@
-using DasBlog.Tests.FunctionalTests.Common;
+﻿using DasBlog.Tests.FunctionalTests.Common;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Xunit;
@@ -6,6 +6,7 @@ using Xunit.Abstractions;
 
 namespace DasBlog.Tests.FunctionalTests.BrowserBasedTests
 {
+	[Trait("Category", "SkipWhenLiveUnitTesting")]
 	public class BrowserBasedTestsBase : IClassFixture<BrowserTestPlatform>
 	{
 		protected BrowserTestPlatform platform;
