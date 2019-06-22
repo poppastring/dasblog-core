@@ -1,4 +1,5 @@
 ﻿@using DasBlog.Web.Models.BlogViewModels;
+@using System.Web;
 @model CommentViewModel
 
 <div class="modal-body form-horizontal">
@@ -9,7 +10,7 @@
         <div class="col-md-10 mb-5">
             <div class="row">
                 <div class="col-md-6 mb-3 text-dark">
-                    <a href="@Model.HomePageUrl"><strong>@Model.Name</strong></a>
+                    <a href="@Model.HomePageUrl"><strong>@HttpUtility.HtmlDecode(Model.Name)</strong></a>
                 </div>
                 <div class="col-md-6 mb-3 text-muted navbar-right">
                     <i class="navbar-right">@Model.Date.ToString("MMMM dd, yyyy H:mm")</i>
@@ -17,7 +18,7 @@
             </div>
             <div class="row">
                 <div class="col-md-12 mb-6">
-                    @Model.Text
+                    @HttpUtility.HtmlDecode(Model.Text)
                 </div>
             </div>
         </div>
