@@ -12,7 +12,7 @@
     <PackageReference Include="coverlet.msbuild" Version="2.3.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="2.1.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" />
+    <!--<PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" />-->
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.7.0" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
     <PackageReference Include="xunit" Version="2.3.1" />
@@ -24,5 +24,8 @@
     <ProjectReference Include="..\Automation\DasBlog.Tests.Automation\DasBlog.Tests.Automation.csproj" />
     <ProjectReference Include="..\SmokeTest\DasBlog.Tests.SmokeTest.csproj" />
     <ProjectReference Include="..\Support\DasBlog.Tests.Support.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="appsettings.json" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 </Project>

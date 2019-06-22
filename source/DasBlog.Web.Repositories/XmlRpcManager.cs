@@ -37,7 +37,6 @@
 */
 #endregion
 
-using CookComputing.XmlRpc;
 using DasBlog.Managers.Interfaces;
 using DasBlog.Core.Exceptions;
 using DasBlog.Services;
@@ -51,6 +50,7 @@ using System.Text;
 using Blogger = DasBlog.Services.XmlRpc.Blogger;
 using MoveableType = DasBlog.Services.XmlRpc.MoveableType;
 using MetaWeblog = DasBlog.Services.XmlRpc.MetaWeblog;
+using CookComputing.XmlRpc;
 
 namespace DasBlog.Managers
 {
