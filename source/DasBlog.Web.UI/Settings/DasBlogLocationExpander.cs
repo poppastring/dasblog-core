@@ -17,7 +17,7 @@ namespace DasBlog.Web.Settings
         public IEnumerable<string> ExpandViewLocations(ViewLocationExpanderContext context, IEnumerable<string> viewLocations)
         {
 			var listlocations = viewLocations.ToList();
-			listlocations.Add(theme);
+			listlocations.Insert(0, theme);
 			return listlocations;
 		}
 
