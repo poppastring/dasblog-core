@@ -22,7 +22,7 @@ namespace DasBlog.Web.Controllers
 		private readonly IDasBlogSettings dasBlogSettings;
 		private readonly IMapper mapper;
 		private readonly ILogger<HomeController> logger;
-		private IMemoryCache memoryCache;
+		private readonly IMemoryCache memoryCache;
 
 		public HomeController(IBlogManager blogManager, IDasBlogSettings settings, IXmlRpcManager rpcManager, 
 							IMapper mapper, ILogger<HomeController> logger, IMemoryCache memoryCache) : base(settings)

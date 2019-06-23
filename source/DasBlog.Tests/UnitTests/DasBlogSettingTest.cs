@@ -32,7 +32,7 @@ namespace DasBlog.Tests.UnitTests
 			RssUrl = RelativeToRoot("feed/rss");
 			CategoryUrl = RelativeToRoot("category");
 			ArchiveUrl = RelativeToRoot("archive");
-			MicroSummaryUrl = RelativeToRoot("microsummary");
+			MicroSummaryUrl = RelativeToRoot("site/microsummary");
 			RsdUrl = RelativeToRoot("rsd");
 			ShortCutIconUrl = RelativeToRoot("icon.jpg");
 			ThemeCssUrl = RelativeToRoot(string.Format("{0}.css", SiteConfiguration.Theme));
