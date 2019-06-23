@@ -36,7 +36,7 @@ namespace DasBlog.Web.Settings
 			PingBackUrl = RelativeToRoot("feed/pingback");
 			CategoryUrl = RelativeToRoot("category");
 			ArchiveUrl = RelativeToRoot("archive");
-			MicroSummaryUrl = RelativeToRoot("microsummary");
+			MicroSummaryUrl = RelativeToRoot("site/microsummary");
 			RsdUrl = RelativeToRoot("feed/rsd");
 			ShortCutIconUrl = RelativeToRoot("icon.jpg");
 			ThemeCssUrl = RelativeToRoot(string.Format("theme/{0}/custom.css",SiteConfiguration.Theme));
