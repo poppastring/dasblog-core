@@ -14,13 +14,17 @@ namespace DasBlog.Web.Models.BlogViewModels
 
 		public string BlogId { get; set; }
 
+		public DateTime Date { get; set; }
+
 		public static CategoryPostItem CreateFromEntry(Entry entry)
 		{
 			return new CategoryPostItem
 			{
 				Category = entry.GetSplitCategories().FirstOrDefault(),
 				BlogTitle = entry.Title,
-				BlogId = entry.CompressedTitle
+				BlogId = entry.CompressedTitle,
+				Date = entry.CreatedLocalTime
+				
 			};
 		}
 	}
