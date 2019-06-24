@@ -29,7 +29,7 @@ namespace DasBlog.Web.UI
 					// tried setting the IConfigurationBuilder.BasePath to Startup.GetDataRoot
 					// but this caused the view engine to go looking there for the views and fail to find them
 					// Surely not what is supposed to happen?
-					configBuilder.AddXmlFile(Path.Combine(Startup.GetDataRoot(env),@"Config/site.config"), optional: true, reloadOnChange: true)
+					configBuilder.AddXmlFile(Path.Combine(Startup.GetDataRoot(env),$"Config/site.{env.EnvironmentName}.config"), optional: true, reloadOnChange: true)
 						.AddXmlFile(Path.Combine(Startup.GetDataRoot(env),@"Config/metaConfig.xml"), optional: true, reloadOnChange: true)
 						.AddJsonFile(Path.Combine(Startup.GetDataRoot(env),"appsettings.json"), optional: true, reloadOnChange: true)
 						.AddJsonFile(Path.Combine(Startup.GetDataRoot(env),$"appsettings.{env.EnvironmentName}.json"), optional: true)
