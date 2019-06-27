@@ -1,14 +1,54 @@
-# ASP.NET Core
-# Build and test ASP.NET Core web applications targeting .NET Core.
-# Add steps that run tests, create a NuGet package, deploy, and more:
-# https://docs.microsoft.com/vsts/pipelines/languages/dotnet-core
+# Build on multiple platforms - https://docs.microsoft.com/azure/devops/pipelines/get-started-multiplatform?view=azure-devops&WT.mc_id=devops-github-shboyer
+strategy:
+  matrix:
+    linux:
+      imageName: 'ubuntu-16.04'
+    mac:
+      imageName: 'macos-10.13'
+    windows:
+      imageName: 'windows-2019'
 
 pool:
-  vmImage: 'Ubuntu 16.04'
+  vmImage: $(imageName)
+#  vmImage: 'windows-2019'
 
 variables:
   buildConfiguration: 'Release'
 
 steps:
-- script: dotnet build --configuration $(buildConfiguration)
-  displayName: 'dotnet build $(buildConfiguration)'
+- task: UseDotNet@2
+  displayName: Installing .NET Core 2.2.100
+  inputs:
+    packageType: 'sdk'
+    version: '2.2.100'
+
+- task: UseDotNet@2
+  displayName: Installing .NET Core 2.1.700
+  inputs:
+    packageType: 'sdk'
+    version: '2.1.700'
+
+- task: DotNetCoreCLI@2
+  displayName: Restoring Packages for Solution
+  inputs:
+    command: restore
+    projects: '**/*.sln'
+
+- task: DotNetCoreCLI@2
+  displayName: Build Solution
+  inputs:
+    command: build
+    projects: '**/*.sln'
+    arguments: '--no-restore --configuration Release' 
+
+- script: dotnet test source/DasBlog.Tests/FunctionalTests/ --logger trx;LogfileName=test_results.xml --results-directory $(System.DefaultWorkingDirectory)/test_results --filter Category!=TestInfrastructureTest
+  displayName: Run Functional Tests
+  condition: and(succeeded(), eq(variables['imageName'], 'windows-2019'))
+
+- task: PublishTestResults@2
+  displayName: Publish Test Results
+  condition: and(succeeded(), eq(variables['imageName'], 'windows-2019'))
+  inputs:
+    testRunner: VSTest
+    testResultsFiles: '**/*.xml'
+    searchFolder: '$(System.DefaultWorkingDirectory)/test_results'
