@@ -17,16 +17,10 @@ variables:
 
 steps:
 - task: UseDotNet@2
-  displayName: Installing .NET Core 2.2.100
+  displayName: Installing .NET Core 2.2.105
   inputs:
     packageType: 'sdk'
     version: '2.2.100'
-
-- task: UseDotNet@2
-  displayName: Installing .NET Core 2.1.700
-  inputs:
-    packageType: 'sdk'
-    version: '2.1.700'
 
 - task: DotNetCoreCLI@2
   displayName: Restoring Packages for Solution
@@ -47,7 +41,7 @@ steps:
 
 - task: PublishTestResults@2
   displayName: Publish Test Results
-  condition: and(succeeded(), eq(variables['imageName'], 'windows-2019'))
+  condition: and(always(), eq(variables['imageName'], 'windows-2019'))
   inputs:
     testRunner: VSTest
     testResultsFiles: '**/*.xml'
