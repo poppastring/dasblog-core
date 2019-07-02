@@ -24,6 +24,7 @@ using Microsoft.Extensions.Hosting;
 using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
 using System;
 using System.IO;
+using System.Linq;
 using System.Security.Principal;
 using System.Threading;
 using System.Threading.Tasks;
@@ -31,6 +32,8 @@ using DasBlog.Services.Site;
 using DasBlog.Services.ConfigFile;
 using DasBlog.Services.Users;
 using DasBlog.Services;
+using Microsoft.AspNetCore.HttpOverrides;
+using System.Collections.Generic;
 
 namespace DasBlog.Web
 {
@@ -55,6 +58,8 @@ namespace DasBlog.Web
 		public void ConfigureServices(IServiceCollection services)
 		{
 			services.AddOptions();
+			//.NET Core 2.2 adds this, but we'll do a basic one for 2.1, below
+			//services.AddHealthChecks();
 			services.AddMemoryCache();
 
 			services.Configure<BlogManagerOptions>(Configuration);
@@ -68,6 +73,13 @@ namespace DasBlog.Web
 			  => options.Path = Path.Combine(GetDataRoot(hostingEnvironment), SITESECURITYCONFIG));
 			services.Configure<ActivityRepoOptions>(options
 			  => options.Path = Path.Combine(GetDataRoot(hostingEnvironment), Constants.LogDirectory));
+
+			//Important if you're using Azure, hosting on Nginx, or behind any reverse proxy
+			services.Configure<ForwardedHeadersOptions>(options =>
+			{
+				options.ForwardedHeaders = ForwardedHeaders.All;
+				options.AllowedHosts = Configuration.GetValue<string>("AllowedHosts")?.Split(';').ToList<string>();
+			});
 
 			// Add identity types
 			services
@@ -161,13 +173,13 @@ namespace DasBlog.Web
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-		public void Configure(IApplicationBuilder app, IHostingEnvironment env, IOptions<RouteOptions> routeOptionsAccessor)
+		public void Configure(IApplicationBuilder app, IHostingEnvironment env, IOptions<RouteOptions> routeOptionsAccessor, IDasBlogSettings dasBlogSettings)
 		{
 			(var siteOk, string siteError) = RepairSite(app);
-			if (env.IsDevelopment())
+			if (env.IsDevelopment() || env.IsStaging())
 			{
 				app.UseDeveloperExceptionPage();
-				app.UseBrowserLink();
+				//app.UseBrowserLink();
 			}
 			else
 			{
@@ -179,11 +191,23 @@ namespace DasBlog.Web
 				app.Run(async context => await context.Response.WriteAsync(siteError));
 				return;
 			}
+			
+			//if you've configured it at /blog or /whatever, set that pathbase so ~ will generate correctly
+			Uri rootUri = new Uri(dasBlogSettings.SiteConfiguration.Root);
+			string path = rootUri.AbsolutePath;
 
-			app.Use((context, next) =>
+			//Deal with path base and proxies that change the request path
+			//https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/proxy-load-balancer?view=aspnetcore-2.2#deal-with-path-base-and-proxies-that-change-the-request-path
+			if (path != "/")
 			{
-				return next();
-			});
+				app.Use((context, next) =>
+				{
+					context.Request.PathBase = new PathString(path);
+					return next.Invoke();
+				});
+			}
+			app.UseForwardedHeaders();
+
 			app.UseStaticFiles();
 			app.UseStaticFiles(new StaticFileOptions()
 			{
@@ -204,18 +228,26 @@ namespace DasBlog.Web
 
 			app.UseAuthentication();
 			app.Use(PopulateThreadCurrentPrincipalForMvc);
+			//We'll replace this when we move to ASP.NET Core 2.2+ LTS
+			app.Map("/healthcheck", api =>
+			{
+				api.Run(async (context) =>
+				{
+					await context.Response.WriteAsync("Healthy");
+				});
+			});
 			app.UseMvc(routes =>
 			{
 				if (routeOptionsAccessor.Value.EnableTitlePermaLinkUnique)
 				{
 					routes.MapRoute(
 						"Original Post Format",
-						"{year:int}/{month:int}/{day:int}/{posttitle}.aspx",
+						"~/{year:int}/{month:int}/{day:int}/{posttitle}.aspx",
 						new { controller = "BlogPost", action = "Post", posttitle = "" });
 
 					routes.MapRoute(
 						"New Post Format",
-						"{year:int}/{month:int}/{day:int}/{posttitle}",
+						"~/{year:int}/{month:int}/{day:int}/{posttitle}",
 						new { controller = "BlogPost", action = "Post", postitle = ""  });
 
 				}
@@ -223,18 +255,18 @@ namespace DasBlog.Web
 				{
 					routes.MapRoute(
 						"Original Post Format",
-						"{posttitle}.aspx",
+						"~/{posttitle}.aspx",
 						new { controller = "BlogPost", action = "Post", posttitle = "" });
 
 					routes.MapRoute(
 						"New Post Format",
-						"{posttitle}",
+						"~/{posttitle}",
 						new { controller = "BlogPost", action = "Post", postitle = ""  });
 
 				}
 				routes.MapRoute(
 					name: "default",
-					template: "{controller=Home}/{action=Index}/{id?}");
+					template: "~/{controller=Home}/{action=Index}/{id?}");
 			});
 		}
 		/// <summary>

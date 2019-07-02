@@ -13,17 +13,10 @@
     <Platforms>AnyCPU</Platforms>
   </PropertyGroup>
   <ItemGroup>
-    <None Remove="Themes\dasblog\site.min.css" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Config\metaConfig.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="content\2018-02-24.dayentry.xml" />
-    <Content Include="content\2018-02-24.dayfeedback.xml" />
-    <Content Include="logs\logs.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Compile Remove="content\**" />
+    <Content Remove="content\**" />
+    <EmbeddedResource Remove="content\**" />
+    <None Remove="content\**" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="6.2.2" />
@@ -35,20 +28,11 @@
     <PackageReference Include="NetEscapades.Extensions.Logging.RollingFile" Version="1.0.1" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="config\site.config" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\DasBlog.Web.Core\DasBlog.Core.csproj" />
     <ProjectReference Include="..\DasBlog.Services\DasBlog.Services.csproj" />
     <ProjectReference Include="..\DasBlog.Web.Repositories\DasBlog.Managers.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Content Update="Config\site.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Config\siteSecurity.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Update="Themes\dasblog\_BlogItemSummary.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
@@ -99,24 +83,19 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <None Update="Config\IISUrlRewrite.xml">
+    <None Include="Config\*">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Themes\dasblog\custom.css">
+    <!-- Just copy themes that ARE NOT defaults and everything else is in a compiled razor pack -->
+    <None Include="Themes\**" Exclude="Themes\DasBlog\*;Themes\fulcrum\*;Themes\median\*;Themes\_ViewImports.cshtml;Themes\_ViewStart.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Themes\fulcrum\custom.css">
+    <None Remove="Themes\jinyang\_CommentAddPartial.cshtml" />
+    <None Include="logs\logs.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Themes\median\custom.css">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Themes\median\custom.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
+   </ItemGroup>
   <ItemGroup>
-    <Folder Include="content\binary\" />
     <Folder Include="Properties" />
   </ItemGroup>
   <!--
