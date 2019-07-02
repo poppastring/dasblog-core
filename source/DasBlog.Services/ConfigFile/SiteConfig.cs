@@ -55,7 +55,8 @@ namespace DasBlog.Services.ConfigFile
         public string Description { get; set; }
         public string Contact { get; set; }
         public string Root { get; set; }
-        public string Copyright { get; set; }
+		public string AllowedHosts { get; set; }
+		public string Copyright { get; set; }
         public int RssDayCount { get; set; }
         public int RssMainEntryCount { get; set; }
         public int RssEntryCount { get; set; }

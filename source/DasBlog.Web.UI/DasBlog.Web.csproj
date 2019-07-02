@@ -90,6 +90,7 @@
     <None Include="Themes\**" Exclude="Themes\DasBlog\*;Themes\fulcrum\*;Themes\median\*;Themes\_ViewImports.cshtml;Themes\_ViewStart.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Remove="Themes\jinyang\_CommentAddPartial.cshtml" />
     <None Include="logs\logs.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
