@@ -4,6 +4,7 @@
 The [DasBlog Blogging Engine](https://msdn.microsoft.com/en-us/library/aa480016.aspx) reintroduced with ASP.NET Core
 
 [![Build status](https://ci.appveyor.com/api/projects/status/github/poppastring/dasblog-core?branch=master&svg=true)](https://ci.appveyor.com/project/poppastring/dasblog-core)
+[![Build Status](https://dev.azure.com/poppastring/dasblog-core/_apis/build/status/poppastring.dasblog-core?branchName=master)](https://dev.azure.com/poppastring/dasblog-core/_build/latest?definitionId=2&branchName=master)
 
 
 ## Core Tenets - "This we believe"
