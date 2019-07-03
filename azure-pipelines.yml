@@ -35,7 +35,7 @@ steps:
     projects: '**/*.sln'
     arguments: '--no-restore --configuration Release' 
 
-- script: dotnet test source/DasBlog.Tests/FunctionalTests/ --logger trx;LogfileName=test_results.xml --results-directory $(System.DefaultWorkingDirectory)/test_results --filter Category=UnitTest
+- script: dotnet test source/DasBlog.Tests/UnitTests/ --logger trx;LogfileName=test_results.xml --results-directory $(System.DefaultWorkingDirectory)/test_results --filter Category=UnitTest
   displayName: Run Functional Tests
   condition: and(succeeded(), eq(variables['imageName'], 'windows-2019'))
 
