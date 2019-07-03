@@ -25,7 +25,7 @@ namespace DasBlog.Web.TagHelpers
 			output.Attributes.SetAttribute("href", dasBlogSettings.GetCommentViewUrl(Post.EntryId));
 			output.Attributes.SetAttribute("id", Constants.CommentOnThisPostId);
 			output.Attributes.SetAttribute("class", "dbc-comment-on-post-link");
-			output.Content.SetHtmlContent("Comment on this post");
+			output.Content.SetHtmlContent($"Comment on this post [{((Post.Comments != null) ? Post.Comments.Comments.Count : 0)}]");
 		}
 
 		public override Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
