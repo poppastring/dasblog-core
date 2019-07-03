@@ -13,7 +13,7 @@ namespace DasBlog.Web.Models.BlogViewModels
 			var startDayOfWeek = startOfTheMonth.DayOfWeek;
 			var startOfCalendar = startOfTheMonth.AddDays(DayOfWeek.Sunday - startDayOfWeek);
 
-			for (var day = 0; day < 35; day++)
+			for (var day = 0; day < 42; day++)
 			{
 				MonthEntries.Add(startOfCalendar.AddDays(day).Date, new List<PostViewModel>());
 			}
@@ -21,16 +21,28 @@ namespace DasBlog.Web.Models.BlogViewModels
 
 		public Dictionary<DateTime, ICollection<PostViewModel>> MonthEntries { get; } = new Dictionary<DateTime, ICollection<PostViewModel>>();
 
-		public static MonthViewViewModel Create(DateTime date, EntryCollection entries, IMapper mapper)
+		public static List<MonthViewViewModel> Create(DateTime date, EntryCollection entries, IMapper mapper)
 		{
+			var months = new List<MonthViewViewModel>();
+			var lastDate = date;
+			var index = 0;
+
 			var m = new MonthViewViewModel(date);
+			months.Insert(index, m);
 			foreach (var entry in entries)
 			{
+				if (entry.CreatedUtc.Date.Month != lastDate.Month)
+				{
+					lastDate = entry.CreatedUtc.Date;
+					m = new MonthViewViewModel(lastDate);
+					months.Insert(++index, m);
+				}
 				var post = mapper.Map<PostViewModel>(entry);
-				m.MonthEntries[entry.CreatedLocalTime.Date].Add(post);
+				m.MonthEntries[entry.CreatedUtc.Date].Add(post);
+				months[index] = m;
 			}
 
-			return m;
+			return months;
 		}
 	}
 }
