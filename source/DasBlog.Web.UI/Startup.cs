@@ -119,6 +119,8 @@ namespace DasBlog.Web
 				};
 			});
 
+			services.AddResponseCaching();
+
 			services.Configure<RazorViewEngineOptions>(rveo =>
 			{
 				rveo.ViewLocationExpanders.Add(new DasBlogLocationExpander(Configuration.GetSection("Theme").Value));
@@ -225,7 +227,6 @@ namespace DasBlog.Web
 				 .AddIISUrlRewrite(env.ContentRootFileProvider, @"Config/IISUrlRewrite.xml");
 
 			app.UseRewriter(options);
-
 			app.UseAuthentication();
 			app.Use(PopulateThreadCurrentPrincipalForMvc);
 			//We'll replace this when we move to ASP.NET Core 2.2+ LTS
