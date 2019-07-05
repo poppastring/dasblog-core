@@ -1,5 +1,5 @@
 ﻿@using DasBlog.Core.Common
-@model MonthViewViewModel
+@model List<MonthViewViewModel>
 
 @{
     var previous = (DateTime)ViewBag.PreviousMonth;
@@ -29,26 +29,29 @@
         <li>Saturday</li>
     </ul>
     <ul class="days">
-        @foreach (var dayEntry in Model.MonthEntries)
+        @foreach (var mvvm in Model)
         {
-            <li>
-                <div class="day">
-                    @if (dayEntry.Key.Day == 1)
-                    {
-                        @($"{dayEntry.Key:MMM d}")
-                    }
-                    else
-                    {
-                        @dayEntry.Key.Day
-                    }
-                </div>
-                <div>
-                    @foreach (var entry in dayEntry.Value)
-                    {
-                        <title-link post="@entry"></title-link>
-                    }
-                </div>
-            </li>
+            @foreach (var dayEntry in mvvm.MonthEntries)
+            {
+                <li>
+                    <div class="day">
+                        @if (dayEntry.Key.Day == 1)
+                        {
+                            @($"{dayEntry.Key:MMM d}")
+                        }
+                        else
+                        {
+                            @dayEntry.Key.Day
+                        }
+                    </div>
+                    <div>
+                        @foreach (var entry in dayEntry.Value)
+                        {
+                            <title-link post="@entry"></title-link>
+                        }
+                    </div>
+                </li>
+            }
         }
     </ul>
 </div>
