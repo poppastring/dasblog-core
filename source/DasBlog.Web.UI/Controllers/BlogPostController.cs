@@ -101,7 +101,7 @@ namespace DasBlog.Web.Controllers
 		public IActionResult PostGuid(Guid postid)
 		{
 			var lpvm = new ListPostsViewModel();
-			var entry = blogManager.GetBlogPost(postid);
+			var entry = blogManager.GetBlogPostByGuid(postid);
 			if (entry != null)
 			{
 				lpvm.Posts = new List<PostViewModel>() { mapper.Map<PostViewModel>(entry) };
@@ -276,13 +276,13 @@ namespace DasBlog.Web.Controllers
 		}
 
 		[AllowAnonymous]
-		[HttpGet("post/{postid:guid}/comments")]
-		[HttpGet("post/{postid:guid}/comments/{commentid:guid}")]
-		public IActionResult Comment(Guid postid)
+		[HttpGet("post/{posttitle}/comments")]
+		[HttpGet("post/{posttitle}/comments/{commentid:guid}")]
+		public IActionResult Comment(string posttitle)
 		{
 			ListPostsViewModel lpvm = null;
 
-			var entry = blogManager.GetBlogPost(postid);
+			var entry = blogManager.GetBlogPost(posttitle.Replace(dasBlogSettings.SiteConfiguration.TitlePermalinkSpaceReplacement, string.Empty), null);
 
 			if (entry != null)
 			{
@@ -295,9 +295,9 @@ namespace DasBlog.Web.Controllers
 				{
 					var lcvm = new ListCommentsViewModel
 					{
-						Comments = blogManager.GetComments(postid.ToString(), false)
+						Comments = blogManager.GetComments(entry.EntryId, false)
 							.Select(comment => mapper.Map<CommentViewModel>(comment)).ToList(),
-						PostId = postid.ToString(),
+						PostId = entry.EntryId,
 						PostDate = entry.CreatedUtc
 					};
 
@@ -319,7 +319,7 @@ namespace DasBlog.Web.Controllers
 
 			if (!ModelState.IsValid)
 			{
-				return Comment(new Guid(addcomment.TargetEntryId));
+				return Comment(addcomment.TargetEntryId);
 			}
 
 			addcomment.Content = dasBlogSettings.FilterHtml(addcomment.Content);
@@ -359,7 +359,7 @@ namespace DasBlog.Web.Controllers
 
 			BreakSiteCache();
 
-			return Comment(new Guid(addcomment.TargetEntryId));
+			return Comment(addcomment.TargetEntryId);
 		}
 
 		[HttpDelete("post/{postid:guid}/comments/{commentid:guid}")]

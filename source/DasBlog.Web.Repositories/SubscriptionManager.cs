@@ -225,7 +225,7 @@ namespace DasBlog.Managers
                     if (entry.AllowComments)
                     {
                         XmlElement commentApi = doc2.CreateElement("wfw", "comment", "http://wellformedweb.org/CommentAPI/");
-                        commentApi.InnerText = dasBlogSettings.GetCommentViewUrl(entry.EntryId);
+                        commentApi.InnerText = dasBlogSettings.GetCommentViewUrl(entry.CompressedTitle);
                         anyElements.Add(commentApi);
                     }
 
@@ -241,7 +241,7 @@ namespace DasBlog.Managers
                         slashComments.InnerText = commentsCount.ToString();
                         anyElements.Add(slashComments);
                     }
-                    item.Comments = dasBlogSettings.GetCommentViewUrl(entry.EntryId);
+                    item.Comments = dasBlogSettings.GetCommentViewUrl(entry.CompressedTitle);
                 }
                 item.Language = entry.Language;
 
