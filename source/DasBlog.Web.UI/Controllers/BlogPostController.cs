@@ -53,8 +53,8 @@ namespace DasBlog.Web.Controllers
 		public IActionResult Post(string posttitle, string day, string month, string year)
 		{
 			var lpvm = new ListPostsViewModel();
-			DateTime postDtTime = DateTime.MinValue;
-			int dayYear = 0;
+			var postDtTime = DateTime.MinValue;
+			var dayYear = 0;
 
 			if (dasBlogSettings.SiteConfiguration.EnableTitlePermaLinkUnique)
 			{
@@ -72,7 +72,7 @@ namespace DasBlog.Web.Controllers
 			
 			if (routeAffectedFunctions.IsSpecificPostRequested(posttitle, dayYear))
 			{
-				var entry = blogManager.GetBlogPost(posttitle.Replace(dasBlogSettings.SiteConfiguration.TitlePermalinkSpaceReplacement, string.Empty), dt);
+				var entry = blogManager.GetBlogPost(posttitle, dt);
 				if (entry != null)
 				{
 					var pvm = mapper.Map<PostViewModel>(entry);
@@ -282,7 +282,7 @@ namespace DasBlog.Web.Controllers
 		{
 			ListPostsViewModel lpvm = null;
 
-			var entry = blogManager.GetBlogPost(posttitle.Replace(dasBlogSettings.SiteConfiguration.TitlePermalinkSpaceReplacement, string.Empty), null);
+			var entry = blogManager.GetBlogPost(posttitle, null);
 
 			if (entry != null)
 			{

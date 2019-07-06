@@ -225,13 +225,13 @@ namespace DasBlog.Managers
                     if (entry.AllowComments)
                     {
                         XmlElement commentApi = doc2.CreateElement("wfw", "comment", "http://wellformedweb.org/CommentAPI/");
-                        commentApi.InnerText = dasBlogSettings.GetCommentViewUrl(entry.CompressedTitle);
+                        commentApi.InnerText = dasBlogSettings.GetCommentViewUrl(entry.CompressedTitle.Replace("+", dasBlogSettings.SiteConfiguration.TitlePermalinkSpaceReplacement));
                         anyElements.Add(commentApi);
                     }
 
                     XmlElement commentRss = doc2.CreateElement("wfw", "commentRss", "http://wellformedweb.org/CommentAPI/");
-                    commentRss.InnerText = dasBlogSettings.GetEntryCommentsRssUrl(entry.EntryId);
-                    anyElements.Add(commentRss);
+					commentRss.InnerText = dasBlogSettings.GetEntryCommentsRssUrl(entry.EntryId);
+					anyElements.Add(commentRss);
 
                     //for RSS conformance per FeedValidator.org
                     int commentsCount = dataService.GetPublicCommentsFor(entry.EntryId).Count;
@@ -241,7 +241,7 @@ namespace DasBlog.Managers
                         slashComments.InnerText = commentsCount.ToString();
                         anyElements.Add(slashComments);
                     }
-                    item.Comments = dasBlogSettings.GetCommentViewUrl(entry.CompressedTitle);
+                    item.Comments = dasBlogSettings.GetCommentViewUrl(entry.CompressedTitle.Replace("+",dasBlogSettings.SiteConfiguration.TitlePermalinkSpaceReplacement));
                 }
                 item.Language = entry.Language;
 
