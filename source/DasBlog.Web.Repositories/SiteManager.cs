@@ -64,7 +64,7 @@ namespace DasBlog.Managers
                     // Only add comments if we aren't showing comments on permalink pages already
                     if (dasBlogSettings.SiteConfiguration.ShowCommentsWhenViewingEntry == false)
                     {
-                        url commentPage = new url(dasBlogSettings.GetCommentViewUrl(e.EntryId), e.CreatedLocalTime, freq, 0.7M);
+                        url commentPage = new url(dasBlogSettings.GetCommentViewUrl(e.CompressedTitle), e.CreatedLocalTime, freq, 0.7M);
                         root.url.Add(commentPage);
                     }
 

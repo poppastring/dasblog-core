@@ -5,9 +5,9 @@ namespace DasBlog.Managers.Interfaces
 {
     public interface IBlogManager
     {
-        Entry GetBlogPost(string postid, DateTime? postDate);
+        Entry GetBlogPost(string posttitle, DateTime? postDate);
 
-		Entry GetBlogPost(Guid postid);
+		Entry GetBlogPostByGuid(Guid postid);
 
 		Entry GetEntryForEdit(string postid);
 
