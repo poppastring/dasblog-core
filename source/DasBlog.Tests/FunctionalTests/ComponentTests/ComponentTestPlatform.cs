@@ -36,8 +36,7 @@ namespace DasBlog.Tests.FunctionalTests.ComponentTests
 			ILogger<BlogManager> logger = ServiceProvider.GetService<ILoggerFactory>().CreateLogger<BlogManager>();
 			IOptions<BlogManagerOptions> optsAccessor = BuildBlogManagerOptions(sandbox);
 			var modifiableOptsAccessor = BuildBlogManagerModifiableOptions(sandbox);
-			var bm = new BlogManager(/*dasBlogSettings,*/ logger, optsAccessor, modifiableOptsAccessor
-			  , new OptionsWrapper<BlogManagerExtraOptions>(new BlogManagerExtraOptions{ ContentRootPath = sandbox.TestEnvironmentPath}));
+			var bm = new BlogManager(logger, dasBlogSettings);
 			var cacheFixer = ServiceProvider.GetService<ICacheFixer>();
 			cacheFixer.InvalidateCache(bm);
 			return bm;
