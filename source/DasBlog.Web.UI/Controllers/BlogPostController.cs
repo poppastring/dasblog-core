@@ -298,7 +298,8 @@ namespace DasBlog.Web.Controllers
 						Comments = blogManager.GetComments(entry.EntryId, false)
 							.Select(comment => mapper.Map<CommentViewModel>(comment)).ToList(),
 						PostId = entry.EntryId,
-						PostDate = entry.CreatedUtc
+						PostDate = entry.CreatedUtc,
+						CommentUrl = dasBlogSettings.GetCommentViewUrl(posttitle)
 					};
 
 					lpvm.Posts.First().Comments = lcvm;
