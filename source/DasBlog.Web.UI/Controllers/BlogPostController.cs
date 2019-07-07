@@ -281,8 +281,19 @@ namespace DasBlog.Web.Controllers
 		public IActionResult Comment(string posttitle)
 		{
 			ListPostsViewModel lpvm = null;
+			Entry entry = null;
+			var postguid = Guid.Empty;
 
-			var entry = blogManager.GetBlogPost(posttitle, null);
+			entry = blogManager.GetBlogPost(posttitle, null);
+
+			if (entry == null && Guid.TryParse(posttitle, out postguid))
+			{
+				entry = blogManager.GetBlogPostByGuid(postguid);
+
+				var pvm = mapper.Map<PostViewModel>(entry);
+
+				return RedirectPermanent(dasBlogSettings.GetCommentViewUrl(pvm.PermaLink));
+			}
 
 			if (entry != null)
 			{
