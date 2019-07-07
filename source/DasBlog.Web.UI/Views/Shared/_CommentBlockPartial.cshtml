@@ -1,14 +1,13 @@
 ﻿@using DasBlog.Web.Models.BlogViewModels;
-@using Constants = DasBlog.Core.Common.Constants;
-@using Microsoft.VisualBasic
 
 @model ListCommentsViewModel
 @inject IDasBlogSettings dasBlogSettings
 
 @if (Model != null && Model.Comments != null)
 {
-@*     <div id="@Constants.CommentsStart" >here</div> *@
     <hr />
+    <a class="comment-section-title" href="@Model.CommentUrl" >Comment Section</a>
+
     <div class="post-comments">
         <div class="post-comments-list">
             @if (Model.Comments.Count > 0)
@@ -25,7 +24,7 @@
             @await Html.PartialAsync("_CommentAddPartial", new AddCommentViewModel() { Content = string.Empty, Email = string.Empty, HomePage = string.Empty, Name = string.Empty, TargetEntryId = Model.PostId })
         }
         else
-        { 
+        {
             <p>Comments are closed.</p>
         }
     </div>

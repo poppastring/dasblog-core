@@ -12,5 +12,7 @@ namespace DasBlog.Web.Models.BlogViewModels
 		public string PostId { get; set; }
 
 		public DateTime PostDate { get; set; }
+
+		public string CommentUrl { get; set; }
 	}
 }
