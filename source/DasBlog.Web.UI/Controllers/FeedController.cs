@@ -93,6 +93,24 @@ namespace DasBlog.Web.Controllers
 			return Content(blogger);
 		}
 
+		[HttpGet("feed/pingback")]
+		public ActionResult PingBack()
+		{
+			return Ok();
+		}
+
+		[HttpGet("feed/rss/comments/{entryid}")]
+		public ActionResult RssComments(string entryid)
+		{
+			return Ok();
+		}
+
+		[HttpGet("feed/trackback/{entryid}")]
+		public ActionResult TrackBack(string entryid)
+		{
+			return Ok();
+		}
+
 		private void BreakSiteCache()
 		{
 			memoryCache.Remove(CACHEKEY_RSS);
