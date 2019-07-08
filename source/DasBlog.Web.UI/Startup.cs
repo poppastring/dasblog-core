@@ -198,6 +198,11 @@ namespace DasBlog.Web
 			Uri rootUri = new Uri(dasBlogSettings.SiteConfiguration.Root);
 			string path = rootUri.AbsolutePath;
 
+			var options = new RewriteOptions()
+				 .AddIISUrlRewrite(env.ContentRootFileProvider, @"Config/IISUrlRewrite.xml");
+
+			app.UseRewriter(options);
+
 			//Deal with path base and proxies that change the request path
 			//https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/proxy-load-balancer?view=aspnetcore-2.2#deal-with-path-base-and-proxies-that-change-the-request-path
 			if (path != "/")
@@ -223,10 +228,6 @@ namespace DasBlog.Web
 				RequestPath = "/theme"
 			});
 
-			var options = new RewriteOptions()
-				 .AddIISUrlRewrite(env.ContentRootFileProvider, @"Config/IISUrlRewrite.xml");
-
-			app.UseRewriter(options);
 			app.UseAuthentication();
 			app.Use(PopulateThreadCurrentPrincipalForMvc);
 			//We'll replace this when we move to ASP.NET Core 2.2+ LTS
