@@ -193,7 +193,13 @@ namespace DasBlog.Web
 				app.Run(async context => await context.Response.WriteAsync(siteError));
 				return;
 			}
-			
+
+			var options = new RewriteOptions()
+				 .AddIISUrlRewrite(env.ContentRootFileProvider, @"Config/IISUrlRewrite.xml");
+
+			app.UseRewriter(options);
+
+
 			//if you've configured it at /blog or /whatever, set that pathbase so ~ will generate correctly
 			Uri rootUri = new Uri(dasBlogSettings.SiteConfiguration.Root);
 			string path = rootUri.AbsolutePath;
@@ -223,10 +229,6 @@ namespace DasBlog.Web
 				RequestPath = "/theme"
 			});
 
-			var options = new RewriteOptions()
-				 .AddIISUrlRewrite(env.ContentRootFileProvider, @"Config/IISUrlRewrite.xml");
-
-			app.UseRewriter(options);
 			app.UseAuthentication();
 			app.Use(PopulateThreadCurrentPrincipalForMvc);
 			//We'll replace this when we move to ASP.NET Core 2.2+ LTS
