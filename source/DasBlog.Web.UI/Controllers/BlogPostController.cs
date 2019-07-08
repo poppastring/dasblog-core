@@ -281,8 +281,19 @@ namespace DasBlog.Web.Controllers
 		public IActionResult Comment(string posttitle)
 		{
 			ListPostsViewModel lpvm = null;
+			Entry entry = null;
+			var postguid = Guid.Empty;
 
-			var entry = blogManager.GetBlogPost(posttitle, null);
+			entry = blogManager.GetBlogPost(posttitle, null);
+
+			if (entry == null && Guid.TryParse(posttitle, out postguid))
+			{
+				entry = blogManager.GetBlogPostByGuid(postguid);
+
+				var pvm = mapper.Map<PostViewModel>(entry);
+
+				return RedirectPermanent(dasBlogSettings.GetCommentViewUrl(pvm.PermaLink));
+			}
 
 			if (entry != null)
 			{
@@ -298,7 +309,8 @@ namespace DasBlog.Web.Controllers
 						Comments = blogManager.GetComments(entry.EntryId, false)
 							.Select(comment => mapper.Map<CommentViewModel>(comment)).ToList(),
 						PostId = entry.EntryId,
-						PostDate = entry.CreatedUtc
+						PostDate = entry.CreatedUtc,
+						CommentUrl = dasBlogSettings.GetCommentViewUrl(posttitle)
 					};
 
 					lpvm.Posts.First().Comments = lcvm;
