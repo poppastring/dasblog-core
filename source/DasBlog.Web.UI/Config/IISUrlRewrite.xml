@@ -31,6 +31,14 @@
       <action type="Redirect" url="category" redirectType="Permanent" />
     </rule>
 
+    <rule name="Category page (category)" stopProcessing="true">
+      <match url="^CategoryView.aspx" />
+      <conditions>
+        <add input="{QUERY_STRING}" pattern="&amp;?category=(.*)" />
+      </conditions>
+      <action type="Redirect" url="category/{C:1}" redirectType="Permanent" />
+    </rule>
+
     <rule name="Redirect Comments" stopProcessing="true">
       <match url="^commentview.aspx" />
       <conditions>
