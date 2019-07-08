@@ -123,7 +123,7 @@ namespace DasBlog.Web.Settings
 		}
 		public string GetCommentViewUrl(string entryId)
         {
-            return GetPermaLinkUrl(entryId) + $"/comments#{Constants.CommentsStartId}";
+            return RelativeToRoot(entryId) + $"/comments#{Constants.CommentsStartId}";
         }
 
         public string GetTrackbackUrl(string entryId)
