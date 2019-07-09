@@ -83,7 +83,8 @@ namespace DasBlog.Web.Controllers
 										.Select(comment => mapper.Map<CommentViewModel>(comment)).ToList(),
 						PostId = entry.EntryId,
 						PostDate = entry.CreatedUtc,
-						CommentUrl = dasBlogSettings.GetCommentViewUrl(posttitle)
+						CommentUrl = dasBlogSettings.GetCommentViewUrl(posttitle),
+						ShowComments = dasBlogSettings.SiteConfiguration.ShowCommentsWhenViewingEntry
 					};
 					pvm.Comments = lcvm;
 
@@ -320,7 +321,8 @@ namespace DasBlog.Web.Controllers
 							.Select(comment => mapper.Map<CommentViewModel>(comment)).ToList(),
 						PostId = entry.EntryId,
 						PostDate = entry.CreatedUtc,
-						CommentUrl = dasBlogSettings.GetCommentViewUrl(posttitle)
+						CommentUrl = dasBlogSettings.GetCommentViewUrl(posttitle),
+						ShowComments = true
 					};
 
 					lpvm.Posts.First().Comments = lcvm;

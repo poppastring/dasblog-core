@@ -45,6 +45,8 @@ namespace DasBlog.Web.Controllers
 								.Select(editentry => editentry).ToList()
 				};
 
+				AddComments(lpvm);
+
 				memoryCache.Set(CACHEKEY_FRONTPAGE, lpvm, SiteCacheSettings());
 
 				logger.LogDebug($"In Index - {lpvm.Posts.Count} post found");
@@ -77,6 +79,9 @@ namespace DasBlog.Web.Controllers
 				Posts = blogManager.GetEntriesForPage(index, Request.Headers["Accept-Language"])
 								.Select(entry => mapper.Map<PostViewModel>(entry)).ToList()
 			};
+
+			AddComments(lpvm);
+
 			ViewData["Message"] = string.Format("Page...{0}", index);
 			ViewData[Constants.ShowPageControl] = true;			
 			ViewData[Constants.PageNumber] = index;
@@ -121,6 +126,24 @@ namespace DasBlog.Web.Controllers
 				logger.LogError(ex, ex.Message, null);
 				return Content("DasBlog - an error occurred (and reporting gailed) - Click the browser 'Back' button to try using the application");
 			}
+		}
+
+		private ListPostsViewModel AddComments(ListPostsViewModel listPostsViewModel)
+		{
+			foreach (var post in listPostsViewModel.Posts)
+			{
+				var lcvm = new ListCommentsViewModel
+				{
+					Comments = blogManager.GetComments(post.EntryId, false)
+					.Select(comment => mapper.Map<CommentViewModel>(comment)).ToList(),
+					PostId = post.EntryId,
+					PostDate = post.CreatedDateTime,
+					CommentUrl = dasBlogSettings.GetCommentViewUrl(post.PermaLink)
+				};
+				post.Comments = lcvm;
+			}
+
+			return listPostsViewModel;
 		}
 	}
 }
