@@ -10,7 +10,7 @@
 
     <div class="post-comments">
         <div class="post-comments-list">
-            @if (Model.Comments.Count > 0)
+            @if (Model.ShowComments && Model.Comments.Count > 0)
             {
                 foreach (var comment in Model.Comments)
                 {

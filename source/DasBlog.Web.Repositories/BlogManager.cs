@@ -62,7 +62,7 @@ namespace DasBlog.Managers
 		public EntryCollection GetFrontPagePosts(string acceptLanguageHeader)
 		{			
 			return dataService.GetEntriesForDay(dasBlogSettings.GetContentLookAhead(), dasBlogSettings.GetConfiguredTimeZone(), 
-											acceptLanguageHeader, this.dasBlogSettings.SiteConfiguration.FrontPageEntryCount, 
+											acceptLanguageHeader, dasBlogSettings.SiteConfiguration.FrontPageEntryCount, 
 											dasBlogSettings.SiteConfiguration.FrontPageEntryCount, string.Empty);
 		}
 

@@ -44,7 +44,7 @@
       <conditions>
         <add input="{QUERY_STRING}" pattern="&amp;?guid=(.*)" />
       </conditions>
-      <action type="Redirect" url="post/{C:1}/comments#commentstart" redirectType="Permanent" />
+      <action type="Redirect" url="{C:1}/comments#commentstart" redirectType="Permanent" />
     </rule>
     
   </rules>
