@@ -77,6 +77,16 @@ namespace DasBlog.Web.Controllers
 				{
 					var pvm = mapper.Map<PostViewModel>(entry);
 
+					var lcvm = new ListCommentsViewModel
+					{
+						Comments = blogManager.GetComments(entry.EntryId, false)
+										.Select(comment => mapper.Map<CommentViewModel>(comment)).ToList(),
+						PostId = entry.EntryId,
+						PostDate = entry.CreatedUtc,
+						CommentUrl = dasBlogSettings.GetCommentViewUrl(posttitle)
+					};
+					pvm.Comments = lcvm;
+
 					if (httpContextAccessor.HttpContext.Request.Path.Value.EndsWith(".aspx", StringComparison.OrdinalIgnoreCase))
 					{
 						return RedirectPermanent(pvm.PermaLink);
