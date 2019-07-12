@@ -57,8 +57,8 @@ namespace DasBlog.Managers
 	[XmlRpcService(Name = "DasBlog Blogger Access Point", Description = "Implementation of Blogger XML-RPC Api")]
 	public class XmlRpcManager : IXmlRpcManager, MoveableType.IMovableType, Blogger.IBlogger, MetaWeblog.IMetaWeblog
 	{
-		private IBlogDataService dataService;
-		private ISiteSecurityManager siteSecurityManager;
+		private readonly IBlogDataService dataService;
+		private readonly ISiteSecurityManager siteSecurityManager;
 		private readonly ILoggingDataService loggingDataService;
 		private readonly IDasBlogSettings dasBlogSettings;
 		private readonly IFileSystemBinaryManager binaryManager;

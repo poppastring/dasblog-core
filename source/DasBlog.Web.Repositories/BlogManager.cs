@@ -278,17 +278,10 @@ namespace DasBlog.Managers
 				if (entry.Categories == null)
 					entry.Categories = "";
 
-				rtn = dataService.SaveEntry(
-					entry, 
-					MaybeBuildWeblogPingInfo(),
-					entry.IsPublic
-						? trackbackList 
-						: null,
-					MaybeBuildPingbackInfo(entry),
-					crosspostList);
+				rtn = dataService.SaveEntry(entry, MaybeBuildWeblogPingInfo(), entry.IsPublic
+											? trackbackList : null, MaybeBuildPingbackInfo(entry), crosspostList);
 
 				//TODO: SendEmail(entry, siteConfig, logService);
-
 			}
 			catch (Exception ex)
 			{
@@ -297,8 +290,8 @@ namespace DasBlog.Managers
 				// logService.AddEvent(new EventDataItem(EventCodes.Error, ex.ToString() + Environment.NewLine + st.ToString(), ""));
 
 				LoggedException le = new LoggedException("file failure", ex);
-				var edi = new EventDataItem(EventCodes.Error, null
-				  , "Failed to Save a Post on {date}", System.DateTime.Now.ToShortDateString());
+
+				var edi = new EventDataItem(EventCodes.Error, null, "Failed to Save a Post on {date}", DateTime.Now.ToShortDateString());
 				logger.LogError(edi,le);
 			}
 
@@ -341,11 +334,8 @@ namespace DasBlog.Managers
 		private PingbackInfo MaybeBuildPingbackInfo(Entry entry)
 		{
 			return dasBlogSettings.SiteConfiguration.EnableAutoPingback && entry.IsPublic
-				? new PingbackInfo(
-					dasBlogSettings.GetPermaLinkUrl(entry.EntryId),
-					entry.Title,
-					entry.Description,
-					dasBlogSettings.SiteConfiguration.Title) 
+				? new PingbackInfo(dasBlogSettings.GetPermaLinkUrl(entry.EntryId), entry.Title,
+									entry.Description, dasBlogSettings.SiteConfiguration.Title) 
 				: null;
 		}
 
