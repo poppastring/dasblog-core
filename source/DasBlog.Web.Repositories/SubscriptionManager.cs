@@ -126,12 +126,11 @@ namespace DasBlog.Managers
 			var xdoc = new XmlDocument();
 			var rootElements = new List<XmlElement>();
 
-			var wflogo = xdoc.CreateElement("webfeeds", "logo", "webfeeds");
+			var wflogo = xdoc.CreateElement("webfeeds", "logo", "http://webfeeds.org/rss/1.0");
 			wflogo.InnerText = dasBlogSettings.RelativeToRoot(dasBlogSettings.SiteConfiguration.ChannelImageUrl);
 			rootElements.Add(wflogo);
 
-			var wfanalytics = xdoc.CreateElement("webfeeds", "analytics", "webfeeds");
-
+			var wfanalytics = xdoc.CreateElement("webfeeds", "analytics", "http://webfeeds.org/rss/1.0");
 			var attribId = xdoc.CreateAttribute("id");
 			attribId.Value = dasBlogSettings.MetaTags.GoogleAnalyticsID;
 			wfanalytics.Attributes.Append(attribId);
