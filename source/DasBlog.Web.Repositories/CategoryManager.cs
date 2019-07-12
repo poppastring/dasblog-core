@@ -6,7 +6,7 @@ namespace DasBlog.Managers
 {
 	public class CategoryManager : ICategoryManager
     {
-        private IBlogDataService dataService;
+        private readonly IBlogDataService dataService;
         private readonly ILoggingDataService loggingDataService;
         private readonly IDasBlogSettings dasBlogSettings;
 

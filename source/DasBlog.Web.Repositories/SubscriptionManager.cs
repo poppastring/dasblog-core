@@ -14,8 +14,8 @@ namespace DasBlog.Managers
 {
     public class SubscriptionManager : ISubscriptionManager
     {
-        private IBlogDataService dataService;
-        private ILoggingDataService loggingDataService;
+        private readonly IBlogDataService dataService;
+        private readonly ILoggingDataService loggingDataService;
         private readonly IDasBlogSettings dasBlogSettings;
 
         public SubscriptionManager(IDasBlogSettings settings)

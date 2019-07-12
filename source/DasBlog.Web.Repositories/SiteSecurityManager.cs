@@ -13,7 +13,7 @@ namespace DasBlog.Managers
 	public class SiteSecurityManager : ISiteSecurityManager
 	{
 		private HashAlgorithm hashAlgorithm;
-		private IDasBlogSettings dasBlogSettings;
+		private readonly IDasBlogSettings dasBlogSettings;
 
 		public SiteSecurityManager( IDasBlogSettings dasBlogSettings)
 		{
