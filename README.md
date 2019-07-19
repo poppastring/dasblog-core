@@ -1,10 +1,11 @@
 
-
 # Dasblog
+
 The [DasBlog Blogging Engine](https://msdn.microsoft.com/en-us/library/aa480016.aspx) reintroduced with ASP.NET Core
 
-[![Build Status](https://dev.azure.com/poppastring/dasblog-core/_apis/build/status/poppastring.dasblog-core?branchName=master)](https://dev.azure.com/poppastring/dasblog-core/_build/latest?definitionId=2&branchName=master)
-
+|Windows|Linux|macOS|
+|-------|-----|-----|
+|[![Build Status](https://poppastring.visualstudio.com/dasblog-core/_apis/build/status/poppastring.dasblog-core?branchName=master&jobName=Job&configuration=Job%20windows)](https://poppastring.visualstudio.com/dasblog-core/_build/latest?definitionId=2&branchName=master)|[![Build Status](https://poppastring.visualstudio.com/dasblog-core/_apis/build/status/poppastring.dasblog-core?branchName=master&jobName=Job&configuration=Job%20linux)](https://poppastring.visualstudio.com/dasblog-core/_build/latest?definitionId=2&branchName=master)|[![Build Status](https://poppastring.visualstudio.com/dasblog-core/_apis/build/status/poppastring.dasblog-core?branchName=master&jobName=Job&configuration=Job%20mac)](https://poppastring.visualstudio.com/dasblog-core/_build/latest?definitionId=2&branchName=master)|
 
 ## Core Tenets - "This we believe"
 
