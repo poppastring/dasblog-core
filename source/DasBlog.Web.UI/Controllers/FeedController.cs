@@ -1,11 +1,13 @@
 ﻿using DasBlog.Managers.Interfaces;
+using DasBlog.Services;
 using DasBlog.Services.Rss.Rss20;
 using DasBlog.Services.Rss.Rsd;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
-using System;
+using newtelligence.DasBlog.Runtime;
 using System.IO;
+using System;
 
 namespace DasBlog.Web.Controllers
 {
@@ -14,14 +16,20 @@ namespace DasBlog.Web.Controllers
         private IMemoryCache memoryCache;
         private readonly ISubscriptionManager subscriptionManager;
 		private readonly IXmlRpcManager xmlRpcManager;
+		private readonly IDasBlogSettings dasBlogSettings;
+		private readonly ILoggingDataService loggingDataService;
 
-        public FeedController(ISubscriptionManager subscriptionManager, IHttpContextAccessor httpContextAccessor,
-								IXmlRpcManager xmlRpcManager, IMemoryCache memoryCache)
+
+		public FeedController(ISubscriptionManager subscriptionManager, IHttpContextAccessor httpContextAccessor,
+								IXmlRpcManager xmlRpcManager, IMemoryCache memoryCache, IDasBlogSettings dasBlogSettings)
         {  
             this.subscriptionManager = subscriptionManager;
 			this.xmlRpcManager = xmlRpcManager;
 			this.memoryCache = memoryCache;
-        }
+			this.dasBlogSettings = dasBlogSettings;
+
+			loggingDataService = LoggingDataServiceFactory.GetService(dasBlogSettings.WebRootDirectory + dasBlogSettings.SiteConfiguration.LogDir);
+		}
 
 		[Produces("text/xml")]
         [HttpGet("feed/rss")]
@@ -82,10 +90,17 @@ namespace DasBlog.Web.Controllers
 		{
 			var blogger = string.Empty;
 
-			using (var mem = new MemoryStream())
+			try
 			{
-				Request.Body.CopyTo(mem);
-				blogger = xmlRpcManager.Invoke(mem);
+				using (var mem = new MemoryStream())
+				{
+					Request.Body.CopyTo(mem);
+					blogger = xmlRpcManager.Invoke(mem);
+				}
+			}
+			catch (Exception ex)
+			{
+				loggingDataService.AddEvent(new EventDataItem(EventCodes.Error, ex.Message, "FeedController.BloggerPost"));
 			}
 
 			BreakSiteCache();
