@@ -38,7 +38,10 @@ namespace DasBlog.Web.TagHelpers
 				categorylist = categorylist + string.Format(CATEGORY_ITEM_TEMPLATE, dasBlogSettings.GetCategoryViewUrl(category.CategoryUrl), category.Category) + format;
 			}
 
-			categorylist = categorylist.Remove(categorylist.Length - format.Length);
+			if (!string.IsNullOrWhiteSpace(categorylist))
+			{
+				categorylist = categorylist.Remove(categorylist.Length - format.Length);
+			}
 
 			output.Content.SetHtmlContent(categorylist);
 		}
