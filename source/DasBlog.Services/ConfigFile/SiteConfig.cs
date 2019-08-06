@@ -162,9 +162,7 @@ namespace DasBlog.Services.ConfigFile
         public string CommentsGravatarRating { get; set; }
         public bool CommentsRequireApproval { get; set; }
         public bool CommentsAllowHtml { get; set; }
-        public ValidTagCollection XmlAllowedTagsArray { get; set; }
-        public ValidTagCollection AllowedTags { get; set; }
-        public string XmlAllowedTags { get; set; }
+
         public bool EnableCoComment { get; set; }
         public bool EnableSpamBlockingService { get; set; }
         public string SpamBlockingServiceApiKey { get; set; }
@@ -193,5 +191,6 @@ namespace DasBlog.Services.ConfigFile
         public XmlElement[] anyElements { get; set; }
         public XmlAttribute[] anyAttributes { get; set; }
 		public bool ShowItemSummaryInAggregatedViews { get; set; }
+		public ValidCommentTags[] ValidCommentTags { get; set; }
 	}
 }

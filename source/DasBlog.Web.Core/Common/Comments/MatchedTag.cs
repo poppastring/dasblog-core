@@ -82,7 +82,7 @@ namespace DasBlog.Core.Common.Comments
 		/// Filters the attributes in the current tag.
 		/// </summary>
 		/// <param name="validTag">The valid tag, which specifies which attributes are valid.</param>
-		public void FilterAttributes(ValidTag validTag)
+		public void FilterAttributes(Tag validTag)
 		{
 			// nothing to check against, so no valid attributes
 			if (validTag == null)

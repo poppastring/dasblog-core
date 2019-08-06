@@ -124,8 +124,6 @@ namespace DasBlog.Tests.UnitTests
 		public string CommentsGravatarRating { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 		public bool CommentsRequireApproval { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 		public bool CommentsAllowHtml { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-		public ValidTagCollection XmlAllowedTagsArray { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-		public ValidTagCollection AllowedTags { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 		public string XmlAllowedTags { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 		public bool EnableCoComment { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 		public bool EnableSpamBlockingService { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
@@ -155,5 +153,6 @@ namespace DasBlog.Tests.UnitTests
 		public XmlElement[] anyElements { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 		public XmlAttribute[] anyAttributes { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 		public bool ShowItemSummaryInAggregatedViews { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+		ValidCommentTags[] ISiteConfig.ValidCommentTags { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 	}
 }
