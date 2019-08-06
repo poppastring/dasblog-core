@@ -210,7 +210,7 @@ namespace DasBlog.Web.Settings
 
 		public string FilterHtml(string input)
 		{
-			if (SiteConfiguration.AllowedTags == null || SiteConfiguration.AllowedTags.Count == 0)
+			if (SiteConfiguration.ValidCommentTags == null || SiteConfiguration.ValidCommentTags.Length == 0)
 			{
 				return WebUtility.HtmlEncode(input);
 			}
@@ -227,7 +227,7 @@ namespace DasBlog.Web.Settings
 			StringBuilder sb = new StringBuilder();
 
 
-			MatchedTagCollection collection = new MatchedTagCollection(SiteConfiguration.AllowedTags);
+			MatchedTagCollection collection = new MatchedTagCollection(SiteConfiguration.ValidCommentTags);
 			collection.Init(matches);
 
 			int inputIndex = 0;

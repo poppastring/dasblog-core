@@ -42,6 +42,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -53,17 +54,13 @@ namespace DasBlog.Core.Common.Comments
 	/// </summary>
 	public class MatchedTagCollection : ICollection, IEnumerable
 	{
-		/// <summary>
-		/// Initializes a new instance of the <see cref="FilteredTagCollection"/> class.
-		/// </summary>
-		/// <param name="allowedTags">The allowed tags.</param>
-		public MatchedTagCollection(ValidTagCollection allowedTags)
+		public MatchedTagCollection(ValidCommentTags [] allowedTags)
 		{
 
 			// param validation
 			if (allowedTags == null) { throw new ArgumentNullException("allowedTags"); }
 
-			this.allowedTags = allowedTags;
+			this.allowedTags = allowedTags[0];
 		}
 
 		/// <summary>
@@ -98,7 +95,8 @@ namespace DasBlog.Core.Common.Comments
 					continue;
 				}
 
-				ValidTag validTag = allowedTags[name];
+			
+				var validTag = allowedTags.Tag.Single(s => s.TagName == name);
 
 				// valid match
 				// if its a self-closing tag, add to store
@@ -201,7 +199,8 @@ namespace DasBlog.Core.Common.Comments
 				{
 					// filter the attr. for the opening tag
 					MatchedTag matchedTag = new MatchedTag(matches[i], true, true);
-					matchedTag.FilterAttributes(allowedTags[matchedTag.TagName]);
+
+					matchedTag.FilterAttributes(allowedTags.Tag.Single(s => s.TagName == matchedTag.TagName));
 
 					// add to store
 					store[i] = matchedTag;
@@ -281,7 +280,7 @@ namespace DasBlog.Core.Common.Comments
 
 		// FIELDS
 
-		ValidTagCollection allowedTags;
+		ValidCommentTags allowedTags;
 		ArrayList store;
 	}
 }

@@ -238,12 +238,6 @@ namespace DasBlog.Services.ConfigFile.Interfaces
 
         bool EnableEntryReferrals { get; set; }
 
-        [XmlArray("PingServices", IsNullable = true)]
-        PingService[] PingServiceArray { get; set; }
-
-        [XmlIgnore]
-        PingServiceCollection PingServices { get; set; }
-
         string FeedBurnerName { get; set; }
 
         int DaysCommentsAllowed { get; set; }
@@ -280,18 +274,15 @@ namespace DasBlog.Services.ConfigFile.Interfaces
 
         bool CommentsAllowHtml { get; set; }
 
-        [XmlArray("validCommentTags", IsNullable = true)]
-        [XmlArrayItem("tag")]
-        ValidTagCollection XmlAllowedTagsArray { get; set; }
+		[XmlIgnore]
+		PingServiceCollection PingServices { get; set; }
 
-        [XmlIgnore]
-        ValidTagCollection AllowedTags { get; set; }
+		[XmlArray("PingServices", IsNullable = true)]
+		PingService[] PingServiceArray { get; set; }
 
-        [XmlElement("AllowedTags")]
-        [Obsolete("Please use the AllowedTags property.")]
-        string XmlAllowedTags { get; set; }
+		ValidCommentTags[] ValidCommentTags { get; set; }
 
-        bool EnableCoComment { get; set; }
+		bool EnableCoComment { get; set; }
 
         bool EnableSpamBlockingService { get; set; }
 
