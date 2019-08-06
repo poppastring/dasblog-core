@@ -16,6 +16,7 @@ using System.Xml.Serialization;
 using DasBlog.Services.ConfigFile.Interfaces;
 using DasBlog.Services.ConfigFile;
 using DasBlog.Services;
+using System.Linq;
 
 namespace DasBlog.Web.Settings
 {
@@ -210,13 +211,13 @@ namespace DasBlog.Web.Settings
 
 		public string FilterHtml(string input)
 		{
-			if (SiteConfiguration.ValidCommentTags == null || SiteConfiguration.ValidCommentTags.Length == 0)
+			if (SiteConfiguration.ValidCommentTags == null || SiteConfiguration.ValidCommentTags[0].Tag.Count(s => s.Allowed == true) == 0)
 			{
 				return WebUtility.HtmlEncode(input);
 			}
 
 			// check for matches
-			MatchCollection matches = htmlFilterRegex.Matches(input);
+			var matches = htmlFilterRegex.Matches(input);
 
 			// no matches, normal encoding
 			if (matches.Count == 0)
@@ -224,17 +225,16 @@ namespace DasBlog.Web.Settings
 				return WebUtility.HtmlEncode(input);
 			}
 
-			StringBuilder sb = new StringBuilder();
+			var sb = new StringBuilder();
 
 
-			MatchedTagCollection collection = new MatchedTagCollection(SiteConfiguration.ValidCommentTags);
+			var collection = new MatchedTagCollection(SiteConfiguration.ValidCommentTags);
 			collection.Init(matches);
 
 			int inputIndex = 0;
 
 			foreach (MatchedTag tag in collection)
 			{
-
 				// add the normal text between the current index and the index of the current tag
 				if (inputIndex < tag.Index)
 				{
