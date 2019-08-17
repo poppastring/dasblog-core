@@ -23,6 +23,7 @@ namespace DasBlog.Web.Settings
 	public class DasBlogSettings : IDasBlogSettings
 	{
 		private readonly IFileProvider fileProvider;
+		private readonly string siteSecurityConfigPath;
 
 		public DasBlogSettings(IHostingEnvironment env, IOptions<SiteConfig> siteConfig, IOptions<MetaTags> metaTagsConfig, ISiteSecurityConfig siteSecurityConfig, IFileProvider fileProvider)
 		{
@@ -41,6 +42,8 @@ namespace DasBlog.Web.Settings
 			RsdUrl = RelativeToRoot("feed/rsd");
 			ShortCutIconUrl = RelativeToRoot("icon.jpg");
 			ThemeCssUrl = RelativeToRoot(string.Format("theme/{0}/custom.css",SiteConfiguration.Theme));
+
+			siteSecurityConfigPath = $"Config/siteSecurity.{env.EnvironmentName}.config";
 		}
 
 		public string WebRootDirectory { get; }
@@ -168,7 +171,7 @@ namespace DasBlog.Web.Settings
 		{
 			SecurityConfiguration.Users.Add(user);
 			var ser = new XmlSerializer(typeof(SiteSecurityConfig));
-			var fileInfo = fileProvider.GetFileInfo(Startup.SiteSecurityConfig);
+			var fileInfo = fileProvider.GetFileInfo(siteSecurityConfigPath);
 			using (var writer = new StreamWriter(fileInfo.PhysicalPath))
 			{
 				ser.Serialize(writer, SecurityConfiguration);

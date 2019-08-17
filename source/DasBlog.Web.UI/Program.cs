@@ -27,7 +27,7 @@ namespace DasBlog.Web.UI
 					env = hostingContext.HostingEnvironment;
 
 					configBuilder.AddXmlFile(Path.Combine(Startup.GetDataRoot(env),$"Config/site.{env.EnvironmentName}.config"), optional: true, reloadOnChange: true)
-						.AddXmlFile(Path.Combine(Startup.GetDataRoot(env),$"Config/metaConfig.{env.EnvironmentName}.xml"), optional: true, reloadOnChange: true)
+						.AddXmlFile(Path.Combine(Startup.GetDataRoot(env),$"Config/meta.{env.EnvironmentName}.config"), optional: true, reloadOnChange: true)
 						.AddJsonFile(Path.Combine(Startup.GetDataRoot(env),$"appsettings.{env.EnvironmentName}.json"), optional: true)
 						.AddEnvironmentVariables();
 

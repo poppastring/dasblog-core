@@ -38,7 +38,9 @@ namespace DasBlog.Web
 {
 	public class Startup
 	{
-		public static string SiteSecurityConfig { get; private set; }
+		private readonly string SiteSecurityConfig;
+
+		private readonly string IISUrlRewriteConfig;
 
 		private readonly IHostingEnvironment hostingEnvironment;
 		private readonly string binariesPath;
@@ -50,6 +52,7 @@ namespace DasBlog.Web
 			hostingEnvironment = env;
 			binariesPath = Configuration.GetValue<string>("binariesDir", "/").TrimStart('~').TrimEnd('/');
 			SiteSecurityConfig = $"Config/siteSecurity.{hostingEnvironment.EnvironmentName}.config";
+			IISUrlRewriteConfig = $"Config/IISUrlRewrite.{hostingEnvironment.EnvironmentName}.config";
 		}
 
 		public IConfiguration Configuration { get; }
@@ -195,7 +198,7 @@ namespace DasBlog.Web
 			}
 
 			var options = new RewriteOptions()
-				 .AddIISUrlRewrite(env.ContentRootFileProvider, $"Config/IISUrlRewrite.{hostingEnvironment.EnvironmentName}.config");
+				 .AddIISUrlRewrite(env.ContentRootFileProvider, IISUrlRewriteConfig);
 
 			app.UseRewriter(options);
 
