@@ -346,6 +346,16 @@ namespace DasBlog.Web.Controllers
 				return Comment(addcomment.TargetEntryId);
 			}
 
+			if (dasBlogSettings.SiteConfiguration.CheesySpamQ.Trim().Length > 0 && 
+				dasBlogSettings.SiteConfiguration.CheesySpamA.Trim().Length > 0)
+			{
+				if (string.Compare(addcomment.CheesyQuestionAnswered, dasBlogSettings.SiteConfiguration.CheesySpamA, 
+					StringComparison.OrdinalIgnoreCase) != 0)
+				{
+					return Comment(addcomment.TargetEntryId);
+				}
+			}
+
 			addcomment.Content = dasBlogSettings.FilterHtml(addcomment.Content);
 
 			var commt = mapper.Map<Comment>(addcomment);

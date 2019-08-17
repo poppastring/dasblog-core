@@ -1,5 +1,7 @@
-﻿@using DasBlog.Core.Common
+﻿@using DasBlog.Core.Common;
+@using DasBlog.Services;
 @model DasBlog.Web.Models.BlogViewModels.AddCommentViewModel
+@inject IDasBlogSettings dasBlogSettings
 
 <div class="post-new-comment">
     <form asp-controller="post" asp-action="comments" method="post">
@@ -25,6 +27,12 @@
                 <div class="col-md-6 mb-3">
                     <label asp-for="HomePage" class="control-label"></label>
                     <input asp-for="HomePage" class="form-control" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="control-label">@dasBlogSettings.SiteConfiguration.CheesySpamQ</label>
+                    <input asp-for="@Model.CheesyQuestionAnswered" class="form-control" />
                 </div>
             </div>
             <div class="row">

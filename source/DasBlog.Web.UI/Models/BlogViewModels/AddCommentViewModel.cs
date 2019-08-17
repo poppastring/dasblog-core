@@ -23,7 +23,11 @@ namespace DasBlog.Web.Models.BlogViewModels
 		[StringLength(600, MinimumLength = 1)]
 		public string Content { get; set; }
 
+		public string CheesyQuestionAnswered { get; set; }
+
 		[Required]
 		public string TargetEntryId { get; set; }
+
+		
 	}
 }
