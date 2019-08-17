@@ -89,6 +89,11 @@
     <None Include="Themes\**" Exclude="Themes\DasBlog\*;Themes\fulcrum\*;Themes\median\*;Themes\_ViewImports.cshtml;Themes\_ViewStart.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Content Remove="Config\IISUrlRewrite.config" />
+    <Content Remove="Config\IISUrlRewrite.Development.config" />
+    <Content Remove="Config\meta.config" />
+    <Content Remove="Config\meta.Development.config" />
+    <None Remove="Config\siteSecurity.Development.config" />
     <None Remove="Themes\jinyang\_CommentAddPartial.cshtml" />
     <None Include="logs\logs.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
