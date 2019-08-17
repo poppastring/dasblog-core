@@ -33,23 +33,23 @@ using DasBlog.Services.ConfigFile;
 using DasBlog.Services.Users;
 using DasBlog.Services;
 using Microsoft.AspNetCore.HttpOverrides;
-using System.Collections.Generic;
 
 namespace DasBlog.Web
 {
 	public class Startup
 	{
-		public const string SITESECURITYCONFIG = @"Config/siteSecurity.config";
-		private IHostingEnvironment hostingEnvironment;
-		private string binariesPath;
+		public static string SiteSecurityConfig { get; private set; }
+
+		private readonly IHostingEnvironment hostingEnvironment;
+		private readonly string binariesPath;
 		public static IServiceCollection DasBlogServices { get; private set; }
-			// TODO find out how to access services from integration tests
 
 		public Startup(IConfiguration configuration, IHostingEnvironment env)
 		{
 			Configuration = configuration;
 			hostingEnvironment = env;
 			binariesPath = Configuration.GetValue<string>("binariesDir", "/").TrimStart('~').TrimEnd('/');
+			SiteSecurityConfig = $"Config/siteSecurity.{hostingEnvironment.EnvironmentName}.config";
 		}
 
 		public IConfiguration Configuration { get; }
@@ -70,7 +70,7 @@ namespace DasBlog.Web
 			services.Configure<SiteConfig>(Configuration);
 			services.Configure<MetaTags>(Configuration);
 			services.Configure<LocalUserDataOptions>(options
-			  => options.Path = Path.Combine(GetDataRoot(hostingEnvironment), SITESECURITYCONFIG));
+			  => options.Path = Path.Combine(GetDataRoot(hostingEnvironment), SiteSecurityConfig));
 			services.Configure<ActivityRepoOptions>(options
 			  => options.Path = Path.Combine(GetDataRoot(hostingEnvironment), Constants.LogDirectory));
 
@@ -195,7 +195,7 @@ namespace DasBlog.Web
 			}
 
 			var options = new RewriteOptions()
-				 .AddIISUrlRewrite(env.ContentRootFileProvider, @"Config/IISUrlRewrite.xml");
+				 .AddIISUrlRewrite(env.ContentRootFileProvider, $"Config/IISUrlRewrite.{hostingEnvironment.EnvironmentName}.config");
 
 			app.UseRewriter(options);
 

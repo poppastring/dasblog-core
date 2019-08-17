@@ -168,7 +168,7 @@ namespace DasBlog.Web.Settings
 		{
 			SecurityConfiguration.Users.Add(user);
 			var ser = new XmlSerializer(typeof(SiteSecurityConfig));
-			var fileInfo = fileProvider.GetFileInfo(Startup.SITESECURITYCONFIG);
+			var fileInfo = fileProvider.GetFileInfo(Startup.SiteSecurityConfig);
 			using (var writer = new StreamWriter(fileInfo.PhysicalPath))
 			{
 				ser.Serialize(writer, SecurityConfiguration);
