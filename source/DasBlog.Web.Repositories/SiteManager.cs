@@ -82,8 +82,9 @@ namespace DasBlog.Managers
             {
                 if (cce.IsPublic)
                 {
-                    var catPage = new url(dasBlogSettings.GetCategoryViewUrl(cce.Name), DateTime.Now, changefreq.weekly, 0.6M);
-                    root.url.Add(catPage);
+					var catname = Entry.InternalCompressTitle(cce.Name, dasBlogSettings.SiteConfiguration.TitlePermalinkSpaceReplacement).ToLower();
+					var caturl = new url(dasBlogSettings.GetCategoryViewUrl(catname), DateTime.Now, changefreq.weekly, 0.6M);
+                    root.url.Add(caturl);
                 }
             }
 
