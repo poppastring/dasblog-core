@@ -37,12 +37,14 @@ namespace DasBlog.Web.Controllers
 		[HttpGet("category/{cat}")]
 		public IActionResult Category(string cat)
 		{
-			var viewModel = GetCategoryListFromCategoryManager(cat);
+			var viewModel = GetCategoryListFromCategoryManager(cat.ToLower());
 			return View(viewModel);
 		}
 
 		private CategoryListViewModel GetCategoryListFromCategoryManager(string category)
 		{
+			category = category.ToLower();
+
 			var entries = !string.IsNullOrEmpty(category)
 				? categoryManager.GetEntries(category, httpContextAccessor.HttpContext.Request.Headers["Accept-Language"])
 				: categoryManager.GetEntries();
