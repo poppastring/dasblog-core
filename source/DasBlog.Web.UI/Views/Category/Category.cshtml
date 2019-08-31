@@ -25,7 +25,7 @@
     <div>
         @foreach (var category in Model.Categories)
         {
-            <a name="@WebUtility.UrlEncode(category.Key)" href="category/@WebUtility.UrlEncode(category.Key)" ><h4>@category.Key (@category.Value.Count())</h4></a>
+            <a name="@WebUtility.UrlEncode(category.Key)" href="category/@dasBlogSettings.CompressTitle(category.Key)" ><h4>@category.Key (@category.Value.Count())</h4></a>
             @foreach (var post in category.Value)
             {
                 <div>

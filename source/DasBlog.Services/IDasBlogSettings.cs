@@ -39,5 +39,6 @@ namespace DasBlog.Services
 		DateTime GetContentLookAhead();
 		string FilterHtml(string input);
 		bool AreCommentsPermitted(DateTime blogpostdate);
+		string CompressTitle(string title);
 	}
 }

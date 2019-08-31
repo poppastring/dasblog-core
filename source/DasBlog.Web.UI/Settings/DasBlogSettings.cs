@@ -17,6 +17,7 @@ using DasBlog.Services.ConfigFile.Interfaces;
 using DasBlog.Services.ConfigFile;
 using DasBlog.Services;
 using System.Linq;
+using newtelligence.DasBlog.Runtime;
 
 namespace DasBlog.Web.Settings
 {
@@ -288,6 +289,11 @@ namespace DasBlog.Web.Settings
 		public static string GetWebHostingDirectory(IHostingEnvironment env)
 		{
 			return Startup.GetDataRoot(env);
+		}
+
+		public string CompressTitle(string title)
+		{
+			return Entry.InternalCompressTitle(title, SiteConfiguration.TitlePermalinkSpaceReplacement).ToLower();
 		}
 	}
 }
