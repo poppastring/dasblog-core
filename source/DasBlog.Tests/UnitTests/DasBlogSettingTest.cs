@@ -213,5 +213,10 @@ namespace DasBlog.Tests.UnitTests
 		{
 			return true;
 		}
+
+		public string CompressTitle(string title)
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

@@ -28,12 +28,14 @@ namespace DasBlog.Managers
             var basePage = new url(dasBlogSettings.GetBaseUrl(), DateTime.Now, changefreq.daily, 1.0M);
             root.url.Add(basePage);
 
-            //Archives next...
-            var archivePage = new url(dasBlogSettings.RelativeToRoot("archives"), DateTime.Now, changefreq.daily, 1.0M);
+            var archivePage = new url(dasBlogSettings.RelativeToRoot("archive"), DateTime.Now, changefreq.daily, 1.0M);
             root.url.Add(archivePage);
 
-            //All Pages
-            var entryCache = dataService.GetEntries(false);
+			var categorpage = new url(dasBlogSettings.RelativeToRoot("category"), DateTime.Now, changefreq.daily, 1.0M);
+			root.url.Add(categorpage);
+
+			//All Pages
+			var entryCache = dataService.GetEntries(false);
             foreach (var e in entryCache)
             {
                 if (e.IsPublic)
@@ -80,8 +82,9 @@ namespace DasBlog.Managers
             {
                 if (cce.IsPublic)
                 {
-                    var catPage = new url(dasBlogSettings.GetCategoryViewUrl(cce.Name), DateTime.Now, changefreq.weekly, 0.6M);
-                    root.url.Add(catPage);
+					var catname = Entry.InternalCompressTitle(cce.Name, dasBlogSettings.SiteConfiguration.TitlePermalinkSpaceReplacement).ToLower();
+					var caturl = new url(dasBlogSettings.GetCategoryViewUrl(catname), DateTime.Now, changefreq.weekly, 0.6M);
+                    root.url.Add(caturl);
                 }
             }
 

@@ -79,7 +79,7 @@ namespace DasBlog.Web.Mappers
 		{
 			return category.Split(";").ToList().Select(c => new CategoryViewModel {
 													Category = c,
-													CategoryUrl = Entry.InternalCompressTitle(c, _dasBlogSettings.SiteConfiguration.TitlePermalinkSpaceReplacement).ToLower() })
+													CategoryUrl = _dasBlogSettings.CompressTitle(c) })
 													.ToList();
 		}
 
