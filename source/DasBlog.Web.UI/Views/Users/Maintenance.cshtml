@@ -21,11 +21,12 @@
 
 <h2>@ViewBag.Title</h2>
 
-@await Html.PartialAsync((string)ViewBag.SubViewName, Model)
-        @*subview name is Edit or Delete or possibly something else*@
+<partial name="(string)ViewBag.SubViewName" model="Model" />
+
+@*subview name is Edit or Delete or possibly something else*@
 
 @section Scripts {
-@{     await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
-                                                                   }
+    <partial name="_ValidationScriptsPartial" />
+}
 
 
