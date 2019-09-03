@@ -8,7 +8,7 @@
     foreach (var post in Model.Posts)
     {
         post.Order = order++;
-        @await Html.PartialAsync("_BlogItemSummary", post)
+        <partial name="_BlogItemSummary" model="post" />
     }
 }
 else

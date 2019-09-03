@@ -6,7 +6,7 @@
 {
     foreach (var post in Model.Posts)
     {
-        @await Html.PartialAsync("_BlogItem", post)
+        <partial name="_BlogItem" model="post" />
     }
 }
 else
@@ -16,22 +16,22 @@ else
 
 <div class="container text-center">
     <p class="text-muted">
-        @if ((bool) ViewData[Constants.ShowPageControl])
+        @if ((bool)ViewData[Constants.ShowPageControl])
         {
-            var separatorRequired = (int) ViewData[Constants.PostCount] > 0
-                                    && (int) ViewData[Constants.PageNumber] > 0;
-            if((int) ViewData[Constants.PageNumber] > 0)
+            var separatorRequired = (int)ViewData[Constants.PostCount] > 0
+                                    && (int)ViewData[Constants.PageNumber] > 0;
+            if ((int)ViewData[Constants.PageNumber] > 0)
             {
                 <a href="page/@((int) ViewData[Constants.PageNumber] - 1)"
                    id="@Constants.PreviousPageId">
                     &lt;&lt;Newer Posts
                 </a>
             }
-            if(separatorRequired)
+            if (separatorRequired)
             {
                 WriteLiteral("|");
             }
-            if((int) ViewData[Constants.PostCount] > 0)
+            if ((int)ViewData[Constants.PostCount] > 0)
             {
                 <a href="page/@((int) ViewData[Constants.PageNumber] + 1)"
                    id="@Constants.NextPageId">

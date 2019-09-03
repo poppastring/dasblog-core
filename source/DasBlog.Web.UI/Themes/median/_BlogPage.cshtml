@@ -6,6 +6,5 @@
     ViewBag.Title = Constants.HomePageTitle;
 }
 
-
-@await Html.PartialAsync("_BlogItems", Model)
+<partial name="_BlogItems" model="Model" />
 

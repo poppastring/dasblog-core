@@ -10,7 +10,7 @@
                 <input type="submit" name="submitAction" value="@Constants.DeleteAction" class="btn btn-default btn-primary" />
                 <input type="submit" name="submitAction" value="@Constants.CancelAction" class="btn cancel" />
             </div>
-            @await Html.PartialAsync("UserFields", Model)
+            <partial name="UserFields" model="Model" />
         </form>
     </div>
 </div>

@@ -14,7 +14,7 @@
             {
                 foreach (var comment in Model.Comments)
                 {
-                    @await Html.PartialAsync("_CommentPartial", comment)
+                    <partial name="_CommentPartial" model="comment" />
                     <hr />
                 }
             }
