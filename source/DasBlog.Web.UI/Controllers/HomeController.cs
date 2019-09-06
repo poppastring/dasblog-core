@@ -24,11 +24,11 @@ namespace DasBlog.Web.Controllers
 		private readonly ILogger<HomeController> logger;
 		private readonly IMemoryCache memoryCache;
 
-		public HomeController(IBlogManager blogManager, IDasBlogSettings settings, IXmlRpcManager rpcManager, 
-							IMapper mapper, ILogger<HomeController> logger, IMemoryCache memoryCache) : base(settings)
+		public HomeController(IBlogManager blogManager, IDasBlogSettings dasblogsettings, IXmlRpcManager rpcManager, 
+							IMapper mapper, ILogger<HomeController> logger, IMemoryCache memoryCache) : base(dasblogsettings)
 		{
 			this.blogManager = blogManager;
-			dasBlogSettings = settings;
+			this.dasBlogSettings = dasblogsettings;
 			this.mapper = mapper;
 			this.logger = logger;
 			this.memoryCache = memoryCache;
@@ -47,7 +47,10 @@ namespace DasBlog.Web.Controllers
 
 				AddComments(lpvm);
 
-				memoryCache.Set(CACHEKEY_FRONTPAGE, lpvm, SiteCacheSettings());
+				if (dasBlogSettings.SiteConfiguration.EnableStartPageCaching)
+				{
+					memoryCache.Set(CACHEKEY_FRONTPAGE, lpvm, SiteCacheSettings());
+				}
 
 				logger.LogDebug($"In Index - {lpvm.Posts.Count} post found");
 			}
