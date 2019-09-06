@@ -4,7 +4,7 @@
 <div class="row">
     <div class="col-md-9">
         <form asp-action="Maintenance">
-            @await Html.PartialAsync("UserFields", Model)
+            <partial name="UserFields" model="Model" />
         </form>
     </div>
 </div>

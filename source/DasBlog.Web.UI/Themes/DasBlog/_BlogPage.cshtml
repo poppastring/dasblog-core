@@ -10,7 +10,7 @@
 
 <div class="row">
     <div id="contents" class="container col-md-9">
-        @await Html.PartialAsync("_BlogItems", Model)
+        <partial name="_BlogItems" model="Model" />
     </div>
     <search-box/>
 </div>

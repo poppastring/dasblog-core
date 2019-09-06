@@ -14,14 +14,14 @@
             {
                 foreach (var comment in Model.Comments)
                 {
-                    @await Html.PartialAsync("_CommentPartial", comment)
+                    <partial name="_CommentPartial" model="comment" />
                     <hr />
                 }
             }
         </div>
         @if (dasBlogSettings.AreCommentsPermitted(Model.PostDate))
         {
-            @await Html.PartialAsync("_CommentAddPartial", new AddCommentViewModel() { Content = string.Empty, Email = string.Empty, HomePage = string.Empty, Name = string.Empty, TargetEntryId = Model.PostId })
+            <partial name="_CommentAddPartial" model="new AddCommentViewModel() { TargetEntryId = Model.PostId }" />
         }
         else
         {

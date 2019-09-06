@@ -22,9 +22,9 @@
 
     <link rel="shortcut icon" href="@dasBlogSettings.ShortCutIconUrl" />
 
-    @await Html.PartialAsync("_TwitterCardPartial")
-    @await Html.PartialAsync("_OpenGraphPartial")
-    @await Html.PartialAsync("_BlogPostingSchemaOrgPartial")
+    <partial name="_TwitterCardPartial" />
+    <partial name="_OpenGraphPartial" />
+    <partial name="_BlogPostingSchemaOrgPartial" />
 
     <environment names="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
