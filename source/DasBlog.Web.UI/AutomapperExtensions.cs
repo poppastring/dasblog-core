@@ -64,28 +64,16 @@ namespace AutoMapper
 
             additionalInitAction = additionalInitAction ?? DefaultConfig;
             assembliesToScan = assembliesToScan as Assembly[] ?? assembliesToScan.ToArray();
-// start of dasBlog hack
 
+			// dasBlog hack ... only look at our modules...
 	        DetectAssembliesRequiringExclusion(assembliesToScan);
-	        
-	        string[] excluededAssemblies = new[]
-	        {
-		        "CookComputing",
-		        "System.Web",
-		        nameof(AutoMapper),
-		        "newtelligence",
-		        "DotNetOpenAuth",
-		        "log4net",
-		        "WebControlCaptcha"
-	        };
- 
-	        
-	        var allTypes = assembliesToScan
-			        .Where(a => !excluededAssemblies.Any(ea => a.GetName().Name.Contains(ea)))
-			        .SelectMany(a => a.DefinedTypes)
-		        .ToArray();
-// end of dasblog hack
-            var profiles = allTypes
+
+			var allTypes = assembliesToScan
+					.Where(a => a.GetName().Name.ToLower().StartsWith("dasblog"))
+					.SelectMany(a => a.DefinedTypes)
+					.ToArray();
+
+			var profiles = allTypes
                 .Where(t => typeof(Profile).GetTypeInfo().IsAssignableFrom(t) && !t.IsAbstract)
                 .ToArray();
 	        
@@ -108,6 +96,7 @@ namespace AutoMapper
                 typeof(ITypeConverter<,>),
                 typeof(IMappingAction<,>)
             };
+
             foreach (var type in openTypes.SelectMany(openType => allTypes
                 .Where(t => t.IsClass 
                     && !t.IsAbstract 
