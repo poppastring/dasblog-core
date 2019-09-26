@@ -26,7 +26,7 @@ namespace DasBlog.Web.Settings
 		private readonly IFileProvider fileProvider;
 		private readonly string siteSecurityConfigPath;
 
-		public DasBlogSettings(IHostingEnvironment env, IOptions<SiteConfig> siteConfig, IOptions<MetaTags> metaTagsConfig, ISiteSecurityConfig siteSecurityConfig, IFileProvider fileProvider)
+		public DasBlogSettings(IWebHostEnvironment env, IOptions<SiteConfig> siteConfig, IOptions<MetaTags> metaTagsConfig, ISiteSecurityConfig siteSecurityConfig, IFileProvider fileProvider)
 		{
 			this.fileProvider = fileProvider;
 
@@ -286,7 +286,7 @@ namespace DasBlog.Web.Settings
 		/// </summary>
 		/// <param name="env">this is a nuissance</param>
 		/// <returns>e.g. C:\alt\projects\dasblog-core\source/DasBlog.Web.UI</returns>
-		public static string GetWebHostingDirectory(IHostingEnvironment env)
+		public static string GetWebHostingDirectory(IWebHostEnvironment env)
 		{
 			return Startup.GetDataRoot(env);
 		}

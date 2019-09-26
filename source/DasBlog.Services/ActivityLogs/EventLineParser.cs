@@ -63,8 +63,12 @@ namespace DasBlog.Services.ActivityLogs
 				$
 				"
 				, RegexOptions.None | RegexOptions.IgnorePatternWhitespace);
+
+			List<int> val = new List<int>();
+
+
 			Match match = regex.Match(eventLine);
-			var parseParts = match.Groups.Where(g => !string.IsNullOrWhiteSpace(g.Name))
+			var parseParts = match.Groups.Values.Where(g => !string.IsNullOrWhiteSpace(g.Name))
 				.ToDictionary(g => g.Name, g => g.Value.Trim());
 			return parseParts;
 		}
