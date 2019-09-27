@@ -232,6 +232,7 @@ namespace DasBlog.Web
 			});
 
 			app.UseAuthentication();
+			app.UseAuthorization();
 			app.Use(PopulateThreadCurrentPrincipalForMvc);
 			app.UseRouting();
 
