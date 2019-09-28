@@ -16,19 +16,19 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
-- task: UseDotNet@2
-  displayName: Installing .NET Core 2.2.105
+- task: UseDotNet@3
+  displayName: Installing .NET Core 3
   inputs:
     packageType: 'sdk'
-    version: '2.2.100'
+    version: '3.0.0'
 
-- task: DotNetCoreCLI@2
+- task: DotNetCoreCLI@3
   displayName: Restoring Packages for Solution
   inputs:
     command: restore
     projects: '**/*.sln'
 
-- task: DotNetCoreCLI@2
+- task: DotNetCoreCLI@3
   displayName: Build Solution
   inputs:
     command: build
@@ -47,7 +47,7 @@ steps:
     testResultsFiles: '**/*.xml'
     searchFolder: '$(System.DefaultWorkingDirectory)/test_results'
 
-- task: DotNetCoreCLI@2
+- task: DotNetCoreCLI@3
   inputs:
     command: publish
     publishWebProjects: True
