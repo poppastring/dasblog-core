@@ -289,6 +289,7 @@ namespace DasBlog.Web.Controllers
 		[AllowAnonymous]
 		[HttpGet("{posttitle}/comments")]
 		[HttpGet("{posttitle}/comments/{commentid:guid}")]
+		[HttpGet("post/{posttitle}/comments/{commentid:guid}")]
 		public IActionResult Comment(string posttitle)
 		{
 			ListPostsViewModel lpvm = null;
