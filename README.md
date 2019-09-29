@@ -21,7 +21,7 @@ In developing this project we attempted to follow some [fundamental principles](
 ## Installing the development tools
 
 - Install [.NET Core SDK 3.0.100](https://dotnet.microsoft.com/download/thank-you/dotnet-sdk-3.0.100-windows-x64-installer)
-- Install [Visual Studio Community 2017 (16.3.0 or newer)](https://visualstudio.microsoft.com/thank-you-downloading-visual-studio/?sku=Community&rel=16&rid=30012)
+- Install [Visual Studio Community 2019 (16.3.0 or newer)](https://visualstudio.microsoft.com/thank-you-downloading-visual-studio/?sku=Community&rel=16)
 
 You can find more specific installation steps for Windows development [here](https://www.microsoft.com/net/core#windowscmd)
 
