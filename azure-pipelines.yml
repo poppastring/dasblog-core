@@ -20,7 +20,7 @@ steps:
   displayName: Installing .NET Core 3
   inputs:
     packageType: 'sdk'
-    version: '3.0.X'
+    version: '3.0.100'
     includePreviewVersions: true
 
 - task: DotNetCoreCLI@2

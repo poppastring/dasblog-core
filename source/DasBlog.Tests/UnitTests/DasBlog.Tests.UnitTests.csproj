@@ -57,7 +57,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.App" />
     <!--<PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" />-->
     <PackageReference Include="Microsoft.Extensions.PlatformAbstractions" Version="1.1.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.3.0" />
