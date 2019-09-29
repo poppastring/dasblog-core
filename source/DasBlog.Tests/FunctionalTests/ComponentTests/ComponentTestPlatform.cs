@@ -145,7 +145,7 @@ namespace DasBlog.Tests.FunctionalTests.ComponentTests
 		}
 	}
 
-	internal class HostingEnvironmentTest : IHostingEnvironment
+	internal class HostingEnvironmentTest : IWebHostEnvironment
 	{
 		public HostingEnvironmentTest(string path)
 		{

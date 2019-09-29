@@ -84,7 +84,7 @@ namespace DasBlog.Tests.Support
 				IDictionary<string, string> map = new Dictionary<string, string>();
 				Regex regex = new Regex(regexArg);
 				Match match = regex.Match(text);
-				return match.Groups.Where(g => !string.IsNullOrWhiteSpace(g.Name)).ToDictionary(g => g.Name, g => g.Value);
+				return match.Groups.Values.Where(g => !string.IsNullOrWhiteSpace(g.Name)).ToDictionary(g => g.Name, g => g.Value);
 			}
 			catch (Exception )
 			{

@@ -18,7 +18,7 @@ namespace DasBlog.Web.UI
 			CreateWebHostBuilder(args).Build().Run();
 		}
 
-		private static IHostingEnvironment env;
+		private static IWebHostEnvironment env;
 
 		public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
 			WebHost.CreateDefaultBuilder(args)

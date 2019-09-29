@@ -42,11 +42,11 @@ namespace DasBlog.Web
 
 		private readonly string IISUrlRewriteConfig;
 
-		private readonly IHostingEnvironment hostingEnvironment;
+		private readonly IWebHostEnvironment hostingEnvironment;
 		private readonly string binariesPath;
 		public static IServiceCollection DasBlogServices { get; private set; }
 
-		public Startup(IConfiguration configuration, IHostingEnvironment env)
+		public Startup(IConfiguration configuration, IWebHostEnvironment env)
 		{
 			Configuration = configuration;
 			hostingEnvironment = env;
@@ -114,11 +114,10 @@ namespace DasBlog.Web
 				options.LogoutPath = "/account/logout"; // If the LogoutPath is not set here, ASP.NET Core will default to /Account/Logout
 				options.AccessDeniedPath = "/account/accessdenied"; // If the AccessDeniedPath is not set here, ASP.NET Core will default to /Account/AccessDenied
 				options.SlidingExpiration = true;
-				options.Cookie.Expiration = TimeSpan.FromSeconds(10000);
+				options.ExpireTimeSpan = TimeSpan.FromSeconds(10000);
 				options.Cookie = new CookieBuilder
 				{
-					HttpOnly = true,
-					Expiration = TimeSpan.FromDays(30),
+					HttpOnly = true
 				};
 			});
 
@@ -178,7 +177,7 @@ namespace DasBlog.Web
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-		public void Configure(IApplicationBuilder app, IHostingEnvironment env, IOptions<RouteOptions> routeOptionsAccessor, IDasBlogSettings dasBlogSettings)
+		public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IOptions<RouteOptions> routeOptionsAccessor, IDasBlogSettings dasBlogSettings)
 		{
 			(var siteOk, string siteError) = RepairSite(app);
 			if (env.IsDevelopment() || env.IsStaging())
@@ -201,7 +200,7 @@ namespace DasBlog.Web
 				 .AddIISUrlRewrite(env.ContentRootFileProvider, IISUrlRewriteConfig);
 
 			app.UseRewriter(options);
-
+			app.UseRouting();
 
 			//if you've configured it at /blog or /whatever, set that pathbase so ~ will generate correctly
 			Uri rootUri = new Uri(dasBlogSettings.SiteConfiguration.Root);
@@ -233,7 +232,10 @@ namespace DasBlog.Web
 			});
 
 			app.UseAuthentication();
+			app.UseAuthorization();
 			app.Use(PopulateThreadCurrentPrincipalForMvc);
+			app.UseRouting();
+
 			//We'll replace this when we move to ASP.NET Core 2.2+ LTS
 			app.Map("/healthcheck", api =>
 			{
@@ -242,37 +244,35 @@ namespace DasBlog.Web
 					await context.Response.WriteAsync("Healthy");
 				});
 			});
-			app.UseMvc(routes =>
+			app.UseEndpoints(endpoints =>
 			{
 				if (routeOptionsAccessor.Value.EnableTitlePermaLinkUnique)
 				{
-					routes.MapRoute(
+					endpoints.MapControllerRoute(
 						"Original Post Format",
 						"~/{year:int}/{month:int}/{day:int}/{posttitle}.aspx",
 						new { controller = "BlogPost", action = "Post", posttitle = "" });
 
-					routes.MapRoute(
+					endpoints.MapControllerRoute(
 						"New Post Format",
 						"~/{year:int}/{month:int}/{day:int}/{posttitle}",
 						new { controller = "BlogPost", action = "Post", postitle = ""  });
-
 				}
 				else
 				{
-					routes.MapRoute(
+					endpoints.MapControllerRoute(
 						"Original Post Format",
 						"~/{posttitle}.aspx",
 						new { controller = "BlogPost", action = "Post", posttitle = "" });
 
-					routes.MapRoute(
+					endpoints.MapControllerRoute(
 						"New Post Format",
 						"~/{posttitle}",
 						new { controller = "BlogPost", action = "Post", postitle = ""  });
 
 				}
-				routes.MapRoute(
-					name: "default",
-					template: "~/{controller=Home}/{action=Index}/{id?}");
+				endpoints.MapControllerRoute(
+					name: "default", "~/{controller=Home}/{action=Index}/{id?}");
 			});
 		}
 		/// <summary>
@@ -348,7 +348,7 @@ namespace DasBlog.Web
 		/// <returns>root locaation for config, logs and blog post content
 		///   typically [project]/source/DasBlog.Web.UI for dev
 		///   and some subdirectory of DasBlog.Tests for functional tests</returns>
-		public static string GetDataRoot(IHostingEnvironment env)
+		public static string GetDataRoot(IWebHostEnvironment env)
 		  => Environment.GetEnvironmentVariable(Constants.DasBlogDataRoot)
 		  ?? env.ContentRootPath;
 	}

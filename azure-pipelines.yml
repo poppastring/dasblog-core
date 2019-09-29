@@ -17,10 +17,11 @@ variables:
 
 steps:
 - task: UseDotNet@2
-  displayName: Installing .NET Core 2.2.105
+  displayName: Installing .NET Core 3
   inputs:
     packageType: 'sdk'
-    version: '2.2.100'
+    version: '3.0.100'
+    includePreviewVersions: true
 
 - task: DotNetCoreCLI@2
   displayName: Restoring Packages for Solution
