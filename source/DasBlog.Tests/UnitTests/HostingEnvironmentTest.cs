@@ -4,7 +4,7 @@ using Microsoft.Extensions.PlatformAbstractions;
 
 namespace DasBlog.Tests.UnitTests
 {
-    public class HostingEnvironmentTest : IHostingEnvironment
+    public class HostingEnvironmentTest : IWebHostEnvironment
     {
         public HostingEnvironmentTest()
         {
