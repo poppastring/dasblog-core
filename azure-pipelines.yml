@@ -31,14 +31,14 @@ steps:
     projects: '**/*.sln'
 
 - task: DotNetCoreCLI@2
-  displayName: Build Solution
+  displayName: Building Solution
   inputs:
     command: build
     projects: '**/*.sln'
-    arguments: '--no-restore --configuration Release'
+    arguments: '--no-restore --configuration Release --p:VersionPrefix=2.0.$(Build.BuildNumber) --p:FileVersion=2.0.$(Build.BuildNumber).0'
 
 - script: dotnet test source/DasBlog.Tests/UnitTests/ --logger trx;LogfileName=test_results.xml --results-directory $(System.DefaultWorkingDirectory)/test_results --filter Category=UnitTest
-  displayName: Run Unit Tests
+  displayName: Run Unit Tests on Windows
   condition: and(succeeded(), eq(variables['imageName'], 'windows-2019'))
 
 - task: PublishTestResults@2
@@ -60,3 +60,4 @@ steps:
   inputs:
     pathtoPublish: '$(Build.ArtifactStagingDirectory)' 
     artifactName: 'DasBlog-Build-Artifacts'
+  
