@@ -21,7 +21,8 @@ steps:
   inputs:
     packageType: 'sdk'
     version: '3.0.100'
-    includePreviewVersions: true
+    installationPath: $(Agent.ToolsDirectory)/dotnet
+
 
 - task: DotNetCoreCLI@2
   displayName: Restoring Packages for Solution
@@ -34,7 +35,7 @@ steps:
   inputs:
     command: build
     projects: '**/*.sln'
-    arguments: '--no-restore --configuration Release' 
+    arguments: '--no-restore --configuration Release'
 
 - script: dotnet test source/DasBlog.Tests/UnitTests/ --logger trx;LogfileName=test_results.xml --results-directory $(System.DefaultWorkingDirectory)/test_results --filter Category=UnitTest
   displayName: Run Unit Tests
