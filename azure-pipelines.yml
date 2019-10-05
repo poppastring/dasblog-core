@@ -35,9 +35,9 @@ steps:
   inputs:
     command: build
     projects: '**/*.sln'
-    arguments: '--no-restore --configuration Release --version-suffix "beta"'
+    arguments: '--no-restore --configuration $(BuildConfiguration) --version-suffix "beta"'
 
-- script: dotnet test source/DasBlog.Tests/UnitTests/ --logger trx;LogfileName=test_results.xml --results-directory $(System.DefaultWorkingDirectory)/test_results --filter Category=UnitTest
+- script: dotnet test source/DasBlog.Tests/UnitTests/ --logger trx;LogfileName=test_results.xml --results-directory $(System.DefaultWorkingDirectory)/test_results --filter Category=UnitTest --no-build --no-restore
   displayName: Run Unit Tests on Windows
   condition: and(succeeded(), eq(variables['imageName'], 'windows-2019'))
 
@@ -53,7 +53,7 @@ steps:
   inputs:
     command: publish
     publishWebProjects: True
-    arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+    arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory) --no-build --no-restore'
     zipAfterPublish: True
 
 - task: PublishBuildArtifacts@1
