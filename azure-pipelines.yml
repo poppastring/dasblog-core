@@ -35,7 +35,8 @@ steps:
   inputs:
     command: build
     projects: '**/*.sln'
-    arguments: '--no-restore --configuration Release --version-suffix 2.0.$(Build.BuildId)'
+    arguments: '--no-restore --configuration Release'
+    versioningScheme: byBuildNumber
 
 - script: dotnet test source/DasBlog.Tests/UnitTests/ --logger trx;LogfileName=test_results.xml --results-directory $(System.DefaultWorkingDirectory)/test_results --filter Category=UnitTest
   displayName: Run Unit Tests on Windows
@@ -59,5 +60,5 @@ steps:
 - task: PublishBuildArtifacts@1
   inputs:
     pathtoPublish: '$(Build.ArtifactStagingDirectory)' 
-    artifactName: 'DasBlog-Build-Artifacts'
+    artifactName: 'DasBlog-Build-Artifacts-$(Build.BuildId)'
   
