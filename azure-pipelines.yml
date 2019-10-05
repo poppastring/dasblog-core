@@ -37,6 +37,9 @@ steps:
     projects: '**/*.sln'
     arguments: '--no-restore --configuration Release'
     versioningScheme: byBuildNumber
+    majorVersion: '2'
+    minorVersion: '0'
+    patchVersion: '0'
 
 - script: dotnet test source/DasBlog.Tests/UnitTests/ --logger trx;LogfileName=test_results.xml --results-directory $(System.DefaultWorkingDirectory)/test_results --filter Category=UnitTest
   displayName: Run Unit Tests on Windows
