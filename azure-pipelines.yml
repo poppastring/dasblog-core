@@ -35,7 +35,7 @@ steps:
   inputs:
     command: build
     projects: '**/*.sln'
-    arguments: '--no-restore --configuration $(BuildConfiguration) -p:VersionPrefix=2.0.$(Build.BuildId) -p:FileVersion=2.0.$(Build.BuildId).0'
+    arguments: '--no-restore --configuration $(BuildConfiguration)'
 
 - script: dotnet test source/DasBlog.Tests/UnitTests/ --logger trx;LogfileName=test_results.xml --results-directory $(System.DefaultWorkingDirectory)/test_results --filter Category=UnitTest
   displayName: Run Unit Tests on Windows
@@ -53,7 +53,7 @@ steps:
   inputs:
     command: publish
     publishWebProjects: True
-    arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory) --self-contained --no-build --no-restore'
+    arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory) --self-contained -p:VersionPrefix=2.0.$(Build.BuildId) -p:FileVersion=2.0.$(Build.BuildId).0 -r win-x64'
     zipAfterPublish: True
 
 - task: PublishBuildArtifacts@1
