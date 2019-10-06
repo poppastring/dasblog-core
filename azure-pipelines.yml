@@ -53,7 +53,7 @@ steps:
   inputs:
     command: publish
     publishWebProjects: True
-    arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory) --self-contained --no-build --no-restore -r win-x64'
+    arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory) --self-contained --no-build --no-restore'
     zipAfterPublish: True
 
 - task: PublishBuildArtifacts@1
