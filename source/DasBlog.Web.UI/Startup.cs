@@ -173,6 +173,11 @@ namespace DasBlog.Web
 				})
 				.AddMvc()
 				.AddXmlSerializerFormatters();
+
+			services
+				.AddControllersWithViews()
+				.AddRazorRuntimeCompilation();
+
 			DasBlogServices = services;
 		}
 
