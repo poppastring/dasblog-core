@@ -14,21 +14,6 @@ using System.Linq;
 
 namespace DasBlog.Web.Controllers
 {
-	/// <summary>
-	/// handles requests from the users page which comprises a list of users in a sidebar on the left
-	/// and the details of the selected user in the main area of the page.
-	/// The user list is handled by the UserList razor component
-	/// On page load a user is displayed by a call to Index (with an empty e-mail address) by default
-	/// the first user in the repo will be displayed.
-	/// The adminisrator can then select a differnt user from the list invoking a request to Index
-	/// with that user's e-mail address.
-	/// The administrator can choose to create a new user, edit the currently displayed user or
-	/// delete the currently displayed user.  All thsse requests are routed to the Maintenance GET handler.
-	/// On confirmation (of create, edit or delete) the POSTS are roouted the the Maintenance POST handler with
-	/// an identifier as to the mainteance mode - creaet, edit or delete and the appropriate code path
-	/// is followed.
-	/// The user list is disabled while the uers is in the process creating, editing or deleting
-	/// </summary>
 	[Authorize]
 	public class UsersController : DasBlogController
 	{
@@ -65,10 +50,10 @@ namespace DasBlog.Web.Controllers
 			
 			private IDictionary<string, string> mapActionToView = new Dictionary<string, string>
 			{
-				{Constants.UsersCreateMode, Constants.CreateUserSubView}
-				,{Constants.UsersEditMode, Constants.EditUserSubView}
-				,{Constants.UsersDeleteMode, Constants.DeleteUserSubView}
-				,{Constants.UsersViewMode, Constants.ViewUserSubView}
+				{Constants.UsersCreateMode, Constants.CreateUserSubView},
+				{Constants.UsersEditMode, Constants.EditUserSubView},
+				{Constants.UsersDeleteMode, Constants.DeleteUserSubView},
+				{Constants.UsersViewMode, Constants.ViewUserSubView}
 			};
 
 			/// <summary>
@@ -80,14 +65,13 @@ namespace DasBlog.Web.Controllers
 
 		}
 
+		private const string EMAIL_PARAM = "email";
 		private readonly ILogger<UsersController> logger;
-		private const string EMAIL_PARAM = "email";		// if you change this remeber to change
-														// the names of the routes and bound parameters
 		private readonly IUserService userService;
 		private readonly IMapper mapper;
 		private readonly ISiteSecurityConfig siteSecurityConfig;
-		public UsersController(IUserService userService, IMapper mapper, ISiteSecurityConfig siteSecurityConfig
-		  ,ILogger<UsersController> logger)
+
+		public UsersController(IUserService userService, IMapper mapper, ISiteSecurityConfig siteSecurityConfig, ILogger<UsersController> logger)
 		{
 			this.logger = logger;
 			this.userService = userService;
@@ -173,8 +157,7 @@ namespace DasBlog.Web.Controllers
 		/// if the operation succeeds</returns>
 		[ValidateAntiForgeryToken]
 		[HttpPost("/users/Maintenance/{email?}")]
-		public IActionResult Maintenance(string submitAction, string originalEmail
-		  ,UsersViewModel uvm)
+		public IActionResult Maintenance(string submitAction, string originalEmail,UsersViewModel uvm)
 		{
 			VerifyParam(() =>
 			  submitAction == Constants.SaveAction
@@ -201,8 +184,7 @@ namespace DasBlog.Web.Controllers
 				if (maintenanceMode == Constants.UsersEditMode && uvm.Role != Role.Admin
 				  || maintenanceMode == Constants.UsersDeleteMode)
 				{
-					ModelState.AddModelError(string.Empty
-					  , "You cannot delete your own user record or change the role");
+					ModelState.AddModelError(string.Empty, "You cannot delete your own user record or change the role");
 				}
 			}
 			if (!ModelState.IsValid)
@@ -243,6 +225,7 @@ namespace DasBlog.Web.Controllers
 			var loggedInUserEmail = this.HttpContext.User.Identities.First().Name;
 			return loggedInUserEmail == uvm.EmailAddress;
 		}
+
 		// subroutine of the http POST handler
 		private IActionResult SaveCreatedOrEditedUser(string maintenanceMode, UsersViewModel uvm, string originalEmail)
 		{
@@ -293,8 +276,8 @@ namespace DasBlog.Web.Controllers
 			}
 
 			return rtn;
-
 		}
+
 		// subroutine of the http GET handler
 		private IActionResult EditDeleteOrViewUser(string maintenanceMode, string email)
 		{
@@ -326,9 +309,8 @@ namespace DasBlog.Web.Controllers
 			}
 			else
 			{
-				ModelState.AddModelError(string.Empty
-				  , $"Failed to delete the user {uvm.EmailAddress}.  The record may have already been deleted ");
-				new ViewBagConfigurer().ConfigureViewBag(ViewBag, Constants.UsersDeleteMode);
+				ModelState.AddModelError(string.Empty, $"Failed to delete the user {uvm.EmailAddress}.  The record may have already been deleted ");
+											new ViewBagConfigurer().ConfigureViewBag(ViewBag, Constants.UsersDeleteMode);
 				return View("Maintenance", uvm);
 			}
 		}
@@ -342,6 +324,7 @@ namespace DasBlog.Web.Controllers
 
 			this.ControllerContext.RouteData.Values[EMAIL_PARAM] = email;
 		}
+
 		private EventCodes MaintenanceModeToEventCode(string maintenanceMode)
 		{
 			EventCodes code;
@@ -367,8 +350,8 @@ namespace DasBlog.Web.Controllers
 		private void LogDebug(string userId, string maintenanceMode)
 		{
 			logger.LogDebug( new EventDataItem(
-				MaintenanceModeToEventCode(maintenanceMode), null, "User Maintenance ({user}) by {loggedin}"
-				,userId, this.HttpContext.User.Identities.First().Name));
+				MaintenanceModeToEventCode(maintenanceMode), null, "User Maintenance ({user}) by {loggedin}",
+					userId, HttpContext.User.Identities.First().Name));
 		}
 	}
 }
