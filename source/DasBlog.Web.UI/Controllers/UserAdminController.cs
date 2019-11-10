@@ -53,8 +53,9 @@ namespace DasBlog.Web.Controllers
 		}
 
 		[HttpPost]
-		[Route("/adminuser/edit")]
-		public IActionResult EditUser(UsersViewModel usersviewmodel)
+		[ValidateAntiForgeryToken]
+		[Route("/adminuser")]
+		public IActionResult UpdateUser(UsersViewModel usersviewmodel)
 		{
 			var dasbloguser = mapper.Map<User>(usersviewmodel);
 
