@@ -1,0 +1,19 @@
+﻿@using DasBlog.Core.Common
+@model DasBlog.Web.Models.UsersViewModel
+
+@{
+    ViewBag.Title = "User";
+}
+
+<h2>@ViewBag.Title</h2>
+
+
+<form asp-action="adminuser" method="get">
+
+    <input type="submit" class="btn btn-primary btn-default" name="maintenanceMode" value="Edit" />    
+
+    <partial name="ViewEditUser" model="Model" />
+
+</form>
+
+

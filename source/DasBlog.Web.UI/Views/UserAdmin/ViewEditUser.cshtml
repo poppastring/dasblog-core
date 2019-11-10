@@ -1,0 +1,18 @@
+﻿@using DasBlog.Core.Common
+@using DasBlog.Core.Security
+@model DasBlog.Web.Models.UsersViewModel
+
+<hr />
+<div class="row">
+    <div class="col-md-9">
+        <form asp-action="Maintenance" name="editForm" id="editForm">
+
+            <partial name="UserFields" model="Model" />
+
+            <div class="form-group">
+                <input type="submit" name="submitAction" value="Save" class="btn btn-default btn-primary" @ViewBag.Clickability />
+                <input type="submit" name="submitAction" value="Cancel" class="btn cancel" @ViewBag.Clickability />
+            </div>
+        </form>
+    </div>
+</div>

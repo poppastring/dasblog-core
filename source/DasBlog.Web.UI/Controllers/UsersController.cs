@@ -17,54 +17,6 @@ namespace DasBlog.Web.Controllers
 	[Authorize]
 	public class UsersController : DasBlogController
 	{
-		private class ViewBagConfigurer
-		{
-			public void ConfigureViewBag(dynamic viewBag, string maintenanceMode)
-			{
-				System.Diagnostics.Debug.Assert(
-					maintenanceMode == Constants.UsersCreateMode
-					|| maintenanceMode == Constants.UsersEditMode
-					|| maintenanceMode == Constants.UsersDeleteMode
-					|| maintenanceMode == Constants.UsersViewMode);
-				viewBag.Action = maintenanceMode;
-				viewBag.SubViewName = ActionToSubView(maintenanceMode);
-				switch (maintenanceMode)
-				{
-					case Constants.DeleteAction:
-						viewBag.Linkability = "disabled";
-						viewBag.Writability = "readonly";
-						viewBag.Clickability = "disabled";
-						break;
-					case Constants.UsersViewMode:
-						viewBag.Linkability = string.Empty;
-						viewBag.Writability = "readonly";
-						viewBag.Clickability = "disabled";
-						break;
-					default:
-						viewBag.Linkability = "disabled";
-						viewBag.Writability = string.Empty;
-						viewBag.Clickability = string.Empty;
-						break;
-				}
-			}
-			
-			private IDictionary<string, string> mapActionToView = new Dictionary<string, string>
-			{
-				{Constants.UsersCreateMode, Constants.CreateUserSubView},
-				{Constants.UsersEditMode, Constants.EditUserSubView},
-				{Constants.UsersDeleteMode, Constants.DeleteUserSubView},
-				{Constants.UsersViewMode, Constants.ViewUserSubView}
-			};
-
-			/// <summary>
-			/// simple mapping
-			/// </summary>
-			/// <param name="Action">e.g. UsersEditAction</param>
-			/// <returns>EditUsersSubView</returns>
-			private string ActionToSubView(string action) => mapActionToView[action];
-
-		}
-
 		private const string EMAIL_PARAM = "email";
 		private readonly ILogger<UsersController> logger;
 		private readonly IUserService userService;
@@ -157,7 +109,7 @@ namespace DasBlog.Web.Controllers
 		/// if the operation succeeds</returns>
 		[ValidateAntiForgeryToken]
 		[HttpPost("/users/Maintenance/{email?}")]
-		public IActionResult Maintenance(string submitAction, string originalEmail,UsersViewModel uvm)
+		public IActionResult Maintenance(string submitAction, string originalEmail, UsersViewModel uvm)
 		{
 			VerifyParam(() =>
 			  submitAction == Constants.SaveAction
