@@ -1,23 +1,22 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
-using DasBlog.Core.Security;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using AutoMapper;
 using DasBlog.Core.Common;
-using static DasBlog.Core.Common.Veriifier;
-using DasBlog.Services.ActivityLogs;
+using DasBlog.Core.Security;
 using DasBlog.Services.ConfigFile.Interfaces;
 using DasBlog.Services.Users;
 using DasBlog.Web.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace DasBlog.Web.Controllers
 {
 	[Authorize]
 	public class UsersController : DasBlogController
 	{
-		private const string EMAIL_PARAM = "email";
 		private readonly ILogger<UsersController> logger;
 		private readonly IUserService userService;
 		private readonly IMapper mapper;
@@ -30,280 +29,75 @@ namespace DasBlog.Web.Controllers
 			this.mapper = mapper;
 			this.siteSecurityConfig = siteSecurityConfig;
 		}
-		/// <summary>
-		/// Show the user identfied by email
-		/// if no email is passed (e.g. when page is first displayed)
-		/// then show the first user in the user repo
-		/// or if there are no users (almost impossible) then
-		/// redirect to the creation page
-		/// </summary>
-		/// <param name="email">typically null when the page is first displayed
-		/// thereafter typically the email address of the last user edited
-		/// or, as a default, the first user in the user repo</param>
-		/// <returns>the user maintenance view either in view or create mode</returns>
-		[Route("/users/{email?}")]
-		public IActionResult Index(string email)
-		{
-			email = email ?? string.Empty;
-			if (!userService.HasUsers())
-			{
-				LogDebug(email, Constants.UsersViewMode);
-				this.ControllerContext.RouteData.Values.Add("maintenanceMode", Constants.UsersCreateMode);
-				return RedirectToAction(nameof(Maintenance));
-						// might as weel encourage admin to start creating users
-			}
-			// make sure that there is an actual user associated with this email address
-			// In many cases there won't be as the email will have been passed as null
-			(var userFound, _) = userService.FindMatchingUser(email);
-			if (!userFound)
-			{
-				email = userService.GetFirstUser().EmailAddress;
-			}
-			// we need to update the route data when the page is initially loaded.
-			// the email address is automatically appended to the actions of forms that refer to this controller
-			UpdateRouteData(email);
 
-			LogDebug(email, Constants.UsersViewMode);
-			return EditDeleteOrViewUser(Constants.UsersViewMode, email);
+		[HttpGet]
+		[Route("/users")]
+		public IActionResult Index()
+        {
+			var uvm = mapper.Map<UsersViewModel>(userService.GetFirstUser());
+
+			new ViewBagConfigurer().ConfigureViewBag(ViewBag, Constants.UsersViewMode);
+
+			return RedirectToAction(uvm.OriginalEmail, "users");
 		}
 
-
-		/// <summary>
-		/// All GET requests for maintenance are processed through here
-		/// </summary>
-		/// <param name="maintenanceMode">Create, Edit, Delete, maybe View but I doubt it</param>
-		/// <param name="email">allows us to track user being modified
-		/// Will be null when the administrator has not specified a user
-		/// i.e. at first page load and after deletions</param>
-		/// <returns>one way or another, the maintenance page.</returns>
-		[HttpGet("/users/Maintenance/{email?}")]
-		public IActionResult Maintenance(string maintenanceMode, string email)
+		[HttpGet]
+		[Route("/users/{email}")]
+		public IActionResult EditUser(string email)
 		{
-			maintenanceMode = maintenanceMode ?? Constants.UsersViewMode;
-			VerifyParam(() => email != null || maintenanceMode == Constants.UsersCreateMode);
-			VerifyParam(() =>
-				maintenanceMode == Constants.UsersCreateMode
-				|| maintenanceMode == Constants.UsersEditMode
-				|| maintenanceMode == Constants.UsersDeleteMode
-				|| maintenanceMode == Constants.UsersViewMode);
-			email = email ?? string.Empty;
-			if (maintenanceMode == Constants.UsersCreateMode)
-			{
-				new ViewBagConfigurer().ConfigureViewBag(ViewBag, Constants.UsersCreateMode);
-				return View("Maintenance", mapper.Map<UsersViewModel>(new User()));
-			}
-			else
-			{
-				return EditDeleteOrViewUser(maintenanceMode, email);
-			}
+			var uvm = mapper.Map<UsersViewModel>(userService.FindMatchingUser(email).user);
+
+			new ViewBagConfigurer().ConfigureViewBag(ViewBag, Constants.UsersEditMode);
+
+			return View("ViewEditUser", uvm);
 		}
-		/// <summary>
-		/// handles all user creation, edit and deletion after user confirmation
-		/// </summary>
-		/// <param name="submitAction">Save, Cancel or Delete</param>
-		/// <param name="originalEmail">if the user's email has been modified by the edit then
-		/// this enables us to find that user in the repo.  Null when this is called
-		/// in response to a create operation</param>
-		/// <param name="uvm"></param>
-		/// <returns>either the page from which it came (on cancel or error) or the index
-		/// if the operation succeeds</returns>
+
+		public IActionResult EditUser(UsersViewModel userviewmodel)
+		{
+			return View("ViewEditUser", userviewmodel);
+		}
+
+		[HttpPost]
 		[ValidateAntiForgeryToken]
-		[HttpPost("/users/Maintenance/{email?}")]
-		public IActionResult Maintenance(string submitAction, string originalEmail, UsersViewModel uvm)
+		[Route("/users")]
+		public IActionResult UpdateUser(UsersViewModel usersviewmodel)
 		{
-			VerifyParam(() =>
-			  submitAction == Constants.SaveAction
-			  || submitAction == Constants.CancelAction
-			  || submitAction == Constants.DeleteAction);
-			string maintenanceMode;
-			if (submitAction == Constants.DeleteAction)
-			{
-				maintenanceMode = Constants.UsersDeleteMode;
-			}
-			else
-			{
-				maintenanceMode = originalEmail == null ? Constants.UsersCreateMode : Constants.UsersEditMode;
-			}
+			usersviewmodel.Active = true;
+			usersviewmodel.Ask = true;
+			usersviewmodel.NotifyOnAllComment = true;
+			usersviewmodel.NotifyOnNewPost = true;
+			usersviewmodel.NotifyOnOwnComment = true;
 
-			originalEmail = originalEmail ?? string.Empty;
-			if (submitAction == Constants.CancelAction)
-			{
-				return RedirectToAction(nameof(Index));
+			ModelState.Clear();
+
+			if (string.IsNullOrWhiteSpace(usersviewmodel.Password))
+			{ 
+				ModelState.AddModelError("", "Invalid Password.");
 			}
 
-			if (IsLoggedInUserRecord(uvm))
+			if (string.IsNullOrWhiteSpace(usersviewmodel.DisplayName))
 			{
-				if (maintenanceMode == Constants.UsersEditMode && uvm.Role != Role.Admin
-				  || maintenanceMode == Constants.UsersDeleteMode)
-				{
-					ModelState.AddModelError(string.Empty, "You cannot delete your own user record or change the role");
-				}
-			}
-			if (!ModelState.IsValid)
-			{
-				if (!string.IsNullOrWhiteSpace(uvm.Password))
-				{
-					uvm.Password = string.Empty;
-					// if the password field is blank and therefore invalid then
-					// we need to keep it to produce the error message.
-					// if the password field is not blank and some other field
-					// is invalid then we need to remove the password field
-					// to ensure the form returns an empty password field
-					// This will need to change if we introduce more exacting password rules
-					ModelState.Remove(nameof(UsersViewModel.Password));
-						// make sure that the password is not echoed back if validation fails
-
-				}
-				new ViewBagConfigurer().ConfigureViewBag(ViewBag, maintenanceMode);
-				return View("Maintenance", uvm);
-			}
-			ModelState.Remove(nameof(UsersViewModel.Password));
-				// make sure that the password is not echoed back if validation fails
-			switch (maintenanceMode)
-			{
-				case Constants.UsersCreateMode:
-				case Constants.UsersEditMode:
-					return SaveCreatedOrEditedUser(maintenanceMode, uvm, originalEmail);
-				case Constants.UsersDeleteMode:
-					return DeleteUser(uvm);
+				ModelState.AddModelError("", "Invalid Display Name.");
 			}
 
-			new ViewBagConfigurer().ConfigureViewBag(ViewBag, maintenanceMode);
-			return View("Maintenance", uvm);
-		}
-
-		private bool IsLoggedInUserRecord(UsersViewModel uvm)
-		{
-			var loggedInUserEmail = this.HttpContext.User.Identities.First().Name;
-			return loggedInUserEmail == uvm.EmailAddress;
-		}
-
-		// subroutine of the http POST handler
-		private IActionResult SaveCreatedOrEditedUser(string maintenanceMode, UsersViewModel uvm, string originalEmail)
-		{
-			User user = mapper.Map<User>(uvm);
-			if (!ValidateUser(maintenanceMode, originalEmail, uvm, user))
+			if (string.IsNullOrWhiteSpace(usersviewmodel.EmailAddress))
 			{
-				new ViewBagConfigurer().ConfigureViewBag(ViewBag, maintenanceMode);
-				return View("Maintenance", uvm);
+				ModelState.AddModelError("", "Invalid Email Address.");
 			}
 
-			userService.AddOrReplaceUser(user, originalEmail);
+			if (ModelState.ErrorCount > 0)
+			{
+				return View("ViewEditUser", usersviewmodel);
+			}
+
+			var dasbloguser = mapper.Map<User>(usersviewmodel);
+
+			userService.AddOrReplaceUser(dasbloguser, usersviewmodel.OriginalEmail);
 			siteSecurityConfig.Refresh();
-			UpdateRouteData(user.EmailAddress);
-			LogDebug(user.Name, maintenanceMode);
-			return RedirectToAction(nameof(Index));		// total success
-		}
 
-		/// <summary>
-		/// validate user after initial creation or subsequent edit
-		/// 1. email must be unique within user repo
-		/// 2. password must be non-empty
-		/// </summary>
-		/// <param name="maintenanceMode">Either UserCreateAction or UserEditAction </param>
-		/// <param name="originalEmail">"" for creation, existing value in users repo for edit</param>
-		/// <param name="uvm"></param>
-		/// <param name="user">the user that has just been created or edited by the client</param>
-		/// <returns>true if the user can be saved to the repo, otherwise false</returns>
-		private bool ValidateUser(string maintenanceMode, string originalEmail, UsersViewModel uvm, User user)
-		{
-			System.Diagnostics.Debug.Assert(maintenanceMode == Constants.UsersCreateMode
-			  || maintenanceMode == Constants.UsersEditMode);
-			System.Diagnostics.Debug.Assert(
-			  maintenanceMode == Constants.UsersCreateMode && originalEmail == string.Empty
-			  || maintenanceMode == Constants.UsersEditMode && originalEmail != string.Empty);
-			bool rtn = true;
-			if (string.IsNullOrEmpty(uvm.Password))
-			{
-				ModelState.AddModelError(nameof(uvm.Password)
-				  , "The password must contain some characters");
-				rtn = false;
-			}
-			if ( user.EmailAddress != originalEmail
-			  && userService.FindMatchingUser(user.EmailAddress).userFound)
-			{
-				ModelState.AddModelError(nameof(uvm.EmailAddress)
-				  ,"This email address already exists - emails must be unique");
-				rtn = false;
-			}
+			var uvm = mapper.Map<UsersViewModel>(userService.GetFirstUser());
 
-			return rtn;
-		}
-
-		// subroutine of the http GET handler
-		private IActionResult EditDeleteOrViewUser(string maintenanceMode, string email)
-		{
-			System.Diagnostics.Debug.Assert(
-				maintenanceMode == Constants.UsersEditMode
-				|| maintenanceMode == Constants.UsersDeleteMode
-				|| maintenanceMode == Constants.UsersViewMode);
-			(var found, var user) = userService.FindMatchingUser(email);
-			if (!found)
-			{
-				return RedirectToAction(nameof(Index));
-					// TODO show an error page
-			}
-			UsersViewModel uvm = mapper.Map<UsersViewModel>(user);
-
-			new ViewBagConfigurer().ConfigureViewBag(ViewBag, maintenanceMode);
-			return View("Maintenance", uvm);
-		}
-
-		// subroutine of http POST handler
-		private IActionResult DeleteUser(UsersViewModel uvm)
-		{
-			if (userService.DeleteUser(uvm.EmailAddress))
-			{
-				LogDebug(uvm.EmailAddress, Constants.UsersDeleteMode);
-				siteSecurityConfig.Refresh();
-				this.ControllerContext.RouteData.Values.Remove(EMAIL_PARAM);
-				return RedirectToAction(nameof(Index));		// total success
-			}
-			else
-			{
-				ModelState.AddModelError(string.Empty, $"Failed to delete the user {uvm.EmailAddress}.  The record may have already been deleted ");
-											new ViewBagConfigurer().ConfigureViewBag(ViewBag, Constants.UsersDeleteMode);
-				return View("Maintenance", uvm);
-			}
-		}
-		
-		private void UpdateRouteData(string email)
-		{
-			if (!this.ControllerContext.RouteData.Values.ContainsKey(EMAIL_PARAM))
-			{
-				this.ControllerContext.RouteData.Values.Add(EMAIL_PARAM, "");
-			}
-
-			this.ControllerContext.RouteData.Values[EMAIL_PARAM] = email;
-		}
-
-		private EventCodes MaintenanceModeToEventCode(string maintenanceMode)
-		{
-			EventCodes code;
-			switch (maintenanceMode)
-			{
-				case Constants.UsersCreateMode:
-					code = EventCodes.CreateUser;
-					break;
-				case Constants.UsersEditMode:
-					code = EventCodes.EditUser;
-					break;
-				case Constants.UsersDeleteMode:
-					code = EventCodes.DeleteUser;
-					break;
-				default:
-					code = EventCodes.ViewUser;
-					break;
-			}
-
-			return code;
-		}
-
-		private void LogDebug(string userId, string maintenanceMode)
-		{
-			logger.LogDebug( new EventDataItem(
-				MaintenanceModeToEventCode(maintenanceMode), null, "User Maintenance ({user}) by {loggedin}",
-					userId, HttpContext.User.Identities.First().Name));
+			return Index();
 		}
 	}
 }

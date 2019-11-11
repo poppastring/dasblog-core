@@ -9,15 +9,15 @@ namespace DasBlog.Web.Models
 
 		[Required]
 		public Role Role { get; set; }
-
-		public bool Ask { get; set; }
 		
 		[Required]
 		[EmailAddress]
 		[Display(Name="Email Address")]
 		public string EmailAddress { get; set; }
-		
+
+		[Required]
 		[Display(Name= "Dipslay Name")]
+		[StringLength(50, ErrorMessage = "Invalid Display Name length", MinimumLength = 1)]
 		public string DisplayName { get; set; }
 
 		[Display(Name= "Open ID Url")]
@@ -32,9 +32,16 @@ namespace DasBlog.Web.Models
 		[Display(Name= "Receive Notifications for Own Comments")]
 		public bool NotifyOnOwnComment { get; set; }
 
-		public bool Active { get; set; }
-		
+		[Required]
+		[Display(Name = "Password")]
+		[StringLength(100, ErrorMessage = "Invalid Password length", MinimumLength = 1)]
 		public string Password { get; set; }
+
+		[Required]
+		public bool Active { get; set; }
+
+		[Required]
+		public bool Ask { get; set; }
 
 		public string Writability { get; set; }
 
