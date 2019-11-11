@@ -38,7 +38,7 @@ namespace DasBlog.Web.Controllers
 
 			new ViewBagConfigurer().ConfigureViewBag(ViewBag, Constants.UsersViewMode);
 
-			return View("Index", uvm);
+			return RedirectToAction(uvm.OriginalEmail, "adminuser");
 		}
 
 		[HttpGet]
@@ -57,6 +57,31 @@ namespace DasBlog.Web.Controllers
 		[Route("/adminuser")]
 		public IActionResult UpdateUser(UsersViewModel usersviewmodel)
 		{
+			if (!ModelState.IsValid) 
+			{
+				return EditUser(usersviewmodel.OriginalEmail);
+			}
+
+			if (string.IsNullOrWhiteSpace(usersviewmodel.Password))
+			{ 
+				ModelState.AddModelError("", "Invalid Password.");
+			}
+
+			if (string.IsNullOrWhiteSpace(usersviewmodel.DisplayName))
+			{
+				ModelState.AddModelError("", "Invalid Display Name.");
+			}
+
+			if (string.IsNullOrWhiteSpace(usersviewmodel.EmailAddress))
+			{
+				ModelState.AddModelError("", "Invalid Email Address.");
+			}
+
+			if (ModelState.ErrorCount > 0)
+			{
+				return EditUser(usersviewmodel.OriginalEmail);
+			}
+
 			var dasbloguser = mapper.Map<User>(usersviewmodel);
 
 			userService.AddOrReplaceUser(dasbloguser, usersviewmodel.OriginalEmail);
