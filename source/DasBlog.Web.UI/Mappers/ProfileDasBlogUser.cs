@@ -39,28 +39,29 @@ namespace DasBlog.Web.Mappers
 			CreateMap<UsersViewModel, User>()
 				.ForMember(dest => dest.EmailAddress, opt => opt.MapFrom(src => src.EmailAddress.Trim()))
 				.ForMember(dest => dest.Role, opt => opt.MapFrom(src => src.Role))
-				.ForMember(dest => dest.Ask, opt => opt.MapFrom(src => src.Ask == "on"))
+				.ForMember(dest => dest.Ask, opt => opt.MapFrom(src => src.Ask))
 				.ForMember(dest => dest.DisplayName, opt => opt.MapFrom(src => src.DisplayName.Trim()))
 				.ForMember(dest => dest.OpenIDUrl, opt => opt.MapFrom(src => src.OpenIDUrl.Trim()))
-				.ForMember(dest => dest.NotifyOnAllComment, opt => opt.MapFrom(src => src.NotifyOnAllComment == "on"))
-				.ForMember(dest => dest.NotifyOnOwnComment, opt => opt.MapFrom(src => src.NotifyOnOwnComment == "on"))
-				.ForMember(dest => dest.NotifyOnNewPost, opt => opt.MapFrom(src => src.NotifyOnNewPost == "on"))
-				.ForMember(dest => dest.Active, opt => opt.MapFrom(src => src.Active == "on"))
+				.ForMember(dest => dest.NotifyOnAllComment, opt => opt.MapFrom(src => src.NotifyOnAllComment))
+				.ForMember(dest => dest.NotifyOnOwnComment, opt => opt.MapFrom(src => src.NotifyOnOwnComment))
+				.ForMember(dest => dest.NotifyOnNewPost, opt => opt.MapFrom(src => src.NotifyOnNewPost))
+				.ForMember(dest => dest.Active, opt => opt.MapFrom(src => src.Active))
 				.ForMember(dest => dest.Password, opt => opt.MapFrom(src => siteSecurityManager.HashPassword((src.Password))))
 				;
 
 			CreateMap<User, UsersViewModel>()
 				.ForMember(dest => dest.EmailAddress, opt => opt.MapFrom(src => src.EmailAddress))
 				.ForMember(dest => dest.Role, opt => opt.MapFrom(src => src.Role))
-				.ForMember(dest => dest.Ask, opt => opt.MapFrom(src => src.Ask ? "on" : string.Empty))
+				.ForMember(dest => dest.Ask, opt => opt.MapFrom(src => src.Ask))
 				.ForMember(dest => dest.DisplayName, opt => opt.MapFrom(src => src.DisplayName))
 				.ForMember(dest => dest.OpenIDUrl, opt => opt.MapFrom(src => src.OpenIDUrl))
-				.ForMember(dest => dest.NotifyOnAllComment, opt => opt.MapFrom(src => src.NotifyOnAllComment ? "on" : string.Empty))
-				.ForMember(dest => dest.NotifyOnOwnComment, opt => opt.MapFrom(src => src.NotifyOnOwnComment ? "on" : string.Empty))
-				.ForMember(dest => dest.NotifyOnNewPost, opt => opt.MapFrom(src => src.NotifyOnNewPost ? "on" : string.Empty))
-				.ForMember(dest => dest.Active, opt => opt.MapFrom(src => src.Active ? "on" : string.Empty))
+				.ForMember(dest => dest.NotifyOnAllComment, opt => opt.MapFrom(src => src.NotifyOnAllComment))
+				.ForMember(dest => dest.NotifyOnOwnComment, opt => opt.MapFrom(src => src.NotifyOnOwnComment))
+				.ForMember(dest => dest.NotifyOnNewPost, opt => opt.MapFrom(src => src.NotifyOnNewPost))
+				.ForMember(dest => dest.Active, opt => opt.MapFrom(src => src.Active))
 				.ForMember(dest => dest.Password, opt => opt.MapFrom(src => string.Empty))
-						// we don't know what the password is - so we can't tell the user
+				.ForMember(dest => dest.OriginalEmail, opt => opt.MapFrom(src => src.EmailAddress))
+				// we don't know what the password is - so we can't tell the user
 				;
 		}
 	}

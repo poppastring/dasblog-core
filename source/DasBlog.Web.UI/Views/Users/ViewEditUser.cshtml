@@ -1,0 +1,17 @@
+﻿@using DasBlog.Core.Common
+@using DasBlog.Core.Security
+@model DasBlog.Web.Models.UsersViewModel
+
+<div class="row">
+    <div class="col-md-9">
+        <form asp-action="UpdateUser" name="editForm" id="editForm">
+
+            <partial name="UserAdminFields" model="Model" />
+
+            <div class="form-group">
+                <input type="submit" name="submitAction" value="Save" class="btn btn-default btn-primary" @ViewBag.Clickability />
+                <input asp-controller="Home" asp-action="Index" type="submit" name="submit" value="Cancel" class="btn cancel" />
+            </div>
+        </form>
+    </div>
+</div>
