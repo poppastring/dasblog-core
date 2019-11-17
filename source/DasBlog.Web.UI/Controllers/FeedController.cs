@@ -94,7 +94,7 @@ namespace DasBlog.Web.Controllers
 			{
 				using (var mem = new MemoryStream())
 				{
-					Request.Body.CopyTo(mem);
+					Request.Body.CopyToAsync(mem);
 					blogger = xmlRpcManager.Invoke(mem);
 				}
 			}
