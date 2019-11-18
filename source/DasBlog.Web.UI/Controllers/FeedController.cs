@@ -8,6 +8,7 @@ using Microsoft.Extensions.Caching.Memory;
 using newtelligence.DasBlog.Runtime;
 using System.IO;
 using System;
+using System.Threading.Tasks;
 
 namespace DasBlog.Web.Controllers
 {
@@ -86,7 +87,7 @@ namespace DasBlog.Web.Controllers
 
 		[Produces("text/xml")]
 		[HttpPost("feed/blogger")]
-		public IActionResult BloggerPost()
+		public async Task<IActionResult> BloggerPost()
 		{
 			var blogger = string.Empty;
 
@@ -94,7 +95,7 @@ namespace DasBlog.Web.Controllers
 			{
 				using (var mem = new MemoryStream())
 				{
-					Request.Body.CopyToAsync(mem);
+					await Request.Body.CopyToAsync(mem);
 					blogger = xmlRpcManager.Invoke(mem);
 				}
 			}
