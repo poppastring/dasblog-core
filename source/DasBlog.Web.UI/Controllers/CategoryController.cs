@@ -15,16 +15,14 @@ namespace DasBlog.Web.Controllers
 		private readonly ICategoryManager categoryManager;
 		private readonly IHttpContextAccessor httpContextAccessor;
 		private readonly IDasBlogSettings dasBlogSettings;
-		private readonly IMapper mapper;
 		private const string CATEGORY = "Category";
 
-		public CategoryController(ICategoryManager categoryManager, IDasBlogSettings settings, IHttpContextAccessor httpContextAccessor, IMapper mapper)
-			: base(settings)
+		public CategoryController(ICategoryManager categoryManager, IDasBlogSettings dasBlogSettings, IHttpContextAccessor httpContextAccessor)
+			: base(dasBlogSettings)
 		{
 			this.categoryManager = categoryManager;
-			dasBlogSettings = settings;
+			this.dasBlogSettings = dasBlogSettings;
 			this.httpContextAccessor = httpContextAccessor;
-			this.mapper = mapper;
 		}
 
 		[HttpGet("category")]
