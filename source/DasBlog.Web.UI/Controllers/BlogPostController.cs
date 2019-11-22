@@ -31,17 +31,17 @@ namespace DasBlog.Web.Controllers
 		private readonly IFileSystemBinaryManager binaryManager;
 		private readonly ILogger<BlogPostController> logger;
 		private readonly IBlogPostViewModelCreator modelViewCreator;
-		private IMemoryCache memoryCache;
+		private readonly IMemoryCache memoryCache;
 
-		public BlogPostController(IBlogManager blogManager, IHttpContextAccessor httpContextAccessor, IDasBlogSettings settings, 
+		public BlogPostController(IBlogManager blogManager, IHttpContextAccessor httpContextAccessor, IDasBlogSettings dasBlogSettings, 
 									IMapper mapper, ICategoryManager categoryManager, IFileSystemBinaryManager binaryManager, 
 									ILogger<BlogPostController> logger,IBlogPostViewModelCreator modelViewCreator, IMemoryCache memoryCache) 
-									: base(settings)
+									: base(dasBlogSettings)
 		{
 			this.blogManager = blogManager;
 			this.categoryManager = categoryManager;
 			this.httpContextAccessor = httpContextAccessor;
-			dasBlogSettings = settings;
+			this.dasBlogSettings = dasBlogSettings;
 			this.mapper = mapper;
 			this.binaryManager = binaryManager;
 			this.logger = logger;
@@ -481,9 +481,8 @@ namespace DasBlog.Web.Controllers
 			ModelState.ClearValidationState("");
 			if (string.IsNullOrWhiteSpace(post.NewCategory))
 			{
-				ModelState.AddModelError(nameof(post.NewCategory)
-				  ,"To add a category " +
-				   "you must enter some text in the box next to the 'Add' button before clicking 'Add'");
+				ModelState.AddModelError(nameof(post.NewCategory), 
+					"To add a category you must enter some text in the box next to the 'Add' button before clicking 'Add'");
 				return View(post);
 			}
 
@@ -497,10 +496,7 @@ namespace DasBlog.Web.Controllers
 			}
 			else
 			{
-				post.AllCategories.Add(
-				  new CategoryViewModel {
-				  Category = newCategoryDisplayName
-				  , CategoryUrl = newCategoryUrl, Checked = true});
+				post.AllCategories.Add(new CategoryViewModel { Category = newCategoryDisplayName, CategoryUrl = newCategoryUrl, Checked = true });
 				post.NewCategory = "";
 				ModelState.Remove(nameof(post.NewCategory));	// ensure response refreshes page with view model's value
 			}
@@ -514,8 +510,8 @@ namespace DasBlog.Web.Controllers
 			var fileName = post.Image?.FileName;
 			if (string.IsNullOrEmpty(fileName))
 			{
-				ModelState.AddModelError(nameof(post.Image)
-					, $"You must select a file before clicking \"{Constants.UploadImageAction}\" to upload it");
+				ModelState.AddModelError(nameof(post.Image), 
+						$"You must select a file before clicking \"{Constants.UploadImageAction}\" to upload it");
 				return View(post);
 			}
 
@@ -535,8 +531,7 @@ namespace DasBlog.Web.Controllers
 
 			if (string.IsNullOrEmpty(relativePath))
 			{
-				ModelState.AddModelError(nameof(post.Image)
-					, "Failed to upload file - reason unknown");
+				ModelState.AddModelError(nameof(post.Image), "Failed to upload file - reason unknown");
 				return View(post);
 			}
 
