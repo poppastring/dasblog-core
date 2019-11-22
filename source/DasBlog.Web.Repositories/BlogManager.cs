@@ -243,11 +243,11 @@ namespace DasBlog.Managers
 		{
 			if (dasBlogSettings.SiteConfiguration.EnableTitlePermaLinkUnique)
 			{
-				return new Uri(dasBlogSettings.GetPermaTitle(entry.CompressedTitle));
+				return new Uri(dasBlogSettings.RelativeToRoot(entry.CompressedTitle));
 			}
 			else
 			{
-				return new Uri(dasBlogSettings.GetPermaTitle(entry.CreatedUtc.ToString("yyyyMMdd") + "/" + entry.CompressedTitle));
+				return new Uri(dasBlogSettings.RelativeToRoot(entry.CreatedUtc.ToString("yyyyMMdd") + "/" + entry.CompressedTitle));
 			}
 		}
 

@@ -196,6 +196,8 @@ namespace DasBlog.Web.Controllers
 					ModelState.AddModelError("", "Failed to edit blog post. Please check Logs for more details.");
 					return View(post);
 				}
+
+				BreakSiteCache();
 			}
 			catch (Exception ex)
 			{
