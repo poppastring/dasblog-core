@@ -16,8 +16,8 @@ namespace DasBlog.Web.Controllers
 	[ResponseCache(Duration = 14400, Location = ResponseCacheLocation.Any)]
 	public class ArchiveController : DasBlogBaseController
 	{
-		private IArchiveManager archiveManager;
-		private IHttpContextAccessor httpContextAccessor;
+		private readonly IArchiveManager archiveManager;
+		private readonly IHttpContextAccessor httpContextAccessor;
 		private readonly IMapper mapper;
 		private const string ARCHIVE = "Archive";
 
@@ -46,7 +46,7 @@ namespace DasBlog.Web.Controllers
 		[HttpGet("{year}/{month}")]
 		public IActionResult Archive(int year, int month)
 		{
-			DateTime dateTime = new DateTime(year, month, 1);
+			var dateTime = new DateTime(year, month, 1);
 			var months = GetMonthsViewModel(dateTime);
 			return View(months);
 		}

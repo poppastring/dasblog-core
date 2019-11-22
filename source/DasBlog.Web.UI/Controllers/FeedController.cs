@@ -21,8 +21,8 @@ namespace DasBlog.Web.Controllers
 		private readonly ILoggingDataService loggingDataService;
 
 
-		public FeedController(ISubscriptionManager subscriptionManager, IHttpContextAccessor httpContextAccessor,
-								IXmlRpcManager xmlRpcManager, IMemoryCache memoryCache, IDasBlogSettings dasBlogSettings)
+		public FeedController(ISubscriptionManager subscriptionManager, IXmlRpcManager xmlRpcManager, 
+								IMemoryCache memoryCache, IDasBlogSettings dasBlogSettings)
         {  
             this.subscriptionManager = subscriptionManager;
 			this.xmlRpcManager = xmlRpcManager;

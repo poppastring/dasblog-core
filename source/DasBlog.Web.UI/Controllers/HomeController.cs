@@ -24,11 +24,11 @@ namespace DasBlog.Web.Controllers
 		private readonly ILogger<HomeController> logger;
 		private readonly IMemoryCache memoryCache;
 
-		public HomeController(IBlogManager blogManager, IDasBlogSettings dasblogsettings, IXmlRpcManager rpcManager, 
-							IMapper mapper, ILogger<HomeController> logger, IMemoryCache memoryCache) : base(dasblogsettings)
+		public HomeController(IBlogManager blogManager, IDasBlogSettings dasBlogSettings, IXmlRpcManager rpcManager, 
+							IMapper mapper, ILogger<HomeController> logger, IMemoryCache memoryCache) : base(dasBlogSettings)
 		{
 			this.blogManager = blogManager;
-			this.dasBlogSettings = dasblogsettings;
+			this.dasBlogSettings = dasBlogSettings;
 			this.mapper = mapper;
 			this.logger = logger;
 			this.memoryCache = memoryCache;
@@ -138,7 +138,7 @@ namespace DasBlog.Web.Controllers
 				var lcvm = new ListCommentsViewModel
 				{
 					Comments = blogManager.GetComments(post.EntryId, false)
-					.Select(comment => mapper.Map<CommentViewModel>(comment)).ToList(),
+									.Select(comment => mapper.Map<CommentViewModel>(comment)).ToList(),
 					PostId = post.EntryId,
 					PostDate = post.CreatedDateTime,
 					CommentUrl = dasBlogSettings.GetCommentViewUrl(post.PermaLink)
