@@ -10,24 +10,26 @@ namespace DasBlog.Managers
 	{
 		private readonly IBinaryDataService dataService;
 		private readonly string virtBinaryPathRelativeToContentRoot;
-		public FileSystemBinaryManager(IDasBlogSettings settings)
+		private readonly IDasBlogSettings dasBlogSettings;
+		public FileSystemBinaryManager(IDasBlogSettings dasBlogSettings)
 		{
-			var siteConfig = settings.SiteConfiguration;
-			virtBinaryPathRelativeToContentRoot = siteConfig.BinariesDir.TrimStart('~'); // => "/content/binary"
-			var physBinaryPath = Path.Combine(settings.WebRootDirectory,virtBinaryPathRelativeToContentRoot.TrimStart('/')); 
+			this.dasBlogSettings = dasBlogSettings;
+			var siteConfig = this.dasBlogSettings.SiteConfiguration;
+			virtBinaryPathRelativeToContentRoot = siteConfig.BinariesDir.TrimStart('~');
+			var physBinaryPath = Path.Combine(this.dasBlogSettings.WebRootDirectory,virtBinaryPathRelativeToContentRoot.TrimStart('/')); 
 
-			Uri physBinaryPathUrl = new Uri(physBinaryPath);
-			var loggingDataService = LoggingDataServiceFactory.GetService(settings.WebRootDirectory + settings.SiteConfiguration.LogDir);
+			var physBinaryPathUrl = new Uri(physBinaryPath);
+			var loggingDataService = LoggingDataServiceFactory.GetService(dasBlogSettings.WebRootDirectory + dasBlogSettings.SiteConfiguration.LogDir);
 			dataService = BinaryDataServiceFactory.GetService(physBinaryPath, physBinaryPathUrl ,loggingDataService);
 		}
 
 		public string SaveFile(Stream inputFile, string fileName)
 		{
 			dataService.SaveFile(inputFile, ref fileName);
-			var newPathAndFileName = fileName;
-			var newFileName = Path.GetFileName(newPathAndFileName);
 
-			return Path.Combine(virtBinaryPathRelativeToContentRoot, newFileName);
+			var file = string.Format("{0}{1}", virtBinaryPathRelativeToContentRoot, Path.GetFileName(fileName));
+
+			return dasBlogSettings.RelativeToRoot(file);
 		}
 	}
 }
