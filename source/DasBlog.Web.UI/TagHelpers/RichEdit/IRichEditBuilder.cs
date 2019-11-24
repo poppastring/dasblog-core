@@ -4,7 +4,7 @@ namespace DasBlog.Web.TagHelpers.RichEdit
 {
 	public interface IRichEditBuilder
 	{
-		void ProcessControl(RichEditTagHelper tagHeelper, TagHelperContext context, TagHelperOutput output);
-		void ProcessScripts(RichEditScriptsTagHelper tagHeelper, TagHelperContext context, TagHelperOutput output);
+		void ProcessControl(RichEditTagHelper tagHelper, TagHelperContext context, TagHelperOutput output);
+		void ProcessScripts(RichEditScriptsTagHelper tagHelper, TagHelperContext context, TagHelperOutput output);
 	}
 }

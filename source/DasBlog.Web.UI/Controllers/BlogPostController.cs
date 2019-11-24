@@ -515,12 +515,12 @@ namespace DasBlog.Web.Controllers
 				return View(post);
 			}
 
-			string relativePath = null;
+			string fullimageurl = null;
 			try
 			{
 				using (var s = post.Image.OpenReadStream())
 				{
-					relativePath = binaryManager.SaveFile(s, Path.GetFileName(fileName));
+					fullimageurl = binaryManager.SaveFile(s, Path.GetFileName(fileName));
 				}
 			}
 			catch (Exception e)
@@ -529,14 +529,13 @@ namespace DasBlog.Web.Controllers
 				return View(post);
 			}
 
-			if (string.IsNullOrEmpty(relativePath))
+			if (string.IsNullOrEmpty(fullimageurl))
 			{
 				ModelState.AddModelError(nameof(post.Image), "Failed to upload file - reason unknown");
 				return View(post);
 			}
 
-			var linkText = String.Format("<p><img border=\"0\" src=\"{0}\"></p>", relativePath);
-			post.Content += linkText;
+			post.Content += string.Format("<p><img border=\"0\" src=\"{0}\"></p>", fullimageurl);
 			ModelState.Remove(nameof(post.Content)); // ensure that model change is included in response
 			return View(post);
 		}
