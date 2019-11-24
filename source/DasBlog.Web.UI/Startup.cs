@@ -334,6 +334,9 @@ namespace DasBlog.Web
 				case Constants.TextAreaEditor:
 					richEditBuilder = new TextAreaBuilder();
 					break;
+				case Constants.FroalaEditor:
+					richEditBuilder = new FroalaBuilder();
+					break;
 				default:
 					throw new Exception($"Attempt to use unknown rich edit control, {entryEditControl}");
 			}
