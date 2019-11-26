@@ -148,7 +148,8 @@ namespace DasBlog.Web.Models.AdminViewModels
 		public string CheesySpamA { get; set; }
 		//public XmlElement[] anyElements { get; set; }
 		//public XmlAttribute[] anyAttributes { get; set; }
-		//public bool ShowItemSummaryInAggregatedViews { get; set; }
+		public bool ShowItemSummaryInAggregatedViews { get; set; }
+		
 		//public ValidCommentTags[] ValidCommentTags { get; set; }
 	}
 }

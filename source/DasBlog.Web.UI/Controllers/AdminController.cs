@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using DasBlog.Managers.Interfaces;
 using DasBlog.Services;
+using DasBlog.Web.Models.AdminViewModels;
 using DasBlog.Web.Settings;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -30,5 +31,11 @@ namespace DasBlog.Web.Controllers
 		{
 			return View();
 		}
-    }
+
+		[HttpPost]
+		public IActionResult Settings(DasBlogSettingsViewModel settings)
+		{
+			return View();
+		}
+	}
 }

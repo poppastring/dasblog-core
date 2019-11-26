@@ -7,6 +7,7 @@ namespace DasBlog.Web.Models.AdminViewModels
 {
 	public class DasBlogSettingsViewModel
 	{
-		
+		public MetaViewModel MetaConfig { get; set; }
+		public SiteViewModel SiteConfig { get; set; }
 	}
 }
