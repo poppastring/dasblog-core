@@ -1,52 +1,255 @@
 ﻿@using DasBlog.Core.Common
 @using DasBlog.Core.Security
-@model DasBlog.Web.Models.UsersViewModel
-
+@model DasBlog.Web.Models.AdminViewModels.DasBlogSettingsViewModel
 <!--
-<input type="hidden" name="OriginalEmail" value="@Model.OriginalEmail" />        
+<input type="hidden" name="OriginalEmail" value="" />
 -->
 
 <div class="form-group row">
-    <label asp-for="EmailAddress" class="col-form-label col-2" ></label>
-    <input name="EmailAddress" value="@Model.EmailAddress" type="email" class="form-control col-6" @ViewBag.Writability
-           data-val-email="The Email field is not a valid e-mail address." data-val-required="The Email field is required."/>
-    <span asp-validation-for="EmailAddress" class="text-danger"  data-valmsg-for="EmailAddress" data-valmsg-replace="true" ></span>
+    <label asp-for="@Model.SiteConfig.Title" class="col-form-label col-2"></label>
+    <input name="Title" value="@Model.SiteConfig.Title" type="text" class="form-control col-6"
+           data-val-email="" data-val-required="The Title field is required." />
+    <span asp-validation-for="@Model.SiteConfig.Title" class="text-danger" data-valmsg-for="Title" data-valmsg-replace="true"></span>
 </div>
 
 <div class="form-group row">
-    <label asp-for="DisplayName" class="col-form-label col-2"></label>
-    <input name="DisplayName" value="@Model.DisplayName" type="text" class="form-control col-6" @ViewBag.Writability />
-    <span asp-validation-for="DisplayName" class="text-danger" data-valmsg-for="DisplayName" data-valmsg-replace="true"></span>
+    <label asp-for="@Model.SiteConfig.Subtitle" class="col-form-label col-2"></label>
+    <input name="Subtitle" value="@Model.SiteConfig.Subtitle" type="text" class="form-control col-6"
+           data-val-email="" data-val-required="The Subtitle field is required." />
+    <span asp-validation-for="@Model.SiteConfig.Subtitle" class="text-danger" data-valmsg-for="Subtitle" data-valmsg-replace="true"></span>
 </div>
+
+<div class="form-group row">
+    <label asp-for="@Model.SiteConfig.Description" class="col-form-label col-2"></label>
+    <input name="Description" value="@Model.SiteConfig.Description" type="text" class="form-control col-6"
+           data-val-email="" data-val-required="The Description field is optional." />
+    <span asp-validation-for="@Model.SiteConfig.Description" class="text-danger" data-valmsg-for="Description" data-valmsg-replace="true"></span>
+</div>
+
+<div class="form-group row">
+    <label asp-for="@Model.SiteConfig.Root" class="col-form-label col-2"></label>
+    <input name="Root" value="@Model.SiteConfig.Root" type="text" class="form-control col-6"
+           data-val-email="" data-val-required="The Root field is required." />
+    <span asp-validation-for="@Model.SiteConfig.Root" class="text-danger" data-valmsg-for="Root" data-valmsg-replace="true"></span>
+</div>
+
+<div class="form-group row">
+    <label asp-for="@Model.SiteConfig.Theme" class="col-form-label col-2"></label>
+    <input name="Theme" value="@Model.SiteConfig.Theme" type="text" class="form-control col-6"
+           data-val-email="" data-val-required="The Theme field is required." />
+    <span asp-validation-for="@Model.SiteConfig.Theme" class="text-danger" data-valmsg-for="Theme" data-valmsg-replace="true"></span>
+</div>
+
+<div class="form-group row">
+    <label asp-for="@Model.SiteConfig.NotificationEMailAddress" class="col-form-label col-2"></label>
+    <input name="NotificationEMailAddress" value="@Model.SiteConfig.NotificationEMailAddress" type="email" class="form-control col-6"
+           data-val-email="" data-val-required="The Notification Email field is required." />
+    <span asp-validation-for="@Model.SiteConfig.NotificationEMailAddress" class="text-danger" data-valmsg-for="NotificationEMailAddress" data-valmsg-replace="true"></span>
+</div>
+
+<div class="form-group row">
+    <label asp-for="@Model.SiteConfig.Contact" class="col-form-label col-2"></label>
+    <input name="Contact" value="@Model.SiteConfig.Contact" type="email" class="form-control col-6"
+           data-val-email="" data-val-required="The Contact field is required." />
+    <span asp-validation-for="@Model.SiteConfig.Contact" class="text-danger" data-valmsg-for="Contact" data-valmsg-replace="true"></span>
+</div>
+
+<div class="form-group row">
+    <label asp-for="@Model.SiteConfig.Copyright" class="col-form-label col-2"></label>
+    <input name="Copyright" value="@Model.SiteConfig.Copyright" type="text" class="form-control col-6"
+           data-val-email="" data-val-required="The Copyright field is required." />
+    <span asp-validation-for="@Model.SiteConfig.Copyright" class="text-danger" data-valmsg-for="Copyright" data-valmsg-replace="true"></span>
+</div>
+
+<div class="form-group row">
+    <label asp-for="@Model.SiteConfig.FrontPageDayCount" class="col-form-label col-2"></label>
+    <input name="FrontPageDayCount" value="@Model.SiteConfig.FrontPageDayCount" type="text" class="form-control col-6"
+           data-val-email="" data-val-required="The Front Page Day Count field is required." />
+    <span asp-validation-for="@Model.SiteConfig.FrontPageDayCount" class="text-danger" data-valmsg-for="FrontPageDayCount" data-valmsg-replace="true"></span>
+</div>
+
+<div class="form-group row">
+    <label asp-for="@Model.SiteConfig.FrontPageEntryCount" class="col-form-label col-2"></label>
+    <input name="FrontPageEntryCount" value="@Model.SiteConfig.FrontPageEntryCount" type="text" class="form-control col-6"
+           data-val-email="" data-val-required="The Front Page Entry Count field is required." />
+    <span asp-validation-for="@Model.SiteConfig.FrontPageEntryCount" class="text-danger" data-valmsg-for="FrontPageEntryCount" data-valmsg-replace="true"></span>
+</div>
+
+<div class="form-group row">
+    <label asp-for="@Model.SiteConfig.FrontPageEntryCount" class="col-form-label col-2"></label>
+    <input name="FrontPageEntryCount" value="@Model.SiteConfig.FrontPageEntryCount" type="text" class="form-control col-6"
+           data-val-email="" data-val-required="The Front Page Entry Count field is required." />
+    <span asp-validation-for="@Model.SiteConfig.FrontPageEntryCount" class="text-danger" data-valmsg-for="FrontPageEntryCount" data-valmsg-replace="true"></span>
+</div>
+
+
+<EntriesPerPage>5</EntriesPerPage>
+<CategoryAllEntries>true</CategoryAllEntries>
+<FrontPageCategory />
+<EnableStartPageCaching>true</EnableStartPageCaching>
+
+
+
+
+<div class="form-group row">
+    <label asp-for="@Model.SiteConfig.RssDayCount" class="col-form-label col-2"></label>
+    <input name="RssDayCount" value="@Model.SiteConfig.RssDayCount" type="text" class="form-control col-6"
+           data-val-email="" data-val-required="The RSS Day count field is required." />
+    <span asp-validation-for="@Model.SiteConfig.RssDayCount" class="text-danger" data-valmsg-for="RssDayCount" data-valmsg-replace="true"></span>
+</div>
+
+<div class="form-group row">
+    <label asp-for="@Model.SiteConfig.RssMainEntryCount" class="col-form-label col-2"></label>
+    <input name="RssMainEntryCount" value="@Model.SiteConfig.RssMainEntryCount" type="text" class="form-control col-6"
+           data-val-email="" data-val-required="The Root RSS Main Entry is required." />
+    <span asp-validation-for="@Model.SiteConfig.RssMainEntryCount" class="text-danger" data-valmsg-for="RssMainEntryCount" data-valmsg-replace="true"></span>
+</div>
+
+<div class="form-group row">
+    <label asp-for="@Model.SiteConfig.RssEntryCount" class="col-form-label col-2"></label>
+    <input name="RssEntryCount" value="@Model.SiteConfig.RssEntryCount" type="text" class="form-control col-6"
+           data-val-email="" data-val-required="The RSS Entry Count field is required." />
+    <span asp-validation-for="@Model.SiteConfig.RssEntryCount" class="text-danger" data-valmsg-for="RssEntryCount" data-valmsg-replace="true"></span>
+</div>
+
+<div class="form-check row">
+    <label asp-for="@Model.SiteConfig.EnableRssItemFooters" class="form-check-label col-2"></label>
+    <input name="EnableRssItemFooters" checked="@Model.SiteConfig.EnableRssItemFooters" type="checkbox" class="form-check-input col-1" />
+</div>
+
+<div class="form-group row">
+    <label asp-for="@Model.SiteConfig.RssItemFooter" class="col-form-label col-2"></label>
+    <input name="RssItemFooter" value="@Model.SiteConfig.RssItemFooter" type="text" class="form-control col-6" />
+    <span asp-validation-for="@Model.SiteConfig.RssItemFooter" class="text-danger" data-valmsg-for="RssItemFooter" data-valmsg-replace="true"></span>
+</div>
+
+<div class="form-group row">
+    <label asp-for="@Model.SiteConfig.RssItemFooter" class="col-form-label col-2"></label>
+    <input name="RssItemFooter" value="@Model.SiteConfig.RssItemFooter" type="text" class="form-control col-6" />
+    <span asp-validation-for="@Model.SiteConfig.RssItemFooter" class="text-danger" data-valmsg-for="RssItemFooter" data-valmsg-replace="true"></span>
+</div>
+
+
+<AlwaysIncludeContentInRSS>true</AlwaysIncludeContentInRSS>
+
+
+<EntryTitleAsLink>true</EntryTitleAsLink>
+<ObfuscateEmail>true</ObfuscateEmail>
+
+<DisplayTimeZoneIndex>4</DisplayTimeZoneIndex>
+<AdjustDisplayTimeZone>true</AdjustDisplayTimeZone>
+<ContentDir>/content/</ContentDir>
+<LogDir>/logs/</LogDir>
+<BinariesDir>~/content/binary/</BinariesDir>
+
+<EnableTitlePermaLink>true</EnableTitlePermaLink>
+<EnableTitlePermaLinkUnique>false</EnableTitlePermaLinkUnique>
+<EnableTitlePermaLinkSpaces>false</EnableTitlePermaLinkSpaces>
+
+<ShowItemSummaryInAggregatedViews>false</ShowItemSummaryInAggregatedViews>
+
+<DaysCommentsAllowed>360</DaysCommentsAllowed>
+<EnableCommentDays>true</EnableCommentDays>
+<EnableComments>true</EnableComments>
+<CommentsRequireApproval>false</CommentsRequireApproval>
+<CheesySpamQ>2+5=?</CheesySpamQ>
+<CheesySpamA>7</CheesySpamA>
+
+<ContentLookaheadDays>1</ContentLookaheadDays>
+
+<validCommentTags name="0">
+    <tag name="0" tagname="a" attributes="href,title" allowed="true" />
+    <tag name="1" tagname="b" attributes="" allowed="true" />
+    <tag name="2" tagname="blockquote" attributes="cite" allowed="true" />
+    <tag name="3" tagname="em" attributes="" allowed="true" />
+    <tag name="4" tagname="i" attributes="" allowed="true" />
+    <tag name="5" tagname="pre" attributes="" allowed="true" />
+    <tag name="6" tagname="strike" attributes="" allowed="true" />
+    <tag name="7" tagname="strong" attributes="" allowed="true" />
+    <tag name="8" tagname="sub" attributes="" allowed="true" />
+    <tag name="9" tagname="super" attributes="" allowed="true" />
+    <tag name="10" tagname="u" attributes="" allowed="true" />
+    <tag name="11" tagname="ul" attributes="" allowed="true" />
+    <tag name="12" tagname="ol" attributes="" allowed="true" />
+    <tag name="13" tagname="li" attributes="" allowed="true" />
+</validCommentTags>
+
+<ChannelImageUrl>images/zenicon.jpg</ChannelImageUrl>
+<PreferredBloggingAPI>Moveable Type</PreferredBloggingAPI>
+
+<ShowCommentsWhenViewingEntry>true</ShowCommentsWhenViewingEntry>
+<TitlePermalinkSpaceReplacement>-</TitlePermalinkSpaceReplacement>
+
+<EntryEditControl>Froala</EntryEditControl>
+<!-- TinyMce, NicEdit, TextArea or Froala -->
+
+<EnableBloggerApi>true</EnableBloggerApi>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 <div class="form-check row">
     <label asp-for="Ask" class="form-check-label col-2"></label>
-    <input name="Ask" checked="@Model.Ask" type="checkbox" class="form-check-input col-1" @ViewBag.Clickability />    
+    <input name="Ask" checked="@Model.Ask" type="checkbox" class="form-check-input col-1" @ViewBag.Clickability />
 </div>
 
 <div class="form-group row">
-    <label asp-for="OpenIDUrl" class="col-form-label col-2" ></label>
-    <input name="OpenIDUrl" value="@Model.OpenIDUrl" type="text" class="form-control col-6" @ViewBag.Writability />    
+    <label asp-for="OpenIDUrl" class="col-form-label col-2"></label>
+    <input name="OpenIDUrl" value="@Model.OpenIDUrl" type="text" class="form-control col-6" @ViewBag.Writability />
 </div>
 
 <div class="form-check row">
     <label asp-for="NotifyOnAllComment" class="form-check-label col-5"></label>
-    <input name="NotifyOnAllComment" checked="@Model.NotifyOnAllComment" type="checkbox" class="form-check-input col-1" @ViewBag.Clickability />    
+    <input name="NotifyOnAllComment" checked="@Model.NotifyOnAllComment" type="checkbox" class="form-check-input col-1" @ViewBag.Clickability />
 </div>
 
 <div class="form-check row">
-    <label asp-for="NotifyOnOwnComment" class="form-check-label col-5" ></label>
+    <label asp-for="NotifyOnOwnComment" class="form-check-label col-5"></label>
     <input name="NotifyOnOwnComment" checked="@Model.NotifyOnOwnComment" type="checkbox" class="form-check-input col-1" @ViewBag.Clickability />
 </div>
 
 <div class="form-check row">
-    <label asp-for="NotifyOnNewPost" class="form-check-label col-5" ></label>
+    <label asp-for="NotifyOnNewPost" class="form-check-label col-5"></label>
     <input name="NotifyOnNewPost" checked="@Model.NotifyOnNewPost" type="checkbox" class="form-check-input col-1" @ViewBag.Clickability />
 </div>
 
 <div class="form-check row">
-    <label asp-for="Active" class="form-check-label col-5" ></label>
+    <label asp-for="Active" class="form-check-label col-5"></label>
     <input name="Active" checked="@Model.Active" type="checkbox" class="form-check-input col-1" @ViewBag.Clickability />
 </div>
 
@@ -56,4 +259,4 @@
     <span asp-validation-for="Password" class="text-danger" data-valmsg-for="Password" data-valmsg-replace="true"></span>
 </div>
 
- <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
