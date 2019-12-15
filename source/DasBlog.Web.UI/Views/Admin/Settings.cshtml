@@ -185,7 +185,7 @@
 <div class="form-group row">
     <label asp-for="@Model.SiteConfig.BinariesDir" class="col-form-label col-2"></label>
     <input name="BinariesDir" value="@Model.SiteConfig.BinariesDir" type="text" class="form-control col-6"
-           data-val-email="" data-val-required="The Display Binaries Directory field is required." />
+           data-val-email="" data-val-required="The Binaries Directory field is required." />
     <span asp-validation-for="@Model.SiteConfig.BinariesDir" class="text-danger" data-valmsg-for="BinariesDir" data-valmsg-replace="true"></span>
 </div>
 
@@ -209,17 +209,88 @@
     <input name="ShowItemSummaryInAggregatedViews" checked="@Model.SiteConfig.ShowItemSummaryInAggregatedViews" type="checkbox" class="form-check-input col-1" />
 </div>
 
+<div class="form-check row">
+    <label asp-for="@Model.SiteConfig.EnableComments" class="form-check-label col-2"></label>
+    <input name="EnableComments" checked="@Model.SiteConfig.EnableComments" type="checkbox" class="form-check-input col-1" />
+</div>
 
-<EnableComments>true</EnableComments>
-<EnableCommentDays>true</EnableCommentDays>
-<DaysCommentsAllowed>360</DaysCommentsAllowed>
-<CommentsRequireApproval>false</CommentsRequireApproval>
+<div class="form-check row">
+    <label asp-for="@Model.SiteConfig.EnableCommentDays" class="form-check-label col-2"></label>
+    <input name="EnableCommentDays" checked="@Model.SiteConfig.EnableCommentDays" type="checkbox" class="form-check-input col-1" />
+</div>
 
-<CheesySpamQ>2+5=?</CheesySpamQ>
-<CheesySpamA>7</CheesySpamA>
+<div class="form-group row">
+    <label asp-for="@Model.SiteConfig.DaysCommentsAllowed" class="col-form-label col-2"></label>
+    <input name="DaysCommentsAllowed" value="@Model.SiteConfig.DaysCommentsAllowed" type="text" class="form-control col-6"
+           data-val-email="" data-val-required="The Days Comments Allowed field is required." />
+    <span asp-validation-for="@Model.SiteConfig.DaysCommentsAllowed" class="text-danger" data-valmsg-for="DaysCommentsAllowed" data-valmsg-replace="true"></span>
+</div>
 
+<div class="form-check row">
+    <label asp-for="@Model.SiteConfig.CommentsRequireApproval" class="form-check-label col-2"></label>
+    <input name="CommentsRequireApproval" checked="@Model.SiteConfig.CommentsRequireApproval" type="checkbox" class="form-check-input col-1" />
+</div>
 
-<ContentLookaheadDays>1</ContentLookaheadDays>
+<div class="form-group row">
+    <label asp-for="@Model.SiteConfig.CheesySpamQ" class="col-form-label col-2"></label>
+    <input name="CheesySpamQ" value="@Model.SiteConfig.CheesySpamQ" type="text" class="form-control col-6"
+           data-val-email="" data-val-required="The Cheesy Spam Question field is required." />
+    <span asp-validation-for="@Model.SiteConfig.CheesySpamQ" class="text-danger" data-valmsg-for="CheesySpamQ" data-valmsg-replace="true"></span>
+</div>
+
+<div class="form-group row">
+    <label asp-for="@Model.SiteConfig.CheesySpamA" class="col-form-label col-2"></label>
+    <input name="CheesySpamA" value="@Model.SiteConfig.CheesySpamA" type="text" class="form-control col-6"
+           data-val-email="" data-val-required="The Cheesy Spam Answer field is required." />
+    <span asp-validation-for="@Model.SiteConfig.CheesySpamA" class="text-danger" data-valmsg-for="CheesySpamA" data-valmsg-replace="true"></span>
+</div>
+
+<div class="form-group row">
+    <label asp-for="@Model.SiteConfig.ContentLookaheadDays" class="col-form-label col-2"></label>
+    <input name="ContentLookaheadDays" value="@Model.SiteConfig.ContentLookaheadDays" type="text" class="form-control col-6"
+           data-val-email="" data-val-required="The Content Look ahead Days field is required." />
+    <span asp-validation-for="@Model.SiteConfig.ContentLookaheadDays" class="text-danger" data-valmsg-for="ContentLookaheadDays" data-valmsg-replace="true"></span>
+</div>
+
+<div class="form-group row">
+    <label asp-for="@Model.SiteConfig.ChannelImageUrl" class="col-form-label col-2"></label>
+    <input name="ChannelImageUrl" value="@Model.SiteConfig.ChannelImageUrl" type="text" class="form-control col-6"
+           data-val-email="" data-val-required="The Channel ImageUrl field is required." />
+    <span asp-validation-for="@Model.SiteConfig.ChannelImageUrl" class="text-danger" data-valmsg-for="ChannelImageUrl" data-valmsg-replace="true"></span>
+</div>
+
+<div class="form-group row">
+    <label asp-for="@Model.SiteConfig.PreferredBloggingAPI" class="col-form-label col-2"></label>
+    <input name="PreferredBloggingAPI" value="@Model.SiteConfig.PreferredBloggingAPI" type="text" class="form-control col-6"
+           data-val-email="" data-val-required="The Preferred Blogging API field is required." />
+    <span asp-validation-for="@Model.SiteConfig.PreferredBloggingAPI" class="text-danger" data-valmsg-for="PreferredBloggingAPI" data-valmsg-replace="true"></span>
+</div>
+
+<div class="form-check row">
+    <label asp-for="@Model.SiteConfig.ShowCommentsWhenViewingEntry" class="form-check-label col-2"></label>
+    <input name="ShowCommentsWhenViewingEntry" checked="@Model.SiteConfig.ShowCommentsWhenViewingEntry" type="checkbox" class="form-check-input col-1" />
+</div>
+
+<div class="form-group row">
+    <label asp-for="@Model.SiteConfig.TitlePermalinkSpaceReplacement" class="col-form-label col-2"></label>
+    <input name="TitlePermalinkSpaceReplacement" value="@Model.SiteConfig.TitlePermalinkSpaceReplacement" type="text" class="form-control col-6"
+           data-val-email="" data-val-required="The Title Permalink Space Replacement field is required." />
+    <span asp-validation-for="@Model.SiteConfig.TitlePermalinkSpaceReplacement" class="text-danger" data-valmsg-for="TitlePermalinkSpaceReplacement" data-valmsg-replace="true"></span>
+</div>
+
+<div class="form-group row">
+    <label asp-for="@Model.SiteConfig.EntryEditControl" class="col-form-label col-2"></label>
+    <input name="EntryEditControl" value="@Model.SiteConfig.EntryEditControl" type="text" class="form-control col-6"
+           data-val-email="" data-val-required="The Entry Edit Control field is required." />
+    <span asp-validation-for="@Model.SiteConfig.EntryEditControl" class="text-danger" data-valmsg-for="EntryEditControl" data-valmsg-replace="true"></span>
+</div>
+
+<div class="form-check row">
+    <label asp-for="@Model.SiteConfig.EnableBloggerApi" class="form-check-label col-2"></label>
+    <input name="EnableBloggerApi" checked="@Model.SiteConfig.EnableBloggerApi" type="checkbox" class="form-check-input col-1" />
+</div>
+
+<!--
 
 <validCommentTags name="0">
     <tag name="0" tagname="a" attributes="href,title" allowed="true" />
@@ -238,18 +309,124 @@
     <tag name="13" tagname="li" attributes="" allowed="true" />
 </validCommentTags>
 
-<ChannelImageUrl>images/zenicon.jpg</ChannelImageUrl>
-<PreferredBloggingAPI>Moveable Type</PreferredBloggingAPI>
+-->
 
-<ShowCommentsWhenViewingEntry>true</ShowCommentsWhenViewingEntry>
-<TitlePermalinkSpaceReplacement>-</TitlePermalinkSpaceReplacement>
+@Html.HiddenFor(@m => m.SiteConfig.CommentsAllowHtml)
+@Html.HiddenFor(@m => m.SiteConfig.SendReferralsByEmail)
+@Html.HiddenFor(@m => m.SiteConfig.SendTrackbacksByEmail)
+@Html.HiddenFor(@m => m.SiteConfig.SendPingbacksByEmail)
+@Html.HiddenFor(@m => m.SiteConfig.SendPostsByEmail)
+@Html.HiddenFor(@m => m.SiteConfig.EnableCommentApi)
+@Html.HiddenFor(@m => m.SiteConfig.EnableConfigEditService)
+@Html.HiddenFor(@m => m.SiteConfig.EnableEditService)
+@Html.HiddenFor(@m => m.SiteConfig.EnableAutoPingback)
 
-<EntryEditControl>Froala</EntryEditControl>
-<!-- TinyMce, NicEdit, TextArea or Froala -->
+@Html.HiddenFor(@m => m.SiteConfig.ShowCommentCount)
+@Html.HiddenFor(@m => m.SiteConfig.EnableTrackbackService)
+@Html.HiddenFor(@m => m.SiteConfig.EnablePingbackService)
 
-<EnableBloggerApi>true</EnableBloggerApi>
+@Html.HiddenFor(@m => m.SiteConfig.EnableBlogrollDescription)
+@Html.HiddenFor(@m => m.SiteConfig.EnableUrlRewriting)
+@Html.HiddenFor(@m => m.SiteConfig.EnableCrossposts)
 
+@Html.HiddenFor(@m => m.SiteConfig.UseUserCulture)
+@Html.HiddenFor(@m => m.SiteConfig.ExtensionlessUrls)
+@Html.HiddenFor(@m => m.SiteConfig.EnableAggregatorBugging)
 
+@Html.HiddenFor(@m => m.SiteConfig.EnableClickThrough)
+@Html.HiddenFor(@m => m.SiteConfig.SendCommentsByEmail)
+@Html.HiddenFor(@m => m.SiteConfig.SmtpServer)
 
+@Html.HiddenFor(@m => m.SiteConfig.EnablePop3)
+@Html.HiddenFor(@m => m.SiteConfig.Pop3InlineAttachedPictures)
+@Html.HiddenFor(@m => m.SiteConfig.Pop3InlinedAttachedPicturesThumbHeight)
 
+@Html.HiddenFor(@m => m.SiteConfig.ApplyContentFiltersToWeb)
+@Html.HiddenFor(@m => m.SiteConfig.ApplyContentFiltersToRSS)
+@Html.HiddenFor(@m => m.SiteConfig.EnableXSSUpstream)
 
+@Html.HiddenFor(@m => m.SiteConfig.XSSUpstreamEndpoint)
+@Html.HiddenFor(@m => m.SiteConfig.XSSUpstreamUsername)
+@Html.HiddenFor(@m => m.SiteConfig.XSSUpstreamPassword)
+
+@Html.HiddenFor(@m => m.SiteConfig.XSSRSSFilename)
+@Html.HiddenFor(@m => m.SiteConfig.XSSUpstreamInterval)
+
+@Html.HiddenFor(@m => m.SiteConfig.Pop3DeleteAllMessages)
+@Html.HiddenFor(@m => m.SiteConfig.Pop3LogIgnoredEmails)
+@Html.HiddenFor(@m => m.SiteConfig.EnableReferralUrlBlackList)
+
+@Html.HiddenFor(@m => m.SiteConfig.ReferralUrlBlackList)
+@Html.HiddenFor(@m => m.SiteConfig.EnableCaptcha)
+@Html.HiddenFor(@m => m.SiteConfig.EnableReferralUrlBlackList404s)
+
+@Html.HiddenFor(@m => m.SiteConfig.EnableMovableTypeBlackList)
+@Html.HiddenFor(@m => m.SiteConfig.EnableCrossPostFooter)
+@Html.HiddenFor(@m => m.SiteConfig.EncryptLoginPassword)
+
+@Html.HiddenFor(@m => m.SiteConfig.EnableSmtpAuthentication)
+@Html.HiddenFor(@m => m.SiteConfig.SmtpUserName)
+@Html.HiddenFor(@m => m.SiteConfig.SmtpPassword)
+
+@Html.HiddenFor(@m => m.SiteConfig.SmtpPort)
+@Html.HiddenFor(@m => m.SiteConfig.RssLanguage)
+@Html.HiddenFor(@m => m.SiteConfig.EnableSearchHighlight)
+
+@Html.HiddenFor(@m => m.SiteConfig.EnableEntryReferrals)
+@Html.HiddenFor(@m => m.SiteConfig.FeedBurnerName)
+@Html.HiddenFor(@m => m.SiteConfig.SupressEmailAddressDisplay)
+
+@Html.HiddenFor(@m => m.SiteConfig.LogBlockedReferrals)
+@Html.HiddenFor(@m => m.SiteConfig.UseFeedSchemeForSyndication)
+@Html.HiddenFor(@m => m.SiteConfig.EnableAutoSave)
+
+@Html.HiddenFor(@m => m.SiteConfig.CommentsAllowGravatar)
+@Html.HiddenFor(@m => m.SiteConfig.CommentsGravatarNoImgPath)
+@Html.HiddenFor(@m => m.SiteConfig.CommentsGravatarSize)
+
+@Html.HiddenFor(@m => m.SiteConfig.CommentsGravatarBorder)
+@Html.HiddenFor(@m => m.SiteConfig.CommentsGravatarRating)
+@Html.HiddenFor(@m => m.SiteConfig.EnableCoComment)
+
+@Html.HiddenFor(@m => m.SiteConfig.EnableSpamBlockingService)
+@Html.HiddenFor(@m => m.SiteConfig.SpamBlockingServiceApiKey)
+@Html.HiddenFor(@m => m.SiteConfig.EnableSpamModeration)
+
+@Html.HiddenFor(@m => m.SiteConfig.EnableDailyReportEmail)
+@Html.HiddenFor(@m => m.SiteConfig.UseSSLForSMTP)
+@Html.HiddenFor(@m => m.SiteConfig.EnableGoogleMaps)
+@Html.HiddenFor(@m => m.SiteConfig.GoogleMapsApiKey)
+
+@Html.HiddenFor(@m => m.SiteConfig.EnableGeoRss)
+@Html.HiddenFor(@m => m.SiteConfig.DefaultLatitude)
+@Html.HiddenFor(@m => m.SiteConfig.DefaultLongitude)
+
+@Html.HiddenFor(@m => m.SiteConfig.EnableDefaultLatLongForNonGeoCodedPosts)
+@Html.HiddenFor(@m => m.SiteConfig.HtmlTidyContent)
+@Html.HiddenFor(@m => m.SiteConfig.ResolveCommenterIP)
+
+@Html.HiddenFor(@m => m.SiteConfig.AllowOpenIdComments)
+@Html.HiddenFor(@m => m.SiteConfig.AllowOpenIdAdmin)
+@Html.HiddenFor(@m => m.SiteConfig.BypassSpamOpenIdComment)
+
+@Html.HiddenFor(@m => m.SiteConfig.AMPPagesEnabled)
+@Html.HiddenFor(@m => m.SiteConfig.RSSEndPointRewrite)
+
+<!--
+
+<ContentFilters />
+
+<PingServices>
+    <PingService>
+        <Endpoint>http://ping.feedburner.com</Endpoint>
+        <Name>FeedBurner</Name>
+        <Url>http://www.feedburner.com</Url>
+        <PingApi>Basic</PingApi>
+    </PingService>
+</PingServices>
+
+<CrosspostSites>
+    <CrosspostSite profileName="LongHornBlogs" hostName="www.longhornblogs.com" port="80" endpoint="" username="" password="" apitype="metaweblog" />
+</CrosspostSites>
+
+-->
