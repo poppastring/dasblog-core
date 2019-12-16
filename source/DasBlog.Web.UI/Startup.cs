@@ -170,6 +170,7 @@ namespace DasBlog.Web
 					var serviceProvider = services.BuildServiceProvider();
 					mapperConfig.AddProfile(new ProfilePost(serviceProvider.GetService<IDasBlogSettings>()));
 					mapperConfig.AddProfile(new ProfileDasBlogUser(serviceProvider.GetService<ISiteSecurityManager>()));
+					mapperConfig.AddProfile(new ProfileSettings());
 				})
 				.AddMvc()
 				.AddXmlSerializerFormatters();

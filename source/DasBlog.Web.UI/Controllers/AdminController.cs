@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using DasBlog.Managers.Interfaces;
 using DasBlog.Services;
 using DasBlog.Web.Models.AdminViewModels;
@@ -15,10 +16,12 @@ namespace DasBlog.Web.Controllers
 	public class AdminController : DasBlogBaseController
 	{
 		private readonly IDasBlogSettings dasBlogSettings;
+		private readonly IMapper mapper;
 
-		public AdminController(IDasBlogSettings dasBlogSettings) : base(dasBlogSettings)
+		public AdminController(IDasBlogSettings dasBlogSettings, IMapper mapper) : base(dasBlogSettings)
 		{
 			this.dasBlogSettings = dasBlogSettings;
+			this.mapper = mapper;
 		}
 
 		public IActionResult Index()
@@ -29,12 +32,18 @@ namespace DasBlog.Web.Controllers
 		[HttpGet]
 		public IActionResult Settings()
 		{
-			return View();
+			var dbsvm = new DasBlogSettingsViewModel();
+			dbsvm.MetaConfig = mapper.Map<MetaViewModel>(dasBlogSettings.MetaTags);
+			dbsvm.SiteConfig = mapper.Map<SiteViewModel>(dasBlogSettings.SiteConfiguration);
+
+			return View(dbsvm);
 		}
 
 		[HttpPost]
 		public IActionResult Settings(DasBlogSettingsViewModel settings)
 		{
+			//save settings and reload...
+
 			return View();
 		}
 	}
