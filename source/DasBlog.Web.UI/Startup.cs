@@ -237,9 +237,10 @@ namespace DasBlog.Web
 			});
 
 			app.UseAuthentication();
-			app.UseAuthorization();
+			
 			app.Use(PopulateThreadCurrentPrincipalForMvc);
 			app.UseRouting();
+			app.UseAuthorization();
 
 			//We'll replace this when we move to ASP.NET Core 2.2+ LTS
 			app.Map("/healthcheck", api =>
