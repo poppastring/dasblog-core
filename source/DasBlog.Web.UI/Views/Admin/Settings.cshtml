@@ -3,7 +3,9 @@
 @model DasBlog.Web.Models.AdminViewModels.DasBlogSettingsViewModel
 
 
-<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<div class="form-group row">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+</div>
 
 <div class="form-group row">
     <label asp-for="@Model.SiteConfig.Title" class="col-form-label col-2"></label>
@@ -288,27 +290,6 @@
     <input name="EnableBloggerApi" checked="@Model.SiteConfig.EnableBloggerApi" type="checkbox" class="form-check-input col-1" />
 </div>
 
-<!--
-
-<validCommentTags name="0">
-    <tag name="0" tagname="a" attributes="href,title" allowed="true" />
-    <tag name="1" tagname="b" attributes="" allowed="true" />
-    <tag name="2" tagname="blockquote" attributes="cite" allowed="true" />
-    <tag name="3" tagname="em" attributes="" allowed="true" />
-    <tag name="4" tagname="i" attributes="" allowed="true" />
-    <tag name="5" tagname="pre" attributes="" allowed="true" />
-    <tag name="6" tagname="strike" attributes="" allowed="true" />
-    <tag name="7" tagname="strong" attributes="" allowed="true" />
-    <tag name="8" tagname="sub" attributes="" allowed="true" />
-    <tag name="9" tagname="super" attributes="" allowed="true" />
-    <tag name="10" tagname="u" attributes="" allowed="true" />
-    <tag name="11" tagname="ul" attributes="" allowed="true" />
-    <tag name="12" tagname="ol" attributes="" allowed="true" />
-    <tag name="13" tagname="li" attributes="" allowed="true" />
-</validCommentTags>
-
--->
-
 @Html.HiddenFor(@m => m.SiteConfig.CommentsAllowHtml)
 @Html.HiddenFor(@m => m.SiteConfig.SendReferralsByEmail)
 @Html.HiddenFor(@m => m.SiteConfig.SendTrackbacksByEmail)
@@ -428,3 +409,24 @@
 </CrosspostSites>
 
 -->
+<!--
+
+<validCommentTags name="0">
+    <tag name="0" tagname="a" attributes="href,title" allowed="true" />
+    <tag name="1" tagname="b" attributes="" allowed="true" />
+    <tag name="2" tagname="blockquote" attributes="cite" allowed="true" />
+    <tag name="3" tagname="em" attributes="" allowed="true" />
+    <tag name="4" tagname="i" attributes="" allowed="true" />
+    <tag name="5" tagname="pre" attributes="" allowed="true" />
+    <tag name="6" tagname="strike" attributes="" allowed="true" />
+    <tag name="7" tagname="strong" attributes="" allowed="true" />
+    <tag name="8" tagname="sub" attributes="" allowed="true" />
+    <tag name="9" tagname="super" attributes="" allowed="true" />
+    <tag name="10" tagname="u" attributes="" allowed="true" />
+    <tag name="11" tagname="ul" attributes="" allowed="true" />
+    <tag name="12" tagname="ol" attributes="" allowed="true" />
+    <tag name="13" tagname="li" attributes="" allowed="true" />
+</validCommentTags>
+
+-->
+
