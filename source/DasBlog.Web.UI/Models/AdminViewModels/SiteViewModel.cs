@@ -147,13 +147,13 @@ namespace DasBlog.Web.Models.AdminViewModels
 
 
 
-		[DisplayName("")]
+		[DisplayName("Enable Unique Urls")]
 		[Description(@"Enable Title PermaLink Unique - Ensures all urls are unique by adding a date to the URL '\somepost' becomes '20191112\some - post'")]
 		public bool EnableTitlePermaLinkUnique { get; set; }
 
-		[DisplayName("Title Permalink Space Replacement")]
+		[DisplayName("Space Replacement")]
 		[Description(@"Defaults to '-', however, '+' is the other valid option")]
-		[StringLength(1, MinimumLength = 1, ErrorMessage = "{0} should be 1 characters")]
+		[StringLength(1, MinimumLength = 1, ErrorMessage = "{0} should be 1 characters ('-' or '+'")]
 		public string TitlePermalinkSpaceReplacement { get; set; }
 
 
