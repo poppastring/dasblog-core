@@ -52,30 +52,30 @@ namespace DasBlog.Web.Models.AdminViewModels
 
 
 
-		[DisplayName("Front Page Day Count")]
+		[DisplayName("Front page day count")]
 		[Description("The maximum number of days to appear on your home page")]
 		[Required]
 		public int FrontPageDayCount { get; set; }
 
-		[DisplayName("Front Page Entry Count")]
+		[DisplayName("Front page entry count")]
 		[Description("Number of blog posts on the home page of your blog")]
 		[Required]
 		public int FrontPageEntryCount { get; set; }
 
-		[DisplayName("Front Page Category")]
+		[DisplayName("Front page category")]
 		[Description("Default category of the front page")]
 		public string FrontPageCategory { get; set; }
 
-		[DisplayName("Entries Per Page")]
+		[DisplayName("Entries per page")]
 		[Description(@"Number of blog posts on the pages of your blog e.g \page\1, page\2, etc")]
 		[Required]
 		public int EntriesPerPage { get; set; }
 
-		[DisplayName("Enable Start Page Caching")]
+		[DisplayName("Enable front page caching")]
 		[Description("Uses standard web based caching on the server side (will increase memory usage).")]
 		public bool EnableStartPageCaching { get; set; }
 
-		[DisplayName("Content Look ahead Days")]
+		[DisplayName("Days to look ahead for content")]
 		[Description("Looks for future posts for this number of days into the future")]
 		[Required]
 		public int ContentLookaheadDays { get; set; }
@@ -86,60 +86,60 @@ namespace DasBlog.Web.Models.AdminViewModels
 
 
 
-		[DisplayName("RSS Day Count")]
+		[DisplayName("RSS day count")]
 		[Description("Maximum number of days to appear in your RSS feed")]
 		[Required]
 		public int RssDayCount { get; set; }
 
-		[DisplayName("RSS Main Entry Count")]
+		[DisplayName("RSS main entry count")]
 		[Description("The number of entries permitted in the main RSS feed")]
 		[Required]
 		public int RssMainEntryCount { get; set; }
 
-		[DisplayName("RSS Entry Category Count")]
+		[DisplayName("RSS entry category count")]
 		[Description("The number of entries permitted per RSS category feed")]
 		[Required]
 		public int RssEntryCount { get; set; }
 
-		[DisplayName("Enable RSS Item Footers")]
+		[DisplayName("Enable RSS item footer")]
 		[Description("Include the message defined in RssItemFooter in the RSS Feed")]
 		public bool EnableRssItemFooters { get; set; }
 
-		[DisplayName("RSS Item Footer")]
+		[DisplayName("RSS footer")]
 		[Description("The message to include in the RSS footer")]
 		[StringLength(300, MinimumLength = 1)]
 		public string RssItemFooter { get; set; }
 
-		[DisplayName("Always Include Content In RSS Feed")]
+		[DisplayName("Include content in RSS Feed")]
 		[Description("Allows you to include blog content in RSS feeds")]
 		public bool AlwaysIncludeContentInRSS { get; set; }
 
 
 
 
-		[DisplayName("Enable Comments")]
+		[DisplayName("Enable comments")]
 		[Description("Allow comments on your blog posts")]
 		public bool EnableComments { get; set; }
 
-		[DisplayName("Enable Comment Days")]
+		[DisplayName("Enable comment days limitation")]
 		[Description("Once enabled comments are allowed as defined by 'Days Comments Allowed'")]
 		public bool EnableCommentDays { get; set; }
 
-		[DisplayName("Days Comments Allowed")]
+		[DisplayName("Number of days comments allowed")]
 		[Description("The number of days a post can receive comments after publishing when 'Enable Comment Days' is set to true")]
 		[Required]
 		public int DaysCommentsAllowed { get; set; }
 
-		[DisplayName("Show Comments When Viewing an Entry")]
+		[DisplayName("Show comments when viewing an entry")]
 		[Description("Shows the comments associated with a blog post by default.")]
 		public bool ShowCommentsWhenViewingEntry { get; set; }
 
-		[DisplayName("Spam Prevention Question")]
+		[DisplayName("Spam prevention question")]
 		[Description("Cheesy Spam Question - Defines a question that end users need to answer before a comment is submitted (only enabled when CheesySpamA has a value).")]
 		[StringLength(300, MinimumLength = 1, ErrorMessage = "{0} should be between 1 to 300 characters")]
 		public string CheesySpamQ { get; set; }
 
-		[DisplayName("Spam Prevention Answer")]
+		[DisplayName("Spam prevention answer")]
 		[Description("Cheesy Spam Answer - Defines an answer that the commenters need to respond with in order to submit a comment (only enabled when CheesySpamQ has a val")]
 		[StringLength(300, MinimumLength = 1, ErrorMessage = "{0} should be between 1 to 300 characters")]
 
@@ -147,11 +147,11 @@ namespace DasBlog.Web.Models.AdminViewModels
 
 
 
-		[DisplayName("Enable Unique Urls")]
+		[DisplayName("Enable unique URls")]
 		[Description(@"Enable Title PermaLink Unique - Ensures all urls are unique by adding a date to the URL '\somepost' becomes '20191112\some - post'")]
 		public bool EnableTitlePermaLinkUnique { get; set; }
 
-		[DisplayName("Space Replacement")]
+		[DisplayName("Space replacement")]
 		[Description(@"Defaults to '-', however, '+' is the other valid option")]
 		[StringLength(1, MinimumLength = 1, ErrorMessage = "{0} should be 1 characters ('-' or '+'")]
 		public string TitlePermalinkSpaceReplacement { get; set; }
@@ -162,13 +162,13 @@ namespace DasBlog.Web.Models.AdminViewModels
 		[Description("")]
 		public bool EnableBloggerApi { get; set; }
 		
-		[DisplayName("Preferred Blogging API")]
+		[DisplayName("Preferred blogging API")]
 		[Description("")]
 		[StringLength(20, MinimumLength = 1, ErrorMessage = "{0} should be between 1 to 20 characters")]
 		[Required]
 		public string PreferredBloggingAPI { get; set; }
 
-		[DisplayName("RSS Channel Image Url")]
+		[DisplayName("RSS channel image URL")]
 		[Description("")]
 		[StringLength(300, MinimumLength = 1, ErrorMessage = "{0} should be between 1 to 300 characters")]
 		public string ChannelImageUrl { get; set; }
@@ -183,25 +183,25 @@ namespace DasBlog.Web.Models.AdminViewModels
 
 
 
-		[DisplayName("Content Directory")]
+		[DisplayName("Content directory")]
 		[Description("")]
 		[StringLength(300, MinimumLength = 1, ErrorMessage = "{0} should be between 1 to 300 characters")]
 		[Required]
 		public string ContentDir { get; set; }
 
-		[DisplayName("Logging Dir")]
+		[DisplayName("Logging Directory")]
 		[Description("")]
 		[StringLength(300, MinimumLength = 1, ErrorMessage = "{0} should be between 1 to 300 characters")]
 		[Required]
 		public string LogDir { get; set; }
 
-		[DisplayName("Adjust Display TimeZone")]
+		[DisplayName("Adjust TimeZone")]
 		[Description("")]
 		[StringLength(2, MinimumLength = 1, ErrorMessage = "{0} should be between 1 to 300 characters")]
 		[Required]
 		public bool AdjustDisplayTimeZone { get; set; }
 
-		[DisplayName("Display TimeZone Index")]
+		[DisplayName("TimeZone index")]
 		[Description("")]
 		public int DisplayTimeZoneIndex { get; set; }
 		

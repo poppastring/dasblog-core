@@ -3,11 +3,9 @@
 @model DasBlog.Web.Models.AdminViewModels.DasBlogSettingsViewModel
 
 
-<div class="form-group row">
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-</div>
-
 <h1>Site Settings</h1>
+
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
 <div class="form-group row">
     <label asp-for="@Model.SiteConfig.Root" class="col-form-label col-3"></label>
@@ -37,8 +35,6 @@
     <span asp-validation-for="@Model.SiteConfig.Description" class="text-danger" data-valmsg-for="Description" data-valmsg-replace="true"></span>
 </div>
 
-
-
 <div class="form-group row">
     <label asp-for="@Model.SiteConfig.Theme" class="col-form-label col-3"></label>
     <input name="Theme" value="@Model.SiteConfig.Theme" type="text" class="form-control col-9"
@@ -67,10 +63,12 @@
     <span asp-validation-for="@Model.SiteConfig.Copyright" class="text-danger" data-valmsg-for="Copyright" data-valmsg-replace="true"></span>
 </div>
 
+<h3>Front Page</h3>
+
 <div class="form-group row">
     <label asp-for="@Model.SiteConfig.FrontPageDayCount" class="col-form-label col-3"></label>
     <input name="FrontPageDayCount" value="@Model.SiteConfig.FrontPageDayCount" type="text" class="form-control col-2"
-           data-val-email="" data-val-required="The Front Page Day Count field is required." maxlength="5"/>
+           data-val-email="" data-val-required="The Front Page Day Count field is required." maxlength="5" />
 
     <span asp-validation-for="@Model.SiteConfig.FrontPageDayCount" class="text-danger" data-valmsg-for="FrontPageDayCount" data-valmsg-replace="true"></span>
 </div>
@@ -114,6 +112,20 @@
 </div>
 
 <div class="form-check row">
+    <label asp-for="@Model.SiteConfig.ShowItemSummaryInAggregatedViews" class="form-check-label col-3"></label>
+    <input name="ShowItemSummaryInAggregatedViews" checked="@Model.SiteConfig.ShowItemSummaryInAggregatedViews" type="checkbox" class="form-check-input col-1" />
+</div>
+
+<div class="form-group row">
+    <label asp-for="@Model.SiteConfig.ContentLookaheadDays" class="col-form-label col-3"></label>
+    <input name="ContentLookaheadDays" value="@Model.SiteConfig.ContentLookaheadDays" type="text" class="form-control col-2"
+           data-val-email="" data-val-required="The Content Look ahead Days field is required." maxlength="5" />
+    <span asp-validation-for="@Model.SiteConfig.ContentLookaheadDays" class="text-danger" data-valmsg-for="ContentLookaheadDays" data-valmsg-replace="true"></span>
+</div>
+
+<h3>RSS Feed Settings</h3>
+
+<div class="form-check row">
     <label asp-for="@Model.SiteConfig.AlwaysIncludeContentInRSS" class="form-check-label col-3"></label>
     <input name="CategoryAllEntries" checked="@Model.SiteConfig.AlwaysIncludeContentInRSS" type="checkbox" class="form-check-input col-1" />
 </div>
@@ -121,7 +133,7 @@
 <div class="form-group row">
     <label asp-for="@Model.SiteConfig.RssDayCount" class="col-form-label col-3"></label>
     <input name="RssDayCount" value="@Model.SiteConfig.RssDayCount" type="text" class="form-control col-2"
-           data-val-email="" data-val-required="The RSS Day count field is required." maxlength="5"/>
+           data-val-email="" data-val-required="The RSS Day count field is required." maxlength="5" />
     <span asp-validation-for="@Model.SiteConfig.RssDayCount" class="text-danger" data-valmsg-for="RssDayCount" data-valmsg-replace="true"></span>
 </div>
 
@@ -151,57 +163,7 @@
     <span asp-validation-for="@Model.SiteConfig.RssItemFooter" class="text-danger" data-valmsg-for="RssItemFooter" data-valmsg-replace="true"></span>
 </div>
 
-<div class="form-check row">
-    <label asp-for="@Model.SiteConfig.EntryTitleAsLink" class="form-check-label col-3"></label>
-    <input name="EntryTitleAsLink" checked="@Model.SiteConfig.EntryTitleAsLink" type="checkbox" class="form-check-input col-1" />
-</div>
-
-<div class="form-check row">
-    <label asp-for="@Model.SiteConfig.ObfuscateEmail" class="form-check-label col-3"></label>
-    <input name="ObfuscateEmail" checked="@Model.SiteConfig.ObfuscateEmail" type="checkbox" class="form-check-input col-1" />
-</div>
-
-<div class="form-check row">
-    <label asp-for="@Model.SiteConfig.AdjustDisplayTimeZone" class="form-check-label col-2"></label>
-    <input name="AdjustDisplayTimeZone" checked="@Model.SiteConfig.AdjustDisplayTimeZone" 
-           type="checkbox" class="form-check-input col-1" maxlength="5" />
-</div>
-
-<div class="form-group row">
-    <label asp-for="@Model.SiteConfig.DisplayTimeZoneIndex" class="col-form-label col-3"></label>
-    <input name="DisplayTimeZoneIndex" value="@Model.SiteConfig.DisplayTimeZoneIndex" type="text" class="form-control col-2"
-           data-val-email="" data-val-required="The Display Time Zone Index field is required." maxlength="5" />
-    <span asp-validation-for="@Model.SiteConfig.DisplayTimeZoneIndex" class="text-danger" data-valmsg-for="DisplayTimeZoneIndex" data-valmsg-replace="true"></span>
-</div>
-
-<div class="form-group row">
-    <label asp-for="@Model.SiteConfig.ContentDir" class="col-form-label col-3"></label>
-    <input name="ContentDir" value="@Model.SiteConfig.ContentDir" type="text" class="form-control col-9"
-           data-val-email="" data-val-required="The Content Directory field is required." />
-    <span asp-validation-for="@Model.SiteConfig.ContentDir" class="text-danger" data-valmsg-for="ContentDir" data-valmsg-replace="true"></span>
-</div>
-
-<div class="form-group row">
-    <label asp-for="@Model.SiteConfig.LogDir" class="col-form-label col-3"></label>
-    <input name="LogDir" value="@Model.SiteConfig.LogDir" type="text" class="form-control col-9"
-           data-val-email="" data-val-required="The Log Directory field is required." />
-    <span asp-validation-for="@Model.SiteConfig.LogDir" class="text-danger" data-valmsg-for="LogDir" data-valmsg-replace="true"></span>
-</div>
-
-<div class="form-check row">
-    <label asp-for="@Model.SiteConfig.EnableTitlePermaLink" class="form-check-label col-3"></label>
-    <input name="EnableTitlePermaLink" checked="@Model.SiteConfig.EnableTitlePermaLink" type="checkbox" class="form-check-input col-1" />
-</div>
-
-<div class="form-check row">
-    <label asp-for="@Model.SiteConfig.EnableTitlePermaLinkUnique" class="form-check-label col-3"></label>
-    <input name="EnableTitlePermaLinkUnique" checked="@Model.SiteConfig.EnableTitlePermaLinkUnique" type="checkbox" class="form-check-input col-1" />
-</div>
-
-<div class="form-check row">
-    <label asp-for="@Model.SiteConfig.EnableTitlePermaLinkSpaces" class="form-check-label col-3"></label>
-    <input name="EnableTitlePermaLinkSpaces" checked="@Model.SiteConfig.EnableTitlePermaLinkSpaces" type="checkbox" class="form-check-input col-1" />
-</div>
+<h3>Comments</h3>
 
 <div class="form-check row">
     <label asp-for="@Model.SiteConfig.EnableComments" class="form-check-label col-3"></label>
@@ -210,12 +172,7 @@
 
 <div class="form-check row">
     <label asp-for="@Model.SiteConfig.EnableCommentDays" class="form-check-label col-3"></label>
-    <input name="EnableCommentDays" checked="@Model.SiteConfig.EnableCommentDays" type="checkbox" class="form-check-input col-1" maxlength="5"/>
-</div>
-
-<div class="form-check row">
-    <label asp-for="@Model.SiteConfig.ShowItemSummaryInAggregatedViews" class="form-check-label col-3"></label>
-    <input name="ShowItemSummaryInAggregatedViews" checked="@Model.SiteConfig.ShowItemSummaryInAggregatedViews" type="checkbox" class="form-check-input col-1" />
+    <input name="EnableCommentDays" checked="@Model.SiteConfig.EnableCommentDays" type="checkbox" class="form-check-input col-1" maxlength="5" />
 </div>
 
 <div class="form-group row">
@@ -244,18 +201,78 @@
     <span asp-validation-for="@Model.SiteConfig.CheesySpamA" class="text-danger" data-valmsg-for="CheesySpamA" data-valmsg-replace="true"></span>
 </div>
 
+<div class="form-check row">
+    <label asp-for="@Model.SiteConfig.ShowCommentsWhenViewingEntry" class="form-check-label col-3"></label>
+    <input name="ShowCommentsWhenViewingEntry" checked="@Model.SiteConfig.ShowCommentsWhenViewingEntry" type="checkbox" class="form-check-input col-1" />
+</div>
+
+
+
+<h3>Blog meta data</h3>
+
 <div class="form-group row">
-    <label asp-for="@Model.SiteConfig.ContentLookaheadDays" class="col-form-label col-3"></label>
-    <input name="ContentLookaheadDays" value="@Model.SiteConfig.ContentLookaheadDays" type="text" class="form-control col-2"
-           data-val-email="" data-val-required="The Content Look ahead Days field is required." maxlength="5" />
-    <span asp-validation-for="@Model.SiteConfig.ContentLookaheadDays" class="text-danger" data-valmsg-for="ContentLookaheadDays" data-valmsg-replace="true"></span>
+    <label asp-for="@Model.MetaConfig.MetaDescription" class="col-form-label col-3"></label>
+    <input name="MetaDescription" value="@Model.MetaConfig.MetaDescription" type="text" class="form-control col-9"
+           data-val-email="" data-val-required="The Meta Description field is required." />
+    <span asp-validation-for="@Model.MetaConfig.MetaDescription" class="text-danger" data-valmsg-for="MetaDescription"
+          data-valmsg-replace="true"></span>
 </div>
 
 <div class="form-group row">
-    <label asp-for="@Model.SiteConfig.ChannelImageUrl" class="col-form-label col-3"></label>
-    <input name="ChannelImageUrl" value="@Model.SiteConfig.ChannelImageUrl" type="text" class="form-control col-9"
-           data-val-email="" data-val-required="The Channel ImageUrl field is required." />
-    <span asp-validation-for="@Model.SiteConfig.ChannelImageUrl" class="text-danger" data-valmsg-for="ChannelImageUrl" data-valmsg-replace="true"></span>
+    <label asp-for="@Model.MetaConfig.MetaKeywords" class="col-form-label col-3"></label>
+    <input name="MetaKeywords" value="@Model.MetaConfig.MetaKeywords" type="text" class="form-control col-9"
+           data-val-email="" data-val-required="The Meta Keywords field is required." />
+    <span asp-validation-for="@Model.MetaConfig.MetaKeywords" class="text-danger" data-valmsg-for="MetaKeywords"
+          data-valmsg-replace="true"></span>
+</div>
+
+<h3>Social</h3>
+
+<div class="form-group row">
+    <label asp-for="@Model.MetaConfig.TwitterSite" class="col-form-label col-3"></label>
+    <input name="TwitterSite" value="@Model.MetaConfig.TwitterSite" type="text" class="form-control col-9"
+           data-val-email="" data-val-required="The Twitter field is required." />
+    <span asp-validation-for="@Model.MetaConfig.TwitterCard" class="text-danger" data-valmsg-for="TwitterCard"
+          data-valmsg-replace="true"></span>
+</div>
+
+<div class="form-group row">
+    <label asp-for="@Model.MetaConfig.TwitterCreator" class="col-form-label col-3"></label>
+    <input name="TwitterCreator" value="@Model.MetaConfig.TwitterCreator" type="text" class="form-control col-9"
+           data-val-email="" data-val-required="The Twitter Creator field is required." />
+    <span asp-validation-for="@Model.MetaConfig.TwitterCreator" class="text-danger" data-valmsg-for="TwitterCreator"
+          data-valmsg-replace="true"></span>
+</div>
+
+<div class="form-group row">
+    <label asp-for="@Model.MetaConfig.TwitterCard" class="col-form-label col-3"></label>
+    <input name="TwitterCard" value="@Model.MetaConfig.TwitterCard" type="text" class="form-control col-9"
+           data-val-email="" data-val-required="The Twitter Card field is required." />
+    <span asp-validation-for="@Model.MetaConfig.TwitterCard" class="text-danger" data-valmsg-for="TwitterCard"
+          data-valmsg-replace="true"></span>
+</div>
+
+<div class="form-group row">
+    <label asp-for="@Model.MetaConfig.TwitterImage" class="col-form-label col-3"></label>
+    <input name="TwitterImage" value="@Model.MetaConfig.TwitterImage" type="text" class="form-control col-9"
+           data-val-email="" data-val-required="The Twitter Image field is required." />
+    <span asp-validation-for="@Model.MetaConfig.TwitterImage" class="text-danger" data-valmsg-for="TwitterImage"
+          data-valmsg-replace="true"></span>
+</div>
+
+<div class="form-group row">
+    <label asp-for="@Model.MetaConfig.GoogleAnalyticsID" class="col-form-label col-3"></label>
+    <input name="GoogleAnalyticsID" value="@Model.MetaConfig.GoogleAnalyticsID" type="text" class="form-control col-9"
+           data-val-email="" data-val-required="The Google Analytics ID field is required." />
+    <span asp-validation-for="@Model.MetaConfig.GoogleAnalyticsID" class="text-danger" data-valmsg-for="GoogleAnalyticsID"
+          data-valmsg-replace="true"></span>
+</div>
+
+<h3>Blogging</h3>
+
+<div class="form-check row">
+    <label asp-for="@Model.SiteConfig.EnableBloggerApi" class="form-check-label col-3"></label>
+    <input name="EnableBloggerApi" checked="@Model.SiteConfig.EnableBloggerApi" type="checkbox" class="form-check-input col-1" />
 </div>
 
 <div class="form-group row">
@@ -265,9 +282,29 @@
     <span asp-validation-for="@Model.SiteConfig.PreferredBloggingAPI" class="text-danger" data-valmsg-for="PreferredBloggingAPI" data-valmsg-replace="true"></span>
 </div>
 
+<div class="form-group row">
+    <label asp-for="@Model.SiteConfig.EntryEditControl" class="col-form-label col-3"></label>
+    <input name="EntryEditControl" value="@Model.SiteConfig.EntryEditControl" type="text" class="form-control col-9"
+           data-val-email="" data-val-required="The Entry Edit Control field is required." />
+    <span asp-validation-for="@Model.SiteConfig.EntryEditControl" class="text-danger" data-valmsg-for="EntryEditControl" data-valmsg-replace="true"></span>
+</div>
+
+
+<h3>URL Format</h3>
+
 <div class="form-check row">
-    <label asp-for="@Model.SiteConfig.ShowCommentsWhenViewingEntry" class="form-check-label col-3"></label>
-    <input name="ShowCommentsWhenViewingEntry" checked="@Model.SiteConfig.ShowCommentsWhenViewingEntry" type="checkbox" class="form-check-input col-1" />
+    <label asp-for="@Model.SiteConfig.EnableTitlePermaLink" class="form-check-label col-3"></label>
+    <input name="EnableTitlePermaLink" checked="@Model.SiteConfig.EnableTitlePermaLink" type="checkbox" class="form-check-input col-1" />
+</div>
+
+<div class="form-check row">
+    <label asp-for="@Model.SiteConfig.EnableTitlePermaLinkUnique" class="form-check-label col-3"></label>
+    <input name="EnableTitlePermaLinkUnique" checked="@Model.SiteConfig.EnableTitlePermaLinkUnique" type="checkbox" class="form-check-input col-1" />
+</div>
+
+<div class="form-check row">
+    <label asp-for="@Model.SiteConfig.EnableTitlePermaLinkSpaces" class="form-check-label col-3"></label>
+    <input name="EnableTitlePermaLinkSpaces" checked="@Model.SiteConfig.EnableTitlePermaLinkSpaces" type="checkbox" class="form-check-input col-1" />
 </div>
 
 <div class="form-group row">
@@ -277,18 +314,39 @@
     <span asp-validation-for="@Model.SiteConfig.TitlePermalinkSpaceReplacement" class="text-danger" data-valmsg-for="TitlePermalinkSpaceReplacement" data-valmsg-replace="true"></span>
 </div>
 
+<h3>Internal</h3>
+
 <div class="form-group row">
-    <label asp-for="@Model.SiteConfig.EntryEditControl" class="col-form-label col-3"></label>
-    <input name="EntryEditControl" value="@Model.SiteConfig.EntryEditControl" type="text" class="form-control col-9"
-           data-val-email="" data-val-required="The Entry Edit Control field is required." />
-    <span asp-validation-for="@Model.SiteConfig.EntryEditControl" class="text-danger" data-valmsg-for="EntryEditControl" data-valmsg-replace="true"></span>
+    <label asp-for="@Model.SiteConfig.ContentDir" class="col-form-label col-3"></label>
+    <input name="ContentDir" value="@Model.SiteConfig.ContentDir" type="text" class="form-control col-9"
+           data-val-email="" data-val-required="The Content Directory field is required." />
+    <span asp-validation-for="@Model.SiteConfig.ContentDir" class="text-danger" data-valmsg-for="ContentDir" data-valmsg-replace="true"></span>
+</div>
+
+<div class="form-group row">
+    <label asp-for="@Model.SiteConfig.LogDir" class="col-form-label col-3"></label>
+    <input name="LogDir" value="@Model.SiteConfig.LogDir" type="text" class="form-control col-9"
+           data-val-email="" data-val-required="The Log Directory field is required." />
+    <span asp-validation-for="@Model.SiteConfig.LogDir" class="text-danger" data-valmsg-for="LogDir" data-valmsg-replace="true"></span>
 </div>
 
 <div class="form-check row">
-    <label asp-for="@Model.SiteConfig.EnableBloggerApi" class="form-check-label col-3"></label>
-    <input name="EnableBloggerApi" checked="@Model.SiteConfig.EnableBloggerApi" type="checkbox" class="form-check-input col-1" />
+    <label asp-for="@Model.SiteConfig.AdjustDisplayTimeZone" class="form-check-label col-2"></label>
+    <input name="AdjustDisplayTimeZone" checked="@Model.SiteConfig.AdjustDisplayTimeZone"
+           type="checkbox" class="form-check-input col-1" maxlength="5" />
 </div>
 
+<div class="form-group row">
+    <label asp-for="@Model.SiteConfig.DisplayTimeZoneIndex" class="col-form-label col-3"></label>
+    <input name="DisplayTimeZoneIndex" value="@Model.SiteConfig.DisplayTimeZoneIndex" type="text" class="form-control col-2"
+           data-val-email="" data-val-required="The Display Time Zone Index field is required." maxlength="5" />
+    <span asp-validation-for="@Model.SiteConfig.DisplayTimeZoneIndex" class="text-danger" data-valmsg-for="DisplayTimeZoneIndex" data-valmsg-replace="true"></span>
+</div>
+
+
+
+@Html.HiddenFor(@m => m.SiteConfig.EntryTitleAsLink)
+@Html.HiddenFor(@m => m.SiteConfig.ObfuscateEmail)
 
 @Html.HiddenFor(@m => m.SiteConfig.BinariesDir)
 @Html.HiddenFor(@m => m.SiteConfig.CommentsAllowHtml)
@@ -392,41 +450,7 @@
 @Html.HiddenFor(@m => m.SiteConfig.AMPPagesEnabled)
 @Html.HiddenFor(@m => m.SiteConfig.RSSEndPointRewrite)
 
-<!--
 
-<ContentFilters />
+@Html.HiddenFor(@m => m.MetaConfig.FaceBookAdmins)
+@Html.HiddenFor(@m => m.MetaConfig.FaceBookAppID)
 
-<PingServices>
-    <PingService>
-        <Endpoint>http://ping.feedburner.com</Endpoint>
-        <Name>FeedBurner</Name>
-        <Url>http://www.feedburner.com</Url>
-        <PingApi>Basic</PingApi>
-    </PingService>
-</PingServices>
-
-<CrosspostSites>
-    <CrosspostSite profileName="LongHornBlogs" hostName="www.longhornblogs.com" port="80" endpoint="" username="" password="" apitype="metaweblog" />
-</CrosspostSites>
-
--->
-<!--
-
-<validCommentTags name="0">
-    <tag name="0" tagname="a" attributes="href,title" allowed="true" />
-    <tag name="1" tagname="b" attributes="" allowed="true" />
-    <tag name="2" tagname="blockquote" attributes="cite" allowed="true" />
-    <tag name="3" tagname="em" attributes="" allowed="true" />
-    <tag name="4" tagname="i" attributes="" allowed="true" />
-    <tag name="5" tagname="pre" attributes="" allowed="true" />
-    <tag name="6" tagname="strike" attributes="" allowed="true" />
-    <tag name="7" tagname="strong" attributes="" allowed="true" />
-    <tag name="8" tagname="sub" attributes="" allowed="true" />
-    <tag name="9" tagname="super" attributes="" allowed="true" />
-    <tag name="10" tagname="u" attributes="" allowed="true" />
-    <tag name="11" tagname="ul" attributes="" allowed="true" />
-    <tag name="12" tagname="ol" attributes="" allowed="true" />
-    <tag name="13" tagname="li" attributes="" allowed="true" />
-</validCommentTags>
-
--->

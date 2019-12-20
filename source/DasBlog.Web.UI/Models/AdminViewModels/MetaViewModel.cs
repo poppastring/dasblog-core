@@ -20,18 +20,18 @@ namespace DasBlog.Web.Models.AdminViewModels
 		[StringLength(300, MinimumLength = 0, ErrorMessage = "{0} should be between 1 to 300 characters")]
 		public string TwitterCard { get; set; }
 
-		[DisplayName("Twitter Site (@username)")]
+		[DisplayName("Twitter site (@username)")]
 		[Description("The Twitter @username the card should be attributed to.")]
 		[StringLength(300, MinimumLength = 0, ErrorMessage = "{0} should be between 1 to 300 characters")]
 		public string TwitterSite { get; set; }
 
-		[DisplayName("Twitter Creator (@username)")]
+		[DisplayName("Twitter creator (@username)")]
 		[Description("Used when creators (contributors) differ from the twitter name associated with the site")]
 		[StringLength(300, MinimumLength = 0, ErrorMessage = "{0} should be between 1 to 300 characters")]
 		public string TwitterCreator { get; set; }
 
-		[DisplayName("Twitter Image")]
-		[Description("The Twitter share button will use this image if no image exists in the blog post...")]
+		[DisplayName("Twitter image")]
+		[Description("The Twitter share button will use this image if no image exists in the blog post")]
 		[StringLength(300, MinimumLength = 0, ErrorMessage = "{0} should be between 1 to 300 characters")]
 		public string TwitterImage { get; set; }
 
