@@ -175,7 +175,7 @@ namespace DasBlog.Web.Models.AdminViewModels
 
 
 
-		[DisplayName("Entry Edit Control")]
+		[DisplayName("Entry edit control")]
 		[Description("")]
 		[StringLength(300, MinimumLength = 1, ErrorMessage = "{0} should be between 1 to 300 characters")]
 		[Required]
@@ -189,23 +189,25 @@ namespace DasBlog.Web.Models.AdminViewModels
 		[Required]
 		public string ContentDir { get; set; }
 
-		[DisplayName("Logging Directory")]
+		[DisplayName("Logging directory")]
 		[Description("")]
 		[StringLength(300, MinimumLength = 1, ErrorMessage = "{0} should be between 1 to 300 characters")]
 		[Required]
 		public string LogDir { get; set; }
 
-		[DisplayName("Adjust TimeZone")]
+		[DisplayName("Adjust Time zone")]
 		[Description("")]
 		[StringLength(2, MinimumLength = 1, ErrorMessage = "{0} should be between 1 to 300 characters")]
 		[Required]
 		public bool AdjustDisplayTimeZone { get; set; }
 
-		[DisplayName("TimeZone index")]
+		[DisplayName("Time zone index")]
 		[Description("")]
 		public int DisplayTimeZoneIndex { get; set; }
-		
 
+		[DisplayName("Comments require approval")]
+		[Description("")]
+		public bool CommentsRequireApproval { get; set; }
 
 		[DisplayName("")]
 		[Description("")]
@@ -281,7 +283,6 @@ namespace DasBlog.Web.Models.AdminViewModels
 		public string CommentsGravatarSize { get; set; }
 		public string CommentsGravatarBorder { get; set; }
 		public string CommentsGravatarRating { get; set; }
-		public bool CommentsRequireApproval { get; set; }
 		public bool CommentsAllowHtml { get; set; }
 		public bool EnableCoComment { get; set; }
 		public bool EnableSpamBlockingService { get; set; }
