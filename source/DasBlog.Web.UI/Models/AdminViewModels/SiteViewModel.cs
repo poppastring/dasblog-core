@@ -146,7 +146,6 @@ namespace DasBlog.Web.Models.AdminViewModels
 		public string CheesySpamA { get; set; }
 
 
-
 		[DisplayName("Enable unique URls")]
 		[Description(@"Enable Title PermaLink Unique - Ensures all urls are unique by adding a date to the URL '\somepost' becomes '20191112\some - post'")]
 		public bool EnableTitlePermaLinkUnique { get; set; }
@@ -175,7 +174,7 @@ namespace DasBlog.Web.Models.AdminViewModels
 
 
 
-		[DisplayName("Entry edit control")]
+		[DisplayName("Web post edit control")]
 		[Description("")]
 		[StringLength(300, MinimumLength = 1, ErrorMessage = "{0} should be between 1 to 300 characters")]
 		[Required]
