@@ -1,7 +1,8 @@
 ﻿@using DasBlog.Core.Common
 @using DasBlog.Core.Security
-@model DasBlog.Web.Models.AdminViewModels.DasBlogSettingsViewModel
+@using DasBlog.Web.Models.AdminViewModels
 
+@model DasBlogSettingsViewModel
 
 <h1>Site Settings</h1>
 
@@ -235,8 +236,11 @@
 
 <div class="dasblog-form-group row">
     <label asp-for="@Model.MetaConfig.TwitterCard" class="dasblog-col-form-label col-3"></label>
-    <input name="TwitterCard" value="@Model.MetaConfig.TwitterCard" type="text" class="form-control col-9"
-           data-val-email="" data-val-required="The Twitter Card field is required." />
+
+    @Html.DropDownListFor(n => n.MetaConfig.TwitterCard,
+        new SelectList(new TwitterCardViewModel().Init(), "Id", "Name"),
+        new { @class = "form-control col-3" })
+
     <span asp-validation-for="@Model.MetaConfig.TwitterCard" class="text-danger" data-valmsg-for="TwitterCard"
           data-valmsg-replace="true"></span>
 </div>
@@ -266,15 +270,22 @@
 
 <div class="dasblog-form-group row">
     <label asp-for="@Model.SiteConfig.PreferredBloggingAPI" class="dasblog-col-form-label col-3"></label>
-    <input name="PreferredBloggingAPI" value="@Model.SiteConfig.PreferredBloggingAPI" type="text" class="form-control col-9"
-           data-val-email="" data-val-required="The Preferred Blogging API field is required." />
+
+    @Html.DropDownListFor(n => n.SiteConfig.PreferredBloggingAPI,
+        new SelectList(new BloggerAPIViewModel().Init(), "Name", "Name"), 
+        new {@class="form-control col-3"})
+
+
     <span asp-validation-for="@Model.SiteConfig.PreferredBloggingAPI" class="text-danger" data-valmsg-for="PreferredBloggingAPI" data-valmsg-replace="true"></span>
 </div>
 
 <div class="dasblog-form-group row">
     <label asp-for="@Model.SiteConfig.EntryEditControl" class="dasblog-col-form-label col-3"></label>
-    <input name="EntryEditControl" value="@Model.SiteConfig.EntryEditControl" type="text" class="form-control col-9"
-           data-val-email="" data-val-required="The Entry Edit Control field is required." />
+
+    @Html.DropDownListFor(n => n.SiteConfig.EntryEditControl,
+        new SelectList(new EntryEditControlViewModel().Init(), "Name", "Name"), 
+        new { @class = "form-control col-3" })
+
     <span asp-validation-for="@Model.SiteConfig.EntryEditControl" class="text-danger" data-valmsg-for="EntryEditControl" data-valmsg-replace="true"></span>
 </div>
 
@@ -298,8 +309,13 @@
 
 <div class="dasblog-form-group row">
     <label asp-for="@Model.SiteConfig.TitlePermalinkSpaceReplacement" class="dasblog-col-form-label col-3"></label>
-    <input name="TitlePermalinkSpaceReplacement" value="@Model.SiteConfig.TitlePermalinkSpaceReplacement" type="text" class="form-control col-1"
-           data-val-email="" data-val-required="The Title Permalink Space Replacement field is required." maxlength="1" />
+   
+
+    @Html.DropDownListFor(n => n.SiteConfig.TitlePermalinkSpaceReplacement,
+        new SelectList(new SpaceReplacementViewModel().Init(), "Name", "Name"), 
+        new { @class = "form-control col-3" })
+
+
     <span asp-validation-for="@Model.SiteConfig.TitlePermalinkSpaceReplacement" class="text-danger" data-valmsg-for="TitlePermalinkSpaceReplacement" data-valmsg-replace="true"></span>
 </div>
 
@@ -327,8 +343,11 @@
 
 <div class="dasblog-form-group row">
     <label asp-for="@Model.SiteConfig.DisplayTimeZoneIndex" class="dasblog-col-form-label col-3"></label>
-    <input name="DisplayTimeZoneIndex" value="@Model.SiteConfig.DisplayTimeZoneIndex" type="text" class="form-control col-2"
-           data-val-email="" data-val-required="The Display Time Zone Index field is required." maxlength="5" />
+    <input name="DisplayTimeZoneIndex" value="@Model.SiteConfig.DisplayTimeZoneIndex" type="text"
+           class="form-control col-2" data-val-email=""
+           data-val-required="The Display Time Zone Index field is required."
+           maxlength="5" />
+
     <span asp-validation-for="@Model.SiteConfig.DisplayTimeZoneIndex" class="text-danger" data-valmsg-for="DisplayTimeZoneIndex" data-valmsg-replace="true"></span>
 </div>
 
