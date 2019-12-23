@@ -8,19 +8,16 @@ namespace DasBlog.Web.Models.AdminViewModels
 		[DisplayName("Title")]
 		[Description("Main title of the blog")]
 		[StringLength(300, MinimumLength = 1, ErrorMessage = "{0} should be between 1 to 300 characters")]
-		[Required]
 		public string Title { get; set; }
 
 		[DisplayName("Subtitle")]
 		[Description("Subtitle of the blog")]
 		[StringLength(300, MinimumLength = 1, ErrorMessage = "{0} should be between 1 to 300 characters")]
-		[Required]
 		public string Subtitle { get; set; }
 
 		[DisplayName("Theme")]
 		[Description("Allows you to select one of several themes in the 'themes' folder. You can also create your own theme folder and update this element accordingly")]
 		[StringLength(300, MinimumLength = 1, ErrorMessage = "{0} should be between 1 to 300 characters")]
-		[Required]
 		public string Theme { get; set; }
 
 		[DisplayName("Description")]
@@ -41,7 +38,6 @@ namespace DasBlog.Web.Models.AdminViewModels
 		[DisplayName("Root URL")]
 		[Description("This is the most important element for you to change. This element contains the external root URL of you Weblog. All relative links are built using this value, instead of relying on the URL that was used for the incoming request, because that URL may not be what we want to have, especially when the URLs come through a complex redirect")]
 		[StringLength(300, MinimumLength = 1, ErrorMessage = "{0} should be between 1 to 300 characters")]
-		[Required]
 		public string Root { get; set; }
 
 		[DisplayName("Copyright")]
@@ -154,7 +150,6 @@ namespace DasBlog.Web.Models.AdminViewModels
 		[DisplayName("Preferred blogging API")]
 		[Description("")]
 		[StringLength(20, MinimumLength = 1, ErrorMessage = "{0} should be between 1 to 20 characters")]
-		[Required]
 		public string PreferredBloggingAPI { get; set; }
 
 		[DisplayName("RSS channel image URL")]
@@ -165,24 +160,20 @@ namespace DasBlog.Web.Models.AdminViewModels
 		[DisplayName("Web post edit control")]
 		[Description("")]
 		[StringLength(300, MinimumLength = 1, ErrorMessage = "{0} should be between 1 to 300 characters")]
-		[Required]
 		public string EntryEditControl { get; set; }
 
 		[DisplayName("Content directory")]
 		[Description("")]
 		[StringLength(300, MinimumLength = 1, ErrorMessage = "{0} should be between 1 to 300 characters")]
-		[Required]
 		public string ContentDir { get; set; }
 
 		[DisplayName("Logging directory")]
 		[Description("")]
 		[StringLength(300, MinimumLength = 1, ErrorMessage = "{0} should be between 1 to 300 characters")]
-		[Required]
 		public string LogDir { get; set; }
 
 		[DisplayName("Adjust time zone")]
 		[Description("")]
-		[StringLength(2, MinimumLength = 1, ErrorMessage = "{0} should be between 1 to 300 characters")]
 		[Required]
 		public bool AdjustDisplayTimeZone { get; set; }
 

@@ -43,8 +43,12 @@ namespace DasBlog.Web.Controllers
 		public IActionResult Settings(DasBlogSettingsViewModel settings)
 		{
 			//save settings and reload...
+			if (ModelState.ErrorCount > 0)
+			{
+				return View(settings);
+			}
 
-			return View();
+			return Settings();
 		}
 	}
 }

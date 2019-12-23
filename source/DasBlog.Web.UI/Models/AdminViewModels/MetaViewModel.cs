@@ -27,27 +27,24 @@ namespace DasBlog.Web.Models.AdminViewModels
 
 		[DisplayName("Twitter creator (@username)")]
 		[Description("Used when creators (contributors) differ from the twitter name associated with the site")]
-		[StringLength(300, MinimumLength = 0, ErrorMessage = "{0} should be between 1 to 300 characters")]
+		[StringLength(300, MinimumLength = 1, ErrorMessage = "{0} should be between 1 to 300 characters")]
 		public string TwitterCreator { get; set; }
 
 		[DisplayName("Twitter image")]
 		[Description("The Twitter share button will use this image if no image exists in the blog post")]
-		[StringLength(300, MinimumLength = 0, ErrorMessage = "{0} should be between 1 to 300 characters")]
+		[StringLength(300, MinimumLength = 1, ErrorMessage = "{0} should be between 1 to 300 characters")]
 		public string TwitterImage { get; set; }
 
 		[DisplayName("Facebook Admin")]
 		[Description("")]
-		[StringLength(300, MinimumLength = 0, ErrorMessage = "{0} should be between 1 to 300 characters")]
 		public string FaceBookAdmins { get; set; }
 
 		[DisplayName("Facebook App Id")]
 		[Description("")]
-		[StringLength(300, MinimumLength = 0, ErrorMessage = "{0} should be between 1 to 300 characters")]
 		public string FaceBookAppID { get; set; }
 
 		[DisplayName("Google Analytics ID")]
 		[Description("Used in the RSS Feed")]
-		[StringLength(300, MinimumLength = 0, ErrorMessage = "{0} should be between 1 to 300 characters")]
 		public string GoogleAnalyticsID {get; set;}
 	}
 }
