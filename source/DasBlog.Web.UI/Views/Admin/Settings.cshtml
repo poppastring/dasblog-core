@@ -2,6 +2,7 @@
 @using DasBlog.Core.Security
 @using DasBlog.Web.Models.AdminViewModels
 
+@inject IDasBlogSettings dasBlogSettings
 @model DasBlogSettingsViewModel
 
 <h1>Site Settings</h1>
@@ -38,8 +39,9 @@
 
 <div class="dasblog-form-group row">
     <label asp-for="@Model.SiteConfig.Theme" class="dasblog-col-form-label col-3"></label>
-    <input name="Theme" value="@Model.SiteConfig.Theme" type="text" class="form-control col-9"
-           data-val-email="" data-val-required="The Theme field is required." />
+    @Html.DropDownListFor(n => n.SiteConfig.Theme,
+        new SelectList(new ThemesListViewModel(dasBlogSettings).Init(), "Name", "Name"),
+        new { @class = "form-control col-2" })
     <span asp-validation-for="@Model.SiteConfig.Theme" class="text-danger" data-valmsg-for="Theme" data-valmsg-replace="true"></span>
 </div>
 
@@ -265,8 +267,8 @@
     <label asp-for="@Model.SiteConfig.PreferredBloggingAPI" class="dasblog-col-form-label col-3"></label>
 
     @Html.DropDownListFor(n => n.SiteConfig.PreferredBloggingAPI,
-        new SelectList(new BloggerAPIViewModel().Init(), "Name", "Name"), 
-        new {@class="form-control col-3"})
+        new SelectList(new BloggerAPIViewModel().Init(), "Name", "Name"),
+        new { @class = "form-control col-3" })
 
 
     <span asp-validation-for="@Model.SiteConfig.PreferredBloggingAPI" class="text-danger" data-valmsg-for="PreferredBloggingAPI" data-valmsg-replace="true"></span>
@@ -276,7 +278,7 @@
     <label asp-for="@Model.SiteConfig.EntryEditControl" class="dasblog-col-form-label col-3"></label>
 
     @Html.DropDownListFor(n => n.SiteConfig.EntryEditControl,
-        new SelectList(new EntryEditControlViewModel().Init(), "Name", "Name"), 
+        new SelectList(new EntryEditControlViewModel().Init(), "Name", "Name"),
         new { @class = "form-control col-3" })
 
     <span asp-validation-for="@Model.SiteConfig.EntryEditControl" class="text-danger" data-valmsg-for="EntryEditControl" data-valmsg-replace="true"></span>
@@ -297,10 +299,10 @@
 
 <div class="dasblog-form-group row">
     <label asp-for="@Model.SiteConfig.TitlePermalinkSpaceReplacement" class="dasblog-col-form-label col-3"></label>
-   
+
 
     @Html.DropDownListFor(n => n.SiteConfig.TitlePermalinkSpaceReplacement,
-        new SelectList(new SpaceReplacementViewModel().Init(), "Name", "Name"), 
+        new SelectList(new SpaceReplacementViewModel().Init(), "Name", "Name"),
         new { @class = "form-control col-1" })
 
 

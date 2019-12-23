@@ -33,7 +33,6 @@ namespace DasBlog.Web.Models.AdminViewModels
 		[EmailAddress]
 		public string Contact { get; set; }
 
-
 		[DisplayName("Notification email")]
 		[Description("Private email where notifications will be sent")]
 		[EmailAddress]
@@ -49,8 +48,6 @@ namespace DasBlog.Web.Models.AdminViewModels
 		[Description("Name of the sites copyright owner")]
 		[StringLength(300, MinimumLength = 1, ErrorMessage = "{0} should be between 1 to 300 characters")]
 		public string Copyright { get; set; }
-
-
 
 		[DisplayName("Front page day count")]
 		[Description("The maximum number of days to appear on your home page")]
@@ -84,8 +81,6 @@ namespace DasBlog.Web.Models.AdminViewModels
 		[Description("This allows you to design a summary view for each blog post on the home page")]
 		public bool ShowItemSummaryInAggregatedViews { get; set; }
 
-
-
 		[DisplayName("RSS day count")]
 		[Description("Maximum number of days to appear in your RSS feed")]
 		[Required]
@@ -113,9 +108,6 @@ namespace DasBlog.Web.Models.AdminViewModels
 		[DisplayName("Include content in RSS Feed")]
 		[Description("Allows you to include blog content in RSS feeds")]
 		public bool AlwaysIncludeContentInRSS { get; set; }
-
-
-
 
 		[DisplayName("Enable comments")]
 		[Description("Allow comments on your blog posts")]
@@ -155,8 +147,6 @@ namespace DasBlog.Web.Models.AdminViewModels
 		[StringLength(1, MinimumLength = 1, ErrorMessage = "{0} should be 1 characters ('-' or '+'")]
 		public string TitlePermalinkSpaceReplacement { get; set; }
 
-
-
 		[DisplayName("Enable Blogger API")]
 		[Description("")]
 		public bool EnableBloggerApi { get; set; }
@@ -172,15 +162,11 @@ namespace DasBlog.Web.Models.AdminViewModels
 		[StringLength(300, MinimumLength = 1, ErrorMessage = "{0} should be between 1 to 300 characters")]
 		public string ChannelImageUrl { get; set; }
 
-
-
 		[DisplayName("Web post edit control")]
 		[Description("")]
 		[StringLength(300, MinimumLength = 1, ErrorMessage = "{0} should be between 1 to 300 characters")]
 		[Required]
 		public string EntryEditControl { get; set; }
-
-
 
 		[DisplayName("Content directory")]
 		[Description("")]
@@ -194,7 +180,7 @@ namespace DasBlog.Web.Models.AdminViewModels
 		[Required]
 		public string LogDir { get; set; }
 
-		[DisplayName("Adjust Time zone")]
+		[DisplayName("Adjust time zone")]
 		[Description("")]
 		[StringLength(2, MinimumLength = 1, ErrorMessage = "{0} should be between 1 to 300 characters")]
 		[Required]
@@ -208,8 +194,7 @@ namespace DasBlog.Web.Models.AdminViewModels
 		[Description("")]
 		public bool CommentsRequireApproval { get; set; }
 
-		[DisplayName("")]
-		[Description("")]
+		
 		public string BinariesDir { get; set; }
 		public bool EntryTitleAsLink { get; set; }
 		public bool ObfuscateEmail { get; set; }
