@@ -13,28 +13,28 @@
 
     <div class="dasblog-form-group row">
         <label asp-for="@Model.SiteConfig.Root" class="dasblog-col-form-label col-3" data-toggle="tooltip" data-placement="bottom" title=""></label>
-        <input name="Root" value="@Model.SiteConfig.Root" type="text" class="form-control col-9" />
+        <input asp-for="@Model.SiteConfig.Root" type="text" class="form-control col-9" />
         <span asp-validation-for="@Model.SiteConfig.Root" class="text-danger" data-valmsg-for="Root"></span>
 
     </div>
 
     <div class="dasblog-form-group row">
         <label asp-for="@Model.SiteConfig.Title" class="dasblog-col-form-label col-3"></label>
-        <input name="Title" value="@Model.SiteConfig.Title" type="text" class="form-control col-9"
+        <input asp-for="@Model.SiteConfig.Title" type="text" class="form-control col-9"
                data-val-email="" data-val-required="The Title field is required." />
         <span asp-validation-for="@Model.SiteConfig.Title" class="text-danger" data-valmsg-for="Title" data-valmsg-replace="true"></span>
     </div>
 
     <div class="dasblog-form-group row">
         <label asp-for="@Model.SiteConfig.Subtitle" class="dasblog-col-form-label col-3"></label>
-        <input name="Subtitle" value="@Model.SiteConfig.Subtitle" type="text" class="form-control col-9"
+        <input asp-for="@Model.SiteConfig.Subtitle" type="text" class="form-control col-9"
                data-val-email="" data-val-required="The Subtitle field is required." />
         <span asp-validation-for="@Model.SiteConfig.Subtitle" class="text-danger" data-valmsg-for="Subtitle" data-valmsg-replace="true"></span>
     </div>
 
     <div class="dasblog-form-group row">
         <label asp-for="@Model.SiteConfig.Description" class="dasblog-col-form-label col-3"></label>
-        <input name="Description" value="@Model.SiteConfig.Description" type="text" class="form-control col-9"
+        <input asp-for="@Model.SiteConfig.Description" type="text" class="form-control col-9"
                data-val-email="" data-val-required="The Description field is optional." />
         <span asp-validation-for="@Model.SiteConfig.Description" class="text-danger" data-valmsg-for="Description" data-valmsg-replace="true"></span>
     </div>
@@ -49,21 +49,21 @@
 
     <div class="dasblog-form-group row">
         <label asp-for="@Model.SiteConfig.NotificationEMailAddress" class="dasblog-col-form-label col-3"></label>
-        <input name="NotificationEMailAddress" value="@Model.SiteConfig.NotificationEMailAddress" type="email" class="form-control col-9"
+        <input asp-for="@Model.SiteConfig.NotificationEMailAddress" type="email" class="form-control col-9"
                data-val-email="" data-val-required="The Notification Email field is required." />
         <span asp-validation-for="@Model.SiteConfig.NotificationEMailAddress" class="text-danger" data-valmsg-for="NotificationEMailAddress" data-valmsg-replace="true"></span>
     </div>
 
     <div class="dasblog-form-group row">
         <label asp-for="@Model.SiteConfig.Contact" class="dasblog-col-form-label col-3"></label>
-        <input name="Contact" value="@Model.SiteConfig.Contact" type="email" class="form-control col-9"
+        <input asp-for="@Model.SiteConfig.Contact" type="email" class="form-control col-9"
                data-val-email="" data-val-required="The Contact field is required." />
         <span asp-validation-for="@Model.SiteConfig.Contact" class="text-danger" data-valmsg-for="Contact" data-valmsg-replace="true"></span>
     </div>
 
     <div class="dasblog-form-group row">
         <label asp-for="@Model.SiteConfig.Copyright" class="dasblog-col-form-label col-3"></label>
-        <input name="Copyright" value="@Model.SiteConfig.Copyright" type="text" class="form-control col-9"
+        <input asp-for="@Model.SiteConfig.Copyright" type="text" class="form-control col-9"
                data-val-email="" data-val-required="The Copyright field is required." />
         <span asp-validation-for="@Model.SiteConfig.Copyright" class="text-danger" data-valmsg-for="Copyright" data-valmsg-replace="true"></span>
     </div>
@@ -72,7 +72,7 @@
 
     <div class="dasblog-form-group row">
         <label asp-for="@Model.SiteConfig.FrontPageDayCount" class="dasblog-col-form-label col-3"></label>
-        <input name="FrontPageDayCount" value="@Model.SiteConfig.FrontPageDayCount" type="text" class="form-control col-2"
+        <input asp-for="@Model.SiteConfig.FrontPageDayCount" type="text" class="form-control col-2"
                data-val-email="" data-val-required="The Front Page Day Count field is required." maxlength="5" />
 
         <span asp-validation-for="@Model.SiteConfig.FrontPageDayCount" class="text-danger" data-valmsg-for="FrontPageDayCount" data-valmsg-replace="true"></span>
@@ -80,33 +80,33 @@
 
     <div class="dasblog-form-group row">
         <label asp-for="@Model.SiteConfig.FrontPageEntryCount" class="dasblog-col-form-label col-3"></label>
-        <input name="FrontPageEntryCount" value="@Model.SiteConfig.FrontPageEntryCount" type="text" class="form-control col-2"
+        <input asp-for="@Model.SiteConfig.FrontPageEntryCount" type="text" class="form-control col-2"
                data-val-email="" data-val-required="The Front Page Entry Count field is required." maxlength="5" />
         <span asp-validation-for="@Model.SiteConfig.FrontPageEntryCount" class="text-danger" data-valmsg-for="FrontPageEntryCount" data-valmsg-replace="true"></span>
     </div>
 
     <div class="dasblog-form-group row">
         <label asp-for="@Model.SiteConfig.EntriesPerPage" class="dasblog-col-form-label col-3"></label>
-        <input name="EntriesPerPage" value="@Model.SiteConfig.EntriesPerPage" type="text" class="form-control col-2"
+        <input asp-for="@Model.SiteConfig.EntriesPerPage" type="text" class="form-control col-2"
                data-val-email="" data-val-required="The Entries Per Page field is required." maxlength="5" />
         <span asp-validation-for="@Model.SiteConfig.EntriesPerPage" class="text-danger" data-valmsg-for="EntriesPerPage" data-valmsg-replace="true"></span>
     </div>
 
     <div class="dasblog-form-group row">
         <label asp-for="@Model.SiteConfig.FrontPageCategory" class="dasblog-col-form-label col-3"></label>
-        <input name="FrontPageCategory" value="@Model.SiteConfig.FrontPageCategory" type="text" class="form-control col-9"
+        <input asp-for="@Model.SiteConfig.FrontPageCategory" type="text" class="form-control col-9"
                data-val-email="" data-val-required="The Front Page Category field is required." />
         <span asp-validation-for="@Model.SiteConfig.EntriesPerPage" class="text-danger" data-valmsg-for="EntriesPerPage" data-valmsg-replace="true"></span>
     </div>
 
     <div class="dasblog-form-check row">
         <label asp-for="@Model.SiteConfig.EnableStartPageCaching" class="dasblog-form-check-label col-3"></label>
-        <input name="CategoryAllEntries" checked="@Model.SiteConfig.EnableStartPageCaching" type="checkbox" class="dasblog-form-check-input" />
+        <input asp-for="@Model.SiteConfig.EnableStartPageCaching" type="checkbox" class="dasblog-form-check-input" />
     </div>
 
     <div class="dasblog-form-check row">
         <label asp-for="@Model.SiteConfig.ShowItemSummaryInAggregatedViews" class="dasblog-form-check-label col-3"></label>
-        <input name="ShowItemSummaryInAggregatedViews" checked="@Model.SiteConfig.ShowItemSummaryInAggregatedViews" type="checkbox" class="dasblog-form-check-input" />
+        <input asp-for="@Model.SiteConfig.ShowItemSummaryInAggregatedViews"  type="checkbox" class="dasblog-form-check-input" />
     </div>
 
 
@@ -114,38 +114,38 @@
 
     <div class="dasblog-form-check row">
         <label asp-for="@Model.SiteConfig.AlwaysIncludeContentInRSS" class="dasblog-form-check-label col-3"></label>
-        <input name="CategoryAllEntries" checked="@Model.SiteConfig.AlwaysIncludeContentInRSS" type="checkbox" class="dasblog-form-check-input" />
+        <input asp-for="@Model.SiteConfig.AlwaysIncludeContentInRSS" type="checkbox" class="dasblog-form-check-input" />
     </div>
 
     <div class="dasblog-form-group row">
         <label asp-for="@Model.SiteConfig.RssDayCount" class="dasblog-col-form-label col-3"></label>
-        <input name="RssDayCount" value="@Model.SiteConfig.RssDayCount" type="text" class="form-control col-2"
+        <input asp-for="@Model.SiteConfig.RssDayCount" type="text" class="form-control col-2"
                data-val-email="" data-val-required="The RSS Day count field is required." maxlength="5" />
         <span asp-validation-for="@Model.SiteConfig.RssDayCount" class="text-danger" data-valmsg-for="RssDayCount" data-valmsg-replace="true"></span>
     </div>
 
     <div class="dasblog-form-group row">
         <label asp-for="@Model.SiteConfig.RssMainEntryCount" class="dasblog-col-form-label col-3"></label>
-        <input name="RssMainEntryCount" value="@Model.SiteConfig.RssMainEntryCount" type="text" class="form-control col-2"
+        <input asp-for="@Model.SiteConfig.RssMainEntryCount" type="text" class="form-control col-2"
                data-val-email="" data-val-required="The Root RSS Main Entry is required." maxlength="5" />
         <span asp-validation-for="@Model.SiteConfig.RssMainEntryCount" class="text-danger" data-valmsg-for="RssMainEntryCount" data-valmsg-replace="true"></span>
     </div>
 
     <div class="dasblog-form-group row">
         <label asp-for="@Model.SiteConfig.RssEntryCount" class="dasblog-col-form-label col-3"></label>
-        <input name="RssEntryCount" value="@Model.SiteConfig.RssEntryCount" type="text" class="form-control col-2"
+        <input asp-for="@Model.SiteConfig.RssEntryCount" type="text" class="form-control col-2"
                data-val-email="" data-val-required="The RSS Entry Count field is required." maxlength="5" />
         <span asp-validation-for="@Model.SiteConfig.RssEntryCount" class="text-danger" data-valmsg-for="RssEntryCount" data-valmsg-replace="true"></span>
     </div>
 
     <div class="dasblog-form-check row">
         <label asp-for="@Model.SiteConfig.EnableRssItemFooters" class="dasblog-form-check-label col-3"></label>
-        <input name="EnableRssItemFooters" checked="@Model.SiteConfig.EnableRssItemFooters" type="checkbox" class="dasblog-form-check-input" />
+        <input asp-for="@Model.SiteConfig.EnableRssItemFooters" type="checkbox" class="dasblog-form-check-input" />
     </div>
 
     <div class="dasblog-form-group row">
         <label asp-for="@Model.SiteConfig.RssItemFooter" class="dasblog-col-form-label col-3"></label>
-        <input name="RssItemFooter" value="@Model.SiteConfig.RssItemFooter" type="text" class="form-control col-9"
+        <input asp-for="@Model.SiteConfig.RssItemFooter" type="text" class="form-control col-9"
                data-val-email="" data-val-required="The Rss Item Footer field is required." />
         <span asp-validation-for="@Model.SiteConfig.RssItemFooter" class="text-danger" data-valmsg-for="RssItemFooter" data-valmsg-replace="true"></span>
     </div>
@@ -154,43 +154,43 @@
 
     <div class="dasblog-form-check row">
         <label asp-for="@Model.SiteConfig.EnableComments" class="dasblog-form-check-label col-3"></label>
-        <input name="EnableComments" checked="@Model.SiteConfig.EnableComments" type="checkbox" class="dasblog-form-check-input" />
+        <input asp-for="@Model.SiteConfig.EnableComments" type="checkbox" class="dasblog-form-check-input" />
     </div>
 
     <div class="dasblog-form-check row">
         <label asp-for="@Model.SiteConfig.EnableCommentDays" class="dasblog-form-check-label col-3"></label>
-        <input name="EnableCommentDays" checked="@Model.SiteConfig.EnableCommentDays" type="checkbox" class="dasblog-form-check-input" maxlength="5" />
+        <input asp-for="@Model.SiteConfig.EnableCommentDays" type="checkbox" class="dasblog-form-check-input" maxlength="5" />
     </div>
 
     <div class="dasblog-form-group row">
         <label asp-for="@Model.SiteConfig.DaysCommentsAllowed" class="dasblog-col-form-label col-3"></label>
-        <input name="DaysCommentsAllowed" value="@Model.SiteConfig.DaysCommentsAllowed" type="text" class="form-control col-2"
+        <input asp-for="@Model.SiteConfig.DaysCommentsAllowed" type="text" class="form-control col-2"
                data-val-email="" data-val-required="The Days Comments Allowed field is required." maxlength="5" />
         <span asp-validation-for="@Model.SiteConfig.DaysCommentsAllowed" class="text-danger" data-valmsg-for="DaysCommentsAllowed" data-valmsg-replace="true"></span>
     </div>
 
     <div class="dasblog-form-check row">
         <label asp-for="@Model.SiteConfig.CommentsRequireApproval" class="dasblog-form-check-label col-3"></label>
-        <input name="CommentsRequireApproval" checked="@Model.SiteConfig.CommentsRequireApproval" type="checkbox" class="dasblog-form-check-input" />
+        <input asp-for="@Model.SiteConfig.CommentsRequireApproval" type="checkbox" class="dasblog-form-check-input" />
     </div>
 
     <div class="dasblog-form-group row">
         <label asp-for="@Model.SiteConfig.CheesySpamQ" class="dasblog-col-form-label col-3"></label>
-        <input name="CheesySpamQ" value="@Model.SiteConfig.CheesySpamQ" type="text" class="form-control col-9"
+        <input asp-for="@Model.SiteConfig.CheesySpamQ" type="text" class="form-control col-9"
                data-val-email="" data-val-required="The Cheesy Spam Question field is required." />
         <span asp-validation-for="@Model.SiteConfig.CheesySpamQ" class="text-danger" data-valmsg-for="CheesySpamQ" data-valmsg-replace="true"></span>
     </div>
 
     <div class="dasblog-form-group row">
         <label asp-for="@Model.SiteConfig.CheesySpamA" class="dasblog-col-form-label col-3"></label>
-        <input name="CheesySpamA" value="@Model.SiteConfig.CheesySpamA" type="text" class="form-control col-9"
+        <input asp-for="@Model.SiteConfig.CheesySpamA" type="text" class="form-control col-9"
                data-val-email="" data-val-required="The Cheesy Spam Answer field is required." />
         <span asp-validation-for="@Model.SiteConfig.CheesySpamA" class="text-danger" data-valmsg-for="CheesySpamA" data-valmsg-replace="true"></span>
     </div>
 
     <div class="dasblog-form-check row">
         <label asp-for="@Model.SiteConfig.ShowCommentsWhenViewingEntry" class="dasblog-form-check-label col-3"></label>
-        <input name="ShowCommentsWhenViewingEntry" checked="@Model.SiteConfig.ShowCommentsWhenViewingEntry" type="checkbox" class="dasblog-form-check-input" />
+        <input asp-for="@Model.SiteConfig.ShowCommentsWhenViewingEntry" type="checkbox" class="dasblog-form-check-input" />
     </div>
 
 
@@ -199,7 +199,7 @@
 
     <div class="dasblog-form-group row">
         <label asp-for="@Model.MetaConfig.MetaDescription" class="dasblog-col-form-label col-3"></label>
-        <input name="MetaDescription" value="@Model.MetaConfig.MetaDescription" type="text" class="form-control col-9"
+        <input asp-for="@Model.MetaConfig.MetaDescription" type="text" class="form-control col-9"
                data-val-email="" data-val-required="The Meta Description field is required." />
         <span asp-validation-for="@Model.MetaConfig.MetaDescription" class="text-danger" data-valmsg-for="MetaDescription"
               data-valmsg-replace="true"></span>
@@ -207,7 +207,7 @@
 
     <div class="dasblog-form-group row">
         <label asp-for="@Model.MetaConfig.MetaKeywords" class="dasblog-col-form-label col-3"></label>
-        <input name="MetaKeywords" value="@Model.MetaConfig.MetaKeywords" type="text" class="form-control col-9"
+        <input asp-for="@Model.MetaConfig.MetaKeywords" type="text" class="form-control col-9"
                data-val-email="" data-val-required="The Meta Keywords field is required." />
         <span asp-validation-for="@Model.MetaConfig.MetaKeywords" class="text-danger" data-valmsg-for="MetaKeywords"
               data-valmsg-replace="true"></span>
@@ -217,15 +217,16 @@
 
     <div class="dasblog-form-group row">
         <label asp-for="@Model.MetaConfig.TwitterSite" class="dasblog-col-form-label col-3"></label>
-        <input name="TwitterSite" value="@Model.MetaConfig.TwitterSite" type="text" class="form-control col-9"
+        <input asp-for="@Model.MetaConfig.TwitterSite" type="text" class="form-control col-9"
                data-val-email="" data-val-required="The Twitter field is required." />
+
         <span asp-validation-for="@Model.MetaConfig.TwitterCard" class="text-danger" data-valmsg-for="TwitterCard"
               data-valmsg-replace="true"></span>
     </div>
 
     <div class="dasblog-form-group row">
         <label asp-for="@Model.MetaConfig.TwitterCreator" class="dasblog-col-form-label col-3"></label>
-        <input name="TwitterCreator" value="@Model.MetaConfig.TwitterCreator" type="text" class="form-control col-9"
+        <input asp-for="@Model.MetaConfig.TwitterCreator" type="text" class="form-control col-9"
                data-val-email="" data-val-required="The Twitter Creator field is required." />
         <span asp-validation-for="@Model.MetaConfig.TwitterCreator" class="text-danger" data-valmsg-for="TwitterCreator"
               data-valmsg-replace="true"></span>
@@ -244,7 +245,7 @@
 
     <div class="dasblog-form-group row">
         <label asp-for="@Model.MetaConfig.TwitterImage" class="dasblog-col-form-label col-3"></label>
-        <input name="TwitterImage" value="@Model.MetaConfig.TwitterImage" type="text" class="form-control col-9"
+        <input asp-for="@Model.MetaConfig.TwitterImage" type="text" class="form-control col-9"
                data-val-email="" data-val-required="The Twitter Image field is required." />
         <span asp-validation-for="@Model.MetaConfig.TwitterImage" class="text-danger" data-valmsg-for="TwitterImage"
               data-valmsg-replace="true"></span>
@@ -252,7 +253,7 @@
 
     <div class="dasblog-form-group row">
         <label asp-for="@Model.MetaConfig.GoogleAnalyticsID" class="dasblog-col-form-label col-3"></label>
-        <input name="GoogleAnalyticsID" value="@Model.MetaConfig.GoogleAnalyticsID" type="text" class="form-control col-9"
+        <input asp-for="@Model.MetaConfig.GoogleAnalyticsID" type="text" class="form-control col-9"
                data-val-email="" data-val-required="The Google Analytics ID field is required." />
         <span asp-validation-for="@Model.MetaConfig.GoogleAnalyticsID" class="text-danger" data-valmsg-for="GoogleAnalyticsID"
               data-valmsg-replace="true"></span>
@@ -262,7 +263,7 @@
 
     <div class="dasblog-form-check row">
         <label asp-for="@Model.SiteConfig.EnableBloggerApi" class="dasblog-form-check-label col-3"></label>
-        <input name="EnableBloggerApi" checked="@Model.SiteConfig.EnableBloggerApi" type="checkbox" class="dasblog-form-check-input" />
+        <input asp-for="@Model.SiteConfig.EnableBloggerApi" type="checkbox" class="dasblog-form-check-input" />
     </div>
 
     <div class="dasblog-form-group row">
@@ -291,12 +292,12 @@
 
     <div class="dasblog-form-check row">
         <label asp-for="@Model.SiteConfig.EnableTitlePermaLinkUnique" class="dasblog-form-check-label col-3"></label>
-        <input name="EnableTitlePermaLinkUnique" checked="@Model.SiteConfig.EnableTitlePermaLinkUnique" type="checkbox" class="dasblog-form-check-input" />
+        <input asp-for="@Model.SiteConfig.EnableTitlePermaLinkUnique" type="checkbox" class="dasblog-form-check-input" />
     </div>
 
     <div class="dasblog-form-check row">
         <label asp-for="@Model.SiteConfig.EnableTitlePermaLinkSpaces" class="dasblog-form-check-label col-3"></label>
-        <input name="EnableTitlePermaLinkSpaces" checked="@Model.SiteConfig.EnableTitlePermaLinkSpaces" type="checkbox" class="dasblog-form-check-input" />
+        <input asp-for="@Model.SiteConfig.EnableTitlePermaLinkSpaces" type="checkbox" class="dasblog-form-check-input" />
     </div>
 
     <div class="dasblog-form-group row">
@@ -315,22 +316,26 @@
 
     <div class="dasblog-form-group row">
         <label asp-for="@Model.SiteConfig.ContentDir" class="dasblog-col-form-label col-3"></label>
-        <input name="ContentDir" value="@Model.SiteConfig.ContentDir" type="text" class="form-control col-9"
+        <input asp-for="@Model.SiteConfig.ContentDir" type="text" class="form-control col-9"
                data-val-email="" data-val-required="The Content Directory field is required." />
         <span asp-validation-for="@Model.SiteConfig.ContentDir" class="text-danger" data-valmsg-for="ContentDir" data-valmsg-replace="true"></span>
     </div>
 
     <div class="dasblog-form-group row">
         <label asp-for="@Model.SiteConfig.LogDir" class="dasblog-col-form-label col-3"></label>
-        <input name="LogDir" value="@Model.SiteConfig.LogDir" type="text" class="form-control col-9"
+        <input asp-for="@Model.SiteConfig.LogDir" type="text" class="form-control col-9"
                data-val-email="" data-val-required="The Log Directory field is required." />
         <span asp-validation-for="@Model.SiteConfig.LogDir" class="text-danger" data-valmsg-for="LogDir" data-valmsg-replace="true"></span>
     </div>
 
     <div class="dasblog-form-check row">
         <label asp-for="@Model.SiteConfig.AdjustDisplayTimeZone" class="dasblog-form-check-label col-3"></label>
-        <input name="AdjustDisplayTimeZone" checked="@Model.SiteConfig.AdjustDisplayTimeZone"
-               type="checkbox" class="dasblog-form-check-input" maxlength="5" />
+        
+        <input asp-for="@Model.SiteConfig.AdjustDisplayTimeZone" type="checkbox" 
+               class="dasblog-form-check-input" maxlength="5" />
+
+       
+
     </div>
 
     <div class="dasblog-form-group row">
