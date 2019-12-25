@@ -22,11 +22,14 @@ namespace DasBlog.Services.FileManagement
 		public bool SaveConfig(MetaTags config)
 		{
 			var ser = new XmlSerializer(typeof(MetaTags));
+			var ns = new XmlSerializerNamespaces();
+			ns.Add("", "");
+
 			using (var writer = new StreamWriter(options.MetaConfigFilePath))
 			{
 				try
 				{
-					ser.Serialize(writer, config);
+					ser.Serialize(writer, config, ns);
 
 					return true;
 				}

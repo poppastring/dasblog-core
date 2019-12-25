@@ -22,11 +22,14 @@ namespace DasBlog.Services.FileManagement.Interfaces
 		{
 
 			var ser = new XmlSerializer(typeof(SiteConfig));
+			var ns = new XmlSerializerNamespaces();
+			ns.Add("", "");
+
 			using (var writer = new StreamWriter(options.SiteConfigFilePath))
 			{
 				try
 				{
-					ser.Serialize(writer, config);
+					ser.Serialize(writer, config, ns);
 
 					return true;
 				}
