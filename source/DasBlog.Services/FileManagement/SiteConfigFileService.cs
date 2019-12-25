@@ -9,7 +9,7 @@ using Microsoft.Extensions.Options;
 
 namespace DasBlog.Services.FileManagement.Interfaces
 {
-	public class SiteConfigFileService : IConfigFileService<ISiteConfig>
+	public class SiteConfigFileService : IConfigFileService<SiteConfig>
 	{
 		private readonly ConfigFilePathsDataOption options;
 
@@ -18,9 +18,10 @@ namespace DasBlog.Services.FileManagement.Interfaces
 			options = optionsAccessor.Value;
 		}
 
-		public bool SaveConfig(ISiteConfig config)
+		public bool SaveConfig(SiteConfig config)
 		{
-			var ser = new XmlSerializer(typeof(ISiteConfig));
+
+			var ser = new XmlSerializer(typeof(SiteConfig));
 			using (var writer = new StreamWriter(options.SiteConfigFilePath))
 			{
 				try

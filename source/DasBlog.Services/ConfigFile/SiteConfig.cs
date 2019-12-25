@@ -41,11 +41,15 @@ using DasBlog.Core.Common.Comments;
 using DasBlog.Core.Configuration;
 using DasBlog.Services.ConfigFile.Interfaces;
 using newtelligence.DasBlog.Runtime;
+using System;
 using System.Xml;
+using System.Xml.Serialization;
 
 namespace DasBlog.Services.ConfigFile
 {
-    public class SiteConfig : ISiteConfig
+	[Serializable]
+	[XmlType("SiteConfig")]
+	public class SiteConfig : ISiteConfig
     {
         public SiteConfig() { }
 
@@ -166,6 +170,8 @@ namespace DasBlog.Services.ConfigFile
         public bool EnableCoComment { get; set; }
         public bool EnableSpamBlockingService { get; set; }
         public string SpamBlockingServiceApiKey { get; set; }
+
+		[XmlIgnore]
         public ISpamBlockingService SpamBlockingService { get; set; }
         public bool EnableSpamModeration { get; set; }
         public int EntriesPerPage { get; set; }
@@ -188,8 +194,12 @@ namespace DasBlog.Services.ConfigFile
         public string RSSEndPointRewrite { get; set; }
         public string CheesySpamQ { get; set; }
         public string CheesySpamA { get; set; }
+		
+		[XmlIgnore]
         public XmlElement[] anyElements { get; set; }
-        public XmlAttribute[] anyAttributes { get; set; }
+
+		[XmlIgnore]
+		public XmlAttribute[] anyAttributes { get; set; }
 		public bool ShowItemSummaryInAggregatedViews { get; set; }
 		public ValidCommentTags[] ValidCommentTags { get; set; }
 	}

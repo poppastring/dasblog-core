@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using AutoMapper;
 using DasBlog.Managers.Interfaces;
 using DasBlog.Services;
+using DasBlog.Services.ConfigFile;
+using DasBlog.Services.ConfigFile.Interfaces;
 using DasBlog.Web.Models.AdminViewModels;
 using DasBlog.Web.Settings;
 using Microsoft.AspNetCore.Authorization;
@@ -16,11 +18,13 @@ namespace DasBlog.Web.Controllers
 	public class AdminController : DasBlogBaseController
 	{
 		private readonly IDasBlogSettings dasBlogSettings;
+		private readonly IFileSystemBinaryManager fileSystemBinaryManager;
 		private readonly IMapper mapper;
 
-		public AdminController(IDasBlogSettings dasBlogSettings, IMapper mapper) : base(dasBlogSettings)
+		public AdminController(IDasBlogSettings dasBlogSettings, IFileSystemBinaryManager fileSystemBinaryManager, IMapper mapper) : base(dasBlogSettings)
 		{
 			this.dasBlogSettings = dasBlogSettings;
+			this.fileSystemBinaryManager = fileSystemBinaryManager;
 			this.mapper = mapper;
 		}
 
@@ -48,8 +52,20 @@ namespace DasBlog.Web.Controllers
 				return Settings(settings);
 			}
 
+			var site = mapper.Map<SiteConfig>(settings.SiteConfig);
+			var meta = mapper.Map<MetaTags>(settings.MetaConfig);
 
+			if(!fileSystemBinaryManager.SaveSiteConfig(site))
+			{
+				ModelState.AddModelError("", "Unable to save Site configuration file.");
+				return Settings(settings);
+			}
 
+			if (!fileSystemBinaryManager.SaveMetaConfig(meta))
+			{
+				ModelState.AddModelError("", "Unable to save Meta configuration file.");
+				return Settings(settings);
+			}
 
 			return Settings();
 		}

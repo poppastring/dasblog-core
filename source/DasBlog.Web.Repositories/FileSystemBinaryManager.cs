@@ -14,10 +14,10 @@ namespace DasBlog.Managers
 		private readonly IBinaryDataService dataService;
 		private readonly string virtBinaryPathRelativeToContentRoot;
 		private readonly IDasBlogSettings dasBlogSettings;
-		private readonly IConfigFileService<IMetaTags> metaTagFileService;
-		private readonly IConfigFileService<ISiteConfig> siteConfigFileService;
+		private readonly IConfigFileService<MetaTags> metaTagFileService;
+		private readonly IConfigFileService<SiteConfig> siteConfigFileService;
 
-		public FileSystemBinaryManager(IDasBlogSettings dasBlogSettings, IConfigFileService<IMetaTags> metaTagFileService, IConfigFileService<ISiteConfig> siteConfigFileService)
+		public FileSystemBinaryManager(IDasBlogSettings dasBlogSettings, IConfigFileService<MetaTags> metaTagFileService, IConfigFileService<SiteConfig> siteConfigFileService)
 		{
 			this.dasBlogSettings = dasBlogSettings;
 			this.metaTagFileService = metaTagFileService;
@@ -41,12 +41,12 @@ namespace DasBlog.Managers
 			return dasBlogSettings.RelativeToRoot(file);
 		}
 
-		public bool SaveMetaConfig(IMetaTags config)
+		public bool SaveMetaConfig(MetaTags config)
 		{
 			return metaTagFileService.SaveConfig(config);
 		}
 
-		public bool SaveSiteConfig(ISiteConfig config)
+		public bool SaveSiteConfig(SiteConfig config)
 		{
 			return siteConfigFileService.SaveConfig(config);
 		}

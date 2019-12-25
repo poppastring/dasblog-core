@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using DasBlog.Services.ConfigFile.Interfaces;
+using DasBlog.Services.ConfigFile;
 using DasBlog.Web.Models.AdminViewModels;
 using System;
 using System.Collections.Generic;
@@ -12,11 +12,11 @@ namespace DasBlog.Web.Mappers
 	{
 		public ProfileSettings()
 		{
-			CreateMap<IMetaTags, MetaViewModel>();
-			CreateMap<MetaViewModel, IMetaTags>();
+			CreateMap<MetaTags, MetaViewModel>();
+			CreateMap<MetaViewModel, MetaTags>();
 
-			CreateMap<ISiteConfig, SiteViewModel>();
-			CreateMap<SiteViewModel, ISiteConfig>();
+			CreateMap<SiteConfig, SiteViewModel>();
+			CreateMap<SiteViewModel, SiteConfig>();
 
 		}
 	}

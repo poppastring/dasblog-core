@@ -1,5 +1,5 @@
 ﻿using System.IO;
-using DasBlog.Services.ConfigFile.Interfaces;
+using DasBlog.Services.ConfigFile;
 
 namespace DasBlog.Managers.Interfaces
 {
@@ -7,8 +7,8 @@ namespace DasBlog.Managers.Interfaces
 	{
 		string SaveFile(Stream inputFile, string fileName);
 
-		bool SaveSiteConfig(ISiteConfig config);
+		bool SaveSiteConfig(SiteConfig config);
 
-		bool SaveMetaConfig(IMetaTags config);
+		bool SaveMetaConfig(MetaTags config);
 	}
 }

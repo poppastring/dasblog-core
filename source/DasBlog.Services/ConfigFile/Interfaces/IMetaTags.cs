@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Xml.Serialization;
 
 namespace DasBlog.Services.ConfigFile.Interfaces
 {
-    public interface IMetaTags
+	public interface IMetaTags
     {
         string MetaDescription { get; set; }
         string MetaKeywords { get; set; }

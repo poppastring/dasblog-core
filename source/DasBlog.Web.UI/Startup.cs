@@ -175,8 +175,8 @@ namespace DasBlog.Web
 				.AddSingleton<IEventLineParser, EventLineParser>()
 				.AddSingleton<ITimeZoneProvider, TimeZoneProvider>()
 				.AddSingleton<ISubscriptionManager, SubscriptionManager>()
-				.AddSingleton<IConfigFileService<IMetaTags>, MetaConfigFileService>()
-				.AddSingleton<IConfigFileService<ISiteConfig>, SiteConfigFileService>();
+				.AddSingleton<IConfigFileService<MetaTags>, MetaConfigFileService>()
+				.AddSingleton<IConfigFileService<SiteConfig>, SiteConfigFileService>();
 
 			services
 				.AddAutoMapper(mapperConfig =>

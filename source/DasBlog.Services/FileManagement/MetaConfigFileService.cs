@@ -10,7 +10,7 @@ using Microsoft.Extensions.Options;
 
 namespace DasBlog.Services.FileManagement
 {
-	public class MetaConfigFileService : IConfigFileService<IMetaTags>
+	public class MetaConfigFileService : IConfigFileService<MetaTags>
 	{
 		private readonly ConfigFilePathsDataOption options;
 
@@ -19,9 +19,9 @@ namespace DasBlog.Services.FileManagement
 			options = optionsAccessor.Value;
 		}
 
-		public bool SaveConfig(IMetaTags config)
+		public bool SaveConfig(MetaTags config)
 		{
-			var ser = new XmlSerializer(typeof(IMetaTags));
+			var ser = new XmlSerializer(typeof(MetaTags));
 			using (var writer = new StreamWriter(options.MetaConfigFilePath))
 			{
 				try
