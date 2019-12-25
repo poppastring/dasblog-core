@@ -201,6 +201,6 @@ namespace DasBlog.Services.ConfigFile
 		[XmlIgnore]
 		public XmlAttribute[] anyAttributes { get; set; }
 		public bool ShowItemSummaryInAggregatedViews { get; set; }
-		public ValidCommentTags[] ValidCommentTags { get; set; }
+		public ValidCommentTags ValidCommentTags { get; set; }
 	}
 }

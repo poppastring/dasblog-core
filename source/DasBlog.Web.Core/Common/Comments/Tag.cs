@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Xml.Serialization;
 
 namespace DasBlog.Core.Common.Comments
 {
@@ -8,8 +9,9 @@ namespace DasBlog.Core.Common.Comments
 	{
 		private string[] attributes = new string[0];
 
+		[XmlAttributeAttribute]
+		public string Name { get; set; }
 
-		public string TagName { get; set; }
 		public string Attributes
 		{
 			get
@@ -48,7 +50,7 @@ namespace DasBlog.Core.Common.Comments
 			var splitDef = tagdefinition.Split('@');
 
 			// first item is the name
-			TagName = splitDef[0];
+			Name = splitDef[0];
 
 			// check for attributes and copy to collection
 			if (splitDef.Length == 1)
@@ -70,7 +72,7 @@ namespace DasBlog.Core.Common.Comments
 
 		public override string ToString()
 		{
-			return TagName + (attributes.Length > 0 ? "@" : "") + string.Join("@", attributes);
+			return Name + (attributes.Length > 0 ? "@" : "") + string.Join("@", attributes);
 		}
 
 	}

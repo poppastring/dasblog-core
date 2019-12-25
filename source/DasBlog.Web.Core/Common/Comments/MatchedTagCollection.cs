@@ -54,13 +54,13 @@ namespace DasBlog.Core.Common.Comments
 	/// </summary>
 	public class MatchedTagCollection : ICollection, IEnumerable
 	{
-		public MatchedTagCollection(ValidCommentTags [] allowedTags)
+		public MatchedTagCollection(ValidCommentTags allowedTags)
 		{
 
 			// param validation
 			if (allowedTags == null) { throw new ArgumentNullException("allowedTags"); }
 
-			this.allowedTags = allowedTags[0];
+			this.allowedTags = allowedTags;
 		}
 
 		/// <summary>
@@ -96,7 +96,7 @@ namespace DasBlog.Core.Common.Comments
 				}
 
 			
-				var validTag = allowedTags.Tag.Single(s => s.TagName == name);
+				var validTag = allowedTags.Tags.Single(s => s.Name == name);
 
 				// valid match
 				// if its a self-closing tag, add to store
@@ -200,7 +200,7 @@ namespace DasBlog.Core.Common.Comments
 					// filter the attr. for the opening tag
 					MatchedTag matchedTag = new MatchedTag(matches[i], true, true);
 
-					matchedTag.FilterAttributes(allowedTags.Tag.Single(s => s.TagName == matchedTag.TagName));
+					matchedTag.FilterAttributes(allowedTags.Tags.Single(s => s.Name == matchedTag.TagName));
 
 					// add to store
 					store[i] = matchedTag;

@@ -55,7 +55,12 @@ namespace DasBlog.Web.Controllers
 			var site = mapper.Map<SiteConfig>(settings.SiteConfig);
 			var meta = mapper.Map<MetaTags>(settings.MetaConfig);
 
-			if(!fileSystemBinaryManager.SaveSiteConfig(site))
+			site.ValidCommentTags = dasBlogSettings.SiteConfiguration.ValidCommentTags;
+			site.SpamBlockingService = dasBlogSettings.SiteConfiguration.SpamBlockingService;
+			site.CrosspostSites = dasBlogSettings.SiteConfiguration.CrosspostSites;
+			site.PingServices = dasBlogSettings.SiteConfiguration.PingServices;
+
+			if (!fileSystemBinaryManager.SaveSiteConfig(site))
 			{
 				ModelState.AddModelError("", "Unable to save Site configuration file.");
 				return Settings(settings);

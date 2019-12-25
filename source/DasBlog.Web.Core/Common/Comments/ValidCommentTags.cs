@@ -7,13 +7,13 @@ namespace DasBlog.Core.Common.Comments
 {
 	public class ValidCommentTags
 	{
-		public List<Tag> Tag { get; set; }
+		public List<Tag> Tags { get; set; }
 
 		public bool IsValidTag(string tagName)
 		{
-			if (Tag.Count(s => s.TagName == tagName) == 0) return false;
+			if (Tags.Count(s => s.Name == tagName) == 0) return false;
 
-			return Tag.Single(s => s.TagName == tagName) != null && Tag.Single(s => s.TagName == tagName).Allowed;
+			return Tags.Single(s => s.Name == tagName) != null && Tags.Single(s => s.Name == tagName).Allowed;
 		}
 	}
 }

@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using DasBlog.Core.Common.Comments;
 
 namespace DasBlog.Web.Models.AdminViewModels
 {
