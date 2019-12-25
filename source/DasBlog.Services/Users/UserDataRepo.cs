@@ -4,6 +4,7 @@ using System.IO;
 using Microsoft.Extensions.Options;
 using System.Xml.Serialization;
 using User = DasBlog.Core.Security.User;
+using DasBlog.Services.FileManagement;
 
 namespace DasBlog.Services.Users
 {
@@ -14,19 +15,18 @@ namespace DasBlog.Services.Users
 			public List<User> Users { get; set; } = new List<User>();
 		}
 
-		private LocalUserDataOptions options;
-		public UserDataRepo(IOptions<LocalUserDataOptions> optionsAccessor)
+		private ConfigFilePathsDataOption options;
+		public UserDataRepo(IOptions<ConfigFilePathsDataOption> optionsAccessor)
 		{
 			options = optionsAccessor.Value;
 		}
 		public IEnumerable<User> LoadUsers()
 		{
 			SiteSecurityConfig ssc;
-				// don't confuse this with DasBlog.Core.SiteSecurityConfig
-				// this vesion is striictly for deserializing data from the file
+
 			var ser = new XmlSerializer(typeof(SiteSecurityConfig));
-//			var fileInfo = fileProvider.GetFileInfo(Startup.SITESECURITYCONFIG);
-			using (var reader = new StreamReader(options.Path))
+
+			using (var reader = new StreamReader(options.SecurityConfigFilePath))
 			{
 				try
 				{
@@ -49,7 +49,7 @@ namespace DasBlog.Services.Users
 				Users = users
 			};
 			var ser = new XmlSerializer(typeof(SiteSecurityConfig));
-			using (var writer = new StreamWriter(options.Path))
+			using (var writer = new StreamWriter(options.SiteConfigFilePath))
 			{
 				try
 				{
@@ -63,10 +63,5 @@ namespace DasBlog.Services.Users
 				}
 			}
 		}
-	}
-
-	public class LocalUserDataOptions
-	{
-		public string Path{ get; set; }
 	}
 }

@@ -45,8 +45,11 @@ namespace DasBlog.Web.Controllers
 			//save settings and reload...
 			if (ModelState.ErrorCount > 0)
 			{
-				return View(settings);
+				return Settings(settings);
 			}
+
+
+
 
 			return Settings();
 		}
