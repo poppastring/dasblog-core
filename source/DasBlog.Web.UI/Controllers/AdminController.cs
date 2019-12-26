@@ -15,7 +15,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace DasBlog.Web.Controllers
 {
 	[Authorize]
-	[Route("admin")]
 	public class AdminController : DasBlogBaseController
 	{
 		private readonly IDasBlogSettings dasBlogSettings;
@@ -29,13 +28,9 @@ namespace DasBlog.Web.Controllers
 			this.mapper = mapper;
 		}
 
-		public IActionResult Index()
-        {
-            return View();
-        }
-
 		[HttpGet]
-		[Route("settings")]
+		[Route("/admin")]
+		[Route("/admin/settings")]
 		public IActionResult Settings()
 		{
 			var dbsvm = new DasBlogSettingsViewModel();
@@ -47,7 +42,7 @@ namespace DasBlog.Web.Controllers
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		[Route("settings")]
+		[Route("/admin/settings")]
 		public IActionResult Settings(DasBlogSettingsViewModel settings)
 		{
 			//save settings and reload...
