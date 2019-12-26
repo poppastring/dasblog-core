@@ -18,6 +18,7 @@ namespace DasBlog.Core.Common.Comments
 		[XmlAttribute(AttributeName = "Allowed")]
 		public bool Allowed { get; set; }
 
+		[XmlIgnore]
 		public string AttributesArray
 		{
 			get
