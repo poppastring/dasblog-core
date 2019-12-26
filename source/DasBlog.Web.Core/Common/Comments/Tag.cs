@@ -9,10 +9,13 @@ namespace DasBlog.Core.Common.Comments
 	{
 		private string[] attributes = new string[0];
 
-		[XmlAttributeAttribute]
 		public string Name { get; set; }
 
-		public string Attributes
+		public string TagName { get; set; }
+
+		public string Attributes { get; set; }
+
+		public string AttributesArray
 		{
 			get
 			{

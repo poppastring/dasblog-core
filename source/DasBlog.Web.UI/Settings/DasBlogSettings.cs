@@ -215,7 +215,7 @@ namespace DasBlog.Web.Settings
 
 		public string FilterHtml(string input)
 		{
-			if (SiteConfiguration.ValidCommentTags == null || SiteConfiguration.ValidCommentTags.Tags.Count(s => s.Allowed == true) == 0)
+			if (SiteConfiguration.ValidCommentTags == null || SiteConfiguration.ValidCommentTags[0].Tag.Count(s => s.Allowed == true) == 0)
 			{
 				return WebUtility.HtmlEncode(input);
 			}
