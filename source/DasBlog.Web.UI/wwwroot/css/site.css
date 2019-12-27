@@ -173,3 +173,23 @@ ul {
         display: none;
     }
 }
+
+.dasblog-form-check {
+    position: relative;
+    display: block;
+    /*
+    margin-bottom: 1rem;
+        */
+}
+
+.dasblog-form-group {
+    margin-bottom: 1rem;
+}
+
+.dasblog-col-form-label {
+    padding-top: calc(0.375rem + 1px);
+    padding-bottom: calc(0.375rem + 1px);
+    margin-bottom: 0;
+    font-size: inherit;
+    line-height: 1.5;
+}

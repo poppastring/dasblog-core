@@ -4,6 +4,7 @@ using DasBlog.Managers;
 using DasBlog.Managers.Interfaces;
 using DasBlog.Services.ActivityLogs;
 using DasBlog.Services.ConfigFile.Interfaces;
+using DasBlog.Services.FileManagement;
 using DasBlog.Web.Identity;
 using DasBlog.Web.Settings;
 using DasBlog.Web.Mappers;
@@ -33,14 +34,16 @@ using DasBlog.Services.ConfigFile;
 using DasBlog.Services.Users;
 using DasBlog.Services;
 using Microsoft.AspNetCore.HttpOverrides;
+using DasBlog.Services.FileManagement.Interfaces;
 
 namespace DasBlog.Web
 {
 	public class Startup
 	{
 		private readonly string SiteSecurityConfig;
-
 		private readonly string IISUrlRewriteConfig;
+		private readonly string SiteConfig;
+		private readonly string MetaConfig;
 
 		private readonly IWebHostEnvironment hostingEnvironment;
 		private readonly string binariesPath;
@@ -53,6 +56,8 @@ namespace DasBlog.Web
 			binariesPath = Configuration.GetValue<string>("binariesDir", "/").TrimStart('~').TrimEnd('/');
 			SiteSecurityConfig = $"Config/siteSecurity.{hostingEnvironment.EnvironmentName}.config";
 			IISUrlRewriteConfig = $"Config/IISUrlRewrite.{hostingEnvironment.EnvironmentName}.config";
+			SiteConfig = $"Config/site.{hostingEnvironment.EnvironmentName}.config";
+			MetaConfig = $"Config/meta.{hostingEnvironment.EnvironmentName}.config";
 		}
 
 		public IConfiguration Configuration { get; }
@@ -72,8 +77,15 @@ namespace DasBlog.Web
 			services.Configure<TimeZoneProviderOptions>(Configuration);
 			services.Configure<SiteConfig>(Configuration);
 			services.Configure<MetaTags>(Configuration);
-			services.Configure<LocalUserDataOptions>(options
-			  => options.Path = Path.Combine(GetDataRoot(hostingEnvironment), SiteSecurityConfig));
+
+			services.Configure<ConfigFilePathsDataOption>(options =>
+			{
+				options.SiteConfigFilePath = Path.Combine(GetDataRoot(hostingEnvironment), SiteConfig);
+				options.MetaConfigFilePath = Path.Combine(GetDataRoot(hostingEnvironment), MetaConfig);
+				options.SecurityConfigFilePath = Path.Combine(GetDataRoot(hostingEnvironment), SiteSecurityConfig);
+				options.IISUrlRewriteFilePath = Path.Combine(GetDataRoot(hostingEnvironment), IISUrlRewriteConfig);
+			});
+
 			services.Configure<ActivityRepoOptions>(options
 			  => options.Path = Path.Combine(GetDataRoot(hostingEnvironment), Constants.LogDirectory));
 
@@ -162,7 +174,9 @@ namespace DasBlog.Web
 				.AddSingleton<IActivityRepoFactory, ActivityRepoFactory>()
 				.AddSingleton<IEventLineParser, EventLineParser>()
 				.AddSingleton<ITimeZoneProvider, TimeZoneProvider>()
-				.AddSingleton<ISubscriptionManager, SubscriptionManager>();
+				.AddSingleton<ISubscriptionManager, SubscriptionManager>()
+				.AddSingleton<IConfigFileService<MetaTags>, MetaConfigFileService>()
+				.AddSingleton<IConfigFileService<SiteConfig>, SiteConfigFileService>();
 
 			services
 				.AddAutoMapper(mapperConfig =>
@@ -170,6 +184,7 @@ namespace DasBlog.Web
 					var serviceProvider = services.BuildServiceProvider();
 					mapperConfig.AddProfile(new ProfilePost(serviceProvider.GetService<IDasBlogSettings>()));
 					mapperConfig.AddProfile(new ProfileDasBlogUser(serviceProvider.GetService<ISiteSecurityManager>()));
+					mapperConfig.AddProfile(new ProfileSettings());
 				})
 				.AddMvc()
 				.AddXmlSerializerFormatters();
@@ -237,7 +252,6 @@ namespace DasBlog.Web
 			});
 
 			app.UseAuthentication();
-			
 			app.Use(PopulateThreadCurrentPrincipalForMvc);
 			app.UseRouting();
 			app.UseAuthorization();
@@ -250,6 +264,7 @@ namespace DasBlog.Web
 					await context.Response.WriteAsync("Healthy");
 				});
 			});
+
 			app.UseEndpoints(endpoints =>
 			{
 				if (routeOptionsAccessor.Value.EnableTitlePermaLinkUnique)

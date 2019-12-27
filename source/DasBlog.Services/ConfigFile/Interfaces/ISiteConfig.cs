@@ -280,7 +280,7 @@ namespace DasBlog.Services.ConfigFile.Interfaces
 		[XmlArray("PingServices", IsNullable = true)]
 		PingService[] PingServiceArray { get; set; }
 
-		ValidCommentTags[] ValidCommentTags { get; set; }
+		ValidCommentTags [] ValidCommentTags { get; set; }
 
 		bool EnableCoComment { get; set; }
 
