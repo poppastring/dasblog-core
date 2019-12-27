@@ -37,6 +37,8 @@ namespace DasBlog.Web.Controllers
 			dbsvm.MetaConfig = mapper.Map<MetaViewModel>(dasBlogSettings.MetaTags);
 			dbsvm.SiteConfig = mapper.Map<SiteViewModel>(dasBlogSettings.SiteConfiguration);
 
+
+
 			return View(dbsvm);
 		}
 

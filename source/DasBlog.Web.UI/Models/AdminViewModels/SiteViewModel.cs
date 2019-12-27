@@ -8,22 +8,23 @@ namespace DasBlog.Web.Models.AdminViewModels
 	{
 		[DisplayName("Title")]
 		[Description("Main title of the blog")]
-		[StringLength(300, MinimumLength = 1, ErrorMessage = "{0} should be between 1 to 300 characters")]
+		[Required(AllowEmptyStrings = false, ErrorMessage = "Please enter a blog title")]
+		[StringLength(300, ErrorMessage = "{0} should be between 1 to 300 characters")]
 		public string Title { get; set; }
 
 		[DisplayName("Subtitle")]
 		[Description("Subtitle of the blog")]
-		[StringLength(300, MinimumLength = 1, ErrorMessage = "{0} should be between 1 to 300 characters")]
+		[StringLength(300, ErrorMessage = "{0} should be between 1 to 300 characters")]
 		public string Subtitle { get; set; }
 
 		[DisplayName("Theme")]
 		[Description("Allows you to select one of several themes in the 'themes' folder. You can also create your own theme folder and update this element accordingly")]
-		[StringLength(300, MinimumLength = 1, ErrorMessage = "{0} should be between 1 to 300 characters")]
+		[StringLength(300, ErrorMessage = "{0} should be between 1 to 300 characters")]
 		public string Theme { get; set; }
 
 		[DisplayName("Description")]
 		[Description("A more detailed description of the blog")]
-		[StringLength(300, MinimumLength = 1, ErrorMessage = "{0} should be between 1 to 300 characters")]
+		[StringLength(300, MinimumLength = 0, ErrorMessage = "{0} should be between 1 to 300 characters")]
 		public string Description { get; set; }
 
 		[DisplayName("Email contact")]
@@ -38,22 +39,23 @@ namespace DasBlog.Web.Models.AdminViewModels
 
 		[DisplayName("Root URL")]
 		[Description("This is the most important element for you to change. This element contains the external root URL of you Weblog. All relative links are built using this value, instead of relying on the URL that was used for the incoming request, because that URL may not be what we want to have, especially when the URLs come through a complex redirect")]
-		[StringLength(300, MinimumLength = 1, ErrorMessage = "{0} should be between 1 to 300 characters")]
+		[Required(AllowEmptyStrings = false, ErrorMessage = "Please enter a valid site URL")]
+		[DataType(DataType.Url, ErrorMessage = "Invalid URL format")]
 		public string Root { get; set; }
 
 		[DisplayName("Copyright")]
 		[Description("Name of the sites copyright owner")]
-		[StringLength(300, MinimumLength = 1, ErrorMessage = "{0} should be between 1 to 300 characters")]
+		[StringLength(300, ErrorMessage = "{0} should be between 1 to 300 characters")]
 		public string Copyright { get; set; }
 
 		[DisplayName("Front page day count")]
 		[Description("The maximum number of days to appear on your home page")]
-		[Required]
+		[Required(AllowEmptyStrings = false, ErrorMessage = "Please enter a Front Page Day Count")]
 		public int FrontPageDayCount { get; set; }
 
 		[DisplayName("Front page entry count")]
 		[Description("Number of blog posts on the home page of your blog")]
-		[Required]
+		[Required(AllowEmptyStrings = false, ErrorMessage = "Please enter a Front Page Entry Count")]
 		public int FrontPageEntryCount { get; set; }
 
 		[DisplayName("Front page category")]
@@ -62,7 +64,7 @@ namespace DasBlog.Web.Models.AdminViewModels
 
 		[DisplayName("Entries per page")]
 		[Description(@"Number of blog posts on the pages of your blog e.g \page\1, page\2, etc")]
-		[Required]
+		[Required(AllowEmptyStrings = false, ErrorMessage = "Enter a value for Entries Per Page")]
 		public int EntriesPerPage { get; set; }
 
 		[DisplayName("Enable front page caching")]
@@ -71,7 +73,7 @@ namespace DasBlog.Web.Models.AdminViewModels
 
 		[DisplayName("Days to look ahead for content")]
 		[Description("Looks for future posts for this number of days into the future")]
-		[Required]
+		[Required(AllowEmptyStrings = false, ErrorMessage = "Enter a value for Content Look ahead Days")]
 		public int ContentLookaheadDays { get; set; }
 
 		[DisplayName("Show 'Item Summary' in Aggregated Views")]
@@ -80,17 +82,17 @@ namespace DasBlog.Web.Models.AdminViewModels
 
 		[DisplayName("RSS day count")]
 		[Description("Maximum number of days to appear in your RSS feed")]
-		[Required]
+		[Required(AllowEmptyStrings = false, ErrorMessage = "Enter a value for RSS Day Count")]
 		public int RssDayCount { get; set; }
 
 		[DisplayName("RSS main entry count")]
 		[Description("The number of entries permitted in the main RSS feed")]
-		[Required]
+		[Required(AllowEmptyStrings = false, ErrorMessage = "Enter a value for RSS Main Entry Count")]
 		public int RssMainEntryCount { get; set; }
 
 		[DisplayName("RSS entry category count")]
 		[Description("The number of entries permitted per RSS category feed")]
-		[Required]
+		[Required(AllowEmptyStrings = false, ErrorMessage = "Enter a value for RSS Entry Count")]
 		public int RssEntryCount { get; set; }
 
 		[DisplayName("Enable RSS item footer")]
@@ -99,7 +101,7 @@ namespace DasBlog.Web.Models.AdminViewModels
 
 		[DisplayName("RSS footer")]
 		[Description("The message to include in the RSS footer")]
-		[StringLength(300, MinimumLength = 1)]
+		[StringLength(300)]
 		public string RssItemFooter { get; set; }
 
 		[DisplayName("Include content in RSS Feed")]
@@ -116,7 +118,7 @@ namespace DasBlog.Web.Models.AdminViewModels
 
 		[DisplayName("Number of days comments allowed")]
 		[Description("The number of days a post can receive comments after publishing when 'Enable Comment Days' is set to true")]
-		[Required]
+		[Required(AllowEmptyStrings = false, ErrorMessage = "Enter a value for Days Comments Allowed")]
 		public int DaysCommentsAllowed { get; set; }
 
 		[DisplayName("Show comments when viewing an entry")]
@@ -166,16 +168,17 @@ namespace DasBlog.Web.Models.AdminViewModels
 		[DisplayName("Content directory")]
 		[Description("")]
 		[StringLength(300, MinimumLength = 1, ErrorMessage = "{0} should be between 1 to 300 characters")]
+		[Required(AllowEmptyStrings = false, ErrorMessage = "Enter a value for Content Directory")]
 		public string ContentDir { get; set; }
 
 		[DisplayName("Logging directory")]
 		[Description("")]
 		[StringLength(300, MinimumLength = 1, ErrorMessage = "{0} should be between 1 to 300 characters")]
+		[Required(AllowEmptyStrings = false, ErrorMessage = "Enter a value for Logging Directory")]
 		public string LogDir { get; set; }
 
 		[DisplayName("Adjust time zone")]
 		[Description("")]
-		[Required]
 		public bool AdjustDisplayTimeZone { get; set; }
 
 		[DisplayName("Time zone index")]
