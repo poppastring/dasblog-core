@@ -34,7 +34,7 @@ namespace DasBlog.Web.Models.AdminViewModels
 
 		[DisplayName("Notification email")]
 		[Description("Private email where notifications will be sent")]
-		[EmailAddress]
+		[DataType(DataType.EmailAddress, ErrorMessage = "Invalid Email Address")]
 		public string NotificationEMailAddress { get; set; }
 
 		[DisplayName("Root URL")]
