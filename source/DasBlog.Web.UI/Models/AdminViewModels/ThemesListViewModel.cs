@@ -26,7 +26,7 @@ namespace DasBlog.Web.Models.AdminViewModels
 
 		public List<ThemesListViewModel> Init()
 		{
-			var themelist = defaultfolders.Distinct().Select(o => new ThemesListViewModel(dasBlogSettings) {Name = o }).ToList();
+			var themelist = defaultfolders.Distinct(StringComparer.CurrentCultureIgnoreCase).Select(o => new ThemesListViewModel(dasBlogSettings) {Name = o }).ToList();
 
 			return themelist;
 		}
