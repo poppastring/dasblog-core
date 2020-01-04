@@ -40,24 +40,27 @@ namespace DasBlog.Web
 {
 	public class Startup
 	{
-		private readonly string SiteSecurityConfig;
-		private readonly string IISUrlRewriteConfig;
-		private readonly string SiteConfig;
-		private readonly string MetaConfig;
+		private readonly string SiteSecurityConfigPath;
+		private readonly string IISUrlRewriteConfigPath;
+		private readonly string SiteConfigPath;
+		private readonly string MetaConfigPath;
+		private readonly string ThemeFolderPath;
+		private readonly string BinariesPath;
 
 		private readonly IWebHostEnvironment hostingEnvironment;
-		private readonly string binariesPath;
+		
 		public static IServiceCollection DasBlogServices { get; private set; }
 
 		public Startup(IConfiguration configuration, IWebHostEnvironment env)
 		{
 			Configuration = configuration;
 			hostingEnvironment = env;
-			binariesPath = Configuration.GetValue<string>("binariesDir", "/").TrimStart('~').TrimEnd('/');
-			SiteSecurityConfig = $"Config/siteSecurity.{hostingEnvironment.EnvironmentName}.config";
-			IISUrlRewriteConfig = $"Config/IISUrlRewrite.{hostingEnvironment.EnvironmentName}.config";
-			SiteConfig = $"Config/site.{hostingEnvironment.EnvironmentName}.config";
-			MetaConfig = $"Config/meta.{hostingEnvironment.EnvironmentName}.config";
+			BinariesPath = Configuration.GetValue<string>("binariesDir", "/").TrimStart('~').TrimEnd('/');
+			SiteSecurityConfigPath = $"Config/siteSecurity.{hostingEnvironment.EnvironmentName}.config";
+			IISUrlRewriteConfigPath = $"Config/IISUrlRewrite.{hostingEnvironment.EnvironmentName}.config";
+			SiteConfigPath = $"Config/site.{hostingEnvironment.EnvironmentName}.config";
+			MetaConfigPath = $"Config/meta.{hostingEnvironment.EnvironmentName}.config";
+			ThemeFolderPath = string.Format("Themes\\{0}", Configuration.GetSection("Theme").Value);
 		}
 
 		public IConfiguration Configuration { get; }
@@ -66,24 +69,24 @@ namespace DasBlog.Web
 		public void ConfigureServices(IServiceCollection services)
 		{
 			services.AddOptions();
-			//.NET Core 2.2 adds this, but we'll do a basic one for 2.1, below
-			//services.AddHealthChecks();
+			services.AddHealthChecks().AddCheck<DasBlogHealthChecks>("health_check");;
 			services.AddMemoryCache();
 
 			services.Configure<BlogManagerOptions>(Configuration);
 			services.Configure<BlogManagerModifiableOptions>(Configuration);
-			services.Configure<BlogManagerExtraOptions>(opts =>
-				opts.ContentRootPath = GetDataRoot(hostingEnvironment));
+			services.Configure<BlogManagerExtraOptions>(opts => opts.ContentRootPath = GetDataRoot(hostingEnvironment));
 			services.Configure<TimeZoneProviderOptions>(Configuration);
 			services.Configure<SiteConfig>(Configuration);
 			services.Configure<MetaTags>(Configuration);
 
 			services.Configure<ConfigFilePathsDataOption>(options =>
 			{
-				options.SiteConfigFilePath = Path.Combine(GetDataRoot(hostingEnvironment), SiteConfig);
-				options.MetaConfigFilePath = Path.Combine(GetDataRoot(hostingEnvironment), MetaConfig);
-				options.SecurityConfigFilePath = Path.Combine(GetDataRoot(hostingEnvironment), SiteSecurityConfig);
-				options.IISUrlRewriteFilePath = Path.Combine(GetDataRoot(hostingEnvironment), IISUrlRewriteConfig);
+				options.SiteConfigFilePath = Path.Combine(GetDataRoot(hostingEnvironment), SiteConfigPath);
+				options.MetaConfigFilePath = Path.Combine(GetDataRoot(hostingEnvironment), MetaConfigPath);
+				options.SecurityConfigFilePath = Path.Combine(GetDataRoot(hostingEnvironment), SiteSecurityConfigPath);
+				options.IISUrlRewriteFilePath = Path.Combine(GetDataRoot(hostingEnvironment), IISUrlRewriteConfigPath);
+				options.ThemesFolder = Path.Combine(GetDataRoot(hostingEnvironment), ThemeFolderPath);
+				options.BinaryFolder = Path.Combine(GetDataRoot(hostingEnvironment), BinariesPath.TrimStart('~'));
 			});
 
 			services.Configure<ActivityRepoOptions>(options
@@ -217,7 +220,7 @@ namespace DasBlog.Web
 			}
 
 			var options = new RewriteOptions()
-				 .AddIISUrlRewrite(env.ContentRootFileProvider, IISUrlRewriteConfig);
+				 .AddIISUrlRewrite(env.ContentRootFileProvider, IISUrlRewriteConfigPath);
 
 			app.UseRewriter(options);
 			app.UseRouting();
@@ -241,8 +244,8 @@ namespace DasBlog.Web
 			app.UseStaticFiles();
 			app.UseStaticFiles(new StaticFileOptions()
 			{
-				FileProvider = new PhysicalFileProvider(Path.Combine(GetDataRoot(env), binariesPath.TrimStart('/'))),
-				RequestPath = binariesPath
+				FileProvider = new PhysicalFileProvider(Path.Combine(GetDataRoot(env), BinariesPath.TrimStart('/'))),
+				RequestPath = BinariesPath
 			});
 
 			app.UseStaticFiles(new StaticFileOptions
@@ -256,17 +259,10 @@ namespace DasBlog.Web
 			app.UseRouting();
 			app.UseAuthorization();
 
-			//We'll replace this when we move to ASP.NET Core 2.2+ LTS
-			app.Map("/healthcheck", api =>
-			{
-				api.Run(async (context) =>
-				{
-					await context.Response.WriteAsync("Healthy");
-				});
-			});
-
 			app.UseEndpoints(endpoints =>
 			{
+				endpoints.MapHealthChecks("/healthcheck");
+				
 				if (routeOptionsAccessor.Value.EnableTitlePermaLinkUnique)
 				{
 					endpoints.MapControllerRoute(

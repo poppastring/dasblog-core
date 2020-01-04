@@ -13,5 +13,9 @@ namespace DasBlog.Services.FileManagement
 		public string SecurityConfigFilePath { get; set; }
 
 		public string IISUrlRewriteFilePath { get; set; }
+
+		public string ThemesFolder { get; set; }
+
+		public string BinaryFolder { get; set; }
 	}
 }
