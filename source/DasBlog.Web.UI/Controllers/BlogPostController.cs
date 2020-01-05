@@ -5,6 +5,7 @@ using DasBlog.Services;
 using DasBlog.Web.Models.BlogViewModels;
 using DasBlog.Web.Services.Interfaces;
 using DasBlog.Web.Settings;
+using FluentEmail.Core;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -17,6 +18,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 
 namespace DasBlog.Web.Controllers
 {
@@ -32,10 +34,12 @@ namespace DasBlog.Web.Controllers
 		private readonly ILogger<BlogPostController> logger;
 		private readonly IBlogPostViewModelCreator modelViewCreator;
 		private readonly IMemoryCache memoryCache;
+		private readonly IFluentEmail fluentEmail;
 
 		public BlogPostController(IBlogManager blogManager, IHttpContextAccessor httpContextAccessor, IDasBlogSettings dasBlogSettings, 
 									IMapper mapper, ICategoryManager categoryManager, IFileSystemBinaryManager binaryManager, 
-									ILogger<BlogPostController> logger,IBlogPostViewModelCreator modelViewCreator, IMemoryCache memoryCache) 
+									ILogger<BlogPostController> logger,IBlogPostViewModelCreator modelViewCreator, IMemoryCache memoryCache,
+									IFluentEmail fluentEmail) 
 									: base(dasBlogSettings)
 		{
 			this.blogManager = blogManager;
@@ -47,6 +51,7 @@ namespace DasBlog.Web.Controllers
 			this.logger = logger;
 			this.modelViewCreator = modelViewCreator;
 			this.memoryCache = memoryCache;
+			this.fluentEmail = fluentEmail;
 		}
 
 		[AllowAnonymous]
@@ -337,7 +342,7 @@ namespace DasBlog.Web.Controllers
 
 		[AllowAnonymous]
 		[HttpPost("post/comments")]
-		public IActionResult AddComment(AddCommentViewModel addcomment)
+		public async Task<IActionResult> AddComment(AddCommentViewModel addcomment)
 		{
 			if (!dasBlogSettings.SiteConfiguration.EnableComments)
 			{
@@ -395,6 +400,23 @@ namespace DasBlog.Web.Controllers
 			}
 
 			BreakSiteCache();
+
+			// send email if enabled...
+
+			var model = new
+			{
+				Comment = addcomment.Content,
+				CommentorName = addcomment.Name,
+				CommentorHomePage = addcomment.HomePage,
+				CommentorEmail = addcomment.Email,
+				CommentUrl = HttpContext.Request.Path
+			};
+
+			await fluentEmail
+				.To(dasBlogSettings.SiteConfiguration.NotificationEMailAddress)
+				.Subject(string.Format(BLOG_EMAIL_COMMENT_SUBJECT, model.CommentorName, model.CommentorHomePage, model.CommentUrl))
+				.UsingTemplate(BLOG_EMAIL_COMMENT_BODY, model)
+				.SendAsync();
 
 			return Comment(addcomment.TargetEntryId);
 		}

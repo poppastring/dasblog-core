@@ -199,7 +199,10 @@ namespace DasBlog.Web
 			services
 				.AddFluentEmail("defaultemail@test.test")
 				.AddRazorRenderer()
-				.AddSmtpSender("localhost", 25);
+				.AddSmtpSender(Configuration.GetValue<string>("SmtpServer"), 
+								Configuration.GetValue<int>("SmtpPort"),
+								Configuration.GetValue<string>("SmtpUserName"),
+								Configuration.GetValue<string>("SmtpPassword"));
 
 			DasBlogServices = services;
 		}
