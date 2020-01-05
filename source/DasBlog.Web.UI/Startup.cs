@@ -69,7 +69,7 @@ namespace DasBlog.Web
 		public void ConfigureServices(IServiceCollection services)
 		{
 			services.AddOptions();
-			services.AddHealthChecks().AddCheck<DasBlogHealthChecks>("health_check");;
+			services.AddHealthChecks().AddCheck<DasBlogHealthChecks>("health_check");
 			services.AddMemoryCache();
 
 			services.Configure<BlogManagerOptions>(Configuration);
@@ -195,6 +195,11 @@ namespace DasBlog.Web
 			services
 				.AddControllersWithViews()
 				.AddRazorRuntimeCompilation();
+
+			services
+				.AddFluentEmail("defaultemail@test.test")
+				.AddRazorRenderer()
+				.AddSmtpSender("localhost", 25);
 
 			DasBlogServices = services;
 		}
