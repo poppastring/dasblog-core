@@ -401,23 +401,6 @@ namespace DasBlog.Web.Controllers
 
 			BreakSiteCache();
 
-			// send email if enabled...
-
-			var model = new
-			{
-				Comment = addcomment.Content,
-				CommentorName = addcomment.Name,
-				CommentorHomePage = addcomment.HomePage,
-				CommentorEmail = addcomment.Email,
-				CommentUrl = HttpContext.Request.Path
-			};
-
-			await fluentEmail
-				.To(dasBlogSettings.SiteConfiguration.NotificationEMailAddress)
-				.Subject(string.Format(BLOG_EMAIL_COMMENT_SUBJECT, model.CommentorName, model.CommentorHomePage, model.CommentUrl))
-				.UsingTemplate(BLOG_EMAIL_COMMENT_BODY, model)
-				.SendAsync();
-
 			return Comment(addcomment.TargetEntryId);
 		}
 

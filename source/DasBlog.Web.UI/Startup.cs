@@ -196,14 +196,6 @@ namespace DasBlog.Web
 				.AddControllersWithViews()
 				.AddRazorRuntimeCompilation();
 
-			services
-				.AddFluentEmail("defaultemail@test.test")
-				.AddRazorRenderer()
-				.AddSmtpSender(Configuration.GetValue<string>("SmtpServer"), 
-								Configuration.GetValue<int>("SmtpPort"),
-								Configuration.GetValue<string>("SmtpUserName"),
-								Configuration.GetValue<string>("SmtpPassword"));
-
 			DasBlogServices = services;
 		}
 
