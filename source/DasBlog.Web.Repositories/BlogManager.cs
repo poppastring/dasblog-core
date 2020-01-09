@@ -427,15 +427,16 @@ namespace DasBlog.Managers
 
 		public void SendCommentEmail(string name, string email, string homepage, string content, string posttitle, string entryid)
 		{
-			if(dasBlogSettings.SiteConfiguration.SendCommentsByEmail)
+			if (dasBlogSettings.SiteConfiguration.SendCommentsByEmail)
+			{
+				var source = new CancellationTokenSource();
+				var token = source.Token;
 
-			var source = new CancellationTokenSource();
-			var token = source.Token;
+				var subject = FormatCommentEmailSubject(name, homepage, posttitle);
+				var body = FormatCommentEmailBody(content, entryid);
 
-			var subject = FormatCommentEmailSubject(name, homepage, posttitle);
-			var body = FormatCommentEmailBody(content, entryid);
-
-			smtpService.SendEmail(email, subject, body, token);
+				smtpService.SendEmail(email, subject, body, token);
+			}
 		}
 
 		private string FormatCommentEmailSubject(string name, string homepage, string posttitle)
