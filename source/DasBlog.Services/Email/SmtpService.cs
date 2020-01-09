@@ -1,16 +1,14 @@
 ﻿using MailKit.Net.Smtp;
-using MailKit;
 using MimeKit;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
+using DasBlog.Services.Email.Interfaces;
 
 namespace DasBlog.Services.Email
 {
-	public class SmtpService
+	public class SmtpService : ISmtpService
 	{
 		public readonly SmtpDataOption smtpDataOpton;
 
@@ -22,7 +20,10 @@ namespace DasBlog.Services.Email
 		public async Task SendDailyNotificationEmail(CancellationToken cancellationToken)
 		{
 			// Need to pull in data about the last 24 email...
-			await SendingEmail(smtpDataOpton.ContactEMailAddress, "", "", cancellationToken);
+
+			await SendingEmail(smtpDataOpton.ContactEMailAddress, 
+								string.Format("Weblog Daily Activity Report for {0}", DateTime.Now), 
+								"Some message for the body", cancellationToken);
 		}
 
 		public async Task SendEmail(string email, string subject, string message, CancellationToken cancellationToken)

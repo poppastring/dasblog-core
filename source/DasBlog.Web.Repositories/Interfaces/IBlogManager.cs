@@ -33,5 +33,6 @@ namespace DasBlog.Managers.Interfaces
 
 	    EntryCollection SearchEntries(string searchString, string acceptLanguageHeader);
 
+		void SendCommentEmail(string name, string email, string homepage,string content, string postitle, string entryid);
     }
 }

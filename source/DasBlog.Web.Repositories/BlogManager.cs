@@ -13,6 +13,8 @@ using System.Globalization;
 using System.Text.RegularExpressions;
 using System.Linq;
 using DasBlog.Services;
+using DasBlog.Services.Email.Interfaces;
+using System.Threading;
 
 namespace DasBlog.Managers
 {
@@ -22,11 +24,13 @@ namespace DasBlog.Managers
 		private readonly ILogger logger;
 		private static readonly Regex stripTags = new Regex("<[^>]*>", RegexOptions.Compiled | RegexOptions.CultureInvariant);
 		private readonly IDasBlogSettings dasBlogSettings;
+		private readonly ISmtpService smtpService;
 
-		public BlogManager( ILogger<BlogManager> logger, IDasBlogSettings dasBlogSettings)
+		public BlogManager( ILogger<BlogManager> logger, IDasBlogSettings dasBlogSettings, ISmtpService smtpService)
 		{
 			this.dasBlogSettings = dasBlogSettings;
 			this.logger = logger;
+			this.smtpService = smtpService;
 			var loggingDataService = LoggingDataServiceFactory.GetService(this.dasBlogSettings.WebRootDirectory + this.dasBlogSettings.SiteConfiguration.LogDir);;
 			dataService = BlogDataServiceFactory.GetService(this.dasBlogSettings.WebRootDirectory + this.dasBlogSettings.SiteConfiguration.ContentDir, loggingDataService);
 		}
@@ -419,6 +423,36 @@ namespace DasBlog.Managers
 		public CategoryCacheEntryCollection GetCategories()
 		{
 			return dataService.GetCategories();
+		}
+
+		public void SendCommentEmail(string name, string email, string homepage, string content, string posttitle, string entryid)
+		{
+			if(dasBlogSettings.SiteConfiguration.SendCommentsByEmail)
+
+			var source = new CancellationTokenSource();
+			var token = source.Token;
+
+			var subject = FormatCommentEmailSubject(name, homepage, posttitle);
+			var body = FormatCommentEmailBody(content, entryid);
+
+			smtpService.SendEmail(email, subject, body, token);
+		}
+
+		private string FormatCommentEmailSubject(string name, string homepage, string posttitle)
+		{
+			if(!string.IsNullOrWhiteSpace(homepage))
+			{ 
+				string.Format("Weblog comment by '{0}' from '{1}' on '{2}'", name, homepage, posttitle);
+			}
+
+			return string.Format("Weblog comment by '{0}' on '{1}'", name, posttitle);
+		}
+
+		private string FormatCommentEmailBody(string comment, string entryid)
+		{
+			var commenturl = dasBlogSettings.GetCommentViewUrl(entryid);
+
+			return string.Format("{0}{1} Comments page:{2}", comment, Environment.NewLine, commenturl);	
 		}
 	}
 }
