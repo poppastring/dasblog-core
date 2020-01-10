@@ -57,9 +57,4 @@ Check out the [Theme Design wiki here](https://github.com/poppastring/dasblog-co
 
 ## Documentation
 - [DasBlog Core Wiki](https://github.com/poppastring/dasblog-core/wiki)
-- [Site Configuration](https://github.com/poppastring/dasblog-core/wiki/1.-Site-Configuration)
-- [Site Security Configuration](https://github.com/poppastring/dasblog-core/wiki/2.-Site-Security-Configuration)
-- [Meta Configuration](https://github.com/poppastring/dasblog-core/wiki/3.-Meta-Configuration)
-- [Functonal Tests Guide](source/DasBlog.Tests/FunctionalTests/FunctionalTests.md)
-- [Test Documentation](source/TestDocumentationIndex.md)
-- [Cross-platform Guide](source/CrossPlatform.md)
+
