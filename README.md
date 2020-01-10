@@ -11,7 +11,7 @@ Check out the [wiki](https://github.com/poppastring/dasblog-core/wiki) for addit
 ## Our guiding principles
 
 In developing this project we attempted to follow some [fundamental principles](https://www.poppastring.com/blog/one-hard-thing-in-software-engineering):
-- Pragmatically reuse core DasBlog projects where feasible (includes reusing existing config files).
+- Pragmatically reuse original DasBlog projects where feasible (includes reusing existing config files).
 - Do not be afraid to abandon features/projects that are easily solved with a NuGet package (Pop3, CAPTCHA, Noda Time, etc.)
 - Let's use Razor for "Themes"
 - Port the custom logging solution to use .NET Core
@@ -39,22 +39,11 @@ git clone https://github.com/[YOUR_GITHUB_ID]/dasblog-core
 Change to the "source" directory and open the *DasBlog All.sln* and perform a build.
 
 ## Deployment
-
-Currently the most efficient way to deploy dasblog-core is by following the [Overview of deployment in Visual Studio](https://docs.microsoft.com/en-us/visualstudio/deployment/deploying-applications-services-and-components-resources?view=vs-2017).
-
-Configuration settings are as follows:
-- Configuration: Release
-- netcoreapp3.0
-- Self -Contained
-- win-x64
-
-So far deployment to Azure and to a .NET based hosting service provider worked fine, via Web Deploy and FTP respectively. If you have additional questions or concerns please [submit an issue](https://github.com/poppastring/dasblog-core/issues).
+Check out the [Deployment Wiki](https://github.com/poppastring/dasblog-core/wiki/1.-Deployment)
 
 ## Design
-DasBlog Core uses a templating system based on the [Razor Engine](https://docs.microsoft.com/en-us/aspnet/web-pages/overview/getting-started/introducing-razor-syntax-c) to define the layouts of each theme. 
-
-Check out the [Theme Design wiki here](https://github.com/poppastring/dasblog-core/wiki/5.-Theme-Design).
+Check out the [Theme Design Wiki](https://github.com/poppastring/dasblog-core/wiki/4.-Designing-a-theme).
 
 ## Documentation
-- [DasBlog Core Wiki](https://github.com/poppastring/dasblog-core/wiki)
+[DasBlog Core Wiki](https://github.com/poppastring/dasblog-core/wiki)
 
