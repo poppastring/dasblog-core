@@ -342,7 +342,7 @@ namespace DasBlog.Web.Controllers
 
 		[AllowAnonymous]
 		[HttpPost("post/comments")]
-		public async Task<IActionResult> AddComment(AddCommentViewModel addcomment)
+		public IActionResult AddComment(AddCommentViewModel addcomment)
 		{
 			if (!dasBlogSettings.SiteConfiguration.EnableComments)
 			{

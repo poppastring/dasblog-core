@@ -452,7 +452,7 @@ namespace DasBlog.Managers
 		{
 			if(!string.IsNullOrWhiteSpace(homepage))
 			{ 
-				string.Format("Weblog comment by '{0}' from '{1}' on '{2}'", name, homepage, posttitle);
+				return string.Format("Weblog comment by '{0}' from '{1}' on '{2}'", name, homepage, posttitle);
 			}
 
 			return string.Format("Weblog comment by '{0}' on '{1}'", name, posttitle);
@@ -461,10 +461,10 @@ namespace DasBlog.Managers
 		private string FormatCommentEmailBody(string content, string email, string entryid)
 		{
 			var commentline = string.Format("Comment Page: {0}", dasBlogSettings.GetCommentViewUrl(entryid));
-			var emailline = string.Format("Comment From: {0)", email);
+			var emailline = string.Format("Comment From: {0}", email);
 			var loginline = string.Format("Login: {0}", dasBlogSettings.RelativeToRoot("account/login"));
 
-			return string.Format("{0}{1}{1}{2}{1}{3}{1}{1}{4}", content, Environment.NewLine, commentline, emailline, loginline);
+			return string.Format("{0}{1}{1}{2}{1}{1}{3}{1}{1}{4}", content, Environment.NewLine, emailline, commentline, loginline);
 
 		}
 	}
