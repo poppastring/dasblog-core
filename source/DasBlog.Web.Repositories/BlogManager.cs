@@ -425,17 +425,26 @@ namespace DasBlog.Managers
 			return dataService.GetCategories();
 		}
 
-		public void SendCommentEmail(string name, string email, string homepage, string content, string posttitle, string entryid)
+		public void SendCommentEmail(string name, string email, string homepage, string content, string entryid)
 		{
 			if (dasBlogSettings.SiteConfiguration.SendCommentsByEmail)
 			{
 				var source = new CancellationTokenSource();
 				var token = source.Token;
 
+				var posttitle = GetBlogPostByGuid(new Guid(entryid))?.Title;
 				var subject = FormatCommentEmailSubject(name, homepage, posttitle);
-				var body = FormatCommentEmailBody(content, entryid);
+				var body = FormatCommentEmailBody(content, email, entryid);
 
-				smtpService.SendEmail(email, subject, body, token);
+				try 
+				{
+					smtpService.SendEmail(subject, body, token);
+				}
+				catch (Exception ex)
+				{
+					logger.LogError(ex, ex.Message, null);
+				}
+				
 			}
 		}
 
@@ -449,11 +458,14 @@ namespace DasBlog.Managers
 			return string.Format("Weblog comment by '{0}' on '{1}'", name, posttitle);
 		}
 
-		private string FormatCommentEmailBody(string comment, string entryid)
+		private string FormatCommentEmailBody(string content, string email, string entryid)
 		{
-			var commenturl = dasBlogSettings.GetCommentViewUrl(entryid);
+			var commentline = string.Format("Comment Page: {0}", dasBlogSettings.GetCommentViewUrl(entryid));
+			var emailline = string.Format("Comment From: {0)", email);
+			var loginline = string.Format("Login: {0}", dasBlogSettings.RelativeToRoot("account/login"));
 
-			return string.Format("{0}{1} Comments page:{2}", comment, Environment.NewLine, commenturl);	
+			return string.Format("{0}{1}{1}{2}{1}{3}{1}{1}{4}", content, Environment.NewLine, commentline, emailline, loginline);
+
 		}
 	}
 }

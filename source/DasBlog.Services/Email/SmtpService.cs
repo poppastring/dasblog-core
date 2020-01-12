@@ -21,21 +21,20 @@ namespace DasBlog.Services.Email
 		{
 			// Need to pull in data about the last 24 email...
 
-			await SendingEmail(smtpDataOpton.ContactEMailAddress, 
-								string.Format("Weblog Daily Activity Report for {0}", DateTime.Now), 
+			await SendingEmail(string.Format("Weblog Daily Activity Report for {0}", DateTime.Now), 
 								"Some message for the body", cancellationToken);
 		}
 
-		public async Task SendEmail(string email, string subject, string message, CancellationToken cancellationToken)
+		public async Task SendEmail(string subject, string message, CancellationToken cancellationToken)
 		{
-			await SendingEmail(email, subject, message, cancellationToken);
+			await SendingEmail(subject, message, cancellationToken);
 		}
 
-		private async Task SendingEmail(string email, string subject, string message, CancellationToken cancellationToken)
+		private async Task SendingEmail(string subject, string message, CancellationToken cancellationToken)
 		{
 			var mimemessage = new MimeMessage();
 			mimemessage.To.Add(new MailboxAddress(smtpDataOpton.NotificationEMailAddress));
-			mimemessage.From.Add(new MailboxAddress(this.smtpDataOpton.SmtpUserName));
+			mimemessage.From.Add(new MailboxAddress(smtpDataOpton.SmtpUserName));
 
 			mimemessage.Subject = subject;
 

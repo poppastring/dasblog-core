@@ -10,6 +10,6 @@ namespace DasBlog.Services.Email.Interfaces
 	{
 		Task SendDailyNotificationEmail(CancellationToken cancellationToken);
 
-		Task SendEmail(string email, string subject, string message, CancellationToken cancellationToken);
+		Task SendEmail(string subject, string message, CancellationToken cancellationToken);
 	}
 }

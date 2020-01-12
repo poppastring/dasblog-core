@@ -401,50 +401,10 @@ namespace DasBlog.Web.Controllers
 
 			BreakSiteCache();
 
-			if(dasBlogSettings.SiteConfiguration.SendCommentsByEmail)
-			{
-				try
-				{
-					var source = new CancellationTokenSource();
-					var ct = source.Token;
-
-					var subject = EmailCommentSubject(addcomment);
-					var message = EmailCommentMessage(addcomment);
-
-					await smtpService.SendEmail(addcomment.Email, subject, message, ct);
-				}
-				catch(Exception ex)
-				{
-					logger.LogError(ex, ex.Message, null);
-				}
-			}
+			blogManager.SendCommentEmail(addcomment.Name, addcomment.Email, addcomment.HomePage,
+											addcomment.Content, addcomment.TargetEntryId);
 
 			return Comment(addcomment.TargetEntryId);
-		}
-
-		private string EmailCommentSubject(AddCommentViewModel cvm)
-		{
-			string subject;
-			var blogtitle = blogManager.GetBlogPostByGuid(new Guid(cvm.TargetEntryId))?.Title;
-
-			if (string.IsNullOrWhiteSpace(cvm.HomePage))
-			{
-				subject = string.Format("Weblog comment by '{0}' from {1} on {2}", cvm.Name, cvm.HomePage, blogtitle);
-			}
-			else
-			{
-				subject = string.Format("Weblog comment by '{0} on {1}", cvm.Name, blogtitle);
-			}
-
-			return subject;
-		}
-
-		private string EmailCommentMessage(AddCommentViewModel cvm)
-		{
-			string commentline = string.Format("Comment Page: {0}", dasBlogSettings.GetCommentViewUrl(cvm.TargetEntryId));
-			string loginline = string.Format("Login: {0}", dasBlogSettings.RelativeToRoot("account/login"));
-
-			return string.Format("{0}{1}{1}{2}{1}{1}{3}", cvm.Content, Environment.NewLine, commentline, loginline);
 		}
 
 		[HttpDelete("post/{postid:guid}/message/{commentid:guid}")]
