@@ -189,11 +189,34 @@ namespace DasBlog.Web.Models.AdminViewModels
 		[Description("")]
 		public bool CommentsRequireApproval { get; set; }
 
-		
+		[DisplayName("Send comment notification")]
+		[Description("")]
+		public bool SendCommentsByEmail { get; set; }
+
+		[DisplayName("SMTP server")]
+		[Description("")]
+		public string SmtpServer { get; set; }
+
+		[DisplayName("SMTP port")]
+		[Description("")]
+		public int SmtpPort { get; set; }
+
+		[DisplayName("SMTP user name")]
+		[Description("")]
+		public string SmtpUserName { get; set; }
+
+		[DisplayName("SMTP password")]
+		[Description("")]
+		public string SmtpPassword { get; set; }
+
+		[DisplayName("Use SSL with SMTP")]
+		[Description("")]
+		public bool UseSSLForSMTP { get; set; }
+
+
 		public string BinariesDir { get; set; }
 		public bool EntryTitleAsLink { get; set; }
 		public bool ObfuscateEmail { get; set; }
-		public bool SendCommentsByEmail { get; set; }
 		public bool SendReferralsByEmail { get; set; }
 		public bool SendTrackbacksByEmail { get; set; }
 		public bool SendPingbacksByEmail { get; set; }
@@ -214,7 +237,6 @@ namespace DasBlog.Web.Models.AdminViewModels
 		public string EditPassword { get; set; }
 		public string ProfilesDir { get; set; }
 		public string BinariesDirRelative { get; set; }
-		public string SmtpServer { get; set; }
 		public bool EnablePop3 { get; set; }
 		public string Pop3Server { get; set; }
 		public string Pop3Username { get; set; }
@@ -246,8 +268,6 @@ namespace DasBlog.Web.Models.AdminViewModels
 		public bool EnableTitlePermaLinkSpaces { get; set; }
 		public bool EncryptLoginPassword { get; set; }
 		public bool EnableSmtpAuthentication { get; set; }
-		public string SmtpUserName { get; set; }
-		public string SmtpPassword { get; set; }
 		public string RssLanguage { get; set; }
 		public bool EnableSearchHighlight { get; set; }
 		public bool EnableEntryReferrals { get; set; }
@@ -256,7 +276,6 @@ namespace DasBlog.Web.Models.AdminViewModels
 		public bool LogBlockedReferrals { get; set; }
 		public bool UseFeedSchemeForSyndication { get; set; }
 		public bool EnableAutoSave { get; set; }
-		public int SmtpPort { get; set; }
 		public bool CommentsAllowGravatar { get; set; }
 		public string CommentsGravatarNoImgPath { get; set; }
 		public string CommentsGravatarSize { get; set; }
@@ -269,7 +288,6 @@ namespace DasBlog.Web.Models.AdminViewModels
 		//public ISpamBlockingService SpamBlockingService { get; set; }
 		public bool EnableSpamModeration { get; set; }
 		public bool EnableDailyReportEmail { get; set; }
-		public bool UseSSLForSMTP { get; set; }
 		public bool EnableGoogleMaps { get; set; }
 		public string GoogleMapsApiKey { get; set; }
 		public bool EnableGeoRss { get; set; }
