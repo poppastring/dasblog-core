@@ -2,6 +2,7 @@
 using DasBlog.Core.Common;
 using DasBlog.Managers.Interfaces;
 using DasBlog.Services;
+using DasBlog.Services.Email.Interfaces;
 using DasBlog.Web.Models.BlogViewModels;
 using DasBlog.Web.Services.Interfaces;
 using DasBlog.Web.Settings;
@@ -17,6 +18,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace DasBlog.Web.Controllers
@@ -33,10 +35,11 @@ namespace DasBlog.Web.Controllers
 		private readonly ILogger<BlogPostController> logger;
 		private readonly IBlogPostViewModelCreator modelViewCreator;
 		private readonly IMemoryCache memoryCache;
+		private readonly ISmtpService smtpService;
 
 		public BlogPostController(IBlogManager blogManager, IHttpContextAccessor httpContextAccessor, IDasBlogSettings dasBlogSettings, 
-									IMapper mapper, ICategoryManager categoryManager, IFileSystemBinaryManager binaryManager, 
-									ILogger<BlogPostController> logger,IBlogPostViewModelCreator modelViewCreator, IMemoryCache memoryCache) 
+									IMapper mapper, ICategoryManager categoryManager, IFileSystemBinaryManager binaryManager, ILogger<BlogPostController> logger,
+									IBlogPostViewModelCreator modelViewCreator, IMemoryCache memoryCache, ISmtpService smtpService) 
 									: base(dasBlogSettings)
 		{
 			this.blogManager = blogManager;
@@ -48,6 +51,7 @@ namespace DasBlog.Web.Controllers
 			this.logger = logger;
 			this.modelViewCreator = modelViewCreator;
 			this.memoryCache = memoryCache;
+			this.smtpService = smtpService;
 		}
 
 		[AllowAnonymous]
@@ -397,10 +401,53 @@ namespace DasBlog.Web.Controllers
 
 			BreakSiteCache();
 
+			if(dasBlogSettings.SiteConfiguration.SendCommentsByEmail)
+			{
+				try
+				{
+					var source = new CancellationTokenSource();
+					var ct = source.Token;
+
+					var subject = EmailCommentSubject(addcomment);
+					var message = EmailCommentMessage(addcomment);
+
+					await smtpService.SendEmail(addcomment.Email, subject, message, ct);
+				}
+				catch(Exception ex)
+				{
+					logger.LogError(ex, ex.Message, null);
+				}
+			}
+
 			return Comment(addcomment.TargetEntryId);
 		}
 
-		[HttpDelete("post/{postid:guid}/comments/{commentid:guid}")]
+		private string EmailCommentSubject(AddCommentViewModel cvm)
+		{
+			string subject;
+			var blogtitle = blogManager.GetBlogPostByGuid(new Guid(cvm.TargetEntryId))?.Title;
+
+			if (string.IsNullOrWhiteSpace(cvm.HomePage))
+			{
+				subject = string.Format("Weblog comment by '{0}' from {1} on {2}", cvm.Name, cvm.HomePage, blogtitle);
+			}
+			else
+			{
+				subject = string.Format("Weblog comment by '{0} on {1}", cvm.Name, blogtitle);
+			}
+
+			return subject;
+		}
+
+		private string EmailCommentMessage(AddCommentViewModel cvm)
+		{
+			string commentline = string.Format("Comment Page: {0}", dasBlogSettings.GetCommentViewUrl(cvm.TargetEntryId));
+			string loginline = string.Format("Login: {0}", dasBlogSettings.RelativeToRoot("account/login"));
+
+			return string.Format("{0}{1}{1}{2}{1}{1}{3}", cvm.Content, Environment.NewLine, commentline, loginline);
+		}
+
+		[HttpDelete("post/{postid:guid}/message/{commentid:guid}")]
 		public IActionResult DeleteComment(Guid postid, Guid commentid)
 		{
 			var state = blogManager.DeleteComment(postid.ToString(), commentid.ToString());

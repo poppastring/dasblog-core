@@ -98,6 +98,7 @@ namespace DasBlog.Web
 				options.SmtpPort = Configuration.GetValue<int>("SmtpPort");
 				options.SmtpServer = Configuration.GetValue<string>("SmtpServer");
 				options.SmtpUserName = Configuration.GetValue<string>("SmtpUserName");
+				options.SmtpPassword = Configuration.GetValue<string>("SmtpPassword");
 				options.UseSSLForSMTP = Configuration.GetValue<bool>("UseSSLForSMTP");
 			});
 
@@ -192,8 +193,10 @@ namespace DasBlog.Web
 				.AddSingleton<ISubscriptionManager, SubscriptionManager>()
 				.AddSingleton<IConfigFileService<MetaTags>, MetaConfigFileService>()
 				.AddSingleton<IConfigFileService<SiteConfig>, SiteConfigFileService>()
-				.AddSingleton<ISmtpService, SmtpService>()
-				.AddSingleton<IHostedService, DailyNotificationService>(); ;
+				.AddSingleton<ISmtpService, SmtpService>();
+				
+				// Need more time to resolve the issue with daily emails...
+				// .AddSingleton<IHostedService, DailyNotificationService>(); 
 
 			services
 				.AddAutoMapper(mapperConfig =>

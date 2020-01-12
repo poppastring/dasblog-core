@@ -34,8 +34,8 @@ namespace DasBlog.Services.Email
 		private async Task SendingEmail(string email, string subject, string message, CancellationToken cancellationToken)
 		{
 			var mimemessage = new MimeMessage();
-			mimemessage.From.Add(new MailboxAddress(smtpDataOpton.NotificationEMailAddress));
-			mimemessage.To.Add(new MailboxAddress(email));
+			mimemessage.To.Add(new MailboxAddress(smtpDataOpton.NotificationEMailAddress));
+			mimemessage.From.Add(new MailboxAddress(this.smtpDataOpton.SmtpUserName));
 
 			mimemessage.Subject = subject;
 
@@ -46,12 +46,11 @@ namespace DasBlog.Services.Email
 
 			using (var client = new SmtpClient())
 			{
-				// For demo-purposes, accept all SSL certificates (in case the server supports STARTTLS)
+				// Accept all SSL certificates (in case the server supports STARTTLS)
 				client.ServerCertificateValidationCallback = (s, c, h, e) => true;
 
 				client.Connect(smtpDataOpton.SmtpServer, smtpDataOpton.SmtpPort, smtpDataOpton.UseSSLForSMTP);
 
-				// Note: only needed if the SMTP server requires authentication
 				await client.AuthenticateAsync(smtpDataOpton.SmtpUserName, smtpDataOpton.SmtpPassword, cancellationToken);
 
 				await client.SendAsync(mimemessage, cancellationToken);
