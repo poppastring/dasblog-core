@@ -35,6 +35,8 @@ using DasBlog.Services.Users;
 using DasBlog.Services;
 using Microsoft.AspNetCore.HttpOverrides;
 using DasBlog.Services.FileManagement.Interfaces;
+using DasBlog.Services.Email;
+using DasBlog.Services.Email.Interfaces;
 
 namespace DasBlog.Web
 {
@@ -69,7 +71,7 @@ namespace DasBlog.Web
 		public void ConfigureServices(IServiceCollection services)
 		{
 			services.AddOptions();
-			services.AddHealthChecks().AddCheck<DasBlogHealthChecks>("health_check");;
+			services.AddHealthChecks().AddCheck<DasBlogHealthChecks>("health_check");
 			services.AddMemoryCache();
 
 			services.Configure<BlogManagerOptions>(Configuration);
@@ -87,6 +89,17 @@ namespace DasBlog.Web
 				options.IISUrlRewriteFilePath = Path.Combine(GetDataRoot(hostingEnvironment), IISUrlRewriteConfigPath);
 				options.ThemesFolder = Path.Combine(GetDataRoot(hostingEnvironment), ThemeFolderPath);
 				options.BinaryFolder = Path.Combine(GetDataRoot(hostingEnvironment), BinariesPath.TrimStart('~'));
+			});
+
+			services.Configure<SmtpDataOption>(options =>
+			{
+				options.ContactEMailAddress = Configuration.GetValue<string>("Contact");
+				options.NotificationEMailAddress = Configuration.GetValue<string>("NotificationEMailAddress");
+				options.SmtpPort = Configuration.GetValue<int>("SmtpPort");
+				options.SmtpServer = Configuration.GetValue<string>("SmtpServer");
+				options.SmtpUserName = Configuration.GetValue<string>("SmtpUserName");
+				options.SmtpPassword = Configuration.GetValue<string>("SmtpPassword");
+				options.UseSSLForSMTP = Configuration.GetValue<bool>("UseSSLForSMTP");
 			});
 
 			services.Configure<ActivityRepoOptions>(options
@@ -179,7 +192,11 @@ namespace DasBlog.Web
 				.AddSingleton<ITimeZoneProvider, TimeZoneProvider>()
 				.AddSingleton<ISubscriptionManager, SubscriptionManager>()
 				.AddSingleton<IConfigFileService<MetaTags>, MetaConfigFileService>()
-				.AddSingleton<IConfigFileService<SiteConfig>, SiteConfigFileService>();
+				.AddSingleton<IConfigFileService<SiteConfig>, SiteConfigFileService>()
+				.AddSingleton<ISmtpService, SmtpService>();
+				
+				// Need more time to resolve the issue with daily emails...
+				// .AddSingleton<IHostedService, DailyNotificationService>(); 
 
 			services
 				.AddAutoMapper(mapperConfig =>

@@ -14,7 +14,9 @@ namespace DasBlog.Web.Settings
 		private readonly IDasBlogSettings dasBlogSettings;
 		protected const string BLOG_PAGE = "_BlogPage";
 		protected const string BLOG_PAGESUMMARY = "_BlogPageSummary";
-
+		protected const string BLOG_EMAIL_COMMENT_SUBJECT = "Weblog comment by {0} from {1} on {2}";
+		protected const string BLOG_EMAIL_COMMENT_TEMPLATE_BODY = "@Model.Comment \r\n\r\n Comment Page @Model.CommentUrl \r\n Login and approve/delete the comment.";
+		
 		protected DasBlogBaseController(IDasBlogSettings settings)
 		{
 			dasBlogSettings = settings;

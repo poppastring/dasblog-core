@@ -20,12 +20,15 @@ namespace DasBlog.Web.Controllers
 		private readonly IDasBlogSettings dasBlogSettings;
 		private readonly IFileSystemBinaryManager fileSystemBinaryManager;
 		private readonly IMapper mapper;
+		private readonly IBlogManager blogManager;
 
-		public AdminController(IDasBlogSettings dasBlogSettings, IFileSystemBinaryManager fileSystemBinaryManager, IMapper mapper) : base(dasBlogSettings)
+		public AdminController(IDasBlogSettings dasBlogSettings, IFileSystemBinaryManager fileSystemBinaryManager, IMapper mapper,
+								IBlogManager blogManager) : base(dasBlogSettings)
 		{
 			this.dasBlogSettings = dasBlogSettings;
 			this.fileSystemBinaryManager = fileSystemBinaryManager;
 			this.mapper = mapper;
+			this.blogManager = blogManager;
 		}
 
 		[HttpGet]
@@ -36,8 +39,6 @@ namespace DasBlog.Web.Controllers
 			var dbsvm = new DasBlogSettingsViewModel();
 			dbsvm.MetaConfig = mapper.Map<MetaViewModel>(dasBlogSettings.MetaTags);
 			dbsvm.SiteConfig = mapper.Map<SiteViewModel>(dasBlogSettings.SiteConfiguration);
-
-
 
 			return View(dbsvm);
 		}
@@ -75,5 +76,17 @@ namespace DasBlog.Web.Controllers
 
 			return Settings();
 		}
+		public async Task<IActionResult> TestEmail()
+		{
+			var success = await blogManager.SendTestEmail();
+
+			if (!success)
+			{
+				ModelState.AddModelError("", "Error sending the test email. Check the logs for details.");
+			}
+
+			return RedirectToAction("Settings");
+		}
+
 	}
 }
