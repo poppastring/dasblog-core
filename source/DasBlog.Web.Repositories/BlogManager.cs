@@ -15,6 +15,7 @@ using System.Linq;
 using DasBlog.Services;
 using DasBlog.Services.Email.Interfaces;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace DasBlog.Managers
 {
@@ -445,6 +446,25 @@ namespace DasBlog.Managers
 					logger.LogError(ex, ex.Message, null);
 				}
 				
+			}
+		}
+
+		public async Task<bool> SendTestEmail()
+		{
+			var source = new CancellationTokenSource();
+			var token = source.Token;
+			var subject = string.Format("Test email sent from {0}", dasBlogSettings.SiteConfiguration.Title);
+			var body = string.Format("If you got this email your settings are good!");
+
+			try
+			{
+				await smtpService.SendEmail(subject, body, token);
+				return true;
+			}
+			catch (Exception ex)
+			{
+				logger.LogError(ex, ex.Message, null);
+				return false;
 			}
 		}
 

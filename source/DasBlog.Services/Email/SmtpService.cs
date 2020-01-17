@@ -1,10 +1,10 @@
-﻿using MailKit.Net.Smtp;
+﻿using DasBlog.Services.Email.Interfaces;
+using MailKit.Net.Smtp;
+using Microsoft.Extensions.Options;
 using MimeKit;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Options;
-using DasBlog.Services.Email.Interfaces;
 
 namespace DasBlog.Services.Email
 {
@@ -14,7 +14,7 @@ namespace DasBlog.Services.Email
 
 		public SmtpService(IOptions<SmtpDataOption> optionsAccessor)
 		{
-			this.smtpDataOpton = optionsAccessor.Value;
+			smtpDataOpton = optionsAccessor.Value;
 		}
 
 		public async Task SendDailyNotificationEmail(CancellationToken cancellationToken)
@@ -32,30 +32,27 @@ namespace DasBlog.Services.Email
 
 		private async Task SendingEmail(string subject, string message, CancellationToken cancellationToken)
 		{
-			var mimemessage = new MimeMessage();
-			mimemessage.To.Add(new MailboxAddress(smtpDataOpton.NotificationEMailAddress));
-			mimemessage.From.Add(new MailboxAddress(smtpDataOpton.SmtpUserName));
-
-			mimemessage.Subject = subject;
-
-			mimemessage.Body = new TextPart("plain")
+			var client = new System.Net.Mail.SmtpClient
 			{
-				Text = message
+				Host = smtpDataOpton.SmtpServer,
+				Port = smtpDataOpton.SmtpPort,
+				EnableSsl = smtpDataOpton.UseSSLForSMTP,
+				Timeout = 1000000,
+				UseDefaultCredentials = false,
+				Credentials = new System.Net.NetworkCredential(smtpDataOpton.SmtpUserName, smtpDataOpton.SmtpPassword)
 			};
 
-			using (var client = new SmtpClient())
-			{
-				// Accept all SSL certificates (in case the server supports STARTTLS)
-				client.ServerCertificateValidationCallback = (s, c, h, e) => true;
 
-				client.Connect(smtpDataOpton.SmtpServer, smtpDataOpton.SmtpPort, smtpDataOpton.UseSSLForSMTP);
+			var from = new System.Net.Mail.MailAddress(smtpDataOpton.SmtpUserName, string.Empty, System.Text.Encoding.UTF8);
+			var to = new System.Net.Mail.MailAddress(smtpDataOpton.NotificationEMailAddress);
+			var mm = new System.Net.Mail.MailMessage(from, to);
 
-				await client.AuthenticateAsync(smtpDataOpton.SmtpUserName, smtpDataOpton.SmtpPassword, cancellationToken);
+			mm.Subject = subject;
+			mm.IsBodyHtml = false;
+			mm.Body = message;
+			mm.Priority = System.Net.Mail.MailPriority.Normal;
 
-				await client.SendAsync(mimemessage, cancellationToken);
-
-				client.Disconnect(true);
-			}
+			await client.SendMailAsync(mm);
 		}
 	}
 }

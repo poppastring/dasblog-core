@@ -7,7 +7,7 @@
 
 <h1>Site Settings</h1>
 
-<div asp-validation-summary="All"></div>
+@Html.ValidationSummary(false, "", new { @class = "text-danger" })
 
 <form asp-action="settings" name="UpdateSettingsForm" id="UpdateSettingsForm">
 
@@ -338,7 +338,7 @@
     <div class="dasblog-form-group row">
 
         @Html.LabelFor(m => @Model.SiteConfig.SmtpPassword, null, new { @class = "dasblog-col-form-label col-3" })
-        @Html.TextBoxFor(m => @Model.SiteConfig.SmtpPassword, null, new { @class = "form-control col-9" })
+        @Html.PasswordFor(m => @Model.SiteConfig.SmtpPassword, new { @class = "form-control col-9" })
         @Html.ValidationMessageFor(m => m.SiteConfig.SmtpPassword, null, new { @class = "text-danger" })
 
     </div>
@@ -363,6 +363,13 @@
 
         @Html.LabelFor(m => @Model.SiteConfig.UseSSLForSMTP, null, new { @class = "dasblog-col-form-label col-3" })
         @Html.CheckBoxFor(m => @Model.SiteConfig.UseSSLForSMTP, new { @class = "dasblog-form-check-input" })
+
+    </div>
+
+    <div class="dasblog-form-check row">
+
+        <label class="dasblog-col-form-label col-3">SMTP Test</label>
+        <input asp-controller="Admin" asp-action="TestEmail" type="submit" name="submit" value="Send test Email" class="btn-default" />
 
     </div>
 

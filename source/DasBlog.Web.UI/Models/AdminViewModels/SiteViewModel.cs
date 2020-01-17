@@ -207,6 +207,7 @@ namespace DasBlog.Web.Models.AdminViewModels
 
 		[DisplayName("SMTP password")]
 		[Description("")]
+		[DataType(DataType.Password)]
 		public string SmtpPassword { get; set; }
 
 		[DisplayName("Use SSL with SMTP")]
