@@ -13,7 +13,6 @@ using System.Globalization;
 using System.Text.RegularExpressions;
 using System.Linq;
 using DasBlog.Services;
-using DasBlog.Services.Email.Interfaces;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -25,13 +24,11 @@ namespace DasBlog.Managers
 		private readonly ILogger logger;
 		private static readonly Regex stripTags = new Regex("<[^>]*>", RegexOptions.Compiled | RegexOptions.CultureInvariant);
 		private readonly IDasBlogSettings dasBlogSettings;
-		private readonly ISmtpService smtpService;
 
-		public BlogManager( ILogger<BlogManager> logger, IDasBlogSettings dasBlogSettings, ISmtpService smtpService)
+		public BlogManager( ILogger<BlogManager> logger, IDasBlogSettings dasBlogSettings)
 		{
 			this.dasBlogSettings = dasBlogSettings;
 			this.logger = logger;
-			this.smtpService = smtpService;
 			var loggingDataService = LoggingDataServiceFactory.GetService(this.dasBlogSettings.WebRootDirectory + this.dasBlogSettings.SiteConfiguration.LogDir);;
 			dataService = BlogDataServiceFactory.GetService(this.dasBlogSettings.WebRootDirectory + this.dasBlogSettings.SiteConfiguration.ContentDir, loggingDataService);
 		}
@@ -424,48 +421,6 @@ namespace DasBlog.Managers
 		public CategoryCacheEntryCollection GetCategories()
 		{
 			return dataService.GetCategories();
-		}
-
-		public void SendCommentEmail(string name, string email, string homepage, string content, string entryid)
-		{
-			if (dasBlogSettings.SiteConfiguration.SendCommentsByEmail)
-			{
-				var source = new CancellationTokenSource();
-				var token = source.Token;
-
-				var posttitle = GetBlogPostByGuid(new Guid(entryid))?.Title;
-				var subject = FormatCommentEmailSubject(name, homepage, posttitle);
-				var body = FormatCommentEmailBody(content, email, entryid);
-
-				try 
-				{
-					smtpService.SendEmail(subject, body, token);
-				}
-				catch (Exception ex)
-				{
-					logger.LogError(ex, ex.Message, null);
-				}
-				
-			}
-		}
-
-		public async Task<bool> SendTestEmail()
-		{
-			var source = new CancellationTokenSource();
-			var token = source.Token;
-			var subject = string.Format("Test email sent from {0}", dasBlogSettings.SiteConfiguration.Title);
-			var body = string.Format("If you got this email your settings are good!");
-
-			try
-			{
-				await smtpService.SendEmail(subject, body, token);
-				return true;
-			}
-			catch (Exception ex)
-			{
-				logger.LogError(ex, ex.Message, null);
-				return false;
-			}
 		}
 
 		private string FormatCommentEmailSubject(string name, string homepage, string posttitle)

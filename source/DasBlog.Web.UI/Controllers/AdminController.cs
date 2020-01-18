@@ -78,12 +78,6 @@ namespace DasBlog.Web.Controllers
 		}
 		public async Task<IActionResult> TestEmail()
 		{
-			var success = await blogManager.SendTestEmail();
-
-			if (!success)
-			{
-				ModelState.AddModelError("", "Error sending the test email. Check the logs for details.");
-			}
 
 			return RedirectToAction("Settings");
 		}

@@ -2,7 +2,6 @@
 using DasBlog.Core.Common;
 using DasBlog.Managers.Interfaces;
 using DasBlog.Services;
-using DasBlog.Services.Email.Interfaces;
 using DasBlog.Web.Models.BlogViewModels;
 using DasBlog.Web.Services.Interfaces;
 using DasBlog.Web.Settings;
@@ -35,11 +34,11 @@ namespace DasBlog.Web.Controllers
 		private readonly ILogger<BlogPostController> logger;
 		private readonly IBlogPostViewModelCreator modelViewCreator;
 		private readonly IMemoryCache memoryCache;
-		private readonly ISmtpService smtpService;
+
 
 		public BlogPostController(IBlogManager blogManager, IHttpContextAccessor httpContextAccessor, IDasBlogSettings dasBlogSettings, 
 									IMapper mapper, ICategoryManager categoryManager, IFileSystemBinaryManager binaryManager, ILogger<BlogPostController> logger,
-									IBlogPostViewModelCreator modelViewCreator, IMemoryCache memoryCache, ISmtpService smtpService) 
+									IBlogPostViewModelCreator modelViewCreator, IMemoryCache memoryCache) 
 									: base(dasBlogSettings)
 		{
 			this.blogManager = blogManager;
@@ -51,7 +50,6 @@ namespace DasBlog.Web.Controllers
 			this.logger = logger;
 			this.modelViewCreator = modelViewCreator;
 			this.memoryCache = memoryCache;
-			this.smtpService = smtpService;
 		}
 
 		[AllowAnonymous]
@@ -400,9 +398,6 @@ namespace DasBlog.Web.Controllers
 			}
 
 			BreakSiteCache();
-
-			blogManager.SendCommentEmail(addcomment.Name, addcomment.Email, addcomment.HomePage,
-											addcomment.Content, addcomment.TargetEntryId);
 
 			return Comment(addcomment.TargetEntryId);
 		}

@@ -33,9 +33,5 @@ namespace DasBlog.Managers.Interfaces
 		CommentCollection GetComments(string postid, bool allComments);
 
 	    EntryCollection SearchEntries(string searchString, string acceptLanguageHeader);
-
-		void SendCommentEmail(string name, string email, string homepage,string content, string entryid);
-
-		Task<bool> SendTestEmail();
 	}
 }
