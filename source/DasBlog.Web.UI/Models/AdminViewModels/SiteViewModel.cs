@@ -214,6 +214,9 @@ namespace DasBlog.Web.Models.AdminViewModels
 		[Description("")]
 		public bool UseSSLForSMTP { get; set; }
 
+		[DisplayName("Authenticate with user name and password")]
+		[Description("Passes the user name and password when authenticating the SMTP server")]
+		public bool EnableSmtpAuthentication { get; set; }
 
 		public string BinariesDir { get; set; }
 		public bool EntryTitleAsLink { get; set; }
@@ -268,7 +271,6 @@ namespace DasBlog.Web.Models.AdminViewModels
 		public bool EnableTitlePermaLink { get; set; }
 		public bool EnableTitlePermaLinkSpaces { get; set; }
 		public bool EncryptLoginPassword { get; set; }
-		public bool EnableSmtpAuthentication { get; set; }
 		public string RssLanguage { get; set; }
 		public bool EnableSearchHighlight { get; set; }
 		public bool EnableEntryReferrals { get; set; }

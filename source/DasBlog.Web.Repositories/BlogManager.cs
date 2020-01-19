@@ -15,6 +15,10 @@ using System.Linq;
 using DasBlog.Services;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using DasBlog.Core.Security;
+using System.Net.Mail;
+using System.Net;
 
 namespace DasBlog.Managers
 {
@@ -353,17 +357,16 @@ namespace DasBlog.Managers
 			var entry = dataService.GetEntry(postid);
 			if (entry != null)
 			{
-				if (dasBlogSettings.SiteConfiguration.EnableComments)
-				{
-					var targetComment = DateTime.UtcNow.AddDays(-1 * dasBlogSettings.SiteConfiguration.DaysCommentsAllowed);
+				var targetComment = DateTime.UtcNow.AddDays(-1 * dasBlogSettings.SiteConfiguration.DaysCommentsAllowed);
 
-					if (targetComment > entry.CreatedUtc)
-					{
-						return CommentSaveState.PostCommentsDisabled;
-					}
+				if (targetComment > entry.CreatedUtc)
+				{
+					return CommentSaveState.PostCommentsDisabled;
 				}
 
-				dataService.AddComment(comment);
+				var actions = ComposeMailForUsers(entry, comment);
+
+				dataService.AddComment(comment, actions);
 				saveState = CommentSaveState.Added;
 			}
 			else
@@ -423,24 +426,109 @@ namespace DasBlog.Managers
 			return dataService.GetCategories();
 		}
 
-		private string FormatCommentEmailSubject(string name, string homepage, string posttitle)
+		public bool SendTestEmail()
 		{
-			if(!string.IsNullOrWhiteSpace(homepage))
-			{ 
-				return string.Format("Weblog comment by '{0}' from '{1}' on '{2}'", name, homepage, posttitle);
+			var emailMessage = new MailMessage();
+			emailMessage.From = new MailAddress(dasBlogSettings.SiteConfiguration.SmtpUserName);
+			emailMessage.To.Add(dasBlogSettings.SiteConfiguration.NotificationEMailAddress);
+			emailMessage.To.Add(dasBlogSettings.SiteConfiguration.Contact);
+
+			foreach (var user in dasBlogSettings.SecurityConfiguration.Users)
+			{
+				if (!string.IsNullOrWhiteSpace(user.EmailAddress))
+				{
+					emailMessage.To.Add(user.EmailAddress);
+				}
 			}
 
-			return string.Format("Weblog comment by '{0}' on '{1}'", name, posttitle);
+			emailMessage.Subject = string.Format("SMTP email from {0}", dasBlogSettings.SiteConfiguration.Title);
+			emailMessage.Body = "Test ";
+
+			var sendMailInfo = GetMailInfo(emailMessage);
+
+			try
+			{
+				sendMailInfo.SendMyMessage();
+			}
+			catch(Exception ex)
+			{
+				logger.LogInformation(new EventDataItem(EventCodes.SmtpError, new Uri(dasBlogSettings.SiteConfiguration.Root), 
+									string.Format("SMTP Test Error: {0}", ex.Message)));
+
+				return false;
+			}
+
+			return true;
 		}
 
-		private string FormatCommentEmailBody(string content, string email, string entryid)
+		private object[] ComposeMailForUsers(Entry entry, Comment c)
 		{
-			var commentline = string.Format("Comment Page: {0}", dasBlogSettings.GetCommentViewUrl(entryid));
-			var emailline = string.Format("Comment From: {0}", email);
-			var loginline = string.Format("Login: {0}", dasBlogSettings.RelativeToRoot("account/login"));
+			var actions = new List<object>();
+			
+			foreach (var user in dasBlogSettings.SecurityConfiguration.Users)
+			{
+				if (string.IsNullOrWhiteSpace(user.EmailAddress))
+					continue;
 
-			return string.Format("{0}{1}{1}{2}{1}{1}{3}{1}{1}{4}", content, Environment.NewLine, emailline, commentline, loginline);
+				if (user.NotifyOnAllComment || (user.NotifyOnOwnComment && entry.Author.ToUpper() == user.Name.ToUpper()))
+				{
+					var sendMailInfo = ComposeMail(c);
+					sendMailInfo.Message.To.Add(user.EmailAddress);
+					actions.Add(sendMailInfo);
+				}
+			}
 
+			return actions.ToArray();
+		}
+
+		private SendMailInfo ComposeMail(Comment c)
+		{
+			var emailMessage = new MailMessage();
+
+			if (!string.IsNullOrWhiteSpace(dasBlogSettings.SiteConfiguration.NotificationEMailAddress))
+			{
+				emailMessage.To.Add(dasBlogSettings.SiteConfiguration.NotificationEMailAddress);
+			}
+			else
+			{
+				emailMessage.To.Add(dasBlogSettings.SiteConfiguration.Contact);
+			}
+
+			emailMessage.Subject = string.Format("Weblog comment by '{0}' from '{1}' on '{2}'", c.Author, c.AuthorHomepage, c.TargetTitle);
+
+			if (dasBlogSettings.SiteConfiguration.CommentsRequireApproval)
+			{
+				emailMessage.Body = string.Format("{0}\r\nComments page: {1}\r\n\r\nRequires approval.\r\n\r\nCommentor Email: {2}\r\n\r\nIP Address: {3}\r\n\r\nLogin Here: {4}",
+				   WebUtility.HtmlDecode(c.Content),
+				   dasBlogSettings.GetCommentViewUrl(c.TargetEntryId),
+				   c.AuthorEmail,
+				   c.AuthorIPAddress,
+				   dasBlogSettings.RelativeToRoot("account/login"));
+			}
+			else
+			{
+				emailMessage.Body = string.Format("{0}\r\nComments page: {1}\r\n\r\nCommentor Email: {2}\r\n\r\nIP Address: {3}\r\n\r\nLogin Here: {4}",
+				   WebUtility.HtmlDecode(c.Content),
+				   dasBlogSettings.GetCommentViewUrl(c.TargetEntryId),
+				   c.AuthorEmail,
+				   c.AuthorIPAddress,
+				   dasBlogSettings.RelativeToRoot("account/login"));
+			}
+
+			emailMessage.IsBodyHtml = false;
+			emailMessage.BodyEncoding = System.Text.Encoding.UTF8;
+
+			emailMessage.From = new MailAddress(dasBlogSettings.SiteConfiguration.SmtpUserName);
+
+			return GetMailInfo(emailMessage);
+		}
+
+		private SendMailInfo GetMailInfo(MailMessage emailmessage)
+		{
+			return new SendMailInfo(emailmessage, dasBlogSettings.SiteConfiguration.SmtpServer,
+						   dasBlogSettings.SiteConfiguration.EnableSmtpAuthentication, dasBlogSettings.SiteConfiguration.UseSSLForSMTP,
+						   dasBlogSettings.SiteConfiguration.SmtpUserName, dasBlogSettings.SiteConfiguration.SmtpPassword,
+						   dasBlogSettings.SiteConfiguration.SmtpPort);
 		}
 	}
 }

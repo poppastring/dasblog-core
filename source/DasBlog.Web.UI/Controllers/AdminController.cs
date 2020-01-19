@@ -76,8 +76,12 @@ namespace DasBlog.Web.Controllers
 
 			return Settings();
 		}
-		public async Task<IActionResult> TestEmail()
+		public IActionResult TestEmail()
 		{
+			if (!blogManager.SendTestEmail())
+			{
+				ModelState.AddModelError("", "Unable to save Site configuration file.");
+			}
 
 			return RedirectToAction("Settings");
 		}
