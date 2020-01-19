@@ -34,8 +34,6 @@ namespace DasBlog.Managers.Interfaces
 
 	    EntryCollection SearchEntries(string searchString, string acceptLanguageHeader);
 
-		void SendCommentEmail(string name, string email, string homepage,string content, string entryid);
-
-		Task<bool> SendTestEmail();
+		bool SendTestEmail();
 	}
 }

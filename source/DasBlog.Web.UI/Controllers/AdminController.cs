@@ -76,13 +76,11 @@ namespace DasBlog.Web.Controllers
 
 			return Settings();
 		}
-		public async Task<IActionResult> TestEmail()
+		public IActionResult TestEmail()
 		{
-			var success = await blogManager.SendTestEmail();
-
-			if (!success)
+			if (!blogManager.SendTestEmail())
 			{
-				ModelState.AddModelError("", "Error sending the test email. Check the logs for details.");
+				ModelState.AddModelError("", "Unable to save Site configuration file.");
 			}
 
 			return RedirectToAction("Settings");

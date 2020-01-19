@@ -329,6 +329,14 @@
 
     <div class="dasblog-form-group row">
 
+        @Html.LabelFor(m => @Model.SiteConfig.SmtpServer, null, new { @class = "dasblog-col-form-label col-3" })
+        @Html.TextBoxFor(m => @Model.SiteConfig.SmtpServer, null, new { @class = "form-control col-9" })
+        @Html.ValidationMessageFor(m => m.SiteConfig.SmtpServer, null, new { @class = "text-danger" })
+
+    </div>
+
+    <div class="dasblog-form-group row">
+
         @Html.LabelFor(m => @Model.SiteConfig.SmtpUserName, null, new { @class = "dasblog-col-form-label col-3" })
         @Html.TextBoxFor(m => @Model.SiteConfig.SmtpUserName, null, new { @class = "form-control col-9" })
         @Html.ValidationMessageFor(m => m.SiteConfig.SmtpUserName, null, new { @class = "text-danger" })
@@ -343,11 +351,10 @@
 
     </div>
 
-    <div class="dasblog-form-group row">
+    <div class="dasblog-form-check row">
 
-        @Html.LabelFor(m => @Model.SiteConfig.SmtpServer, null, new { @class = "dasblog-col-form-label col-3" })
-        @Html.TextBoxFor(m => @Model.SiteConfig.SmtpServer, null, new { @class = "form-control col-9" })
-        @Html.ValidationMessageFor(m => m.SiteConfig.SmtpServer, null, new { @class = "text-danger" })
+        @Html.LabelFor(m => @Model.SiteConfig.EnableSmtpAuthentication, null, new { @class = "dasblog-col-form-label col-3" })
+        @Html.CheckBoxFor(m => @Model.SiteConfig.EnableSmtpAuthentication, new { @class = "dasblog-form-check-input" })
 
     </div>
 
@@ -379,13 +386,6 @@
 
         @Html.LabelFor(m => @Model.SiteConfig.EnableTitlePermaLinkUnique, null, new { @class = "dasblog-col-form-label col-3" })
         @Html.CheckBoxFor(m => @Model.SiteConfig.EnableTitlePermaLinkUnique, new { @class = "dasblog-form-check-input" })
-
-    </div>
-
-    <div class="dasblog-form-check row">
-
-        @Html.LabelFor(m => @Model.SiteConfig.EnableTitlePermaLinkSpaces, null, new { @class = "dasblog-col-form-label col-3" })
-        @Html.CheckBoxFor(m => @Model.SiteConfig.EnableTitlePermaLinkSpaces, new { @class = "dasblog-form-check-input" })
 
     </div>
 
@@ -451,7 +451,7 @@
     }
 
 
-
+    @Html.HiddenFor(@m => m.SiteConfig.EnableTitlePermaLinkSpaces)
     @Html.HiddenFor(@m => m.SiteConfig.CategoryAllEntries)
 
     @Html.HiddenFor(@m => m.SiteConfig.EntryTitleAsLink)
@@ -508,8 +508,6 @@
     @Html.HiddenFor(@m => m.SiteConfig.EnableMovableTypeBlackList)
     @Html.HiddenFor(@m => m.SiteConfig.EnableCrossPostFooter)
     @Html.HiddenFor(@m => m.SiteConfig.EncryptLoginPassword)
-
-    @Html.HiddenFor(@m => m.SiteConfig.EnableSmtpAuthentication)
 
     @Html.HiddenFor(@m => m.SiteConfig.RssLanguage)
     @Html.HiddenFor(@m => m.SiteConfig.EnableSearchHighlight)

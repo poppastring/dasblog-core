@@ -18,7 +18,6 @@ using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using DasBlog.Services.Email.Interfaces;
 
 namespace DasBlog.Tests.FunctionalTests.ComponentTests
 {
@@ -37,8 +36,7 @@ namespace DasBlog.Tests.FunctionalTests.ComponentTests
 			ILogger<BlogManager> logger = ServiceProvider.GetService<ILoggerFactory>().CreateLogger<BlogManager>();
 			IOptions<BlogManagerOptions> optsAccessor = BuildBlogManagerOptions(sandbox);
 			var modifiableOptsAccessor = BuildBlogManagerModifiableOptions(sandbox);
-			ISmtpService smtpService = null;
-			var bm = new BlogManager(logger, dasBlogSettings, smtpService);
+			var bm = new BlogManager(logger, dasBlogSettings);
 			var cacheFixer = ServiceProvider.GetService<ICacheFixer>();
 			cacheFixer.InvalidateCache(bm);
 			return bm;
