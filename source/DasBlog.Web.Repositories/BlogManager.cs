@@ -364,9 +364,17 @@ namespace DasBlog.Managers
 					return CommentSaveState.PostCommentsDisabled;
 				}
 
-				var actions = ComposeMailForUsers(entry, comment);
+				if (dasBlogSettings.SiteConfiguration.SendCommentsByEmail)
+				{
+					var actions = ComposeMailForUsers(entry, comment);
+					dataService.AddComment(comment, actions);
+				}
+				else
+				{
+					dataService.AddComment(comment);
+				}
 
-				dataService.AddComment(comment, actions);
+				
 				saveState = CommentSaveState.Added;
 			}
 			else
