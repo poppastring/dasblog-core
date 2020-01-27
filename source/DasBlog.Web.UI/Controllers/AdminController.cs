@@ -48,8 +48,6 @@ namespace DasBlog.Web.Controllers
 		[Route("/admin/settings")]
 		public IActionResult Settings(DasBlogSettingsViewModel settings)
 		{
-			string savemessage = null;
-
 			//save settings and reload...
 			if (ModelState.ErrorCount > 0)
 			{
