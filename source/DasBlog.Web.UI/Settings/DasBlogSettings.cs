@@ -65,9 +65,9 @@ namespace DasBlog.Web.Settings
 
 		public string ThemeCssUrl { get; }
 		
-		public IMetaTags MetaTags { get; }
+		public IMetaTags MetaTags { get; set; }
 
-		public ISiteConfig SiteConfiguration { get; }
+		public ISiteConfig SiteConfiguration { get; set;  }
 
 		public ISiteSecurityConfig SecurityConfiguration { get; }
 

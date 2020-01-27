@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using DasBlog.Managers.Interfaces;
 using DasBlog.Services;
 using DasBlog.Services.ConfigFile;
-using DasBlog.Services.ConfigFile.Interfaces;
 using DasBlog.Web.Models.AdminViewModels;
 using DasBlog.Web.Settings;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 namespace DasBlog.Web.Controllers
 {
@@ -21,14 +19,16 @@ namespace DasBlog.Web.Controllers
 		private readonly IFileSystemBinaryManager fileSystemBinaryManager;
 		private readonly IMapper mapper;
 		private readonly IBlogManager blogManager;
+		private readonly IHostApplicationLifetime appLifetime;
 
 		public AdminController(IDasBlogSettings dasBlogSettings, IFileSystemBinaryManager fileSystemBinaryManager, IMapper mapper,
-								IBlogManager blogManager) : base(dasBlogSettings)
+								IBlogManager blogManager, IHostApplicationLifetime appLifetime) : base(dasBlogSettings)
 		{
 			this.dasBlogSettings = dasBlogSettings;
 			this.fileSystemBinaryManager = fileSystemBinaryManager;
 			this.mapper = mapper;
 			this.blogManager = blogManager;
+			this.appLifetime = appLifetime;
 		}
 
 		[HttpGet]
@@ -48,6 +48,8 @@ namespace DasBlog.Web.Controllers
 		[Route("/admin/settings")]
 		public IActionResult Settings(DasBlogSettingsViewModel settings)
 		{
+			string savemessage = null;
+
 			//save settings and reload...
 			if (ModelState.ErrorCount > 0)
 			{
@@ -67,12 +69,16 @@ namespace DasBlog.Web.Controllers
 				ModelState.AddModelError("", "Unable to save Site configuration file.");
 				return Settings(settings);
 			}
+			dasBlogSettings.SiteConfiguration = site;
 
 			if (!fileSystemBinaryManager.SaveMetaConfig(meta))
 			{
 				ModelState.AddModelError("", "Unable to save Meta configuration file.");
 				return Settings(settings);
 			}
+			dasBlogSettings.MetaTags = meta;
+
+			TempData["MessageSaved"] = "Saved";
 
 			return Settings();
 		}
@@ -82,6 +88,13 @@ namespace DasBlog.Web.Controllers
 			{
 				ModelState.AddModelError("", "Unable to save Site configuration file.");
 			}
+
+			return RedirectToAction("Settings");
+		}
+
+		public IActionResult RestartSite()
+		{
+			appLifetime.StopApplication();
 
 			return RedirectToAction("Settings");
 		}
