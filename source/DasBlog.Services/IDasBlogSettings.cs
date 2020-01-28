@@ -7,8 +7,8 @@ namespace DasBlog.Services
 {
 	public interface IDasBlogSettings
 	{
-		ISiteConfig SiteConfiguration { get; }
-		IMetaTags MetaTags { get; }
+		ISiteConfig SiteConfiguration { get; set; }
+		IMetaTags MetaTags { get; set; }
 		ISiteSecurityConfig SecurityConfiguration { get; }
 
 		string WebRootDirectory { get; }
