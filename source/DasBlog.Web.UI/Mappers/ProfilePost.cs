@@ -6,6 +6,8 @@ using newtelligence.DasBlog.Runtime;
 using System.Collections.Generic;
 using System.Linq;
 using DasBlog.Services;
+using DasBlog.Core.Common.Comments;
+using DasBlog.Web.Models.AdminViewModels;
 
 namespace DasBlog.Web.Mappers
 {
@@ -73,6 +75,24 @@ namespace DasBlog.Web.Mappers
 			CreateMap<Entry, CategoryPostItem>()
 				.ForMember(dest => dest.BlogTitle, opt => opt.MapFrom(src => src.Title))
 				.ForMember(dest => dest.BlogId, opt => opt.MapFrom(src => src.EntryId));
+
+
+			CreateMap<Tag, TagViewModel>()
+				.ForMember(dest => dest.Allowed, opt => opt.MapFrom(src => src.Allowed))
+				.ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
+				.ForMember(dest => dest.Attributes, opt => opt.MapFrom(src => src.Attributes));
+
+			CreateMap<TagViewModel, Tag>()
+				.ForMember(dest => dest.Allowed, opt => opt.MapFrom(src => src.Allowed))
+				.ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
+				.ForMember(dest => dest.Attributes, opt => opt.MapFrom(src => src.Attributes));
+
+			CreateMap<ValidCommentTags, ValidCommentTagsViewModel>()
+				.ForMember(dest => dest.Tag, opt => opt.MapFrom(src => src.Tag));
+
+			CreateMap<ValidCommentTagsViewModel, ValidCommentTags>()
+				.ForMember(dest => dest.Tag, opt => opt.MapFrom(src => src.Tag));
+
 		}
 
 		private IList<CategoryViewModel> ConvertCategory(string category)

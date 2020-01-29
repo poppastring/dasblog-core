@@ -218,6 +218,10 @@ namespace DasBlog.Web.Models.AdminViewModels
 		[Description("Passes the user name and password when authenticating the SMTP server")]
 		public bool EnableSmtpAuthentication { get; set; }
 
+		[DisplayName("Valid HTML Tags for comments")]
+		[Description("")]
+		public ValidCommentTagsViewModel [] ValidCommentTags { get;  set; }
+
 		public string BinariesDir { get; set; }
 		public bool EntryTitleAsLink { get; set; }
 		public bool ObfuscateEmail { get; set; }
