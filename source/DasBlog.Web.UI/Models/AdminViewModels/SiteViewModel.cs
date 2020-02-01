@@ -121,7 +121,7 @@ namespace DasBlog.Web.Models.AdminViewModels
 		[Required(AllowEmptyStrings = false, ErrorMessage = "Enter a value for Days Comments Allowed")]
 		public int DaysCommentsAllowed { get; set; }
 
-		[DisplayName("Show comments when viewing an entry")]
+		[DisplayName("Always show comments")]
 		[Description("Shows the comments associated with a blog post by default.")]
 		public bool ShowCommentsWhenViewingEntry { get; set; }
 
@@ -217,6 +217,10 @@ namespace DasBlog.Web.Models.AdminViewModels
 		[DisplayName("Authenticate with user name and password")]
 		[Description("Passes the user name and password when authenticating the SMTP server")]
 		public bool EnableSmtpAuthentication { get; set; }
+
+		[DisplayName("Valid HTML Tags for comments")]
+		[Description("")]
+		public ValidCommentTagsViewModel [] ValidCommentTags { get;  set; }
 
 		public string BinariesDir { get; set; }
 		public bool EntryTitleAsLink { get; set; }

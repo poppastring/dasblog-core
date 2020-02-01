@@ -5,10 +5,14 @@ using System.Xml.Serialization;
 
 namespace DasBlog.Core.Common.Comments
 {
+	[XmlRoot("ValidCommentTags")]
 	public class ValidCommentTags
 	{
-		[XmlElement]
+		[XmlElement("tag")]
 		public List<Tag> Tag { get; set; }
+
+		[XmlAttribute(AttributeName = "name")]
+		public string Name { get; set; }
 
 		public bool IsValidTag(string tagName)
 		{
