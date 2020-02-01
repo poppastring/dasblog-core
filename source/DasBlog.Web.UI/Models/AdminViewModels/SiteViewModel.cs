@@ -121,7 +121,7 @@ namespace DasBlog.Web.Models.AdminViewModels
 		[Required(AllowEmptyStrings = false, ErrorMessage = "Enter a value for Days Comments Allowed")]
 		public int DaysCommentsAllowed { get; set; }
 
-		[DisplayName("Show comments when viewing an entry")]
+		[DisplayName("Always show comments")]
 		[Description("Shows the comments associated with a blog post by default.")]
 		public bool ShowCommentsWhenViewingEntry { get; set; }
 

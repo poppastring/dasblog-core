@@ -48,6 +48,7 @@ namespace DasBlog.Managers
 
 		public bool SaveSiteConfig(SiteConfig config)
 		{
+			config.ValidCommentTags[0].Name = "0";
 			return siteConfigFileService.SaveConfig(config);
 		}
 	}
