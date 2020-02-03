@@ -2,6 +2,7 @@
 using DasBlog.Core.Common;
 using DasBlog.Managers.Interfaces;
 using DasBlog.Services;
+using DasBlog.Services.ActivityLogs;
 using DasBlog.Web.Models;
 using DasBlog.Web.Models.BlogViewModels;
 using DasBlog.Web.Settings;
@@ -24,8 +25,8 @@ namespace DasBlog.Web.Controllers
 		private readonly ILogger<HomeController> logger;
 		private readonly IMemoryCache memoryCache;
 
-		public HomeController(IBlogManager blogManager, IDasBlogSettings dasBlogSettings, IXmlRpcManager rpcManager, 
-							IMapper mapper, ILogger<HomeController> logger, IMemoryCache memoryCache) : base(dasBlogSettings)
+		public HomeController(IBlogManager blogManager, IDasBlogSettings dasBlogSettings, IMapper mapper, 
+								ILogger<HomeController> logger, IMemoryCache memoryCache) : base(dasBlogSettings)
 		{
 			this.blogManager = blogManager;
 			this.dasBlogSettings = dasBlogSettings;
@@ -52,7 +53,8 @@ namespace DasBlog.Web.Controllers
 					memoryCache.Set(CACHEKEY_FRONTPAGE, lpvm, SiteCacheSettings());
 				}
 
-				logger.LogDebug($"In Index - {lpvm.Posts.Count} post found");
+				logger.LogInformation(new EventDataItem(EventCodes.Site, null, $"Blog home page: {lpvm.Posts.Count} posts shown"));
+
 			}
 
 			ViewData[Constants.ShowPageControl] = true;			

@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿
 using AutoMapper;
 using DasBlog.Core.Common;
 using DasBlog.Core.Security;
+using DasBlog.Services.ActivityLogs;
 using DasBlog.Services.ConfigFile.Interfaces;
 using DasBlog.Services.Users;
 using DasBlog.Web.Models;
@@ -38,6 +36,8 @@ namespace DasBlog.Web.Controllers
 
 			new ViewBagConfigurer().ConfigureViewBag(ViewBag, Constants.UsersViewMode);
 
+			logger.LogInformation(new EventDataItem(EventCodes.ViewUser, null, "View User: {0}", uvm.DisplayName));
+
 			return RedirectToAction(uvm.OriginalEmail, "users");
 		}
 
@@ -48,6 +48,8 @@ namespace DasBlog.Web.Controllers
 			var uvm = mapper.Map<UsersViewModel>(userService.FindMatchingUser(email).user);
 
 			new ViewBagConfigurer().ConfigureViewBag(ViewBag, Constants.UsersEditMode);
+
+			logger.LogInformation(new EventDataItem(EventCodes.ViewUser, null, "View User: {0}", uvm.DisplayName));
 
 			return View("ViewEditUser", uvm);
 		}
@@ -96,6 +98,8 @@ namespace DasBlog.Web.Controllers
 			siteSecurityConfig.Refresh();
 
 			var uvm = mapper.Map<UsersViewModel>(userService.GetFirstUser());
+
+			logger.LogInformation(new EventDataItem(EventCodes.EditUser, null, "Edit User: {0}", uvm.DisplayName));
 
 			return Index();
 		}
