@@ -48,10 +48,13 @@
 		ReportMailerServiceError = 1150,
 		SecurityFailure = 5000,
 		SecuritySuccess,
-		ApplicationStartup = 32000,
-		ViewUser,
+		ViewUser = 6000,
 		CreateUser,
 		EditUser,
-		DeleteUser
+		DeleteUser,
+		RSS = 7000,
+		Site,
+		ApplicationStartup = 32000,
+		
 	}
 }

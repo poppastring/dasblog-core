@@ -2,6 +2,7 @@
 using DasBlog.Core.Common;
 using DasBlog.Managers.Interfaces;
 using DasBlog.Services;
+using DasBlog.Services.ActivityLogs;
 using DasBlog.Web.Models.BlogViewModels;
 using DasBlog.Web.Services.Interfaces;
 using DasBlog.Web.Settings;
@@ -10,15 +11,13 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
-using newtelligence.DasBlog.Runtime;
+using NBR = newtelligence.DasBlog.Runtime;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace DasBlog.Web.Controllers
 {
@@ -187,14 +186,14 @@ namespace DasBlog.Web.Controllers
 			}
 			try
 			{
-				var entry = mapper.Map<Entry>(post);
+				var entry = mapper.Map<NBR.Entry>(post);
 				entry.Author = httpContextAccessor.HttpContext.User.Identity.Name;
 				entry.Language = "en-us"; //TODO: We inject this fron http context?
 				entry.Latitude = null;
 				entry.Longitude = null;
 				
 				var sts = blogManager.UpdateEntry(entry);
-				if (sts != EntrySaveState.Updated)
+				if (sts != NBR.EntrySaveState.Updated)
 				{
 					ModelState.AddModelError("", "Failed to edit blog post. Please check Logs for more details.");
 					return View(post);
@@ -222,6 +221,8 @@ namespace DasBlog.Web.Controllers
 		[HttpPost("post/create")]
 		public IActionResult CreatePost(PostViewModel post, string submit)
 		{
+			NBR.Entry entry = null;
+
 			modelViewCreator.AddAllLanguages(post);
 			if (submit == Constants.BlogPostAddCategoryAction)
 			{
@@ -240,14 +241,14 @@ namespace DasBlog.Web.Controllers
 			}
 			if (!string.IsNullOrWhiteSpace(post.NewCategory))
 			{
-				ModelState.AddModelError(nameof(post.NewCategory), 
+				ModelState.AddModelError(nameof(post.NewCategory),
 					$"Please click 'Add' to add the category, \"{post.NewCategory}\" or clear the text before continuing");
 				return View(post);
 			}
 
 			try
 			{
-				var entry = mapper.Map<Entry>(post);
+				entry = mapper.Map<NBR.Entry>(post);
 
 				entry.Initialize();
 				entry.Author = httpContextAccessor.HttpContext.User.Identity.Name;
@@ -256,7 +257,7 @@ namespace DasBlog.Web.Controllers
 				entry.Longitude = null;
 
 				var sts = blogManager.CreateEntry(entry);
-				if (sts != EntrySaveState.Added)
+				if (sts != NBR.EntrySaveState.Added)
 				{
 					ModelState.AddModelError("", "Failed to create blog post. Please check Logs for more details.");
 					return View(post);
@@ -264,8 +265,13 @@ namespace DasBlog.Web.Controllers
 			}
 			catch (Exception ex)
 			{
-				logger.LogError(ex, ex.Message, null);
+				logger.LogError(new EventDataItem(EventCodes.Error, null, "Blog post create failed: {0}", ex.Message));
 				ModelState.AddModelError("", "Failed to edit blog post. Please check Logs for more details.");
+			}
+
+			if (entry != null)
+			{ 
+				logger.LogInformation(new EventDataItem(EventCodes.EntryAdded, null, "Blog post created: {0}", entry.Title));
 			}
 
 			BreakSiteCache();
@@ -282,7 +288,7 @@ namespace DasBlog.Web.Controllers
 			}
 			catch (Exception ex)
 			{
-				logger.LogError(ex, ex.Message, null);
+				logger.LogError(new EventDataItem(EventCodes.Error, null, "Blog post delete failed: {0} {1}", postid.ToString(), ex.Message));
 				RedirectToAction("Error");
 			}
 
@@ -298,7 +304,7 @@ namespace DasBlog.Web.Controllers
 		public IActionResult Comment(string posttitle)
 		{
 			ListPostsViewModel lpvm = null;
-			Entry entry = null;
+			NBR.Entry entry = null;
 			var postguid = Guid.Empty;
 
 			entry = blogManager.GetBlogPost(posttitle, null);
@@ -364,7 +370,7 @@ namespace DasBlog.Web.Controllers
 
 			addcomment.Content = dasBlogSettings.FilterHtml(addcomment.Content);
 
-			var commt = mapper.Map<Comment>(addcomment);
+			var commt = mapper.Map<NBR.Comment>(addcomment);
 			commt.AuthorIPAddress = HttpContext.Connection.RemoteIpAddress.ToString();
 			commt.AuthorUserAgent = HttpContext.Request.Headers["User-Agent"].ToString();
 			commt.CreatedUtc = commt.ModifiedUtc = DateTime.UtcNow;
@@ -373,29 +379,31 @@ namespace DasBlog.Web.Controllers
 
 			var state = blogManager.AddComment(addcomment.TargetEntryId, commt);
 
-			if (state == CommentSaveState.Failed)
+			if (state == NBR.CommentSaveState.Failed)
 			{
 				ModelState.AddModelError("", "Comment failed");
 				return StatusCode(500);
 			}
 
-			if (state == CommentSaveState.SiteCommentsDisabled)
+			if (state == NBR.CommentSaveState.SiteCommentsDisabled)
 			{
 				ModelState.AddModelError("", "Comments are closed for this post");
 				return StatusCode(403);
 			}
 
-			if (state == CommentSaveState.PostCommentsDisabled)
+			if (state == NBR.CommentSaveState.PostCommentsDisabled)
 			{
 				ModelState.AddModelError("", "Comment are currently disabled");
 				return StatusCode(403);
 			}
 
-			if (state == CommentSaveState.NotFound)
+			if (state == NBR.CommentSaveState.NotFound)
 			{
 				ModelState.AddModelError("", "Invalid Target Post Id");
 				return NotFound();
 			}
+
+			logger.LogInformation(new EventDataItem(EventCodes.CommentAdded, null, "Comment created on: {0}", commt.TargetTitle));
 
 			BreakSiteCache();
 
@@ -407,15 +415,18 @@ namespace DasBlog.Web.Controllers
 		{
 			var state = blogManager.DeleteComment(postid.ToString(), commentid.ToString());
 
-			if (state == CommentSaveState.Failed)
+			if (state == NBR.CommentSaveState.Failed)
 			{
+				logger.LogError(new EventDataItem(EventCodes.Error, null, "Delete comment failed: {0}", postid.ToString()));
 				return StatusCode(500);
 			}
 
-			if (state == CommentSaveState.NotFound)
+			if (state == NBR.CommentSaveState.NotFound)
 			{
 				return NotFound();
 			}
+
+			logger.LogInformation(new EventDataItem(EventCodes.CommentDeleted, null, "Comment deleted on: {0}", postid.ToString()));
 
 			BreakSiteCache();
 
@@ -427,15 +438,17 @@ namespace DasBlog.Web.Controllers
 		{
 			var state = blogManager.ApproveComment(postid.ToString(), commentid.ToString());
 
-			if (state == CommentSaveState.Failed)
+			if (state == NBR.CommentSaveState.Failed)
 			{
 				return StatusCode(500);
 			}
 
-			if (state == CommentSaveState.NotFound)
+			if (state == NBR.CommentSaveState.NotFound)
 			{
 				return NotFound();
 			}
+
+			logger.LogInformation(new EventDataItem(EventCodes.CommentApproved, null, "Comment approved on: {0}", postid.ToString()));
 
 			BreakSiteCache();
 
@@ -473,6 +486,8 @@ namespace DasBlog.Web.Controllers
 				lpvm.Posts = entries.Select(entry => mapper.Map<PostViewModel>(entry)).ToList();
 				ViewData[Constants.ShowPageControl] = false;
 
+				logger.LogInformation(new EventDataItem(EventCodes.Search, null, "Search request: '{0}'", searchText));
+
 				return View(BLOG_PAGE, lpvm);
 			}
 
@@ -491,7 +506,7 @@ namespace DasBlog.Web.Controllers
 
 			var newCategory = post.NewCategory?.Trim();
 			var newCategoryDisplayName = newCategory;
-			var newCategoryUrl = Entry.InternalCompressTitle(newCategory);
+			var newCategoryUrl = NBR.Entry.InternalCompressTitle(newCategory);
 					// Category names should not include special characters #200
 			if (post.AllCategories.Any(c => c.CategoryUrl == newCategoryUrl))
 			{

@@ -1,13 +1,13 @@
 ﻿using DasBlog.Managers.Interfaces;
 using DasBlog.Services;
+using DasBlog.Services.ActivityLogs;
 using DasBlog.Services.Rss.Rss20;
 using DasBlog.Services.Rss.Rsd;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
-using newtelligence.DasBlog.Runtime;
-using System.IO;
+using Microsoft.Extensions.Logging;
 using System;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace DasBlog.Web.Controllers
@@ -18,18 +18,16 @@ namespace DasBlog.Web.Controllers
         private readonly ISubscriptionManager subscriptionManager;
 		private readonly IXmlRpcManager xmlRpcManager;
 		private readonly IDasBlogSettings dasBlogSettings;
-		private readonly ILoggingDataService loggingDataService;
-
+		private readonly ILogger<FeedController> logger;
 
 		public FeedController(ISubscriptionManager subscriptionManager, IXmlRpcManager xmlRpcManager, 
-								IMemoryCache memoryCache, IDasBlogSettings dasBlogSettings)
+								IMemoryCache memoryCache, IDasBlogSettings dasBlogSettings, ILogger<FeedController> logger)
         {  
             this.subscriptionManager = subscriptionManager;
 			this.xmlRpcManager = xmlRpcManager;
 			this.memoryCache = memoryCache;
 			this.dasBlogSettings = dasBlogSettings;
-
-			loggingDataService = LoggingDataServiceFactory.GetService(dasBlogSettings.WebRootDirectory + dasBlogSettings.SiteConfiguration.LogDir);
+			this.logger = logger;
 		}
 
 		[Produces("text/xml")]
@@ -42,6 +40,8 @@ namespace DasBlog.Web.Controllers
 
 				memoryCache.Set(CACHEKEY_RSS, rss, SiteCacheSettings());
 			}
+
+			logger.LogInformation(new EventDataItem(EventCodes.RSS, null, "RSS request"));
 
 			return Ok(rss);
         }
@@ -57,6 +57,8 @@ namespace DasBlog.Web.Controllers
 
 				memoryCache.Set(CACHEKEY_RSS + "_" + category, rss, SiteCacheSettings());
 			}
+
+			logger.LogInformation(new EventDataItem(EventCodes.RSS, null, "RSS category request: '{0}'", category));
 
 			return Ok(rss);
         }
@@ -101,8 +103,10 @@ namespace DasBlog.Web.Controllers
 			}
 			catch (Exception ex)
 			{
-				loggingDataService.AddEvent(new EventDataItem(EventCodes.Error, ex.Message, "FeedController.BloggerPost"));
+				logger.LogError(new EventDataItem(EventCodes.RSS, null, "FeedController.BloggerPost Error: {0}", ex.Message));
 			}
+
+			logger.LogInformation(new EventDataItem(EventCodes.RSS, null, "FeedController.BloggerPost successfully submitted"));
 
 			BreakSiteCache();
 

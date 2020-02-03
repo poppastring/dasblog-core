@@ -60,12 +60,12 @@ namespace DasBlog.Web.Controllers
 				if (result.Succeeded)
 				{
 					logger.LogInformation(new EventDataItem(EventCodes.SecuritySuccess, null, 
-						"{email} logged in successfully", model.Email));
+												"{email} logged in successfully", model.Email));
 
 					return LocalRedirect(returnUrl ?? Url.Action("Index", "Home"));
 				}
 				logger.LogInformation(new EventDataItem(EventCodes.SecuritySuccess, null, 
-						"{email} failed to log in", model.Email));
+												"{email} failed to log in", model.Email));
 
 				ModelState.AddModelError(string.Empty, "The username and/or password is incorrect. Please try again.");
 			}
@@ -77,6 +77,9 @@ namespace DasBlog.Web.Controllers
 		public async Task<IActionResult> Logout()
 		{
 			await signInManager.SignOutAsync();
+
+			logger.LogInformation(new EventDataItem(EventCodes.SecuritySuccess, null, "Logged out successfully"));
+
 			return RedirectToAction("Index", "Home");
 		}
 

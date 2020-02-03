@@ -1,14 +1,14 @@
 ﻿using AutoMapper;
 using DasBlog.Managers.Interfaces;
 using DasBlog.Services;
+using DasBlog.Services.ActivityLogs;
 using DasBlog.Services.ConfigFile;
 using DasBlog.Web.Models.AdminViewModels;
 using DasBlog.Web.Settings;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace DasBlog.Web.Controllers
 {
@@ -20,15 +20,17 @@ namespace DasBlog.Web.Controllers
 		private readonly IMapper mapper;
 		private readonly IBlogManager blogManager;
 		private readonly IHostApplicationLifetime appLifetime;
+		private readonly ILogger<AdminController> logger;
 
 		public AdminController(IDasBlogSettings dasBlogSettings, IFileSystemBinaryManager fileSystemBinaryManager, IMapper mapper,
-								IBlogManager blogManager, IHostApplicationLifetime appLifetime) : base(dasBlogSettings)
+								IBlogManager blogManager, IHostApplicationLifetime appLifetime, ILogger<AdminController> logger) : base(dasBlogSettings)
 		{
 			this.dasBlogSettings = dasBlogSettings;
 			this.fileSystemBinaryManager = fileSystemBinaryManager;
 			this.mapper = mapper;
 			this.blogManager = blogManager;
 			this.appLifetime = appLifetime;
+			this.logger = logger;
 		}
 
 		[HttpGet]
@@ -64,6 +66,7 @@ namespace DasBlog.Web.Controllers
 			if (!fileSystemBinaryManager.SaveSiteConfig(site))
 			{
 				ModelState.AddModelError("", "Unable to save Site configuration file.");
+				logger.LogError(new EventDataItem(EventCodes.Error, null, "Unable to save Site Config file"));
 				return Settings(settings);
 			}
 			dasBlogSettings.SiteConfiguration = site;
@@ -71,6 +74,7 @@ namespace DasBlog.Web.Controllers
 			if (!fileSystemBinaryManager.SaveMetaConfig(meta))
 			{
 				ModelState.AddModelError("", "Unable to save Meta configuration file.");
+				logger.LogError(new EventDataItem(EventCodes.Error, null, "Unable to save Site Config file"));
 				return Settings(settings);
 			}
 			dasBlogSettings.MetaTags = meta;
@@ -84,6 +88,7 @@ namespace DasBlog.Web.Controllers
 			if (!blogManager.SendTestEmail())
 			{
 				ModelState.AddModelError("", "Unable to save Site configuration file.");
+				logger.LogError(new EventDataItem(EventCodes.Error, null, "Unable to send test email"));
 			}
 
 			return RedirectToAction("Settings");
@@ -91,6 +96,8 @@ namespace DasBlog.Web.Controllers
 
 		public IActionResult RestartSite()
 		{
+			logger.LogInformation(new EventDataItem(EventCodes.ApplicationStartup, null, "Restarting Admin Site"));
+
 			appLifetime.StopApplication();
 
 			return RedirectToAction("Settings");
