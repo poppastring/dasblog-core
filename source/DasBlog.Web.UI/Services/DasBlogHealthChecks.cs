@@ -39,27 +39,27 @@ namespace DasBlog.Web.Services
 		{
 			if (!File.Exists(fileConfigOption.IISUrlRewriteFilePath))
 			{
-				return (false, "IIS Rewrite File Path");
+				return (false, $"IIS Rewrite File Path {fileConfigOption.IISUrlRewriteFilePath}");
 			}
 
 			if (!File.Exists(fileConfigOption.MetaConfigFilePath))
 			{
-				return (false, "MetaConfig File Path");
+				return (false, $"MetaConfig File Path {fileConfigOption.MetaConfigFilePath}");
 			}
 
 			if (!File.Exists(fileConfigOption.SecurityConfigFilePath))
 			{
-				return (false, "Security Config File Path");
+				return (false, $"Security Config File Path {fileConfigOption.SecurityConfigFilePath}");
 			}
 
 			if (!File.Exists(fileConfigOption.SiteConfigFilePath))
 			{
-				return (false, "Site Config File Path");
+				return (false, $"Site Config File Path {fileConfigOption.SiteConfigFilePath}");
 			}
 
 			if (!Directory.Exists(fileConfigOption.ThemesFolder))
 			{
-				return (false, "Themes Folder");
+				return (false, $"Themes Folder {fileConfigOption.ThemesFolder}");
 			}
 
 			return (true, String.Empty);		
