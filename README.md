@@ -3,9 +3,9 @@ One of the primary goals of this project is to preserve the essence of the origi
 
 Check out the [wiki](https://github.com/poppastring/dasblog-core/wiki) for additional information on DasBlog Fundamentals. 
 
-|Windows|Linux|macOS|
-|-------|-----|-----|
-|[![Build Status](https://poppastring.visualstudio.com/dasblog-core/_apis/build/status/poppastring.dasblog-core?branchName=master&jobName=Job&configuration=Job%20windows)](https://poppastring.visualstudio.com/dasblog-core/_build/latest?definitionId=2&branchName=master)|[![Build Status](https://poppastring.visualstudio.com/dasblog-core/_apis/build/status/poppastring.dasblog-core?branchName=master&jobName=Job&configuration=Job%20linux)](https://poppastring.visualstudio.com/dasblog-core/_build/latest?definitionId=2&branchName=master)|[![Build Status](https://poppastring.visualstudio.com/dasblog-core/_apis/build/status/poppastring.dasblog-core?branchName=master&jobName=Job&configuration=Job%20mac)](https://poppastring.visualstudio.com/dasblog-core/_build/latest?definitionId=2&branchName=master)|
+|Windows|Linux|
+|-------|-----|
+|[![Build Status](https://poppastring.visualstudio.com/dasblog-core/_apis/build/status/poppastring.dasblog-core?branchName=master&jobName=Job&configuration=Job%20windows)](https://poppastring.visualstudio.com/dasblog-core/_build/latest?definitionId=2&branchName=master)|[![Build Status](https://poppastring.visualstudio.com/dasblog-core/_apis/build/status/poppastring.dasblog-core?branchName=master&jobName=Job&configuration=Job%20linux)](https://poppastring.visualstudio.com/dasblog-core/_build/latest?definitionId=2&branchName=master)
 
 
 ## Our guiding principles
@@ -20,7 +20,7 @@ In developing this project we attempted to follow some [fundamental principles](
 
 ## Installing the development tools
 
-- Install [.NET Core SDK 3.0.100](https://dotnet.microsoft.com/download/thank-you/dotnet-sdk-3.0.100-windows-x64-installer)
+- Install [.NET Core SDK 3.1.1](https://dotnet.microsoft.com/download/dotnet-core/thank-you/runtime-aspnetcore-3.1.1-windows-x64-installer)
 - Install [Visual Studio Community 2019 (16.3.0 or newer)](https://visualstudio.microsoft.com/thank-you-downloading-visual-studio/?sku=Community&rel=16)
 
 You can find more specific installation steps for Windows development [here](https://www.microsoft.com/net/core#windowscmd)
