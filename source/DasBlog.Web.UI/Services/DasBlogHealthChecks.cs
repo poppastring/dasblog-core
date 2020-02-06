@@ -23,45 +23,46 @@ namespace DasBlog.Web.Services
 		}
 
 		public Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default)
-		{				
-			if (SystemCheck())
+		{
+			var systemCheck = SystemCheck(); 
+			if (SystemCheck().result)
 			{
 				return Task.FromResult(
 					HealthCheckResult.Healthy("A healthy result."));
 			}
 
 			return Task.FromResult(
-				HealthCheckResult.Unhealthy("An unhealthy result."));
+				HealthCheckResult.Unhealthy(systemCheck.why)); //this will be logged
 		}
 
-		private bool SystemCheck()
+		private (bool result, string why) SystemCheck()
 		{
 			if (!File.Exists(fileConfigOption.IISUrlRewriteFilePath))
 			{
-				return false;
+				return (false, "IIS Rewrite File Path");
 			}
 
 			if (!File.Exists(fileConfigOption.MetaConfigFilePath))
 			{
-				return false;
+				return (false, "MetaConfig File Path");
 			}
 
 			if (!File.Exists(fileConfigOption.SecurityConfigFilePath))
 			{
-				return false;
+				return (false, "Security Config File Path");
 			}
 
 			if (!File.Exists(fileConfigOption.SiteConfigFilePath))
 			{
-				return false;
+				return (false, "Site Config File Path");
 			}
 
 			if (!Directory.Exists(fileConfigOption.ThemesFolder))
 			{
-				return false;
+				return (false, "Themes Folder");
 			}
 
-			return true;		
+			return (true, String.Empty);		
 		}
 	}
 }
