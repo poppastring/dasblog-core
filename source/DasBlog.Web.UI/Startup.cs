@@ -60,7 +60,7 @@ namespace DasBlog.Web
 			IISUrlRewriteConfigPath = $"Config/IISUrlRewrite.{hostingEnvironment.EnvironmentName}.config";
 			SiteConfigPath = $"Config/site.{hostingEnvironment.EnvironmentName}.config";
 			MetaConfigPath = $"Config/meta.{hostingEnvironment.EnvironmentName}.config";
-			ThemeFolderPath = string.Format("Themes{1}{0}", Configuration.GetSection("Theme").Value, Path.PathSeparator);
+			ThemeFolderPath = string.Format("Themes{1}{0}", Configuration.GetSection("Theme").Value, Path.DirectorySeparatorChar);
 		}
 
 		public IConfiguration Configuration { get; }
