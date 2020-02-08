@@ -1,9 +1,11 @@
 ﻿using DasBlog.Services;
 using Microsoft.AspNetCore.Razor.TagHelpers;
+using System;
 using System.Threading.Tasks;
 
 namespace DasBlog.Web.TagHelpers
 {
+	[Obsolete]
     public class ApproveCommentTagHelper : TagHelper
     {
 		public string BlogPostId { get; set; }

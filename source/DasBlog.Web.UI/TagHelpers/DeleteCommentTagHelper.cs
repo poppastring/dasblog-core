@@ -1,10 +1,12 @@
 ﻿using DasBlog.Services;
 using Microsoft.AspNetCore.Razor.TagHelpers;
+using System;
 using System.Threading.Tasks;
 
 namespace DasBlog.Web.TagHelpers
 {
-    public class DeleteCommentTagHelper : TagHelper
+	[Obsolete]
+	public class DeleteCommentTagHelper : TagHelper
 	{
 		public string BlogPostId { get; set; }
 

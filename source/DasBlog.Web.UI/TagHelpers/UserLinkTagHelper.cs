@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Razor.TagHelpers;
+using System;
 using System.Threading.Tasks;
 
 namespace DasBlog.Web.TagHelpers
 {
+	[Obsolete]
 	public class UserLinkTagHelper : TagHelper
 	{
 		public string EmailAddress { get; set; }

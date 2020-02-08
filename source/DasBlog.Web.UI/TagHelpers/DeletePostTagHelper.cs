@@ -1,10 +1,12 @@
 ﻿using DasBlog.Services;
 using DasBlog.Web.Models.BlogViewModels;
 using Microsoft.AspNetCore.Razor.TagHelpers;
+using System;
 using System.Threading.Tasks;
 
 namespace DasBlog.Web.TagHelpers
 {
+	[Obsolete]
 	public class DeletePostTagHelper : TagHelper
 	{
 		public PostViewModel Post { get; set; }
