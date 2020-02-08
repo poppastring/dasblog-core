@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Razor.TagHelpers;
 
 namespace DasBlog.Web.TagHelpers.Comments
 {
-	public class CommentHomePageLink : TagHelper
+	public class CommentUserHomePageLink : TagHelper
 	{
 		public CommentViewModel Comment { get; set; }
 
@@ -17,7 +17,7 @@ namespace DasBlog.Web.TagHelpers.Comments
 			output.TagMode = TagMode.StartTagAndEndTag;
 			output.Attributes.SetAttribute("href", Comment.HomePageUrl);
 			output.Attributes.SetAttribute("rel", "nofollow");
-			output.Attributes.SetAttribute("class", "dbc-comment-homepage-name");
+			output.Attributes.SetAttribute("class", "dbc-comment-user-homepage-name");
 			output.Content.SetHtmlContent(Comment.Name);
 		}
 
