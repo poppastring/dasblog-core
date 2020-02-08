@@ -58,6 +58,13 @@
             <div class="col-12 text-center">
                 <site-copyright />
             </div>
+
+            <div class="container text-center">
+                <p class="text-muted">
+                    <site-page-control page-number=@(int)ViewData[DasBlog.Core.Common.Constants.PageNumber] post-count=(int)ViewData[DasBlog.Core.Common.Constants.PostCount] />
+                </p>
+            </div>
+
             <div class="col-12 text-center">
                 Blog template built for <a href="https://getbootstrap.com/">Bootstrap</a> by <a href="https://twitter.com/mdo">@@mdo</a>.
             </div>

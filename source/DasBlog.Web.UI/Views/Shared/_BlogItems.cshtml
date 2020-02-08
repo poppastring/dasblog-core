@@ -1,5 +1,4 @@
-﻿@using DasBlog.Core.Common
-@model ListPostsViewModel
+﻿@model ListPostsViewModel
 
 
 @if (Model.Posts.Count > 0)
@@ -14,8 +13,3 @@ else
     <p>No posts found!</p>
 }
 
-<div class="container text-center">
-    <p class="text-muted">
-        <site-page-control page-number=@(int)ViewData[Constants.PageNumber] post-count=(int)ViewData[Constants.PostCount] />
-    </p>
-</div>

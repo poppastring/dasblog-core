@@ -58,7 +58,7 @@
                             <div class="col-md-12 col-lg-8">
                                 @RenderBody()
                             </div>
-                            
+
                             <div class="col-md-12 col-lg-4">
                                 <div class="card-block">
                                     <div class="card-footer todo-list-footer">
@@ -75,8 +75,14 @@
                             </div>
 
                         </section>
-                        
+
                         <section class="row">
+                            <div class="container text-center">
+                                <p class="text-muted">
+                                    <site-page-control page-number=@(int)ViewData[DasBlog.Core.Common.Constants.PageNumber] post-count=(int)ViewData[DasBlog.Core.Common.Constants.PostCount] />
+                                </p>
+                            </div>
+
                             <!-- Attribution is required for this theme -->
                             <div class="col-12 mt-1 mb-4">Template theme by <a href="https://www.medialoot.com">Medialoot</a></div>
                         </section>
