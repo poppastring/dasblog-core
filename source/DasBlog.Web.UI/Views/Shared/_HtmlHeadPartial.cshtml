@@ -1,0 +1,12 @@
+﻿@using DasBlog.Services;
+@inject IDasBlogSettings dasBlogSettings
+
+<title>@ViewData["PageTitle"]</title>
+<meta name="description" content="@ViewData["Description"]" />
+<meta name="keywords" content="@ViewData["Keywords"]" />
+<meta name="author" content="@ViewData["Author"]" />
+<meta name="copyright" content="@dasBlogSettings.SiteConfiguration.Copyright" />
+<link rel="shortcut icon" href="@dasBlogSettings.ShortCutIconUrl" />
+<base href="@dasBlogSettings.SiteConfiguration.Root">
+<link href="@ViewData["Canonical"]" rel="canonical">
+<link rel="microsummary" type="application/x.microsummary+xml" href="@dasBlogSettings.MicroSummaryUrl" />

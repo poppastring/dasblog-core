@@ -1,28 +1,11 @@
-﻿@using DasBlog.Services;
-@using DasBlog.Core.Common
-@inject IDasBlogSettings dasBlogSettings
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>@ViewData["PageTitle"]</title>
-    <meta name="description" content="@ViewData["Description"]" />
-    <meta name="keywords" content="@ViewData["Keywords"]" />
-    <meta name="author" content="@ViewData["Author"]" />
-
-    <meta name="copyright" content="@dasBlogSettings.SiteConfiguration.Copyright" />
-
-    <base href="@dasBlogSettings.SiteConfiguration.Root">
-    <link href="@ViewData["Canonical"]" rel="canonical">
-    <link rel="alternate" type="application/rss+xml" title="@dasBlogSettings.SiteConfiguration.Description" href="@dasBlogSettings.RssUrl" />
-    <link rel="EditURI" type="application/rsd+xml" title="RSD" href="@dasBlogSettings.RsdUrl" />
-    <link rel="microsummary" type="application/x.microsummary+xml" href="@dasBlogSettings.MicroSummaryUrl" />
-
-    <link rel="shortcut icon" href="@dasBlogSettings.ShortCutIconUrl" />
-
+    <partial name="_HtmlHeadPartial" />
+    <partial name="_HtmlRSSPartial" />
     <partial name="_TwitterCardPartial" />
     <partial name="_OpenGraphPartial" />
     <partial name="_BlogPostingSchemaOrgPartial" />
@@ -34,8 +17,7 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     </environment>
 
-    <link rel="stylesheet" href="~/css/site.css" />
-    <link rel="stylesheet" href="@dasBlogSettings.ThemeCssUrl" />
+    <partial name="_HtmlThemePartial" />
 
 </head>
 
@@ -48,7 +30,7 @@
                     <a class="text-muted" asp-area="" asp-controller="feed" asp-action="rss">Subscribe</a>
                 </div>
                 <div class="col-4 text-center">
-                    <a class="blog-header-logo text-dark" href="@dasBlogSettings.SiteConfiguration.Root"><site-title /></a>
+                    <site-title-link css="blog-header-logo text-dark" />
                 </div>
                 <div class="col-4 d-flex justify-content-end align-items-center">
                     <a dasblog-unauthorized class="btn btn-sm btn-outline-secondary" asp-controller="account" asp-action="login">Log in</a>
@@ -74,7 +56,7 @@
         @RenderBody()
         <footer>
             <div class="col-12 text-center">
-                &copy; @DateTime.Now.Year - @dasBlogSettings.SiteConfiguration.Copyright
+                <site-copyright />
             </div>
             <div class="col-12 text-center">
                 Blog template built for <a href="https://getbootstrap.com/">Bootstrap</a> by <a href="https://twitter.com/mdo">@@mdo</a>.

@@ -1,27 +1,11 @@
-﻿@using DasBlog.Services;
-@using DasBlog.Core.Common
-@inject IDasBlogSettings dasBlogSettings
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>@ViewData["PageTitle"]</title>
-    <meta name="description" content="@ViewData["Description"]" />
-    <meta name="keywords" content="@ViewData["Keywords"]" />
-    <meta name="author" content="@ViewData["Author"]" />
-    <meta name="copyright" content="@dasBlogSettings.SiteConfiguration.Copyright" />
-
-    <base href="@dasBlogSettings.SiteConfiguration.Root">
-    <link href="@ViewData["Canonical"]" rel="canonical">
-    <link rel="alternate" type="application/rss+xml" title="@dasBlogSettings.SiteConfiguration.Description" href="@dasBlogSettings.RssUrl" />
-    <link rel="EditURI" type="application/rsd+xml" title="RSD" href="@dasBlogSettings.RsdUrl" />
-    <link rel="microsummary" type="application/x.microsummary+xml" href="@dasBlogSettings.MicroSummaryUrl" />
-
-    <link rel="shortcut icon" href="@dasBlogSettings.ShortCutIconUrl" />
-
+    <partial name="_HtmlHeadPartial" />
+    <partial name="_HtmlRSSPartial" />
     <partial name="_TwitterCardPartial" />
     <partial name="_OpenGraphPartial" />
     <partial name="_BlogPostingSchemaOrgPartial" />
@@ -33,8 +17,8 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     </environment>
 
-    <link rel="stylesheet" href="~/css/site.css" />
-    <link rel="stylesheet" href="@dasBlogSettings.ThemeCssUrl" />
+    <partial name="_HtmlThemePartial" />
+
 </head>
 
 <body>
@@ -60,7 +44,7 @@
             <main class="col-xs-12 col-sm-8 col-lg-9 col-xl-10 pt-3 pl-4 ml-auto">
                 <header class="page-header row justify-center">
                     <div class="col-md-6 col-lg-8">
-                        <h1 class="site-title"><a href="@dasBlogSettings.SiteConfiguration.Root"><em class="fa fa-rocket"></em>@dasBlogSettings.SiteConfiguration.Title</a></h1>
+                        <h1 class="site-title"> <site-title-link css="fa fa-rocket" />  </h1>
                     </div>
                     <div class="dropdown user-dropdown col-md-6 col-lg-4 text-center text-md-right">
 
