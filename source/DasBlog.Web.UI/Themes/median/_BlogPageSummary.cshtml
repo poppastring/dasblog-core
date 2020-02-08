@@ -1,13 +1,6 @@
-@using DasBlog.Services;
 @using DasBlog.Web.Models.BlogViewModels;
-@using Constants = DasBlog.Core.Common.Constants;
 
 @model ListPostsViewModel
 
-@inject IDasBlogSettings dasBlogSettings
-
-@{
-    ViewBag.Title = Constants.HomePageTitle;
-}
 
 <partial name="_BlogItemsSummary" model="Model" />

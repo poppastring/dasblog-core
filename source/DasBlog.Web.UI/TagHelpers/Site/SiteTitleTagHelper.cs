@@ -17,10 +17,9 @@ namespace DasBlog.Web.TagHelpers
 
 		public override void Process(TagHelperContext context, TagHelperOutput output)
 		{
-			var title = dasBlogSettings?.SiteConfiguration?.Title ?? Title;
 			output.TagName = "";
 			output.TagMode = TagMode.StartTagAndEndTag;
-			output.Content.SetHtmlContent(title);
+			output.Content.SetHtmlContent(dasBlogSettings?.SiteConfiguration?.Title);
 		}
 
 		public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)

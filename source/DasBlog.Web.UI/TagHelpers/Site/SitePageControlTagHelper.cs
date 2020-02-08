@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace DasBlog.Web.TagHelpers.Layout
 {
-	public class PageControlTagHelper
+	public class SitePageControlTagHelper
 	{
 	}
 }
