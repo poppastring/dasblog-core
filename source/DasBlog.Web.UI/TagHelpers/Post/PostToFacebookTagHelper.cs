@@ -19,7 +19,6 @@ namespace DasBlog.Web.TagHelpers
 
 		public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
 		{
-			string categorylist = string.Empty;
 			output.TagName = "a";
 			output.TagMode = TagMode.StartTagAndEndTag;
 			output.Attributes.SetAttribute("class", "dasblog-a-share-facebook");

@@ -11,6 +11,8 @@ namespace DasBlog.Web.TagHelpers.Post
 
 		public override void Process(TagHelperContext context, TagHelperOutput output)
 		{
+			output.TagName = "";
+			output.TagMode = TagMode.StartTagAndEndTag;
 			output.Content.SetHtmlContent(Post.Title);
 		}
 

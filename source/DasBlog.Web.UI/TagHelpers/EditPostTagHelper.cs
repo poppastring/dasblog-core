@@ -1,4 +1,5 @@
 ﻿using DasBlog.Services;
+using DasBlog.Web.Models.BlogViewModels;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using System.Threading.Tasks;
 
@@ -6,6 +7,7 @@ namespace DasBlog.Web.TagHelpers
 {
 	public class EditPostTagHelper : TagHelper
 	{
+		public PostViewModel Post { get; set; }
 		public string BlogPostId { get; set; }
 
 		private readonly IDasBlogSettings dasBlogSettings;
@@ -17,6 +19,11 @@ namespace DasBlog.Web.TagHelpers
 
 		public override void Process(TagHelperContext context, TagHelperOutput output)
 		{
+			if (Post != null)
+			{
+				BlogPostId = Post.EntryId;
+			}
+
 			output.TagName = "a";
 			output.TagMode = TagMode.StartTagAndEndTag;
 			output.Attributes.SetAttribute("href", dasBlogSettings.GetPermaLinkUrl(BlogPostId + "/edit"));

@@ -1,11 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using DasBlog.Services;
 
 namespace DasBlog.Web.TagHelpers.Post
 {
-	public class PostCommentLinkTagHelper
+	public class PostCommentLinkTagHelper : CommentPostTagHelper
 	{
+		public PostCommentLinkTagHelper(IDasBlogSettings dasBlogSettings) : base(dasBlogSettings)
+		{
+
+		}
 	}
 }

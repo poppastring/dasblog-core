@@ -20,7 +20,7 @@ namespace DasBlog.Web.TagHelpers.Comments
 				DateTimeFormat = "MMMM dd, yyyy H:mm";
 			}
 
-			output.TagName = "";
+			output.TagName = "span";
 			output.TagMode = TagMode.StartTagAndEndTag;
 			output.Attributes.SetAttribute("class", "dbc-comment-date");
 			output.Content.SetHtmlContent(Comment.Date.ToString(DateTimeFormat));
