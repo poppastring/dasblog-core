@@ -1,39 +1,38 @@
 ﻿@model PostViewModel
-
 @{
     ViewData["Title"] = @Model.Title;
 }
 
-    <div class="post">
-        <div class="row post-title">
-            <div class="col-md-12 mb-6">
-                <h1><title-link post=@Model css="text-dark"></title-link></h1>
-            </div>
+<div class="post">
+    <div class="row post-title">
+        <div class="col-md-12 mb-6">
+            <h1><post-title-link post=@Model /> </h1>
         </div>
-
-        <div class="row post-body">
-            <div class="col-md-12 mb-6">
-                @Html.Raw(@Model.Content)
-            </div>
-        </div>
-        <div class="row post-footer">
-            <div class="col-md-12 mb-6">
-                Tagged in: <categories-list categories=@Model.Categories>, </categories-list><br />
-                <div id="@DasBlog.Core.Common.Constants.CommentsStartId">&nbsp;</div>
-                <comment-post post="@Model"></comment-post>
-            </div>
-            <div class="col-md-12 mb-6">
-                @Model.CreatedDateTime.ToString("MMMM dd, yyyy")
-            </div>
-            <div class="col-md-12 mb-6">
-                <post-to-twitter post="@Model">Share on Twitter</post-to-twitter>
-            </div>
-            <div dasblog-authorized class="col-md-12 mb-6">
-                <edit-post blog-post-id="@Model.EntryId"></edit-post>
-                <span style="display:inline-block; width: 1em;"></span>
-                <delete-post blog-post-id="@Model.EntryId" blog-title="@Model.Title"></delete-post>
-            </div>
-        </div>
-        <partial name="_CommentBlockPartial" model="@Model.Comments" />
     </div>
+
+    <div class="row post-body">
+        <div class="col-md-12 mb-6">
+            <post-content post="@Model" />
+        </div>
+    </div>
+    <div class="row post-footer">
+        <div class="col-md-12 mb-6">
+            Tagged in: <post-categories-list post="@Model">, </post-categories-list><br />
+            <post-comment-link post="@Model" />
+        </div>
+        <div class="col-md-12 mb-6">
+            <post-created-date post="@Model" />
+        </div>
+        <div class="col-md-12 mb-6">
+            <post-to-twitter post="@Model">Share on Twitter</post-to-twitter>
+        </div>
+        <div dasblog-authorized class="col-md-12 mb-6">
+            <post-edit-link post="@Model" />
+            <span style="display:inline-block; width: 1em;"></span>
+            <post-delete-link post="@Model" />
+        </div>
+    </div>
+    <partial name="_CommentBlockPartial" model="@Model.Comments" />
+</div>
+
 <hr />
