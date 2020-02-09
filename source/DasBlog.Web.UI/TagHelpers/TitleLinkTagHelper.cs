@@ -35,7 +35,7 @@ namespace DasBlog.Web.TagHelpers
 
 			if (string.IsNullOrWhiteSpace(title))
 			{
-				title = Post.PermaLink;			
+				title = Post.Title;			
 			}
 
 			output.Attributes.SetAttribute("href", dasBlogSettings.RelativeToRoot(Post.PermaLink));
