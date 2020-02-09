@@ -26,14 +26,20 @@ namespace DasBlog.Web.TagHelpers
 			output.TagName = "a";
 
 			var content = await output.GetChildContentAsync();
+			var title = content.GetContent();
 
 			if (!string.IsNullOrEmpty(Css))
 			{
 				output.Attributes.SetAttribute("class", Css);
 			}
 
+			if (string.IsNullOrWhiteSpace(title))
+			{
+				title = Post.PermaLink;			
+			}
+
 			output.Attributes.SetAttribute("href", dasBlogSettings.RelativeToRoot(Post.PermaLink));
-			output.Content.SetHtmlContent(Post.Title);
+			output.Content.SetHtmlContent(title);
 		}
 	}
 }
