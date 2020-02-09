@@ -7,36 +7,35 @@
     <div class="post">
         <div class="row post-title">
             <div class="col-md-12 mb-6">
-                <h1><title-link post=@Model css="text-dark"></title-link></h1>
-                @Model.CreatedDateTime.ToString("MMMM dd, yyyy H:mm")
+                <h1><post-title-link post=@Model css="text-dark"></post-title-link></h1>
+                <post-created-date post="@Model" />
             </div>
         </div>
 
         <div class="row post-body">
             <div class="col-md-12 mb-6">
-                @Html.Raw(@Model.Content)
+                <post-content post="@Model" />
             </div>
         </div>
         <div class="row post-footer">
             <div class="col-md-12 mb-6">
-                Tags: <categories-list categories=@Model.Categories>, </categories-list>
+                Tags: <post-categories-list post="@Model">, </post-categories-list>
             </div>
             <div class="col-md-12 mb-6">
-                @Model.CreatedDateTime.ToString("MMMM dd, yyyy")
+                <post-created-date post="@Model" />
             </div>
             <div class="col-md-12 mb-6">
                 Share on <post-to-twitter post="@Model">Twitter</post-to-twitter> or <post-to-facebook post="@Model">Facebook</post-to-facebook>
             </div>
             <div dasblog-authorized class="col-md-12 mb-6">
-                <edit-post blog-post-id="@Model.EntryId"></edit-post>
+                <post-edit-link post="@Model" />
                 <span style="display:inline-block; width: 1em;"></span>
-                <delete-post blog-post-id="@Model.EntryId" blog-title="@Model.Title"></delete-post>
+                <post-delete-link post="@Model" />
             </div>
             <div class="col-md-12 mb-6">
                 <comment-post post="@Model"></comment-post>
             </div>
         </div>
-        <div id="@DasBlog.Core.Common.Constants.CommentsStartId">&nbsp;</div>
 
         <partial name="_CommentBlockPartial" model="@Model.Comments" />
     </div>

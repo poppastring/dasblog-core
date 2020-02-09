@@ -1,21 +1,16 @@
-﻿using DasBlog.Services;
-using DasBlog.Web.Models.BlogViewModels;
+﻿using System.Threading.Tasks;
+using DasBlog.Services;
 using Microsoft.AspNetCore.Razor.TagHelpers;
-using System;
-using System.Threading.Tasks;
 
-namespace DasBlog.Web.TagHelpers
+namespace DasBlog.Web.TagHelpers.Post
 {
-	[Obsolete]
-	public class TitleLinkTagHelper : TagHelper
+	public class SiteTitleLinkTagHelper : TagHelper
 	{
-		public PostViewModel Post { get; set; }
-
 		public string Css { get; set; }
 
 		private readonly IDasBlogSettings dasBlogSettings;
 
-		public TitleLinkTagHelper(IDasBlogSettings dasBlogSettings)
+		public SiteTitleLinkTagHelper(IDasBlogSettings dasBlogSettings)
 		{
 			this.dasBlogSettings = dasBlogSettings;
 		}
@@ -32,8 +27,9 @@ namespace DasBlog.Web.TagHelpers
 				output.Attributes.SetAttribute("class", Css);
 			}
 
-			output.Attributes.SetAttribute("href", dasBlogSettings.RelativeToRoot(Post.PermaLink));
-			output.Content.SetHtmlContent(Post.Title);
+			output.Attributes.SetAttribute("href", dasBlogSettings.SiteConfiguration.Root);
+			output.Content.SetHtmlContent(dasBlogSettings.SiteConfiguration.Title);
 		}
+
 	}
 }

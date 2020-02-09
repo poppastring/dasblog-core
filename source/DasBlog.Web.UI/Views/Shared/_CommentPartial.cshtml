@@ -5,29 +5,29 @@
 <div class="modal-body form-horizontal">
     <div class="row">
         <div class="col-md-2 mb-1">
-            <img src="//www.gravatar.com/avatar/@Model.GravatarHashId?rating=PG&size=80&default=identicon" />
+            <comment-gravatar-image comment="@Model" />
         </div>
         <div class="col-md-10 mb-5">
             <div class="row">
                 <div class="col-md-6 mb-3 text-dark">
-                    <a rel="nofollow" href="@Model.HomePageUrl"><strong>@HttpUtility.HtmlDecode(Model.Name)</strong></a>
+                    <strong><comment-user-home-page-link comment="@Model" /></strong>
                 </div>
                 <div class="col-md-6 mb-3 text-muted navbar-right">
-                    <i class="navbar-right">@Model.Date.ToString("MMMM dd, yyyy H:mm")</i>
+                    <i class="navbar-right"><comment-date comment="@Model" date-time-format="MMMM dd, yyyy H:mm" /></i>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-12 mb-6">
-                    @Html.Raw(HttpUtility.HtmlDecode(Model.Text))
+                    <comment-content comment="@Model" />
                 </div>
             </div>
         </div>
     </div>
     <div class="row">
         <div dasblog-authorized class="col-md-12 mb-6">
-            <approve-comment blog-post-id="@Model.BlogPostId" comment-id="@Model.CommentId" commentor-name="@Model.Name"></approve-comment>
+            <comment-approval-link comment="@Model" />
             <span style="display:inline-block; width: 1em;"></span>
-            <delete-comment blog-post-id="@Model.BlogPostId" comment-id="@Model.CommentId" commentor-name="@Model.Name"></delete-comment>
+            <comment-delete-link comment="@Model" />
         </div>
     </div>
 </div>

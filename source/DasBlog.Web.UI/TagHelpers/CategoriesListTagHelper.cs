@@ -1,14 +1,18 @@
 ﻿using DasBlog.Services;
 using DasBlog.Web.Models.BlogViewModels;
 using Microsoft.AspNetCore.Razor.TagHelpers;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace DasBlog.Web.TagHelpers
 {
+	[Obsolete]
 	public class CategoriesListTagHelper : TagHelper
 	{
 		public IList<CategoryViewModel> Categories { get; set; }
+
+		public PostViewModel Post { get; set; }
 
 		private readonly IDasBlogSettings dasBlogSettings;
 		private const string CATEGORY_ITEM_TEMPLATE = "<a href='{0}' class='dbc-a-category'>{1}</a>";
@@ -20,6 +24,11 @@ namespace DasBlog.Web.TagHelpers
 
 		public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
 		{
+			if (Post != null)
+			{
+				Categories = Post.Categories;
+			}
+
 			var categorylist = string.Empty;
 			output.TagName = "span";
 			output.TagMode = TagMode.StartTagAndEndTag;

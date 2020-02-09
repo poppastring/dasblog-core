@@ -1,0 +1,5 @@
+﻿@using DasBlog.Services;
+@inject IDasBlogSettings dasBlogSettings
+
+<link rel="alternate" type="application/rss+xml" title="@dasBlogSettings.SiteConfiguration.Description" href="@dasBlogSettings.RssUrl" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="@dasBlogSettings.RsdUrl" />

@@ -1,32 +1,31 @@
-﻿using DasBlog.Services;
-using Microsoft.AspNetCore.Razor.TagHelpers;
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using DasBlog.Services;
+using DasBlog.Web.Models.BlogViewModels;
+using Microsoft.AspNetCore.Razor.TagHelpers;
 
-namespace DasBlog.Web.TagHelpers
+namespace DasBlog.Web.TagHelpers.Comments
 {
-	[Obsolete]
-    public class ApproveCommentTagHelper : TagHelper
-    {
-		public string BlogPostId { get; set; }
+	public class CommentApprovalLinkTagHelper : TagHelper
+	{
+		public CommentViewModel Comment { get; set; }
 
-		public string CommentId { get; set; }
+		private IDasBlogSettings dasBlogSettings;
 
-		public string CommentorName { get; set; }
-
-		private readonly IDasBlogSettings dasBlogSettings;
 		private const string COMMENTAPPROVE_URL = "{0}/comments/{1}";
 		private const string COMMENTTEXT_MSG = "Are you sure you want to approve the comment from '{0}'?";
 
-		public ApproveCommentTagHelper(IDasBlogSettings dasBlogSettings)
+		public CommentApprovalLinkTagHelper(IDasBlogSettings dasBlogSettings)
 		{
 			this.dasBlogSettings = dasBlogSettings;
 		}
 
 		public override void Process(TagHelperContext context, TagHelperOutput output)
 		{
-			var approvalurl = string.Format(COMMENTAPPROVE_URL, dasBlogSettings.GetPermaLinkUrl(BlogPostId), CommentId);
-			var commenttxt = string.Format(COMMENTTEXT_MSG, CommentorName);
+			var approvalurl = string.Format(COMMENTAPPROVE_URL, dasBlogSettings.GetPermaLinkUrl(Comment.BlogPostId), Comment.CommentId);
+			var commenttxt = string.Format(COMMENTTEXT_MSG, Comment.Name);
 
 			output.TagName = "a";
 			output.TagMode = TagMode.StartTagAndEndTag;
