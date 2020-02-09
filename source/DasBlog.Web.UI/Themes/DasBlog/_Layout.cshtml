@@ -58,7 +58,7 @@
 
         <div class="container text-center">
             <p class="text-muted">
-                <site-page-control page-number=@(int)ViewData[DasBlog.Core.Common.Constants.PageNumber] post-count=(int)ViewData[DasBlog.Core.Common.Constants.PostCount] />
+                <site-page-control view-context="@ViewContext" />
             </p>
         </div>
 
