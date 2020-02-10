@@ -5,7 +5,7 @@
         <post-title-link post=@Model css="text-dark"></post-title-link>
     </h3>
     <p>
-        <small class="mb-1 text-muted">@Model.CreatedDateTime.ToString("MMMM dd, yyyy")</small>
+        <small class="mb-1 text-muted"><post-created-date post="@Model" date-time-format="MMMM dd, yyyy" /></small>
     </p>
     <div>
         <post-description post="@Model"></post-description>
