@@ -9,13 +9,15 @@ namespace DasBlog.Web.TagHelpers.Layout
 {
 	public class SitePageControlTagHelper : TagHelper
 	{
-		public string NewerPostsText { get; set; } = "<< Newer Posts";
+		public string NewerPostsText { get; set; } = "Newer Posts >>";
 
-		public string OlderPostsText { get; set; } = "Older Posts >>";
+		public string OlderPostsText { get; set; } = "<< Older Posts";
+
+		public bool SeperatorRequired { get; set; } = true;
 
 		private int PostCount { get; set; }
 		private int PageNumber { get; set; }
-		private const string PAGEANCHOR = "<a href='{0}'>{1}</a>";
+		private const string PAGEANCHOR = "<div class='dbc-span-page-control-{2}'><a href='{0}'>{1}</a></div>";
 
 		[ViewContext]
 		public ViewContext ViewContext { get; set; }
@@ -48,9 +50,9 @@ namespace DasBlog.Web.TagHelpers.Layout
 
 			var separatorRequired = PostCount > 0 && PageNumber > 0;
 
-			if (PageNumber > 0)
+			if (PostCount > 0)
 			{
-				pagecontrol = string.Format(PAGEANCHOR, dasBlogSettings.RelativeToRoot(string.Format("page/{0}", PageNumber - 1)), NewerPostsText);
+				pagecontrol = string.Format(PAGEANCHOR, dasBlogSettings.RelativeToRoot(string.Format("page/{0}", PageNumber + 1)), OlderPostsText, "older");
 			}
 			
 			if (separatorRequired)
@@ -58,9 +60,9 @@ namespace DasBlog.Web.TagHelpers.Layout
 				pagecontrol += seperator;
 			}
 
-			if (PostCount > 0)
+			if (PageNumber > 0)
 			{
-				pagecontrol += string.Format(PAGEANCHOR, dasBlogSettings.RelativeToRoot(string.Format("page/{0}", PageNumber + 1)), OlderPostsText);
+				pagecontrol += string.Format(PAGEANCHOR, dasBlogSettings.RelativeToRoot(string.Format("page/{0}", PageNumber - 1)), NewerPostsText, "newer");
 			}
 
 			output.Content.SetHtmlContent(pagecontrol);
