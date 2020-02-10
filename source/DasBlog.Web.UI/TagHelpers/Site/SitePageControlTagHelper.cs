@@ -17,7 +17,7 @@ namespace DasBlog.Web.TagHelpers.Layout
 
 		private int PostCount { get; set; }
 		private int PageNumber { get; set; }
-		private const string PAGEANCHOR = "<div class='dbc-span-page-control-{2}'><a href='{0}'>{1}</a></div>";
+		private const string PAGEANCHOR = "<span class='dbc-span-page-control-{2}'><a href='{0}'>{1}</a></span>";
 
 		[ViewContext]
 		public ViewContext ViewContext { get; set; }
