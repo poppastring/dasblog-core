@@ -120,6 +120,14 @@
 
     </div>
 
+    <div class="dasblog-form-group row">
+
+        @Html.LabelFor(m => @Model.SiteConfig.ContentLookaheadDays, null, new { @class = "dasblog-col-form-label col-3" })
+        @Html.TextBoxFor(m => @Model.SiteConfig.ContentLookaheadDays, null, new { @class = "form-control col-9" })
+        @Html.ValidationMessageFor(m => m.SiteConfig.ContentLookaheadDays, null, new { @class = "text-danger" })
+
+    </div>
+
     <div class="dasblog-form-check row">
 
         @Html.LabelFor(m => @Model.SiteConfig.EnableStartPageCaching, null, new { @class = "dasblog-col-form-label col-3" })
