@@ -51,11 +51,13 @@ namespace DasBlog.Web.Models.AdminViewModels
 		[DisplayName("Front page day count")]
 		[Description("The maximum number of days to appear on your home page")]
 		[Required(AllowEmptyStrings = false, ErrorMessage = "Please enter a Front Page Day Count")]
+		[Range(1, 100, ErrorMessage = "Enter a value between  1 and 100")]
 		public int FrontPageDayCount { get; set; }
 
 		[DisplayName("Front page entry count")]
 		[Description("Number of blog posts on the home page of your blog")]
 		[Required(AllowEmptyStrings = false, ErrorMessage = "Please enter a Front Page Entry Count")]
+		[Range(1, 100, ErrorMessage = "Enter a value between  1 and 100")]
 		public int FrontPageEntryCount { get; set; }
 
 		[DisplayName("Front page category")]
@@ -65,6 +67,7 @@ namespace DasBlog.Web.Models.AdminViewModels
 		[DisplayName("Entries per page")]
 		[Description(@"Number of blog posts on the pages of your blog e.g \page\1, page\2, etc")]
 		[Required(AllowEmptyStrings = false, ErrorMessage = "Enter a value for Entries Per Page")]
+		[Range(1, 100, ErrorMessage = "Enter a value between  1 and 100")]
 		public int EntriesPerPage { get; set; }
 
 		[DisplayName("Enable front page caching")]
@@ -74,6 +77,7 @@ namespace DasBlog.Web.Models.AdminViewModels
 		[DisplayName("Days to look ahead for content")]
 		[Description("Looks for future posts for this number of days into the future")]
 		[Required(AllowEmptyStrings = false, ErrorMessage = "Enter a value for Content Look ahead Days")]
+		[Range(0, 100, ErrorMessage = "Enter a value between  0 and 100")]
 		public int ContentLookaheadDays { get; set; }
 
 		[DisplayName("Show 'Item Summary' in Aggregated Views")]
@@ -83,16 +87,19 @@ namespace DasBlog.Web.Models.AdminViewModels
 		[DisplayName("RSS day count")]
 		[Description("Maximum number of days to appear in your RSS feed")]
 		[Required(AllowEmptyStrings = false, ErrorMessage = "Enter a value for RSS Day Count")]
+		[Range(1, 500, ErrorMessage = "Enter a value between  1 and 500")]
 		public int RssDayCount { get; set; }
 
 		[DisplayName("RSS main entry count")]
 		[Description("The number of entries permitted in the main RSS feed")]
 		[Required(AllowEmptyStrings = false, ErrorMessage = "Enter a value for RSS Main Entry Count")]
+		[Range(1, 100, ErrorMessage = "Enter a value between  1 and 100")]
 		public int RssMainEntryCount { get; set; }
 
 		[DisplayName("RSS entry category count")]
 		[Description("The number of entries permitted per RSS category feed")]
 		[Required(AllowEmptyStrings = false, ErrorMessage = "Enter a value for RSS Entry Count")]
+		[Range(1, 100, ErrorMessage = "Enter a value between  1 and 100")]
 		public int RssEntryCount { get; set; }
 
 		[DisplayName("Enable RSS item footer")]
@@ -119,6 +126,7 @@ namespace DasBlog.Web.Models.AdminViewModels
 		[DisplayName("Number of days comments allowed")]
 		[Description("The number of days a post can receive comments after publishing when 'Enable Comment Days' is set to true")]
 		[Required(AllowEmptyStrings = false, ErrorMessage = "Enter a value for Days Comments Allowed")]
+		[Range(1, 500, ErrorMessage = "Enter a value between  1 and 500")]
 		public int DaysCommentsAllowed { get; set; }
 
 		[DisplayName("Always show comments")]
@@ -183,6 +191,7 @@ namespace DasBlog.Web.Models.AdminViewModels
 
 		[DisplayName("Time zone index")]
 		[Description("")]
+
 		public int DisplayTimeZoneIndex { get; set; }
 
 		[DisplayName("Comments require approval")]
