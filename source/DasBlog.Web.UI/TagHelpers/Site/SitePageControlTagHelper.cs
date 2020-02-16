@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using DasBlog.Core.Common;
 using DasBlog.Services;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -31,8 +32,16 @@ namespace DasBlog.Web.TagHelpers.Layout
 
 		public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
 		{
-			PostCount = (int)ViewContext.ViewData[Constants.PostCount];
-			PageNumber = (int)ViewContext.ViewData[Constants.PageNumber];
+			try
+			{
+				PostCount = (int)ViewContext.ViewData[Constants.PostCount];
+				PageNumber = (int)ViewContext.ViewData[Constants.PageNumber];
+			}
+			catch (NullReferenceException)
+			{
+				PostCount = 0;
+				PageNumber = 0;
+			}
 
 			var pagecontrol = string.Empty;
 
