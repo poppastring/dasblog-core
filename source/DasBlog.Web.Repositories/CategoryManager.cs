@@ -1,4 +1,5 @@
-﻿using DasBlog.Managers.Interfaces;
+﻿using System.IO;
+using DasBlog.Managers.Interfaces;
 using DasBlog.Services;
 using newtelligence.DasBlog.Runtime;
 
@@ -13,9 +14,10 @@ namespace DasBlog.Managers
         public CategoryManager(IDasBlogSettings settings)
         {
             dasBlogSettings = settings;
-            loggingDataService = LoggingDataServiceFactory.GetService(dasBlogSettings.WebRootDirectory + dasBlogSettings.SiteConfiguration.LogDir);
-            dataService = BlogDataServiceFactory.GetService(dasBlogSettings.WebRootDirectory + dasBlogSettings.SiteConfiguration.ContentDir, loggingDataService);
-        }
+
+			var loggingDataService = LoggingDataServiceFactory.GetService(Path.Combine(dasBlogSettings.WebRootDirectory, dasBlogSettings.SiteConfiguration.LogDir)); ;
+			dataService = BlogDataServiceFactory.GetService(Path.Combine(dasBlogSettings.WebRootDirectory, dasBlogSettings.SiteConfiguration.ContentDir), loggingDataService);
+		}
 
         public EntryCollection GetEntries()
         {

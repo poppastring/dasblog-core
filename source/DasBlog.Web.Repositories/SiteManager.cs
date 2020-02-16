@@ -3,6 +3,7 @@ using DasBlog.Managers.Interfaces;
 using DasBlog.Services;
 using newtelligence.DasBlog.Runtime;
 using System;
+using System.IO;
 
 namespace DasBlog.Managers
 {
@@ -15,9 +16,10 @@ namespace DasBlog.Managers
         public SiteManager(IDasBlogSettings settings)
         {
             dasBlogSettings = settings;
-            loggingDataService = LoggingDataServiceFactory.GetService(dasBlogSettings.WebRootDirectory + dasBlogSettings.SiteConfiguration.LogDir);
-            dataService = BlogDataServiceFactory.GetService(dasBlogSettings.WebRootDirectory + dasBlogSettings.SiteConfiguration.ContentDir, loggingDataService);
-        }
+
+			loggingDataService = LoggingDataServiceFactory.GetService(Path.Combine(dasBlogSettings.WebRootDirectory, dasBlogSettings.SiteConfiguration.LogDir));
+			dataService = BlogDataServiceFactory.GetService(Path.Combine(dasBlogSettings.WebRootDirectory, dasBlogSettings.SiteConfiguration.ContentDir), loggingDataService);
+		}
 
         public urlset GetGoogleSiteMap()
         {
