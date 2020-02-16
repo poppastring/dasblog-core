@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using DasBlog.Core.Security;
 using System.Net.Mail;
 using System.Net;
+using System.IO;
 
 namespace DasBlog.Managers
 {
@@ -33,8 +34,9 @@ namespace DasBlog.Managers
 		{
 			this.dasBlogSettings = dasBlogSettings;
 			this.logger = logger;
-			var loggingDataService = LoggingDataServiceFactory.GetService(this.dasBlogSettings.WebRootDirectory + this.dasBlogSettings.SiteConfiguration.LogDir);;
-			dataService = BlogDataServiceFactory.GetService(this.dasBlogSettings.WebRootDirectory + this.dasBlogSettings.SiteConfiguration.ContentDir, loggingDataService);
+
+			var loggingDataService = LoggingDataServiceFactory.GetService(Path.Combine(dasBlogSettings.WebRootDirectory, dasBlogSettings.SiteConfiguration.LogDir));;
+			dataService = BlogDataServiceFactory.GetService(Path.Combine(dasBlogSettings.WebRootDirectory, dasBlogSettings.SiteConfiguration.ContentDir), loggingDataService);
 		}
 
 		/// <param name="dt">if non-null then the post must be dated on that date</param>

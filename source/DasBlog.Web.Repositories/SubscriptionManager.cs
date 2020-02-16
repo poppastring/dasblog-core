@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Xml;
 using System.Globalization;
 using DasBlog.Services;
+using System.IO;
 
 namespace DasBlog.Managers
 {
@@ -21,9 +22,10 @@ namespace DasBlog.Managers
         public SubscriptionManager(IDasBlogSettings settings)
         {
             dasBlogSettings = settings;
-            loggingDataService = LoggingDataServiceFactory.GetService(dasBlogSettings.WebRootDirectory + dasBlogSettings.SiteConfiguration.LogDir);
-            dataService = BlogDataServiceFactory.GetService(dasBlogSettings.WebRootDirectory + dasBlogSettings.SiteConfiguration.ContentDir, loggingDataService);
-        }
+
+			loggingDataService = LoggingDataServiceFactory.GetService(Path.Combine(dasBlogSettings.WebRootDirectory, dasBlogSettings.SiteConfiguration.LogDir));
+			dataService = BlogDataServiceFactory.GetService(Path.Combine(dasBlogSettings.WebRootDirectory, dasBlogSettings.SiteConfiguration.ContentDir), loggingDataService);
+		}
 
         public RssRoot GetRss()
         {

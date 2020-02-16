@@ -30,7 +30,7 @@ namespace DasBlog.Web.Settings
 		{
 			this.fileProvider = fileProvider;
 
-			WebRootDirectory = Startup.GetDataRoot(env);
+			WebRootDirectory = env.ContentRootPath;
 			SiteConfiguration = siteConfig.Value;
 			SecurityConfiguration = siteSecurityConfig;
 			MetaTags = metaTagsConfig.Value;
@@ -279,16 +279,6 @@ namespace DasBlog.Web.Settings
 		public static string GetRsdUrl(string root)
 		{
 			return RelativeToRoot("feed/rsd", root);
-		}
-
-		/// <summary>
-		/// parent directory for Config, content and logs
-		/// </summary>
-		/// <param name="env">this is a nuissance</param>
-		/// <returns>e.g. C:\alt\projects\dasblog-core\source/DasBlog.Web.UI</returns>
-		public static string GetWebHostingDirectory(IWebHostEnvironment env)
-		{
-			return Startup.GetDataRoot(env);
 		}
 
 		public string CompressTitle(string title)

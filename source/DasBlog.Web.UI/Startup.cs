@@ -55,12 +55,13 @@ namespace DasBlog.Web
 		{
 			Configuration = configuration;
 			hostingEnvironment = env;
-			BinariesPath = Configuration.GetValue<string>("binariesDir", "/").TrimStart('~').TrimEnd('/');
+			BinariesPath = Configuration.GetValue<string>("binariesDir");
+			BinariesPath = Path.Combine(Configuration.GetValue<string>("ContentDir"), Configuration.GetValue<string>("binariesDir")); 
 			SiteSecurityConfigPath = $"Config/siteSecurity.{hostingEnvironment.EnvironmentName}.config";
 			IISUrlRewriteConfigPath = $"Config/IISUrlRewrite.{hostingEnvironment.EnvironmentName}.config";
 			SiteConfigPath = $"Config/site.{hostingEnvironment.EnvironmentName}.config";
 			MetaConfigPath = $"Config/meta.{hostingEnvironment.EnvironmentName}.config";
-			ThemeFolderPath = string.Format("Themes{1}{0}", Configuration.GetSection("Theme").Value, Path.DirectorySeparatorChar);
+			ThemeFolderPath = Path.Combine("Themes", Configuration.GetSection("Theme").Value);
 		}
 
 		public IConfiguration Configuration { get; }
@@ -74,23 +75,23 @@ namespace DasBlog.Web
 
 			services.Configure<BlogManagerOptions>(Configuration);
 			services.Configure<BlogManagerModifiableOptions>(Configuration);
-			services.Configure<BlogManagerExtraOptions>(opts => opts.ContentRootPath = GetDataRoot(hostingEnvironment));
+			services.Configure<BlogManagerExtraOptions>(opts => opts.ContentRootPath = hostingEnvironment.ContentRootPath);
 			services.Configure<TimeZoneProviderOptions>(Configuration);
 			services.Configure<SiteConfig>(Configuration);
 			services.Configure<MetaTags>(Configuration);
 
 			services.Configure<ConfigFilePathsDataOption>(options =>
 			{
-				options.SiteConfigFilePath = Path.Combine(GetDataRoot(hostingEnvironment), SiteConfigPath);
-				options.MetaConfigFilePath = Path.Combine(GetDataRoot(hostingEnvironment), MetaConfigPath);
-				options.SecurityConfigFilePath = Path.Combine(GetDataRoot(hostingEnvironment), SiteSecurityConfigPath);
-				options.IISUrlRewriteFilePath = Path.Combine(GetDataRoot(hostingEnvironment), IISUrlRewriteConfigPath);
-				options.ThemesFolder = Path.Combine(GetDataRoot(hostingEnvironment), ThemeFolderPath);
-				options.BinaryFolder = Path.Combine(GetDataRoot(hostingEnvironment), BinariesPath.TrimStart('~'));
+				options.SiteConfigFilePath = Path.Combine(hostingEnvironment.ContentRootPath, SiteConfigPath);
+				options.MetaConfigFilePath = Path.Combine(hostingEnvironment.ContentRootPath, MetaConfigPath);
+				options.SecurityConfigFilePath = Path.Combine(hostingEnvironment.ContentRootPath, SiteSecurityConfigPath);
+				options.IISUrlRewriteFilePath = Path.Combine(hostingEnvironment.ContentRootPath, IISUrlRewriteConfigPath);
+				options.ThemesFolder = Path.Combine(hostingEnvironment.ContentRootPath, ThemeFolderPath);
+				options.BinaryFolder = Path.Combine(hostingEnvironment.ContentRootPath, BinariesPath);
 			});
 
 			services.Configure<ActivityRepoOptions>(options
-			  => options.Path = Path.Combine(GetDataRoot(hostingEnvironment), Constants.LogDirectory));
+			  => options.Path = Path.Combine(hostingEnvironment.ContentRootPath, Constants.LogDirectory));
 
 			//Important if you're using Azure, hosting on Nginx, or behind any reverse proxy
 			services.Configure<ForwardedHeadersOptions>(options =>
@@ -239,13 +240,15 @@ namespace DasBlog.Web
 					return next.Invoke();
 				});
 			}
+
 			app.UseForwardedHeaders();
 
 			app.UseStaticFiles();
+
 			app.UseStaticFiles(new StaticFileOptions()
 			{
-				FileProvider = new PhysicalFileProvider(Path.Combine(GetDataRoot(env), BinariesPath.TrimStart('/'))),
-				RequestPath = BinariesPath
+				FileProvider = new PhysicalFileProvider(Path.Combine(env.ContentRootPath, BinariesPath)),
+				RequestPath = "/binaries"
 			});
 
 			app.UseStaticFiles(new StaticFileOptions
@@ -317,24 +320,18 @@ namespace DasBlog.Web
 				Thread.CurrentPrincipal = existingThreadPrincipal;
 			}
 		}
+
 		private static (bool result, string errorMessage) RepairSite(IApplicationBuilder app)
 		{
 			var sr = app.ApplicationServices.GetService<ISiteRepairer>();
 			return sr.RepairSite();
 		}
-		/// <summary>
-		/// The intention here is to allow the rich edit control to be changed from request to request.
-		/// Before this flexibility is active a "settings" page will be required to make changes to
-		/// DasBlogSettings
-		/// </summary>
-		/// <param name="serviceProvider"></param>
-		/// <returns>object used by the taghandlers supporting the rich edit control</returns>
-		/// <exception cref="Exception">EntryEditControl in site.config is misconfugured</exception>
+
 		private IRichEditBuilder SelectRichEditor(IServiceProvider serviceProvider)
 		{
-			string entryEditControl = serviceProvider.GetService<IDasBlogSettings>()
-			  .SiteConfiguration.EntryEditControl.ToLower();
+			var entryEditControl = serviceProvider.GetService<IDasBlogSettings>().SiteConfiguration.EntryEditControl.ToLower();
 			IRichEditBuilder richEditBuilder;
+
 			switch (entryEditControl)
 			{
 				case Constants.TinyMceEditor:
@@ -360,16 +357,5 @@ namespace DasBlog.Web
 		{
 			public bool EnableTitlePermaLinkUnique { get; set; }
 		}
-		/// <summary>
-		/// temporary hack pending the rationalisation of Configuration/Options
-		/// </summary>
-		/// <param name="env">I think this must be populated in the initialisation of
-		///       WebHost.CreateDefaultBuilder</param>
-		/// <returns>root locaation for config, logs and blog post content
-		///   typically [project]/source/DasBlog.Web.UI for dev
-		///   and some subdirectory of DasBlog.Tests for functional tests</returns>
-		public static string GetDataRoot(IWebHostEnvironment env)
-		  => Environment.GetEnvironmentVariable(Constants.DasBlogDataRoot)
-		  ?? env.ContentRootPath;
 	}
 }
