@@ -73,7 +73,7 @@ namespace DasBlog.Tests.FunctionalTests.ComponentTests
 				, siteConfigAccessor
 				, metaTagsAccessor
 				, new SiteSecurityConfig()
-				, null);
+				, null, null);
 			return dasBlogSettings;
 		}
 		private (IOptions<SiteConfig> siteConfigAccessor, IOptions<MetaTags> metaTagsAccessor) 
