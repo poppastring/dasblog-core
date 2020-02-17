@@ -26,12 +26,19 @@ namespace DasBlog.Web.TagHelpers.Comments
 		{
 			var approvalurl = string.Format(COMMENTAPPROVE_URL, dasBlogSettings.GetPermaLinkUrl(Comment.BlogPostId), Comment.CommentId);
 			var commenttxt = string.Format(COMMENTTEXT_MSG, Comment.Name);
+			var message = "Comment Approved";
 
 			output.TagName = "a";
 			output.TagMode = TagMode.StartTagAndEndTag;
 			output.Attributes.SetAttribute("href", $"javascript:commentManagement(\"{approvalurl}\",\"{commenttxt}\",\"PATCH\")");
 			output.Attributes.SetAttribute("class", "dbc-comment-approve-link");
-			output.Content.SetHtmlContent("Approve this comment");
+
+			if (Comment.SpamState != SpamStateViewModel.NotSpam)
+			{
+				message = "Approve this comment";
+			}
+
+			output.Content.SetHtmlContent(message);
 		}
 
 		public override Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
