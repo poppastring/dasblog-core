@@ -41,7 +41,7 @@ namespace DasBlog.Web.Settings
 			ArchiveUrl = RelativeToRoot("archive");
 			MicroSummaryUrl = RelativeToRoot("site/microsummary");
 			RsdUrl = RelativeToRoot("feed/rsd");
-			ShortCutIconUrl = RelativeToRoot("icon.jpg");
+			ShortCutIconUrl = RelativeToRoot("icon.ico");
 			ThemeCssUrl = RelativeToRoot(string.Format("theme/{0}/custom.css",SiteConfiguration.Theme));
 
 			siteSecurityConfigPath = $"Config/siteSecurity.{env.EnvironmentName}.config";
