@@ -17,5 +17,7 @@ namespace DasBlog.Services.FileManagement
 		public string ThemesFolder { get; set; }
 
 		public string BinaryFolder { get; set; }
+
+		public string BinaryUrlRelative { get; set; }
 	}
 }
