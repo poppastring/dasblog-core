@@ -46,6 +46,7 @@ namespace DasBlog.Web
 		private readonly string MetaConfigPath;
 		private readonly string ThemeFolderPath;
 		private readonly string BinariesPath;
+		private readonly string BinariesUrlRelativePath;
 
 		private readonly IWebHostEnvironment hostingEnvironment;
 		
@@ -55,8 +56,8 @@ namespace DasBlog.Web
 		{
 			Configuration = configuration;
 			hostingEnvironment = env;
-			BinariesPath = Configuration.GetValue<string>("binariesDir");
-			BinariesPath = Path.Combine(Configuration.GetValue<string>("ContentDir"), Configuration.GetValue<string>("binariesDir")); 
+			BinariesPath = Path.Combine(Configuration.GetValue<string>("ContentDir"), "binary");
+			BinariesUrlRelativePath = string.Format("{0}/{1}", Configuration.GetValue<string>("ContentDir"), "binary");
 			SiteSecurityConfigPath = $"Config/siteSecurity.{hostingEnvironment.EnvironmentName}.config";
 			IISUrlRewriteConfigPath = $"Config/IISUrlRewrite.{hostingEnvironment.EnvironmentName}.config";
 			SiteConfigPath = $"Config/site.{hostingEnvironment.EnvironmentName}.config";
@@ -88,6 +89,7 @@ namespace DasBlog.Web
 				options.IISUrlRewriteFilePath = Path.Combine(hostingEnvironment.ContentRootPath, IISUrlRewriteConfigPath);
 				options.ThemesFolder = Path.Combine(hostingEnvironment.ContentRootPath, ThemeFolderPath);
 				options.BinaryFolder = Path.Combine(hostingEnvironment.ContentRootPath, BinariesPath);
+				options.BinaryUrlRelative = string.Format("{0}/", BinariesUrlRelativePath);
 			});
 
 			services.Configure<ActivityRepoOptions>(options
@@ -248,7 +250,7 @@ namespace DasBlog.Web
 			app.UseStaticFiles(new StaticFileOptions()
 			{
 				FileProvider = new PhysicalFileProvider(Path.Combine(env.ContentRootPath, BinariesPath)),
-				RequestPath = "/binaries"
+				RequestPath = string.Format("/{0}", BinariesUrlRelativePath)
 			});
 
 			app.UseStaticFiles(new StaticFileOptions

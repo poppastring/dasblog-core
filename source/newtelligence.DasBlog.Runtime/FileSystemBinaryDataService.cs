@@ -151,13 +151,13 @@ namespace newtelligence.DasBlog.Runtime
 
         private string GetAbsoluteFileUri(string fullPath, out string relFileUri)
         {
-            string relPath = fullPath.Replace(contentLocation, "");
+			var relPath = fullPath.Replace(contentLocation, "").TrimStart('\\') ;
 
-            Uri relUri = new Uri( relPath, UriKind.Relative);
+			var relUri = new Uri( relPath, UriKind.Relative);
 
             relFileUri = relUri.ToString();
 
-            return new Uri(binaryRoot, relUri).ToString();
+            return new Uri(binaryRoot, relPath).ToString();
         }
 
         public bool DeleteFile(string path)

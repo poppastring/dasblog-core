@@ -631,7 +631,7 @@ namespace DasBlog.Managers
 
 			var urlInfo = new MetaWeblog.UrlInfo
 			{
-				url = Path.Combine(dasBlogSettings.RelativeToRoot(dasBlogSettings.SiteConfiguration.BinariesDir.TrimStart('~', '/')), enc.name)
+				url = filePath
 			};
 
 			return urlInfo;
