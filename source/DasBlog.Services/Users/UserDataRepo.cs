@@ -15,11 +15,13 @@ namespace DasBlog.Services.Users
 			public List<User> Users { get; set; } = new List<User>();
 		}
 
-		private ConfigFilePathsDataOption options;
+		private readonly ConfigFilePathsDataOption options;
+		
 		public UserDataRepo(IOptions<ConfigFilePathsDataOption> optionsAccessor)
 		{
 			options = optionsAccessor.Value;
 		}
+
 		public IEnumerable<User> LoadUsers()
 		{
 			SiteSecurityConfig ssc;
@@ -49,7 +51,7 @@ namespace DasBlog.Services.Users
 				Users = users
 			};
 			var ser = new XmlSerializer(typeof(SiteSecurityConfig));
-			using (var writer = new StreamWriter(options.SiteConfigFilePath))
+			using (var writer = new StreamWriter(options.SecurityConfigFilePath))
 			{
 				try
 				{
