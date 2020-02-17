@@ -63,7 +63,9 @@ namespace DasBlog.Web.Mappers
 				.ForMember(dest => dest.Date, opt => opt.MapFrom(src => src.CreatedLocalTime))
 				.ForMember(dest => dest.HomePageUrl, opt => opt.MapFrom(src => src.AuthorHomepage))
 				.ForMember(dest => dest.BlogPostId, opt => opt.MapFrom(src => src.TargetEntryId))
-				.ForMember(dest => dest.CommentId, opt => opt.MapFrom(src => src.EntryId));
+				.ForMember(dest => dest.CommentId, opt => opt.MapFrom(src => src.EntryId))
+				.ForMember(dest => dest.SpamState, opt => opt.MapFrom(src => src.SpamState))
+				.ForMember(dest => dest.IsPublic, opt => opt.MapFrom(src => src.IsPublic)); ;
 
 			CreateMap<AddCommentViewModel, Comment>()
 				.ForMember(dest => dest.Author, opt => opt.MapFrom(src => src.Name))

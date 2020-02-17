@@ -410,7 +410,7 @@ namespace DasBlog.Web.Controllers
 			return Comment(addcomment.TargetEntryId);
 		}
 
-		[HttpDelete("post/{postid:guid}/message/{commentid:guid}")]
+		[HttpDelete("post/{postid:guid}/comments/{commentid:guid}")]
 		public IActionResult DeleteComment(Guid postid, Guid commentid)
 		{
 			var state = blogManager.DeleteComment(postid.ToString(), commentid.ToString());
