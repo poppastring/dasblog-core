@@ -18,15 +18,18 @@ using DasBlog.Services.ConfigFile;
 using DasBlog.Services;
 using System.Linq;
 using newtelligence.DasBlog.Runtime;
+using DasBlog.Services.FileManagement;
 
 namespace DasBlog.Web.Settings
 {
 	public class DasBlogSettings : IDasBlogSettings
 	{
 		private readonly IFileProvider fileProvider;
-		private readonly string siteSecurityConfigPath;
+		private readonly string siteSecurityConfigFilePath;
+		private readonly ConfigFilePathsDataOption filePathDataOptions;
 
-		public DasBlogSettings(IWebHostEnvironment env, IOptions<SiteConfig> siteConfig, IOptions<MetaTags> metaTagsConfig, ISiteSecurityConfig siteSecurityConfig, IFileProvider fileProvider)
+		public DasBlogSettings(IWebHostEnvironment env, IOptions<SiteConfig> siteConfig, IOptions<MetaTags> metaTagsConfig, ISiteSecurityConfig siteSecurityConfig, 
+								IFileProvider fileProvider, IOptions<ConfigFilePathsDataOption> optionsAccessor)
 		{
 			this.fileProvider = fileProvider;
 
@@ -34,6 +37,7 @@ namespace DasBlog.Web.Settings
 			SiteConfiguration = siteConfig.Value;
 			SecurityConfiguration = siteSecurityConfig;
 			MetaTags = metaTagsConfig.Value;
+			filePathDataOptions = optionsAccessor.Value;
 
 			RssUrl = RelativeToRoot("feed/rss");
 			PingBackUrl = RelativeToRoot("feed/pingback");
@@ -41,10 +45,10 @@ namespace DasBlog.Web.Settings
 			ArchiveUrl = RelativeToRoot("archive");
 			MicroSummaryUrl = RelativeToRoot("site/microsummary");
 			RsdUrl = RelativeToRoot("feed/rsd");
-			ShortCutIconUrl = RelativeToRoot("icon.ico");
-			ThemeCssUrl = RelativeToRoot(string.Format("theme/{0}/custom.css",SiteConfiguration.Theme));
+			ShortCutIconUrl = RelativeToRoot(string.Format("theme/{0}/icon.ico", SiteConfiguration.Theme));
+			ThemeCssUrl = RelativeToRoot(string.Format("theme/{0}/custom.css", SiteConfiguration.Theme));
 
-			siteSecurityConfigPath = $"Config/siteSecurity.{env.EnvironmentName}.config";
+			siteSecurityConfigFilePath = filePathDataOptions.SecurityConfigFilePath;
 		}
 
 		public string WebRootDirectory { get; }
@@ -172,8 +176,8 @@ namespace DasBlog.Web.Settings
 		{
 			SecurityConfiguration.Users.Add(user);
 			var ser = new XmlSerializer(typeof(SiteSecurityConfig));
-			var fileInfo = fileProvider.GetFileInfo(siteSecurityConfigPath);
-			using (var writer = new StreamWriter(fileInfo.PhysicalPath))
+
+			using (var writer = new StreamWriter(siteSecurityConfigFilePath))
 			{
 				ser.Serialize(writer, SecurityConfiguration);
 			}
