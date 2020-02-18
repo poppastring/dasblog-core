@@ -57,12 +57,17 @@ namespace DasBlog.Web
 			Configuration = configuration;
 			hostingEnvironment = env;
 			BinariesPath = Path.Combine(Configuration.GetValue<string>("ContentDir"), "binary");
-			BinariesUrlRelativePath = string.Format("{0}/{1}", Configuration.GetValue<string>("ContentDir"), "binary");
-			SiteSecurityConfigPath = $"Config/siteSecurity.{hostingEnvironment.EnvironmentName}.config";
-			IISUrlRewriteConfigPath = $"Config/IISUrlRewrite.{hostingEnvironment.EnvironmentName}.config";
-			SiteConfigPath = $"Config/site.{hostingEnvironment.EnvironmentName}.config";
-			MetaConfigPath = $"Config/meta.{hostingEnvironment.EnvironmentName}.config";
 			ThemeFolderPath = Path.Combine("Themes", Configuration.GetSection("Theme").Value);
+			BinariesUrlRelativePath = string.Format("{0}/{1}", Configuration.GetValue<string>("ContentDir"), "binary");
+			
+			var envname = string.IsNullOrWhiteSpace(hostingEnvironment.EnvironmentName) ? 
+									"." : string.Format($".{hostingEnvironment.EnvironmentName}.");
+
+			SiteSecurityConfigPath = Path.Combine("Config", $"siteSecurity{envname}config");
+			IISUrlRewriteConfigPath = Path.Combine("Config", $"IISUrlRewrite{envname}config");
+
+			SiteConfigPath = Path.Combine("Config", $"site{envname}config");
+			MetaConfigPath = Path.Combine("Config", $"meta{envname}config");
 		}
 
 		public IConfiguration Configuration { get; }

@@ -26,9 +26,16 @@ namespace DasBlog.Web.UI
 				{
 					env = hostingContext.HostingEnvironment;
 
-					configBuilder.AddXmlFile(Path.Combine(env.ContentRootPath, "Config", $"site.{env.EnvironmentName}.config"), optional: true, reloadOnChange: true)
+					configBuilder
+						.AddXmlFile(Path.Combine(env.ContentRootPath, "Config", $"site.config"), optional: false, reloadOnChange: true)
+						.AddXmlFile(Path.Combine(env.ContentRootPath, "Config", $"site.{env.EnvironmentName}.config"), optional: true, reloadOnChange: true)
+
+						.AddXmlFile(Path.Combine(env.ContentRootPath, "Config", $"meta.config"), optional: false, reloadOnChange: true)
 						.AddXmlFile(Path.Combine(env.ContentRootPath, "Config", $"meta.{env.EnvironmentName}.config"), optional: true, reloadOnChange: true)
-						.AddJsonFile(Path.Combine(env.ContentRootPath, $"appsettings.{env.EnvironmentName}.json"), optional: true)
+
+						.AddJsonFile(Path.Combine(env.ContentRootPath, $"appsettings.json"), optional: false, reloadOnChange: true)
+						.AddJsonFile(Path.Combine(env.ContentRootPath, $"appsettings.{env.EnvironmentName}.json"), optional: true, reloadOnChange: true)
+						
 						.AddEnvironmentVariables();
 
 					MaybeOverrideRootUrl(configBuilder);
