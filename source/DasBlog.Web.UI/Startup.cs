@@ -56,9 +56,12 @@ namespace DasBlog.Web
 		{
 			Configuration = configuration;
 			hostingEnvironment = env;
-			BinariesPath = Path.Combine(Configuration.GetValue<string>("ContentDir"), "binary");
+
+			var binarypath = Configuration.GetValue<string>("BinariesDir").TrimStart('~', '/');
+
+			BinariesPath = new DirectoryInfo(Path.Combine(env.ContentRootPath, binarypath)).FullName;
 			ThemeFolderPath = Path.Combine("Themes", Configuration.GetSection("Theme").Value);
-			BinariesUrlRelativePath = string.Format("{0}/{1}", Configuration.GetValue<string>("ContentDir"), "binary");
+			BinariesUrlRelativePath = "content/binary";
 			
 			var envname = string.IsNullOrWhiteSpace(hostingEnvironment.EnvironmentName) ? 
 									"." : string.Format($".{hostingEnvironment.EnvironmentName}.");
@@ -93,7 +96,7 @@ namespace DasBlog.Web
 				options.SecurityConfigFilePath = Path.Combine(hostingEnvironment.ContentRootPath, SiteSecurityConfigPath);
 				options.IISUrlRewriteFilePath = Path.Combine(hostingEnvironment.ContentRootPath, IISUrlRewriteConfigPath);
 				options.ThemesFolder = Path.Combine(hostingEnvironment.ContentRootPath, ThemeFolderPath);
-				options.BinaryFolder = Path.Combine(hostingEnvironment.ContentRootPath, BinariesPath);
+				options.BinaryFolder = BinariesPath;
 				options.BinaryUrlRelative = string.Format("{0}/", BinariesUrlRelativePath);
 			});
 
@@ -210,7 +213,8 @@ namespace DasBlog.Web
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IOptions<RouteOptions> routeOptionsAccessor, IDasBlogSettings dasBlogSettings)
 		{
-			(var siteOk, string siteError) = RepairSite(app);
+			(var siteOk, var siteError) = RepairSite(app);
+
 			if (env.IsDevelopment() || env.IsStaging())
 			{
 				app.UseDeveloperExceptionPage();
@@ -234,8 +238,8 @@ namespace DasBlog.Web
 			app.UseRouting();
 
 			//if you've configured it at /blog or /whatever, set that pathbase so ~ will generate correctly
-			Uri rootUri = new Uri(dasBlogSettings.SiteConfiguration.Root);
-			string path = rootUri.AbsolutePath;
+			var rootUri = new Uri(dasBlogSettings.SiteConfiguration.Root);
+			var path = rootUri.AbsolutePath;
 
 			//Deal with path base and proxies that change the request path
 			//https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/proxy-load-balancer?view=aspnetcore-2.2#deal-with-path-base-and-proxies-that-change-the-request-path
@@ -254,7 +258,7 @@ namespace DasBlog.Web
 
 			app.UseStaticFiles(new StaticFileOptions()
 			{
-				FileProvider = new PhysicalFileProvider(Path.Combine(env.ContentRootPath, BinariesPath)),
+				FileProvider = new PhysicalFileProvider(BinariesPath),
 				RequestPath = string.Format("/{0}", BinariesUrlRelativePath)
 			});
 

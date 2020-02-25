@@ -447,6 +447,15 @@
 
     <div class="dasblog-form-group row">
 
+        @Html.LabelFor(m => @Model.SiteConfig.BinariesDir, null, new { @class = "dasblog-col-form-label col-3" })
+        @Html.TextBoxFor(m => @Model.SiteConfig.BinariesDir, null, new { @class = "form-control col-9" })
+        @Html.ValidationMessageFor(m => m.SiteConfig.BinariesDir, null, new { @class = "text-danger" })
+
+    </div>
+
+
+    <div class="dasblog-form-group row">
+
         @Html.LabelFor(m => @Model.SiteConfig.LogDir, null, new { @class = "dasblog-col-form-label col-3" })
         @Html.TextBoxFor(m => @Model.SiteConfig.LogDir, null, new { @class = "form-control col-9" })
         @Html.ValidationMessageFor(m => m.SiteConfig.LogDir, null, new { @class = "text-danger" })
@@ -493,7 +502,6 @@
     @Html.HiddenFor(@m => m.SiteConfig.EntryTitleAsLink)
     @Html.HiddenFor(@m => m.SiteConfig.ObfuscateEmail)
 
-    @Html.HiddenFor(@m => m.SiteConfig.BinariesDir)
     @Html.HiddenFor(@m => m.SiteConfig.CommentsAllowHtml)
     @Html.HiddenFor(@m => m.SiteConfig.SendReferralsByEmail)
     @Html.HiddenFor(@m => m.SiteConfig.SendTrackbacksByEmail)

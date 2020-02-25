@@ -185,6 +185,13 @@ namespace DasBlog.Web.Models.AdminViewModels
 		[Required(AllowEmptyStrings = false, ErrorMessage = "Enter a value for Logging Directory")]
 		public string LogDir { get; set; }
 
+
+		[DisplayName("Binaries directory")]
+		[Description("")]
+		[StringLength(300, MinimumLength = 1, ErrorMessage = "{0} should be between 1 to 300 characters")]
+		[Required(AllowEmptyStrings = false, ErrorMessage = "Enter a value for Binaries Directory")]
+		public string BinariesDir { get; set; }
+
 		[DisplayName("Adjust time zone")]
 		[Description("")]
 		public bool AdjustDisplayTimeZone { get; set; }
@@ -231,7 +238,6 @@ namespace DasBlog.Web.Models.AdminViewModels
 		[Description("")]
 		public ValidCommentTagsViewModel [] ValidCommentTags { get;  set; }
 
-		public string BinariesDir { get; set; }
 		public bool EntryTitleAsLink { get; set; }
 		public bool ObfuscateEmail { get; set; }
 		public bool SendReferralsByEmail { get; set; }
