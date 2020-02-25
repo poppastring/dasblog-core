@@ -9,7 +9,7 @@ namespace DasBlog.Services.Site
 		public SiteRepairer(IDasBlogSettings dasBlogSettings)
 		{
 			_binariesPath = Path.Combine(dasBlogSettings.WebRootDirectory,
-							dasBlogSettings.SiteConfiguration.BinariesDir.TrimStart('~', '/'));
+								dasBlogSettings.SiteConfiguration.BinariesDir.TrimStart('~', '/'));
 		}
 		public (bool result, string errorMessage) RepairSite()
 		{

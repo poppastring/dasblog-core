@@ -56,7 +56,7 @@ namespace DasBlog.Web
 		{
 			Configuration = configuration;
 			hostingEnvironment = env;
-			BinariesPath = Path.Combine(Configuration.GetValue<string>("ContentDir"), "binary");
+			BinariesPath = Configuration.GetValue<string>("ContentDir").TrimStart('~', '/');
 			ThemeFolderPath = Path.Combine("Themes", Configuration.GetSection("Theme").Value);
 			BinariesUrlRelativePath = string.Format("{0}/{1}", Configuration.GetValue<string>("ContentDir"), "binary");
 			
@@ -210,7 +210,8 @@ namespace DasBlog.Web
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IOptions<RouteOptions> routeOptionsAccessor, IDasBlogSettings dasBlogSettings)
 		{
-			(var siteOk, string siteError) = RepairSite(app);
+			(var siteOk, var siteError) = RepairSite(app);
+
 			if (env.IsDevelopment() || env.IsStaging())
 			{
 				app.UseDeveloperExceptionPage();
@@ -234,8 +235,8 @@ namespace DasBlog.Web
 			app.UseRouting();
 
 			//if you've configured it at /blog or /whatever, set that pathbase so ~ will generate correctly
-			Uri rootUri = new Uri(dasBlogSettings.SiteConfiguration.Root);
-			string path = rootUri.AbsolutePath;
+			var rootUri = new Uri(dasBlogSettings.SiteConfiguration.Root);
+			var path = rootUri.AbsolutePath;
 
 			//Deal with path base and proxies that change the request path
 			//https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/proxy-load-balancer?view=aspnetcore-2.2#deal-with-path-base-and-proxies-that-change-the-request-path
