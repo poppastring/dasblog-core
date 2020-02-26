@@ -14,14 +14,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 		ContributorFAQ.md = ContributorFAQ.md
 		CrossPlatform.md = CrossPlatform.md
-		SeleniumPlusDasBlogCoreInACoupleOfPages.md = SeleniumPlusDasBlogCoreInACoupleOfPages.md
-		SmokeTestArch.png = SmokeTestArch.png
-		TestDocumentationIndex.md = TestDocumentationIndex.md
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DocSource", "DocSource", "{B734F9FD-539D-4FD3-9343-5BD5C18FF699}"
-	ProjectSection(SolutionItems) = preProject
-		DocSource\SmokeTestArch.xlsx = DocSource\SmokeTestArch.xlsx
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dasblog.Tests", "Dasblog.Tests", "{F0F076E7-9863-46B7-8C3C-5C220D4BC118}"
@@ -95,7 +87,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{B734F9FD-539D-4FD3-9343-5BD5C18FF699} = {800E3AC8-FF13-43CE-8C09-6F4A2867D445}
 		{3EA4B6D5-6AC0-4235-AAD3-27FFBD158FC6} = {F0F076E7-9863-46B7-8C3C-5C220D4BC118}
 		{2CEF017A-0670-4C33-92E0-E644FE82B765} = {F0F076E7-9863-46B7-8C3C-5C220D4BC118}
 		{15AF8476-4228-4E90-802F-BC8E77567563} = {F0F076E7-9863-46B7-8C3C-5C220D4BC118}
