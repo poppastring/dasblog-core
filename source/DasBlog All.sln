@@ -24,6 +24,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "newtelligence.DasBlog.Runti
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DasBlog.Services", "DasBlog.Services\DasBlog.Services.csproj", "{41AED43B-5E87-45BD-B2DC-253167A70A9E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DasBlog.Test.Integration", "DasBlog.Tests\DasBlog.Test.Integration\DasBlog.Test.Integration.csproj", "{48500D1A-9780-412B-81C1-9DD810FECCAE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug - All|Any CPU = Debug - All|Any CPU
@@ -67,12 +69,19 @@ Global
 		{41AED43B-5E87-45BD-B2DC-253167A70A9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{41AED43B-5E87-45BD-B2DC-253167A70A9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{41AED43B-5E87-45BD-B2DC-253167A70A9E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{48500D1A-9780-412B-81C1-9DD810FECCAE}.Debug - All|Any CPU.ActiveCfg = Debug|Any CPU
+		{48500D1A-9780-412B-81C1-9DD810FECCAE}.Debug - All|Any CPU.Build.0 = Debug|Any CPU
+		{48500D1A-9780-412B-81C1-9DD810FECCAE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48500D1A-9780-412B-81C1-9DD810FECCAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{48500D1A-9780-412B-81C1-9DD810FECCAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{48500D1A-9780-412B-81C1-9DD810FECCAE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{3EA4B6D5-6AC0-4235-AAD3-27FFBD158FC6} = {F0F076E7-9863-46B7-8C3C-5C220D4BC118}
+		{48500D1A-9780-412B-81C1-9DD810FECCAE} = {F0F076E7-9863-46B7-8C3C-5C220D4BC118}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8F3ACFB8-CB52-4953-A1CF-4151E2789889}
