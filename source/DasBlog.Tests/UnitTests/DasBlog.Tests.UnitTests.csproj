@@ -73,7 +73,6 @@
     <ProjectReference Include="..\..\DasBlog.Web.Repositories\DasBlog.Managers.csproj" />
     <ProjectReference Include="..\..\DasBlog.Web.UI\DasBlog.Web.csproj" />
     <ProjectReference Include="..\..\DasBlog.Services\DasBlog.Services.csproj" />
-    <ProjectReference Include="..\Support\DasBlog.Tests.Support.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="logs" />
