@@ -22,8 +22,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DasBlog.Tests.UnitTests", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Resources", "DasBlog.Tests\Resources\Resources.csproj", "{2CEF017A-0670-4C33-92E0-E644FE82B765}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DasBlog.Tests.Support", "DasBlog.Tests\Support\DasBlog.Tests.Support.csproj", "{15AF8476-4228-4E90-802F-BC8E77567563}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "newtelligence.DasBlog.Runtime", "newtelligence.DasBlog.Runtime\newtelligence.DasBlog.Runtime.csproj", "{B09225DE-330C-43F9-AAD0-3B25909EA5A2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DasBlog.Services", "DasBlog.Services\DasBlog.Services.csproj", "{41AED43B-5E87-45BD-B2DC-253167A70A9E}"
@@ -64,12 +62,6 @@ Global
 		{2CEF017A-0670-4C33-92E0-E644FE82B765}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2CEF017A-0670-4C33-92E0-E644FE82B765}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2CEF017A-0670-4C33-92E0-E644FE82B765}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{15AF8476-4228-4E90-802F-BC8E77567563}.Debug - All|Any CPU.ActiveCfg = Debug|Any CPU
-		{15AF8476-4228-4E90-802F-BC8E77567563}.Debug - All|Any CPU.Build.0 = Debug|Any CPU
-		{15AF8476-4228-4E90-802F-BC8E77567563}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{15AF8476-4228-4E90-802F-BC8E77567563}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{15AF8476-4228-4E90-802F-BC8E77567563}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{15AF8476-4228-4E90-802F-BC8E77567563}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B09225DE-330C-43F9-AAD0-3B25909EA5A2}.Debug - All|Any CPU.ActiveCfg = Debug|Any CPU
 		{B09225DE-330C-43F9-AAD0-3B25909EA5A2}.Debug - All|Any CPU.Build.0 = Debug|Any CPU
 		{B09225DE-330C-43F9-AAD0-3B25909EA5A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -89,7 +81,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{3EA4B6D5-6AC0-4235-AAD3-27FFBD158FC6} = {F0F076E7-9863-46B7-8C3C-5C220D4BC118}
 		{2CEF017A-0670-4C33-92E0-E644FE82B765} = {F0F076E7-9863-46B7-8C3C-5C220D4BC118}
-		{15AF8476-4228-4E90-802F-BC8E77567563} = {F0F076E7-9863-46B7-8C3C-5C220D4BC118}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8F3ACFB8-CB52-4953-A1CF-4151E2789889}
