@@ -35,6 +35,7 @@ using DasBlog.Services.Users;
 using DasBlog.Services;
 using Microsoft.AspNetCore.HttpOverrides;
 using DasBlog.Services.FileManagement.Interfaces;
+using Microsoft.Extensions.Logging;
 
 namespace DasBlog.Web
 {
@@ -52,10 +53,12 @@ namespace DasBlog.Web
 		
 		public static IServiceCollection DasBlogServices { get; private set; }
 
-		public Startup(IConfiguration configuration, IWebHostEnvironment env)
+		public IConfiguration Configuration { get; }
+
+		public Startup(IWebHostEnvironment env)
 		{
-			Configuration = configuration;
 			hostingEnvironment = env;
+			Configuration = DasBlogConfigurationBuilder();
 
 			var binarypath = Configuration.GetValue<string>("BinariesDir").TrimStart('~', '/');
 
@@ -73,8 +76,26 @@ namespace DasBlog.Web
 			MetaConfigPath = Path.Combine("Config", $"meta{envname}config");
 		}
 
-		public IConfiguration Configuration { get; }
 
+		public IConfiguration DasBlogConfigurationBuilder()
+		{
+			var configBuilder = new ConfigurationBuilder();
+
+			configBuilder
+				.AddXmlFile(Path.Combine(hostingEnvironment.ContentRootPath, "Config", $"site.config"), optional: false, reloadOnChange: true)
+				.AddXmlFile(Path.Combine(hostingEnvironment.ContentRootPath, "Config", $"site.{hostingEnvironment.EnvironmentName}.config"), optional: true, reloadOnChange: true)
+
+				.AddXmlFile(Path.Combine(hostingEnvironment.ContentRootPath, "Config", $"meta.config"), optional: false, reloadOnChange: true)
+				.AddXmlFile(Path.Combine(hostingEnvironment.ContentRootPath, "Config", $"meta.{hostingEnvironment.EnvironmentName}.config"), optional: true, reloadOnChange: true)
+
+				.AddJsonFile(Path.Combine(hostingEnvironment.ContentRootPath, $"appsettings.json"), optional: false, reloadOnChange: true)
+				.AddJsonFile(Path.Combine(hostingEnvironment.ContentRootPath, $"appsettings.{hostingEnvironment.EnvironmentName}.json"), optional: true, reloadOnChange: true)
+
+				.AddEnvironmentVariables();
+
+			return configBuilder.Build();
+		}
+		
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{

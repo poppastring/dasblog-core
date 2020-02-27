@@ -37,7 +37,7 @@ namespace DasBlog.Test.Integration
 		{
 			Skip.If(AreWe.InDockerOrBuildServer);
 			Browser.Navigate().GoToUrl(Server.RootUri);
-			Assert.StartsWith("Hanselminutes Technology Podcast - Fresh Air and Fresh Perspectives for Developers", Browser.Title);
+			Assert.StartsWith("My DasBlog!", Browser.Title);
 		}
 
 		[SkippableFact(typeof(OpenQA.Selenium.WebDriverException))]
