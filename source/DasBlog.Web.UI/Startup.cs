@@ -108,9 +108,6 @@ namespace DasBlog.Web
 			services.AddHealthChecks().AddCheck<DasBlogHealthChecks>("health_check");
 			services.AddMemoryCache();
 
-			services.Configure<BlogManagerOptions>(Configuration);
-			services.Configure<BlogManagerModifiableOptions>(Configuration);
-			services.Configure<BlogManagerExtraOptions>(opts => opts.ContentRootPath = hostingEnvironment.ContentRootPath);
 			services.Configure<TimeZoneProviderOptions>(Configuration);
 			services.Configure<SiteConfig>(Configuration);
 			services.Configure<MetaTags>(Configuration);
