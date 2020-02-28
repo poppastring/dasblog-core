@@ -46,6 +46,7 @@ namespace DasBlog.Web
 		private readonly string SiteConfigPath;
 		private readonly string MetaConfigPath;
 		private readonly string ThemeFolderPath;
+		private readonly string LogFolderPath;
 		private readonly string BinariesPath;
 		private readonly string BinariesUrlRelativePath;
 
@@ -63,7 +64,8 @@ namespace DasBlog.Web
 			var binarypath = Configuration.GetValue<string>("BinariesDir").TrimStart('~', '/');
 
 			BinariesPath = new DirectoryInfo(Path.Combine(env.ContentRootPath, binarypath)).FullName;
-			ThemeFolderPath = Path.Combine("Themes", Configuration.GetSection("Theme").Value);
+			ThemeFolderPath = new DirectoryInfo(Path.Combine(hostingEnvironment.ContentRootPath, "Themes", Configuration.GetSection("Theme").Value)).FullName;
+			LogFolderPath = new DirectoryInfo(Path.Combine(hostingEnvironment.ContentRootPath, Configuration.GetSection("LogDir").Value)).FullName;
 			BinariesUrlRelativePath = "content/binary";
 			
 			var envname = string.IsNullOrWhiteSpace(hostingEnvironment.EnvironmentName) ? 
@@ -101,7 +103,7 @@ namespace DasBlog.Web
 		{
 			services.AddLogging(builder =>
 			{
-				builder.AddFile(opts => opts.LogDirectory = Path.Combine(hostingEnvironment.ContentRootPath, Configuration.GetSection("LogDir").Value));
+				builder.AddFile(opts => opts.LogDirectory = LogFolderPath);
 			});
 
 			services.AddOptions();
@@ -118,13 +120,13 @@ namespace DasBlog.Web
 				options.MetaConfigFilePath = Path.Combine(hostingEnvironment.ContentRootPath, MetaConfigPath);
 				options.SecurityConfigFilePath = Path.Combine(hostingEnvironment.ContentRootPath, SiteSecurityConfigPath);
 				options.IISUrlRewriteFilePath = Path.Combine(hostingEnvironment.ContentRootPath, IISUrlRewriteConfigPath);
-				options.ThemesFolder = Path.Combine(hostingEnvironment.ContentRootPath, ThemeFolderPath);
+				options.ThemesFolder = ThemeFolderPath;
 				options.BinaryFolder = BinariesPath;
 				options.BinaryUrlRelative = string.Format("{0}/", BinariesUrlRelativePath);
 			});
 
 			services.Configure<ActivityRepoOptions>(options
-			  => options.Path = Path.Combine(hostingEnvironment.ContentRootPath, Constants.LogDirectory));
+			  => options.Path = LogFolderPath);
 
 			//Important if you're using Azure, hosting on Nginx, or behind any reverse proxy
 			services.Configure<ForwardedHeadersOptions>(options =>
