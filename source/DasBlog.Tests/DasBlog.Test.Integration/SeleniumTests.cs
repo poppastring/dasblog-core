@@ -33,7 +33,7 @@ namespace DasBlog.Test.Integration
 		}
 
 		[SkippableFact(typeof(OpenQA.Selenium.WebDriverException))]
-		public void LoadTheMainPageAndCheckTitle()
+		public void LoadTheMainPageAndCheckPageTitle()
 		{
 			Skip.If(AreWe.InDockerOrBuildServer);
 			Browser.Navigate().GoToUrl(Server.RootUri);
@@ -41,35 +41,43 @@ namespace DasBlog.Test.Integration
 		}
 
 		[SkippableFact(typeof(OpenQA.Selenium.WebDriverException))]
-		public void ThereIsAnH1()
+		public void FrontPageH2PostTitle()
 		{
 			Skip.If(AreWe.InDockerOrBuildServer);
 			Browser.Navigate().GoToUrl(Server.RootUri);
 
-			var headerSelector = By.TagName("h1");
-			Assert.Equal("HANSELMINUTES PODCAST by Scott Hanselman", Browser.FindElement(headerSelector).Text);
+			var headerSelector = By.TagName("h2");
+			Assert.Equal("Welcome to DasBlog Core", Browser.FindElement(headerSelector).Text);
 		}
 
 		[SkippableFact(typeof(OpenQA.Selenium.WebDriverException))]
-		public void KevinScottTest()
+		public void WelcomePostCheckPageBrowserTitle()
 		{
 			Skip.If(AreWe.InDockerOrBuildServer);
-			Browser.Navigate().GoToUrl(Server.RootUri + "/631/how-do-you-become-a-cto-with-microsofts-cto-kevin-scott");
-
-			var headerSelector = By.TagName("h2");
-			Assert.Equal("How do you become a CTO - with Microsoft's CTO Kevin Scott", Browser.FindElement(headerSelector).Text);
+			Browser.Navigate().GoToUrl(Server.RootUri + "/welcome-to-dasblog-core");
+			Assert.StartsWith("Welcome to DasBlog Core", Browser.Title);
 		}
 
 		[SkippableFact(typeof(OpenQA.Selenium.WebDriverException))]
-		public void KevinScottTestThenGoHome()
+		public void WelcomePostH2PostTitle()
+		{
+			Skip.If(AreWe.InDockerOrBuildServer);
+			Browser.Navigate().GoToUrl(Server.RootUri + "/welcome-to-dasblog-core");
+
+			var headerSelector = By.TagName("h2");
+			Assert.Equal("Welcome to DasBlog Core", Browser.FindElement(headerSelector).Text);
+		}
+
+		[SkippableFact(typeof(OpenQA.Selenium.WebDriverException))]
+		public void NavigateToWelcomePostThenGoHome()
 		{
 			Skip.If(AreWe.InDockerOrBuildServer, "In Docker!");
-			Browser.Navigate().GoToUrl(Server.RootUri + "/631/how-do-you-become-a-cto-with-microsofts-cto-kevin-scott");
+			Browser.Navigate().GoToUrl(Server.RootUri + "/welcome-to-dasblog-core");
 
-			var headerSelector = By.TagName("h1");
+			var headerSelector = By.LinkText("Home");
 			var link = Browser.FindElement(headerSelector);
 			link.Click();
-			Assert.Equal(Browser.Url.TrimEnd('/'), Server.RootUri); //WTF
+			Assert.Equal(Browser.Url.TrimEnd('/'), Server.RootUri);
 		}
 
 		public void Dispose()
