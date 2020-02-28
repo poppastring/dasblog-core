@@ -99,6 +99,11 @@ namespace DasBlog.Web
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
+			services.AddLogging(builder =>
+			{
+				builder.AddFile(opts => opts.LogDirectory = Path.Combine(hostingEnvironment.ContentRootPath, Configuration.GetSection("LogDir").Value));
+			});
+
 			services.AddOptions();
 			services.AddHealthChecks().AddCheck<DasBlogHealthChecks>("health_check");
 			services.AddMemoryCache();
