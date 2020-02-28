@@ -5,28 +5,36 @@ namespace DasBlog.Services.Site
 {
 	public class SiteRepairer : ISiteRepairer
 	{
-		private string _binariesPath = "";
+		private string binariesPath = string.Empty;
+		private string themeFolder = string.Empty;
+
 		public SiteRepairer(IDasBlogSettings dasBlogSettings)
 		{
-			_binariesPath = Path.Combine(dasBlogSettings.WebRootDirectory,
-								dasBlogSettings.SiteConfiguration.BinariesDir.TrimStart('~', '/'));
+			binariesPath = new DirectoryInfo(Path.Combine(dasBlogSettings.WebRootDirectory,
+								dasBlogSettings.SiteConfiguration.BinariesDir.TrimStart('~', '/'))).FullName;
+
+			themeFolder = new DirectoryInfo(Path.Combine(dasBlogSettings.WebRootDirectory, "Themes",
+								dasBlogSettings.SiteConfiguration.Theme)).FullName;
 		}
 		public (bool result, string errorMessage) RepairSite()
 		{
 			try
 			{
-				if (!Directory.Exists(_binariesPath))
+				if (!Directory.Exists(binariesPath))
 				{
-					// TODO log activity
-					Directory.CreateDirectory(_binariesPath);
+					Directory.CreateDirectory(binariesPath);
+				}
+
+				if (!Directory.Exists(themeFolder))
+				{
+					Directory.CreateDirectory(themeFolder);
 				}
 
 				return (true, "");
 			}
 			catch (Exception e)
 			{
-				// TODO log error and cause error page to be shown
-				return (false, $"Failed to start service.  Failed to create {_binariesPath}.  Detail: {e.Message}");
+				return (false, $"Failed to start service.  Failed to create {binariesPath}.  Detail: {e.Message}");
 			}
 		}
 	}
