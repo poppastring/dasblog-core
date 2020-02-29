@@ -11,8 +11,6 @@
     ViewData["Title"] = Constants.ArchivePageTitle;
 }
 
-<div id="@Constants.ArchivePageTestId" class="@Constants.PageTestIdClass"></div>
-
 <div class="month">
     <ul>
         <li class="prev"><a asp-controller="Archive" asp-action="Archive" asp-route-year="@previous.Year" asp-route-month="@previous.Month">&#10094;</a></li>
