@@ -203,6 +203,7 @@ FakesAssemblies/
 # dasblog-core random working data
 
 source/DasBlog.Web.UI/logs
+source/DasBlog.Web.UI/content
 
 
 # Rider iDE
