@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Net.Http;
+using System.Linq;
 using DasBlog.Web;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Remote;
 using Xunit;
+using System.Threading;
 
 namespace DasBlog.Test.Integration
 {
@@ -176,11 +178,13 @@ namespace DasBlog.Test.Integration
 			Assert.Equal(Browser.Url.TrimEnd('/'), Server.RootUri + "/feed/rss");
 		}
 
+
 		[SkippableFact(typeof(OpenQA.Selenium.WebDriverException))]
-		public void NavigateToPostAndCreateComment()
+		public void NavigateToPostAndCreateCommentDeleteComment()
 		{
 			Skip.If(AreWe.InDockerOrBuildServer, "In Docker!");
 
+			// Add comment
 			const string commentname = "First Name";
 
 			Browser.Navigate().GoToUrl(Server.RootUri + "/welcome-to-dasblog-core");
@@ -194,7 +198,7 @@ namespace DasBlog.Test.Integration
 			SendKeysToElement("CheesyQuestionAnswered", "7");
 
 			SendKeysToElement("Content", "A comment about this blog post");
-			
+
 			var navSelector = By.Id("SaveContentButton");
 			var link = Browser.FindElement(navSelector);
 			link.Click();
@@ -202,57 +206,31 @@ namespace DasBlog.Test.Integration
 			Assert.Equal(Browser.Url.TrimEnd('/'), Server.RootUri + "/welcome-to-dasblog-core/comments#comments-start");
 
 			var elementid = By.ClassName("dbc-comment-user-homepage-name");
-			Assert.Equal(commentname, Browser.FindElement(elementid).Text);
-		}
+			Assert.Equal(commentname, Browser.FindElement(elementid).Text); ;
 
-
-		// Approve Comment
-		// Delete Comment
-
-		[SkippableFact(typeof(OpenQA.Selenium.WebDriverException))]
-		public void NavigateToPostAndCreateCommentApproveCommentDeleteComment()
-		{
-			NavigateToPostAndCreateComment();
 
 			LoginToSite();
-
-			Browser.Navigate().GoToUrl(Server.RootUri + "/welcome-to-dasblog-core");
-
-			var approveSelector = By.LinkText("Approve this comment");
-			var approvelink = Browser.FindElement(approveSelector);
-			approvelink.Click();
-
-			Browser.SwitchTo().Alert().Accept();
-
-			// Check the comment is approved
-			Browser.Navigate().GoToUrl(Server.RootUri + "/welcome-to-dasblog-core");
-
-			var approvedSelector = By.LinkText("Comment Approved");
-			var approvedlink = Browser.FindElement(approvedSelector);
 
 			// Delete this comment
 			Browser.Navigate().GoToUrl(Server.RootUri + "/welcome-to-dasblog-core");
 
 			var deleteSelector = By.LinkText("Delete this comment");
-			var deletelink = Browser.FindElement(deleteSelector);
-			deletelink.Click();
+			var deletelink = Browser.FindElements(deleteSelector);
+			var deletecount = deletelink.Count;
+			deletelink[0].Click();	
 
 			Browser.SwitchTo().Alert().Accept();
 
-			try
-			{
-				Browser.Navigate().GoToUrl(Server.RootUri + "/welcome-to-dasblog-core");
+			Browser.Navigate().GoToUrl(Server.RootUri);
 
-				deleteSelector = By.LinkText("Delete this comment");
-				deletelink = Browser.FindElement(deleteSelector);
-			}
-			catch (Exception ex)
-			{
-				Assert.StartsWith("Welcome to DasBlog Core", Browser.Title);
-			}
+			Thread.Sleep(2000);
 
+			Browser.Navigate().GoToUrl(Server.RootUri + "/welcome-to-dasblog-core");
+
+			deleteSelector = By.LinkText("Delete this comment");
+			var deletelinks = Browser.FindElements(deleteSelector);
+			Assert.True(deletecount - 1 == deletelinks.Count);
 		}
-
 
 
 		[SkippableFact(typeof(OpenQA.Selenium.WebDriverException))]
@@ -345,20 +323,15 @@ namespace DasBlog.Test.Integration
 			// logout
 			Browser.Navigate().GoToUrl(Server.RootUri + "/account/logout");
 
-			try
-			{
-				var titledeleteSelector = By.LinkText("A New Post Now Edit");
-				Browser.FindElement(titledeleteSelector).Click();
-			}
-			catch (Exception ex)
-			{
-				Assert.StartsWith("My DasBlog!", Browser.Title);
-			}
+			var titledeleteSelector = By.LinkText("A New Post Now Edit");
+			var deletedLink = Browser.FindElements(titledeleteSelector);
+
+			Assert.True(deletedLink.Count == 0);
 		}
 
 		// Site Admin
 		// Users
-		//	Activity
+		// Activity
 
 
 		private void LoginToSite()
