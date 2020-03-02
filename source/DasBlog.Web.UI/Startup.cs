@@ -35,6 +35,7 @@ using DasBlog.Services.Users;
 using DasBlog.Services;
 using Microsoft.AspNetCore.HttpOverrides;
 using DasBlog.Services.FileManagement.Interfaces;
+using Microsoft.Extensions.Logging;
 
 namespace DasBlog.Web
 {
@@ -45,6 +46,7 @@ namespace DasBlog.Web
 		private readonly string SiteConfigPath;
 		private readonly string MetaConfigPath;
 		private readonly string ThemeFolderPath;
+		private readonly string LogFolderPath;
 		private readonly string BinariesPath;
 		private readonly string BinariesUrlRelativePath;
 
@@ -52,15 +54,18 @@ namespace DasBlog.Web
 		
 		public static IServiceCollection DasBlogServices { get; private set; }
 
-		public Startup(IConfiguration configuration, IWebHostEnvironment env)
+		public IConfiguration Configuration { get; }
+
+		public Startup(IWebHostEnvironment env)
 		{
-			Configuration = configuration;
 			hostingEnvironment = env;
+			Configuration = DasBlogConfigurationBuilder();
 
 			var binarypath = Configuration.GetValue<string>("BinariesDir").TrimStart('~', '/');
 
 			BinariesPath = new DirectoryInfo(Path.Combine(env.ContentRootPath, binarypath)).FullName;
-			ThemeFolderPath = Path.Combine("Themes", Configuration.GetSection("Theme").Value);
+			ThemeFolderPath = new DirectoryInfo(Path.Combine(hostingEnvironment.ContentRootPath, "Themes", Configuration.GetSection("Theme").Value)).FullName;
+			LogFolderPath = new DirectoryInfo(Path.Combine(hostingEnvironment.ContentRootPath, Configuration.GetSection("LogDir").Value)).FullName;
 			BinariesUrlRelativePath = "content/binary";
 			
 			var envname = string.IsNullOrWhiteSpace(hostingEnvironment.EnvironmentName) ? 
@@ -73,18 +78,38 @@ namespace DasBlog.Web
 			MetaConfigPath = Path.Combine("Config", $"meta{envname}config");
 		}
 
-		public IConfiguration Configuration { get; }
 
+		public IConfiguration DasBlogConfigurationBuilder()
+		{
+			var configBuilder = new ConfigurationBuilder();
+
+			configBuilder
+				.AddXmlFile(Path.Combine(hostingEnvironment.ContentRootPath, "Config", $"site.config"), optional: false, reloadOnChange: true)
+				.AddXmlFile(Path.Combine(hostingEnvironment.ContentRootPath, "Config", $"site.{hostingEnvironment.EnvironmentName}.config"), optional: true, reloadOnChange: true)
+
+				.AddXmlFile(Path.Combine(hostingEnvironment.ContentRootPath, "Config", $"meta.config"), optional: false, reloadOnChange: true)
+				.AddXmlFile(Path.Combine(hostingEnvironment.ContentRootPath, "Config", $"meta.{hostingEnvironment.EnvironmentName}.config"), optional: true, reloadOnChange: true)
+
+				.AddJsonFile(Path.Combine(hostingEnvironment.ContentRootPath, $"appsettings.json"), optional: false, reloadOnChange: true)
+				.AddJsonFile(Path.Combine(hostingEnvironment.ContentRootPath, $"appsettings.{hostingEnvironment.EnvironmentName}.json"), optional: true, reloadOnChange: true)
+
+				.AddEnvironmentVariables();
+
+			return configBuilder.Build();
+		}
+		
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
+			services.AddLogging(builder =>
+			{
+				builder.AddFile(opts => opts.LogDirectory = LogFolderPath);
+			});
+
 			services.AddOptions();
 			services.AddHealthChecks().AddCheck<DasBlogHealthChecks>("health_check");
 			services.AddMemoryCache();
 
-			services.Configure<BlogManagerOptions>(Configuration);
-			services.Configure<BlogManagerModifiableOptions>(Configuration);
-			services.Configure<BlogManagerExtraOptions>(opts => opts.ContentRootPath = hostingEnvironment.ContentRootPath);
 			services.Configure<TimeZoneProviderOptions>(Configuration);
 			services.Configure<SiteConfig>(Configuration);
 			services.Configure<MetaTags>(Configuration);
@@ -95,13 +120,13 @@ namespace DasBlog.Web
 				options.MetaConfigFilePath = Path.Combine(hostingEnvironment.ContentRootPath, MetaConfigPath);
 				options.SecurityConfigFilePath = Path.Combine(hostingEnvironment.ContentRootPath, SiteSecurityConfigPath);
 				options.IISUrlRewriteFilePath = Path.Combine(hostingEnvironment.ContentRootPath, IISUrlRewriteConfigPath);
-				options.ThemesFolder = Path.Combine(hostingEnvironment.ContentRootPath, ThemeFolderPath);
+				options.ThemesFolder = ThemeFolderPath;
 				options.BinaryFolder = BinariesPath;
 				options.BinaryUrlRelative = string.Format("{0}/", BinariesUrlRelativePath);
 			});
 
 			services.Configure<ActivityRepoOptions>(options
-			  => options.Path = Path.Combine(hostingEnvironment.ContentRootPath, Constants.LogDirectory));
+			  => options.Path = LogFolderPath);
 
 			//Important if you're using Azure, hosting on Nginx, or behind any reverse proxy
 			services.Configure<ForwardedHeadersOptions>(options =>

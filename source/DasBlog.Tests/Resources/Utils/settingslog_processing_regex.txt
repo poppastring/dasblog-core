@@ -1,9 +1,0 @@
-this is the regex for extracting the dasblogSettings values from the xunit test logs
-
-bash -c "grep £££ test_results.xml > xxx.csv"
-apply (.*)(£££[^\[]*)(.*) and replace with $2 (or was it $1)
-non regex replace of £££...closing paren ov value with '
-non regex replace of result = with ,
-non regex replace of ' with "
-
-or something like that

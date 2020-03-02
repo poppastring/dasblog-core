@@ -14,12 +14,6 @@
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Remove="content\**" />
-    <Content Remove="content\**" />
-    <EmbeddedResource Remove="content\**" />
-    <None Remove="content\**" />
-  </ItemGroup>
-  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="9.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.Extensions" Version="3.0.0" />
@@ -86,7 +80,6 @@
     <None Include="Config\*">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <!-- Just copy themes that ARE NOT defaults and everything else is in a compiled razor pack -->
     <None Include="Themes\**" Exclude="Themes\DasBlog\*;Themes\fulcrum\*;Themes\median\*;Themes\_ViewImports.cshtml;Themes\_ViewStart.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -95,7 +88,6 @@
     <Content Remove="Config\meta.config" />
     <Content Remove="Config\meta.Development.config" />
     <None Remove="Config\siteSecurity.Development.config" />
-    <None Remove="Themes\jinyang\_CommentAddPartial.cshtml" />
     <None Include="logs\logs.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

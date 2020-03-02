@@ -201,31 +201,10 @@ FakesAssemblies/
 *.opt
 
 # dasblog-core random working data
-source/newtelligence.DasBlog.Web/content/**
+
 source/DasBlog.Web.UI/logs
-/source/DasBlog.Web.UI/content
-/source/DasBlog.Web.UI/wwwroot/content/Windows-Live-Writer
-/source/DasBlog.Web.UI/wwwroot/content/2017-01-20.dayfeedback.xml
-/source/DasBlog.Web.UI/wwwroot/content/2016-10-13.dayentry.xml
-/source/DasBlog.Web.UI/wwwroot/content/2016-10-04.dayentry.xml
-/source/DasBlog.Web.UI/wwwroot/content/2016-09-25.dayentry.xml
-/source/DasBlog.Web.UI/wwwroot/content/2016-09-13.dayentry.xml
-/source/DasBlog.Web.UI/wwwroot/content/2016-09-08.dayfeedback.xml
-/source/DasBlog.Web.UI/wwwroot/content/2016-09-08.dayentry.xml
-/source/DasBlog.Web.UI/wwwroot/content/2016-08-29.dayentry.xml
-/source/DasBlog.Web.UI/wwwroot/content/2016-08-24.dayentry.xml
-/source/DasBlog.Web.UI/wwwroot/content/2016-08-08.dayentry.xml
-/source/DasBlog.Web.UI/wwwroot/content/2016-08-02.dayentry.xml
-/source/DasBlog.Web.UI/wwwroot/content/2016-07-29.dayentry.xml
-/source/DasBlog.Web.UI/wwwroot/content/2016-07-14.dayentry.xml
-/source/DasBlog.Web.UI/wwwroot/content/2016-07-06.dayentry.xml
-/source/DasBlog.Web.UI/wwwroot/content/2016-06-29.dayentry.xml
-/source/DasBlog.Web.UI/wwwroot/content/2016-06-22.dayfeedback.xml
-/source/DasBlog.Web.UI/wwwroot/content/2016-06-22.dayentry.xml
-/source/DasBlog.Web.UI/wwwroot/content/2016-05-27.dayentry.xml
-/source/DasBlog.Web.UI/wwwroot/content/2016-05-18.dayfeedback.xml
-/source/DasBlog.Web.UI/wwwroot/content/2016-05-18.dayentry.xml
-/source/DasBlog.Web.UI/wwwroot/content/2016-05-12.dayentry.xml
+source/DasBlog.Web.UI/content
+
 
 # Rider iDE
 .idea/
