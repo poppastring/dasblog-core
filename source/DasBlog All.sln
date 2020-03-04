@@ -24,7 +24,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "newtelligence.DasBlog.Runti
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DasBlog.Services", "DasBlog.Services\DasBlog.Services.csproj", "{41AED43B-5E87-45BD-B2DC-253167A70A9E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DasBlog.Test.Integration", "DasBlog.Tests\DasBlog.Test.Integration\DasBlog.Test.Integration.csproj", "{48500D1A-9780-412B-81C1-9DD810FECCAE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DasBlog.Test.Integration", "DasBlog.Tests\DasBlog.Test.Integration\DasBlog.Test.Integration.csproj", "{48500D1A-9780-412B-81C1-9DD810FECCAE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DasBlog.CLI", "DasBlog.CLI\DasBlog.CLI.csproj", "{3DEF6C9E-293A-4E41-9CEC-3466E3EEC754}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -75,6 +77,12 @@ Global
 		{48500D1A-9780-412B-81C1-9DD810FECCAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{48500D1A-9780-412B-81C1-9DD810FECCAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{48500D1A-9780-412B-81C1-9DD810FECCAE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3DEF6C9E-293A-4E41-9CEC-3466E3EEC754}.Debug - All|Any CPU.ActiveCfg = Debug|Any CPU
+		{3DEF6C9E-293A-4E41-9CEC-3466E3EEC754}.Debug - All|Any CPU.Build.0 = Debug|Any CPU
+		{3DEF6C9E-293A-4E41-9CEC-3466E3EEC754}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3DEF6C9E-293A-4E41-9CEC-3466E3EEC754}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3DEF6C9E-293A-4E41-9CEC-3466E3EEC754}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3DEF6C9E-293A-4E41-9CEC-3466E3EEC754}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
