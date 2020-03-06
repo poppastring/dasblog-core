@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using ConsoleTables;
 using McMaster.Extensions.CommandLineUtils;
 
 namespace DasBlog.CLI
@@ -90,9 +92,15 @@ namespace DasBlog.CLI
 				initCmd.Description = "Initializing the site creates environment specific config files (Staging or Production)";
 				initCmd.OnExecute(() =>
 				{
-
-					// Execute command
-					Console.WriteLine("dasblog settings have been been initialized for this site");
+					if (!InitializeConfigFiles.IsInitialized(Path.Combine(Environment.CurrentDirectory, "Config"), ASPNETCORE_ENVIRONMENT))
+					{
+						InitializeConfigFiles.CopyFiles(Path.Combine(Environment.CurrentDirectory, "Config"), ASPNETCORE_ENVIRONMENT);
+						Console.WriteLine($"Site settings files have been been initialized for this site! (Environment = {ASPNETCORE_ENVIRONMENT})");
+					}
+					else
+					{
+						Console.WriteLine("Site settings files have already been been initialized for this site");
+					}
 				});
 			});
 
@@ -101,9 +109,15 @@ namespace DasBlog.CLI
 				envCmd.Description = "List the main environment settings associated with DasBlog Core";
 				envCmd.OnExecute(() =>
 				{
+					var table = new ConsoleTable("Settings", "Value");
+					table.AddRow("Site Initialized?", InitializeConfigFiles.IsInitialized(Path.Combine(Environment.CurrentDirectory, "Config"), ASPNETCORE_ENVIRONMENT))
+								.AddRow("Environment", ASPNETCORE_ENVIRONMENT)
+								.AddRow("root", "")
+								.AddRow("theme", "")
+								.AddRow("contentdir", "")
+								.AddRow("binarydir", "");
 
-					// Get environment data 
-					Console.WriteLine("List environemnt data");
+					table.Write();
 				});
 
 			});
@@ -114,8 +128,9 @@ namespace DasBlog.CLI
 				resetCmd.OnExecute(() =>
 				{
 
-					// Get environment data 
-					Console.WriteLine("List environemnt data");
+					// Reset password...
+
+					Console.WriteLine("Reset password");
 				});
 
 			});
@@ -127,6 +142,8 @@ namespace DasBlog.CLI
 				createthemeCmd.OnExecute(() =>
 				{
 					// Execute command
+
+
 					Console.WriteLine($"New theme created: '{val.Value}' ");
 				});
 			});
@@ -141,5 +158,5 @@ namespace DasBlog.CLI
 
 			return app.Execute(args);
 		}
-    }
+	}
 }
