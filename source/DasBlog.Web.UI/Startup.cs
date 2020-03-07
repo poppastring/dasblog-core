@@ -68,13 +68,11 @@ namespace DasBlog.Web
 			IISUrlRewriteConfigPath = Path.Combine("Config", $"IISUrlRewrite{envname}config");
 			SiteConfigPath = Path.Combine("Config", $"site{envname}config");
 			MetaConfigPath = Path.Combine("Config", $"meta{envname}config");
-			AppSettingsConfigPath = $"appsettings{envname}json";
+			AppSettingsConfigPath = $"appsettings.json";
 
 			Configuration = DasBlogConfigurationBuilder();
 
-			var binarypath = Configuration.GetValue<string>("BinariesDir").TrimStart('~', '/');
-
-			BinariesPath = new DirectoryInfo(Path.Combine(env.ContentRootPath, binarypath)).FullName;
+			BinariesPath = new DirectoryInfo(Path.Combine(env.ContentRootPath, Configuration.GetValue<string>("BinariesDir"))).FullName;
 			ThemeFolderPath = new DirectoryInfo(Path.Combine(hostingEnvironment.ContentRootPath, "Themes", Configuration.GetSection("Theme").Value)).FullName;
 			LogFolderPath = new DirectoryInfo(Path.Combine(hostingEnvironment.ContentRootPath, Configuration.GetSection("LogDir").Value)).FullName;
 			BinariesUrlRelativePath = "content/binary";
@@ -179,9 +177,11 @@ namespace DasBlog.Web
 			
 			services.AddSession(options =>
 			{
-				// Set a short timeout for easy testing.
 				options.IdleTimeout = TimeSpan.FromSeconds(1000);
 			});
+
+			services
+				.AddHttpContextAccessor();
 
 			services
 				.AddTransient<IDasBlogSettings, DasBlogSettings>()
@@ -260,18 +260,20 @@ namespace DasBlog.Web
 			app.UseRouting();
 
 			//if you've configured it at /blog or /whatever, set that pathbase so ~ will generate correctly
-			var rootUri = new Uri(dasBlogSettings.SiteConfiguration.Root);
-			var path = rootUri.AbsolutePath;
-
-			//Deal with path base and proxies that change the request path
-			//https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/proxy-load-balancer?view=aspnetcore-2.2#deal-with-path-base-and-proxies-that-change-the-request-path
-			if (path != "/")
+			if (!string.IsNullOrWhiteSpace(dasBlogSettings.SiteConfiguration.Root))
 			{
-				app.Use((context, next) =>
+				var rootUri = new Uri(dasBlogSettings.SiteConfiguration.Root);
+				var path = rootUri.AbsolutePath;
+
+				//Deal with path base and proxies that change the request path
+				if (path != "/")
 				{
-					context.Request.PathBase = new PathString(path);
-					return next.Invoke();
-				});
+					app.Use((context, next) =>
+					{
+						context.Request.PathBase = new PathString(path);
+						return next.Invoke();
+					});
+				}
 			}
 
 			app.UseForwardedHeaders();

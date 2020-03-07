@@ -19,6 +19,7 @@ using DasBlog.Services;
 using System.Linq;
 using newtelligence.DasBlog.Runtime;
 using DasBlog.Services.FileManagement;
+using Microsoft.AspNetCore.Http;
 
 namespace DasBlog.Web.Settings
 {
@@ -29,12 +30,25 @@ namespace DasBlog.Web.Settings
 		private readonly ConfigFilePathsDataOption filePathDataOptions;
 
 		public DasBlogSettings(IWebHostEnvironment env, IOptions<SiteConfig> siteConfig, IOptions<MetaTags> metaTagsConfig, ISiteSecurityConfig siteSecurityConfig, 
-								IFileProvider fileProvider, IOptions<ConfigFilePathsDataOption> optionsAccessor)
+								IFileProvider fileProvider, IOptions<ConfigFilePathsDataOption> optionsAccessor, IHttpContextAccessor httpContextAccessor)
 		{
+			string baseUrl = string.Empty;
 			this.fileProvider = fileProvider;
 
 			WebRootDirectory = env.ContentRootPath;
 			SiteConfiguration = siteConfig.Value;
+
+			if (string.IsNullOrEmpty(httpContextAccessor?.HttpContext?.Request?.Host.Value))
+			{
+				baseUrl = "http://localhost:5001/";
+			}
+			else
+			{
+				baseUrl = $"{httpContextAccessor?.HttpContext?.Request?.Scheme}://{httpContextAccessor?.HttpContext?.Request?.Host.Value}/";
+			}
+
+			SiteConfiguration.Root = (!string.IsNullOrWhiteSpace(SiteConfiguration.Root)) ? SiteConfiguration.Root : baseUrl;
+
 			SecurityConfiguration = siteSecurityConfig;
 			MetaTags = metaTagsConfig.Value;
 			filePathDataOptions = optionsAccessor.Value;
