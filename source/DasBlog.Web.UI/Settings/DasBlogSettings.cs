@@ -30,22 +30,12 @@ namespace DasBlog.Web.Settings
 		private readonly ConfigFilePathsDataOption filePathDataOptions;
 
 		public DasBlogSettings(IWebHostEnvironment env, IOptions<SiteConfig> siteConfig, IOptions<MetaTags> metaTagsConfig, ISiteSecurityConfig siteSecurityConfig, 
-								IFileProvider fileProvider, IOptions<ConfigFilePathsDataOption> optionsAccessor, IHttpContextAccessor httpContextAccessor)
+								IFileProvider fileProvider, IOptions<ConfigFilePathsDataOption> optionsAccessor)
 		{
-			string baseUrl = string.Empty;
 			this.fileProvider = fileProvider;
 
 			WebRootDirectory = env.ContentRootPath;
 			SiteConfiguration = siteConfig.Value;
-
-			if (string.IsNullOrEmpty(httpContextAccessor?.HttpContext?.Request?.Host.Value))
-			{
-				baseUrl = "http://localhost:5001/";
-			}
-			else
-			{
-				baseUrl = $"{httpContextAccessor?.HttpContext?.Request?.Scheme}://{httpContextAccessor?.HttpContext?.Request?.Host.Value}/";
-			}
 
 			SiteConfiguration.Root = (!string.IsNullOrWhiteSpace(SiteConfiguration.Root)) ? SiteConfiguration.Root : baseUrl;
 

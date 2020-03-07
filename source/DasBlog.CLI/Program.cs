@@ -7,7 +7,8 @@ namespace DasBlog.CLI
 {
     class Program
     {
-		public static string ASPNETCORE_ENVIRONMENT = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+		public const string ASPNETCORE_ENV_NAME = "ASPNETCORE_ENVIRONMENT";
+		public static string ASPNETCORE_ENVIRONMENT = Environment.GetEnvironmentVariable("ASPNETCORE_ENV_NAME");
 		public const string ADMINPASSWORD = "19-A2-85-41-44-B6-3A-8F-76-17-A6-F2-25-01-9B-12";
 
 		static int Main(string[] args)
@@ -29,6 +30,25 @@ namespace DasBlog.CLI
 					Console.WriteLine("Specify a subcommand");
 					configCmd.ShowHelp();
 					return 1;
+				});
+
+				configCmd.Command("env", setCmd =>
+				{
+					setCmd.Description = "Required: Set the environment variable e.g. Development, Staging or Production";
+					var val = setCmd.Argument("value", "Value of 'environment' parameter");
+					setCmd.OnExecute(() =>
+					{
+						if (!string.IsNullOrWhiteSpace(val.Value))
+						{
+							Environment.SetEnvironmentVariable(ASPNETCORE_ENV_NAME, val.Value);
+						}
+						else
+						{
+							Environment.SetEnvironmentVariable(ASPNETCORE_ENV_NAME, null);
+						}
+
+						Console.WriteLine($"Environment variable has been set to '{val.Value}', restart site for operation to take effect");
+					});
 				});
 
 				configCmd.Command("root", setCmd =>

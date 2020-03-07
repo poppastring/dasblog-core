@@ -260,21 +260,19 @@ namespace DasBlog.Web
 			app.UseRouting();
 
 			//if you've configured it at /blog or /whatever, set that pathbase so ~ will generate correctly
-			if (!string.IsNullOrWhiteSpace(dasBlogSettings.SiteConfiguration.Root))
-			{
-				var rootUri = new Uri(dasBlogSettings.SiteConfiguration.Root);
-				var path = rootUri.AbsolutePath;
+			var rootUri = new Uri(dasBlogSettings.SiteConfiguration.Root);
+			var path = rootUri.AbsolutePath;
 
-				//Deal with path base and proxies that change the request path
-				if (path != "/")
+			//Deal with path base and proxies that change the request path
+			if (path != "/")
+			{
+				app.Use((context, next) =>
 				{
-					app.Use((context, next) =>
-					{
-						context.Request.PathBase = new PathString(path);
-						return next.Invoke();
-					});
-				}
+					context.Request.PathBase = new PathString(path);
+					return next.Invoke();
+				});
 			}
+
 
 			app.UseForwardedHeaders();
 
