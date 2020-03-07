@@ -45,6 +45,7 @@ namespace DasBlog.Web
 		private readonly string IISUrlRewriteConfigPath;
 		private readonly string SiteConfigPath;
 		private readonly string MetaConfigPath;
+		private readonly string AppSettingsConfigPath;
 		private readonly string ThemeFolderPath;
 		private readonly string LogFolderPath;
 		private readonly string BinariesPath;
@@ -59,6 +60,16 @@ namespace DasBlog.Web
 		public Startup(IWebHostEnvironment env)
 		{
 			hostingEnvironment = env;
+
+			var envname = string.IsNullOrWhiteSpace(hostingEnvironment.EnvironmentName) ?
+			"." : string.Format($".{hostingEnvironment.EnvironmentName}.");
+
+			SiteSecurityConfigPath = Path.Combine("Config", $"siteSecurity{envname}config");
+			IISUrlRewriteConfigPath = Path.Combine("Config", $"IISUrlRewrite{envname}config");
+			SiteConfigPath = Path.Combine("Config", $"site{envname}config");
+			MetaConfigPath = Path.Combine("Config", $"meta{envname}config");
+			AppSettingsConfigPath = $"appsettings{envname}json";
+
 			Configuration = DasBlogConfigurationBuilder();
 
 			var binarypath = Configuration.GetValue<string>("BinariesDir").TrimStart('~', '/');
@@ -68,30 +79,16 @@ namespace DasBlog.Web
 			LogFolderPath = new DirectoryInfo(Path.Combine(hostingEnvironment.ContentRootPath, Configuration.GetSection("LogDir").Value)).FullName;
 			BinariesUrlRelativePath = "content/binary";
 			
-			var envname = string.IsNullOrWhiteSpace(hostingEnvironment.EnvironmentName) ? 
-									"." : string.Format($".{hostingEnvironment.EnvironmentName}.");
-
-			SiteSecurityConfigPath = Path.Combine("Config", $"siteSecurity{envname}config");
-			IISUrlRewriteConfigPath = Path.Combine("Config", $"IISUrlRewrite{envname}config");
-
-			SiteConfigPath = Path.Combine("Config", $"site{envname}config");
-			MetaConfigPath = Path.Combine("Config", $"meta{envname}config");
 		}
-
 
 		public IConfiguration DasBlogConfigurationBuilder()
 		{
 			var configBuilder = new ConfigurationBuilder();
 
 			configBuilder
-				.AddXmlFile(Path.Combine(hostingEnvironment.ContentRootPath, "Config", $"site.config"), optional: false, reloadOnChange: true)
-				.AddXmlFile(Path.Combine(hostingEnvironment.ContentRootPath, "Config", $"site.{hostingEnvironment.EnvironmentName}.config"), optional: true, reloadOnChange: true)
-
-				.AddXmlFile(Path.Combine(hostingEnvironment.ContentRootPath, "Config", $"meta.config"), optional: false, reloadOnChange: true)
-				.AddXmlFile(Path.Combine(hostingEnvironment.ContentRootPath, "Config", $"meta.{hostingEnvironment.EnvironmentName}.config"), optional: true, reloadOnChange: true)
-
-				.AddJsonFile(Path.Combine(hostingEnvironment.ContentRootPath, $"appsettings.json"), optional: false, reloadOnChange: true)
-				.AddJsonFile(Path.Combine(hostingEnvironment.ContentRootPath, $"appsettings.{hostingEnvironment.EnvironmentName}.json"), optional: true, reloadOnChange: true)
+				.AddXmlFile(Path.Combine(hostingEnvironment.ContentRootPath, SiteConfigPath), optional: false, reloadOnChange: true)
+				.AddXmlFile(Path.Combine(hostingEnvironment.ContentRootPath, MetaConfigPath), optional: false, reloadOnChange: true)
+				.AddJsonFile(Path.Combine(hostingEnvironment.ContentRootPath, AppSettingsConfigPath), optional: false, reloadOnChange: true)
 
 				.AddEnvironmentVariables();
 
@@ -331,6 +328,7 @@ namespace DasBlog.Web
 					name: "default", "~/{controller=Home}/{action=Index}/{id?}");
 			});
 		}
+
 		/// <summary>
 		/// BlogDataService and DayEntry rely on the thread's CurrentPrincipal and its role to determine if users
 		/// should be allowed edit and add posts.
