@@ -43,27 +43,5 @@ namespace DasBlog.Services.Users
 			}
 			return ssc.Users;
 		}
-
-		public void SaveUsers(List<User> users)
-		{
-			var ssc = new SiteSecurityConfig
-			{
-				Users = users
-			};
-			var ser = new XmlSerializer(typeof(SiteSecurityConfig));
-			using (var writer = new StreamWriter(options.SecurityConfigFilePath))
-			{
-				try
-				{
-					ser.Serialize(writer, ssc);
-				}
-				catch (Exception e)
-				{
-					// TODO log
-					Console.WriteLine(e);
-					throw;
-				}
-			}
-		}
 	}
 }

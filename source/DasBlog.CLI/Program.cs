@@ -1,9 +1,11 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using ConsoleTables;
 using DasBlog.Services.ConfigFile;
 using DasBlog.Services.FileManagement;
 using DasBlog.Services.FileManagement.Interfaces;
+using DasBlog.Services.Users;
 using McMaster.Extensions.CommandLineUtils;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -30,11 +32,16 @@ namespace DasBlog.CLI
 			service.Configure<ConfigFilePathsDataOption>(options =>
 			{
 				options.SiteConfigFilePath = Path.Combine(CONFIG_DIRECTORY, "site.Config");
+				options.SecurityConfigFilePath = Path.Combine(CONFIG_DIRECTORY, "siteSecurity.Config");
+				options.ThemesFolder = Path.Combine(Environment.CurrentDirectory, "Themes");
 			});
 
 			service
 				.Configure<SiteConfig>(Configuration)
 				.AddSingleton<IConfigFileService<SiteConfig>, SiteConfigFileService>()
+				.AddSingleton<IConfigFileService<SiteSecurityConfig>, SiteSecurityConfigFileService>()
+				.AddSingleton<IUserDataRepo, UserDataRepo>()
+				.AddSingleton<IUserService, UserService>()
 				.BuildServiceProvider();
 
 			var app = new CommandLineApplication
@@ -136,7 +143,7 @@ namespace DasBlog.CLI
 						else
 						{
 							Console.WriteLine($"Save failed!");
-						}			
+						}	
 					});
 				});
 
@@ -164,7 +171,7 @@ namespace DasBlog.CLI
 
 				configCmd.Command("logdir", setCmd =>
 				{
-					setCmd.Description = "Change the site logd directory location";
+					setCmd.Description = "Change the site log directory location";
 					var val = setCmd.Argument("value", "Value of 'logdir' parameter").IsRequired();
 					setCmd.OnExecute(() =>
 					{
@@ -186,7 +193,7 @@ namespace DasBlog.CLI
 				});
 			});
 
-			app.Command("initialize", initCmd =>
+			app.Command("init", initCmd =>
 			{
 				initCmd.Description = "Initializing the site creates environment specific config files (Staging or Production)";
 				initCmd.OnExecute(() =>
@@ -227,13 +234,26 @@ namespace DasBlog.CLI
 
 			app.Command("resetpassword", resetCmd =>
 			{
-				resetCmd.Description = "Resets the admin password to 'admin'";
+				resetCmd.Description = "**WARNING** Resets all user passowrds to 'admin'";
 				resetCmd.OnExecute(() =>
 				{
+					var serviceProvider = service.BuildServiceProvider();
+					var userService = serviceProvider.GetService<IUserService>();
 
-					// Reset password...
+					var users = userService.GetAllUsers().ToList();
 
-					Console.WriteLine("Reset password");
+					users.ForEach(x => x.Password = ADMINPASSWORD);
+
+					var fs = serviceProvider.GetService<IConfigFileService<SiteSecurityConfig>>();
+					if (fs.SaveConfig(new SiteSecurityConfig() { Users = users }))
+					{
+						Console.WriteLine("All passwords reset to 'admin'");
+					}
+					else
+					{
+						Console.WriteLine($"Reset failed!");
+					}
+					
 				});
 
 			});
@@ -245,9 +265,16 @@ namespace DasBlog.CLI
 				createthemeCmd.OnExecute(() =>
 				{
 					// Execute command
+					var serviceProvider = service.BuildServiceProvider();
+					var fs = serviceProvider.GetService< IOptions<ConfigFilePathsDataOption>>();
 
+					var fileOptions = fs.Value;
 
-					Console.WriteLine($"New theme created: '{val.Value}' ");
+					if (DirectoryCopy(Path.Combine(fileOptions.ThemesFolder, "dasblog"), Path.Combine(fileOptions.ThemesFolder, val.Value), true))
+					{
+						Console.WriteLine($"New theme created: '{val.Value}' ");
+					}
+					
 				});
 			});
 
@@ -270,6 +297,47 @@ namespace DasBlog.CLI
 				.AddXmlFile(Path.Combine(CONFIG_DIRECTORY, "site.config"), optional: false, reloadOnChange: true);
 
 			return configBuilder.Build();
+		}
+
+		private static bool DirectoryCopy(string sourceDirName, string destDirName, bool copySubDirs)
+		{
+			var dir = new DirectoryInfo(sourceDirName);
+			if (!dir.Exists)
+			{
+				Console.WriteLine($"Source theme ('dasblog') does not exist or could not be found:");
+				return false;
+			}
+
+			var dir2 = new DirectoryInfo(destDirName);
+			if (dir2.Exists)
+			{
+				Console.WriteLine($"New theme name already exists");
+				return false;
+			}
+
+			var dirs = dir.GetDirectories();
+			if (!Directory.Exists(destDirName))
+			{
+				Directory.CreateDirectory(destDirName);
+			}
+
+			var files = dir.GetFiles();
+			foreach (var file in files)
+			{
+				var temppath = Path.Combine(destDirName, file.Name);
+				file.CopyTo(temppath, false);
+			}
+
+			if (copySubDirs)
+			{
+				foreach (var subdir in dirs)
+				{
+					var temppath = Path.Combine(destDirName, subdir.Name);
+					DirectoryCopy(subdir.FullName, temppath, copySubDirs);
+				}
+			}
+
+			return true;
 		}
 	}
 }

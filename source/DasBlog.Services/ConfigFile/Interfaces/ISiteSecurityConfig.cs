@@ -50,7 +50,5 @@ namespace DasBlog.Services.ConfigFile.Interfaces
 		[XmlElement(ElementName = "Users" )]
 		[XmlArrayItem(DataType = "string", ElementName = "User")]
 		List<User> Users { get; set; }
-
-		void Refresh();
 	}
 }
