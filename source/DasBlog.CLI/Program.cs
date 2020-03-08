@@ -1,7 +1,14 @@
 ﻿using System;
 using System.IO;
 using ConsoleTables;
+using DasBlog.Services.ConfigFile;
+using DasBlog.Services.FileManagement;
+using DasBlog.Services.FileManagement.Interfaces;
 using McMaster.Extensions.CommandLineUtils;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Abstractions;
+using Microsoft.Extensions.Options;
 
 namespace DasBlog.CLI
 {
@@ -9,10 +16,26 @@ namespace DasBlog.CLI
     {
 		public const string ASPNETCORE_ENV_NAME = "ASPNETCORE_ENVIRONMENT";
 		public static string ASPNETCORE_ENVIRONMENT = Environment.GetEnvironmentVariable("ASPNETCORE_ENV_NAME");
+		public static string CONFIG_DIRECTORY = Path.Combine(Environment.CurrentDirectory, "Config");
 		public const string ADMINPASSWORD = "19-A2-85-41-44-B6-3A-8F-76-17-A6-F2-25-01-9B-12";
+
+		public static IConfiguration Configuration { get; set; }
 
 		static int Main(string[] args)
         {
+			Configuration = DasBlogConfigurationBuilder();
+
+			var service = new ServiceCollection();
+
+			service.Configure<ConfigFilePathsDataOption>(options =>
+			{
+				options.SiteConfigFilePath = Path.Combine(CONFIG_DIRECTORY, "site.Config");
+			});
+
+			service
+				.Configure<SiteConfig>(Configuration)
+				.AddSingleton<IConfigFileService<SiteConfig>, SiteConfigFileService>()
+				.BuildServiceProvider();
 
 			var app = new CommandLineApplication
 			{
@@ -57,8 +80,19 @@ namespace DasBlog.CLI
 					var val = setCmd.Argument("value", "Value of 'root' parameter").IsRequired();
 					setCmd.OnExecute(() =>
 					{
-						// Execute command
-						Console.WriteLine($"Site 'root' has been set to '{val.Value}', restart site for operation to take effect");
+						var serviceProvider = service.BuildServiceProvider();
+						var sc = serviceProvider.GetService<IOptions<SiteConfig>>().Value;
+						sc.Root = val.Value;
+
+						var fs = serviceProvider.GetService<IConfigFileService<SiteConfig>>();
+						if (fs.SaveConfig(sc))
+						{
+							Console.WriteLine($"Site 'root' has been set to '{val.Value}', restart site for operation to take effect");
+						}
+						else
+						{
+							Console.WriteLine($"Save failed!");
+						}
 					});
 				});
 
@@ -68,8 +102,19 @@ namespace DasBlog.CLI
 					var val = setCmd.Argument("value", "Value of 'theme' parameter").IsRequired();
 					setCmd.OnExecute(() =>
 					{
-						// Execute command
-						Console.WriteLine($"Site 'theme' has been set to '{val.Value}', restart site for operation to take effect");
+						var serviceProvider = service.BuildServiceProvider();
+						var sc = serviceProvider.GetService<IOptions<SiteConfig>>().Value;
+						sc.Theme = val.Value;
+
+						var fs = serviceProvider.GetService<IConfigFileService<SiteConfig>>();
+						if (fs.SaveConfig(sc))
+						{
+							Console.WriteLine($"Site 'theme' has been set to '{val.Value}', restart site for operation to take effect");
+						}
+						else
+						{
+							Console.WriteLine($"Save failed!");
+						}
 					});
 				});
 
@@ -79,8 +124,19 @@ namespace DasBlog.CLI
 					var val = setCmd.Argument("value", "Value of 'contentdir' parameter").IsRequired();
 					setCmd.OnExecute(() =>
 					{
-						// Execute command
-						Console.WriteLine($"Site 'contentdir' has been set to '{val.Value}', restart site for operation to take effect");
+						var serviceProvider = service.BuildServiceProvider();
+						var sc = serviceProvider.GetService<IOptions<SiteConfig>>().Value;
+						sc.ContentDir = val.Value;
+
+						var fs = serviceProvider.GetService<IConfigFileService<SiteConfig>>();
+						if (fs.SaveConfig(sc))
+						{
+							Console.WriteLine($"Site 'contentdir' has been set to '{val.Value}', restart site for operation to take effect");
+						}
+						else
+						{
+							Console.WriteLine($"Save failed!");
+						}			
 					});
 				});
 
@@ -90,8 +146,19 @@ namespace DasBlog.CLI
 					var val = setCmd.Argument("value", "Value of 'binarydir' parameter").IsRequired();
 					setCmd.OnExecute(() =>
 					{
-						// Execute command
-						Console.WriteLine($"Site 'binarydir' has been set to '{val.Value}', restart site for operation to take effect");
+						var serviceProvider = service.BuildServiceProvider();
+						var sc = serviceProvider.GetService<IOptions<SiteConfig>>().Value;
+						sc.BinariesDir = val.Value;
+
+						var fs = serviceProvider.GetService<IConfigFileService<SiteConfig>>();
+						if (fs.SaveConfig(sc))
+						{
+							Console.WriteLine($"Site 'binarydir' has been set to '{val.Value}', restart site for operation to take effect");
+						}
+						else
+						{
+							Console.WriteLine($"Save failed!");
+						}
 					});
 				});
 
@@ -101,8 +168,20 @@ namespace DasBlog.CLI
 					var val = setCmd.Argument("value", "Value of 'logdir' parameter").IsRequired();
 					setCmd.OnExecute(() =>
 					{
-						// Execute command
-						Console.WriteLine($"Site 'logdir' has been set to '{val.Value}', restart site for operation to take effect");
+						var serviceProvider = service.BuildServiceProvider();
+						var sc = serviceProvider.GetService<IOptions<SiteConfig>>().Value;
+						sc.LogDir = val.Value;
+
+						var fs = serviceProvider.GetService<IConfigFileService<SiteConfig>>();
+						if (fs.SaveConfig(sc))
+						{
+							Console.WriteLine($"Site 'logdir' has been set to '{val.Value}', restart site for operation to take effect");
+						}
+						else
+						{
+							Console.WriteLine($"Save failed!");
+						}
+
 					});
 				});
 			});
@@ -112,9 +191,9 @@ namespace DasBlog.CLI
 				initCmd.Description = "Initializing the site creates environment specific config files (Staging or Production)";
 				initCmd.OnExecute(() =>
 				{
-					if (!InitializeConfigFiles.IsInitialized(Path.Combine(Environment.CurrentDirectory, "Config"), ASPNETCORE_ENVIRONMENT))
+					if (!InitializeConfigFiles.IsInitialized(CONFIG_DIRECTORY, ASPNETCORE_ENVIRONMENT))
 					{
-						InitializeConfigFiles.CopyFiles(Path.Combine(Environment.CurrentDirectory, "Config"), ASPNETCORE_ENVIRONMENT);
+						InitializeConfigFiles.CopyFiles(CONFIG_DIRECTORY, ASPNETCORE_ENVIRONMENT);
 						Console.WriteLine($"Site settings files have been been initialized for this site! (Environment = {ASPNETCORE_ENVIRONMENT})");
 					}
 					else
@@ -129,13 +208,17 @@ namespace DasBlog.CLI
 				envCmd.Description = "List the main environment settings associated with DasBlog Core";
 				envCmd.OnExecute(() =>
 				{
+					var serviceProvider = service.BuildServiceProvider();
+					var sc = serviceProvider.GetService<IOptions<SiteConfig>>().Value;
+
 					var table = new ConsoleTable("Settings", "Value");
-					table.AddRow("Site Initialized?", InitializeConfigFiles.IsInitialized(Path.Combine(Environment.CurrentDirectory, "Config"), ASPNETCORE_ENVIRONMENT))
+					table.AddRow("Site Initialized?", InitializeConfigFiles.IsInitialized(CONFIG_DIRECTORY, ASPNETCORE_ENVIRONMENT))
 								.AddRow("Environment", ASPNETCORE_ENVIRONMENT)
-								.AddRow("root", "")
-								.AddRow("theme", "")
-								.AddRow("contentdir", "")
-								.AddRow("binarydir", "");
+								.AddRow("root", sc.Root)
+								.AddRow("theme", sc.Theme)
+								.AddRow("contentdir", sc.ContentDir)
+								.AddRow("binarydir", sc.BinariesDir)
+								.AddRow("logdir", sc.LogDir);
 
 					table.Write();
 				});
@@ -177,6 +260,16 @@ namespace DasBlog.CLI
 			});
 
 			return app.Execute(args);
+		}
+
+		public static IConfiguration DasBlogConfigurationBuilder()
+		{
+			var configBuilder = new ConfigurationBuilder();
+
+			configBuilder
+				.AddXmlFile(Path.Combine(CONFIG_DIRECTORY, "site.config"), optional: false, reloadOnChange: true);
+
+			return configBuilder.Build();
 		}
 	}
 }

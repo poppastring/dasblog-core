@@ -29,12 +29,19 @@ namespace DasBlog.CLI
 
 		public static bool IsInitialized(string source, string environment)
 		{
+			environment = SubstituteEnvironment(environment);
+
+			return (new DirectoryInfo(source).GetFiles($"*.{environment}.*").Length == 4);
+		}
+
+		public static string SubstituteEnvironment(string environment)
+		{
 			if (string.IsNullOrWhiteSpace(environment))
 			{
 				environment = "Production";
 			}
 
-			return (new DirectoryInfo(source).GetFiles($"*.{environment}.*").Length == 4);
+			return environment;
 		}
 	}
 }

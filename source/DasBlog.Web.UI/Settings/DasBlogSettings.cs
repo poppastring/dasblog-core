@@ -37,8 +37,6 @@ namespace DasBlog.Web.Settings
 			WebRootDirectory = env.ContentRootPath;
 			SiteConfiguration = siteConfig.Value;
 
-			SiteConfiguration.Root = (!string.IsNullOrWhiteSpace(SiteConfiguration.Root)) ? SiteConfiguration.Root : baseUrl;
-
 			SecurityConfiguration = siteSecurityConfig;
 			MetaTags = metaTagsConfig.Value;
 			filePathDataOptions = optionsAccessor.Value;
