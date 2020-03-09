@@ -49,8 +49,17 @@ namespace DasBlog.Services.ConfigFile
 	[Serializable]
 	public class SiteSecurityConfig : ISiteSecurityConfig
 	{
-		public SiteSecurityConfig()
+		private readonly IUserService _userService;
+
+		public SiteSecurityConfig(IUserService userService)
 		{
+			_userService = userService;
+			Refresh();
+		}
+
+		public void Refresh()
+		{
+			Users = _userService.GetAllUsers().ToList();
 		}
 
 		public List<User> Users { get; set; } = new List<User>();

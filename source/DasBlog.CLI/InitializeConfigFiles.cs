@@ -34,7 +34,7 @@ namespace DasBlog.CLI
 			return (new DirectoryInfo(source).GetFiles($"*.{environment}.*").Length == 4);
 		}
 
-		public static string SubstituteEnvironment(string environment)
+		private static string SubstituteEnvironment(string environment)
 		{
 			if (string.IsNullOrWhiteSpace(environment))
 			{

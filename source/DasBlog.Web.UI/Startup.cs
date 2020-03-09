@@ -212,7 +212,8 @@ namespace DasBlog.Web
 				.AddSingleton<ITimeZoneProvider, TimeZoneProvider>()
 				.AddSingleton<ISubscriptionManager, SubscriptionManager>()
 				.AddSingleton<IConfigFileService<MetaTags>, MetaConfigFileService>()
-				.AddSingleton<IConfigFileService<SiteConfig>, SiteConfigFileService>();
+				.AddSingleton<IConfigFileService<SiteConfig>, SiteConfigFileService>()
+				.AddSingleton<IConfigFileService<SiteSecurityConfigData>, SiteSecurityConfigFileService>();
 
 			services
 				.AddAutoMapper(mapperConfig =>

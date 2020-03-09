@@ -17,29 +17,33 @@ namespace DasBlog.CLI
     class Program
     {
 		public const string ASPNETCORE_ENV_NAME = "ASPNETCORE_ENVIRONMENT";
-		public static string ASPNETCORE_ENVIRONMENT = Environment.GetEnvironmentVariable("ASPNETCORE_ENV_NAME");
+		public static string ASPNETCORE_ENVIRONMENT = "Development";//Environment.GetEnvironmentVariable("ASPNETCORE_ENV_NAME");
 		public static string CONFIG_DIRECTORY = Path.Combine(Environment.CurrentDirectory, "Config");
 		public const string ADMINPASSWORD = "19-A2-85-41-44-B6-3A-8F-76-17-A6-F2-25-01-9B-12";
+		public static string SITECONFIG_FILENAME = string.Empty;
+		public static string SITESECURITYCONFIG_FILENAME = string.Empty;
 
 		public static IConfiguration Configuration { get; set; }
 
 		static int Main(string[] args)
         {
+			DefineConfigNames();
+
 			Configuration = DasBlogConfigurationBuilder();
 
 			var service = new ServiceCollection();
 
 			service.Configure<ConfigFilePathsDataOption>(options =>
 			{
-				options.SiteConfigFilePath = Path.Combine(CONFIG_DIRECTORY, "site.Config");
-				options.SecurityConfigFilePath = Path.Combine(CONFIG_DIRECTORY, "siteSecurity.Config");
+				options.SiteConfigFilePath = Path.Combine(CONFIG_DIRECTORY, SITECONFIG_FILENAME);
+				options.SecurityConfigFilePath = Path.Combine(CONFIG_DIRECTORY, SITESECURITYCONFIG_FILENAME);
 				options.ThemesFolder = Path.Combine(Environment.CurrentDirectory, "Themes");
 			});
 
 			service
 				.Configure<SiteConfig>(Configuration)
 				.AddSingleton<IConfigFileService<SiteConfig>, SiteConfigFileService>()
-				.AddSingleton<IConfigFileService<SiteSecurityConfig>, SiteSecurityConfigFileService>()
+				.AddSingleton<IConfigFileService<SiteSecurityConfigData>, SiteSecurityConfigFileService>()
 				.AddSingleton<IUserDataRepo, UserDataRepo>()
 				.AddSingleton<IUserService, UserService>()
 				.BuildServiceProvider();
@@ -218,9 +222,13 @@ namespace DasBlog.CLI
 					var serviceProvider = service.BuildServiceProvider();
 					var sc = serviceProvider.GetService<IOptions<SiteConfig>>().Value;
 
+					var configfs = serviceProvider.GetService<IOptions<ConfigFilePathsDataOption>>().Value;
+
 					var table = new ConsoleTable("Settings", "Value");
 					table.AddRow("Site Initialized?", InitializeConfigFiles.IsInitialized(CONFIG_DIRECTORY, ASPNETCORE_ENVIRONMENT))
 								.AddRow("Environment", ASPNETCORE_ENVIRONMENT)
+								.AddRow("Site file", SITECONFIG_FILENAME)
+								.AddRow("SiteSecurity file", SITESECURITYCONFIG_FILENAME)
 								.AddRow("root", sc.Root)
 								.AddRow("theme", sc.Theme)
 								.AddRow("contentdir", sc.ContentDir)
@@ -245,7 +253,7 @@ namespace DasBlog.CLI
 					users.ForEach(x => x.Password = ADMINPASSWORD);
 
 					var fs = serviceProvider.GetService<IConfigFileService<SiteSecurityConfig>>();
-					if (fs.SaveConfig(new SiteSecurityConfig() { Users = users }))
+					if (fs.SaveConfig(new SiteSecurityConfig(userService) { Users = users }))
 					{
 						Console.WriteLine("All passwords reset to 'admin'");
 					}
@@ -258,9 +266,9 @@ namespace DasBlog.CLI
 
 			});
 
-			app.Command("createtheme", createthemeCmd =>
+			app.Command("newtheme", createthemeCmd =>
 			{
-				createthemeCmd.Description = "Creates a new theme based on the default dasblog theme";
+				createthemeCmd.Description = "Creates a new theme based on the default 'dasblog' theme";
 				var val = createthemeCmd.Argument("value", "Name of the new theme").IsRequired();
 				createthemeCmd.OnExecute(() =>
 				{
@@ -278,7 +286,6 @@ namespace DasBlog.CLI
 				});
 			});
 
-
 			app.OnExecute(() =>
 			{
 				Console.WriteLine("Specify a subcommand");
@@ -289,12 +296,32 @@ namespace DasBlog.CLI
 			return app.Execute(args);
 		}
 
-		public static IConfiguration DasBlogConfigurationBuilder()
+		private static void DefineConfigNames()
+		{
+			if(!string.IsNullOrWhiteSpace(ASPNETCORE_ENVIRONMENT))
+			{
+				SITECONFIG_FILENAME = string.Format("site.{0}.config", ASPNETCORE_ENVIRONMENT);
+				SITESECURITYCONFIG_FILENAME = string.Format("siteSecurity.{0}.config", ASPNETCORE_ENVIRONMENT);
+
+				if (!new FileInfo(Path.Combine(CONFIG_DIRECTORY, SITECONFIG_FILENAME)).Exists)
+				{
+					SITECONFIG_FILENAME = "site.config";
+					SITESECURITYCONFIG_FILENAME = "siteSecurity.Config";
+				}
+			}
+			else
+			{
+				SITECONFIG_FILENAME = "site.config";
+				SITESECURITYCONFIG_FILENAME = "siteSecurity.Config";
+			}
+		}
+
+		private static IConfiguration DasBlogConfigurationBuilder()
 		{
 			var configBuilder = new ConfigurationBuilder();
 
 			configBuilder
-				.AddXmlFile(Path.Combine(CONFIG_DIRECTORY, "site.config"), optional: false, reloadOnChange: true);
+				.AddXmlFile(Path.Combine(CONFIG_DIRECTORY, SITECONFIG_FILENAME), optional: false, reloadOnChange: true);
 
 			return configBuilder.Build();
 		}
