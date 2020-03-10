@@ -16,7 +16,7 @@ namespace DasBlog.CLI
     class Program
     {
 		public const string ASPNETCORE_ENV_NAME = "ASPNETCORE_ENVIRONMENT";
-		public static string ASPNETCORE_ENVIRONMENT = "Development";//Environment.GetEnvironmentVariable("ASPNETCORE_ENV_NAME");
+		public static string ASPNETCORE_ENVIRONMENT = Environment.GetEnvironmentVariable(ASPNETCORE_ENV_NAME);
 		public static string CONFIG_DIRECTORY = Path.Combine(Environment.CurrentDirectory, "Config");
 		public const string ADMINPASSWORD = "19-A2-85-41-44-B6-3A-8F-76-17-A6-F2-25-01-9B-12";
 		public static string SITECONFIG_FILENAME = string.Empty;
