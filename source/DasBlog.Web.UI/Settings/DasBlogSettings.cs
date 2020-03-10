@@ -19,6 +19,7 @@ using DasBlog.Services;
 using System.Linq;
 using newtelligence.DasBlog.Runtime;
 using DasBlog.Services.FileManagement;
+using Microsoft.AspNetCore.Http;
 
 namespace DasBlog.Web.Settings
 {
@@ -35,6 +36,7 @@ namespace DasBlog.Web.Settings
 
 			WebRootDirectory = env.ContentRootPath;
 			SiteConfiguration = siteConfig.Value;
+
 			SecurityConfiguration = siteSecurityConfig;
 			MetaTags = metaTagsConfig.Value;
 			filePathDataOptions = optionsAccessor.Value;

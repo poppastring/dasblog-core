@@ -1,14 +1,21 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using DasBlog.Core.Security;
+using DasBlog.Services.ConfigFile;
+using DasBlog.Services.FileManagement;
+using DasBlog.Services.FileManagement.Interfaces;
+using Microsoft.Extensions.Options;
 
 namespace DasBlog.Services.Users
 {
 	public class UserService : IUserService
 	{
 		private readonly IUserDataRepo userRepo;
-		public UserService(IUserDataRepo userRepo)
+		private readonly IConfigFileService<SiteSecurityConfigData> siteSecurityFileService;
+
+		public UserService(IUserDataRepo userRepo, IConfigFileService<SiteSecurityConfigData> siteSecurityFileService)
 		{
+			this.siteSecurityFileService = siteSecurityFileService;
 			this.userRepo = userRepo;
 		}
 		public IEnumerable<User> GetAllUsers()
@@ -18,7 +25,7 @@ namespace DasBlog.Services.Users
 
 		public void SaveUsers(List<User> users)
 		{
-			userRepo.SaveUsers(users);
+			siteSecurityFileService.SaveConfig(new SiteSecurityConfigData() { Users = users });
 		}
 
 		public User GetFirstUser() => userRepo.LoadUsers().FirstOrDefault() ?? new User();
@@ -46,7 +53,7 @@ namespace DasBlog.Services.Users
 			var userToDelete = users.FirstOrDefault(user => user.EmailAddress == email);
 			if (users.Remove(userToDelete))
 			{
-				userRepo.SaveUsers(users);
+				siteSecurityFileService.SaveConfig(new SiteSecurityConfigData() { Users = users });
 				return true;
 			}
 			else
@@ -73,7 +80,8 @@ namespace DasBlog.Services.Users
 			{
 				users[index] = user;
 			}
-			userRepo.SaveUsers(users);
+
+			siteSecurityFileService.SaveConfig(new SiteSecurityConfigData(){ Users = users});
 		}
 	}
 }

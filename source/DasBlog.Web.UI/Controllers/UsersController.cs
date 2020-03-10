@@ -95,7 +95,7 @@ namespace DasBlog.Web.Controllers
 			var dasbloguser = mapper.Map<User>(usersviewmodel);
 
 			userService.AddOrReplaceUser(dasbloguser, usersviewmodel.OriginalEmail);
-			siteSecurityConfig.Refresh();
+			userService.GetAllUsers();
 
 			var uvm = mapper.Map<UsersViewModel>(userService.GetFirstUser());
 

@@ -50,6 +50,7 @@ namespace DasBlog.Services.ConfigFile
 	public class SiteSecurityConfig : ISiteSecurityConfig
 	{
 		private readonly IUserService _userService;
+
 		public SiteSecurityConfig(IUserService userService)
 		{
 			_userService = userService;

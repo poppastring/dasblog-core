@@ -45,6 +45,7 @@ namespace DasBlog.Web
 		private readonly string IISUrlRewriteConfigPath;
 		private readonly string SiteConfigPath;
 		private readonly string MetaConfigPath;
+		private readonly string AppSettingsConfigPath;
 		private readonly string ThemeFolderPath;
 		private readonly string LogFolderPath;
 		private readonly string BinariesPath;
@@ -59,39 +60,33 @@ namespace DasBlog.Web
 		public Startup(IWebHostEnvironment env)
 		{
 			hostingEnvironment = env;
+
+			var envname = string.IsNullOrWhiteSpace(hostingEnvironment.EnvironmentName) ?
+			"." : string.Format($".{hostingEnvironment.EnvironmentName}.");
+
+			SiteSecurityConfigPath = Path.Combine("Config", $"siteSecurity{envname}config");
+			IISUrlRewriteConfigPath = Path.Combine("Config", $"IISUrlRewrite{envname}config");
+			SiteConfigPath = Path.Combine("Config", $"site{envname}config");
+			MetaConfigPath = Path.Combine("Config", $"meta{envname}config");
+			AppSettingsConfigPath = $"appsettings.json";
+
 			Configuration = DasBlogConfigurationBuilder();
 
-			var binarypath = Configuration.GetValue<string>("BinariesDir").TrimStart('~', '/');
-
-			BinariesPath = new DirectoryInfo(Path.Combine(env.ContentRootPath, binarypath)).FullName;
+			BinariesPath = new DirectoryInfo(Path.Combine(env.ContentRootPath, Configuration.GetValue<string>("BinariesDir"))).FullName;
 			ThemeFolderPath = new DirectoryInfo(Path.Combine(hostingEnvironment.ContentRootPath, "Themes", Configuration.GetSection("Theme").Value)).FullName;
 			LogFolderPath = new DirectoryInfo(Path.Combine(hostingEnvironment.ContentRootPath, Configuration.GetSection("LogDir").Value)).FullName;
 			BinariesUrlRelativePath = "content/binary";
 			
-			var envname = string.IsNullOrWhiteSpace(hostingEnvironment.EnvironmentName) ? 
-									"." : string.Format($".{hostingEnvironment.EnvironmentName}.");
-
-			SiteSecurityConfigPath = Path.Combine("Config", $"siteSecurity{envname}config");
-			IISUrlRewriteConfigPath = Path.Combine("Config", $"IISUrlRewrite{envname}config");
-
-			SiteConfigPath = Path.Combine("Config", $"site{envname}config");
-			MetaConfigPath = Path.Combine("Config", $"meta{envname}config");
 		}
-
 
 		public IConfiguration DasBlogConfigurationBuilder()
 		{
 			var configBuilder = new ConfigurationBuilder();
 
 			configBuilder
-				.AddXmlFile(Path.Combine(hostingEnvironment.ContentRootPath, "Config", $"site.config"), optional: false, reloadOnChange: true)
-				.AddXmlFile(Path.Combine(hostingEnvironment.ContentRootPath, "Config", $"site.{hostingEnvironment.EnvironmentName}.config"), optional: true, reloadOnChange: true)
-
-				.AddXmlFile(Path.Combine(hostingEnvironment.ContentRootPath, "Config", $"meta.config"), optional: false, reloadOnChange: true)
-				.AddXmlFile(Path.Combine(hostingEnvironment.ContentRootPath, "Config", $"meta.{hostingEnvironment.EnvironmentName}.config"), optional: true, reloadOnChange: true)
-
-				.AddJsonFile(Path.Combine(hostingEnvironment.ContentRootPath, $"appsettings.json"), optional: false, reloadOnChange: true)
-				.AddJsonFile(Path.Combine(hostingEnvironment.ContentRootPath, $"appsettings.{hostingEnvironment.EnvironmentName}.json"), optional: true, reloadOnChange: true)
+				.AddXmlFile(Path.Combine(hostingEnvironment.ContentRootPath, SiteConfigPath), optional: false, reloadOnChange: true)
+				.AddXmlFile(Path.Combine(hostingEnvironment.ContentRootPath, MetaConfigPath), optional: false, reloadOnChange: true)
+				.AddJsonFile(Path.Combine(hostingEnvironment.ContentRootPath, AppSettingsConfigPath), optional: false, reloadOnChange: true)
 
 				.AddEnvironmentVariables();
 
@@ -182,9 +177,11 @@ namespace DasBlog.Web
 			
 			services.AddSession(options =>
 			{
-				// Set a short timeout for easy testing.
 				options.IdleTimeout = TimeSpan.FromSeconds(1000);
 			});
+
+			services
+				.AddHttpContextAccessor();
 
 			services
 				.AddTransient<IDasBlogSettings, DasBlogSettings>()
@@ -215,7 +212,8 @@ namespace DasBlog.Web
 				.AddSingleton<ITimeZoneProvider, TimeZoneProvider>()
 				.AddSingleton<ISubscriptionManager, SubscriptionManager>()
 				.AddSingleton<IConfigFileService<MetaTags>, MetaConfigFileService>()
-				.AddSingleton<IConfigFileService<SiteConfig>, SiteConfigFileService>();
+				.AddSingleton<IConfigFileService<SiteConfig>, SiteConfigFileService>()
+				.AddSingleton<IConfigFileService<SiteSecurityConfigData>, SiteSecurityConfigFileService>();
 
 			services
 				.AddAutoMapper(mapperConfig =>
@@ -267,7 +265,6 @@ namespace DasBlog.Web
 			var path = rootUri.AbsolutePath;
 
 			//Deal with path base and proxies that change the request path
-			//https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/proxy-load-balancer?view=aspnetcore-2.2#deal-with-path-base-and-proxies-that-change-the-request-path
 			if (path != "/")
 			{
 				app.Use((context, next) =>
@@ -276,6 +273,7 @@ namespace DasBlog.Web
 					return next.Invoke();
 				});
 			}
+
 
 			app.UseForwardedHeaders();
 
@@ -331,6 +329,7 @@ namespace DasBlog.Web
 					name: "default", "~/{controller=Home}/{action=Index}/{id?}");
 			});
 		}
+
 		/// <summary>
 		/// BlogDataService and DayEntry rely on the thread's CurrentPrincipal and its role to determine if users
 		/// should be allowed edit and add posts.

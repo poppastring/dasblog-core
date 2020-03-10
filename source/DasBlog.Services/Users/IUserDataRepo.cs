@@ -6,6 +6,6 @@ namespace DasBlog.Services.Users
 	public interface IUserDataRepo
 	{
 		IEnumerable<User> LoadUsers();
-		void SaveUsers(List<User> users);
+
 	}
 }
