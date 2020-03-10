@@ -9,7 +9,6 @@ using DasBlog.Services.Users;
 using McMaster.Extensions.CommandLineUtils;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Abstractions;
 using Microsoft.Extensions.Options;
 
 namespace DasBlog.CLI
