@@ -146,7 +146,7 @@ namespace DasBlog.Test.Integration
 			Browser.Navigate().GoToUrl(Server.RootUri + "/archive/2020/2");
 			Assert.StartsWith("Archive - My DasBlog!", Browser.Title);
 
-			var navSelector = By.LinkText("❮");
+			var navSelector = By.LinkText("<<");
 			var link = Browser.FindElement(navSelector);
 			link.Click();
 
@@ -161,7 +161,7 @@ namespace DasBlog.Test.Integration
 			Browser.Navigate().GoToUrl(Server.RootUri + "/archive/2020/2");
 			Assert.StartsWith("Archive - My DasBlog!", Browser.Title);
 
-			var navSelector = By.LinkText("❯");
+			var navSelector = By.LinkText(">>");
 			var link = Browser.FindElement(navSelector);
 			link.Click();
 
