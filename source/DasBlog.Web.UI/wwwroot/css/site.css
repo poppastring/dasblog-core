@@ -1,75 +1,95 @@
 ﻿
+/* ================
+Calendar Styling */
+
+.clearfix::after,
+.calendar ol::after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+
+.calendar {
+    border-radius: 10px;
+}
+
+.month {
+    font-size: 2rem;
+}
+
+@media (min-width: 992px) {
+    .month {
+        font-size: 3.5rem;
+    }
+}
+
+.calendar ol li {
+    float: left;
+    width: 14.28571%;
+}
+
+.calendar .day-names {
+    border-bottom: 1px solid #eee;
+}
+
+    .calendar .day-names li {
+        text-transform: uppercase;
+        margin-bottom: 0.5rem;
+    }
+
+.calendar .days li {
+    border-bottom: 1px solid #eee;
+    min-height: 8rem;
+}
+
+    .calendar .days li .date {
+        margin: 0.5rem 0;
+    }
+
+    .calendar .days li .event {
+        font-size: 0.75rem;
+        padding: 0.4rem;
+        color: white;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        border-radius: 4rem;
+        margin-bottom: 1px;
+    }
+
+        .calendar .days li .event.span-2 {
+            width: 200%;
+        }
+
+        .calendar .days li .event.begin {
+            border-radius: 1rem 0 0 1rem;
+        }
+
+        .calendar .days li .event.end {
+            border-radius: 0 1rem 1rem 0;
+        }
+
+        .calendar .days li .event.clear {
+            background: none;
+        }
+
+    .calendar .days li:nth-child(n+29) {
+        border-bottom: none;
+    }
+
+    .calendar .days li.outside .date {
+        color: #ddd;
+    }
+
+
 /* QR code generator */
 #qrCode {
     margin: 15px;
 }
 
-/* Calendar */
-ul {
-    list-style-type: none;
-}
-
-.month {
-    display: block;
-    padding: 30px 15px;
-    text-align: center;
-}
-
-    .month ul {
-        margin: 0px;
-        padding: 0px;
-    }
-
-        .month ul li {
-            font-size: 14px;
-            text-transform: capitalize;
-        }
-
-    .month .prev {
-        float: left;
-        padding-top: 10px;
-    }
-
-    .month .next {
-        float: right;
-        padding-top: 10px;
-    }
-
-/* Weekdays (Mon-Sun) */
-.weekdays {
-    line-height: 56px;
-    text-align: center;
-}
-
-    .weekdays li {
-        display: inline-block;
-        padding-left: 10px;
-        padding-right: 10px;
-        width: 13.6%;
-        text-align: center;
-    }
-
-.days {
-    padding: 10px 0px;
-    margin: 0px;
-}
-
-    .days li {
-        list-style-type: none;
-        display: inline-flex;
-        height: 75px;
-        width: 13.6%;
-        margin-bottom: 5px;
-        font-size: 12px;
-        padding: 2px;
-    }
-
-        .days li > .day {
-            display: block;
-            padding-left: 30px;
-        }
-/* this is us
-    ed by the NicEdit conrol */        
+/* this is us   ed by the NicEdit conrol */        
  .nicEdit-main {
      overflow: auto !important;
      height: 5.5em;

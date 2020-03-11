@@ -5,51 +5,79 @@
     var previous = (DateTime)ViewBag.PreviousMonth;
     var current = (DateTime)ViewBag.CurrentMonth;
     var next = (DateTime)ViewBag.NextMonth;
+    var css = string.Empty;
 }
 
 @{
     ViewData["Title"] = Constants.ArchivePageTitle;
 }
 
-<div class="month">
-    <ul>
-        <li class="prev"><a asp-controller="Archive" asp-action="Archive" asp-route-year="@previous.Year" asp-route-month="@previous.Month">&#10094;</a></li>
-        <li class="next"><a asp-controller="Archive" asp-action="Archive" asp-route-year="@next.Year" asp-route-month="@next.Month">&#10095;</a></li>
-        <li>@($"{current:MMMM}")</li>
-    </ul>
-    <ul class="weekdays">
-        <li>Sunday</li>
-        <li>Monday</li>
-        <li>Tuesday</li>
-        <li>Wednesday</li>
-        <li>Thursday</li>
-        <li>Friday</li>
-        <li>Saturday</li>
-    </ul>
-    <ul class="days">
+<h2>@ViewData["Title"]</h2>
+
+<span class="dbc-span-month-control">
+    <span class="dbc-span-month-control-older">
+        <a asp-controller="Archive" asp-action="Archive" asp-route-year="@previous.Year" asp-route-month="@previous.Month">&lt;&lt;</a>
+    </span>
+
+    <span class="font-weight-bold mb-0"> @($"{current:MMMM yyyy}") </span>
+
+    <span class="dbc-span-month-control-newer">
+        <a asp-controller="Archive" asp-action="Archive" asp-route-year="@next.Year" asp-route-month="@next.Month"> &gt;&gt;</a>
+    </span>
+</span>
+
+<div class="calendar shadow bg-white p-2">
+    <div class="d-flex align-items-center">
+        <i class="fa fa-calendar fa-3x mr-3"></i>
+    </div>
+
+
+    <ol class="day-names list-unstyled">
+        <li class="font-weight-bold text-uppercase">Sun</li>
+        <li class="font-weight-bold text-uppercase">Mon</li>
+        <li class="font-weight-bold text-uppercase">Tue</li>
+        <li class="font-weight-bold text-uppercase">Wed</li>
+        <li class="font-weight-bold text-uppercase">Thu</li>
+        <li class="font-weight-bold text-uppercase">Fri</li>
+        <li class="font-weight-bold text-uppercase">Sat</li>
+    </ol>
+
+    <ol class="days list-unstyled">
         @foreach (var mvvm in Model)
         {
-            @foreach (var dayEntry in mvvm.MonthEntries)
+            @foreach (var dayentry in mvvm.MonthEntries)
             {
-                <li>
-                    <div class="day">
-                        @if (dayEntry.Key.Day == 1)
+                @if (current.Month == dayentry.Key.Month)
+                {
+                    css = "";
+                }
+                else
+                {
+                    css = "outside";
+                }
+
+                <li class="@css">
+                    <div class="date">
+                        @if (dayentry.Key.Day == 1)
                         {
-                            @($"{dayEntry.Key:MMM d}")
+                            @($"{dayentry.Key:MMM d}")
                         }
                         else
                         {
-                            @dayEntry.Key.Day
+                            @dayentry.Key.Day
                         }
                     </div>
-                    <div>
-                        @foreach (var entry in dayEntry.Value)
-                        {
-                            <title-link post="@entry"></title-link>
-                        }
-                    </div>
+
+                    @foreach (var entry in dayentry.Value)
+                    {
+                        <div>
+                            <title-link post="@entry" css="event bg-info" />
+                        </div>
+                    }
                 </li>
             }
         }
-    </ul>
+    </ol>
 </div>
+
+
