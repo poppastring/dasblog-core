@@ -3,7 +3,7 @@
 Calendar Styling */
 
 .clearfix::after,
-.calendar ol::after {
+.dbc-calendar ol::after {
     content: ".";
     display: block;
     height: 0;
@@ -11,7 +11,7 @@ Calendar Styling */
     visibility: hidden;
 }
 
-.calendar {
+.dbc-calendar {
     border-radius: 10px;
 }
 
@@ -25,30 +25,30 @@ Calendar Styling */
     }
 }
 
-.calendar ol li {
+.dbc-calendar ol li {
     float: left;
     width: 14.28571%;
 }
 
-.calendar .day-names {
+.dbc-calendar .day-names {
     border-bottom: 1px solid #eee;
 }
 
-    .calendar .day-names li {
+    .dbc-calendar .day-names li {
         text-transform: uppercase;
         margin-bottom: 0.5rem;
     }
 
-.calendar .days li {
+.dbc-calendar .days li {
     border-bottom: 1px solid #eee;
     min-height: 8rem;
 }
 
-    .calendar .days li .date {
+    .dbc-calendar .days li .date {
         margin: 0.5rem 0;
     }
 
-    .calendar .days li .event {
+    .dbc-calendar .days li .event {
         font-size: 0.75rem;
         padding: 0.2rem 0.1rem 0.2rem 0.1rem;
         color: white;
@@ -57,27 +57,27 @@ Calendar Styling */
         margin-bottom: 1px;
     }
 
-        .calendar .days li .event.span-2 {
+        .dbc-calendar .days li .event.span-2 {
             width: 200%;
         }
 
-        .calendar .days li .event.begin {
+        .dbc-calendar .days li .event.begin {
             border-radius: 1rem 0 0 1rem;
         }
 
-        .calendar .days li .event.end {
+        .dbc-calendar .days li .event.end {
             border-radius: 0 1rem 1rem 0;
         }
 
-        .calendar .days li .event.clear {
+        .dbc-calendar .days li .event.clear {
             background: none;
         }
 
-    .calendar .days li:nth-child(n+29) {
+    .dbc-calendar .days li:nth-child(n+29) {
         border-bottom: none;
     }
 
-    .calendar .days li.outside .date {
+    .dbc-calendar .days li.outside .date {
         color: #ddd;
     }
 

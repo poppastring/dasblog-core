@@ -12,34 +12,32 @@
     ViewData["Title"] = Constants.ArchivePageTitle;
 }
 
-<h2>@ViewData["Title"]</h2>
-
 <span class="dbc-span-month-control">
     <span class="dbc-span-month-control-older">
         <a asp-controller="Archive" asp-action="Archive" asp-route-year="@previous.Year" asp-route-month="@previous.Month">&lt;&lt;</a>
     </span>
 
-    <span class="font-weight-bold mb-0"> @($"{current:MMMM yyyy}") </span>
+    <span class="dbc-span-month-text font-weight-bold mb-0"> @($"{current:MMMM yyyy}") </span>
 
     <span class="dbc-span-month-control-newer">
         <a asp-controller="Archive" asp-action="Archive" asp-route-year="@next.Year" asp-route-month="@next.Month"> &gt;&gt;</a>
     </span>
 </span>
 
-<div class="calendar shadow bg-white p-2">
+<div class="dbc-calendar shadow bg-white p-2">
     <div class="d-flex align-items-center">
         <i class="fa fa-calendar fa-3x mr-3"></i>
     </div>
 
 
     <ol class="day-names list-unstyled">
-        <li class="font-weight-bold text-uppercase">Sun</li>
-        <li class="font-weight-bold text-uppercase">Mon</li>
-        <li class="font-weight-bold text-uppercase">Tue</li>
-        <li class="font-weight-bold text-uppercase">Wed</li>
-        <li class="font-weight-bold text-uppercase">Thu</li>
-        <li class="font-weight-bold text-uppercase">Fri</li>
-        <li class="font-weight-bold text-uppercase">Sat</li>
+        <li class="font-weight-bold">Sun</li>
+        <li class="font-weight-bold">Mon</li>
+        <li class="font-weight-bold">Tue</li>
+        <li class="font-weight-bold">Wed</li>
+        <li class="font-weight-bold">Thu</li>
+        <li class="font-weight-bold">Fri</li>
+        <li class="font-weight-bold">Sat</li>
     </ol>
 
     <ol class="days list-unstyled">
@@ -71,7 +69,7 @@
                     @foreach (var entry in dayentry.Value)
                     {
                         <div>
-                            <title-link post="@entry" css="event btn-primary" />
+                            <title-link post="@entry" css="dbc-archive-anchor event bg-info" />
                         </div>
                     }
                 </li>
