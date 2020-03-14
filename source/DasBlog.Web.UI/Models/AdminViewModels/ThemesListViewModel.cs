@@ -11,14 +11,14 @@ namespace DasBlog.Web.Models.AdminViewModels
 	public class ThemesListViewModel
 	{
 		private IDasBlogSettings dasBlogSettings;
-		private List<string> defaultfolders = new List<string> { "dasblog", "fulcrum", "median"};
+		private readonly List<string> defaultfolders = new List<string> { "dasblog", "fulcrum", "median"};
 		public string Name { get; set; }
 
 		public ThemesListViewModel(IDasBlogSettings dasBlogSettings)
 		{
 			this.dasBlogSettings = dasBlogSettings;
 
-			var dir = Directory.GetDirectories(string.Format("{0}\\Themes", dasBlogSettings.WebRootDirectory));
+			var dir = Directory.GetDirectories(Path.Combine(dasBlogSettings.WebRootDirectory, "Themes"));
 			dir.Select(f => Path.GetDirectoryName(f));
 			
 			defaultfolders.AddRange(dir.Select(f => Path.GetFileName(f)).ToList());
