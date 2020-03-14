@@ -50,12 +50,10 @@ Calendar Styling */
 
     .dbc-calendar .days li .event {
         font-size: 0.75rem;
-        padding: 0.4rem;
+        padding: 0.2rem 0.1rem 0.2rem 0.1rem;
         color: white;
-        white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        border-radius: 4rem;
         margin-bottom: 1px;
     }
 
