@@ -132,7 +132,7 @@ namespace DasBlog.Test.Integration
 			Browser.Navigate().GoToUrl(Server.RootUri + "/archive/2020/2/27");
 			Assert.StartsWith("Archive - My DasBlog!", Browser.Title);
 
-			var postSelector = By.LinkText("Welcome To DasBlog Core");
+			var postSelector = By.LinkText("Welcome to DasBlog Core");
 			var link = Browser.FindElement(postSelector);
 			link.Click();
 
