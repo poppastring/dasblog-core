@@ -20,15 +20,15 @@
             case EventCodes.PingWeblogsError:
             case EventCodes.Pop3ServerError:
             case EventCodes.SmtpError:
-                return "activityTableRowStyleError";
+                return "dbc-activity-rable-row-error";
             case EventCodes.SecurityFailure:
-                return "activityTableRowStyleSecurityFailure";
+                return "dbc-activity-table-row-security-failure";
             case EventCodes.TrackbackBlocked:
             case EventCodes.ReferralBlocked:
             case EventCodes.ItemReferralBlocked:
             case EventCodes.CommentBlocked:
             case EventCodes.PingbackBlocked:
-                return "activityTableRowStyleBlocked";
+                return "dbc-activity-table-row-blocked";
             default:
                 return string.Empty;
         }
@@ -63,16 +63,16 @@
 <div class="row">
     <div class="col-12">
         <div class="table-responsive">
-            <table class="table table-bordered table-condensed activityTableStyle">
+            <table class="table table-bordered table-condensed dbc-activity-table">
                 <thead>
                     <tr>
-                        <td class="activityTableHeaderColumnStyle">
+                        <td class="dbc-activity-table-header-column">
                             <strong>Time</strong>
                         </td>
-                        <td class="activityTableHeaderColumnStyle">
+                        <td class="dbc-activity-table-header-column">
                             <strong>Code</strong>
                         </td>
-                        <td class="activityTableHeaderColumnStyle">
+                        <td class="dbc-activity-table-header-column">
                             <strong>Message</strong>
                         </td>
                     </tr>
@@ -84,10 +84,10 @@
                             <td class="actityTableDateColumnStyle">
                                 @eddi.Date
                             </td>
-                            <td class="activityTableColumnStyle">
+                            <td class="dbc-activity-table-column">
                                 @eddi.EventCode
                             </td>
-                            <td class="activityTableColumnStyle">
+                            <td class="dbc-activity-table-column">
                                 @Html.Raw(eddi.HtmlMessage)
                             </td>
                         </tr>
