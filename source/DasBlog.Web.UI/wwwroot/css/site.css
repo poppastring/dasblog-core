@@ -179,7 +179,7 @@ Calendar Styling */
 .activityTableRowStyleSecurityFailure { BACKGROUND-COLOR: lightsalmon }
 
 /* align with bootstrap (grid-framework.scss) */
-.blogpost-fields-allignment-compatibility { 
+.dbc-blogpost-fields-allignment-compatibility { 
     padding-left: 15px;
     padding-right: 15px; 
 }
