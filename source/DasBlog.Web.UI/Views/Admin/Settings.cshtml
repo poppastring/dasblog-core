@@ -9,7 +9,7 @@
 
 @if (TempData["MessageSaved"] != null)
 {
-    <div class="dasblog-form-check row">
+    <div class="dbc-form-check row">
         <div class="alert alert-dismissible alert-danger">
             <button type="button" class="close" data-dismiss="alert">&times;</button>
             <strong>Changes saved!</strong> A site restart is required for some changes to have immediate impact.
@@ -20,41 +20,41 @@
 
 <form asp-action="settings" name="UpdateSettingsForm" id="UpdateSettingsForm">
 
-    <div class="dasblog-form-group row">
+    <div class="dbc-form-group row">
 
-        @Html.LabelFor(m => @Model.SiteConfig.Root, null, new { @class = "dasblog-col-form-label col-3" })
+        @Html.LabelFor(m => @Model.SiteConfig.Root, null, new { @class = "dbc-col-form-label col-3" })
         @Html.TextBoxFor(m => @Model.SiteConfig.Root, null, new { @class = "form-control col-9" })
         @Html.ValidationMessageFor(m => m.SiteConfig.Root, null, new { @class = "text-danger" })
 
     </div>
 
-    <div class="dasblog-form-group row">
+    <div class="dbc-form-group row">
 
-        @Html.LabelFor(m => @Model.SiteConfig.Title, null, new { @class = "dasblog-col-form-label col-3" })
+        @Html.LabelFor(m => @Model.SiteConfig.Title, null, new { @class = "dbc-col-form-label col-3" })
         @Html.TextBoxFor(m => @Model.SiteConfig.Title, null, new { @class = "form-control col-9" })
         @Html.ValidationMessageFor(m => m.SiteConfig.Title, null, new { @class = "text-danger" })
 
     </div>
 
-    <div class="dasblog-form-group row">
+    <div class="dbc-form-group row">
 
-        @Html.LabelFor(m => @Model.SiteConfig.Subtitle, null, new { @class = "dasblog-col-form-label col-3" })
+        @Html.LabelFor(m => @Model.SiteConfig.Subtitle, null, new { @class = "dbc-col-form-label col-3" })
         @Html.TextBoxFor(m => @Model.SiteConfig.Subtitle, null, new { @class = "form-control col-9" })
         @Html.ValidationMessageFor(m => m.SiteConfig.Subtitle, null, new { @class = "text-danger" })
 
     </div>
 
-    <div class="dasblog-form-group row">
+    <div class="dbc-form-group row">
 
-        @Html.LabelFor(m => @Model.SiteConfig.Description, null, new { @class = "dasblog-col-form-label col-3" })
+        @Html.LabelFor(m => @Model.SiteConfig.Description, null, new { @class = "dbc-col-form-label col-3" })
         @Html.TextBoxFor(m => @Model.SiteConfig.Description, null, new { @class = "form-control col-9" })
         @Html.ValidationMessageFor(m => m.SiteConfig.Description, null, new { @class = "text-danger" })
 
     </div>
 
-    <div class="dasblog-form-group row">
+    <div class="dbc-form-group row">
 
-        @Html.LabelFor(m => @Model.SiteConfig.Theme, null, new { @class = "dasblog-col-form-label col-3" })
+        @Html.LabelFor(m => @Model.SiteConfig.Theme, null, new { @class = "dbc-col-form-label col-3" })
         @Html.DropDownListFor(n => n.SiteConfig.Theme,
             new SelectList(new ThemesListViewModel(dasBlogSettings).Init(), "Name", "Name"),
             new { @class = "form-control col-2" })
@@ -62,25 +62,25 @@
 
     </div>
 
-    <div class="dasblog-form-group row">
+    <div class="dbc-form-group row">
 
-        @Html.LabelFor(m => @Model.SiteConfig.NotificationEMailAddress, null, new { @class = "dasblog-col-form-label col-3" })
+        @Html.LabelFor(m => @Model.SiteConfig.NotificationEMailAddress, null, new { @class = "dbc-col-form-label col-3" })
         @Html.TextBoxFor(m => @Model.SiteConfig.NotificationEMailAddress, null, new { @class = "form-control col-9" })
         @Html.ValidationMessageFor(m => m.SiteConfig.NotificationEMailAddress, null, new { @class = "text-danger" })
 
     </div>
 
-    <div class="dasblog-form-group row">
+    <div class="dbc-form-group row">
 
-        @Html.LabelFor(m => @Model.SiteConfig.Contact, null, new { @class = "dasblog-col-form-label col-3" })
+        @Html.LabelFor(m => @Model.SiteConfig.Contact, null, new { @class = "dbc-col-form-label col-3" })
         @Html.TextBoxFor(m => @Model.SiteConfig.Contact, null, new { @class = "form-control col-9" })
         @Html.ValidationMessageFor(m => m.SiteConfig.Contact, null, new { @class = "text-danger" })
 
     </div>
 
-    <div class="dasblog-form-group row">
+    <div class="dbc-form-group row">
 
-        @Html.LabelFor(m => @Model.SiteConfig.Copyright, null, new { @class = "dasblog-col-form-label col-3" })
+        @Html.LabelFor(m => @Model.SiteConfig.Copyright, null, new { @class = "dbc-col-form-label col-3" })
         @Html.TextBoxFor(m => @Model.SiteConfig.Copyright, null, new { @class = "form-control col-9" })
         @Html.ValidationMessageFor(m => m.SiteConfig.Copyright, null, new { @class = "text-danger" })
 
@@ -88,104 +88,104 @@
 
     <h3>Front Page</h3>
 
-    <div class="dasblog-form-group row">
+    <div class="dbc-form-group row">
 
-        @Html.LabelFor(m => @Model.SiteConfig.FrontPageDayCount, null, new { @class = "dasblog-col-form-label col-3" })
+        @Html.LabelFor(m => @Model.SiteConfig.FrontPageDayCount, null, new { @class = "dbc-col-form-label col-3" })
         @Html.TextBoxFor(m => @Model.SiteConfig.FrontPageDayCount, null, new { @class = "form-control col-2" })
         @Html.ValidationMessageFor(m => m.SiteConfig.FrontPageDayCount, null, new { @class = "text-danger" })
 
     </div>
 
-    <div class="dasblog-form-group row">
+    <div class="dbc-form-group row">
 
-        @Html.LabelFor(m => @Model.SiteConfig.FrontPageEntryCount, null, new { @class = "dasblog-col-form-label col-3" })
+        @Html.LabelFor(m => @Model.SiteConfig.FrontPageEntryCount, null, new { @class = "dbc-col-form-label col-3" })
         @Html.TextBoxFor(m => @Model.SiteConfig.FrontPageEntryCount, null, new { @class = "form-control col-2" })
         @Html.ValidationMessageFor(m => m.SiteConfig.FrontPageEntryCount, null, new { @class = "text-danger" })
 
     </div>
 
-    <div class="dasblog-form-group row">
+    <div class="dbc-form-group row">
 
-        @Html.LabelFor(m => @Model.SiteConfig.EntriesPerPage, null, new { @class = "dasblog-col-form-label col-3" })
+        @Html.LabelFor(m => @Model.SiteConfig.EntriesPerPage, null, new { @class = "dbc-col-form-label col-3" })
         @Html.TextBoxFor(m => @Model.SiteConfig.EntriesPerPage, null, new { @class = "form-control col-2" })
         @Html.ValidationMessageFor(m => m.SiteConfig.EntriesPerPage, null, new { @class = "text-danger" })
 
     </div>
 
-    <div class="dasblog-form-group row">
+    <div class="dbc-form-group row">
 
-        @Html.LabelFor(m => @Model.SiteConfig.FrontPageCategory, null, new { @class = "dasblog-col-form-label col-3" })
+        @Html.LabelFor(m => @Model.SiteConfig.FrontPageCategory, null, new { @class = "dbc-col-form-label col-3" })
         @Html.TextBoxFor(m => @Model.SiteConfig.FrontPageCategory, null, new { @class = "form-control col-9" })
         @Html.ValidationMessageFor(m => m.SiteConfig.FrontPageCategory, null, new { @class = "text-danger" })
 
     </div>
 
-    <div class="dasblog-form-group row">
+    <div class="dbc-form-group row">
 
-        @Html.LabelFor(m => @Model.SiteConfig.ContentLookaheadDays, null, new { @class = "dasblog-col-form-label col-3" })
+        @Html.LabelFor(m => @Model.SiteConfig.ContentLookaheadDays, null, new { @class = "dbc-col-form-label col-3" })
         @Html.TextBoxFor(m => @Model.SiteConfig.ContentLookaheadDays, null, new { @class = "form-control col-2" })
         @Html.ValidationMessageFor(m => m.SiteConfig.ContentLookaheadDays, null, new { @class = "text-danger" })
 
     </div>
 
-    <div class="dasblog-form-check row">
+    <div class="dbc-form-check row">
 
-        @Html.LabelFor(m => @Model.SiteConfig.EnableStartPageCaching, null, new { @class = "dasblog-col-form-label col-3" })
-        @Html.CheckBoxFor(m => @Model.SiteConfig.EnableStartPageCaching, new { @class = "dasblog-form-check-input" })
+        @Html.LabelFor(m => @Model.SiteConfig.EnableStartPageCaching, null, new { @class = "dbc-col-form-label col-3" })
+        @Html.CheckBoxFor(m => @Model.SiteConfig.EnableStartPageCaching, new { @class = "dbc-form-check-input" })
 
     </div>
 
-    <div class="dasblog-form-check row">
+    <div class="dbc-form-check row">
 
-        @Html.LabelFor(m => @Model.SiteConfig.ShowItemSummaryInAggregatedViews, null, new { @class = "dasblog-col-form-label col-3" })
-        @Html.CheckBoxFor(m => @Model.SiteConfig.ShowItemSummaryInAggregatedViews, new { @class = "dasblog-form-check-input" })
+        @Html.LabelFor(m => @Model.SiteConfig.ShowItemSummaryInAggregatedViews, null, new { @class = "dbc-col-form-label col-3" })
+        @Html.CheckBoxFor(m => @Model.SiteConfig.ShowItemSummaryInAggregatedViews, new { @class = "dbc-form-check-input" })
 
     </div>
 
 
     <h3>RSS Feed Settings</h3>
 
-    <div class="dasblog-form-check row">
+    <div class="dbc-form-check row">
 
-        @Html.LabelFor(m => @Model.SiteConfig.AlwaysIncludeContentInRSS, null, new { @class = "dasblog-col-form-label col-3" })
-        @Html.CheckBoxFor(m => @Model.SiteConfig.AlwaysIncludeContentInRSS, new { @class = "dasblog-form-check-input" })
+        @Html.LabelFor(m => @Model.SiteConfig.AlwaysIncludeContentInRSS, null, new { @class = "dbc-col-form-label col-3" })
+        @Html.CheckBoxFor(m => @Model.SiteConfig.AlwaysIncludeContentInRSS, new { @class = "dbc-form-check-input" })
 
     </div>
 
-    <div class="dasblog-form-group row">
+    <div class="dbc-form-group row">
 
-        @Html.LabelFor(m => @Model.SiteConfig.RssDayCount, null, new { @class = "dasblog-col-form-label col-3" })
+        @Html.LabelFor(m => @Model.SiteConfig.RssDayCount, null, new { @class = "dbc-col-form-label col-3" })
         @Html.TextBoxFor(m => @Model.SiteConfig.RssDayCount, null, new { @class = "form-control col-2" })
         @Html.ValidationMessageFor(m => m.SiteConfig.RssDayCount, null, new { @class = "text-danger" })
 
     </div>
 
-    <div class="dasblog-form-group row">
+    <div class="dbc-form-group row">
 
-        @Html.LabelFor(m => @Model.SiteConfig.RssMainEntryCount, null, new { @class = "dasblog-col-form-label col-3" })
+        @Html.LabelFor(m => @Model.SiteConfig.RssMainEntryCount, null, new { @class = "dbc-col-form-label col-3" })
         @Html.TextBoxFor(m => @Model.SiteConfig.RssMainEntryCount, null, new { @class = "form-control col-2" })
         @Html.ValidationMessageFor(m => m.SiteConfig.RssMainEntryCount, null, new { @class = "text-danger" })
 
     </div>
 
-    <div class="dasblog-form-group row">
+    <div class="dbc-form-group row">
 
-        @Html.LabelFor(m => @Model.SiteConfig.RssEntryCount, null, new { @class = "dasblog-col-form-label col-3" })
+        @Html.LabelFor(m => @Model.SiteConfig.RssEntryCount, null, new { @class = "dbc-col-form-label col-3" })
         @Html.TextBoxFor(m => @Model.SiteConfig.RssEntryCount, null, new { @class = "form-control col-2" })
         @Html.ValidationMessageFor(m => m.SiteConfig.RssEntryCount, null, new { @class = "text-danger" })
 
     </div>
 
-    <div class="dasblog-form-check row">
+    <div class="dbc-form-check row">
 
-        @Html.LabelFor(m => @Model.SiteConfig.EnableRssItemFooters, null, new { @class = "dasblog-col-form-label col-3" })
-        @Html.CheckBoxFor(m => @Model.SiteConfig.EnableRssItemFooters, new { @class = "dasblog-form-check-input" })
+        @Html.LabelFor(m => @Model.SiteConfig.EnableRssItemFooters, null, new { @class = "dbc-col-form-label col-3" })
+        @Html.CheckBoxFor(m => @Model.SiteConfig.EnableRssItemFooters, new { @class = "dbc-form-check-input" })
 
     </div>
 
-    <div class="dasblog-form-group row">
+    <div class="dbc-form-group row">
 
-        @Html.LabelFor(m => @Model.SiteConfig.RssItemFooter, null, new { @class = "dasblog-col-form-label col-3" })
+        @Html.LabelFor(m => @Model.SiteConfig.RssItemFooter, null, new { @class = "dbc-col-form-label col-3" })
         @Html.TextBoxFor(m => @Model.SiteConfig.RssItemFooter, null, new { @class = "form-control col-9" })
         @Html.ValidationMessageFor(m => m.SiteConfig.RssItemFooter, null, new { @class = "text-danger" })
 
@@ -193,62 +193,62 @@
 
     <h3>Comments</h3>
 
-    <div class="dasblog-form-check row">
+    <div class="dbc-form-check row">
 
-        @Html.LabelFor(m => @Model.SiteConfig.EnableComments, null, new { @class = "dasblog-col-form-label col-3" })
-        @Html.CheckBoxFor(m => @Model.SiteConfig.EnableComments, new { @class = "dasblog-form-check-input" })
-
-    </div>
-
-    <div class="dasblog-form-check row">
-
-        @Html.LabelFor(m => @Model.SiteConfig.EnableCommentDays, null, new { @class = "dasblog-col-form-label col-3" })
-        @Html.CheckBoxFor(m => @Model.SiteConfig.EnableCommentDays, new { @class = "dasblog-form-check-input" })
+        @Html.LabelFor(m => @Model.SiteConfig.EnableComments, null, new { @class = "dbc-col-form-label col-3" })
+        @Html.CheckBoxFor(m => @Model.SiteConfig.EnableComments, new { @class = "dbc-form-check-input" })
 
     </div>
 
-    <div class="dasblog-form-group row">
+    <div class="dbc-form-check row">
 
-        @Html.LabelFor(m => @Model.SiteConfig.DaysCommentsAllowed, null, new { @class = "dasblog-col-form-label col-3" })
+        @Html.LabelFor(m => @Model.SiteConfig.EnableCommentDays, null, new { @class = "dbc-col-form-label col-3" })
+        @Html.CheckBoxFor(m => @Model.SiteConfig.EnableCommentDays, new { @class = "dbc-form-check-input" })
+
+    </div>
+
+    <div class="dbc-form-group row">
+
+        @Html.LabelFor(m => @Model.SiteConfig.DaysCommentsAllowed, null, new { @class = "dbc-col-form-label col-3" })
         @Html.TextBoxFor(m => @Model.SiteConfig.DaysCommentsAllowed, null, new { @class = "form-control col-2" })
         @Html.ValidationMessageFor(m => m.SiteConfig.DaysCommentsAllowed, null, new { @class = "text-danger" })
 
     </div>
 
-    <div class="dasblog-form-check row">
+    <div class="dbc-form-check row">
 
-        @Html.LabelFor(m => @Model.SiteConfig.CommentsRequireApproval, null, new { @class = "dasblog-col-form-label col-3" })
-        @Html.CheckBoxFor(m => @Model.SiteConfig.CommentsRequireApproval, new { @class = "dasblog-form-check-input" })
+        @Html.LabelFor(m => @Model.SiteConfig.CommentsRequireApproval, null, new { @class = "dbc-col-form-label col-3" })
+        @Html.CheckBoxFor(m => @Model.SiteConfig.CommentsRequireApproval, new { @class = "dbc-form-check-input" })
 
     </div>
 
-    <div class="dasblog-form-group row">
+    <div class="dbc-form-group row">
 
-        @Html.LabelFor(m => @Model.SiteConfig.CheesySpamQ, null, new { @class = "dasblog-col-form-label col-3" })
+        @Html.LabelFor(m => @Model.SiteConfig.CheesySpamQ, null, new { @class = "dbc-col-form-label col-3" })
         @Html.TextBoxFor(m => @Model.SiteConfig.CheesySpamQ, null, new { @class = "form-control col-9" })
         @Html.ValidationMessageFor(m => m.SiteConfig.CheesySpamQ, null, new { @class = "text-danger" })
 
     </div>
 
-    <div class="dasblog-form-group row">
+    <div class="dbc-form-group row">
 
-        @Html.LabelFor(m => @Model.SiteConfig.CheesySpamA, null, new { @class = "dasblog-col-form-label col-3" })
+        @Html.LabelFor(m => @Model.SiteConfig.CheesySpamA, null, new { @class = "dbc-col-form-label col-3" })
         @Html.TextBoxFor(m => @Model.SiteConfig.CheesySpamA, null, new { @class = "form-control col-9" })
         @Html.ValidationMessageFor(m => m.SiteConfig.CheesySpamA, null, new { @class = "text-danger" })
 
     </div>
 
-    <div class="dasblog-form-check row">
+    <div class="dbc-form-check row">
 
-        @Html.LabelFor(m => @Model.SiteConfig.ShowCommentsWhenViewingEntry, null, new { @class = "dasblog-col-form-label col-3" })
-        @Html.CheckBoxFor(m => @Model.SiteConfig.ShowCommentsWhenViewingEntry, new { @class = "dasblog-form-check-input" })
+        @Html.LabelFor(m => @Model.SiteConfig.ShowCommentsWhenViewingEntry, null, new { @class = "dbc-col-form-label col-3" })
+        @Html.CheckBoxFor(m => @Model.SiteConfig.ShowCommentsWhenViewingEntry, new { @class = "dbc-form-check-input" })
 
     </div>
 
-    <div class="dasblog-form-group row">
+    <div class="dbc-form-group row">
 
         <div class="dasblog-col-title col-3">
-            @Html.LabelFor(m => @Model.SiteConfig.ValidCommentTags, null, new { @class = "dasblog-col-form-label" })
+            @Html.LabelFor(m => @Model.SiteConfig.ValidCommentTags, null, new { @class = "dbc-col-form-label" })
         </div>
 
         <div class="dasblog-col-body col-9">
@@ -266,17 +266,17 @@
 
     <h3>Blog meta data</h3>
 
-    <div class="dasblog-form-group row">
+    <div class="dbc-form-group row">
 
-        @Html.LabelFor(m => @Model.MetaConfig.MetaDescription, null, new { @class = "dasblog-col-form-label col-3" })
+        @Html.LabelFor(m => @Model.MetaConfig.MetaDescription, null, new { @class = "dbc-col-form-label col-3" })
         @Html.TextBoxFor(m => @Model.MetaConfig.MetaDescription, null, new { @class = "form-control col-9" })
         @Html.ValidationMessageFor(m => m.MetaConfig.MetaDescription, null, new { @class = "text-danger" })
 
     </div>
 
-    <div class="dasblog-form-group row">
+    <div class="dbc-form-group row">
 
-        @Html.LabelFor(m => @Model.MetaConfig.MetaKeywords, null, new { @class = "dasblog-col-form-label col-3" })
+        @Html.LabelFor(m => @Model.MetaConfig.MetaKeywords, null, new { @class = "dbc-col-form-label col-3" })
         @Html.TextBoxFor(m => @Model.MetaConfig.MetaKeywords, null, new { @class = "form-control col-9" })
         @Html.ValidationMessageFor(m => m.MetaConfig.MetaKeywords, null, new { @class = "text-danger" })
 
@@ -284,25 +284,25 @@
 
     <h3>Social</h3>
 
-    <div class="dasblog-form-group row">
+    <div class="dbc-form-group row">
 
-        @Html.LabelFor(m => @Model.MetaConfig.TwitterSite, null, new { @class = "dasblog-col-form-label col-3" })
+        @Html.LabelFor(m => @Model.MetaConfig.TwitterSite, null, new { @class = "dbc-col-form-label col-3" })
         @Html.TextBoxFor(m => @Model.MetaConfig.TwitterSite, null, new { @class = "form-control col-9" })
         @Html.ValidationMessageFor(m => m.MetaConfig.TwitterSite, null, new { @class = "text-danger" })
 
     </div>
 
-    <div class="dasblog-form-group row">
+    <div class="dbc-form-group row">
 
-        @Html.LabelFor(m => @Model.MetaConfig.TwitterCreator, null, new { @class = "dasblog-col-form-label col-3" })
+        @Html.LabelFor(m => @Model.MetaConfig.TwitterCreator, null, new { @class = "dbc-col-form-label col-3" })
         @Html.TextBoxFor(m => @Model.MetaConfig.TwitterCreator, null, new { @class = "form-control col-9" })
         @Html.ValidationMessageFor(m => m.MetaConfig.TwitterCreator, null, new { @class = "text-danger" })
 
     </div>
 
-    <div class="dasblog-form-group row">
+    <div class="dbc-form-group row">
 
-        @Html.LabelFor(m => @Model.MetaConfig.TwitterCard, null, new { @class = "dasblog-col-form-label col-3" })
+        @Html.LabelFor(m => @Model.MetaConfig.TwitterCard, null, new { @class = "dbc-col-form-label col-3" })
 
         @Html.DropDownListFor(n => n.MetaConfig.TwitterCard,
             new SelectList(new TwitterCardViewModel().Init(), "Id", "Name"),
@@ -311,30 +311,30 @@
 
     </div>
 
-    <div class="dasblog-form-group row">
-        @Html.LabelFor(m => @Model.MetaConfig.TwitterImage, null, new { @class = "dasblog-col-form-label col-3" })
+    <div class="dbc-form-group row">
+        @Html.LabelFor(m => @Model.MetaConfig.TwitterImage, null, new { @class = "dbc-col-form-label col-3" })
         @Html.TextBoxFor(m => @Model.MetaConfig.TwitterImage, null, new { @class = "form-control col-9" })
         @Html.ValidationMessageFor(m => m.MetaConfig.TwitterImage, null, new { @class = "text-danger" })
     </div>
 
-    <div class="dasblog-form-group row">
-        @Html.LabelFor(m => @Model.MetaConfig.GoogleAnalyticsID, null, new { @class = "dasblog-col-form-label col-3" })
+    <div class="dbc-form-group row">
+        @Html.LabelFor(m => @Model.MetaConfig.GoogleAnalyticsID, null, new { @class = "dbc-col-form-label col-3" })
         @Html.TextBoxFor(m => @Model.MetaConfig.GoogleAnalyticsID, null, new { @class = "form-control col-9" })
         @Html.ValidationMessageFor(m => m.MetaConfig.GoogleAnalyticsID, null, new { @class = "text-danger" })
     </div>
 
     <h3>Blogging</h3>
 
-    <div class="dasblog-form-check row">
+    <div class="dbc-form-check row">
 
-        @Html.LabelFor(m => @Model.SiteConfig.EnableBloggerApi, null, new { @class = "dasblog-col-form-label col-3" })
-        @Html.CheckBoxFor(m => @Model.SiteConfig.EnableBloggerApi, new { @class = "dasblog-form-check-input" })
+        @Html.LabelFor(m => @Model.SiteConfig.EnableBloggerApi, null, new { @class = "dbc-col-form-label col-3" })
+        @Html.CheckBoxFor(m => @Model.SiteConfig.EnableBloggerApi, new { @class = "dbc-form-check-input" })
 
     </div>
 
-    <div class="dasblog-form-group row">
+    <div class="dbc-form-group row">
 
-        @Html.LabelFor(m => @Model.SiteConfig.PreferredBloggingAPI, null, new { @class = "dasblog-col-form-label col-3" })
+        @Html.LabelFor(m => @Model.SiteConfig.PreferredBloggingAPI, null, new { @class = "dbc-col-form-label col-3" })
         @Html.DropDownListFor(n => n.SiteConfig.PreferredBloggingAPI,
             new SelectList(new BloggerAPIViewModel().Init(), "Name", "Name"),
             new { @class = "form-control col-3" })
@@ -342,8 +342,8 @@
 
     </div>
 
-    <div class="dasblog-form-group row">
-        @Html.LabelFor(m => @Model.SiteConfig.EntryEditControl, null, new { @class = "dasblog-col-form-label col-3" })
+    <div class="dbc-form-group row">
+        @Html.LabelFor(m => @Model.SiteConfig.EntryEditControl, null, new { @class = "dbc-col-form-label col-3" })
 
         @Html.DropDownListFor(n => n.SiteConfig.EntryEditControl,
             new SelectList(new EntryEditControlViewModel().Init(), "Name", "Name"),
@@ -354,78 +354,78 @@
 
     <h3>Email</h3>
 
-    <div class="dasblog-form-check row">
+    <div class="dbc-form-check row">
 
-        @Html.LabelFor(m => @Model.SiteConfig.SendCommentsByEmail, null, new { @class = "dasblog-col-form-label col-3" })
-        @Html.CheckBoxFor(m => @Model.SiteConfig.SendCommentsByEmail, new { @class = "dasblog-form-check-input" })
+        @Html.LabelFor(m => @Model.SiteConfig.SendCommentsByEmail, null, new { @class = "dbc-col-form-label col-3" })
+        @Html.CheckBoxFor(m => @Model.SiteConfig.SendCommentsByEmail, new { @class = "dbc-form-check-input" })
 
     </div>
 
-    <div class="dasblog-form-group row">
+    <div class="dbc-form-group row">
 
-        @Html.LabelFor(m => @Model.SiteConfig.SmtpServer, null, new { @class = "dasblog-col-form-label col-3" })
+        @Html.LabelFor(m => @Model.SiteConfig.SmtpServer, null, new { @class = "dbc-col-form-label col-3" })
         @Html.TextBoxFor(m => @Model.SiteConfig.SmtpServer, null, new { @class = "form-control col-9" })
         @Html.ValidationMessageFor(m => m.SiteConfig.SmtpServer, null, new { @class = "text-danger" })
 
     </div>
 
-    <div class="dasblog-form-group row">
+    <div class="dbc-form-group row">
 
-        @Html.LabelFor(m => @Model.SiteConfig.SmtpUserName, null, new { @class = "dasblog-col-form-label col-3" })
+        @Html.LabelFor(m => @Model.SiteConfig.SmtpUserName, null, new { @class = "dbc-col-form-label col-3" })
         @Html.TextBoxFor(m => @Model.SiteConfig.SmtpUserName, null, new { @class = "form-control col-9" })
         @Html.ValidationMessageFor(m => m.SiteConfig.SmtpUserName, null, new { @class = "text-danger" })
 
     </div>
 
-    <div class="dasblog-form-group row">
+    <div class="dbc-form-group row">
 
-        @Html.LabelFor(m => @Model.SiteConfig.SmtpPassword, null, new { @class = "dasblog-col-form-label col-3" })
+        @Html.LabelFor(m => @Model.SiteConfig.SmtpPassword, null, new { @class = "dbc-col-form-label col-3" })
         @Html.PasswordFor(m => @Model.SiteConfig.SmtpPassword, new { @class = "form-control col-9" })
         @Html.ValidationMessageFor(m => m.SiteConfig.SmtpPassword, null, new { @class = "text-danger" })
 
     </div>
 
-    <div class="dasblog-form-check row">
+    <div class="dbc-form-check row">
 
-        @Html.LabelFor(m => @Model.SiteConfig.EnableSmtpAuthentication, null, new { @class = "dasblog-col-form-label col-3" })
-        @Html.CheckBoxFor(m => @Model.SiteConfig.EnableSmtpAuthentication, new { @class = "dasblog-form-check-input" })
+        @Html.LabelFor(m => @Model.SiteConfig.EnableSmtpAuthentication, null, new { @class = "dbc-col-form-label col-3" })
+        @Html.CheckBoxFor(m => @Model.SiteConfig.EnableSmtpAuthentication, new { @class = "dbc-form-check-input" })
 
     </div>
 
-    <div class="dasblog-form-group row">
+    <div class="dbc-form-group row">
 
-        @Html.LabelFor(m => @Model.SiteConfig.SmtpPort, null, new { @class = "dasblog-col-form-label col-3" })
+        @Html.LabelFor(m => @Model.SiteConfig.SmtpPort, null, new { @class = "dbc-col-form-label col-3" })
         @Html.TextBoxFor(m => @Model.SiteConfig.SmtpPort, null, new { @class = "form-control col-9" })
         @Html.ValidationMessageFor(m => m.SiteConfig.SmtpPort, null, new { @class = "text-danger" })
 
     </div>
 
-    <div class="dasblog-form-check row">
+    <div class="dbc-form-check row">
 
-        @Html.LabelFor(m => @Model.SiteConfig.UseSSLForSMTP, null, new { @class = "dasblog-col-form-label col-3" })
-        @Html.CheckBoxFor(m => @Model.SiteConfig.UseSSLForSMTP, new { @class = "dasblog-form-check-input" })
+        @Html.LabelFor(m => @Model.SiteConfig.UseSSLForSMTP, null, new { @class = "dbc-col-form-label col-3" })
+        @Html.CheckBoxFor(m => @Model.SiteConfig.UseSSLForSMTP, new { @class = "dbc-form-check-input" })
 
     </div>
 
-    <div class="dasblog-form-check row">
+    <div class="dbc-form-check row">
 
-        <label class="dasblog-col-form-label col-3">SMTP Test</label>
+        <label class="dbc-col-form-label col-3">SMTP Test</label>
         <input asp-controller="Admin" asp-action="TestEmail" type="submit" name="submit" value="Send test Email" class="btn-default" />
 
     </div>
 
     <h3>Appearance Settings</h3>
 
-    <div class="dasblog-form-check row">
+    <div class="dbc-form-check row">
 
-        @Html.LabelFor(m => @Model.SiteConfig.EnableTitlePermaLinkUnique, null, new { @class = "dasblog-col-form-label col-3" })
-        @Html.CheckBoxFor(m => @Model.SiteConfig.EnableTitlePermaLinkUnique, new { @class = "dasblog-form-check-input" })
+        @Html.LabelFor(m => @Model.SiteConfig.EnableTitlePermaLinkUnique, null, new { @class = "dbc-col-form-label col-3" })
+        @Html.CheckBoxFor(m => @Model.SiteConfig.EnableTitlePermaLinkUnique, new { @class = "dbc-form-check-input" })
 
     </div>
 
-    <div class="dasblog-form-group row">
+    <div class="dbc-form-group row">
 
-        @Html.LabelFor(m => @Model.SiteConfig.TitlePermalinkSpaceReplacement, null, new { @class = "dasblog-col-form-label col-3" })
+        @Html.LabelFor(m => @Model.SiteConfig.TitlePermalinkSpaceReplacement, null, new { @class = "dbc-col-form-label col-3" })
 
         @Html.DropDownListFor(n => n.SiteConfig.TitlePermalinkSpaceReplacement,
             new SelectList(new SpaceReplacementViewModel().Init(), "Name", "Name"),
@@ -437,41 +437,41 @@
 
     <h3>Internal</h3>
 
-    <div class="dasblog-form-group row">
+    <div class="dbc-form-group row">
 
-        @Html.LabelFor(m => @Model.SiteConfig.ContentDir, null, new { @class = "dasblog-col-form-label col-3" })
+        @Html.LabelFor(m => @Model.SiteConfig.ContentDir, null, new { @class = "dbc-col-form-label col-3" })
         @Html.TextBoxFor(m => @Model.SiteConfig.ContentDir, null, new { @class = "form-control col-9" })
         @Html.ValidationMessageFor(m => m.SiteConfig.ContentDir, null, new { @class = "text-danger" })
 
     </div>
 
-    <div class="dasblog-form-group row">
+    <div class="dbc-form-group row">
 
-        @Html.LabelFor(m => @Model.SiteConfig.BinariesDir, null, new { @class = "dasblog-col-form-label col-3" })
+        @Html.LabelFor(m => @Model.SiteConfig.BinariesDir, null, new { @class = "dbc-col-form-label col-3" })
         @Html.TextBoxFor(m => @Model.SiteConfig.BinariesDir, null, new { @class = "form-control col-9" })
         @Html.ValidationMessageFor(m => m.SiteConfig.BinariesDir, null, new { @class = "text-danger" })
 
     </div>
 
 
-    <div class="dasblog-form-group row">
+    <div class="dbc-form-group row">
 
-        @Html.LabelFor(m => @Model.SiteConfig.LogDir, null, new { @class = "dasblog-col-form-label col-3" })
+        @Html.LabelFor(m => @Model.SiteConfig.LogDir, null, new { @class = "dbc-col-form-label col-3" })
         @Html.TextBoxFor(m => @Model.SiteConfig.LogDir, null, new { @class = "form-control col-9" })
         @Html.ValidationMessageFor(m => m.SiteConfig.LogDir, null, new { @class = "text-danger" })
 
     </div>
 
-    <div class="dasblog-form-check row">
+    <div class="dbc-form-check row">
 
-        @Html.LabelFor(m => @Model.SiteConfig.AdjustDisplayTimeZone, null, new { @class = "dasblog-col-form-label col-3" })
-        @Html.CheckBoxFor(m => @Model.SiteConfig.AdjustDisplayTimeZone, new { @class = "dasblog-form-check-input" })
+        @Html.LabelFor(m => @Model.SiteConfig.AdjustDisplayTimeZone, null, new { @class = "dbc-col-form-label col-3" })
+        @Html.CheckBoxFor(m => @Model.SiteConfig.AdjustDisplayTimeZone, new { @class = "dbc-form-check-input" })
 
     </div>
 
-    <div class="dasblog-form-group row">
+    <div class="dbc-form-group row">
 
-        @Html.LabelFor(m => @Model.SiteConfig.DisplayTimeZoneIndex, null, new { @class = "dasblog-col-form-label col-3" })
+        @Html.LabelFor(m => @Model.SiteConfig.DisplayTimeZoneIndex, null, new { @class = "dbc-col-form-label col-3" })
         @Html.DropDownListFor(n => n.SiteConfig.DisplayTimeZoneIndex,
             new SelectList(new TimeZoneIndexViewModel().Init(), "Id", "Name"),
             new { @class = "form-control col-3" })

@@ -192,7 +192,7 @@ Calendar Styling */
     }
 }
 
-.dasblog-form-check {
+.dbc-form-check {
     position: relative;
     display: block;
     /*
@@ -200,11 +200,11 @@ Calendar Styling */
         */
 }
 
-.dasblog-form-group {
+.dbc-form-group {
     margin-bottom: 1rem;
 }
 
-.dasblog-col-form-label {
+.dbc-col-form-label {
     padding-top: calc(0.375rem + 1px);
     padding-bottom: calc(0.375rem + 1px);
     margin-bottom: 0;
