@@ -129,9 +129,6 @@ Calendar Styling */
 .dbc-form-check {
     position: relative;
     display: block;
-    /*
-    margin-bottom: 1rem;
-        */
 }
 
 .dbc-form-group {
@@ -144,4 +141,8 @@ Calendar Styling */
     margin-bottom: 0;
     font-size: inherit;
     line-height: 1.5;
+}
+
+.dbc-archive-anchor {
+    background-color: #17a2b8;
 }
