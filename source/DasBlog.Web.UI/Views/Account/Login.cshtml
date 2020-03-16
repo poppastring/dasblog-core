@@ -22,11 +22,6 @@
                     <label for="@Constants.Email" class="col-md-2 control-label">@Constants.Email</label>
                     <div class="col-md-10">
                         <input id="@Constants.Email" name="@Constants.Email" value="" class="form-control" />
-                        @* value="Model.Email" causes an error when building the razor.
-                           We're not using asp-for as that does not mix well with use of constants (rather than literal values).
-                           This combination works ok for _CommentAddPartial.cshtml so why not here?
-                           Hopefully time will tell.  Meanwhile users will have to retype email if the password is rejected. 
-                        *@
                         <span asp-validation-for="@Constants.Email" class="text-danger"></span>
                     </div>
                 </div>

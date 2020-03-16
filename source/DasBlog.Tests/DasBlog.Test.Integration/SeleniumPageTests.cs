@@ -34,7 +34,7 @@ namespace DasBlog.Test.Integration
 			Logs = new RemoteLogs(driver); //TODO: Still not bringing the logs over yet?
 		}
 
-		[SkippableFact(typeof(OpenQA.Selenium.WebDriverException))]
+		[SkippableFact(typeof(WebDriverException))]
 		public void LoadTheMainPageAndCheckPageTitle()
 		{
 			Skip.If(AreWe.InDockerOrBuildServer);
@@ -42,7 +42,7 @@ namespace DasBlog.Test.Integration
 			Assert.StartsWith("My DasBlog!", Browser.Title);
 		}
 
-		[SkippableFact(typeof(OpenQA.Selenium.WebDriverException))]
+		[SkippableFact(typeof(WebDriverException))]
 		public void FrontPageH2PostTitle()
 		{
 			Skip.If(AreWe.InDockerOrBuildServer);
@@ -52,7 +52,7 @@ namespace DasBlog.Test.Integration
 			Assert.Equal("Welcome to DasBlog Core", Browser.FindElement(headerSelector).Text);
 		}
 
-		[SkippableFact(typeof(OpenQA.Selenium.WebDriverException))]
+		[SkippableFact(typeof(WebDriverException))]
 		public void WelcomePostCheckPageBrowserTitle()
 		{
 			Skip.If(AreWe.InDockerOrBuildServer);
@@ -60,7 +60,7 @@ namespace DasBlog.Test.Integration
 			Assert.StartsWith("Welcome to DasBlog Core", Browser.Title);
 		}
 
-		[SkippableFact(typeof(OpenQA.Selenium.WebDriverException))]
+		[SkippableFact(typeof(WebDriverException))]
 		public void WelcomePostH2PostTitle()
 		{
 			Skip.If(AreWe.InDockerOrBuildServer);
@@ -70,7 +70,7 @@ namespace DasBlog.Test.Integration
 			Assert.Equal("Welcome to DasBlog Core", Browser.FindElement(headerSelector).Text);
 		}
 
-		[SkippableFact(typeof(OpenQA.Selenium.WebDriverException))]
+		[SkippableFact(typeof(WebDriverException))]
 		public void NavigateToWelcomePostThenGoHome()
 		{
 			Skip.If(AreWe.InDockerOrBuildServer, "In Docker!");
@@ -83,7 +83,7 @@ namespace DasBlog.Test.Integration
 		}
 
 
-		[SkippableFact(typeof(OpenQA.Selenium.WebDriverException))]
+		[SkippableFact(typeof(WebDriverException))]
 		public void NavigateToPageOneAndBack()
 		{
 			Skip.If(AreWe.InDockerOrBuildServer, "In Docker!");
@@ -101,7 +101,7 @@ namespace DasBlog.Test.Integration
 		}
 
 
-		[SkippableFact(typeof(OpenQA.Selenium.WebDriverException))]
+		[SkippableFact(typeof(WebDriverException))]
 		public void NavigateToCategory()
 		{
 			Skip.If(AreWe.InDockerOrBuildServer, "In Docker!");
@@ -109,7 +109,7 @@ namespace DasBlog.Test.Integration
 			Assert.StartsWith("Category - My DasBlog!", Browser.Title);
 		}
 
-		[SkippableFact(typeof(OpenQA.Selenium.WebDriverException))]
+		[SkippableFact(typeof(WebDriverException))]
 		public void NavigateToSpecificCategoryNavigateToPost()
 		{
 			Skip.If(AreWe.InDockerOrBuildServer, "In Docker!");
@@ -125,21 +125,21 @@ namespace DasBlog.Test.Integration
 			Assert.StartsWith("Welcome to DasBlog Core", Browser.Title);
 		}
 
-		[SkippableFact(typeof(OpenQA.Selenium.WebDriverException))]
+		[SkippableFact(typeof(WebDriverException))]
 		public void NavigateToSpecificArchiveDate()
 		{
 			Skip.If(AreWe.InDockerOrBuildServer, "In Docker!");
 			Browser.Navigate().GoToUrl(Server.RootUri + "/archive/2020/2/27");
 			Assert.StartsWith("Archive - My DasBlog!", Browser.Title);
 
-			var postSelector = By.LinkText("Welcome To DasBlog Core");
+			var postSelector = By.LinkText("Welcome to DasBlog Core");
 			var link = Browser.FindElement(postSelector);
 			link.Click();
 
 			Assert.Equal(Browser.Url.TrimEnd('/'), Server.RootUri + "/welcome-to-dasblog-core");
 		}
 
-		[SkippableFact(typeof(OpenQA.Selenium.WebDriverException))]
+		[SkippableFact(typeof(WebDriverException))]
 		public void NavigateToArchiveUseBackCalendarControls()
 		{
 			Skip.If(AreWe.InDockerOrBuildServer, "In Docker!");
@@ -154,7 +154,7 @@ namespace DasBlog.Test.Integration
 		}
 
 
-		[SkippableFact(typeof(OpenQA.Selenium.WebDriverException))]
+		[SkippableFact(typeof(WebDriverException))]
 		public void NavigateToArchiveUseForwardCalendarControls()
 		{
 			Skip.If(AreWe.InDockerOrBuildServer, "In Docker!");
@@ -168,7 +168,7 @@ namespace DasBlog.Test.Integration
 			Assert.Equal(Browser.Url.TrimEnd('/'), Server.RootUri + "/archive/2020/3");
 		}
 
-		[SkippableFact(typeof(OpenQA.Selenium.WebDriverException))]
+		[SkippableFact(typeof(WebDriverException))]
 		public void NavigateToRSSFeed()
 		{
 			Skip.If(AreWe.InDockerOrBuildServer, "In Docker!");
@@ -179,7 +179,7 @@ namespace DasBlog.Test.Integration
 		}
 
 
-		[SkippableFact(typeof(OpenQA.Selenium.WebDriverException))]
+		[SkippableFact(typeof(WebDriverException))]
 		public void NavigateToPostAndCreateCommentDeleteComment()
 		{
 			Skip.If(AreWe.InDockerOrBuildServer, "In Docker!");
@@ -233,7 +233,7 @@ namespace DasBlog.Test.Integration
 		}
 
 
-		[SkippableFact(typeof(OpenQA.Selenium.WebDriverException))]
+		[SkippableFact(typeof(WebDriverException))]
 		public void NavigateToLoginPageLoginThenLogout()
 		{
 			Skip.If(AreWe.InDockerOrBuildServer, "In Docker!");
@@ -259,7 +259,7 @@ namespace DasBlog.Test.Integration
 			}
 		}
 
-		[SkippableFact(typeof(OpenQA.Selenium.WebDriverException))]
+		[SkippableFact(typeof(WebDriverException))]
 		public void LoginCreateAPostThenEditPostThenDeletAPost()
 		{
 			Skip.If(AreWe.InDockerOrBuildServer, "In Docker!");
@@ -329,9 +329,55 @@ namespace DasBlog.Test.Integration
 			Assert.True(deletedLink.Count == 0);
 		}
 
-		// Site Admin
-		// Users
-		// Activity
+		[SkippableFact(typeof(WebDriverException))]
+		public void LoginNavigateSiteAdmin()
+		{
+			Skip.If(AreWe.InDockerOrBuildServer, "In Docker!");
+
+			LoginToSite();
+
+			Browser.Navigate().GoToUrl(Server.RootUri + "/admin/settings");
+
+			var siteRoot = By.Id("SiteConfig_Root");
+			var roottext = Browser.FindElement(siteRoot);
+
+			Assert.Contains("https://localhost:5001/", roottext.GetAttribute("Value"));	
+		}
+
+		[SkippableFact(typeof(WebDriverException))]
+		public void LoginNavigateUserAdmin()
+		{
+			Skip.If(AreWe.InDockerOrBuildServer, "In Docker!");
+
+			LoginToSite();
+
+			Browser.Navigate().GoToUrl(Server.RootUri + "/users/myemail@myemail.com");
+
+			var emailAddress = By.Name("EmailAddress");
+			var address = Browser.FindElement(emailAddress);
+
+			Assert.Contains("myemail@myemail.com", address.GetAttribute("Value"));
+		}
+
+		[SkippableFact(typeof(WebDriverException))]
+		public void LoginNavigateActivity()
+		{
+			Skip.If(AreWe.InDockerOrBuildServer, "In Docker!");
+
+			LoginToSite();
+
+			Browser.Navigate().GoToUrl(Server.RootUri + "/activity/list");
+
+			var forwardLink = By.LinkText(">|");
+			var forward = Browser.FindElement(forwardLink);
+			forward.Click();
+
+			var tablecolumn = By.ClassName("dbc-activity-table-column");
+			var tablecolumns = Browser.FindElements(tablecolumn);
+
+			Assert.True(tablecolumns.Count > 0);
+
+		}
 
 
 		private void LoginToSite()
