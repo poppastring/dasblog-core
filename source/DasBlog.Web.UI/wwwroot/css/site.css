@@ -146,3 +146,8 @@ Calendar Styling */
 .dbc-archive-anchor {
     background-color: #17a2b8;
 }
+
+.dbc-post-content img {
+    width: 100%;
+    height: 100%;
+}
