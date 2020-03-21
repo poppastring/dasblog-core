@@ -10,7 +10,7 @@ namespace DasBlog.Web.TagHelpers.RichEdit
 			output.TagMode = TagMode.StartTagAndEndTag;
 			output.Attributes.SetAttribute("id", tagHelper.Id);
 			output.Attributes.SetAttribute("name", tagHelper.Name);
-			output.Attributes.SetAttribute("style", "width: 100%; height: 100%;");
+			output.Attributes.SetAttribute("style", "width: 100%; height: 90%; min-height: 360px");
 		}
 
 		public void ProcessScripts(RichEditScriptsTagHelper tagHeelper, TagHelperContext context, TagHelperOutput output)

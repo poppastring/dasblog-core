@@ -1,6 +1,5 @@
 ﻿
-/* ================
-Calendar Styling */
+/* Calendar Styling  */
 
 .clearfix::after,
 .dbc-calendar ol::after {
@@ -151,3 +150,4 @@ Calendar Styling */
     width: 100%;
     height: 100%;
 }
+
