@@ -22,11 +22,8 @@ namespace DasBlog.Web.TagHelpers.RichEdit
 			output.Attributes.SetAttribute("comment", "a rich-edit-scripts element should be included on the page");
 			output.Attributes.SetAttribute("id", tagHelper.Id);
 			output.Attributes.SetAttribute("name", tagHelper.Name);
-			// the following is blatant cargo-culting to tet  a resonable size
-			// just copied the legacy settings - no idea why it works
-			output.Attributes.SetAttribute("style", "height: 400px; width: 99%;");
-			output.Attributes.SetAttribute("cols", "20");
-			output.Attributes.SetAttribute("rows","2");
+			output.Attributes.SetAttribute("style", "height: 100%; width: 99%; min-height: 360px");
+
 		}
 
 		public void ProcessScripts(RichEditScriptsTagHelper tagHeelper, TagHelperContext context, TagHelperOutput output)
