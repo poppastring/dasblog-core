@@ -50,7 +50,6 @@
     .dbc-calendar .days li .event {
         font-size: 0.75rem;
         padding: 0.2rem 0.1rem 0.2rem 0.1rem;
-        color: white;
         overflow: hidden;
         text-overflow: ellipsis;
         margin-bottom: 1px;

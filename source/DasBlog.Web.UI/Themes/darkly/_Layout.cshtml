@@ -1,0 +1,88 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <partial name="_HtmlHeadPartial" />
+    <partial name="_HtmlRSSPartial" />
+    <partial name="_TwitterCardPartial" />
+    <partial name="_OpenGraphPartial" />
+    <partial name="_BlogPostingSchemaOrgPartial" />
+
+    <environment names="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    </environment>
+    <environment names="Staging,Production">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    </environment>
+
+    <partial name="_HtmlThemePartial" />
+
+</head>
+
+<body>
+    <div class="navbar navbar-dark navbar-expand-lg sticky-top bg-dark">
+        <div class="navbar-collapse">
+            <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand"><site-title /></a>
+            <div class="container">
+                <div>
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item nav-item-active"><a class="nav-link" asp-area="" asp-controller="home" asp-action="index">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="category" asp-action="category">Category</a></li>
+                        <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="archive" asp-action="archive">Archive</a></li>
+                        <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="feed" asp-action="rss">Subscribe</a></li>
+                        <li class="nav-item" dasblog-authorized><a id="CreatePostLink" class="nav-link" asp-area="" asp-controller="post" asp-action="create">Create Post</a></li>
+                        <li class="nav-item" dasblog-authorized><a  class="nav-link" asp-area="" asp-controller="admin" asp-action="settings">Site Admin</a></li>
+                        <li class="nav-item" dasblog-authorized><a class="nav-link" asp-area="" asp-controller="users" asp-action="index">Users</a></li>
+                        <li class="nav-item" dasblog-authorized><a class="nav-link" asp-area="" asp-controller="activity" asp-action="index">Activity</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="navbar navbar-collapse  col-md-offset-10 col-md-2">
+                @* could not make this go further right (or perhaps it already was fully justified on an indented column *@
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item" dasblog-unauthorized><a class="nav-link" asp-controller="account" asp-action="login">Log in</a></li>
+                    <li class="nav-item" dasblog-authorized><a class="nav-link" asp-controller="account" asp-action="logout">Log out</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="container body-content">
+
+        @RenderBody()
+
+        <div class="container text-center">
+            <p class="text-muted">
+                <site-page-control view-context="@ViewContext" />
+            </p>
+        </div>
+
+        <footer>
+            <div class="container text-center">
+                <p class="text-muted credit"><site-copyright /></p>
+            </div>
+        </footer>
+    </div>
+
+    <environment names="Development">
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+    </environment>
+    <environment names="Staging,Production">
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.3.min.js"
+                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+                asp-fallback-test="window.jQuery">
+        </script>
+        <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/bootstrap.min.js"
+                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
+                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal">
+        </script>
+        <script src="~/js/site.min.js" asp-append-version="true"></script>
+    </environment>
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>
