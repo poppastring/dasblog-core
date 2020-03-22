@@ -6,11 +6,8 @@
 <div class="post-new-comment">
     <form asp-controller="post" asp-action="comments" method="post">
         <div class="modal-body form-horizontal">
-            <div class="row">
-                <div class="col-md-4 mb-2">
-                    <div asp-validation-summary="All" class="text-danger"></div>
-                </div>
-            </div>
+            <div asp-validation-summary="All" class="text-danger"></div>
+            
             <div class="row">
                 <div class="col-md-6 mb-3">
                     <label for="@Constants.Name" class="control-label">@Constants.Name</label>
