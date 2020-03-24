@@ -49,14 +49,14 @@ namespace AutoMapper
     /// </summary>
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddAutoMapper(this IServiceCollection services, Action<IMapperConfigurationExpression> additionalInitAction)
+        public static IServiceCollection AddAutoMapper(this IServiceCollection services, Action<IServiceProvider, IMapperConfigurationExpression> additionalInitAction)
         {
             return AddAutoMapperClasses(services, additionalInitAction, AppDomain.CurrentDomain.GetAssemblies());
         }
 
-        private static readonly Action<IMapperConfigurationExpression> DefaultConfig = cfg => { };
+        private static readonly Action<IServiceProvider, IMapperConfigurationExpression> DefaultConfig = (sp,cfg) => {};
 
-        private static IServiceCollection AddAutoMapperClasses(IServiceCollection services, Action<IMapperConfigurationExpression> additionalInitAction, IEnumerable<Assembly> assembliesToScan)
+        private static IServiceCollection AddAutoMapperClasses(IServiceCollection services, Action<IServiceProvider, IMapperConfigurationExpression> additionalInitAction, IEnumerable<Assembly> assembliesToScan)
         {
             // Just return if we've already added AutoMapper to avoid double-registration
             if (services.Any(sd => sd.ServiceType == typeof(IMapper)))
@@ -77,17 +77,15 @@ namespace AutoMapper
                 .Where(t => typeof(Profile).GetTypeInfo().IsAssignableFrom(t) && !t.IsAbstract)
                 .ToArray();
 	        
-            void ConfigAction(IMapperConfigurationExpression cfg)
+            void ConfigAction(IServiceProvider serviceProvider, IMapperConfigurationExpression cfg)
             {
-                additionalInitAction(cfg);
+                additionalInitAction(serviceProvider, cfg);
 
                 foreach (var profile in profiles.Select(t => t.AsType()))
                 {
                     cfg.AddProfile(profile);
                 }
             }
-
-            IConfigurationProvider config = new MapperConfiguration(ConfigAction);
 
             var openTypes = new[]
             {
@@ -105,7 +103,7 @@ namespace AutoMapper
                 services.AddTransient(type.AsType());
             }
 
-            services.AddSingleton(config);
+            services.AddSingleton<IConfigurationProvider>(sp => new MapperConfiguration(c => ConfigAction(sp, c)));
             return services.AddScoped<IMapper>(sp => new Mapper(sp.GetRequiredService<IConfigurationProvider>(), sp.GetService));
         }
 

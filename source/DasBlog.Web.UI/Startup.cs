@@ -217,9 +217,8 @@ namespace DasBlog.Web
 				.AddSingleton<IConfigFileService<SiteSecurityConfigData>, SiteSecurityConfigFileService>();
 		
 			services
-				.AddAutoMapper(mapperConfig =>
+				.AddAutoMapper((serviceProvider, mapperConfig) =>
 				{
-					var serviceProvider = services.BuildServiceProvider();
 					mapperConfig.AddProfile(new ProfilePost(serviceProvider.GetService<IDasBlogSettings>()));
 					mapperConfig.AddProfile(new ProfileDasBlogUser(serviceProvider.GetService<ISiteSecurityManager>()));
 					mapperConfig.AddProfile(new ProfileSettings());
