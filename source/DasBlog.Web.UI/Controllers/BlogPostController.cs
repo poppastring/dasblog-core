@@ -56,53 +56,32 @@ namespace DasBlog.Web.Controllers
 		public IActionResult Post(string posttitle, string day, string month, string year)
 		{
 			var lpvm = new ListPostsViewModel();
-			var postDtTime = DateTime.MinValue;
-			var dayYear = 0;
 
-			if (dasBlogSettings.SiteConfiguration.EnableTitlePermaLinkUnique)
+			var uniquelinkdate = ValidateUniquePostDate(year, month, day);
+
+			var entry = blogManager.GetBlogPost(posttitle, uniquelinkdate);
+			if (entry != null)
 			{
-				dayYear = Convert.ToInt32(string.Format("{0}{1}{2}", year, month, day));
-			}
+				var pvm = mapper.Map<PostViewModel>(entry);
 
-			var routePermaLink= new RoutePermaLinkUnique(dasBlogSettings.SiteConfiguration.EnableTitlePermaLinkUnique);
-
-			if (!routePermaLink.IsValidDay(dayYear))
-			{
-				return NotFound();
-			}
-
-			var dt = routePermaLink.ConvertDayToDate(dayYear);
-			
-			if (routePermaLink.IsSpecificPostRequested(posttitle, dayYear))
-			{
-				var entry = blogManager.GetBlogPost(posttitle, dt);
-				if (entry != null)
+				var lcvm = new ListCommentsViewModel
 				{
-					var pvm = mapper.Map<PostViewModel>(entry);
+					Comments = blogManager.GetComments(entry.EntryId, false)
+									.Select(comment => mapper.Map<CommentViewModel>(comment)).ToList(),
+					PostId = entry.EntryId,
+					PostDate = entry.CreatedUtc,
+					CommentUrl = dasBlogSettings.GetCommentViewUrl(posttitle),
+					ShowComments = dasBlogSettings.SiteConfiguration.ShowCommentsWhenViewingEntry
+				};
+				pvm.Comments = lcvm;
 
-					var lcvm = new ListCommentsViewModel
-					{
-						Comments = blogManager.GetComments(entry.EntryId, false)
-										.Select(comment => mapper.Map<CommentViewModel>(comment)).ToList(),
-						PostId = entry.EntryId,
-						PostDate = entry.CreatedUtc,
-						CommentUrl = dasBlogSettings.GetCommentViewUrl(posttitle),
-						ShowComments = dasBlogSettings.SiteConfiguration.ShowCommentsWhenViewingEntry
-					};
-					pvm.Comments = lcvm;
-
-					if (httpContextAccessor.HttpContext.Request.Path.Value.EndsWith(".aspx", StringComparison.OrdinalIgnoreCase))
-					{
-						return RedirectPermanent(pvm.PermaLink);
-					}
-
-					lpvm.Posts = new List<PostViewModel>() { pvm };
-					return SinglePostView(lpvm);
-				}
-				else
+				if (httpContextAccessor.HttpContext.Request.Path.Value.EndsWith(".aspx", StringComparison.OrdinalIgnoreCase))
 				{
-					return NotFound();
+					return RedirectPermanent(pvm.PermaLink);
 				}
+
+				lpvm.Posts = new List<PostViewModel>() { pvm };
+				return SinglePostView(lpvm);
 			}
 			else
 			{
@@ -300,15 +279,18 @@ namespace DasBlog.Web.Controllers
 
 		[AllowAnonymous]
 		[HttpGet("{posttitle}/comments")]
+		[HttpGet("{year}/{month}/{day}/{posttitle}/comments")]
 		[HttpGet("{posttitle}/comments/{commentid:guid}")]
 		[HttpGet("post/{posttitle}/comments/{commentid:guid}")]
-		public IActionResult Comment(string posttitle)
+		public IActionResult Comment(string posttitle, string day, string month, string year)
 		{
 			ListPostsViewModel lpvm = null;
 			NBR.Entry entry = null;
 			var postguid = Guid.Empty;
 
-			entry = blogManager.GetBlogPost(posttitle, null);
+			var uniquelinkdate = ValidateUniquePostDate(year, month, day);
+
+			entry = blogManager.GetBlogPost(posttitle, uniquelinkdate);
 
 			if (entry == null && Guid.TryParse(posttitle, out postguid))
 			{
@@ -343,6 +325,11 @@ namespace DasBlog.Web.Controllers
 			}
 
 			return SinglePostView(lpvm);
+		}
+
+		private IActionResult Comment(string posttitle)
+		{
+			return Comment(posttitle, string.Empty, string.Empty, string.Empty);
 		}
 
 		[AllowAnonymous]
@@ -561,15 +548,40 @@ namespace DasBlog.Web.Controllers
 
 		private void ValidatePost(PostViewModel post)
 		{
-			var routePermaLink = new RoutePermaLinkUnique(dasBlogSettings.SiteConfiguration.EnableTitlePermaLinkUnique);
-
-			var dt = routePermaLink.SelectDate(post);
+			var dt = ValidatePostDate(post);
 			var entry = blogManager.GetBlogPost(post.Title.Replace(" ", string.Empty),dt);
 
 			if (entry != null && string.Compare(entry.EntryId, post.EntryId, true) > 0 )
 			{
 				ModelState.AddModelError(string.Empty, "A post with this title already exists. Titles must be unique");
 			}
+		}
+
+		private DateTime? ValidateUniquePostDate(string year, string month, string day)
+		{
+			DateTime? LinkUniqueDate = null;
+
+			if (dasBlogSettings.SiteConfiguration.EnableTitlePermaLinkUnique)
+			{
+				var dayYear = Convert.ToInt32(string.Format("{0}{1}{2}", year, month, day));
+
+				if(dayYear > 0)
+				{ 
+					LinkUniqueDate = DateTime.ParseExact(dayYear.ToString(), "yyyyMMdd", null, DateTimeStyles.AdjustToUniversal);
+				}
+			}
+
+			return LinkUniqueDate;
+		}
+
+		private DateTime? ValidatePostDate(PostViewModel postView)
+		{
+			if (!dasBlogSettings.SiteConfiguration.EnableTitlePermaLinkUnique)
+			{
+				return null;
+			}
+
+			return postView?.CreatedDateTime;
 		}
 
 		private void BreakSiteCache()
