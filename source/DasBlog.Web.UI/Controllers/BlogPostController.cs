@@ -18,6 +18,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
+using DasBlog.Web.Services;
 
 namespace DasBlog.Web.Controllers
 {
@@ -63,16 +64,16 @@ namespace DasBlog.Web.Controllers
 				dayYear = Convert.ToInt32(string.Format("{0}{1}{2}", year, month, day));
 			}
 
-			var routeAffectedFunctions = new RouteAffectedFunctions(dasBlogSettings.SiteConfiguration.EnableTitlePermaLinkUnique);
+			var routePermaLink= new RoutePermaLinkUnique(dasBlogSettings.SiteConfiguration.EnableTitlePermaLinkUnique);
 
-			if (!routeAffectedFunctions.IsValidDay(dayYear))
+			if (!routePermaLink.IsValidDay(dayYear))
 			{
 				return NotFound();
 			}
 
-			var dt = routeAffectedFunctions.ConvertDayToDate(dayYear);
+			var dt = routePermaLink.ConvertDayToDate(dayYear);
 			
-			if (routeAffectedFunctions.IsSpecificPostRequested(posttitle, dayYear))
+			if (routePermaLink.IsSpecificPostRequested(posttitle, dayYear))
 			{
 				var entry = blogManager.GetBlogPost(posttitle, dt);
 				if (entry != null)
@@ -560,9 +561,9 @@ namespace DasBlog.Web.Controllers
 
 		private void ValidatePost(PostViewModel post)
 		{
-			var routeAffectedFunctions = new RouteAffectedFunctions(dasBlogSettings.SiteConfiguration.EnableTitlePermaLinkUnique);
+			var routePermaLink = new RoutePermaLinkUnique(dasBlogSettings.SiteConfiguration.EnableTitlePermaLinkUnique);
 
-			var dt = routeAffectedFunctions.SelectDate(post);
+			var dt = routePermaLink.SelectDate(post);
 			var entry = blogManager.GetBlogPost(post.Title.Replace(" ", string.Empty),dt);
 
 			if (entry != null && string.Compare(entry.EntryId, post.EntryId, true) > 0 )
@@ -577,72 +578,5 @@ namespace DasBlog.Web.Controllers
 			memoryCache.Remove(CACHEKEY_FRONTPAGE);
 		}
 
-		private class RouteAffectedFunctions
-		{
-			const string DATE_FORMAT = "yyyyMMdd";
-
-			enum RouteType
-			{
-				IncludesDay,
-				PostTitleOnly
-			}
-
-			RouteType routeType;
-			public RouteAffectedFunctions(bool includeDay)
-			{
-				this.routeType = includeDay ? RouteType.IncludesDay : RouteType.PostTitleOnly;
-			}
-
-			public Func<string, int, bool> IsSpecificPostRequested
-			{
-				get
-				{
-					IDictionary<RouteType, Func<string, int, bool>> isSpecificPostRequested = new Dictionary<RouteType, Func<string, int, bool>>
-					{
-						{RouteType.PostTitleOnly, (posttitle, day) => !string.IsNullOrEmpty(posttitle)},
-						{RouteType.IncludesDay, (posttitle, day) => !string.IsNullOrEmpty(posttitle) && day != 0}
-					};
-					return isSpecificPostRequested[routeType];
-				}
-			}
-			public Func<int, bool> IsValidDay
-			{
-				get
-				{
-					IDictionary<RouteType, Func<int, bool>> isValidDay = new Dictionary<RouteType, Func<int, bool>>
-					{
-						{RouteType.PostTitleOnly, day => true},
-						{RouteType.IncludesDay, day => DateTime.TryParseExact(day.ToString(), DATE_FORMAT, null, DateTimeStyles.AdjustToUniversal, out _)}
-					};
-					return isValidDay[routeType];
-				}
-			}
-			public Func<int, DateTime?> ConvertDayToDate
-			{
-				get
-				{
-					IDictionary<RouteType, Func<int, DateTime?>> convertDayToDate = new Dictionary<RouteType, Func<int, DateTime?>>
-					{
-						{RouteType.PostTitleOnly, day => null},
-						{RouteType.IncludesDay, day => DateTime.ParseExact(day.ToString(), DATE_FORMAT
-							, null, DateTimeStyles.AdjustToUniversal)}
-					};
-					return convertDayToDate[routeType];
-				}
-			}
-			public Func<PostViewModel, DateTime?> SelectDate
-			{
-				get
-				{
-					IDictionary<RouteType, Func<PostViewModel, DateTime?>> convertDayToDate = new Dictionary<RouteType, Func<PostViewModel, DateTime?>>
-					{
-						{RouteType.PostTitleOnly, pvm => null},
-						{RouteType.IncludesDay, pvm => pvm.CreatedDateTime}
-					};
-					return convertDayToDate[routeType];
-				}
-			}
-
-		}
 	}
 }
