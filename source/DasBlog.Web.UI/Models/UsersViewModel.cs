@@ -10,7 +10,7 @@ namespace DasBlog.Web.Models
 		[Required]
 		public Role Role { get; set; }
 
-s		[Required]
+		[Required]
 		[EmailAddress]
 		[Display(Name = "Email Address")]
 		public string EmailAddress { get; set; }
