@@ -36,7 +36,6 @@ using DasBlog.Services;
 using Microsoft.AspNetCore.HttpOverrides;
 using DasBlog.Services.FileManagement.Interfaces;
 using Microsoft.Extensions.Logging;
-using NWebsec.AspNetCore.Middleware;
 
 namespace DasBlog.Web
 {
