@@ -214,11 +214,10 @@ namespace DasBlog.Web
 				.AddSingleton<IConfigFileService<MetaTags>, MetaConfigFileService>()
 				.AddSingleton<IConfigFileService<SiteConfig>, SiteConfigFileService>()
 				.AddSingleton<IConfigFileService<SiteSecurityConfigData>, SiteSecurityConfigFileService>();
-
+		
 			services
-				.AddAutoMapper(mapperConfig =>
+				.AddAutoMapper((serviceProvider, mapperConfig) =>
 				{
-					var serviceProvider = services.BuildServiceProvider();
 					mapperConfig.AddProfile(new ProfilePost(serviceProvider.GetService<IDasBlogSettings>()));
 					mapperConfig.AddProfile(new ProfileDasBlogUser(serviceProvider.GetService<ISiteSecurityManager>()));
 					mapperConfig.AddProfile(new ProfileSettings());
@@ -276,7 +275,7 @@ namespace DasBlog.Web
 
 
 			app.UseForwardedHeaders();
-
+			
 			app.UseStaticFiles();
 
 			app.UseStaticFiles(new StaticFileOptions()
