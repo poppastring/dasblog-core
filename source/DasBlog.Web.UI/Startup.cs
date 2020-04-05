@@ -173,7 +173,6 @@ namespace DasBlog.Web
 			{
 				rveo.ViewLocationExpanders.Add(new DasBlogLocationExpander(Configuration.GetSection("Theme").Value));
 			});
-			services.Configure<RouteOptions>(Configuration);
 			
 			services.AddSession(options =>
 			{
@@ -233,7 +232,7 @@ namespace DasBlog.Web
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-		public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IOptions<RouteOptions> routeOptionsAccessor, IDasBlogSettings dasBlogSettings)
+		public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IDasBlogSettings dasBlogSettings)
 		{
 			(var siteOk, var siteError) = RepairSite(app);
 
@@ -273,7 +272,6 @@ namespace DasBlog.Web
 				});
 			}
 
-
 			app.UseForwardedHeaders();
 			
 			app.UseStaticFiles();
@@ -299,7 +297,7 @@ namespace DasBlog.Web
 			{
 				endpoints.MapHealthChecks("/healthcheck");
 				
-				if (routeOptionsAccessor.Value.EnableTitlePermaLinkUnique)
+				if (dasBlogSettings.SiteConfiguration.EnableTitlePermaLinkUnique)
 				{
 					endpoints.MapControllerRoute(
 						"Original Post Format",
@@ -385,11 +383,6 @@ namespace DasBlog.Web
 			}
 
 			return richEditBuilder;
-		}
-
-		public class RouteOptions
-		{
-			public bool EnableTitlePermaLinkUnique { get; set; }
 		}
 	}
 }
