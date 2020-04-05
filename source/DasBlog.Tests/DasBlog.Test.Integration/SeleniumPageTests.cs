@@ -271,7 +271,7 @@ namespace DasBlog.Test.Integration
 
 			SendKeysToElement("BlogTitle", "A New Post");
 
-			SendKeysToElement("mytextarea", "We certainly hope this works...");
+			// SendKeysToElement("tinymce", "We certainly hope this works...");
 
 			SendKeysToElement("BlogNewCategoryName", "Test Category");
 
@@ -286,7 +286,11 @@ namespace DasBlog.Test.Integration
 			var blogpostSubmitlink = Browser.FindElement(blogpostSelector);
 			blogpostSubmitlink.Click();
 
+
+
 			// Check new post
+			Browser.Navigate().GoToUrl(Server.RootUri);
+
 			Browser.Navigate().GoToUrl(Server.RootUri + "/a-new-post");
 
 			Assert.StartsWith("A New Post", Browser.Title);
@@ -399,7 +403,6 @@ namespace DasBlog.Test.Integration
 			var eleementlink = Browser.FindElement(elementid);
 			eleementlink.SendKeys(keystosend);
 		}
-
 
 		public void Dispose()
 		{

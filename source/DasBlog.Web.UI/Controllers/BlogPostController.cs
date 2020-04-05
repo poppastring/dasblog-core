@@ -152,7 +152,7 @@ namespace DasBlog.Web.Controllers
 				return HandleImageUpload(post);
 			}
 
-			ValidatePost(post);
+			ValidatePostName(post);
 			if (!ModelState.IsValid)
 			{
 				return View(post);
@@ -214,7 +214,7 @@ namespace DasBlog.Web.Controllers
 				return HandleImageUpload(post);
 			}
 
-			ValidatePost(post);
+			ValidatePostName(post);
 			if (!ModelState.IsValid)
 			{
 				return View(post);
@@ -546,10 +546,10 @@ namespace DasBlog.Web.Controllers
 			return View(post);
 		}
 
-		private void ValidatePost(PostViewModel post)
+		private void ValidatePostName(PostViewModel post)
 		{
 			var dt = ValidatePostDate(post);
-			var entry = blogManager.GetBlogPost(post.Title.Replace(" ", string.Empty),dt);
+			var entry = blogManager.GetBlogPost(post.Title.Replace(" ", string.Empty), dt);
 
 			if (entry != null && string.Compare(entry.EntryId, post.EntryId, true) > 0 )
 			{
@@ -563,10 +563,10 @@ namespace DasBlog.Web.Controllers
 
 			if (dasBlogSettings.SiteConfiguration.EnableTitlePermaLinkUnique)
 			{
-				var dayYear = Convert.ToInt32(string.Format("{0}{1}{2}", year, month, day));
+				int.TryParse(string.Format("{0}{1}{2}", year, month, day), out var dayYear);
 
-				if(dayYear > 0)
-				{ 
+				if (dayYear > 0)
+				{
 					LinkUniqueDate = DateTime.ParseExact(dayYear.ToString(), "yyyyMMdd", null, DateTimeStyles.AdjustToUniversal);
 				}
 			}
