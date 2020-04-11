@@ -12,6 +12,7 @@ namespace DasBlog.Web.TagHelpers
 	public class CommentPostTagHelper : TagHelper
 	{
 		public PostViewModel Post { get; set; }
+		public string LinkText { get; set; }
 
 		private readonly IDasBlogSettings dasBlogSettings;
 
@@ -27,7 +28,18 @@ namespace DasBlog.Web.TagHelpers
 			output.Attributes.SetAttribute("href", dasBlogSettings.GetCommentViewUrl(Post.PermaLink));
 			output.Attributes.SetAttribute("id", Constants.CommentOnThisPostId);
 			output.Attributes.SetAttribute("class", "dbc-comment-on-post-link");
-			output.Content.SetHtmlContent($"Comment on this post [{((Post.Comments != null) ? Post.Comments.Comments.Count : 0)}]");
+
+			string content;
+			var commentCount = Post.Comments?.Comments.Count ?? 0;
+			if (string.IsNullOrWhiteSpace(LinkText)) {
+				content = $"Comment on this post [{commentCount}]";
+			}
+			else
+			{
+				content = string.Format(LinkText, commentCount);
+			}
+
+			output.Content.SetHtmlContent(content);
 		}
 
 		public override Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
