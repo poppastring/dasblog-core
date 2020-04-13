@@ -238,6 +238,11 @@ namespace DasBlog.Web.Models.AdminViewModels
 		[Description("")]
 		public ValidCommentTagsViewModel [] ValidCommentTags { get;  set; }
 
+		[DisplayName("Show comment count")]
+		[Description("")]
+		public bool ShowCommentCount { get; set; }
+
+
 		public bool EntryTitleAsLink { get; set; }
 		public bool ObfuscateEmail { get; set; }
 		public bool SendReferralsByEmail { get; set; }
@@ -248,7 +253,6 @@ namespace DasBlog.Web.Models.AdminViewModels
 		public bool EnableConfigEditService { get; set; }
 		public bool EnableEditService { get; set; }
 		public bool EnableAutoPingback { get; set; }
-		public bool ShowCommentCount { get; set; }
 		public bool EnableTrackbackService { get; set; }
 		public bool EnablePingbackService { get; set; }
 		public bool EnableBlogrollDescription { get; set; }
