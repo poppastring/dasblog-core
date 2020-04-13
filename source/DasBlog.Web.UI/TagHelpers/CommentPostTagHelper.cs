@@ -29,10 +29,13 @@ namespace DasBlog.Web.TagHelpers
 			output.Attributes.SetAttribute("id", Constants.CommentOnThisPostId);
 			output.Attributes.SetAttribute("class", "dbc-comment-on-post-link");
 
-			string content;
+			var content = "Comment on this post";
 			var commentCount = Post.Comments?.Comments.Count ?? 0;
 			if (string.IsNullOrWhiteSpace(LinkText)) {
-				content = $"Comment on this post [{commentCount}]";
+				if (dasBlogSettings.SiteConfiguration.ShowCommentCount)
+				{
+					content = string.Format("{0} [{1}]", content, commentCount);
+				}
 			}
 			else
 			{
