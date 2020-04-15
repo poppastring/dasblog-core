@@ -1,16 +1,38 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using DasBlog.Services;
+using DasBlog.Web.Models.BlogViewModels;
+using Microsoft.AspNetCore.Razor.TagHelpers;
 using System.Threading.Tasks;
-using DasBlog.Services;
 
 namespace DasBlog.Web.TagHelpers.Post
 {
-	public class PostEditLinkTagHelper : EditPostTagHelper
+	public class PostEditLinkTagHelper : TagHelper
 	{
-		public PostEditLinkTagHelper(IDasBlogSettings dasBlogSettings) : base(dasBlogSettings)
+		public PostViewModel Post { get; set; }
+		public string BlogPostId { get; set; }
+
+		private readonly IDasBlogSettings dasBlogSettings;
+
+		public PostEditLinkTagHelper(IDasBlogSettings dasBlogSettings)
 		{
-			
+			this.dasBlogSettings = dasBlogSettings;
+		}
+
+		public override void Process(TagHelperContext context, TagHelperOutput output)
+		{
+			if (Post != null)
+			{
+				BlogPostId = Post.EntryId;
+			}
+
+			output.TagName = "a";
+			output.TagMode = TagMode.StartTagAndEndTag;
+			output.Attributes.SetAttribute("href", dasBlogSettings.GetPermaLinkUrl(BlogPostId + "/edit"));
+			output.Content.SetHtmlContent("Edit this post");
+		}
+
+		public override Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
+		{
+			return Task.Run(() => Process(context, output));
 		}
 	}
 }

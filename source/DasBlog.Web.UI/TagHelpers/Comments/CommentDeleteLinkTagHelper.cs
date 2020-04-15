@@ -12,7 +12,7 @@ namespace DasBlog.Web.TagHelpers.Comments
 	{
 		public CommentViewModel Comment { get; set; }
 
-		private IDasBlogSettings dasBlogSettings;
+		private readonly IDasBlogSettings dasBlogSettings;
 		private const string COMMENTDELETE_URL = "{0}/comments/{1}";
 		private const string COMMENTTEXT_MSG = "Are you sure you want to delete the comment from '{0}'?";
 
