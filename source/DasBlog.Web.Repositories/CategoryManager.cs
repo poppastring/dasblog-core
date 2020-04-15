@@ -8,7 +8,6 @@ namespace DasBlog.Managers
 	public class CategoryManager : ICategoryManager
     {
         private readonly IBlogDataService dataService;
-        private readonly ILoggingDataService loggingDataService;
         private readonly IDasBlogSettings dasBlogSettings;
 
         public CategoryManager(IDasBlogSettings settings)
