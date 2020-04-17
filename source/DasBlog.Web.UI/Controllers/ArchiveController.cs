@@ -9,6 +9,10 @@ using Microsoft.AspNetCore.Mvc;
 using newtelligence.DasBlog.Runtime;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using Microsoft.Extensions.Logging;
+using EventCodes = DasBlog.Services.ActivityLogs.EventCodes;
+using DasBlog.Services.ActivityLogs;
 
 namespace DasBlog.Web.Controllers
 {
@@ -19,14 +23,16 @@ namespace DasBlog.Web.Controllers
 		private readonly IArchiveManager archiveManager;
 		private readonly IHttpContextAccessor httpContextAccessor;
 		private readonly IMapper mapper;
+		private readonly ILogger<ArchiveController> logger;
 		private const string ARCHIVE = "Archive";
 
-		public ArchiveController(IArchiveManager archiveManager, IHttpContextAccessor httpContextAccessor, IMapper mapper, 
-									IDasBlogSettings settings) : base(settings)
+		public ArchiveController(IArchiveManager archiveManager, IHttpContextAccessor httpContextAccessor, IMapper mapper,
+									ILogger<ArchiveController> logger, IDasBlogSettings settings) : base(settings)
 		{
 			this.archiveManager = archiveManager;
 			this.httpContextAccessor = httpContextAccessor;
 			this.mapper = mapper;
+			this.logger = logger;
 		}
 
 		[HttpGet("")]
@@ -67,6 +73,9 @@ namespace DasBlog.Web.Controllers
 			ViewBag.NextMonth = dateTime.AddMonths(1).Date;
 			ViewBag.CurrentMonth = dateTime.Date;
 
+			var stopWatch = new Stopwatch();
+			stopWatch.Start();
+
 			//unique list of years for the top of archives
 			var daysWithEntries = archiveManager.GetDaysWithEntries();
 			ViewBag.Years = daysWithEntries.Select(i => i.Year).Distinct();
@@ -76,6 +85,10 @@ namespace DasBlog.Web.Controllers
 				entries = archiveManager.GetEntriesForYear(dateTime, languageFilter);
 			else
 				entries = archiveManager.GetEntriesForMonth(dateTime, languageFilter);
+
+
+			stopWatch.Stop();
+			logger.LogInformation(new DasBlog.Services.ActivityLogs.EventDataItem(EventCodes.Site, null, $"ArchiveController (Date: {dateTime.ToLongDateString()}; Year: {wholeYear}) Time elapsed: {stopWatch.Elapsed.TotalMilliseconds}ms"));
 
 			//TODO: Do I need this?
 			//entries = new EntryCollection(entries.OrderBy(e => e.CreatedUtc));
