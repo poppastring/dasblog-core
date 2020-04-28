@@ -79,8 +79,6 @@ namespace DasBlog.Web.Controllers
 			}
 			dasBlogSettings.MetaTags = meta;
 
-			TempData["MessageSaved"] = "Saved";
-
 			return Settings();
 		}
 		public IActionResult TestEmail()
@@ -93,15 +91,5 @@ namespace DasBlog.Web.Controllers
 
 			return RedirectToAction("Settings");
 		}
-
-		public IActionResult RestartSite()
-		{
-			logger.LogInformation(new EventDataItem(EventCodes.ApplicationStartup, null, "Restarting Admin Site"));
-
-			appLifetime.StopApplication();
-
-			return RedirectToAction("Settings");
-		}
-
 	}
 }

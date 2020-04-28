@@ -7,17 +7,6 @@
 
 @Html.ValidationSummary(false, "", new { @class = "text-danger" })
 
-@if (TempData["MessageSaved"] != null)
-{
-    <div class="dbc-form-check row">
-        <div class="alert alert-dismissible alert-danger">
-            <button type="button" class="close" data-dismiss="alert">&times;</button>
-            <strong>Changes saved!</strong> A site restart is required for some changes to have immediate impact.
-            <input asp-controller="Admin" asp-action="RestartSite" type="submit" name="submit" value="Restart Site" class="btn-default" />
-        </div>
-    </div>
-}
-
 <form asp-action="settings" name="UpdateSettingsForm" id="UpdateSettingsForm">
 
     <div class="dbc-form-group row">
