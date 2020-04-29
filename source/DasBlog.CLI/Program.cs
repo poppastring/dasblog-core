@@ -80,7 +80,7 @@ namespace DasBlog.CLI
 							Environment.SetEnvironmentVariable(ASPNETCORE_ENV_NAME, null);
 						}
 
-						Console.WriteLine($"Environment variable has been set to '{val.Value}', restart site for operation to take effect");
+						Console.WriteLine($"Environment variable has been set to '{val.Value}'.");
 					});
 				});
 
@@ -97,7 +97,7 @@ namespace DasBlog.CLI
 						var fs = serviceProvider.GetService<IConfigFileService<SiteConfig>>();
 						if (fs.SaveConfig(sc))
 						{
-							Console.WriteLine($"Site 'root' has been set to '{val.Value}', restart site for operation to take effect");
+							Console.WriteLine($"Site 'root' has been set to '{val.Value}'.");
 						}
 						else
 						{
@@ -119,7 +119,7 @@ namespace DasBlog.CLI
 						var fs = serviceProvider.GetService<IConfigFileService<SiteConfig>>();
 						if (fs.SaveConfig(sc))
 						{
-							Console.WriteLine($"Site 'theme' has been set to '{val.Value}', restart site for operation to take effect");
+							Console.WriteLine($"Site 'theme' has been set to '{val.Value}'.");
 						}
 						else
 						{
@@ -141,7 +141,7 @@ namespace DasBlog.CLI
 						var fs = serviceProvider.GetService<IConfigFileService<SiteConfig>>();
 						if (fs.SaveConfig(sc))
 						{
-							Console.WriteLine($"Site 'contentdir' has been set to '{val.Value}', restart site for operation to take effect");
+							Console.WriteLine($"Site 'contentdir' has been set to '{val.Value}'.");
 						}
 						else
 						{
@@ -163,7 +163,7 @@ namespace DasBlog.CLI
 						var fs = serviceProvider.GetService<IConfigFileService<SiteConfig>>();
 						if (fs.SaveConfig(sc))
 						{
-							Console.WriteLine($"Site 'binarydir' has been set to '{val.Value}', restart site for operation to take effect");
+							Console.WriteLine($"Site 'binarydir' has been set to '{val.Value}'.");
 						}
 						else
 						{
@@ -185,7 +185,7 @@ namespace DasBlog.CLI
 						var fs = serviceProvider.GetService<IConfigFileService<SiteConfig>>();
 						if (fs.SaveConfig(sc))
 						{
-							Console.WriteLine($"Site 'logdir' has been set to '{val.Value}', restart site for operation to take effect");
+							Console.WriteLine($"Site 'logdir' has been set to '{val.Value}'.");
 						}
 						else
 						{

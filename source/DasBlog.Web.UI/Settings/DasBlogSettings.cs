@@ -29,16 +29,16 @@ namespace DasBlog.Web.Settings
 		private readonly string siteSecurityConfigFilePath;
 		private readonly ConfigFilePathsDataOption filePathDataOptions;
 
-		public DasBlogSettings(IWebHostEnvironment env, IOptions<SiteConfig> siteConfig, IOptions<MetaTags> metaTagsConfig, ISiteSecurityConfig siteSecurityConfig, 
+		public DasBlogSettings(IWebHostEnvironment env, IOptionsMonitor<SiteConfig> siteConfig, IOptionsMonitor<MetaTags> metaTagsConfig, ISiteSecurityConfig siteSecurityConfig, 
 								IFileProvider fileProvider, IOptions<ConfigFilePathsDataOption> optionsAccessor)
 		{
 			this.fileProvider = fileProvider;
 
 			WebRootDirectory = env.ContentRootPath;
-			SiteConfiguration = siteConfig.Value;
+			SiteConfiguration = siteConfig.CurrentValue;
 
 			SecurityConfiguration = siteSecurityConfig;
-			MetaTags = metaTagsConfig.Value;
+			MetaTags = metaTagsConfig.CurrentValue;
 			filePathDataOptions = optionsAccessor.Value;
 
 			RssUrl = RelativeToRoot("feed/rss");
