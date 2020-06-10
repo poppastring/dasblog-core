@@ -51,6 +51,7 @@ using Blogger = DasBlog.Services.XmlRpc.Blogger;
 using MoveableType = DasBlog.Services.XmlRpc.MoveableType;
 using MetaWeblog = DasBlog.Services.XmlRpc.MetaWeblog;
 using CookComputing.XmlRpc;
+using System.Net;
 
 namespace DasBlog.Managers
 {
@@ -651,7 +652,7 @@ namespace DasBlog.Managers
 			}
 
 			//Patched to avoid html entities in title
-			entry.Title = post.title; // TODO: Find out how to decode this...  HttpUtility.HtmlDecode(post.title);
+			entry.Title = WebUtility.HtmlDecode(post.title);
 			entry.Content = post.description;
 			entry.Description = NoNull(post.mt_excerpt);
 

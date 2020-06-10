@@ -128,12 +128,13 @@ namespace DasBlog.Tests.UnitTests.Services
 		[Trait("Category", "UnitTest")]
 		public void Entry_CompressTitle_ConfirmItMatches()
 		{
-			TitleTest(@" This    is a  test ", "this+is+a+test");
+			TitleTest(@" This    is a  test ", "this-is-a-test");
 			TitleTest(@" - _ . ! * ' ( ) ", "");
-			TitleTest(@"So <em>Not</em> true", "so+not+true");
-			TitleTest(@"Three is < four", "three+is+four");
-			TitleTest(@"Three is < four but > one", "three+is+one");
-			TitleTest(@"My <sarcasm>favorite</sarcasm> bug", "my+favorite+bug");
+			TitleTest(@"So <em>Not</em> true", "so-not-true");
+			TitleTest(@"Three is < four", "three-is-four");
+			TitleTest(@"Three is < four but > one", "three-is-one");
+			TitleTest(@"My <sarcasm>favorite</sarcasm> bug", "my-favorite-bug");
+			TitleTest(@"What you’re seeing", "what-youre-seeing");
 
 			//TODO: Figure out why this test fails...
 			// TitleTest("\u00C0\u00C3\u00C5\u00c6\u00c8 \u00CC\u00CD\u00D0 \u0105\u0157\u0416\u042D \u0628\u0645\u1E84\uFB73",
@@ -142,7 +143,7 @@ namespace DasBlog.Tests.UnitTests.Services
 
 		private void TitleTest(string title, string expected)
 		{
-			var result = Entry.InternalCompressTitle(title).ToLower();
+			var result = Entry.InternalCompressTitle(title, "-").ToLower();
 			Assert.Equal(expected, result);
 		}
 
