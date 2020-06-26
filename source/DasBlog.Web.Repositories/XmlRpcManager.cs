@@ -192,7 +192,7 @@ namespace DasBlog.Managers
 			VerifyAccess(username, password);
 
 			var entries = dataService.GetEntriesForDay(DateTime.Now.ToUniversalTime(), dasBlogSettings.GetConfiguredTimeZone(), null,
-				dasBlogSettings.SiteConfiguration.RssDayCount, numberOfPosts, null);
+														numberOfPosts, numberOfPosts, null);
 			var arrayList = new List<MoveableType.PostTitle>();
 			foreach (Entry entry in entries)
 			{
@@ -419,7 +419,7 @@ namespace DasBlog.Managers
 			VerifyAccess(username, password);
 
 			var entries = dataService.GetEntriesForDay(DateTime.Now.ToUniversalTime(), dasBlogSettings.GetConfiguredTimeZone(),
-											null, dasBlogSettings.SiteConfiguration.RssDayCount, numberOfPosts, null);
+											null, numberOfPosts, numberOfPosts, null);
 			var arrayList = new List<Blogger.Post>();
 			foreach (Entry entry in entries)
 			{
@@ -595,7 +595,7 @@ namespace DasBlog.Managers
 			VerifyAccess(username, password);
 
 			var entries = dataService.GetEntriesForDay(DateTime.Now.ToUniversalTime(), dasBlogSettings.GetConfiguredTimeZone(), null,
-														dasBlogSettings.SiteConfiguration.RssDayCount, numberOfPosts, null);
+														numberOfPosts, numberOfPosts, null);
 			var arrayList = new List<MetaWeblog.Post>();
 			foreach (Entry entry in entries)
 			{
