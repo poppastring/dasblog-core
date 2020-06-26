@@ -727,7 +727,7 @@ namespace DasBlog.Managers
 
 		private MetaWeblog.Post Create(Entry entry)
 		{
-			if (entry == null) throw new ArgumentNullException("entry");
+			if (entry == null) throw new ArgumentNullException(nameof(entry));
 
 			var post = new MetaWeblog.Post();
 			post.description = entry.Content ?? "";
@@ -737,7 +737,7 @@ namespace DasBlog.Managers
 			post.link = post.permalink = dasBlogSettings.GetPermaLinkUrl(entry.EntryId);
 			post.postid = entry.EntryId ?? "";
 			post.categories = entry.GetSplitCategories();
-			post.mt_text_more = "true";
+			post.mt_text_more = "";
 			return post;
 		}
 
