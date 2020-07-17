@@ -15,7 +15,12 @@ namespace DasBlog.Web.TagHelpers.Comments
 		{
 			output.TagName = "a";
 			output.TagMode = TagMode.StartTagAndEndTag;
-			output.Attributes.SetAttribute("href", Comment.HomePageUrl);
+
+			if (Comment.HomePageUrl?.Length > 0)
+			{
+				output.Attributes.SetAttribute("href", Comment.HomePageUrl);
+			}
+
 			output.Attributes.SetAttribute("rel", "nofollow");
 			output.Attributes.SetAttribute("class", "dbc-comment-user-homepage-name");
 			output.Content.SetHtmlContent(Comment.Name);
