@@ -1,8 +1,19 @@
-﻿@using DasBlog.Web.Models.BlogViewModels;
-@using System.Web;
+﻿@using DasBlog.Web.Models.BlogViewModels;s
+
+@inject IDasBlogSettings dasBlogSettings
+
 @model CommentViewModel
 
-<div class="modal-body form-horizontal">
+@{
+    string admincommentstyle = string.Empty;
+
+    @if (dasBlogSettings.IsAdmin(Model.GravatarHashId))
+    {
+        admincommentstyle = "dbc-commentbox-authorstyle";
+    }
+}
+
+<div class="modal-body form-horizontal @admincommentstyle">
     <div class="row">
         <div class="col-md-2 mb-1">
             <comment-gravatar-image comment="@Model" />
