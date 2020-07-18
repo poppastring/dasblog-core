@@ -12,6 +12,8 @@ namespace DasBlog.Web.TagHelpers.Comments
 	{
 		public CommentViewModel Comment { get; set; }
 
+		public string Css { get; set; }
+
 		private readonly IDasBlogSettings dasBlogSettings;
 		private const string gravatarLink = "//www.gravatar.com/avatar/{0}?rating={1}&size={2}&default={3}";
 
@@ -27,7 +29,15 @@ namespace DasBlog.Web.TagHelpers.Comments
 			output.Attributes.SetAttribute("src", string.Format(gravatarLink, Comment.GravatarHashId, 
 					dasBlogSettings.SiteConfiguration.CommentsGravatarRating, dasBlogSettings.SiteConfiguration.CommentsGravatarSize, 
 					dasBlogSettings.SiteConfiguration.CommentsGravatarNoImgPath));
-			output.Attributes.SetAttribute("class", "dbc-comment-gravatar");
+
+			var style = "dbc-comment-gravatar";
+
+			if (!string.IsNullOrEmpty(Css))
+			{
+				style = string.Format("{0} {1}", style, Css);
+			}
+
+			output.Attributes.SetAttribute("class", style);
 		}
 
 		public override Task ProcessAsync(TagHelperContext context, TagHelperOutput output)

@@ -15,20 +15,16 @@
 
 <div class="modal-body form-horizontal @admincommentstyle">
     <div class="row">
-        <div class="col-md-2 mb-1">
-            <comment-gravatar-image comment="@Model" />
-        </div>
-        <div class="col-md-10 mb-5">
+        <div class="col-md-12">
+            <comment-gravatar-image comment="@Model" css="img-thumbnail rounded float-left" />
+
             <div class="row">
-                <div class="col-md-6 mb-3 text-dark">
-                    <strong><comment-user-home-page-link comment="@Model" /></strong>
-                </div>
-                <div class="col-md-6 mb-3 text-muted navbar-right">
-                    <i class="navbar-right"><comment-date comment="@Model" date-time-format="MMMM dd, yyyy H:mm" /></i>
+                <div class="col-md-12 mb-6">
+                    <strong><comment-user-home-page-link comment="@Model" /></strong> <i>(<comment-date comment="@Model" date-time-format="MMMM dd, yyyy H:mm" />)</i>
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-12 mb-6">
+                <div class="col-md-12 mb-6 font-weight-light" >
                     <comment-content comment="@Model" />
                 </div>
             </div>
