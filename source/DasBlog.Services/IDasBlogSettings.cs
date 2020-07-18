@@ -40,5 +40,6 @@ namespace DasBlog.Services
 		string FilterHtml(string input);
 		bool AreCommentsPermitted(DateTime blogpostdate);
 		string CompressTitle(string title);
+		bool IsAdmin(string gravatarhash);
 	}
 }

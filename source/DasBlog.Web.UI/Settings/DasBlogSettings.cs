@@ -1,10 +1,7 @@
-﻿using DasBlog.Core;
-using DasBlog.Core.Common;
+﻿using DasBlog.Core.Common;
 using DasBlog.Core.Common.Comments;
-using DasBlog.Core.Configuration;
 using DasBlog.Core.Security;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Options;
 using NodaTime;
 using System;
@@ -19,21 +16,17 @@ using DasBlog.Services;
 using System.Linq;
 using newtelligence.DasBlog.Runtime;
 using DasBlog.Services.FileManagement;
-using Microsoft.AspNetCore.Http;
 
 namespace DasBlog.Web.Settings
 {
 	public class DasBlogSettings : IDasBlogSettings
 	{
-		private readonly IFileProvider fileProvider;
 		private readonly string siteSecurityConfigFilePath;
 		private readonly ConfigFilePathsDataOption filePathDataOptions;
 
-		public DasBlogSettings(IWebHostEnvironment env, IOptionsMonitor<SiteConfig> siteConfig, IOptionsMonitor<MetaTags> metaTagsConfig, ISiteSecurityConfig siteSecurityConfig, 
-								IFileProvider fileProvider, IOptions<ConfigFilePathsDataOption> optionsAccessor)
+		public DasBlogSettings(IWebHostEnvironment env, IOptionsMonitor<SiteConfig> siteConfig, IOptionsMonitor<MetaTags> metaTagsConfig, 
+									ISiteSecurityConfig siteSecurityConfig, IOptions<ConfigFilePathsDataOption> optionsAccessor)
 		{
-			this.fileProvider = fileProvider;
-
 			WebRootDirectory = env.ContentRootPath;
 			SiteConfiguration = siteConfig.CurrentValue;
 
@@ -290,6 +283,11 @@ namespace DasBlog.Web.Settings
 		public string CompressTitle(string title)
 		{
 			return Entry.InternalCompressTitle(title, SiteConfiguration.TitlePermalinkSpaceReplacement).ToLower();
+		}
+
+		public bool IsAdmin(string gravatarhashid)
+		{
+			return (Utils.GetGravatarHash(SecurityConfiguration.Users.First().EmailAddress) == gravatarhashid);
 		}
 	}
 }
