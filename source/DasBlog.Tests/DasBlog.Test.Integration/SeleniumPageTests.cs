@@ -253,7 +253,7 @@ namespace DasBlog.Test.Integration
 				createpostSelector = By.Id("CreatePostLink");
 				createpostlink = Browser.FindElement(createpostSelector);
 			}
-			catch(Exception ex)
+			catch(Exception)
 			{
 				Assert.StartsWith("My DasBlog!", Browser.Title);
 			}
