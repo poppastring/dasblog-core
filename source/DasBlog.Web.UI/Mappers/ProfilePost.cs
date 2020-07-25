@@ -34,6 +34,7 @@ namespace DasBlog.Web.Mappers
 				.ForMember(dest => dest.Syndicated, opt => opt.MapFrom(src => src.Syndicated))
 				.ForMember(dest => dest.PermaLink, opt => opt.MapFrom(src => MakePermaLink(src)))
 				.ForMember(dest => dest.ImageUrl, opt => opt.MapFrom(src => src.Content.FindFirstImage()))
+				.ForMember(dest => dest.VideoUrl, opt => opt.MapFrom(src => src.Content.FindFirstYouTubeVideo()))
 				.ForMember(dest => dest.CreatedDateTime, opt => opt.MapFrom(src => src.CreatedLocalTime))
 				.ForMember(dest => dest.ModifiedDateTime, opt => opt.MapFrom(src => src.ModifiedLocalTime));
 

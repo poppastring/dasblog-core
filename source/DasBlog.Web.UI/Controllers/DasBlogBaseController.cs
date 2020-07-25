@@ -52,6 +52,7 @@ namespace DasBlog.Web.Settings
 				ViewData["Canonical"] = dasBlogSettings.RelativeToRoot(post.PermaLink);
 				ViewData["Author"] = post.Author;
 				ViewData["PageImageUrl"] = (post.ImageUrl?.Length > 0) ? post.ImageUrl : dasBlogSettings.MetaTags.TwitterImage;
+				ViewData["PageVideoUrl"] = (post.VideoUrl?.Length > 0) ? post.VideoUrl : string.Empty;
 			}
 			else
 			{
@@ -69,6 +70,7 @@ namespace DasBlog.Web.Settings
 				ViewData["Canonical"] = string.Empty;
 				ViewData["Author"] = dasBlogSettings.SiteConfiguration.Copyright;
 				ViewData["PageImageUrl"] = dasBlogSettings.MetaTags.TwitterImage;
+				ViewData["PageVideoUrl"] = string.Empty;
 			}
 			else
 			{
@@ -78,6 +80,7 @@ namespace DasBlog.Web.Settings
 				ViewData["Canonical"] = dasBlogSettings.SiteConfiguration.Root;
 				ViewData["Author"] = dasBlogSettings.SiteConfiguration.Copyright;
 				ViewData["PageImageUrl"] = dasBlogSettings.MetaTags.TwitterImage;
+				ViewData["PageVideoUrl"] = string.Empty;
 			}
 		}
 	}
