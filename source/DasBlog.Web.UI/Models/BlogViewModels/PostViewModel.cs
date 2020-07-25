@@ -55,6 +55,8 @@ namespace DasBlog.Web.Models.BlogViewModels
 
 		public string ImageUrl { get; set; } = string.Empty;
 
+		public string VideoUrl { get; set; } = string.Empty;
+
 		public int Order { get; set; } = 0;
 	}
 }
