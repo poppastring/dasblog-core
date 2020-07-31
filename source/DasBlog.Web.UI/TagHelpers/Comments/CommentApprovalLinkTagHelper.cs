@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using DasBlog.Services;
+﻿using DasBlog.Services;
 using DasBlog.Web.Models.BlogViewModels;
 using Microsoft.AspNetCore.Razor.TagHelpers;
+using System.Threading.Tasks;
 
 namespace DasBlog.Web.TagHelpers.Comments
 {
@@ -12,7 +9,7 @@ namespace DasBlog.Web.TagHelpers.Comments
 	{
 		public CommentViewModel Comment { get; set; }
 
-		private IDasBlogSettings dasBlogSettings;
+		private readonly IDasBlogSettings dasBlogSettings;
 
 		private const string COMMENTAPPROVE_URL = "{0}/comments/{1}";
 		private const string COMMENTTEXT_MSG = "Are you sure you want to approve the comment from '{0}'?";

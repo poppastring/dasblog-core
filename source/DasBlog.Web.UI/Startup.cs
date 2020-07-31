@@ -36,7 +36,6 @@ using DasBlog.Services;
 using Microsoft.AspNetCore.HttpOverrides;
 using DasBlog.Services.FileManagement.Interfaces;
 using Microsoft.Extensions.Logging;
-using NWebsec.AspNetCore.Middleware;
 
 namespace DasBlog.Web
 {
@@ -174,7 +173,6 @@ namespace DasBlog.Web
 			{
 				rveo.ViewLocationExpanders.Add(new DasBlogLocationExpander(Configuration.GetSection("Theme").Value));
 			});
-			services.Configure<RouteOptions>(Configuration);
 			
 			services.AddSession(options =>
 			{
@@ -217,9 +215,8 @@ namespace DasBlog.Web
 				.AddSingleton<IConfigFileService<SiteSecurityConfigData>, SiteSecurityConfigFileService>();
 		
 			services
-				.AddAutoMapper(mapperConfig =>
+				.AddAutoMapper((serviceProvider, mapperConfig) =>
 				{
-					var serviceProvider = services.BuildServiceProvider();
 					mapperConfig.AddProfile(new ProfilePost(serviceProvider.GetService<IDasBlogSettings>()));
 					mapperConfig.AddProfile(new ProfileDasBlogUser(serviceProvider.GetService<ISiteSecurityManager>()));
 					mapperConfig.AddProfile(new ProfileSettings());
@@ -235,7 +232,7 @@ namespace DasBlog.Web
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-		public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IOptions<RouteOptions> routeOptionsAccessor, IDasBlogSettings dasBlogSettings)
+		public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IDasBlogSettings dasBlogSettings)
 		{
 			(var siteOk, var siteError) = RepairSite(app);
 
@@ -275,40 +272,8 @@ namespace DasBlog.Web
 				});
 			}
 
-
 			app.UseForwardedHeaders();
-
-			app.UseHsts(options => options.MaxAge(days: 30));
-			app.UseXContentTypeOptions();
-			app.UseXXssProtection(options => options.EnabledWithBlockMode());
-			app.UseXfo(options => options.SameOrigin());
-			app.UseReferrerPolicy(opts => opts.NoReferrerWhenDowngrade());
-
-			app.UseCsp(options => options
-				.DefaultSources(s => s.Self()
-					.CustomSources("data:")
-					.CustomSources("https:"))
-				.StyleSources(s => s.Self()
-					.CustomSources("www.google.com", "platform.twitter.com", "cdn.syndication.twimg.com", "fonts.googleapis.com")
-					.UnsafeInline()
-				)
-				.ScriptSources(s => s.Self()
-					   .CustomSources("www.google.com", "cse.google.com", "cdn.syndication.twimg.com", "platform.twitter.com", "cdn1.developermedia.com", "cdn2.developermedia.com", "apis.google.com", "www.google-analytics.com", "www.googletagservices.com", "adservice.google.com", "securepubads.g.doubleclick.net", "ajax.aspnetcdn.com", "ssl.google-analytics.com", "cdn.polyfill.io", "az416426.vo.msecnd.net")
-					.UnsafeInline()
-					.UnsafeEval()
-				)
-			);
-
-			//Feature-Policy
-			app.Use(async (context, next) =>
-			{
-				context.Response.Headers.Add("Feature-Policy", "geolocation 'none';midi 'none';notifications 'none';push 'none';sync-xhr 'none';microphone 'none';camera 'none';magnetometer 'none';gyroscope 'none';speaker 'self';vibrate 'none';fullscreen 'self';payment 'none';");
-				await next.Invoke();
-			});
-
-
-
-
+			
 			app.UseStaticFiles();
 
 			app.UseStaticFiles(new StaticFileOptions()
@@ -332,7 +297,7 @@ namespace DasBlog.Web
 			{
 				endpoints.MapHealthChecks("/healthcheck");
 				
-				if (routeOptionsAccessor.Value.EnableTitlePermaLinkUnique)
+				if (dasBlogSettings.SiteConfiguration.EnableTitlePermaLinkUnique)
 				{
 					endpoints.MapControllerRoute(
 						"Original Post Format",
@@ -418,11 +383,6 @@ namespace DasBlog.Web
 			}
 
 			return richEditBuilder;
-		}
-
-		public class RouteOptions
-		{
-			public bool EnableTitlePermaLinkUnique { get; set; }
 		}
 	}
 }

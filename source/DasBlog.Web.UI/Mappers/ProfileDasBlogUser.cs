@@ -61,7 +61,6 @@ namespace DasBlog.Web.Mappers
 				.ForMember(dest => dest.Active, opt => opt.MapFrom(src => src.Active))
 				.ForMember(dest => dest.Password, opt => opt.MapFrom(src => string.Empty))
 				.ForMember(dest => dest.OriginalEmail, opt => opt.MapFrom(src => src.EmailAddress))
-				// we don't know what the password is - so we can't tell the user
 				;
 		}
 	}

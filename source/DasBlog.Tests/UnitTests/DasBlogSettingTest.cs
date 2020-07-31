@@ -218,5 +218,10 @@ namespace DasBlog.Tests.UnitTests
 		{
 			throw new NotImplementedException();
 		}
+
+		public bool IsAdmin(string gravatarhash)
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

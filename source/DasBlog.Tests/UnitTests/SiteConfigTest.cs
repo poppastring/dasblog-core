@@ -19,6 +19,8 @@ namespace DasBlog.Tests.UnitTests
 		public string Root { get => "http://www.poppastring.com/"; set => throw new NotImplementedException(); }
 		public string Copyright { get => "CopyRight"; set => throw new NotImplementedException(); }
 		public int RssDayCount { get => 100; set => throw new NotImplementedException(); }
+		public bool ShowCommentCount { get => true; set => throw new NotImplementedException(); }
+
 		public int RssMainEntryCount { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 		public int RssEntryCount { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 		public bool EnableRssItemFooters { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
@@ -42,7 +44,6 @@ namespace DasBlog.Tests.UnitTests
 		public bool EnableConfigEditService { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 		public bool EnableEditService { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 		public bool EnableAutoPingback { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-		public bool ShowCommentCount { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 		public bool EnableTrackbackService { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 		public bool EnablePingbackService { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 		public bool EnableStartPageCaching { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }

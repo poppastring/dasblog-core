@@ -132,7 +132,7 @@ namespace DasBlog.Test.Integration
 			Browser.Navigate().GoToUrl(Server.RootUri + "/archive/2020/2/27");
 			Assert.StartsWith("Archive - My DasBlog!", Browser.Title);
 
-			var postSelector = By.LinkText("Welcome to DasBlog Core");
+			var postSelector = By.PartialLinkText("Welcome to DasBlog Core");
 			var link = Browser.FindElement(postSelector);
 			link.Click();
 
@@ -253,7 +253,7 @@ namespace DasBlog.Test.Integration
 				createpostSelector = By.Id("CreatePostLink");
 				createpostlink = Browser.FindElement(createpostSelector);
 			}
-			catch(Exception ex)
+			catch(Exception)
 			{
 				Assert.StartsWith("My DasBlog!", Browser.Title);
 			}
@@ -271,7 +271,7 @@ namespace DasBlog.Test.Integration
 
 			SendKeysToElement("BlogTitle", "A New Post");
 
-			SendKeysToElement("mytextarea", "We certainly hope this works...");
+			// SendKeysToElement("tinymce", "We certainly hope this works...");
 
 			SendKeysToElement("BlogNewCategoryName", "Test Category");
 
@@ -286,7 +286,11 @@ namespace DasBlog.Test.Integration
 			var blogpostSubmitlink = Browser.FindElement(blogpostSelector);
 			blogpostSubmitlink.Click();
 
+
+
 			// Check new post
+			Browser.Navigate().GoToUrl(Server.RootUri);
+
 			Browser.Navigate().GoToUrl(Server.RootUri + "/a-new-post");
 
 			Assert.StartsWith("A New Post", Browser.Title);
@@ -399,7 +403,6 @@ namespace DasBlog.Test.Integration
 			var eleementlink = Browser.FindElement(elementid);
 			eleementlink.SendKeys(keystosend);
 		}
-
 
 		public void Dispose()
 		{

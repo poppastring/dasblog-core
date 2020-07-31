@@ -51,6 +51,7 @@ using Blogger = DasBlog.Services.XmlRpc.Blogger;
 using MoveableType = DasBlog.Services.XmlRpc.MoveableType;
 using MetaWeblog = DasBlog.Services.XmlRpc.MetaWeblog;
 using CookComputing.XmlRpc;
+using System.Net;
 
 namespace DasBlog.Managers
 {
@@ -191,7 +192,7 @@ namespace DasBlog.Managers
 			VerifyAccess(username, password);
 
 			var entries = dataService.GetEntriesForDay(DateTime.Now.ToUniversalTime(), dasBlogSettings.GetConfiguredTimeZone(), null,
-				dasBlogSettings.SiteConfiguration.RssDayCount, numberOfPosts, null);
+														numberOfPosts, numberOfPosts, null);
 			var arrayList = new List<MoveableType.PostTitle>();
 			foreach (Entry entry in entries)
 			{
@@ -418,7 +419,7 @@ namespace DasBlog.Managers
 			VerifyAccess(username, password);
 
 			var entries = dataService.GetEntriesForDay(DateTime.Now.ToUniversalTime(), dasBlogSettings.GetConfiguredTimeZone(),
-											null, dasBlogSettings.SiteConfiguration.RssDayCount, numberOfPosts, null);
+											null, numberOfPosts, numberOfPosts, null);
 			var arrayList = new List<Blogger.Post>();
 			foreach (Entry entry in entries)
 			{
@@ -594,7 +595,7 @@ namespace DasBlog.Managers
 			VerifyAccess(username, password);
 
 			var entries = dataService.GetEntriesForDay(DateTime.Now.ToUniversalTime(), dasBlogSettings.GetConfiguredTimeZone(), null,
-														dasBlogSettings.SiteConfiguration.RssDayCount, numberOfPosts, null);
+														numberOfPosts, numberOfPosts, null);
 			var arrayList = new List<MetaWeblog.Post>();
 			foreach (Entry entry in entries)
 			{
@@ -651,7 +652,7 @@ namespace DasBlog.Managers
 			}
 
 			//Patched to avoid html entities in title
-			entry.Title = post.title; // TODO: Find out how to decode this...  HttpUtility.HtmlDecode(post.title);
+			entry.Title = WebUtility.HtmlDecode(post.title);
 			entry.Content = post.description;
 			entry.Description = NoNull(post.mt_excerpt);
 
@@ -726,7 +727,7 @@ namespace DasBlog.Managers
 
 		private MetaWeblog.Post Create(Entry entry)
 		{
-			if (entry == null) throw new ArgumentNullException("entry");
+			if (entry == null) throw new ArgumentNullException(nameof(entry));
 
 			var post = new MetaWeblog.Post();
 			post.description = entry.Content ?? "";
@@ -736,7 +737,7 @@ namespace DasBlog.Managers
 			post.link = post.permalink = dasBlogSettings.GetPermaLinkUrl(entry.EntryId);
 			post.postid = entry.EntryId ?? "";
 			post.categories = entry.GetSplitCategories();
-			post.mt_text_more = "true";
+			post.mt_text_more = "";
 			return post;
 		}
 

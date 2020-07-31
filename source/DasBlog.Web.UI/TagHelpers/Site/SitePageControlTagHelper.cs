@@ -32,16 +32,8 @@ namespace DasBlog.Web.TagHelpers.Layout
 
 		public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
 		{
-			try
-			{
-				PostCount = (int)ViewContext.ViewData[Constants.PostCount];
-				PageNumber = (int)ViewContext.ViewData[Constants.PageNumber];
-			}
-			catch (NullReferenceException)
-			{
-				PostCount = 0;
-				PageNumber = 0;
-			}
+			PostCount = (int?)ViewContext.ViewData[Constants.PostCount] ?? 0;
+			PageNumber = (int?)ViewContext.ViewData[Constants.PageNumber] ?? 0;
 
 			var pagecontrol = string.Empty;
 
