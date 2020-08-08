@@ -117,14 +117,7 @@ namespace DasBlog.Web.Settings
 			return titlePermalink;
 		}
 
-		public static string GetPermaTitle(string title, string permaLinkSpaceReplacement)
-		{
-			string titlePermalink = title.Trim().ToLower();
 
-			titlePermalink = titlePermalink.Replace("+", permaLinkSpaceReplacement);
-			
-			return titlePermalink;
-		}
 		public string GetCommentViewUrl(string entryId)
         {
             return RelativeToRoot(entryId) + $"/comments#{Constants.CommentsStartId}";
