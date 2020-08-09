@@ -13,28 +13,31 @@
     }
 }
 
-<div class="modal-body form-horizontal @admincommentstyle">
-    <div class="row">
-        <div class="col-md-12">
-            <comment-gravatar-image comment="@Model" css="img-thumbnail rounded float-left" />
+@if (dasBlogSettings.SiteConfiguration.EnableComments)
+{
+    <div class="modal-body form-horizontal @admincommentstyle">
+        <div class="row">
+            <div class="col-md-12">
+                <comment-gravatar-image comment="@Model" css="img-thumbnail rounded float-left" />
 
-            <div class="row">
-                <div class="col-md-12 mb-6">
-                    <strong><comment-user-home-page-link comment="@Model" /></strong> <i>(<comment-date comment="@Model" date-time-format="MMMM dd, yyyy H:mm" />)</i>
+                <div class="row">
+                    <div class="col-md-12 mb-6">
+                        <strong><comment-user-home-page-link comment="@Model" /></strong> <i>(<comment-date comment="@Model" date-time-format="MMMM dd, yyyy H:mm" />)</i>
+                    </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12 mb-6 font-weight-light" >
-                    <comment-content comment="@Model" />
+                <div class="row">
+                    <div class="col-md-12 mb-6 font-weight-light">
+                        <comment-content comment="@Model" />
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row">
-        <div dasblog-authorized class="col-md-12 mb-6">
-            <comment-approval-link comment="@Model" />
-            <span style="display:inline-block; width: 1em;"></span>
-            <comment-delete-link comment="@Model" />
+        <div class="row">
+            <div dasblog-authorized class="col-md-12 mb-6">
+                <comment-approval-link comment="@Model" />
+                <span style="display:inline-block; width: 1em;"></span>
+                <comment-delete-link comment="@Model" />
+            </div>
         </div>
     </div>
-</div>
+}
