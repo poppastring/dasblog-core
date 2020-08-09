@@ -8,11 +8,11 @@
         <small class="mb-1 text-muted"><post-created-date post="@Model" date-time-format="MMMM dd, yyyy" /></small>
     </p>
     <div>
-        <post-description post="@Model"></post-description>
+        <p class="card-text mb-auto"><post-content post="@Model" strip-html="true" content-length="20" /></p>
     </div>
 
     <p class="lead">
-        <post-perma-link post="@Model" css="btn btn-primary btn-lg mt-2">Continue Reading</post-perma-link>
+        <post-title-link post=@Model>Continue reading...</post-title-link>
     </p>
 </div>
 
