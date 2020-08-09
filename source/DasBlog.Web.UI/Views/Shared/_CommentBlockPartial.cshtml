@@ -3,7 +3,7 @@
 @model ListCommentsViewModel
 @inject IDasBlogSettings dasBlogSettings
 
-@if (Model != null && Model.Comments != null)
+@if (dasBlogSettings.SiteConfiguration.EnableComments && Model?.Comments != null)
 {
     <hr />
     <h3 class="comment-section-title" id="@DasBlog.Core.Common.Constants.CommentsStartId">Comment Section</h3>
