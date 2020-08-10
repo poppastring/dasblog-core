@@ -226,7 +226,7 @@ namespace DasBlog.Managers
                     if (entry.AllowComments)
                     {
                         XmlElement commentApi = doc2.CreateElement("wfw", "comment", "http://wellformedweb.org/CommentAPI/");
-                        commentApi.InnerText = dasBlogSettings.GetCommentViewUrl(entry.CompressedTitle.Replace("+", dasBlogSettings.SiteConfiguration.TitlePermalinkSpaceReplacement));
+                        commentApi.InnerText = dasBlogSettings.GetCommentViewUrl(dasBlogSettings.GeneratePostUrl(entry));
                         anyElements.Add(commentApi);
                     }
 
@@ -242,7 +242,7 @@ namespace DasBlog.Managers
                         slashComments.InnerText = commentsCount.ToString();
                         anyElements.Add(slashComments);
                     }
-                    item.Comments = dasBlogSettings.GetCommentViewUrl(entry.CompressedTitle.Replace("+",dasBlogSettings.SiteConfiguration.TitlePermalinkSpaceReplacement));
+                    item.Comments = dasBlogSettings.GetCommentViewUrl(dasBlogSettings.GeneratePostUrl(entry));
                 }
                 item.Language = entry.Language;
 
