@@ -204,5 +204,7 @@ namespace DasBlog.Services.ConfigFile
 
 		[XmlElement]
 		public ValidCommentTags [] ValidCommentTags { get; set; }
+
+		public bool UseAspxExtension { get; set; }
 	}
 }

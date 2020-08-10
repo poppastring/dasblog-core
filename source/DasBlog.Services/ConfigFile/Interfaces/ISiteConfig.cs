@@ -333,6 +333,8 @@ namespace DasBlog.Services.ConfigFile.Interfaces
 
         string CheesySpamA { get; set; }
 
+		bool UseAspxExtension { get; set; }
+
         [XmlAnyElement]
         XmlElement[] anyElements { get; set; }
 

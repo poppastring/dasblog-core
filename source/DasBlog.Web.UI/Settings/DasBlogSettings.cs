@@ -108,23 +108,6 @@ namespace DasBlog.Web.Settings
 			return RelativeToRoot("post/" + entryId, root);
 		}
 
-		public string GetPermaTitle(string title)
-		{
-			string titlePermalink = title.Trim().ToLower();
-
-			titlePermalink = titlePermalink.Replace("+", SiteConfiguration.TitlePermalinkSpaceReplacement);
-			
-			return titlePermalink;
-		}
-
-		public static string GetPermaTitle(string title, string permaLinkSpaceReplacement)
-		{
-			string titlePermalink = title.Trim().ToLower();
-
-			titlePermalink = titlePermalink.Replace("+", permaLinkSpaceReplacement);
-			
-			return titlePermalink;
-		}
 		public string GetCommentViewUrl(string entryId)
         {
             return RelativeToRoot(entryId) + $"/comments#{Constants.CommentsStartId}";
@@ -280,9 +263,43 @@ namespace DasBlog.Web.Settings
 			return RelativeToRoot("feed/rsd", root);
 		}
 
+		public string GetPermaTitle(string titleurl)
+		{
+			var titlePermalink = titleurl.Trim();
+
+			if (!SiteConfiguration.UseAspxExtension)
+			{
+				titlePermalink = titlePermalink.ToLower();
+
+				titlePermalink = titlePermalink.Replace("+", SiteConfiguration.TitlePermalinkSpaceReplacement);
+			}
+			else
+			{
+				titlePermalink = string.Format("{0}.aspx", titlePermalink.Replace("+", string.Empty));
+			}
+
+			return titlePermalink;
+		}
+
 		public string CompressTitle(string title)
 		{
 			return Entry.InternalCompressTitle(title, SiteConfiguration.TitlePermalinkSpaceReplacement).ToLower();
+		}
+
+		public string GeneratePostUrl(Entry entry)
+		{
+			string link;
+
+			if (SiteConfiguration.EnableTitlePermaLinkUnique)
+			{
+				link = GetPermaTitle(entry.CompressedTitleUnique);
+			}
+			else
+			{
+				link = GetPermaTitle(entry.CompressedTitle);
+			}
+
+			return link;
 		}
 
 		public bool IsAdmin(string gravatarhashid)
