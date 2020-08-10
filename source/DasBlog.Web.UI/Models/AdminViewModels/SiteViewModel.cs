@@ -242,6 +242,10 @@ namespace DasBlog.Web.Models.AdminViewModels
 		[Description("")]
 		public bool ShowCommentCount { get; set; }
 
+		[DisplayName("Use ASPX extensions (will not 301 redirect)")]
+		[Description("")]
+		public bool UseAspxExtension { get; set; }
+
 
 		public bool EntryTitleAsLink { get; set; }
 		public bool ObfuscateEmail { get; set; }
