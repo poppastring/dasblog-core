@@ -8,6 +8,7 @@ using Microsoft.Extensions.FileProviders;
 using NodaTime;
 using System.Xml.Serialization;
 using DasBlog.Services;
+using newtelligence.DasBlog.Runtime;
 
 namespace DasBlog.Tests.UnitTests
 {
@@ -216,12 +217,32 @@ namespace DasBlog.Tests.UnitTests
 
 		public string CompressTitle(string title)
 		{
-			throw new NotImplementedException();
+			string titlePermalink = title.Trim().ToLower();
+
+			titlePermalink = titlePermalink.Replace("+", SiteConfiguration.TitlePermalinkSpaceReplacement);
+
+			return titlePermalink;
 		}
 
 		public bool IsAdmin(string gravatarhash)
 		{
 			throw new NotImplementedException();
+		}
+
+		public string GeneratePostUrl(Entry entry)
+		{
+			string link;
+
+			if (SiteConfiguration.EnableTitlePermaLinkUnique)
+			{
+				link = GetPermaTitle(entry.CompressedTitleUnique);
+			}
+			else
+			{
+				link = GetPermaTitle(entry.CompressedTitle);
+			}
+
+			return link;
 		}
 	}
 }

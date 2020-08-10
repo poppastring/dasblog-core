@@ -52,7 +52,7 @@ namespace DasBlog.Managers
 			{
 				var entries = dataService.GetEntriesForDay(dt.Value, null, null, 1, 10, null);
 
-				return entries.FirstOrDefault(e => dasBlogSettings.GetPermaTitle(e.CompressedTitle)
+				return entries.FirstOrDefault(e => dasBlogSettings.GeneratePostUrl(e)
 				  .Replace(dasBlogSettings.SiteConfiguration.TitlePermalinkSpaceReplacement, string.Empty) == posttitle);
 			}
 		}
