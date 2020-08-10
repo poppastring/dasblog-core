@@ -75,7 +75,7 @@ namespace DasBlog.Web.Controllers
 				};
 				pvm.Comments = lcvm;
 
-				if (httpContextAccessor.HttpContext.Request.Path.Value.EndsWith(".aspx", StringComparison.OrdinalIgnoreCase))
+				if (!dasBlogSettings.SiteConfiguration.UseAspxExtension && httpContextAccessor.HttpContext.Request.Path.Value.EndsWith(".aspx", StringComparison.OrdinalIgnoreCase))
 				{
 					return RedirectPermanent(pvm.PermaLink);
 				}

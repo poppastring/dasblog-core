@@ -265,9 +265,18 @@ namespace DasBlog.Web.Settings
 
 		public string GetPermaTitle(string titleurl)
 		{
-			var titlePermalink = titleurl.Trim().ToLower();
+			var titlePermalink = titleurl.Trim();
 
-			titlePermalink = titlePermalink.Replace("+", SiteConfiguration.TitlePermalinkSpaceReplacement);
+			if (!SiteConfiguration.UseAspxExtension)
+			{
+				titlePermalink = titlePermalink.ToLower();
+
+				titlePermalink = titlePermalink.Replace("+", SiteConfiguration.TitlePermalinkSpaceReplacement);
+			}
+			else
+			{
+				titlePermalink = string.Format("{0}.aspx", titlePermalink.Replace("+", string.Empty));
+			}
 
 			return titlePermalink;
 		}

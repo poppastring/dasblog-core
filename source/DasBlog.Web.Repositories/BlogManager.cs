@@ -42,7 +42,8 @@ namespace DasBlog.Managers
 		/// <param name="dt">if non-null then the post must be dated on that date</param>
 		public Entry GetBlogPost(string posttitle, DateTime? dt)
 		{
-			posttitle = posttitle.Replace(dasBlogSettings.SiteConfiguration.TitlePermalinkSpaceReplacement,string.Empty);
+			posttitle = posttitle.Replace(dasBlogSettings.SiteConfiguration.TitlePermalinkSpaceReplacement,string.Empty)
+									.Replace(".aspx", string.Empty);
 
 			if (dt == null)
 			{
