@@ -42,11 +42,11 @@ namespace DasBlog.Managers
 		/// <param name="dt">if non-null then the post must be dated on that date</param>
 		public Entry GetBlogPost(string posttitle, DateTime? dt)
 		{
-			posttitle = posttitle.Replace(dasBlogSettings.SiteConfiguration.TitlePermalinkSpaceReplacement,string.Empty)
-									.Replace(".aspx", string.Empty);
-
 			if (dt == null)
 			{
+				posttitle = posttitle.Replace(dasBlogSettings.SiteConfiguration.TitlePermalinkSpaceReplacement, string.Empty)
+									.Replace(".aspx", string.Empty);
+
 				return dataService.GetEntry(posttitle);
 			}
 			else
@@ -54,7 +54,7 @@ namespace DasBlog.Managers
 				var entries = dataService.GetEntriesForDay(dt.Value, null, null, 1, 10, null);
 
 				return entries.FirstOrDefault(e => dasBlogSettings.GeneratePostUrl(e)
-				  .Replace(dasBlogSettings.SiteConfiguration.TitlePermalinkSpaceReplacement, string.Empty) == posttitle);
+											.EndsWith(posttitle, StringComparison.OrdinalIgnoreCase));
 			}
 		}
 
