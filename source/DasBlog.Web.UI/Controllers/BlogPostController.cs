@@ -447,7 +447,7 @@ namespace DasBlog.Web.Controllers
 		[HttpGet("post/category/{category}")]
 		public IActionResult GetCategory(string category)
 		{
-			if (string.IsNullOrEmpty(category))
+			if (string.IsNullOrWhiteSpace(category))
 			{
 				return RedirectToAction("Index", "Home");
 			}
@@ -463,9 +463,14 @@ namespace DasBlog.Web.Controllers
 		}
 
 		[AllowAnonymous]
-		[HttpPost("/post/search", Name=Constants.SearcherRouteName)]
+		[HttpPost("post/search", Name=Constants.SearcherRouteName)]
 		public IActionResult Search(string searchText)
 		{
+			if (string.IsNullOrWhiteSpace(searchText))
+			{
+				return RedirectToAction("Index", "Home");
+			}
+
 			var lpvm = new ListPostsViewModel();
 			var entries = blogManager.SearchEntries(WebUtility.HtmlEncode(searchText), Request.Headers["Accept-Language"])?.Where(e => e.IsPublic)?.ToList();
 

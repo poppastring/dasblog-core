@@ -1,8 +1,10 @@
 ﻿using DasBlog.Core.Common;
+using DasBlog.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using System;
+using System.Security.Policy;
 using System.Threading.Tasks;
 
 namespace DasBlog.Web.TagHelpers.Layout
@@ -16,11 +18,14 @@ namespace DasBlog.Web.TagHelpers.Layout
 		public string Action { get; set; }
 		public string Heading { get; set; } = "Search";
 		public string ButtonName { get; set; } = "Go";
+		public string ButtonClass { get; set; } = "btn";
 
 		private readonly IUrlHelper urlHelper;
+		private readonly IDasBlogSettings dasBlogSettings;
 
-		public SiteSearchBoxTagHelper(IHttpContextAccessor accessor)
+		public SiteSearchBoxTagHelper(IDasBlogSettings dasBlogSettings, IHttpContextAccessor accessor)
 		{
+			this.dasBlogSettings = dasBlogSettings;
 			urlHelper = accessor.HttpContext?.Items[typeof(IUrlHelper)] as IUrlHelper;
 			if (urlHelper == null)
 			{
@@ -41,8 +46,12 @@ namespace DasBlog.Web.TagHelpers.Layout
 			}
 			else
 			{
-				actionUrl = urlHelper.RouteUrl(Constants.SearcherRouteName);
+				var baseUri = new Uri(dasBlogSettings.SiteConfiguration.Root);
+				var myUri = new Uri(baseUri, urlHelper.RouteUrl(Constants.SearcherRouteName));
+
+				actionUrl = myUri.AbsoluteUri;
 			}
+
 			output.TagName = string.Empty;
 			output.Content.Clear();
 			output.Content.AppendHtml($@"
@@ -53,7 +62,7 @@ namespace DasBlog.Web.TagHelpers.Layout
 								<div class='card-body'>
 									<form method='post' action='{actionUrl}'>
 										<input type='text' name='searchText' id='{Id}'/>
-										<input class='btn' type='submit' value='{ButtonName}'/>
+										<input class='{ButtonClass}' type='submit' value='{ButtonName}'/>
 									</form>
 								</div>
 							</div>
