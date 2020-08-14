@@ -77,8 +77,9 @@ namespace DasBlog.Web.Mappers
 
 			CreateMap<Entry, CategoryPostItem>()
 				.ForMember(dest => dest.BlogTitle, opt => opt.MapFrom(src => src.Title))
-				.ForMember(dest => dest.BlogId, opt => opt.MapFrom(src => src.EntryId));
-
+				.ForMember(dest => dest.BlogId, opt => opt.MapFrom(src => _dasBlogSettings.GeneratePostUrl(src)))
+				.ForMember(dest => dest.Category, opt => opt.MapFrom(src => src.GetSplitCategories().FirstOrDefault()))
+				.ForMember(dest => dest.Date, opt => opt.MapFrom(src => src.CreatedLocalTime));
 
 			CreateMap<Tag, TagViewModel>()
 				.ForMember(dest => dest.Allowed, opt => opt.MapFrom(src => src.Allowed))
