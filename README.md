@@ -7,15 +7,6 @@ One of the primary goals of this project is to preserve the essence of the origi
 
 Check out the [wiki](https://github.com/poppastring/dasblog-core/wiki) for additional information on DasBlog Fundamentals. 
 
-## Our guiding principles
-
-In developing this project we attempted to follow some [fundamental principles](https://www.poppastring.com/blog/one-hard-thing-in-software-engineering):
-- Pragmatically reuse original DasBlog projects where feasible (includes reusing existing config files).
-- Do not be afraid to abandon features/projects that are easily solved with a NuGet package (Pop3, CAPTCHA, Noda Time, etc.)
-- Let's use Razor for "Themes"
-- Port the custom logging solution to use .NET Core
-- DI all the things (avoid massive static objects)
-
 ## Deployment
 Check out the [Deployment Wiki](https://github.com/poppastring/dasblog-core/wiki/1.-Deployment)
 
