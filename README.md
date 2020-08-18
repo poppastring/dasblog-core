@@ -1,28 +1,24 @@
-&nbsp;
+<p align="center">
+	<a href="https://forum.ghost.org">FAQ</a> |
+	<a href="https://github.com/poppastring/dasblog-core/wiki/1.-Deployment">Deployment</a> |
+	<a href="https://www.poppastring.com/blog/category/dasblog-core">Blog</a> |
+	<a href="https://github.com/poppastring/dasblog-core/blob/main/CONTRIBUTING.md">Contributing to Dasblog Core</a>
 
-	<p align="center">
+	<br /><br />
 
-		<a href="https://forum.ghost.org">FAQ</a> |
-		<a href="https://github.com/poppastring/dasblog-core/wiki/1.-Deployment">Deployment</a> |
-		<a href="https://www.poppastring.com/blog/category/dasblog-core">Blog</a> |
-		<a href="https://github.com/poppastring/dasblog-core/blob/main/CONTRIBUTING.md">Contributing to Dasblog Core</a>
-
-		<br /><br />
-
-		<a href="https://github.com/poppastring/dasblog-core/releases/">
-			<img src="https://img.shields.io/github/v/release/poppastring/dasblog-core.svg" alt="Latest release" />
-		</a>
-		<a href="https://github.com/TryGhost/Ghost/actions">
-			<img src="https://poppastring.visualstudio.com/dasblog-core/_apis/build/status/poppastring.dasblog-core?branchName=master&jobName=Job&configuration=Job%20windows" alt="Windows Build status" />
-		</a>
-		<a href="https://poppastring.visualstudio.com/dasblog-core/_build/latest?definitionId=2&branchName=main">
-			<img src="https://poppastring.visualstudio.com/dasblog-core/_apis/build/status/poppastring.dasblog-core?branchName=master&jobName=Job&configuration=Job%20linux" alt="Linux Build status" />
-		</a>
-		<a href="https://poppastring.visualstudio.com/dasblog-core/_build/latest?definitionId=2&branchName=main">
-			<img src="https://github.com/poppastring/dasblog-core/graphs/contributors" alt="Contributors" />
-		</a>
-
-	</p>
+	<a href="https://github.com/poppastring/dasblog-core/releases/">
+		<img src="https://img.shields.io/github/v/release/poppastring/dasblog-core.svg" alt="Latest release" />
+	</a>
+	<a href="https://github.com/TryGhost/Ghost/actions">
+		<img src="https://poppastring.visualstudio.com/dasblog-core/_apis/build/status/poppastring.dasblog-core?branchName=master&jobName=Job&configuration=Job%20windows" alt="Windows Build status" />
+	</a>
+	<a href="https://poppastring.visualstudio.com/dasblog-core/_build/latest?definitionId=2&branchName=main">
+		<img src="https://poppastring.visualstudio.com/dasblog-core/_apis/build/status/poppastring.dasblog-core?branchName=master&jobName=Job&configuration=Job%20linux" alt="Linux Build status" />
+	</a>
+	<a href="https://poppastring.visualstudio.com/dasblog-core/_build/latest?definitionId=2&branchName=main">
+		<img src="https://github.com/poppastring/dasblog-core/graphs/contributors" alt="Contributors" />
+	</a>
+</p>
 
 &nbsp;
 
