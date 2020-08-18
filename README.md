@@ -22,6 +22,8 @@
 
 </p>
 
+&nbsp;
+
 
 # Dasblog Core
 One of the primary goals of this project is to preserve the essence of the original [DasBlog Blogging Engine](https://msdn.microsoft.com/en-us/library/aa480016.aspx) while taking advantage of the modern cross platform goodness of ASP.NET Core.
