@@ -1,5 +1,5 @@
 <p align="center">
-	<a href="https://forum.ghost.org">FAQ</a> |
+	<a href="https://github.com/poppastring/dasblog-core/blob/main/FAQ.md">FAQ</a> |
 	<a href="https://github.com/poppastring/dasblog-core/wiki/1.-Deployment">Deployment</a> |
 	<a href="https://www.poppastring.com/blog/category/dasblog-core">Blog</a> |
 	<a href="https://github.com/poppastring/dasblog-core/blob/main/CONTRIBUTING.md">Contributing to Dasblog Core</a>
@@ -18,13 +18,13 @@
 &nbsp;
 
 # Dasblog Core
-One of the primary goals of this project is to preserve the essence of the original [DasBlog Blogging Engine](https://msdn.microsoft.com/en-us/library/aa480016.aspx) while taking advantage of the modern cross platform goodness of ASP.NET Core.
+One of the primary goals of this project is to create a new blogging that preserves the essence of the original [DasBlog Blogging Engine](https://msdn.microsoft.com/en-us/library/aa480016.aspx) while also taking advantage of the modern cross platform goodness of ASP.NET Core.
 
 ## Building 
-Check out the [Deployment Wiki](https://github.com/poppastring/dasblog-core/blob/main/CONTRIBUTING.md)
+If you want to build and contribute to Dasblog Core check out the [contribution docs](https://github.com/poppastring/dasblog-core/blob/main/CONTRIBUTING.md)
 
 ## Deployment
-Check out the [Deployment Wiki](https://github.com/poppastring/dasblog-core/wiki/1.-Deployment)
+Need help deploying? Review the [Deployment Wiki](https://github.com/poppastring/dasblog-core/wiki/1.-Deployment) first.
 
 ## Documentation
 Check out the [wiki](https://github.com/poppastring/dasblog-core/wiki) for additional information on DasBlog Core Fundamentals.
