@@ -2,6 +2,11 @@
 One of the primary goals of this project is to create a new blogging that preserves the essence of the original [DasBlog Blogging Engine](https://msdn.microsoft.com/en-us/library/aa480016.aspx) while also taking advantage of the modern cross platform goodness of ASP.NET Core.
 
 <p align="center">
+  <a href="https://github.com/poppastring/dasblog-core">
+    <img src="https://github.com/poppastring/dasblog-core/blob/documentation-iupdate/images/dasblog.jpg?raw=true" width="140px" alt="DasBlog" />
+  </a>
+</p>
+<p align="center">
 	<a href="https://github.com/poppastring/dasblog-core/blob/main/FAQ.md">FAQ</a> |
 	<a href="https://github.com/poppastring/dasblog-core/wiki/1.-Deployment">Deployment</a> |
 	<a href="https://www.poppastring.com/blog/category/dasblog-core">Blog</a> |
