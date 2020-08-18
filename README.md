@@ -11,7 +11,7 @@ One of the primary goals of this project is to create a new blogging that preser
 	<a href="https://github.com/poppastring/dasblog-core/releases/">
 		<img src="https://img.shields.io/github/v/release/poppastring/dasblog-core.svg" alt="Latest release" />
 	</a>
-	<a href="https://github.com/TryGhost/Ghost/actions">
+	<a href="https://poppastring.visualstudio.com/dasblog-core/_build/latest?definitionId=2&branchName=main">
 		<img src="https://poppastring.visualstudio.com/dasblog-core/_apis/build/status/poppastring.dasblog-core?branchName=master&jobName=Job&configuration=Job%20windows" alt="Windows Build status" />
 	</a>
 	<a href="https://poppastring.visualstudio.com/dasblog-core/_build/latest?definitionId=2&branchName=main">
