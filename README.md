@@ -1,6 +1,3 @@
-# Dasblog Core
-One of the primary goals of this project is to create a new blogging that preserves the essence of the original [DasBlog Blogging Engine](https://msdn.microsoft.com/en-us/library/aa480016.aspx) while also taking advantage of the modern cross platform goodness of ASP.NET Core.
-
 <p align="center">
   <a href="https://github.com/poppastring/dasblog-core">
     <img src="https://github.com/poppastring/dasblog-core/blob/documentation-iupdate/images/dasblog.jpg?raw=true" width="140px" alt="DasBlog" />
@@ -22,6 +19,9 @@ One of the primary goals of this project is to create a new blogging that preser
 		<img src="https://poppastring.visualstudio.com/dasblog-core/_apis/build/status/poppastring.dasblog-core?branchName=master&jobName=Job&configuration=Job%20linux" alt="Linux Build status" />
 	</a>
 </p>
+
+# Dasblog Core
+One of the primary goals of this project is to create a new blogging that preserves the essence of the original [DasBlog Blogging Engine](https://msdn.microsoft.com/en-us/library/aa480016.aspx) while also taking advantage of the modern cross platform goodness of ASP.NET Core.
 
 ## Building 
 If you want to build and contribute to Dasblog Core check out the [contribution docs](https://github.com/poppastring/dasblog-core/blob/main/CONTRIBUTING.md).
