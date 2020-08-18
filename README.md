@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://github.com/poppastring/dasblog-core">
-    <img src="https://github.com/poppastring/dasblog-core/blob/documentation-iupdate/images/dasblog.jpg?raw=true" width="140px" alt="DasBlog" />
+    <img src="https://github.com/poppastring/dasblog-core/blob/main/images/dasblog.jpg" alt="DasBlog" />
   </a>
 </p>
 <p align="center">
@@ -24,7 +24,7 @@
 One of the primary goals of this project is to create a new blogging engine that preserves the essence of the original [DasBlog Blogging Engine](https://msdn.microsoft.com/en-us/library/aa480016.aspx) while also taking advantage of the modern cross platform goodness of ASP.NET Core.
 
 ## Building 
-If you want to build and contribute code to Dasblog Core please fork this repo and submit a PR, check out the [contribution docs](https://github.com/poppastring/dasblog-core/blob/main/CONTRIBUTING.md) for more details.
+If you want to build and contribute code to Dasblog Core please fork this repo and submit a PR, check out the [contribution docs](https://github.com/poppastring/dasblog-core/blob/main/CONTRIBUTING.md#developers) for more details.
 
 ## Deployment
 Need help deploying? Review the [Deployment Wiki](https://github.com/poppastring/dasblog-core/wiki/1.-Deployment) first or submit Issues for more assistance.
