@@ -3,9 +3,7 @@
 	<a href="https://github.com/poppastring/dasblog-core/wiki/1.-Deployment">Deployment</a> |
 	<a href="https://www.poppastring.com/blog/category/dasblog-core">Blog</a> |
 	<a href="https://github.com/poppastring/dasblog-core/blob/main/CONTRIBUTING.md">Contributing to Dasblog Core</a>
-
 	<br /><br />
-
 	<a href="https://github.com/poppastring/dasblog-core/releases/">
 		<img src="https://img.shields.io/github/v/release/poppastring/dasblog-core.svg" alt="Latest release" />
 	</a>
