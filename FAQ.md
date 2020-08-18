@@ -1,3 +1,6 @@
+# Frequently Asked Questions
+
+
 #### Q: What is this?
 A: DasBlog-core  is an open source blogging engine based heavily on the  work produced by a community of volunteers and contributors who helped make [the original DasBlog a very popular blogging option](https://github.com/shanselman/dasblog).
 
