@@ -1,8 +1,8 @@
-#Contributing to dasblog-core
+# Contributing to dasblog-core
 DasBlog-core  is an open source project based heavily on the  work produced by a community of volunteers and contributors whole helped make [the original DasBlog blogging engine](https://github.com/shanselman/dasblog) a roaring success. This project has adopted the [code of conduct policy](https://github.com/poppastring/dasblog-core/blob/main/CODE_OF_CONDUCT.md) to clarify expected behavior in our community.
 
 
-##Issues
+## Issues
 If you have found a bug or have an idea for a new feature/enhancement then please take a look at the Issues. You can search the Issues to see if someone has a similar problem or idea by using the Filter box. If your issue is a new one then please create it.
 
 When creating issues, please provide as much information as possible.  The following information is recommended:

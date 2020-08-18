@@ -21,14 +21,13 @@
 </p>
 
 # Dasblog Core
-One of the primary goals of this project is to create a new blogging that preserves the essence of the original [DasBlog Blogging Engine](https://msdn.microsoft.com/en-us/library/aa480016.aspx) while also taking advantage of the modern cross platform goodness of ASP.NET Core.
+One of the primary goals of this project is to create a new blogging engine that preserves the essence of the original [DasBlog Blogging Engine](https://msdn.microsoft.com/en-us/library/aa480016.aspx) while also taking advantage of the modern cross platform goodness of ASP.NET Core.
 
 ## Building 
-If you want to build and contribute to Dasblog Core check out the [contribution docs](https://github.com/poppastring/dasblog-core/blob/main/CONTRIBUTING.md).
+If you want to build and contribute code to Dasblog Core please fork this repo and submit a PR, check out the [contribution docs](https://github.com/poppastring/dasblog-core/blob/main/CONTRIBUTING.md) for more details.
 
 ## Deployment
-Need help deploying? Review the [Deployment Wiki](https://github.com/poppastring/dasblog-core/wiki/1.-Deployment) first.
+Need help deploying? Review the [Deployment Wiki](https://github.com/poppastring/dasblog-core/wiki/1.-Deployment) first or submit Issues for more assistance.
 
 ## Documentation
-Check out the [wiki](https://github.com/poppastring/dasblog-core/wiki) for additional information on DasBlog Core Fundamentals.
-
+Check out the [wiki](https://github.com/poppastring/dasblog-core/wiki) for additional information on DasBlog Core architecture and fundamentals.
