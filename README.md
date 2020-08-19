@@ -21,7 +21,7 @@
 </p>
 
 # Dasblog Core
-One of the primary goals of this project is to create a new blogging engine that preserves the essence of the original [DasBlog Blogging Engine](https://msdn.microsoft.com/en-us/library/aa480016.aspx) while also taking advantage of the modern cross platform goodness of ASP.NET Core.
+One of the primary goals of this project is to create a new blogging engine that preserves the essence of the original [DasBlog Blogging Engine](https://msdn.microsoft.com/en-us/library/aa480016.aspx), we also get the opportunity to take advantage of the modern cross platform goodness of ASP.NET Core.
 
 ## Building 
 If you want to build and contribute code to Dasblog Core please fork this repo and submit a PR, check out the [contribution docs](https://github.com/poppastring/dasblog-core/blob/main/CONTRIBUTING.md#developers) for more details.
