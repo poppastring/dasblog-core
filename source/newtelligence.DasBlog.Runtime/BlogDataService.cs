@@ -120,7 +120,7 @@ namespace newtelligence.DasBlog.Runtime
             get
             {
                 string version = GetType().Assembly.GetName().Version.ToString();
-                return "newtelligence dasBlog/" + version;
+                return "dasBlog Core/" + version;
             }
         }
 
@@ -319,58 +319,7 @@ namespace newtelligence.DasBlog.Runtime
             return InternalGetDayExtra(date);
         }
 
-/*
-        protected void PingWeblogsWorker(object argument)
-        {
-            WeblogUpdatePingInfo weblogInfo = argument as WeblogUpdatePingInfo;
 
-            foreach (PingService pingService in weblogInfo.PingServices)
-            {
-                try
-                {
-                    if (pingService.PingApi == PingService.PingApiType.Basic)
-                    {
-                        WeblogUpdatesClientProxy updates = new WeblogUpdatesClientProxy(pingService.Endpoint);
-                        WeblogUpdatesReply reply = updates.Ping(weblogInfo.BlogName, weblogInfo.BlogUrl);
-                        if (reply.flerror)
-                        {
-                            ErrorTrace.Trace(TraceLevel.Error, String.Format("Notifying {0}: {1}", pingService.Name, reply.message));
-                            if (loggingService != null)
-                            {
-                                loggingService.AddEvent(
-                                    new EventDataItem(EventCodes.PingWeblogsError, reply.message, weblogInfo.BlogUrl, pingService.Endpoint, pingService.Name));
-                            }
-                        }
-                    }
-                    else if (pingService.PingApi == PingService.PingApiType.Extended)
-                    {
-                        ExtendedWeblogUpdatesClientProxy updates = new ExtendedWeblogUpdatesClientProxy(pingService.Endpoint);
-                        WeblogUpdatesReply reply = updates.ExtendedPing(weblogInfo.BlogName, weblogInfo.BlogUrl, weblogInfo.CheckUrl, weblogInfo.RssUrl);
-                        if (reply.flerror)
-                        {
-                            ErrorTrace.Trace(TraceLevel.Error, String.Format("Notifying {0}: {1}", pingService.Name, reply.message));
-                            if (loggingService != null)
-                            {
-                                loggingService.AddEvent(
-                                    new EventDataItem(EventCodes.PingWeblogsError, reply.message, weblogInfo.BlogUrl, pingService.Endpoint, pingService.Name));
-                            }
-                        }
-                    }
-                }
-                catch (Exception e)
-                {
-                    ErrorTrace.Trace(TraceLevel.Error, e);
-                    if (loggingService != null)
-                    {
-                        loggingService.AddEvent(
-                            new EventDataItem(EventCodes.Error,
-                            e.ToString().Replace("\n", "<br />"),
-                            "PingWeblogsWorker, pinging " + pingService.Name));
-                    }
-                }
-            }
-        }
-*/
 
         protected class PingbackJob
         {
@@ -384,142 +333,12 @@ namespace newtelligence.DasBlog.Runtime
             }
         }
 
-/*
-        protected void Pingback(string sourceUri, string pingbackService, string pingbackTarget, string entryTitle)
-        {
-            try
-            {
-                if (pingbackService != null && pingbackTarget != null)
-                {
-                    PingbackClientProxy client = new PingbackClientProxy();
-                    client.UserAgent = this.UserAgent;
-                    client.Url = pingbackService;
-                    client.ping(sourceUri, pingbackTarget);
 
-                    this.loggingService.AddEvent(
-                        new EventDataItem(
-                        EventCodes.PingbackSent,
-                        entryTitle,
-                        sourceUri,
-                        pingbackTarget));
-                }
-            }
-            catch (XmlRpcFaultException xmlFault)
-            {
-                ErrorTrace.Trace(TraceLevel.Error, xmlFault);
-                if (loggingService != null)
-                {
-                    loggingService.AddEvent(
-                        new EventDataItem(EventCodes.PingbackServerError,
-                        String.Format("{0}: {1}", xmlFault.FaultCode, xmlFault.FaultString),
-                        sourceUri + "," + pingbackTarget));
-                }
-            }
-            catch (Exception e)
-            {
-                ErrorTrace.Trace(TraceLevel.Error, e);
-                if (loggingService != null)
-                {
-                    loggingService.AddEvent(
-                        new EventDataItem(EventCodes.PingbackServerError,
-                        e.ToString().Replace("\n", "<br />"),
-                        sourceUri + "," + pingbackTarget));
-                }
-            }
-        }
-*/
 
         private static readonly Regex anchors = new Regex("href\\s*=\\s*(?:(?:\\\"(?<url>[^\\\"]*)\\\")|(?<url>[^\\s]* ))", RegexOptions.Compiled);
         private static readonly Regex pingbackRegex = new Regex("<link rel=\"pingback\" href=\"([^\"]+)\" ?/?>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
-/*
-        protected void PingbackWorker(object argument)
-        {
-            PingbackJob job = argument as PingbackJob;
 
-            if (job.entry.Content != null &&
-                job.entry.Content.Length > 0)
-            {
-
-                foreach (Match match in anchors.Matches(job.entry.Content))
-                {
-                    string url = match.Groups["url"].Value;
-
-                    if (url.StartsWith("http"))
-                    { // don't pass in a url withouth http into Uri constructor
-                        try
-                        {
-                            Uri externalUri = new Uri(url);
-
-                            if (externalUri.Scheme == Uri.UriSchemeHttp)
-                            {
-                                // we're auto-detecting pingbacks and while we do that
-                                // we send a trackback in hope that the server may understand
-                                // that already. We're appending to the target URL and 
-                                // therefore shouldn't interfere with the server logic in case 
-                                // the identifiers collide with those the server is using.
-
-                                HttpWebRequest webRequest = WebRequest.Create(externalUri) as HttpWebRequest;
-                                webRequest.Method = "GET";
-                                webRequest.UserAgent = this.UserAgent;
-
-                                HttpWebResponse response = webRequest.GetResponse() as HttpWebResponse;
-
-                                // now we want to get the page contents of the target body
-                                string requestBody = null;
-                                using (StreamReader requestReader = new StreamReader(response.GetResponseStream()))
-                                {
-                                    requestBody = requestReader.ReadToEnd();
-                                }
-                                response.Close();
-
-                                // we will try a trackback first before a pingback
-                                // we need to auto discover the trackback url
-                                // http://www.movabletype.org/docs/mttrackback.html
-
-                                string trackbackUrl = GetTrackbackLink(requestBody, externalUri.AbsoluteUri);
-                                if (trackbackUrl != null)
-                                {
-                                    TrackbackInfo info = new TrackbackInfo(trackbackUrl, job.info.SourceUrl, job.info.SourceTitle, job.info.SourceExcerpt, job.info.SourceBlogName);
-                                    TrackbackWorker(new TrackbackJob(info, job.entry));
-                                }
-
-                                // first we try and get the X-Pingback HTTP header
-                                // http://www.hixie.ch/specs/pingback/pingback
-                                string pingbackService = response.GetResponseHeader("X-Pingback");
-
-                                // if we don't get the header
-                                // try and autodetect the auto pingback info
-                                if (pingbackService == null || pingbackService.Length == 0)
-                                {
-                                    string[] split = pingbackRegex.Split(requestBody);
-
-                                    if (split.Length == 1)
-                                        pingbackService = split[0];
-                                }
-
-                                if (pingbackService != null && pingbackService.Length > 0)
-                                {
-                                    Pingback(job.info.SourceUrl, pingbackService, url, job.entry.Title);
-                                }
-                            }
-                        }
-                        catch (Exception e)
-                        {
-                            ErrorTrace.Trace(TraceLevel.Error, e);
-                            if (loggingService != null)
-                            {
-                                loggingService.AddEvent(
-                                    new EventDataItem(EventCodes.Error,
-                                    e.ToString().Replace("\n", "<br />"),
-                                    "PingbackWorker, auto-discovery of: " + url));
-                            }
-                        }
-                    }
-                }
-            }
-        }
-*/
 
         private class TrackbackJob
         {
@@ -633,191 +452,6 @@ namespace newtelligence.DasBlog.Runtime
         }
 
 
-/*
-        protected void HandleCrosspost(CrosspostInfo ci, Entry entry)
-        {
-            try
-            {
-                BloggerAPIClientProxy proxy = new BloggerAPIClientProxy();
-                UriBuilder uriBuilder = new UriBuilder("http", ci.Site.HostName, ci.Site.Port, ci.Site.Endpoint);
-                proxy.Url = uriBuilder.ToString();
-                proxy.UserAgent = this.UserAgent;
-
-                if (ci.IsAlreadyPosted)
-                {
-                    try
-                    {
-                        if (ci.Site.ApiType == "metaweblog")
-                        {
-                            mwPost existingPost = new mwPost();
-                            existingPost.link = "";
-                            existingPost.permalink = "";
-                            existingPost.categories = ci.Categories.Split(';');
-                            existingPost.postid = ci.TargetEntryId;
-                            existingPost.dateCreated = entry.CreatedLocalTime;
-                            existingPost.title = entry.Title;
-                            existingPost.description = entry.Content + ci.GetTrackingSnippet(entry.EntryId);
-
-                            proxy.metaweblog_editPost(ci.TargetEntryId, ci.Site.Username, ci.Site.Password, existingPost, true);
-
-                            Crosspost cp = new Crosspost();
-                            cp.TargetEntryId = ci.TargetEntryId;
-                            cp.ProfileName = ci.Site.ProfileName;
-                            cp.Categories = ci.Categories;
-                            entry.Crossposts.Add(cp);
-
-                        }
-                        else if (ci.Site.ApiType == "blogger")
-                        {
-                            proxy.blogger_editPost("", ci.TargetEntryId, ci.Site.Username, ci.Site.Password, entry.Content + ci.GetTrackingSnippet(entry.EntryId), true);
-
-                            Crosspost cp = new Crosspost();
-                            cp.TargetEntryId = ci.TargetEntryId;
-                            cp.ProfileName = ci.Site.ProfileName;
-                            entry.Crossposts.Add(cp);
-                        }
-
-                        if (loggingService != null)
-                        {
-                            loggingService.AddEvent(
-                                new EventDataItem(EventCodes.CrosspostChanged, ci.Site.HostName, null));
-                        }
-
-                    }
-                    catch (XmlRpcFaultException xrfe)
-                    {
-                        ErrorTrace.Trace(TraceLevel.Error, xrfe);
-                        if (loggingService != null)
-                        {
-                            loggingService.AddEvent(
-                                new EventDataItem(EventCodes.Error,
-                                xrfe.Message,
-                                String.Format("Updating cross-post entry {0} on {1}; Failed with server-fault code, {2} \"{3}\"", ci.TargetEntryId, ci.Site.ProfileName, xrfe.FaultCode, xrfe.FaultString)));
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        ErrorTrace.Trace(TraceLevel.Error, e);
-                        if (loggingService != null)
-                        {
-                            loggingService.AddEvent(
-                                new EventDataItem(EventCodes.Error,
-                                e.ToString().Replace("\n", "<br />"),
-                                String.Format("Updating cross-post entry {0} on {1}", ci.TargetEntryId, ci.Site.ProfileName)));
-                        }
-                    }
-                }
-                else
-                {
-                    try
-                    {
-
-                        if (ci.Site.ApiType == "metaweblog")
-                        {
-                            mwPost newPost = new mwPost();
-                            newPost.link = "";
-                            newPost.permalink = "";
-                            newPost.postid = "";
-                            newPost.categories = ci.Categories.Split(';');
-                            newPost.dateCreated = entry.CreatedLocalTime;
-                            newPost.description = entry.Content + ci.GetTrackingSnippet(entry.EntryId);
-                            newPost.title = entry.Title;
-                            newPost.postid = proxy.metaweblog_newPost(ci.Site.BlogId,
-                                ci.Site.Username,
-                                ci.Site.Password,
-                                newPost, true);
-                            Crosspost cp = new Crosspost();
-                            cp.TargetEntryId = newPost.postid;
-                            cp.ProfileName = ci.Site.ProfileName;
-                            cp.Categories = ci.Categories;
-                            entry.Crossposts.Add(cp);
-                        }
-                        else if (ci.Site.ApiType == "blogger")
-                        {
-                            Crosspost cp = new Crosspost();
-                            cp.TargetEntryId = proxy.blogger_newPost("", ci.Site.BlogId, ci.Site.Username, ci.Site.Password, entry.Content + ci.GetTrackingSnippet(entry.EntryId), true);
-                            cp.ProfileName = ci.Site.ProfileName;
-                            entry.Crossposts.Add(cp);
-                        }
-
-                        if (loggingService != null)
-                        {
-                            loggingService.AddEvent(
-                                new EventDataItem(EventCodes.CrosspostAdded, ci.Site.HostName, null));
-                        }
-                    }
-                    catch (XmlRpcFaultException xrfe)
-                    {
-                        ErrorTrace.Trace(TraceLevel.Error, xrfe);
-                        if (loggingService != null)
-                        {
-                            loggingService.AddEvent(
-                                new EventDataItem(EventCodes.Error,
-                                xrfe.Message,
-                                String.Format("Adding cross-post entry to {0}; Failed with server-fault code, {1} \"{2}\"", ci.Site.ProfileName, xrfe.FaultCode, xrfe.FaultString)));
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        ErrorTrace.Trace(TraceLevel.Error, e);
-                        if (loggingService != null)
-                        {
-                            loggingService.AddEvent(
-                                new EventDataItem(EventCodes.Error,
-                                e.ToString().Replace("\n", "<br />"),
-                                String.Format("Adding cross-post entry to {0}", ci.Site.ProfileName)));
-                        }
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                ErrorTrace.Trace(TraceLevel.Error, e);
-                if (loggingService != null)
-                {
-                    loggingService.AddEvent(
-                        new EventDataItem(EventCodes.Error,
-                        e.ToString().Replace("\n", "<br />"),
-                        String.Format("HandleCrosspost to {0}", ci.Site.ProfileName)));
-                }
-            }
-
-        }
-
-        protected void CrosspostWorker(object argument)
-        {
-            CrosspostJob job = argument as CrosspostJob;
-            try
-            {
-                if (job.info is CrosspostInfoCollection)
-                {
-                    foreach (CrosspostInfo ci in job.info as CrosspostInfoCollection)
-                    {
-                        HandleCrosspost(ci, job.entry);
-                    }
-                }
-                else if (job.info is CrosspostInfo)
-                {
-                    HandleCrosspost(job.info as CrosspostInfo, job.entry);
-                }
-
-                job.dataService.SaveEntry(job.entry);
-
-            }
-            catch (Exception e)
-            {
-                ErrorTrace.Trace(TraceLevel.Error, e);
-                if (loggingService != null)
-                {
-                    loggingService.AddEvent(
-                        new EventDataItem(EventCodes.Error,
-                        e.ToString().Replace("\n", "<br />"),
-                        "CrosspostWorker"));
-                }
-            }
-        }
-*/
-
         protected Entry InternalGetEntry(string entryId)
         {
             Entry entryResult = null;
@@ -869,17 +503,6 @@ namespace newtelligence.DasBlog.Runtime
             return InternalGetEntry(entryId);
         }
 
-        //		/// <summary>
-        //		/// Returns the Entry for a given entryId. 
-        //		/// </summary>
-        //		/// <param name="entryId"></param>
-        //		/// <returns></returns>
-        //		string IBlogDataService.GetEntryTitle( string entryId )
-        //		{
-        //			EntryIdCache ecache = GetEntryIdCache();
-        //			string title = ecache.GetTitleFromEntryId(entryId);
-        //			return title;
-        //		}
 
         /// <summary>
         /// Returns a copy of the Entry for a given entryId. You must Save the Entry for changes to be
