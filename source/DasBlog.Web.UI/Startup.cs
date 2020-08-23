@@ -36,6 +36,8 @@ using DasBlog.Services;
 using Microsoft.AspNetCore.HttpOverrides;
 using DasBlog.Services.FileManagement.Interfaces;
 using Microsoft.Extensions.Logging;
+using Quartz;
+using DasBlog.Services.Scheduler;
 
 namespace DasBlog.Web
 {
@@ -227,6 +229,36 @@ namespace DasBlog.Web
 			services
 				.AddControllersWithViews()
 				.AddRazorRuntimeCompilation();
+
+			services.AddQuartz(q =>
+			{
+				q.SchedulerId = "Scheduler-Core";
+
+
+				var jobKey = new JobKey("key1", "main-group");
+
+				q.AddJob<SiteEmailReport>(j => j
+					.StoreDurably()
+					.WithIdentity(jobKey)
+					.WithDescription("Site report job")
+				);
+
+				q.AddTrigger(t => t
+					.WithIdentity("Cron Trigger")
+					.ForJob(jobKey)
+					.StartAt(DateBuilder.EvenSecondDate(DateTimeOffset.UtcNow.AddSeconds(3)))
+					.WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(11, 50)
+						.InTimeZone(TimeZoneInfo.FindSystemTimeZoneById("Central America Standard Time")))
+					.WithDescription("my awesome cron trigger"));
+
+
+
+			});
+
+			services.AddQuartzServer(options =>
+			{
+				options.WaitForJobsToComplete = true;
+			});
 
 			DasBlogServices = services;
 		}

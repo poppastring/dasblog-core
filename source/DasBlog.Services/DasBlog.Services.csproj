@@ -10,6 +10,7 @@
     <PackageReference Include="Kveer.XmlRPC" Version="1.1.1" />
     <PackageReference Include="MailKit" Version="2.4.1" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="3.0.0" />
+    <PackageReference Include="Quartz.AspNetCore" Version="3.1.0" />
   </ItemGroup>
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
