@@ -16,6 +16,7 @@ using DasBlog.Services;
 using System.Linq;
 using newtelligence.DasBlog.Runtime;
 using DasBlog.Services.FileManagement;
+using System.Net.Mail;
 
 namespace DasBlog.Web.Settings
 {
@@ -258,6 +259,13 @@ namespace DasBlog.Web.Settings
 		public bool IsAdmin(string gravatarhashid)
 		{
 			return (Utils.GetGravatarHash(SecurityConfiguration.Users.First().EmailAddress) == gravatarhashid);
+		}
+
+		public SendMailInfo GetMailInfo(MailMessage emailmessage)
+		{
+			return new SendMailInfo(emailmessage, SiteConfiguration.SmtpServer,
+						   SiteConfiguration.EnableSmtpAuthentication, SiteConfiguration.UseSSLForSMTP,
+						   SiteConfiguration.SmtpUserName, SiteConfiguration.SmtpPassword, SiteConfiguration.SmtpPort);
 		}
 	}
 }
