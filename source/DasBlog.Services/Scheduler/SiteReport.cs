@@ -36,21 +36,24 @@ namespace DasBlog.Services.Scheduler
 
 		public async Task Execute(IJobExecutionContext context)
 		{
-			logger.LogInformation(context.JobDetail.Key + " job executing, triggered by " + context.Trigger.Key);
+			if(dasBlogSettings.SiteConfiguration.EnableDailyReportEmail)
+			{ 
+				logger.LogInformation(context.JobDetail.Key + " job executing, triggered by " + context.Trigger.Key);
 
-			var emailbody = FormatEmail();
+				var emailbody = FormatEmail();
 			
-			var emailinfo = ComposeMail(emailbody);
+				var emailinfo = ComposeMail(emailbody);
 
-			try
-			{
-				emailinfo.SendMyMessage();
-			}
-			catch (Exception ex)
-			{
-				logger.LogError(new ActivityLogs.EventDataItem(ActivityLogs.EventCodes.SmtpError,
-											new Uri(dasBlogSettings.SiteConfiguration.Root),
-											string.Format("Weblog Daily Activity Report Failed: {0}", ex.Message)));
+				try
+				{
+					emailinfo?.SendMyMessage();
+				}
+				catch (Exception ex)
+				{
+					logger.LogError(new ActivityLogs.EventDataItem(ActivityLogs.EventCodes.SmtpError,
+												new Uri(dasBlogSettings.SiteConfiguration.Root),
+												string.Format("Weblog Daily Activity Report Failed: {0}", ex.Message)));
+				}
 			}
 
 			await Task.Delay(TimeSpan.FromMilliseconds(1));
@@ -136,7 +139,14 @@ namespace DasBlog.Services.Scheduler
 			}
 			else
 			{
-				emailMessage.To.Add(dasBlogSettings.SiteConfiguration.Contact);
+				if (!string.IsNullOrWhiteSpace(dasBlogSettings.SiteConfiguration.Contact))
+				{
+					emailMessage.To.Add(dasBlogSettings.SiteConfiguration.Contact);
+				}
+				else
+				{
+					return null;
+				}
 			}
 
 			emailMessage.Subject = string.Format("Weblog Daily Activity Report for {0}, {1}", midnight.DayOfWeek, midnight.ToString("MMMM dd, yyyy"));
@@ -144,10 +154,17 @@ namespace DasBlog.Services.Scheduler
 			emailMessage.Body = body;
 
 			emailMessage.IsBodyHtml = true;
-			emailMessage.BodyEncoding = System.Text.Encoding.UTF8;
+			emailMessage.BodyEncoding = Encoding.UTF8;
 
-			emailMessage.From = new MailAddress(dasBlogSettings.SiteConfiguration.SmtpUserName);
-
+			if (!string.IsNullOrWhiteSpace(dasBlogSettings.SiteConfiguration.SmtpUserName))
+			{
+				emailMessage.From = new MailAddress(dasBlogSettings.SiteConfiguration.SmtpUserName);
+			}
+			else
+			{
+				return null;
+			}
+		
 			return dasBlogSettings.GetMailInfo(emailMessage);
 		}
 
