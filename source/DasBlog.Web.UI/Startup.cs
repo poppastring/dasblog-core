@@ -20,9 +20,7 @@ using Microsoft.AspNetCore.Rewrite;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
-using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Hosting;
-using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
 using System;
 using System.IO;
 using System.Linq;
@@ -54,8 +52,6 @@ namespace DasBlog.Web
 		private readonly string BinariesUrlRelativePath;
 
 		private readonly IWebHostEnvironment hostingEnvironment;
-		
-		public static IServiceCollection DasBlogServices { get; private set; }
 
 		public IConfiguration Configuration { get; }
 
@@ -268,8 +264,6 @@ namespace DasBlog.Web
 			{
 				options.WaitForJobsToComplete = true;
 			});
-
-			DasBlogServices = services;
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
