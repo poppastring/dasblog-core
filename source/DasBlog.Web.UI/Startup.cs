@@ -234,6 +234,18 @@ namespace DasBlog.Web
 			{
 				q.SchedulerId = "Scheduler-Core";
 
+				q.UseMicrosoftDependencyInjectionJobFactory(options =>
+				{
+					// if we don't have the job in DI, allow fallback to configure via default constructor
+					options.AllowDefaultConstructor = true;
+				});
+
+				q.UseSimpleTypeLoader();
+				q.UseInMemoryStore();
+				q.UseDefaultThreadPool(tp =>
+				{
+					tp.MaxConcurrency = 10;
+				});
 
 				var jobKey = new JobKey("key1", "main-group");
 
@@ -244,15 +256,12 @@ namespace DasBlog.Web
 				);
 
 				q.AddTrigger(t => t
-					.WithIdentity("Cron Trigger")
+					.WithIdentity("Simple Trigger")
 					.ForJob(jobKey)
-					.StartAt(DateBuilder.EvenSecondDate(DateTimeOffset.UtcNow.AddSeconds(3)))
-					.WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(11, 50)
-						.InTimeZone(TimeZoneInfo.FindSystemTimeZoneById("Central America Standard Time")))
-					.WithDescription("my awesome cron trigger"));
-
-
-
+					.StartNow()
+					.WithSimpleSchedule(x => x.WithInterval(TimeSpan.FromSeconds(40)).RepeatForever())
+					.WithDescription("my awesome simple trigger")
+				);
 			});
 
 			services.AddQuartzServer(options =>
