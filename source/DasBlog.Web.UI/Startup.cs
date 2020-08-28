@@ -255,8 +255,9 @@ namespace DasBlog.Web
 					.WithIdentity("Simple Trigger")
 					.ForJob(jobKey)
 					.StartNow()
-					.WithSimpleSchedule(x => x.WithInterval(TimeSpan.FromSeconds(40)).RepeatForever())
+					.WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(23, 45))
 					.WithDescription("my awesome simple trigger")
+
 				);
 			});
 
@@ -327,6 +328,8 @@ namespace DasBlog.Web
 			app.Use(PopulateThreadCurrentPrincipalForMvc);
 			app.UseRouting();
 			app.UseAuthorization();
+
+			app.UseLoggingAgent();
 
 			app.UseEndpoints(endpoints =>
 			{
