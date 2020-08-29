@@ -16,6 +16,7 @@ using DasBlog.Services;
 using System.Linq;
 using newtelligence.DasBlog.Runtime;
 using DasBlog.Services.FileManagement;
+using System.Net.Mail;
 
 namespace DasBlog.Web.Settings
 {
@@ -78,35 +79,15 @@ namespace DasBlog.Web.Settings
 			return new Uri(SiteConfiguration.Root).AbsoluteUri;
 		}
 
-		public static string GetBaseUrl(string root)
-		{
-			return new Uri(root).AbsoluteUri;
-		}
-
 		public string RelativeToRoot(string relative)
 		{
 			return new Uri(new Uri(SiteConfiguration.Root), relative).AbsoluteUri;
 		}
 
-		public static string RelativeToRoot(string relative, string root)
-		{
-			return new Uri(new Uri(root), relative).AbsoluteUri;
-		}
-		/// <summary>
-		/// sticks root on the front of the entry id
-		/// </summary>
-		/// <param name="entryId">typically a guid</param>
-		/// <param name="root">e.g. http://localhost:50432/</param>
-		/// <returns></returns>
         public string GetPermaLinkUrl(string entryId)
         {
             return RelativeToRoot("post/" + entryId);
         }
-
-		public static string GetPermaLinkUrl(string entryId, string root)
-		{
-			return RelativeToRoot("post/" + entryId, root);
-		}
 
 		public string GetCommentViewUrl(string entryId)
         {
@@ -173,26 +154,9 @@ namespace DasBlog.Web.Settings
 			}
 		}
 
-		public static DateTimeZone GetConfiguredTimeZone(bool adjustDisplayTimeZone, decimal displayTimeZoneIndex)
-		{
-			if (adjustDisplayTimeZone)
-			{
-				return DateTimeZone.ForOffset(Offset.FromSeconds((int)displayTimeZoneIndex * 3600));
-			}
-			else
-			{
-				return DateTimeZone.Utc;
-			}
-		}
-
 		public DateTime GetContentLookAhead()
 		{
 			return DateTime.UtcNow.AddDays(SiteConfiguration.ContentLookaheadDays);
-		}
-
-		public static DateTime GetContentLookAhead(int contentLookAheadDays)
-		{
-			return DateTime.UtcNow.AddDays(contentLookAheadDays);
 		}
 
 		public string FilterHtml(string input)
@@ -253,16 +217,6 @@ namespace DasBlog.Web.Settings
 			return (DateTime.UtcNow.AddDays(-1 * SiteConfiguration.DaysCommentsAllowed) < blogpostdate);
 		}
 
-		/// <summary>
-		/// sticks root on the front of the feeds url
-		/// </summary>
-		/// <param name="root">e.g. http://localhost:50432/</param>
-		/// <returns>e.g. http://localhost:50432;feed/rsd</returns>
-		public static string GetRsdUrl(string root)
-		{
-			return RelativeToRoot("feed/rsd", root);
-		}
-
 		public string GetPermaTitle(string titleurl)
 		{
 			var titlePermalink = titleurl.Trim();
@@ -305,6 +259,13 @@ namespace DasBlog.Web.Settings
 		public bool IsAdmin(string gravatarhashid)
 		{
 			return (Utils.GetGravatarHash(SecurityConfiguration.Users.First().EmailAddress) == gravatarhashid);
+		}
+
+		public SendMailInfo GetMailInfo(MailMessage emailmessage)
+		{
+			return new SendMailInfo(emailmessage, SiteConfiguration.SmtpServer,
+						   SiteConfiguration.EnableSmtpAuthentication, SiteConfiguration.UseSSLForSMTP,
+						   SiteConfiguration.SmtpUserName, SiteConfiguration.SmtpPassword, SiteConfiguration.SmtpPort);
 		}
 	}
 }

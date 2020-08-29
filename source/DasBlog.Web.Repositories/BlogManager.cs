@@ -455,7 +455,7 @@ namespace DasBlog.Managers
 			emailMessage.Subject = string.Format("SMTP email from {0}", dasBlogSettings.SiteConfiguration.Title);
 			emailMessage.Body = "Test ";
 
-			var sendMailInfo = GetMailInfo(emailMessage);
+			var sendMailInfo = dasBlogSettings.GetMailInfo(emailMessage);
 
 			try
 			{
@@ -531,15 +531,7 @@ namespace DasBlog.Managers
 
 			emailMessage.From = new MailAddress(dasBlogSettings.SiteConfiguration.SmtpUserName);
 
-			return GetMailInfo(emailMessage);
-		}
-
-		private SendMailInfo GetMailInfo(MailMessage emailmessage)
-		{
-			return new SendMailInfo(emailmessage, dasBlogSettings.SiteConfiguration.SmtpServer,
-						   dasBlogSettings.SiteConfiguration.EnableSmtpAuthentication, dasBlogSettings.SiteConfiguration.UseSSLForSMTP,
-						   dasBlogSettings.SiteConfiguration.SmtpUserName, dasBlogSettings.SiteConfiguration.SmtpPassword,
-						   dasBlogSettings.SiteConfiguration.SmtpPort);
+			return dasBlogSettings.GetMailInfo(emailMessage);
 		}
 	}
 }

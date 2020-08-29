@@ -53,7 +53,10 @@
 		EditUser,
 		DeleteUser,
 		RSS = 7000,
-		Site,
+		Site = 8000,
+		HttpReferrer = 10000,
+		HttpUserAgent = 10001,
+		HttpUserDomain = 10002,
 		ApplicationStartup = 32000,
 		
 	}

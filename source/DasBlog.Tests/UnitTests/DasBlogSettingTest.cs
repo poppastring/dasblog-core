@@ -9,6 +9,7 @@ using NodaTime;
 using System.Xml.Serialization;
 using DasBlog.Services;
 using newtelligence.DasBlog.Runtime;
+using System.Net.Mail;
 
 namespace DasBlog.Tests.UnitTests
 {
@@ -243,6 +244,11 @@ namespace DasBlog.Tests.UnitTests
 			}
 
 			return link;
+		}
+
+		public SendMailInfo GetMailInfo(MailMessage emailmessage)
+		{
+			throw new NotImplementedException();
 		}
 	}
 }

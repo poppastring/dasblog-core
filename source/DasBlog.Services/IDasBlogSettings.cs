@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net.Mail;
 using DasBlog.Core.Security;
 using DasBlog.Services.ConfigFile.Interfaces;
 using newtelligence.DasBlog.Runtime;
@@ -44,5 +45,6 @@ namespace DasBlog.Services
 		string CompressTitle(string title);
 		bool IsAdmin(string gravatarhash);
 		string GeneratePostUrl(Entry entry);
+		SendMailInfo GetMailInfo(MailMessage emailmessage);
 	}
 }

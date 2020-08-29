@@ -20,9 +20,7 @@ using Microsoft.AspNetCore.Rewrite;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
-using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Hosting;
-using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
 using System;
 using System.IO;
 using System.Linq;
@@ -36,6 +34,8 @@ using DasBlog.Services;
 using Microsoft.AspNetCore.HttpOverrides;
 using DasBlog.Services.FileManagement.Interfaces;
 using Microsoft.Extensions.Logging;
+using Quartz;
+using DasBlog.Services.Scheduler;
 
 namespace DasBlog.Web
 {
@@ -52,8 +52,6 @@ namespace DasBlog.Web
 		private readonly string BinariesUrlRelativePath;
 
 		private readonly IWebHostEnvironment hostingEnvironment;
-		
-		public static IServiceCollection DasBlogServices { get; private set; }
 
 		public IConfiguration Configuration { get; }
 
@@ -228,7 +226,45 @@ namespace DasBlog.Web
 				.AddControllersWithViews()
 				.AddRazorRuntimeCompilation();
 
-			DasBlogServices = services;
+			services.AddQuartz(q =>
+			{
+				q.SchedulerId = "Scheduler-Core";
+
+				q.UseMicrosoftDependencyInjectionJobFactory(options =>
+				{
+					// if we don't have the job in DI, allow fallback to configure via default constructor
+					options.AllowDefaultConstructor = true;
+				});
+
+				q.UseSimpleTypeLoader();
+				q.UseInMemoryStore();
+				q.UseDefaultThreadPool(tp =>
+				{
+					tp.MaxConcurrency = 10;
+				});
+
+				var jobKey = new JobKey("key1", "main-group");
+
+				q.AddJob<SiteEmailReport>(j => j
+					.StoreDurably()
+					.WithIdentity(jobKey)
+					.WithDescription("Site report job")
+				);
+
+				q.AddTrigger(t => t
+					.WithIdentity("Simple Trigger")
+					.ForJob(jobKey)
+					.StartNow()
+					.WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(23, 45))
+					.WithDescription("my awesome simple trigger")
+
+				);
+			});
+
+			services.AddQuartzServer(options =>
+			{
+				options.WaitForJobsToComplete = true;
+			});
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -292,6 +328,8 @@ namespace DasBlog.Web
 			app.Use(PopulateThreadCurrentPrincipalForMvc);
 			app.UseRouting();
 			app.UseAuthorization();
+
+			app.UseLoggingAgent();
 
 			app.UseEndpoints(endpoints =>
 			{
