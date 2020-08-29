@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DasBlog.Services;
 using DasBlog.Services.ActivityLogs;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -23,17 +24,27 @@ namespace DasBlog.Web.Services
 
 		public async Task Invoke(HttpContext context)
 		{
-			if (!context.Request.Headers["User-Agent"].ToString().IsNullOrWhiteSpace())
+			try
 			{
-				logger.LogDebug(new EventDataItem(EventCodes.HttpUserAgent, null, context.Request.Headers["User-Agent"].ToString()));
-			}
+				if (!context.Request.Headers["User-Agent"].ToString().IsNullOrWhiteSpace())
+				{
+					logger.LogInformation(new EventDataItem(EventCodes.HttpUserAgent, null, context.Request.Headers["User-Agent"].ToString()));
+				}
 
-			if (!context.Request.Headers["Referrer"].ToString().IsNullOrWhiteSpace())
+				if (!context.Request.Headers["Referrer"].ToString().IsNullOrWhiteSpace())
+				{
+					logger.LogInformation(new EventDataItem(EventCodes.HttpReferrer, null, context.Request.Headers["Referrer"].ToString()));
+				}
+
+				if (!context.Request.HttpContext.Connection.RemoteIpAddress.ToString().IsNullOrWhiteSpace())
+				{
+					logger.LogInformation(new EventDataItem(EventCodes.HttpReferrer, null, context.Request.HttpContext.Connection.RemoteIpAddress.ToString()));
+				}
+			}
+			catch (Exception ex)
 			{
-				logger.LogDebug(new EventDataItem(EventCodes.HttpReferrer, null, context.Request.Headers["Referrer"].ToString()));
+				logger.LogError(new EventDataItem(EventCodes.Error, null, string.Format("Logging Agent Exception:{0}", ex.Message)));
 			}
-
-			logger.LogDebug(new EventDataItem(EventCodes.HttpReferrer, null, context.Request.HttpContext.Connection.RemoteIpAddress.ToString()));
 
 			await _next.Invoke(context);
 		}
