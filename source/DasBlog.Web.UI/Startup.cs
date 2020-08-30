@@ -36,6 +36,7 @@ using DasBlog.Services;
 using Microsoft.AspNetCore.HttpOverrides;
 using DasBlog.Services.FileManagement.Interfaces;
 using Microsoft.Extensions.Logging;
+using reCAPTCHA.AspNetCore;
 
 namespace DasBlog.Web
 {
@@ -50,6 +51,8 @@ namespace DasBlog.Web
 		private readonly string LogFolderPath;
 		private readonly string BinariesPath;
 		private readonly string BinariesUrlRelativePath;
+        private readonly string RecaptchaSiteKey;
+        private readonly string RecaptchaSecretKey;
 
 		private readonly IWebHostEnvironment hostingEnvironment;
 		
@@ -75,6 +78,8 @@ namespace DasBlog.Web
 			BinariesPath = new DirectoryInfo(Path.Combine(env.ContentRootPath, Configuration.GetValue<string>("BinariesDir"))).FullName;
 			ThemeFolderPath = new DirectoryInfo(Path.Combine(hostingEnvironment.ContentRootPath, "Themes", Configuration.GetSection("Theme").Value)).FullName;
 			LogFolderPath = new DirectoryInfo(Path.Combine(hostingEnvironment.ContentRootPath, Configuration.GetSection("LogDir").Value)).FullName;
+            RecaptchaSiteKey = Configuration.GetSection("RecaptchaSiteKey").Value;
+            RecaptchaSecretKey = Configuration.GetSection("RecaptchaSecretKey").Value;
 			BinariesUrlRelativePath = "content/binary";
 			
 		}
@@ -227,6 +232,12 @@ namespace DasBlog.Web
 			services
 				.AddControllersWithViews()
 				.AddRazorRuntimeCompilation();
+            
+            services.AddRecaptcha(options =>
+            {
+                options.SiteKey = RecaptchaSiteKey; 
+                options.SecretKey = RecaptchaSecretKey; 
+            });
 
 			DasBlogServices = services;
 		}

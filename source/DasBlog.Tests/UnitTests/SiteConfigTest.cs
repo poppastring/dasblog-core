@@ -89,6 +89,9 @@ namespace DasBlog.Tests.UnitTests
 		public string ReferralUrlBlackList { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 		public string[] ReferralUrlBlackListArray { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 		public bool EnableCaptcha { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public string RecaptchaSiteKey { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public string RecaptchaSecretKey { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public double RecaptchaMinimumScore { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 		public bool EnableReferralUrlBlackList404s { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 		public bool EnableMovableTypeBlackList { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 		public string ChannelImageUrl { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }

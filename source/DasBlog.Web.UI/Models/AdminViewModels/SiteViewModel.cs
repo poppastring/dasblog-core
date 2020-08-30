@@ -141,9 +141,26 @@ namespace DasBlog.Web.Models.AdminViewModels
 		[DisplayName("Spam prevention answer")]
 		[Description("Cheesy Spam Answer - Defines an answer that the commenters need to respond with in order to submit a comment (only enabled when CheesySpamQ has a val")]
 		[StringLength(300, MinimumLength = 1, ErrorMessage = "{0} should be between 1 to 300 characters")]
-
 		public string CheesySpamA { get; set; }
 
+		[DisplayName("Enable Captcha")]
+		[Description("Let's You Decide if you want to use Google's Recaptcha to Prevents Bots from spamming the comments on your posts.")]
+        public bool EnableCaptcha { get; set; }
+
+       	[DisplayName("Recapcha Minimum Score")]
+		[Description("Minimum Score for the Recaptcha to be considered pass. For example if you are asked to identify an image at least 50% of the images must be identified if score if 0.5")]
+		[Range(0.0, 1.0, ErrorMessage = "Values should be between 0 and 1")]
+        public double RecaptchaMinimumScore { get; set; }
+        
+       	[DisplayName("Google Recaptha Site Key")]
+		[Description("Recaptcha Site Key Based on Recaptha Configured On Google Recaptcha Admin Site.")]
+		[StringLength(300, MinimumLength = 1, ErrorMessage = "{0} should be between 1 to 300 characters")]
+        public string RecaptchaSiteKey { get; set; }
+        
+       	[DisplayName("Google Recaptcha Secret Key")]
+		[Description("Recaptcha Secret Key based on Recaptcha configured on Google Recaptha Admin Site.")]
+		[StringLength(300, MinimumLength = 1, ErrorMessage = "{0} should be between 1 to 300 characters")]
+        public string RecaptchaSecretKey { get; set; }
 
 		[DisplayName("Enable unique URls")]
 		[Description(@"Enable Title PermaLink Unique - Ensures all urls are unique by adding a date to the URL '\somepost' becomes '20191112\some - post'")]
@@ -289,8 +306,7 @@ namespace DasBlog.Web.Models.AdminViewModels
 		public bool EnableReferralUrlBlackList { get; set; }
 		public string ReferralUrlBlackList { get; set; }
 		public string[] ReferralUrlBlackListArray { get; set; }
-		public bool EnableCaptcha { get; set; }
-		public bool EnableReferralUrlBlackList404s { get; set; }
+        public bool EnableReferralUrlBlackList404s { get; set; }
 		public bool EnableMovableTypeBlackList { get; set; }
 		public bool EnableCrossPostFooter { get; set; }
 		public string CrossPostFooter { get; set; }
