@@ -228,7 +228,9 @@ namespace DasBlog.Web
 
 			services.Configure<CookiePolicyOptions>(options =>
 			{
-				options.CheckConsentNeeded = context => true;
+				bool.TryParse(Configuration.GetSection("CookieConsentEnabled").Value, out var flag);
+
+				options.CheckConsentNeeded = context => flag;
 				options.MinimumSameSitePolicy = SameSiteMode.None;
 			});
 
