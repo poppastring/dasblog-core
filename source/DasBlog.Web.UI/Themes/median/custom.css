@@ -812,3 +812,7 @@ table, td, tr, th, thead {
   background: #f7f7f7; }
   .error-page h1 {
     font-size: 4rem; }
+
+.alert-info {
+    background-color: #7376df;
+}

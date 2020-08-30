@@ -155,6 +155,7 @@ namespace DasBlog.Tests.UnitTests
 		public XmlAttribute[] anyAttributes { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 		public bool ShowItemSummaryInAggregatedViews { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 		public bool UseAspxExtension { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+		public bool CookieConsentEnabled { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 		ValidCommentTags[] ISiteConfig.ValidCommentTags { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 	}
 }

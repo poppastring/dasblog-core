@@ -4,7 +4,13 @@ using DasBlog.Managers;
 using DasBlog.Managers.Interfaces;
 using DasBlog.Services.ActivityLogs;
 using DasBlog.Services.ConfigFile.Interfaces;
+using DasBlog.Services;
+using DasBlog.Services.ConfigFile;
 using DasBlog.Services.FileManagement;
+using DasBlog.Services.FileManagement.Interfaces;
+using DasBlog.Services.Scheduler;
+using DasBlog.Services.Site;
+using DasBlog.Services.Users;
 using DasBlog.Web.Identity;
 using DasBlog.Web.Settings;
 using DasBlog.Web.Mappers;
@@ -14,6 +20,7 @@ using DasBlog.Web.TagHelpers.RichEdit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.Rewrite;
@@ -21,21 +28,14 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using Quartz;
 using System;
 using System.IO;
 using System.Linq;
 using System.Security.Principal;
 using System.Threading;
 using System.Threading.Tasks;
-using DasBlog.Services.Site;
-using DasBlog.Services.ConfigFile;
-using DasBlog.Services.Users;
-using DasBlog.Services;
-using Microsoft.AspNetCore.HttpOverrides;
-using DasBlog.Services.FileManagement.Interfaces;
-using Microsoft.Extensions.Logging;
-using Quartz;
-using DasBlog.Services.Scheduler;
 
 namespace DasBlog.Web
 {
@@ -226,6 +226,14 @@ namespace DasBlog.Web
 				.AddControllersWithViews()
 				.AddRazorRuntimeCompilation();
 
+			services.Configure<CookiePolicyOptions>(options =>
+			{
+				bool.TryParse(Configuration.GetSection("CookieConsentEnabled").Value, out var flag);
+
+				options.CheckConsentNeeded = context => flag;
+				options.MinimumSameSitePolicy = SameSiteMode.None;
+			});
+
 			services.AddQuartz(q =>
 			{
 				q.SchedulerId = "Scheduler-Core";
@@ -311,6 +319,7 @@ namespace DasBlog.Web
 			app.UseForwardedHeaders();
 			
 			app.UseStaticFiles();
+			app.UseCookiePolicy();
 
 			app.UseStaticFiles(new StaticFileOptions()
 			{
