@@ -36,13 +36,6 @@ using System.Linq;
 using System.Security.Principal;
 using System.Threading;
 using System.Threading.Tasks;
-using DasBlog.Services.Site;
-using DasBlog.Services.ConfigFile;
-using DasBlog.Services.Users;
-using DasBlog.Services;
-using Microsoft.AspNetCore.HttpOverrides;
-using DasBlog.Services.FileManagement.Interfaces;
-using Microsoft.Extensions.Logging;
 using reCAPTCHA.AspNetCore;
 
 namespace DasBlog.Web
