@@ -209,5 +209,6 @@ namespace DasBlog.Services.ConfigFile
 		public ValidCommentTags [] ValidCommentTags { get; set; }
 
 		public bool UseAspxExtension { get; set; }
+		public bool CookieConsentEnabled { get; set; }
 	}
 }

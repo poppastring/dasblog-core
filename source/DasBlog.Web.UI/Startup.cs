@@ -4,7 +4,13 @@ using DasBlog.Managers;
 using DasBlog.Managers.Interfaces;
 using DasBlog.Services.ActivityLogs;
 using DasBlog.Services.ConfigFile.Interfaces;
+using DasBlog.Services;
+using DasBlog.Services.ConfigFile;
 using DasBlog.Services.FileManagement;
+using DasBlog.Services.FileManagement.Interfaces;
+using DasBlog.Services.Scheduler;
+using DasBlog.Services.Site;
+using DasBlog.Services.Users;
 using DasBlog.Web.Identity;
 using DasBlog.Web.Settings;
 using DasBlog.Web.Mappers;
@@ -14,15 +20,16 @@ using DasBlog.Web.TagHelpers.RichEdit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.Rewrite;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
-using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Hosting;
-using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
+using Microsoft.Extensions.Logging;
+using Quartz;
 using System;
 using System.IO;
 using System.Linq;
@@ -55,8 +62,6 @@ namespace DasBlog.Web
         private readonly string RecaptchaSecretKey;
 
 		private readonly IWebHostEnvironment hostingEnvironment;
-		
-		public static IServiceCollection DasBlogServices { get; private set; }
 
 		public IConfiguration Configuration { get; }
 
@@ -239,7 +244,53 @@ namespace DasBlog.Web
                 options.SecretKey = RecaptchaSecretKey; 
             });
 
-			DasBlogServices = services;
+			services.Configure<CookiePolicyOptions>(options =>
+			{
+				bool.TryParse(Configuration.GetSection("CookieConsentEnabled").Value, out var flag);
+
+				options.CheckConsentNeeded = context => flag;
+				options.MinimumSameSitePolicy = SameSiteMode.None;
+			});
+
+			services.AddQuartz(q =>
+			{
+				q.SchedulerId = "Scheduler-Core";
+
+				q.UseMicrosoftDependencyInjectionJobFactory(options =>
+				{
+					// if we don't have the job in DI, allow fallback to configure via default constructor
+					options.AllowDefaultConstructor = true;
+				});
+
+				q.UseSimpleTypeLoader();
+				q.UseInMemoryStore();
+				q.UseDefaultThreadPool(tp =>
+				{
+					tp.MaxConcurrency = 10;
+				});
+
+				var jobKey = new JobKey("key1", "main-group");
+
+				q.AddJob<SiteEmailReport>(j => j
+					.StoreDurably()
+					.WithIdentity(jobKey)
+					.WithDescription("Site report job")
+				);
+
+				q.AddTrigger(t => t
+					.WithIdentity("Simple Trigger")
+					.ForJob(jobKey)
+					.StartNow()
+					.WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(23, 45))
+					.WithDescription("my awesome simple trigger")
+
+				);
+			});
+
+			services.AddQuartzServer(options =>
+			{
+				options.WaitForJobsToComplete = true;
+			});
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -286,6 +337,7 @@ namespace DasBlog.Web
 			app.UseForwardedHeaders();
 			
 			app.UseStaticFiles();
+			app.UseCookiePolicy();
 
 			app.UseStaticFiles(new StaticFileOptions()
 			{
@@ -303,6 +355,8 @@ namespace DasBlog.Web
 			app.Use(PopulateThreadCurrentPrincipalForMvc);
 			app.UseRouting();
 			app.UseAuthorization();
+
+			app.UseLoggingAgent();
 
 			app.UseEndpoints(endpoints =>
 			{

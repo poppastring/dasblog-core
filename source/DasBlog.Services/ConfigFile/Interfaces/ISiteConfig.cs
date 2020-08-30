@@ -341,7 +341,9 @@ namespace DasBlog.Services.ConfigFile.Interfaces
 
 		bool UseAspxExtension { get; set; }
 
-        [XmlAnyElement]
+		bool CookieConsentEnabled { get; set; }
+
+		[XmlAnyElement]
         XmlElement[] anyElements { get; set; }
 
         [XmlAnyAttribute]

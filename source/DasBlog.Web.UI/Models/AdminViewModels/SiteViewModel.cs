@@ -263,6 +263,9 @@ namespace DasBlog.Web.Models.AdminViewModels
 		[Description("")]
 		public bool UseAspxExtension { get; set; }
 
+		[DisplayName("Cookie Consent (GDPR Support)")]
+		[Description("Help meet some of the EU General Data Protection Regulation (GDPR) requirements")]
+		public bool CookieConsentEnabled { get; set; }
 
 		public bool EntryTitleAsLink { get; set; }
 		public bool ObfuscateEmail { get; set; }
