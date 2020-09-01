@@ -206,6 +206,12 @@ namespace DasBlog.Services.ConfigFile.Interfaces
 
         bool EnableCaptcha { get; set; }
 
+        string RecaptchaSiteKey { get; set; }
+
+        string RecaptchaSecretKey { get; set; } 
+
+        double RecaptchaMinimumScore { get; set; }
+
         bool EnableReferralUrlBlackList404s { get; set; }
 
         bool EnableMovableTypeBlackList { get; set; }

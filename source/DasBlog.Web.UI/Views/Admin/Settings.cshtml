@@ -227,7 +227,39 @@
 
     </div>
 
-    <div class="dbc-form-check row">
+     <div class="dbc-form-check row">
+
+        @Html.LabelFor(m => @Model.SiteConfig.EnableCaptcha, null, new { @class = "dbc-col-form-label col-3" })
+        @Html.CheckBoxFor(m => @Model.SiteConfig.EnableCaptcha , new { @class = "dbc-form-check-input" })
+
+    </div>
+
+    <div class="dbc-form-group row">
+
+        @Html.LabelFor(m => @Model.SiteConfig.RecaptchaMinimumScore, null, new { @class = "dbc-col-form-label col-3" })
+        @Html.TextBoxFor(m => @Model.SiteConfig.RecaptchaMinimumScore , null, new { @class = "form-control col-9" })
+        @Html.ValidationMessageFor(m => m.SiteConfig.RecaptchaMinimumScore, null, new { @class = "text-danger" })
+
+    </div>
+    <div class="dbc-form-group row">
+
+        @Html.LabelFor(m => @Model.SiteConfig.RecaptchaSiteKey, null, new { @class = "dbc-col-form-label col-3" })
+        @Html.TextBoxFor(m => @Model.SiteConfig.RecaptchaSiteKey, null, new { @class = "form-control col-9" })
+        @Html.ValidationMessageFor(m => m.SiteConfig.RecaptchaSiteKey, null, new { @class = "text-danger" })
+
+    </div>
+
+
+
+    <div class="dbc-form-group row">
+
+        @Html.LabelFor(m => @Model.SiteConfig.RecaptchaSecretKey, null, new { @class = "dbc-col-form-label col-3" })
+        @Html.TextBoxFor(m => @Model.SiteConfig.RecaptchaSecretKey, null, new { @class = "form-control col-9" })
+        @Html.ValidationMessageFor(m => m.SiteConfig.RecaptchaSecretKey, null, new { @class = "text-danger" })
+    
+    </div>
+
+   <div class="dbc-form-check row">
 
         @Html.LabelFor(m => @Model.SiteConfig.ShowCommentsWhenViewingEntry, null, new { @class = "dbc-col-form-label col-3" })
         @Html.CheckBoxFor(m => @Model.SiteConfig.ShowCommentsWhenViewingEntry, new { @class = "dbc-form-check-input" })
@@ -554,7 +586,6 @@
     @Html.HiddenFor(@m => m.SiteConfig.EnableReferralUrlBlackList)
 
     @Html.HiddenFor(@m => m.SiteConfig.ReferralUrlBlackList)
-    @Html.HiddenFor(@m => m.SiteConfig.EnableCaptcha)
     @Html.HiddenFor(@m => m.SiteConfig.EnableReferralUrlBlackList404s)
 
     @Html.HiddenFor(@m => m.SiteConfig.EnableMovableTypeBlackList)

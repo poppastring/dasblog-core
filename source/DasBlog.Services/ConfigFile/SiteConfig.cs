@@ -130,6 +130,9 @@ namespace DasBlog.Services.ConfigFile
         public string ReferralUrlBlackList { get; set; }
         public string[] ReferralUrlBlackListArray { get; set; }
         public bool EnableCaptcha { get; set; }
+        public string RecaptchaSiteKey { get; set; }
+        public string RecaptchaSecretKey { get; set; } 
+        public double RecaptchaMinimumScore {get; set; }
         public bool EnableReferralUrlBlackList404s { get; set; }
         public bool EnableMovableTypeBlackList { get; set; }
         public string ChannelImageUrl { get; set; }
