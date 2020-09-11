@@ -27,7 +27,7 @@
             @foreach (var post in category.Value)
             {
                 <div>
-                    <a href="@dasBlogSettings.RelativeToRoot(@dasBlogSettings.GetPermaTitle(post.BlogId))">@post.BlogTitle</a><br />
+                    <a href="@dasBlogSettings.RelativeToRoot(post.BlogId)">@post.BlogTitle</a><br />
                 </div>
             }
         }

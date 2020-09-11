@@ -1,7 +1,11 @@
 ﻿@using DasBlog.Core.Common;
 @using DasBlog.Services;
+@using Microsoft.Extensions.Options;
+@using reCAPTCHA.AspNetCore;
+@using reCAPTCHA.AspNetCore.Versions;
 @model DasBlog.Web.Models.BlogViewModels.AddCommentViewModel
 @inject IDasBlogSettings dasBlogSettings
+@inject IOptions<RecaptchaSettings> RecaptchaSettings
 
 <div class="post-new-comment">
     <form asp-controller="post" asp-action="comments" method="post">
@@ -26,18 +30,30 @@
                     <input asp-for="HomePage" class="form-control" />
                 </div>
             </div>
+            @if(!string.IsNullOrEmpty(dasBlogSettings.SiteConfiguration.CheesySpamQ) && !string.IsNullOrEmpty(dasBlogSettings.SiteConfiguration.CheesySpamA)
+                && dasBlogSettings.SiteConfiguration.CheesySpamQ.Length > 0 && dasBlogSettings.SiteConfiguration.CheesySpamA.Length > 0)
+            {
             <div class="row">
                 <div class="col-md-6 mb-3">
                     <label class="control-label">@dasBlogSettings.SiteConfiguration.CheesySpamQ</label>
                     <input asp-for="@Model.CheesyQuestionAnswered" class="form-control" />
                 </div>
             </div>
+            }
             <div class="row">
-                <div class="col-md-12 mb-6">
+                <div class="col-md-12 mb-3">
                     <label for="@Constants.Content" class="control-label">@Constants.Content</label>
                     <textarea id="@Constants.Content" name="@Constants.Content" rows="12" cols="60" class="form-control">@Model.Content</textarea>
                 </div>
             </div>
+            @if(dasBlogSettings.SiteConfiguration.EnableCaptcha)
+            {
+             <div class="row">
+                <div class="col-md-12 mb-3">
+                    @(Html.Recaptcha<RecaptchaV2Checkbox>(RecaptchaSettings?.Value))
+                </div>
+            </div>
+            }
             <div class="row">
                 <div class="col-md-4 mb-2">
                     <button type="submit" id="@Constants.SaveContentButtonId" class="btn btn-primary btn-block">SAVE COMMENT</button>

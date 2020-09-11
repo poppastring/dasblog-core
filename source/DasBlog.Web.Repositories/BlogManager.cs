@@ -42,18 +42,19 @@ namespace DasBlog.Managers
 		/// <param name="dt">if non-null then the post must be dated on that date</param>
 		public Entry GetBlogPost(string posttitle, DateTime? dt)
 		{
-			posttitle = posttitle.Replace(dasBlogSettings.SiteConfiguration.TitlePermalinkSpaceReplacement,string.Empty);
-
 			if (dt == null)
 			{
+				posttitle = posttitle.Replace(dasBlogSettings.SiteConfiguration.TitlePermalinkSpaceReplacement, string.Empty)
+									.Replace(".aspx", string.Empty);
+
 				return dataService.GetEntry(posttitle);
 			}
 			else
 			{
 				var entries = dataService.GetEntriesForDay(dt.Value, null, null, 1, 10, null);
 
-				return entries.FirstOrDefault(e => dasBlogSettings.GetPermaTitle(e.CompressedTitle)
-				  .Replace(dasBlogSettings.SiteConfiguration.TitlePermalinkSpaceReplacement, string.Empty) == posttitle);
+				return entries.FirstOrDefault(e => dasBlogSettings.GeneratePostUrl(e)
+											.EndsWith(posttitle, StringComparison.OrdinalIgnoreCase));
 			}
 		}
 
@@ -454,7 +455,7 @@ namespace DasBlog.Managers
 			emailMessage.Subject = string.Format("SMTP email from {0}", dasBlogSettings.SiteConfiguration.Title);
 			emailMessage.Body = "Test ";
 
-			var sendMailInfo = GetMailInfo(emailMessage);
+			var sendMailInfo = dasBlogSettings.GetMailInfo(emailMessage);
 
 			try
 			{
@@ -530,15 +531,7 @@ namespace DasBlog.Managers
 
 			emailMessage.From = new MailAddress(dasBlogSettings.SiteConfiguration.SmtpUserName);
 
-			return GetMailInfo(emailMessage);
-		}
-
-		private SendMailInfo GetMailInfo(MailMessage emailmessage)
-		{
-			return new SendMailInfo(emailmessage, dasBlogSettings.SiteConfiguration.SmtpServer,
-						   dasBlogSettings.SiteConfiguration.EnableSmtpAuthentication, dasBlogSettings.SiteConfiguration.UseSSLForSMTP,
-						   dasBlogSettings.SiteConfiguration.SmtpUserName, dasBlogSettings.SiteConfiguration.SmtpPassword,
-						   dasBlogSettings.SiteConfiguration.SmtpPort);
+			return dasBlogSettings.GetMailInfo(emailMessage);
 		}
 	}
 }

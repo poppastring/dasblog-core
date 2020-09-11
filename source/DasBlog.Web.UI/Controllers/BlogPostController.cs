@@ -19,6 +19,8 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using DasBlog.Web.Services;
+using reCAPTCHA.AspNetCore.Attributes;
+using reCAPTCHA.AspNetCore;
 
 namespace DasBlog.Web.Controllers
 {
@@ -34,11 +36,12 @@ namespace DasBlog.Web.Controllers
 		private readonly ILogger<BlogPostController> logger;
 		private readonly IBlogPostViewModelCreator modelViewCreator;
 		private readonly IMemoryCache memoryCache;
+        private readonly IRecaptchaService recaptcha;
 
 
 		public BlogPostController(IBlogManager blogManager, IHttpContextAccessor httpContextAccessor, IDasBlogSettings dasBlogSettings, 
 									IMapper mapper, ICategoryManager categoryManager, IFileSystemBinaryManager binaryManager, ILogger<BlogPostController> logger,
-									IBlogPostViewModelCreator modelViewCreator, IMemoryCache memoryCache) 
+									IBlogPostViewModelCreator modelViewCreator, IMemoryCache memoryCache,IRecaptchaService recaptcha) 
 									: base(dasBlogSettings)
 		{
 			this.blogManager = blogManager;
@@ -50,6 +53,7 @@ namespace DasBlog.Web.Controllers
 			this.logger = logger;
 			this.modelViewCreator = modelViewCreator;
 			this.memoryCache = memoryCache;
+            this.recaptcha = recaptcha;
 		}
 
 		[AllowAnonymous]
@@ -75,7 +79,7 @@ namespace DasBlog.Web.Controllers
 				};
 				pvm.Comments = lcvm;
 
-				if (httpContextAccessor.HttpContext.Request.Path.Value.EndsWith(".aspx", StringComparison.OrdinalIgnoreCase))
+				if (!dasBlogSettings.SiteConfiguration.UseAspxExtension && httpContextAccessor.HttpContext.Request.Path.Value.EndsWith(".aspx", StringComparison.OrdinalIgnoreCase))
 				{
 					return RedirectPermanent(pvm.PermaLink);
 				}
@@ -346,7 +350,11 @@ namespace DasBlog.Web.Controllers
 				return Comment(addcomment.TargetEntryId);
 			}
 
-			if (dasBlogSettings.SiteConfiguration.CheesySpamQ.Trim().Length > 0 && 
+			// Optional in case of Captcha. Commenting the settings in the config file 
+            // Will disable this check. People will typically disable this when using captcha.
+            if (!String.IsNullOrEmpty(dasBlogSettings.SiteConfiguration.CheesySpamQ) &&
+                !String.IsNullOrEmpty(dasBlogSettings.SiteConfiguration.CheesySpamA) && 
+                dasBlogSettings.SiteConfiguration.CheesySpamQ.Trim().Length > 0 && 
 				dasBlogSettings.SiteConfiguration.CheesySpamA.Trim().Length > 0)
 			{
 				if (string.Compare(addcomment.CheesyQuestionAnswered, dasBlogSettings.SiteConfiguration.CheesySpamA, 
@@ -355,6 +363,23 @@ namespace DasBlog.Web.Controllers
 					return Comment(addcomment.TargetEntryId);
 				}
 			}
+
+            if(dasBlogSettings.SiteConfiguration.EnableCaptcha)
+            {
+                var recaptchaTask = recaptcha.Validate(Request);
+                recaptchaTask.Wait();
+                var recaptchaResult = recaptchaTask.Result;
+                if ((!recaptchaResult.success || recaptchaResult.score != 0) && 
+                      recaptchaResult.score < dasBlogSettings.SiteConfiguration.RecaptchaMinimumScore )
+                {
+                    // Todo: Rajiv Popat: This just redirects to the comment page. Ideally user should be informed that
+                    // the captch is invalid and he should be shown an error page with ability to fix the issue.
+                    // We need to have the ability to show errors and let the user fix typos in Captcha or Cheesy 
+                    // Question. For now we are following the sample implementation as Cheesy Spam Question above 
+                    // for the sake of consistency but this should be fixed everywhere. 
+                    return Comment(addcomment.TargetEntryId);
+                }
+            }
 
 			addcomment.Content = dasBlogSettings.FilterHtml(addcomment.Content);
 
@@ -447,7 +472,7 @@ namespace DasBlog.Web.Controllers
 		[HttpGet("post/category/{category}")]
 		public IActionResult GetCategory(string category)
 		{
-			if (string.IsNullOrEmpty(category))
+			if (string.IsNullOrWhiteSpace(category))
 			{
 				return RedirectToAction("Index", "Home");
 			}
@@ -463,9 +488,14 @@ namespace DasBlog.Web.Controllers
 		}
 
 		[AllowAnonymous]
-		[HttpPost("/post/search", Name=Constants.SearcherRouteName)]
+		[HttpPost("post/search", Name=Constants.SearcherRouteName)]
 		public IActionResult Search(string searchText)
 		{
+			if (string.IsNullOrWhiteSpace(searchText))
+			{
+				return RedirectToAction("Index", "Home");
+			}
+
 			var lpvm = new ListPostsViewModel();
 			var entries = blogManager.SearchEntries(WebUtility.HtmlEncode(searchText), Request.Headers["Accept-Language"])?.Where(e => e.IsPublic)?.ToList();
 

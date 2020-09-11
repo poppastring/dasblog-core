@@ -26,7 +26,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DasBlog.Services", "DasBlog
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DasBlog.Test.Integration", "DasBlog.Tests\DasBlog.Test.Integration\DasBlog.Test.Integration.csproj", "{48500D1A-9780-412B-81C1-9DD810FECCAE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DasBlog.CLI", "DasBlog.CLI\DasBlog.CLI.csproj", "{3DEF6C9E-293A-4E41-9CEC-3466E3EEC754}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DasBlog.CLI", "DasBlog.CLI\DasBlog.CLI.csproj", "{3DEF6C9E-293A-4E41-9CEC-3466E3EEC754}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

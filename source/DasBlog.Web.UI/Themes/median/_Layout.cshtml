@@ -52,25 +52,21 @@
                     <div class="clear"></div>
                 </header>
 
+                <partial name="_CookieConsentPartial" />
+
                 <section class="row">
+
                     <div class="col-sm-12">
                         <section class="row">
+
                             <div class="col-md-12 col-lg-8">
                                 @RenderBody()
                             </div>
 
                             <div class="col-md-12 col-lg-4">
                                 <div class="card-block">
-                                    <div class="card-footer todo-list-footer">
-                                        <div class="input-group">
-                                            <form action="/post/search" method="post">
-                                                <input id="searchText" name="searchText" type="text" class="form-control input-md" placeholder="Ask a question..." />
-                                                <span class="input-group-btn">
-                                                    <button class="btn btn-primary btn-md" id="btn-todo" type="submit">Search</button>
-                                                </span>
-                                            </form>
-                                        </div>
-                                    </div>
+                                    <site-search-box class="todo-list-footer" inner-class="input-group" heading="Search"
+                                                     button-class="btn btn-primary btn-md" button-name="Go" />
                                 </div>
                             </div>
 

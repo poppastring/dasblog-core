@@ -89,6 +89,9 @@ namespace DasBlog.Tests.UnitTests
 		public string ReferralUrlBlackList { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 		public string[] ReferralUrlBlackListArray { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 		public bool EnableCaptcha { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public string RecaptchaSiteKey { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public string RecaptchaSecretKey { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public double RecaptchaMinimumScore { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 		public bool EnableReferralUrlBlackList404s { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 		public bool EnableMovableTypeBlackList { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 		public string ChannelImageUrl { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
@@ -154,6 +157,8 @@ namespace DasBlog.Tests.UnitTests
 		public XmlElement[] anyElements { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 		public XmlAttribute[] anyAttributes { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 		public bool ShowItemSummaryInAggregatedViews { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+		public bool UseAspxExtension { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+		public bool CookieConsentEnabled { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 		ValidCommentTags[] ISiteConfig.ValidCommentTags { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 	}
 }

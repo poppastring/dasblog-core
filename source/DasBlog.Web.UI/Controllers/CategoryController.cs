@@ -76,7 +76,7 @@ namespace DasBlog.Web.Controllers
 
 			var categoryTile = categoryManager.GetCategoryTitle(category);
 
-			var viewModel = CategoryListViewModel.Create(entryList, categoryTile);
+			var viewModel = CategoryListViewModel.Create(entryList, dasBlogSettings, categoryTile);
 
 			DefaultPage(CATEGORY);
 			return viewModel;

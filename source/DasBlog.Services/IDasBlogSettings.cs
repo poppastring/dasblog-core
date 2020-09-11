@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Net.Mail;
 using DasBlog.Core.Security;
 using DasBlog.Services.ConfigFile.Interfaces;
+using newtelligence.DasBlog.Runtime;
 using NodaTime;
+using Org.BouncyCastle.Crypto.Agreement.Srp;
 
 namespace DasBlog.Services
 {
@@ -26,7 +29,7 @@ namespace DasBlog.Services
 		string RelativeToRoot(string relative);
 		string GetBaseUrl();
 		string GetPermaLinkUrl(string entryId);
-		string GetPermaTitle(string title);
+		string GetPermaTitle(string titleurl);
 		string GetTrackbackUrl(string entryId);
 		string GetEntryCommentsRssUrl(string entryId);
 		string GetCommentViewUrl(string entryId);
@@ -41,5 +44,7 @@ namespace DasBlog.Services
 		bool AreCommentsPermitted(DateTime blogpostdate);
 		string CompressTitle(string title);
 		bool IsAdmin(string gravatarhash);
+		string GeneratePostUrl(Entry entry);
+		SendMailInfo GetMailInfo(MailMessage emailmessage);
 	}
 }

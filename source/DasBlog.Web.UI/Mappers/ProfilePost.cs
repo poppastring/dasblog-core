@@ -32,7 +32,7 @@ namespace DasBlog.Web.Mappers
 				.ForMember(dest => dest.AllowComments, opt => opt.MapFrom(src => src.AllowComments))
 				.ForMember(dest => dest.IsPublic, opt => opt.MapFrom(src => src.IsPublic))
 				.ForMember(dest => dest.Syndicated, opt => opt.MapFrom(src => src.Syndicated))
-				.ForMember(dest => dest.PermaLink, opt => opt.MapFrom(src => MakePermaLink(src)))
+				.ForMember(dest => dest.PermaLink, opt => opt.MapFrom(src => _dasBlogSettings.GeneratePostUrl(src)))
 				.ForMember(dest => dest.ImageUrl, opt => opt.MapFrom(src => src.Content.FindFirstImage()))
 				.ForMember(dest => dest.VideoUrl, opt => opt.MapFrom(src => src.Content.FindFirstYouTubeVideo()))
 				.ForMember(dest => dest.CreatedDateTime, opt => opt.MapFrom(src => src.CreatedLocalTime))
@@ -77,8 +77,9 @@ namespace DasBlog.Web.Mappers
 
 			CreateMap<Entry, CategoryPostItem>()
 				.ForMember(dest => dest.BlogTitle, opt => opt.MapFrom(src => src.Title))
-				.ForMember(dest => dest.BlogId, opt => opt.MapFrom(src => src.EntryId));
-
+				.ForMember(dest => dest.BlogId, opt => opt.MapFrom(src => _dasBlogSettings.GeneratePostUrl(src)))
+				.ForMember(dest => dest.Category, opt => opt.MapFrom(src => src.GetSplitCategories().FirstOrDefault()))
+				.ForMember(dest => dest.Date, opt => opt.MapFrom(src => src.CreatedLocalTime));
 
 			CreateMap<Tag, TagViewModel>()
 				.ForMember(dest => dest.Allowed, opt => opt.MapFrom(src => src.Allowed))
@@ -104,22 +105,6 @@ namespace DasBlog.Web.Mappers
 													Category = c,
 													CategoryUrl = _dasBlogSettings.CompressTitle(c) })
 													.ToList();
-		}
-
-		private string MakePermaLink(Entry entry)
-		{
-			string link;
-
-			if (_dasBlogSettings.SiteConfiguration.EnableTitlePermaLinkUnique)
-			{
-				link = _dasBlogSettings.GetPermaTitle(entry.CompressedTitleUnique);
-			}
-			else
-			{
-				link = _dasBlogSettings.GetPermaTitle(entry.CompressedTitle);
-			}
-
-			return link;
 		}
 	}
 }

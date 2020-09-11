@@ -161,7 +161,7 @@ namespace DasBlog.Managers
                 item.Guid = new DasBlog.Services.Rss.Rss20.Guid();
                 item.Guid.IsPermaLink = false;
                 item.Guid.Text = dasBlogSettings.GetPermaLinkUrl(entry.EntryId);
-                item.Link = dasBlogSettings.RelativeToRoot(dasBlogSettings.GetPermaTitle(entry.CompressedTitle));
+                item.Link = dasBlogSettings.RelativeToRoot(dasBlogSettings.GeneratePostUrl(entry));
                 User user = dasBlogSettings.GetUser(entry.Author);
 
                 XmlElement trackbackPing = doc2.CreateElement("trackback", "ping", "http://madskills.com/public/xml/rss/module/trackback/");
@@ -226,7 +226,7 @@ namespace DasBlog.Managers
                     if (entry.AllowComments)
                     {
                         XmlElement commentApi = doc2.CreateElement("wfw", "comment", "http://wellformedweb.org/CommentAPI/");
-                        commentApi.InnerText = dasBlogSettings.GetCommentViewUrl(entry.CompressedTitle.Replace("+", dasBlogSettings.SiteConfiguration.TitlePermalinkSpaceReplacement));
+                        commentApi.InnerText = dasBlogSettings.GetCommentViewUrl(dasBlogSettings.GeneratePostUrl(entry));
                         anyElements.Add(commentApi);
                     }
 
@@ -242,7 +242,7 @@ namespace DasBlog.Managers
                         slashComments.InnerText = commentsCount.ToString();
                         anyElements.Add(slashComments);
                     }
-                    item.Comments = dasBlogSettings.GetCommentViewUrl(entry.CompressedTitle.Replace("+",dasBlogSettings.SiteConfiguration.TitlePermalinkSpaceReplacement));
+                    item.Comments = dasBlogSettings.GetCommentViewUrl(dasBlogSettings.GeneratePostUrl(entry));
                 }
                 item.Language = entry.Language;
 

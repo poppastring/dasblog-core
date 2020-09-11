@@ -1,8 +1,13 @@
 @using DasBlog.Web.Models.BlogViewModels;
 @model ListPostsViewModel
 
-<div class="row">
-    <div id="contents" class="container col-md-12">
-        <partial name="_BlogItemsSummary" model="Model" />
+<div class="jumbotron p-3 p-md-5 text-white rounded bg-primary mt-lg-2">
+    <div class="col-md-6 px-0">
+        <h1 class="display-4 font-italic"><site-sub-title /></h1>
+        <p class="lead my-3"><site-description /></p>
     </div>
+</div>
+
+<div class="row mb-2">
+    <partial name="_BlogItemsSummary" model="Model" />
 </div>
