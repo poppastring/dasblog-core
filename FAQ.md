@@ -2,7 +2,7 @@
 
 
 #### Q: What is this?
-A: DasBlog-core  is an open source blogging engine based heavily on the  work produced by a community of volunteers and contributors who helped make [the original DasBlog a very popular blogging option](https://github.com/shanselman/dasblog).
+A: DasBlog Core  is an open source blogging engine based heavily on the  work produced by a community of volunteers and contributors who helped make [the original DasBlog a very popular blogging option](https://github.com/shanselman/dasblog).
 
 
 #### Q: Does this replace the original DasBlog?
@@ -21,7 +21,7 @@ A: Add to an existing issue or create a [new issue via GitHub](https://github.co
 A: Please jump right in!  We love contributions and we are happy to offer advice via Issues or PRs.
 
 
-#### Q: Does DasBlog-Core  support themes?
+#### Q: Does DasBlog Core  support themes?
 A: Yes. Themes are developed using Razor! More details can be found [here](https://github.com/poppastring/dasblog-core/wiki/4.-Designing-a-theme).
 
 
@@ -29,8 +29,8 @@ A: Yes. Themes are developed using Razor! More details can be found [here](https
 A: Not currently, we might start with something simple like a wiki page; but if you’re interested, this would be a great community contribution.
 
 
-#### Q: How can I support this effort?
+#### Q: I am not developer, how can I support this effort?
 A: Here are a few ways you can support the DasBlog Core effort:
  * Use the product
  * If you like it, tell your friends
- * Raise an issue or contribute code at [GitHub](https://github.com/poppastring/dasblog-core)
+ * If you find an bug or have suggestions please create an [issue](https://github.com/poppastring/dasblog-core/issues).
