@@ -331,6 +331,45 @@ namespace DasBlog.Web.Controllers
 			return SinglePostView(lpvm);
 		}
 
+		public IActionResult CommentError(string targetpostid, List<string> errors, AddCommentViewModel comment )
+		{
+			ListPostsViewModel lpvm = null;
+			NBR.Entry entry = null;
+			var postguid = Guid.Parse(targetpostid);
+            Console.WriteLine("(((( YAY! ERROR IS RUNNING ))))");
+			entry = blogManager.GetBlogPostByGuid(postguid);
+			if (entry != null)
+			{
+				lpvm = new ListPostsViewModel
+				{
+					Posts = new List<PostViewModel> { mapper.Map<PostViewModel>(entry) }
+				};
+
+				if (dasBlogSettings.SiteConfiguration.EnableComments)
+				{
+					var lcvm = new ListCommentsViewModel
+					{
+						Comments = blogManager.GetComments(entry.EntryId, false)
+							.Select(comment => mapper.Map<CommentViewModel>(comment)).ToList(),
+						PostId = entry.EntryId,
+						PostDate = entry.CreatedUtc,
+						CommentUrl = dasBlogSettings.GetCommentViewUrl(targetpostid),
+						ShowComments = true
+					};
+
+                    if(comment != null)
+                        lcvm.CurrentComment = comment;
+					lpvm.Posts.First().Comments = lcvm;
+                    if(errors != null && errors.Count > 0 )
+                        lpvm.Posts.First().ErrorMessages = errors;
+				}
+			}
+
+			return SinglePostView(lpvm);
+		}
+
+
+
 		private IActionResult Comment(string posttitle)
 		{
 			return Comment(posttitle, string.Empty, string.Empty, string.Empty);
@@ -340,6 +379,8 @@ namespace DasBlog.Web.Controllers
 		[HttpPost("post/comments")]
 		public IActionResult AddComment(AddCommentViewModel addcomment)
 		{
+            List<string> errors = new List<string>();
+
 			if (!dasBlogSettings.SiteConfiguration.EnableComments)
 			{
 				return BadRequest();
@@ -360,7 +401,8 @@ namespace DasBlog.Web.Controllers
 				if (string.Compare(addcomment.CheesyQuestionAnswered, dasBlogSettings.SiteConfiguration.CheesySpamA, 
 					StringComparison.OrdinalIgnoreCase) != 0)
 				{
-					return Comment(addcomment.TargetEntryId);
+                    errors.Add("Spam Answer is not correct. Cannot post the comment.");
+					return CommentError(addcomment.TargetEntryId, errors, addcomment);
 				}
 			}
 

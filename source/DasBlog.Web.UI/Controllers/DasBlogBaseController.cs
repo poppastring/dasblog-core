@@ -5,6 +5,7 @@ using DasBlog.Services;
 using DasBlog.Web.Controllers;
 using DasBlog.Web.Models.BlogViewModels;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Linq;
 
 namespace DasBlog.Web.Settings
@@ -24,8 +25,7 @@ namespace DasBlog.Web.Settings
 
 		protected ViewResult SinglePostView(ListPostsViewModel listPostsViewModel)
 		{
-			SinglePost(listPostsViewModel?.Posts?.First());
-
+	    	SinglePost(listPostsViewModel?.Posts?.First());
 			ViewData[Constants.ShowPageControl] = false;
 			return View(BLOG_PAGE, listPostsViewModel);
 		}
@@ -53,6 +53,7 @@ namespace DasBlog.Web.Settings
 				ViewData["Author"] = post.Author;
 				ViewData["PageImageUrl"] = (post.ImageUrl?.Length > 0) ? post.ImageUrl : dasBlogSettings.MetaTags.TwitterImage;
 				ViewData["PageVideoUrl"] = (post.VideoUrl?.Length > 0) ? post.VideoUrl : string.Empty;
+                ShowErrors(post);
 			}
 			else
 			{
@@ -60,7 +61,18 @@ namespace DasBlog.Web.Settings
 			}
 		}
 
-		protected void DefaultPage(string pageTitle = "")
+        private void ShowErrors(PostViewModel post)
+        {
+            if(post != null && post.Comments.CurrentComment != null && post.ErrorMessages != null && post.ErrorMessages.Count > 0)
+            {
+                foreach(string ErrorMessage in post.ErrorMessages)
+                {
+                    ModelState.AddModelError("", ErrorMessage);
+                }
+            }
+        }
+
+        protected void DefaultPage(string pageTitle = "")
 		{
 			if (pageTitle.Length > 0)
 			{

@@ -58,5 +58,9 @@ namespace DasBlog.Web.Models.BlogViewModels
 		public string VideoUrl { get; set; } = string.Empty;
 
 		public int Order { get; set; } = 0;
+
+
+        public List<string> ErrorMessages { get; set; }
+    
 	}
 }
