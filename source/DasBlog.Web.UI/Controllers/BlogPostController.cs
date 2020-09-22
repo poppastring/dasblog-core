@@ -331,11 +331,11 @@ namespace DasBlog.Web.Controllers
 			return SinglePostView(lpvm);
 		}
 
-		public IActionResult CommentError(string targetpostid, List<string> errors, AddCommentViewModel comment )
+		public IActionResult CommentError(AddCommentViewModel comment, List<string> errors)
 		{
 			ListPostsViewModel lpvm = null;
 			NBR.Entry entry = null;
-			var postguid = Guid.Parse(targetpostid);
+			var postguid = Guid.Parse(comment.TargetEntryId);
             Console.WriteLine("(((( YAY! ERROR IS RUNNING ))))");
 			entry = blogManager.GetBlogPostByGuid(postguid);
 			if (entry != null)
@@ -353,7 +353,7 @@ namespace DasBlog.Web.Controllers
 							.Select(comment => mapper.Map<CommentViewModel>(comment)).ToList(),
 						PostId = entry.EntryId,
 						PostDate = entry.CreatedUtc,
-						CommentUrl = dasBlogSettings.GetCommentViewUrl(targetpostid),
+						CommentUrl = dasBlogSettings.GetCommentViewUrl(comment.TargetEntryId),
 						ShowComments = true
 					};
 
@@ -401,8 +401,7 @@ namespace DasBlog.Web.Controllers
 				if (string.Compare(addcomment.CheesyQuestionAnswered, dasBlogSettings.SiteConfiguration.CheesySpamA, 
 					StringComparison.OrdinalIgnoreCase) != 0)
 				{
-                    errors.Add("Spam Answer is not correct. Cannot post the comment.");
-					return CommentError(addcomment.TargetEntryId, errors, addcomment);
+                    errors.Add("Cannot post the comment. Please enter a valid answer for Spam Question and try again.");
 				}
 			}
 
@@ -414,14 +413,13 @@ namespace DasBlog.Web.Controllers
                 if ((!recaptchaResult.success || recaptchaResult.score != 0) && 
                       recaptchaResult.score < dasBlogSettings.SiteConfiguration.RecaptchaMinimumScore )
                 {
-                    // Todo: Rajiv Popat: This just redirects to the comment page. Ideally user should be informed that
-                    // the captch is invalid and he should be shown an error page with ability to fix the issue.
-                    // We need to have the ability to show errors and let the user fix typos in Captcha or Cheesy 
-                    // Question. For now we are following the sample implementation as Cheesy Spam Question above 
-                    // for the sake of consistency but this should be fixed everywhere. 
-                    return Comment(addcomment.TargetEntryId);
+                    errors.Add("Captha did not match. Please finish the captcha by clicking 'I'm not a robot' and try again.");
                 }
             }
+
+            if(errors.Count > 0)
+                return CommentError(addcomment, errors);
+
 
 			addcomment.Content = dasBlogSettings.FilterHtml(addcomment.Content);
 
