@@ -401,7 +401,7 @@ namespace DasBlog.Web.Controllers
 				if (string.Compare(addcomment.CheesyQuestionAnswered, dasBlogSettings.SiteConfiguration.CheesySpamA, 
 					StringComparison.OrdinalIgnoreCase) != 0)
 				{
-                    errors.Add("Cannot post the comment. Please enter a valid answer for Spam Question and try again.");
+                    errors.Add("Answer to Spam Question is invalid. Please enter a valid answer for Spam Question and try again.");
 				}
 			}
 
@@ -413,7 +413,7 @@ namespace DasBlog.Web.Controllers
                 if ((!recaptchaResult.success || recaptchaResult.score != 0) && 
                       recaptchaResult.score < dasBlogSettings.SiteConfiguration.RecaptchaMinimumScore )
                 {
-                    errors.Add("Captha did not match. Please finish the captcha by clicking 'I'm not a robot' and try again.");
+                    errors.Add("Unfinished Captcha. Please finish the captcha by clicking 'I'm not a robot' and try again.");
                 }
             }
 
