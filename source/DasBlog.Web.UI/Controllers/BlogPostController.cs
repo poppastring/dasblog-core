@@ -18,8 +18,6 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
-using DasBlog.Web.Services;
-using reCAPTCHA.AspNetCore.Attributes;
 using reCAPTCHA.AspNetCore;
 
 namespace DasBlog.Web.Controllers
@@ -336,7 +334,6 @@ namespace DasBlog.Web.Controllers
 			ListPostsViewModel lpvm = null;
 			NBR.Entry entry = null;
 			var postguid = Guid.Parse(comment.TargetEntryId);
-            Console.WriteLine("(((( YAY! ERROR IS RUNNING ))))");
 			entry = blogManager.GetBlogPostByGuid(postguid);
 			if (entry != null)
 			{
