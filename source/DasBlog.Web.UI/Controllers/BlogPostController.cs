@@ -18,8 +18,6 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
-using DasBlog.Web.Services;
-using reCAPTCHA.AspNetCore.Attributes;
 using reCAPTCHA.AspNetCore;
 
 namespace DasBlog.Web.Controllers
@@ -331,6 +329,44 @@ namespace DasBlog.Web.Controllers
 			return SinglePostView(lpvm);
 		}
 
+		public IActionResult CommentError(AddCommentViewModel comment, List<string> errors)
+		{
+			ListPostsViewModel lpvm = null;
+			NBR.Entry entry = null;
+			var postguid = Guid.Parse(comment.TargetEntryId);
+			entry = blogManager.GetBlogPostByGuid(postguid);
+			if (entry != null)
+			{
+				lpvm = new ListPostsViewModel
+				{
+					Posts = new List<PostViewModel> { mapper.Map<PostViewModel>(entry) }
+				};
+
+				if (dasBlogSettings.SiteConfiguration.EnableComments)
+				{
+					var lcvm = new ListCommentsViewModel
+					{
+						Comments = blogManager.GetComments(entry.EntryId, false)
+							.Select(comment => mapper.Map<CommentViewModel>(comment)).ToList(),
+						PostId = entry.EntryId,
+						PostDate = entry.CreatedUtc,
+						CommentUrl = dasBlogSettings.GetCommentViewUrl(comment.TargetEntryId),
+						ShowComments = true
+					};
+
+                    if(comment != null)
+                        lcvm.CurrentComment = comment;
+					lpvm.Posts.First().Comments = lcvm;
+                    if(errors != null && errors.Count > 0 )
+                        lpvm.Posts.First().ErrorMessages = errors;
+				}
+			}
+
+			return SinglePostView(lpvm);
+		}
+
+
+
 		private IActionResult Comment(string posttitle)
 		{
 			return Comment(posttitle, string.Empty, string.Empty, string.Empty);
@@ -340,6 +376,8 @@ namespace DasBlog.Web.Controllers
 		[HttpPost("post/comments")]
 		public IActionResult AddComment(AddCommentViewModel addcomment)
 		{
+            List<string> errors = new List<string>();
+
 			if (!dasBlogSettings.SiteConfiguration.EnableComments)
 			{
 				return BadRequest();
@@ -360,7 +398,7 @@ namespace DasBlog.Web.Controllers
 				if (string.Compare(addcomment.CheesyQuestionAnswered, dasBlogSettings.SiteConfiguration.CheesySpamA, 
 					StringComparison.OrdinalIgnoreCase) != 0)
 				{
-					return Comment(addcomment.TargetEntryId);
+                    errors.Add("Answer to Spam Question is invalid. Please enter a valid answer for Spam Question and try again.");
 				}
 			}
 
@@ -372,14 +410,13 @@ namespace DasBlog.Web.Controllers
                 if ((!recaptchaResult.success || recaptchaResult.score != 0) && 
                       recaptchaResult.score < dasBlogSettings.SiteConfiguration.RecaptchaMinimumScore )
                 {
-                    // Todo: Rajiv Popat: This just redirects to the comment page. Ideally user should be informed that
-                    // the captch is invalid and he should be shown an error page with ability to fix the issue.
-                    // We need to have the ability to show errors and let the user fix typos in Captcha or Cheesy 
-                    // Question. For now we are following the sample implementation as Cheesy Spam Question above 
-                    // for the sake of consistency but this should be fixed everywhere. 
-                    return Comment(addcomment.TargetEntryId);
+                    errors.Add("Unfinished Captcha. Please finish the captcha by clicking 'I'm not a robot' and try again.");
                 }
             }
+
+            if(errors.Count > 0)
+                return CommentError(addcomment, errors);
+
 
 			addcomment.Content = dasBlogSettings.FilterHtml(addcomment.Content);
 
