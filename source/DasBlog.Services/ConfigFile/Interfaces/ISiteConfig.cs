@@ -341,6 +341,10 @@ namespace DasBlog.Services.ConfigFile.Interfaces
 
 		bool UseAspxExtension { get; set; }
 
+		string SecurityScriptSources { get; set; }
+
+		string SecurityStyleSources { get; set; }
+
 		bool CookieConsentEnabled { get; set; }
 
 		[XmlAnyElement]

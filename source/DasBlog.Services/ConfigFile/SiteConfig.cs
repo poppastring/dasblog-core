@@ -210,5 +210,9 @@ namespace DasBlog.Services.ConfigFile
 
 		public bool UseAspxExtension { get; set; }
 		public bool CookieConsentEnabled { get; set; }
+
+		public string SecurityScriptSources { get; set; }
+
+		public string SecurityStyleSources { get; set; }
 	}
 }
