@@ -53,6 +53,8 @@ namespace DasBlog.Web
 		private readonly string BinariesUrlRelativePath;
         private readonly string RecaptchaSiteKey;
         private readonly string RecaptchaSecretKey;
+		private readonly string [] SecurityStyleSources;
+		private readonly string [] SecurityScriptSources;
 
 		private readonly IWebHostEnvironment hostingEnvironment;
 
@@ -76,10 +78,14 @@ namespace DasBlog.Web
 			BinariesPath = new DirectoryInfo(Path.Combine(env.ContentRootPath, Configuration.GetValue<string>("BinariesDir"))).FullName;
 			ThemeFolderPath = new DirectoryInfo(Path.Combine(hostingEnvironment.ContentRootPath, "Themes", Configuration.GetSection("Theme").Value)).FullName;
 			LogFolderPath = new DirectoryInfo(Path.Combine(hostingEnvironment.ContentRootPath, Configuration.GetSection("LogDir").Value)).FullName;
-            RecaptchaSiteKey = Configuration.GetSection("RecaptchaSiteKey").Value;
-            RecaptchaSecretKey = Configuration.GetSection("RecaptchaSecretKey").Value;
 			BinariesUrlRelativePath = "content/binary";
-			
+			RecaptchaSiteKey = Configuration.GetSection("RecaptchaSiteKey").Value;
+			RecaptchaSecretKey = Configuration.GetSection("RecaptchaSecretKey").Value;
+			SecurityScriptSources = (Configuration.GetSection("SecurityScriptSources").Value != null) ?
+							Configuration.GetSection("SecurityScriptSources")?.Value.Split(";") : new string[] { Configuration.GetSection("Root").Value };
+
+			SecurityStyleSources = (Configuration.GetSection("SecurityStyleSources").Value != null) ?
+							Configuration.GetSection("SecurityStyleSources")?.Value.Split(";") : new string[] { Configuration.GetSection("Root").Value };
 		}
 
 		public IConfiguration DasBlogConfigurationBuilder()
@@ -348,6 +354,32 @@ namespace DasBlog.Web
 			app.Use(PopulateThreadCurrentPrincipalForMvc);
 			app.UseRouting();
 			app.UseAuthorization();
+
+			app.UseXContentTypeOptions();
+			app.UseXXssProtection(options => options.EnabledWithBlockMode());
+			app.UseXfo(options => options.SameOrigin());
+			app.UseReferrerPolicy(opts => opts.NoReferrerWhenDowngrade());
+
+			app.UseCsp(options => options
+				.DefaultSources(s => s.Self()
+					.CustomSources("data:")
+					.CustomSources("https:"))
+				.StyleSources(s => s.Self()
+					.CustomSources(SecurityStyleSources)
+					.UnsafeInline()
+				)
+				.ScriptSources(s => s.Self()
+					   .CustomSources(SecurityScriptSources)
+					.UnsafeInline()
+					.UnsafeEval()
+				)
+			);
+
+			app.Use(async (context, next) =>
+			{
+				context.Response.Headers.Add("Feature-Policy", "geolocation 'none';midi 'none';notifications 'none';push 'none';sync-xhr 'none';microphone 'none';camera 'none';magnetometer 'none';gyroscope 'none';speaker 'self';vibrate 'none';fullscreen 'self';payment 'none';");
+				await next.Invoke();
+			});
 
 			app.UseLoggingAgent();
 
