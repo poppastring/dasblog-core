@@ -81,11 +81,8 @@ namespace DasBlog.Web
 			BinariesUrlRelativePath = "content/binary";
 			RecaptchaSiteKey = Configuration.GetSection("RecaptchaSiteKey").Value;
 			RecaptchaSecretKey = Configuration.GetSection("RecaptchaSecretKey").Value;
-			SecurityScriptSources = (Configuration.GetSection("SecurityScriptSources").Value != null) ?
-							Configuration.GetSection("SecurityScriptSources")?.Value.Split(";") : new string[] { Configuration.GetSection("Root").Value };
-
-			SecurityStyleSources = (Configuration.GetSection("SecurityStyleSources").Value != null) ?
-							Configuration.GetSection("SecurityStyleSources")?.Value.Split(";") : new string[] { Configuration.GetSection("Root").Value };
+			SecurityScriptSources = Configuration.GetSection("SecurityScriptSources")?.Value?.Split(";");
+			SecurityStyleSources = Configuration.GetSection("SecurityStyleSources")?.Value?.Split(";");
 		}
 
 		public IConfiguration DasBlogConfigurationBuilder()
@@ -360,20 +357,24 @@ namespace DasBlog.Web
 			app.UseXfo(options => options.SameOrigin());
 			app.UseReferrerPolicy(opts => opts.NoReferrerWhenDowngrade());
 
-			app.UseCsp(options => options
-				.DefaultSources(s => s.Self()
-					.CustomSources("data:")
-					.CustomSources("https:"))
-				.StyleSources(s => s.Self()
-					.CustomSources(SecurityStyleSources)
-					.UnsafeInline()
-				)
-				.ScriptSources(s => s.Self()
-					   .CustomSources(SecurityScriptSources)
-					.UnsafeInline()
-					.UnsafeEval()
-				)
-			);
+
+			if (SecurityStyleSources != null && SecurityScriptSources != null)
+			{
+				app.UseCsp(options => options
+					.DefaultSources(s => s.Self()
+						.CustomSources("data:")
+						.CustomSources("https:"))
+					.StyleSources(s => s.Self()
+						.CustomSources(SecurityStyleSources)
+						.UnsafeInline()
+					)
+					.ScriptSources(s => s.Self()
+						   .CustomSources(SecurityScriptSources)
+						.UnsafeInline()
+						.UnsafeEval()
+					)
+				);
+			}
 
 			app.Use(async (context, next) =>
 			{
