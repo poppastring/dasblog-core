@@ -162,6 +162,17 @@ namespace DasBlog.Web.Models.AdminViewModels
 		[StringLength(300, MinimumLength = 1, ErrorMessage = "{0} should be between 1 to 300 characters")]
         public string RecaptchaSecretKey { get; set; }
 
+		[DisplayName("Style Sources (seperate by semi colon)")]
+		[Description("")]
+		[StringLength(600, MinimumLength = 1, ErrorMessage = "{0} should be between 1 to 600 characters")]
+		public string SecurityStyleSources { get; set; }
+
+		[DisplayName("Script Sources (seperate by semi colon)")]
+		[Description("")]
+		[StringLength(600, MinimumLength = 1, ErrorMessage = "{0} should be between 1 to 600 characters")]
+		public string SecurityScriptSources { get; set; }
+
+
 		[DisplayName("Enable unique URls")]
 		[Description(@"Enable Title PermaLink Unique - Ensures all urls are unique by adding a date to the URL '\somepost' becomes '20191112\some - post'")]
 		public bool EnableTitlePermaLinkUnique { get; set; }

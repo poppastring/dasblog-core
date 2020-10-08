@@ -160,5 +160,9 @@ namespace DasBlog.Tests.UnitTests
 		public bool UseAspxExtension { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 		public bool CookieConsentEnabled { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 		ValidCommentTags[] ISiteConfig.ValidCommentTags { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
+		public string SecurityScriptSources { get; set; }
+
+		public string SecurityStyleSources { get; set; }
 	}
 }

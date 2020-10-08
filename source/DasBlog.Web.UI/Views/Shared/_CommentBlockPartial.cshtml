@@ -21,7 +21,14 @@
         </div>
         @if (dasBlogSettings.AreCommentsPermitted(Model.PostDate))
         {
+            @if(Model.CurrentComment != null)
+            {
+            <partial name="_CommentAddPartial" model="Model.CurrentComment" />
+            }
+            else
+            {
             <partial name="_CommentAddPartial" model="new AddCommentViewModel() { TargetEntryId = Model.PostId }" />
+            }
         }
         else
         {
