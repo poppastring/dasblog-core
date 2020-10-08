@@ -10,7 +10,7 @@ strategy:
 
 pool:
   vmImage: $(imageName)
-#  vmImage: 'windows-2019'
+  vmImage: 'windows-2019'
 
 variables:
   buildConfiguration: 'Release'
@@ -40,7 +40,7 @@ steps:
   inputs:
     command: build
     projects: '**/*.sln'
-    arguments: '--no-restore --configuration $(BuildConfiguration) -p:VersionPrefix=2.0.$(Build.BuildId) -p:FileVersion=2.0.$(Build.BuildId).0 -p:SourceRevisionId=$(Build.SourceVersion)'
+    arguments: '--no-restore --configuration $(BuildConfiguration) -p:VersionPrefix=2.20.$(Build.BuildId) -p:FileVersion=2.20.$(Build.BuildId).0 -p:SourceRevisionId=$(Build.SourceVersion)'
 
 - script: dotnet test source/DasBlog.Tests/UnitTests/ --logger trx;LogfileName=test_results.xml --results-directory $(System.DefaultWorkingDirectory)/test_results --filter Category=UnitTest
   displayName: Run Unit Tests on Windows
