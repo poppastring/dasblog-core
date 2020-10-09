@@ -305,6 +305,12 @@ namespace DasBlog.Web
 				app.UseExceptionHandler("/home/error");
 			}
 
+			if (env.IsStaging() || env.IsProduction())
+			{
+				app.UseHsts(options => options.MaxAge(days: 30));
+			}
+
+
 			if (!siteOk)
 			{
 				app.Run(async context => await context.Response.WriteAsync(siteError));
