@@ -385,7 +385,10 @@ namespace DasBlog.Web
 
 			app.Use(async (context, next) =>
 			{
+				//w3c draft
 				context.Response.Headers.Add("Feature-Policy", "geolocation 'none';midi 'none';notifications 'none';push 'none';sync-xhr 'none';microphone 'none';camera 'none';magnetometer 'none';gyroscope 'none';speaker 'self';vibrate 'none';fullscreen 'self';payment 'none';");
+				//being renamed/changed to this soon
+				context.Response.Headers.Add("Permissions-Policy", "geolocation=();midi=();notifications=();push=();sync-xhr=();microphone=();camera=();magnetometer=();gyroscope=();speaker=(self);vibrate=();fullscreen=(self);payment=()");
 				await next.Invoke();
 			});
 
