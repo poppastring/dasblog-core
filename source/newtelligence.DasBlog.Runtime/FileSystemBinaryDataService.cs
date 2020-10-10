@@ -151,7 +151,8 @@ namespace newtelligence.DasBlog.Runtime
 
         private string GetAbsoluteFileUri(string fullPath, out string relFileUri)
         {
-			var relPath = fullPath.Replace(contentLocation, "").TrimStart('\\') ;
+			//var relPath = fullPath.Replace(contentLocation, "").TrimStart('\\') ;
+			var relPath = fullPath.Replace(contentLocation, "").TrimStart(Path.DirectorySeparatorChar);
 
 			var relUri = new Uri( relPath, UriKind.Relative);
 

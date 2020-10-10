@@ -209,6 +209,9 @@ source/DasBlog.Web.UI/content
 # Rider iDE
 .idea/
 
+#compiled razor files
+*.g.cs
+
 # dasblog-core test infrasructure
 test_results/
 test_results.xml

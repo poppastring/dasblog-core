@@ -114,6 +114,7 @@ namespace DasBlog.Web
 			services.Configure<TimeZoneProviderOptions>(Configuration);
 			services.Configure<SiteConfig>(Configuration);
 			services.Configure<MetaTags>(Configuration);
+			services.AddSingleton<AppVersionInfo>();
 
 			services.Configure<ConfigFilePathsDataOption>(options =>
 			{
@@ -303,6 +304,12 @@ namespace DasBlog.Web
 			{
 				app.UseExceptionHandler("/home/error");
 			}
+
+			if (env.IsStaging() || env.IsProduction())
+			{
+				app.UseHsts(options => options.MaxAge(days: 30));
+			}
+
 
 			if (!siteOk)
 			{

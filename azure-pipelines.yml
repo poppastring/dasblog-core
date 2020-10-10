@@ -10,7 +10,7 @@ strategy:
 
 pool:
   vmImage: $(imageName)
-#  vmImage: 'windows-2019'
+  #vmImage: 'windows-2019'
 
 variables:
   buildConfiguration: 'Release'
@@ -20,7 +20,7 @@ steps:
   displayName: Installing .NET Core 3.1
   inputs:
     packageType: 'sdk'
-    version: '3.1.100'
+    version: '3.1.x'
     installationPath: $(Agent.ToolsDirectory)/dotnet
 
 
@@ -30,12 +30,17 @@ steps:
     command: restore
     projects: '**/*.sln'
 
+- script: 'echo -e "$(Build.BuildNumber)\n$(Build.BuildId)" > .buildinfo.json'
+  displayName: "Emit build number"
+  workingDirectory: '$(Build.SourcesDirectory)/source/DasBlog.Web.UI'
+  failOnStderr: true
+  
 - task: DotNetCoreCLI@2
   displayName: Building Solution
   inputs:
     command: build
     projects: '**/*.sln'
-    arguments: '--no-restore --configuration $(BuildConfiguration) -p:VersionPrefix=2.20.$(Build.BuildId) -p:FileVersion=2.20.$(Build.BuildId).0'
+    arguments: '--no-restore --configuration $(BuildConfiguration) -p:VersionPrefix=2.20.$(Build.BuildId) -p:FileVersion=2.20.$(Build.BuildId).0 -p:SourceRevisionId=$(Build.SourceVersion)'
 
 - script: dotnet test source/DasBlog.Tests/UnitTests/ --logger trx;LogfileName=test_results.xml --results-directory $(System.DefaultWorkingDirectory)/test_results --filter Category=UnitTest
   displayName: Run Unit Tests on Windows
