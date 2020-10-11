@@ -288,7 +288,8 @@ namespace DasBlog.Web
 			{
 				options.WaitForJobsToComplete = true;
 			});
-		}
+            services.AddApplicationInsightsTelemetry(Configuration["APPINSIGHTS_INSTRUMENTATIONKEY"]);
+        }
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IDasBlogSettings dasBlogSettings)
@@ -348,10 +349,29 @@ namespace DasBlog.Web
 				RequestPath = string.Format("/{0}", BinariesUrlRelativePath)
 			});
 
+			app.UseStaticFiles(new StaticFileOptions()
+			{
+				FileProvider = new PhysicalFileProvider(BinariesPath),
+				RequestPath = string.Format("/{0}", BinariesUrlRelativePath)
+			});
+
+
+			app.UseStaticFiles(new StaticFileOptions
+			{
+				FileProvider = new PhysicalFileProvider(Path.Combine(env.ContentRootPath, "content/radioStories")),
+				RequestPath = "/content/radioStories"
+			});
+
 			app.UseStaticFiles(new StaticFileOptions
 			{
 				FileProvider = new PhysicalFileProvider(Path.Combine(env.ContentRootPath, "Themes")),
 				RequestPath = "/theme"
+			});
+
+			app.UseStaticFiles(new StaticFileOptions
+			{
+				FileProvider = new PhysicalFileProvider(Path.Combine(env.ContentRootPath, "Themes")),
+				RequestPath = "/themes"
 			});
 
 			app.UseAuthentication();
@@ -385,7 +405,10 @@ namespace DasBlog.Web
 
 			app.Use(async (context, next) =>
 			{
-				context.Response.Headers.Add("Feature-Policy", "geolocation 'none';midi 'none';notifications 'none';push 'none';sync-xhr 'none';microphone 'none';camera 'none';magnetometer 'none';gyroscope 'none';speaker 'self';vibrate 'none';fullscreen 'self';payment 'none';");
+				//w3c draft
+				//context.Response.Headers.Add("Feature-Policy", "geolocation 'none';midi 'none';sync-xhr 'none';microphone 'none';camera 'none';magnetometer 'none';gyroscope 'none';;fullscreen 'self';payment 'none';");
+				//being renamed/changed to this soon
+				context.Response.Headers.Add("Permissions-Policy", "geolocation=();midi=();sync-xhr=();microphone=();camera=();magnetometer=();gyroscope=();fullscreen=(self);payment=()");
 				await next.Invoke();
 			});
 
