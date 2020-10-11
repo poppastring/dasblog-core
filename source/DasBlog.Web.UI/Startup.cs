@@ -349,10 +349,17 @@ namespace DasBlog.Web
 				RequestPath = string.Format("/{0}", BinariesUrlRelativePath)
 			});
 
+			app.UseStaticFiles(new StaticFileOptions()
+			{
+				FileProvider = new PhysicalFileProvider(BinariesPath),
+				RequestPath = string.Format("/{0}", BinariesUrlRelativePath)
+			});
+
+
 			app.UseStaticFiles(new StaticFileOptions
 			{
-				FileProvider = new PhysicalFileProvider(Path.Combine(env.ContentRootPath, "Themes")),
-				RequestPath = "/theme"
+				FileProvider = new PhysicalFileProvider(Path.Combine(env.ContentRootPath, "content/radioStories")),
+				RequestPath = "/content/radioStories"
 			});
 
 			app.UseStaticFiles(new StaticFileOptions
