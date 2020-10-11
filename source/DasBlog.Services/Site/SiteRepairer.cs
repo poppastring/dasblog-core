@@ -5,8 +5,9 @@ namespace DasBlog.Services.Site
 {
 	public class SiteRepairer : ISiteRepairer
 	{
-		private string binariesPath = string.Empty;
-		private string themeFolder = string.Empty;
+		private readonly string binariesPath = string.Empty;
+		private readonly string themeFolder = string.Empty;
+		private readonly string radioStoriesFolder = string.Empty;
 
 		public SiteRepairer(IDasBlogSettings dasBlogSettings)
 		{
@@ -15,7 +16,10 @@ namespace DasBlog.Services.Site
 
 			themeFolder = new DirectoryInfo(Path.Combine(dasBlogSettings.WebRootDirectory, "Themes",
 								dasBlogSettings.SiteConfiguration.Theme)).FullName;
+
+			radioStoriesFolder = new DirectoryInfo(Path.Combine(dasBlogSettings.WebRootDirectory, "content/radioStories")).FullName;
 		}
+
 		public (bool result, string errorMessage) RepairSite()
 		{
 			try
@@ -30,7 +34,12 @@ namespace DasBlog.Services.Site
 					Directory.CreateDirectory(themeFolder);
 				}
 
-				return (true, "");
+				if (!Directory.Exists(radioStoriesFolder))
+				{
+					Directory.CreateDirectory(radioStoriesFolder);
+				}
+
+				return (true, string.Empty);
 			}
 			catch (Exception e)
 			{
