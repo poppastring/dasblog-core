@@ -365,6 +365,12 @@ namespace DasBlog.Web
 			app.UseStaticFiles(new StaticFileOptions
 			{
 				FileProvider = new PhysicalFileProvider(Path.Combine(env.ContentRootPath, "Themes")),
+				RequestPath = "/theme"
+			});
+
+			app.UseStaticFiles(new StaticFileOptions
+			{
+				FileProvider = new PhysicalFileProvider(Path.Combine(env.ContentRootPath, "Themes")),
 				RequestPath = "/themes"
 			});
 
