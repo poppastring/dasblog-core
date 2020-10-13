@@ -37,6 +37,9 @@ using System.Security.Principal;
 using System.Threading;
 using System.Threading.Tasks;
 using reCAPTCHA.AspNetCore;
+using Microsoft.AspNetCore.StaticFiles;
+using Microsoft.Net.Http.Headers;
+using SameSiteMode = Microsoft.AspNetCore.Http.SameSiteMode;
 
 namespace DasBlog.Web
 {
@@ -343,35 +346,48 @@ namespace DasBlog.Web
 			app.UseStaticFiles();
 			app.UseCookiePolicy();
 
+			Action<StaticFileResponseContext> cacheControlPrepResponse = (ctx) =>
+			{
+				const int durationInSeconds = 60 * 60 * 24;
+				ctx.Context.Response.Headers[HeaderNames.CacheControl] =
+					"public,max-age=" + durationInSeconds;
+				ctx.Context.Response.Headers["Expires"] = DateTime.UtcNow.AddHours(12).ToString("R");
+			};
+
 			app.UseStaticFiles(new StaticFileOptions()
 			{
 				FileProvider = new PhysicalFileProvider(BinariesPath),
-				RequestPath = string.Format("/{0}", BinariesUrlRelativePath)
+				RequestPath = string.Format("/{0}", BinariesUrlRelativePath),
+				OnPrepareResponse = cacheControlPrepResponse
 			});
 
 			app.UseStaticFiles(new StaticFileOptions()
 			{
 				FileProvider = new PhysicalFileProvider(BinariesPath),
-				RequestPath = string.Format("/{0}", BinariesUrlRelativePath)
+				RequestPath = string.Format("/{0}", BinariesUrlRelativePath),
+				OnPrepareResponse = cacheControlPrepResponse
 			});
 
 
 			app.UseStaticFiles(new StaticFileOptions
 			{
 				FileProvider = new PhysicalFileProvider(Path.Combine(env.ContentRootPath, "content/radioStories")),
-				RequestPath = "/content/radioStories"
+				RequestPath = "/content/radioStories",
+				OnPrepareResponse = cacheControlPrepResponse
 			});
 
 			app.UseStaticFiles(new StaticFileOptions
 			{
 				FileProvider = new PhysicalFileProvider(Path.Combine(env.ContentRootPath, "Themes")),
-				RequestPath = "/theme"
+				RequestPath = "/theme",
+				OnPrepareResponse = cacheControlPrepResponse
 			});
 
 			app.UseStaticFiles(new StaticFileOptions
 			{
 				FileProvider = new PhysicalFileProvider(Path.Combine(env.ContentRootPath, "Themes")),
-				RequestPath = "/themes"
+				RequestPath = "/themes",
+				OnPrepareResponse = cacheControlPrepResponse
 			});
 
 			app.UseAuthentication();
@@ -406,9 +422,9 @@ namespace DasBlog.Web
 			app.Use(async (context, next) =>
 			{
 				//w3c draft
-				//context.Response.Headers.Add("Feature-Policy", "geolocation 'none';midi 'none';sync-xhr 'none';microphone 'none';camera 'none';magnetometer 'none';gyroscope 'none';;fullscreen 'self';payment 'none';");
+				context.Response.Headers.Add("Feature-Policy", "geolocation 'none';midi 'none';sync-xhr 'none';microphone 'none';camera 'none';magnetometer 'none';gyroscope 'none';fullscreen 'self';payment 'none';");
 				//being renamed/changed to this soon
-				context.Response.Headers.Add("Permissions-Policy", "geolocation=();midi=();sync-xhr=();microphone=();camera=();magnetometer=();gyroscope=();fullscreen=(self);payment=()");
+				context.Response.Headers.Add("Permissions-Policy", "geolocation=(),midi=(),sync-xhr=(),microphone=(),camera=(),magnetometer=(),gyroscope=(),fullscreen=(self),payment=()");
 				await next.Invoke();
 			});
 
