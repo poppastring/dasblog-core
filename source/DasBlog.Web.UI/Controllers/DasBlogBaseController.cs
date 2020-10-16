@@ -62,7 +62,7 @@ namespace DasBlog.Web.Settings
 
         private void ShowErrors(PostViewModel post)
         {
-            if(post != null && post.Comments.CurrentComment != null && post.ErrorMessages != null && post.ErrorMessages.Count > 0)
+            if(post != null && post.Comments != null && post.Comments.CurrentComment != null && post.ErrorMessages != null && post.ErrorMessages.Count > 0)
             {
                 foreach(string ErrorMessage in post.ErrorMessages)
                 {

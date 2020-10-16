@@ -31,7 +31,7 @@ namespace DasBlog.Web.Controllers
 		}
 
 		[Produces("text/xml")]
-        [HttpGet("feed/rss")]
+        [HttpGet("feed/rss"), HttpHead("feed/rss")]
         public IActionResult Rss()
         {
 			if (!memoryCache.TryGetValue(CACHEKEY_RSS, out RssRoot rss))
@@ -47,7 +47,7 @@ namespace DasBlog.Web.Controllers
         }
 
 		[Produces("text/xml")]
-		[HttpGet("feed/rss/{category}")]
+		[HttpGet("feed/rss/{category}"), HttpHead("feed/rss/{category}")]
         public IActionResult RssByCategory(string category)
         {
 
@@ -119,7 +119,7 @@ namespace DasBlog.Web.Controllers
 			return Ok();
 		}
 
-		[HttpGet("feed/rss/comments/{entryid}")]
+		[HttpGet("feed/rss/comments/{entryid}"), HttpHead("feed/rss/comments/{entryid}")]
 		public ActionResult RssComments(string entryid)
 		{
 			return Ok();
