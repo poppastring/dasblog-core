@@ -23,7 +23,6 @@ namespace DasBlog.Web.TagHelpers.Post
 			output.TagName = "a";
 			output.TagMode = TagMode.StartTagAndEndTag;
 			output.Attributes.SetAttribute("href", dasBlogSettings.GetCommentViewUrl(Post.PermaLink));
-			output.Attributes.SetAttribute("id", Constants.CommentOnThisPostId);
 			output.Attributes.SetAttribute("class", "dbc-comment-on-post-link");
 
 			var content = "Comment on this post";
