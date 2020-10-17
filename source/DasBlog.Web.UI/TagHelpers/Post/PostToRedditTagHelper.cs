@@ -9,7 +9,7 @@ namespace DasBlog.Web.TagHelpers.Post
 {
 	public class PostToRedditTagHelper : TagHelper
 	{
-		private const string REDDIT_SHARE_URL = "http://www.reddit.com/submit?url={0}&title={1}";
+		private const string REDDIT_SHARE_URL = "https://www.reddit.com/submit?url={0}&title={1}";
 		private IDasBlogSettings dasBlogSettings;
 		public PostViewModel Post { get; set; }
 
