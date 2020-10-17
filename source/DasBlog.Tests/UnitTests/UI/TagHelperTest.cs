@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using DasBlog.Web.Models.BlogViewModels;
-using DasBlog.Web.TagHelpers;
 using DasBlog.Web.TagHelpers.Post;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using Xunit;
@@ -37,6 +37,7 @@ namespace DasBlog.Tests.UnitTests.UI
 			Assert.Same("a", output.TagName);
 			Assert.Same("href", output.Attributes[0].Name);
 			Assert.Contains(blogPost, output.Attributes[0].Value.ToString());
+			Assert.DoesNotContain("id", output.Attributes.Select(a => a.Name));
 			Assert.Equal(tagContent, output.Content.GetContent().Trim());
 		}
 
