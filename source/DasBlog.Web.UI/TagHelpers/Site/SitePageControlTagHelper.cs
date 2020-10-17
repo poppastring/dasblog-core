@@ -10,9 +10,9 @@ namespace DasBlog.Web.TagHelpers.Layout
 {
 	public class SitePageControlTagHelper : TagHelper
 	{
-		public string NewerPostsText { get; set; } = "Newer Posts >>";
+		public string NewerPostsText { get; set; } = "Newer Posts &gt;&gt;";
 
-		public string OlderPostsText { get; set; } = "<< Older Posts";
+		public string OlderPostsText { get; set; } = "&lt;&lt; Older Posts";
 
 		public bool SeperatorRequired { get; set; } = true;
 
