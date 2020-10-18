@@ -51,7 +51,7 @@ namespace DasBlog.Web.Models.AdminViewModels
 		[DisplayName("Front page day count")]
 		[Description("The maximum number of days to appear on your home page")]
 		[Required(AllowEmptyStrings = false, ErrorMessage = "Please enter a Front Page Day Count")]
-		[Range(1, 100, ErrorMessage = "Enter a value between  1 and 100")]
+		[Range(1, 1000, ErrorMessage = "Enter a value between  1 and 1000")]
 		public int FrontPageDayCount { get; set; }
 
 		[DisplayName("Front page entry count")]
@@ -87,7 +87,7 @@ namespace DasBlog.Web.Models.AdminViewModels
 		[DisplayName("RSS day count")]
 		[Description("Maximum number of days to appear in your RSS feed")]
 		[Required(AllowEmptyStrings = false, ErrorMessage = "Enter a value for RSS Day Count")]
-		[Range(1, 500, ErrorMessage = "Enter a value between  1 and 500")]
+		[Range(1, 1000, ErrorMessage = "Enter a value between  1 and 1000")]
 		public int RssDayCount { get; set; }
 
 		[DisplayName("RSS main entry count")]
