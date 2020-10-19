@@ -40,7 +40,7 @@ namespace DasBlog.Web.Identity
 				throw new ArgumentNullException(nameof(user));
 			}
 
-			return Task.FromResult(user.UserName);
+			return Task.FromResult(user.DisplayName);
 		}
 
 		public Task SetUserNameAsync(DasBlogUser user, string userName, CancellationToken cancellationToken) => throw new NotImplementedException();
