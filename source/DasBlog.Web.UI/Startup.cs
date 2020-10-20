@@ -54,10 +54,6 @@ namespace DasBlog.Web
 		private readonly string LogFolderPath;
 		private readonly string BinariesPath;
 		private readonly string BinariesUrlRelativePath;
-        private readonly string RecaptchaSiteKey;
-        private readonly string RecaptchaSecretKey;
-		private readonly string [] SecurityStyleSources;
-		private readonly string [] SecurityScriptSources;
 
 		private readonly IWebHostEnvironment hostingEnvironment;
 
@@ -82,10 +78,6 @@ namespace DasBlog.Web
 			ThemeFolderPath = new DirectoryInfo(Path.Combine(hostingEnvironment.ContentRootPath, "Themes", Configuration.GetSection("Theme").Value)).FullName;
 			LogFolderPath = new DirectoryInfo(Path.Combine(hostingEnvironment.ContentRootPath, Configuration.GetSection("LogDir").Value)).FullName;
 			BinariesUrlRelativePath = "content/binary";
-			RecaptchaSiteKey = Configuration.GetSection("RecaptchaSiteKey").Value;
-			RecaptchaSecretKey = Configuration.GetSection("RecaptchaSecretKey").Value;
-			SecurityScriptSources = Configuration.GetSection("SecurityScriptSources")?.Value?.Split(";");
-			SecurityStyleSources = Configuration.GetSection("SecurityStyleSources")?.Value?.Split(";");
 		}
 
 		public IConfiguration DasBlogConfigurationBuilder()
@@ -240,9 +232,9 @@ namespace DasBlog.Web
             
             services.AddRecaptcha(options =>
             {
-                options.SiteKey = RecaptchaSiteKey; 
-                options.SecretKey = RecaptchaSecretKey; 
-            });
+                options.SiteKey = Configuration.GetSection("RecaptchaSiteKey").Value; 
+                options.SecretKey = Configuration.GetSection("RecaptchaSecretKey").Value;
+			});
 
 			services.Configure<CookiePolicyOptions>(options =>
 			{
@@ -313,7 +305,6 @@ namespace DasBlog.Web
 			{
 				app.UseHsts(options => options.MaxAge(days: 30));
 			}
-
 
 			if (!siteOk)
 			{
@@ -400,6 +391,8 @@ namespace DasBlog.Web
 			app.UseXfo(options => options.SameOrigin());
 			app.UseReferrerPolicy(opts => opts.NoReferrerWhenDowngrade());
 
+			var SecurityStyleSources = Configuration.GetSection("SecurityScriptSources")?.Value?.Split(";");
+			var SecurityScriptSources = Configuration.GetSection("SecurityStyleSources")?.Value?.Split(";");
 
 			if (SecurityStyleSources != null && SecurityScriptSources != null)
 			{
