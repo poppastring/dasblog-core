@@ -121,11 +121,23 @@ namespace DasBlog.Web.Settings
 
 		public User GetUser(string userName)
 		{
-			if (false == string.IsNullOrEmpty(userName))
+			if (!string.IsNullOrEmpty(userName))
 			{
 				return SecurityConfiguration.Users.Find(delegate (User x)
 				{
 					return string.Compare(x.DisplayName, userName, StringComparison.InvariantCultureIgnoreCase) == 0;
+				});
+			}
+			return null;
+		}
+
+		public User GetUserByEmail(string userEmail)
+		{
+			if (!string.IsNullOrEmpty(userEmail))
+			{
+				return SecurityConfiguration.Users.Find(delegate (User x)
+				{
+					return string.Compare(x.EmailAddress, userEmail, StringComparison.InvariantCultureIgnoreCase) == 0;
 				});
 			}
 			return null;

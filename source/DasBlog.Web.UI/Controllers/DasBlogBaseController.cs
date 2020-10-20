@@ -49,7 +49,7 @@ namespace DasBlog.Web.Settings
 				ViewData["Description"] = post.Content.StripHTMLFromText().CutLongString(80); 
 				ViewData["Keywords"] = string.Join(",", post.Categories.Select(x => x.Category).ToArray());
 				ViewData["Canonical"] = dasBlogSettings.RelativeToRoot(post.PermaLink);
-				ViewData["Author"] = post.Author;
+				ViewData["Author"] = dasBlogSettings.GetUserByEmail(post.Author)?.DisplayName; ;
 				ViewData["PageImageUrl"] = (post.ImageUrl?.Length > 0) ? post.ImageUrl : dasBlogSettings.MetaTags.TwitterImage;
 				ViewData["PageVideoUrl"] = (post.VideoUrl?.Length > 0) ? post.VideoUrl : string.Empty;
                 ShowErrors(post);

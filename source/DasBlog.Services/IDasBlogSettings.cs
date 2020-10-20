@@ -37,6 +37,7 @@ namespace DasBlog.Services
 		string GetCategoryViewUrlName(string category);
 		string GetRssCategoryUrl(string category);
 		User GetUser(string userName);
+		User GetUserByEmail(string email);
 		void AddUser(User user);
 		DateTimeZone GetConfiguredTimeZone();
 		DateTime GetContentLookAhead();

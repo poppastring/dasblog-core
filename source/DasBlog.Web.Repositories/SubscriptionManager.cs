@@ -162,7 +162,7 @@ namespace DasBlog.Managers
                 item.Guid.IsPermaLink = false;
                 item.Guid.Text = dasBlogSettings.GetPermaLinkUrl(entry.EntryId);
                 item.Link = dasBlogSettings.RelativeToRoot(dasBlogSettings.GeneratePostUrl(entry));
-                User user = dasBlogSettings.GetUser(entry.Author);
+                User user = dasBlogSettings.GetUserByEmail(entry.Author);
 
                 XmlElement trackbackPing = doc2.CreateElement("trackback", "ping", "http://madskills.com/public/xml/rss/module/trackback/");
                 trackbackPing.InnerText = dasBlogSettings.GetTrackbackUrl(entry.EntryId);
