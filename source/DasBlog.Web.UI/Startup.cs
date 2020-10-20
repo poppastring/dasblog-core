@@ -391,8 +391,8 @@ namespace DasBlog.Web
 			app.UseXfo(options => options.SameOrigin());
 			app.UseReferrerPolicy(opts => opts.NoReferrerWhenDowngrade());
 
-			var SecurityStyleSources = Configuration.GetSection("SecurityScriptSources")?.Value?.Split(";");
-			var SecurityScriptSources = Configuration.GetSection("SecurityStyleSources")?.Value?.Split(";");
+			var SecurityScriptSources = Configuration.GetSection("SecurityScriptSources")?.Value?.Split(";");
+			var SecurityStyleSources = Configuration.GetSection("SecurityStyleSources")?.Value?.Split(";");
 
 			if (SecurityStyleSources != null && SecurityScriptSources != null)
 			{
