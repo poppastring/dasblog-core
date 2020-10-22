@@ -5,8 +5,8 @@ strategy:
       imageName: 'ubuntu-18.04'
 #    mac:
 #      imageName: 'macos-10.13'
-#    windows:
-#      imageName: 'windows-2019'
+    windows:
+      imageName: 'windows-2019'
 
 pool:
   vmImage: $(imageName)

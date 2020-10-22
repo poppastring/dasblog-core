@@ -130,6 +130,18 @@ namespace DasBlog.Tests.UnitTests
 			return null;
 		}
 
+		public User GetUserByEmail(string userEmail)
+		{
+			if (!string.IsNullOrEmpty(userEmail))
+			{
+				return SecurityConfiguration.Users.Find(delegate (User x)
+				{
+					return string.Compare(x.EmailAddress, userEmail, StringComparison.InvariantCultureIgnoreCase) == 0;
+				});
+			}
+			return null;
+		}
+
 		public void AddUser(User user)
 		{
 			SecurityConfiguration.Users.Add(user);

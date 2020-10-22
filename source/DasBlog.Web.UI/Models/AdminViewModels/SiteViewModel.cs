@@ -51,7 +51,7 @@ namespace DasBlog.Web.Models.AdminViewModels
 		[DisplayName("Front page day count")]
 		[Description("The maximum number of days to appear on your home page")]
 		[Required(AllowEmptyStrings = false, ErrorMessage = "Please enter a Front Page Day Count")]
-		[Range(1, 100, ErrorMessage = "Enter a value between  1 and 100")]
+		[Range(1, 1000, ErrorMessage = "Enter a value between  1 and 1000")]
 		public int FrontPageDayCount { get; set; }
 
 		[DisplayName("Front page entry count")]
@@ -87,7 +87,7 @@ namespace DasBlog.Web.Models.AdminViewModels
 		[DisplayName("RSS day count")]
 		[Description("Maximum number of days to appear in your RSS feed")]
 		[Required(AllowEmptyStrings = false, ErrorMessage = "Enter a value for RSS Day Count")]
-		[Range(1, 500, ErrorMessage = "Enter a value between  1 and 500")]
+		[Range(1, 1000, ErrorMessage = "Enter a value between  1 and 1000")]
 		public int RssDayCount { get; set; }
 
 		[DisplayName("RSS main entry count")]
@@ -144,21 +144,21 @@ namespace DasBlog.Web.Models.AdminViewModels
 		public string CheesySpamA { get; set; }
 
 		[DisplayName("Enable Captcha")]
-		[Description("Let's You Decide if you want to use Google's Recaptcha to Prevents Bots from spamming the comments on your posts.")]
+		[Description("Let's You Decide if you want to use Google's reCAPTCHA to prevent Bots from spamming the comments on your posts.")]
         public bool EnableCaptcha { get; set; }
 
-       	[DisplayName("Recapcha Minimum Score")]
-		[Description("Minimum Score for the Recaptcha to be considered pass. For example if you are asked to identify an image at least 50% of the images must be identified if score if 0.5")]
+       	[DisplayName("reCAPTCHA Minimum Score")]
+		[Description("Minimum Score for the reCAPTCHA to be considered pass. For example if you are asked to identify an image at least 50% of the images must be identified if score if 0.5")]
 		[Range(0.0, 1.0, ErrorMessage = "Values should be between 0 and 1")]
         public double RecaptchaMinimumScore { get; set; }
         
-       	[DisplayName("Google Recaptha Site Key")]
-		[Description("Recaptcha Site Key Based on Recaptha Configured On Google Recaptcha Admin Site.")]
+       	[DisplayName("reCAPTCHA Site Key")]
+		[Description("reCAPTCHA site key based from Google reCAPTCHA Admin Site.")]
 		[StringLength(300, MinimumLength = 1, ErrorMessage = "{0} should be between 1 to 300 characters")]
         public string RecaptchaSiteKey { get; set; }
         
-       	[DisplayName("Google Recaptcha Secret Key")]
-		[Description("Recaptcha Secret Key based on Recaptcha configured on Google Recaptha Admin Site.")]
+       	[DisplayName("Google reCAPTCHA Secret Key")]
+		[Description("reCAPTCHA secret key based on Google reCAPTCHA Admin Site.")]
 		[StringLength(300, MinimumLength = 1, ErrorMessage = "{0} should be between 1 to 300 characters")]
         public string RecaptchaSecretKey { get; set; }
 
