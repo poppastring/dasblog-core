@@ -15,6 +15,12 @@ pool:
 variables:
   buildConfiguration: 'Release'
 
+parameters:
+- name: Version
+  displayName: Version
+  type: string
+  default: 2.20
+
 steps:
 - task: UseDotNet@2
   displayName: Installing .NET Core 3.1
@@ -24,11 +30,12 @@ steps:
     installationPath: $(Agent.ToolsDirectory)/dotnet
 
 - task: PowerShell@2
+  displayName: Set build number
   condition: and(succeeded(), eq(variables['Build.SourceBranchName'], 'main'))
   inputs:
     targetType: 'inline'
     script: |
-      Write-Host "##vso[build.updatebuildnumber]2.20.$(Build.BuildId)"
+      Write-Host "##vso[build.updatebuildnumber]${{ parameters.Version }}.$(Build.BuildId)"
 
 - task: DotNetCoreCLI@2
   displayName: Restoring Packages for Solution
@@ -46,7 +53,7 @@ steps:
   inputs:
     command: build
     projects: '**/*.sln'
-    arguments: '--no-restore --configuration $(BuildConfiguration) -p:VersionPrefix=2.20.$(Build.BuildId) -p:FileVersion=2.20.$(Build.BuildId).0 -p:SourceRevisionId=$(Build.SourceVersion)'
+    arguments: '--no-restore --configuration $(BuildConfiguration) -p:VersionPrefix=$(Build.BuildNumber) -p:FileVersion=$(Build.BuildNumber).0 -p:SourceRevisionId=$(Build.SourceVersion)'
 
 - script: dotnet test source/DasBlog.Tests/UnitTests/ --logger trx;LogfileName=test_results.xml --results-directory $(System.DefaultWorkingDirectory)/test_results --filter Category=UnitTest
   displayName: Run Unit Tests on Windows
@@ -70,4 +77,4 @@ steps:
 - task: PublishPipelineArtifact@1
   inputs:
     targetPath: $(Build.ArtifactStagingDirectory)
-    artifactName: $(System.TeamProject)_$(Build.BuildNumber)
+    artifactName: $(Build.ImageName)/$(System.TeamProject)_$(Build.BuildNumber)
