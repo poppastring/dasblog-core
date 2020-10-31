@@ -23,6 +23,12 @@ steps:
     version: '3.1.x'
     installationPath: $(Agent.ToolsDirectory)/dotnet
 
+- task: PowerShell@2
+  condition: and(succeeded(), eq(variables['Build.SourceBranchName'], 'main'))
+  inputs:
+    targetType: 'inline'
+    script: |
+      Write-Host "##vso[build.updatebuildnumber]2.11.$(Build.BuildId)"
 
 - task: DotNetCoreCLI@2
   displayName: Restoring Packages for Solution
@@ -64,5 +70,4 @@ steps:
 - task: PublishBuildArtifacts@1
   inputs:
     pathtoPublish: '$(Build.ArtifactStagingDirectory)' 
-    artifactName: 'DasBlog-Build-Artifacts-$(Build.BuildId)'
   
