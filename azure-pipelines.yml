@@ -71,7 +71,7 @@ steps:
   inputs:
     command: publish
     publishWebProjects: True
-    arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory) --self-contained --no-build --no-restore --version-suffix $(Build.BuildNumber)'
+    arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)/$(Build.BuildNumber) --self-contained --no-build --no-restore'
     zipAfterPublish: True
 
 - task: PublishPipelineArtifact@1
