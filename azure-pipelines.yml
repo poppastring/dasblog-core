@@ -14,12 +14,7 @@ pool:
 
 variables:
   buildConfiguration: 'Release'
-
-parameters:
-- name: Version
-  displayName: Version
-  type: string
-  default: 2.20
+  version: 2.20
 
 steps:
 - task: UseDotNet@2
@@ -35,7 +30,7 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
-      Write-Host "##vso[build.updatebuildnumber]${{ parameters.Version }}.$(Build.BuildId)"
+      Write-Host "##vso[build.updatebuildnumber]${{ variables.version }}.$(Build.BuildId)"
 
 - task: DotNetCoreCLI@2
   displayName: Restoring Packages for Solution
