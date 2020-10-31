@@ -30,7 +30,7 @@ steps:
     installationPath: $(Agent.ToolsDirectory)/dotnet
 
 - task: PowerShell@2
-  displayName: Set build number
+  displayName: Set Build Number
   condition: and(succeeded(), eq(variables['Build.SourceBranchName'], 'main'))
   inputs:
     targetType: 'inline'
@@ -75,6 +75,7 @@ steps:
     zipAfterPublish: True
 
 - task: PublishPipelineArtifact@1
+  condition: and(succeeded(), eq(variables['imageName'], 'windows-2019'))
   inputs:
     targetPath: $(Build.ArtifactStagingDirectory)
-    artifactName: $(Build.ImageName)/$(System.TeamProject)_$(Build.BuildNumber)
+    artifactName: $(System.TeamProject)_$(Build.BuildNumber)
