@@ -28,7 +28,7 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
-      Write-Host "##vso[build.updatebuildnumber]2.11.$(Build.BuildId)"
+      Write-Host "##vso[build.updatebuildnumber]2.20.$(Build.BuildId)"
 
 - task: DotNetCoreCLI@2
   displayName: Restoring Packages for Solution
@@ -64,10 +64,10 @@ steps:
   inputs:
     command: publish
     publishWebProjects: True
-    arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory) --self-contained --no-build --no-restore'
+    arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory) --self-contained --no-build --no-restore --version-suffix $(Build.BuildNumber)'
     zipAfterPublish: True
 
-- task: PublishBuildArtifacts@1
+- task: PublishPipelineArtifact@1
   inputs:
-    pathtoPublish: '$(Build.ArtifactStagingDirectory)' 
-  
+    targetPath: $(Build.ArtifactStagingDirectory)
+    artifactName: $(System.TeamProject)_$(Build.BuildNumber)
