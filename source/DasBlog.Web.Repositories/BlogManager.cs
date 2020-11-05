@@ -352,20 +352,25 @@ namespace DasBlog.Managers
 		{
 			var saveState = CommentSaveState.Failed;
 
-			if (!dasBlogSettings.SiteConfiguration.EnableComments)
+			var entry = dataService.GetEntry(postid);
+
+			if (dasBlogSettings.SiteConfiguration.EnableComments == false || entry.AllowComments == false)
 			{
 				return CommentSaveState.SiteCommentsDisabled;
 			}
 
-			var entry = dataService.GetEntry(postid);
 			if (entry != null)
 			{
 				var targetComment = DateTime.UtcNow.AddDays(-1 * dasBlogSettings.SiteConfiguration.DaysCommentsAllowed);
 
-				if (targetComment > entry.CreatedUtc)
+				if ((targetComment > entry.CreatedUtc))
 				{
 					return CommentSaveState.PostCommentsDisabled;
 				}
+
+				// FilterHtml html encodes anything we don't like
+				string filteredText = dasBlogSettings.FilterHtml(comment.Content);
+				comment.Content = filteredText;
 
 				if (dasBlogSettings.SiteConfiguration.SendCommentsByEmail)
 				{

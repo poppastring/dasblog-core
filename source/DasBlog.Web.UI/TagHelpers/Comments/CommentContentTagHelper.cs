@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
 using DasBlog.Web.Models.BlogViewModels;
@@ -17,7 +18,8 @@ namespace DasBlog.Web.TagHelpers.Comments
 			output.TagName = "div";
 			output.TagMode = TagMode.StartTagAndEndTag;
 			output.Attributes.SetAttribute("class", "dbc-comment-content");
-			output.Content.SetHtmlContent(HttpUtility.HtmlDecode(Comment.Text));
+			Comment.Text = Regex.Replace(Comment.Text, "\n", "<br />");
+			output.Content.SetHtmlContent(Comment.Text);
 		}
 
 		public override Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
