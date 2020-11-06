@@ -430,7 +430,6 @@ namespace DasBlog.Web.Controllers
             if(errors.Count > 0)
                 return CommentError(addcomment, errors);
 
-
 			//addcomment.Content = dasBlogSettings.FilterHtml(addcomment.Content);
 
 			var commt = mapper.Map<NBR.Comment>(addcomment);
@@ -439,6 +438,8 @@ namespace DasBlog.Web.Controllers
 			commt.CreatedUtc = commt.ModifiedUtc = DateTime.UtcNow;
 			commt.EntryId = Guid.NewGuid().ToString();
 			commt.IsPublic = !dasBlogSettings.SiteConfiguration.CommentsRequireApproval;
+
+			logger.LogInformation(new EventDataItem(EventCodes.CommentAdded, null, "Comment CONTENT DUMP", commt.Content));
 
 			var state = blogManager.AddComment(addcomment.TargetEntryId, commt);
 
