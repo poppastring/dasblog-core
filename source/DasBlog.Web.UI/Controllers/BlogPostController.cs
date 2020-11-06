@@ -467,7 +467,7 @@ namespace DasBlog.Web.Controllers
 				return NotFound();
 			}
 
-			logger.LogInformation(new EventDataItem(EventCodes.CommentAdded, null, "Comment created on: {0}", commt.TargetTitle));
+			logger.LogInformation(new EventDataItem(EventCodes.CommentAdded, null, "Comment saved: {0}", commt.Content));
 
 			BreakSiteCache();
 
