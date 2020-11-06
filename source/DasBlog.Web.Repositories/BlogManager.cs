@@ -351,13 +351,13 @@ namespace DasBlog.Managers
 		public CommentSaveState AddComment(string postid, Comment comment)
 		{
 			var saveState = CommentSaveState.Failed;
+			var entry = dataService.GetEntry(postid);
 
-			if (!dasBlogSettings.SiteConfiguration.EnableComments)
+			if (!dasBlogSettings.SiteConfiguration.EnableComments || !entry.AllowComments)
 			{
 				return CommentSaveState.SiteCommentsDisabled;
 			}
 
-			var entry = dataService.GetEntry(postid);
 			if (entry != null)
 			{
 				var targetComment = DateTime.UtcNow.AddDays(-1 * dasBlogSettings.SiteConfiguration.DaysCommentsAllowed);
