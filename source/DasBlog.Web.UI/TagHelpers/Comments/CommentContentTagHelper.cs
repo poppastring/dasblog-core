@@ -14,6 +14,8 @@ namespace DasBlog.Web.TagHelpers.Comments
 	{
 		public CommentViewModel Comment { get; set; }
 
+		public string Css { get; set; } = "dbc-comment-content";
+
 		private readonly IDasBlogSettings dasBlogSettings;
 
 		public CommentContentTagHelper(IDasBlogSettings dasBlogSettings)
@@ -25,7 +27,7 @@ namespace DasBlog.Web.TagHelpers.Comments
 		{
 			output.TagName = "div";
 			output.TagMode = TagMode.StartTagAndEndTag;
-			output.Attributes.SetAttribute("class", "dbc-comment-content");
+			output.Attributes.SetAttribute("class", Css);
 			Comment.Text = dasBlogSettings.FilterHtml(Comment.Text);
 			Comment.Text = Regex.Replace(Comment.Text, "\n", "<br />");
 			output.Content.SetHtmlContent(HttpUtility.HtmlDecode(Comment.Text));
