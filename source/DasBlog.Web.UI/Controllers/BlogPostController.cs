@@ -431,7 +431,7 @@ namespace DasBlog.Web.Controllers
                 return CommentError(addcomment, errors);
 
 
-			addcomment.Content = dasBlogSettings.FilterHtml(addcomment.Content);
+			//addcomment.Content = dasBlogSettings.FilterHtml(addcomment.Content);
 
 			var commt = mapper.Map<NBR.Comment>(addcomment);
 			commt.AuthorIPAddress = HttpContext.Connection.RemoteIpAddress.ToString();

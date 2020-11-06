@@ -19,6 +19,7 @@ namespace DasBlog.Web.TagHelpers.Comments
 			output.TagMode = TagMode.StartTagAndEndTag;
 			output.Attributes.SetAttribute("class", "dbc-comment-content");
 			Comment.Text = Regex.Replace(Comment.Text, "\n", "<br />");
+			//output.Content.SetHtmlContent(HttpUtility.HtmlDecode(Comment.Text));
 			output.Content.SetHtmlContent(Comment.Text);
 		}
 
