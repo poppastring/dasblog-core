@@ -63,35 +63,25 @@ namespace DasBlog.Web
 		{
 			hostingEnvironment = env;
 
-			var envname = string.IsNullOrWhiteSpace(hostingEnvironment.EnvironmentName) ?
-			"." : string.Format($".{hostingEnvironment.EnvironmentName}.");
+			SiteSecurityConfigPath = Path.Combine("Config", $"siteSecurity.{env.EnvironmentName}.config");
+			IISUrlRewriteConfigPath = Path.Combine("Config", $"IISUrlRewrite.{env.EnvironmentName}.config");
+			SiteConfigPath = Path.Combine("Config", $"site.{env.EnvironmentName}.config");
+			MetaConfigPath = Path.Combine("Config", $"meta.{env.EnvironmentName}.config");
 
-			SiteSecurityConfigPath = Path.Combine("Config", $"siteSecurity{envname}config");
-			IISUrlRewriteConfigPath = Path.Combine("Config", $"IISUrlRewrite{envname}config");
-			SiteConfigPath = Path.Combine("Config", $"site{envname}config");
-			MetaConfigPath = Path.Combine("Config", $"meta{envname}config");
-			AppSettingsConfigPath = $"appsettings.json";
-
-			Configuration = DasBlogConfigurationBuilder();
-
-			BinariesPath = new DirectoryInfo(Path.Combine(env.ContentRootPath, Configuration.GetValue<string>("BinariesDir"))).FullName;
-			ThemeFolderPath = new DirectoryInfo(Path.Combine(hostingEnvironment.ContentRootPath, "Themes", Configuration.GetSection("Theme").Value)).FullName;
-			LogFolderPath = new DirectoryInfo(Path.Combine(hostingEnvironment.ContentRootPath, Configuration.GetSection("LogDir").Value)).FullName;
-			BinariesUrlRelativePath = "content/binary";
-		}
-
-		public IConfiguration DasBlogConfigurationBuilder()
-		{
-			var configBuilder = new ConfigurationBuilder();
-
-			configBuilder
-				.AddXmlFile(Path.Combine(hostingEnvironment.ContentRootPath, SiteConfigPath), optional: false, reloadOnChange: true)
-				.AddXmlFile(Path.Combine(hostingEnvironment.ContentRootPath, MetaConfigPath), optional: false, reloadOnChange: true)
-				.AddJsonFile(Path.Combine(hostingEnvironment.ContentRootPath, AppSettingsConfigPath), optional: false, reloadOnChange: true)
-
+			var builder = new ConfigurationBuilder()
+				.SetBasePath(env.ContentRootPath)
+				.AddXmlFile(SiteConfigPath, optional: false, reloadOnChange: true)
+				.AddXmlFile(MetaConfigPath, optional: false, reloadOnChange: true)
+				.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+				.AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
 				.AddEnvironmentVariables();
 
-			return configBuilder.Build();
+			Configuration = builder.Build();
+
+			BinariesPath = new DirectoryInfo(Path.Combine(env.ContentRootPath, Configuration.GetValue<string>("BinariesDir"))).FullName;
+			ThemeFolderPath = new DirectoryInfo(Path.Combine(env.ContentRootPath, "Themes", Configuration.GetSection("Theme").Value)).FullName;
+			LogFolderPath = new DirectoryInfo(Path.Combine(env.ContentRootPath, Configuration.GetSection("LogDir").Value)).FullName;
+			BinariesUrlRelativePath = "content/binary";
 		}
 		
 		// This method gets called by the runtime. Use this method to add services to the container.
@@ -137,24 +127,7 @@ namespace DasBlog.Web
 				.AddIdentity<DasBlogUser, DasBlogRole>()
 				.AddDefaultTokenProviders();
 
-			services.Configure<IdentityOptions>(options =>
-			{
-				// Password settings
-				options.Password.RequireDigit = true;
-				options.Password.RequiredLength = 8;
-				options.Password.RequireNonAlphanumeric = false;
-				options.Password.RequireUppercase = true;
-				options.Password.RequireLowercase = false;
-				options.Password.RequiredUniqueChars = 6;
-
-				// Lockout settings
-				options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
-				options.Lockout.MaxFailedAccessAttempts = 10;
-				options.Lockout.AllowedForNewUsers = true;
-
-				// User settings
-				options.User.RequireUniqueEmail = true;
-			});
+			services.Configure<IdentityOptions>(Configuration.GetSection("IdentityOptions"));
 
 			services.ConfigureApplicationCookie(options =>
 			{
