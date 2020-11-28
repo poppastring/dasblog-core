@@ -14,6 +14,7 @@ pool:
 
 variables:
   buildConfiguration: 'Release'
+  version: 2.20
 
 steps:
 - task: UseDotNet@2
@@ -23,6 +24,13 @@ steps:
     version: '3.1.x'
     installationPath: $(Agent.ToolsDirectory)/dotnet
 
+- task: PowerShell@2
+  displayName: Set Build Number
+  condition: and(succeeded(), eq(variables['Build.SourceBranchName'], 'main'))
+  inputs:
+    targetType: 'inline'
+    script: |
+      Write-Host "##vso[build.updatebuildnumber]${{ variables.version }}.$(Build.BuildId)"
 
 - task: DotNetCoreCLI@2
   displayName: Restoring Packages for Solution
@@ -31,6 +39,7 @@ steps:
     projects: '**/*.sln'
 
 - script: 'echo -e "$(Build.BuildNumber)\n$(Build.BuildId)" > .buildinfo.json'
+  condition: and(always(), eq(variables['imageName'], 'ubuntu-18.04'))
   displayName: "Emit build number"
   workingDirectory: '$(Build.SourcesDirectory)/source/DasBlog.Web.UI'
   failOnStderr: true
@@ -40,7 +49,7 @@ steps:
   inputs:
     command: build
     projects: '**/*.sln'
-    arguments: '--no-restore --configuration $(BuildConfiguration) -p:VersionPrefix=2.20.$(Build.BuildId) -p:FileVersion=2.20.$(Build.BuildId).0 -p:SourceRevisionId=$(Build.SourceVersion)'
+    arguments: '--no-restore --configuration $(BuildConfiguration) -p:VersionPrefix=$(Build.BuildNumber) -p:FileVersion=$(Build.BuildNumber).0 -p:SourceRevisionId=$(Build.SourceVersion)'
 
 - script: dotnet test source/DasBlog.Tests/UnitTests/ --logger trx;LogfileName=test_results.xml --results-directory $(System.DefaultWorkingDirectory)/test_results --filter Category=UnitTest
   displayName: Run Unit Tests on Windows
@@ -59,10 +68,17 @@ steps:
     command: publish
     publishWebProjects: True
     arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory) --self-contained --no-build --no-restore'
-    zipAfterPublish: True
 
-- task: PublishBuildArtifacts@1
+- task: ArchiveFiles@2
   inputs:
-    pathtoPublish: '$(Build.ArtifactStagingDirectory)' 
-    artifactName: 'DasBlog-Build-Artifacts-$(Build.BuildId)'
-  
+    rootFolderOrFile: '$(Build.ArtifactStagingDirectory)'
+    includeRootFolder: true
+    archiveType: 'zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/$(imageName)/$(System.TeamProject)_$(Build.BuildNumber).zip'
+    replaceExistingArchive: true
+
+- task: PublishPipelineArtifact@1
+  condition: and(succeeded(), eq(variables['imageName'], 'windows-2019'))
+  inputs:
+    targetPath: $(Build.ArtifactStagingDirectory)/$(imageName)
+    artifactName: $(System.TeamProject)_$(Build.BuildNumber)

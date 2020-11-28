@@ -295,7 +295,7 @@ namespace newtelligence.DasBlog.Runtime
         /// <param name="maxDays">Maximum number of days to return. This number relates to
         /// days actually found and not to calendar days.</param>
         /// <returns>A DayEntryCollection containing the collected results.</returns>
-        protected DayEntryCollection InternalGetDayEntries(DateTime startDate, TimeZone tz, int maxDays)
+        protected DayEntryCollection InternalGetDayEntries(DateTime startDate, int maxDays)
         {
             // we look one day ahead into "UTC" future in order to grab 
             // the timezones ahead of UTC.
