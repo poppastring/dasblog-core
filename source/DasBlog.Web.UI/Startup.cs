@@ -87,6 +87,8 @@ namespace DasBlog.Web
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
+			services.AddApplicationInsightsTelemetry();
+
 			services.AddLogging(builder =>
 			{
 				builder.AddFile(opts => opts.LogDirectory = LogFolderPath);
@@ -256,7 +258,6 @@ namespace DasBlog.Web
 			{
 				options.WaitForJobsToComplete = true;
 			});
-            services.AddApplicationInsightsTelemetry(Configuration["APPINSIGHTS_INSTRUMENTATIONKEY"]);
         }
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
