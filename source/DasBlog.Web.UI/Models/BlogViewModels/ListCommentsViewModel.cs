@@ -17,6 +17,8 @@ namespace DasBlog.Web.Models.BlogViewModels
 
 		public bool ShowComments { get; set; }
 
-        public AddCommentViewModel CurrentComment {get; set;} = null;
+		public bool AllowComments { get; set; }
+
+		public AddCommentViewModel CurrentComment {get; set;} = null;
 	}
 }

@@ -19,7 +19,7 @@
                 }
             }
         </div>
-        @if (dasBlogSettings.AreCommentsPermitted(Model.PostDate))
+        @if (Model.AllowComments && dasBlogSettings.AreCommentsPermitted(Model.PostDate))
         {
             @if(Model.CurrentComment != null)
             {

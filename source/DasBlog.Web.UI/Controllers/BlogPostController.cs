@@ -73,7 +73,8 @@ namespace DasBlog.Web.Controllers
 					PostId = entry.EntryId,
 					PostDate = entry.CreatedUtc,
 					CommentUrl = dasBlogSettings.GetCommentViewUrl(posttitle),
-					ShowComments = dasBlogSettings.SiteConfiguration.ShowCommentsWhenViewingEntry
+					ShowComments = dasBlogSettings.SiteConfiguration.ShowCommentsWhenViewingEntry,
+					AllowComments = entry.AllowComments
 				};
 				pvm.Comments = lcvm;
 
@@ -332,7 +333,8 @@ namespace DasBlog.Web.Controllers
 						PostId = entry.EntryId,
 						PostDate = entry.CreatedUtc,
 						CommentUrl = dasBlogSettings.GetCommentViewUrl(posttitle),
-						ShowComments = true
+						ShowComments = true,
+						AllowComments = entry.AllowComments
 					};
 
 					lpvm.Posts.First().Comments = lcvm;
@@ -364,7 +366,8 @@ namespace DasBlog.Web.Controllers
 						PostId = entry.EntryId,
 						PostDate = entry.CreatedUtc,
 						CommentUrl = dasBlogSettings.GetCommentViewUrl(comment.TargetEntryId),
-						ShowComments = true
+						ShowComments = true,
+						AllowComments = entry.AllowComments
 					};
 
                     if(comment != null)
