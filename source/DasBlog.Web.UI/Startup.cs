@@ -49,11 +49,15 @@ namespace DasBlog.Web
 		private readonly string IISUrlRewriteConfigPath;
 		private readonly string SiteConfigPath;
 		private readonly string MetaConfigPath;
-		private readonly string AppSettingsConfigPath;
 		private readonly string ThemeFolderPath;
 		private readonly string LogFolderPath;
 		private readonly string BinariesPath;
 		private readonly string BinariesUrlRelativePath;
+
+		private readonly string DefaultSiteConfigPath;
+		private readonly string DefaultMetaConfigPath;
+		private readonly string DefaultSiteSecurityConfigPath;
+		private readonly string DefaultIISUrlRewriteConfigPath;
 
 		private readonly IWebHostEnvironment hostingEnvironment;
 
@@ -64,14 +68,23 @@ namespace DasBlog.Web
 			hostingEnvironment = env;
 
 			SiteSecurityConfigPath = Path.Combine("Config", $"siteSecurity.{env.EnvironmentName}.config");
+			DefaultSiteSecurityConfigPath = Path.Combine("Config", "siteSecurity.config");
 			IISUrlRewriteConfigPath = Path.Combine("Config", $"IISUrlRewrite.{env.EnvironmentName}.config");
+			DefaultIISUrlRewriteConfigPath = Path.Combine("Config", "IISUrlRewrite.config");
+
 			SiteConfigPath = Path.Combine("Config", $"site.{env.EnvironmentName}.config");
+			DefaultSiteConfigPath = Path.Combine("Config", $"site.config");
 			MetaConfigPath = Path.Combine("Config", $"meta.{env.EnvironmentName}.config");
+			DefaultMetaConfigPath = Path.Combine("Config", $"meta.config");
+
+			ConfigFileInitializationPrep();
 
 			var builder = new ConfigurationBuilder()
 				.SetBasePath(env.ContentRootPath)
-				.AddXmlFile(SiteConfigPath, optional: false, reloadOnChange: true)
-				.AddXmlFile(MetaConfigPath, optional: false, reloadOnChange: true)
+				.AddXmlFile(DefaultSiteConfigPath, optional: false, reloadOnChange: true)
+				.AddXmlFile(SiteConfigPath, optional: true, reloadOnChange: true)
+				.AddXmlFile(DefaultMetaConfigPath, optional: false, reloadOnChange: true)
+				.AddXmlFile(MetaConfigPath, optional: true, reloadOnChange: true)
 				.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
 				.AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
 				.AddEnvironmentVariables();
@@ -487,6 +500,19 @@ namespace DasBlog.Web
 			}
 
 			return richEditBuilder;
+		}
+
+		private void ConfigFileInitializationPrep()
+		{
+			if (!File.Exists(Path.Combine(hostingEnvironment.ContentRootPath, SiteSecurityConfigPath)))
+			{
+				File.Copy(Path.Combine(hostingEnvironment.ContentRootPath, DefaultSiteSecurityConfigPath), Path.Combine(hostingEnvironment.ContentRootPath, SiteSecurityConfigPath));
+			}
+
+			if (!File.Exists(Path.Combine(hostingEnvironment.ContentRootPath, IISUrlRewriteConfigPath)))
+			{
+				File.Copy(Path.Combine(hostingEnvironment.ContentRootPath, DefaultIISUrlRewriteConfigPath), Path.Combine(hostingEnvironment.ContentRootPath, IISUrlRewriteConfigPath));
+			}
 		}
 	}
 }
