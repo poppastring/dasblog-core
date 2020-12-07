@@ -1,20 +1,16 @@
-# Build on multiple platforms - https://docs.microsoft.com/azure/devops/pipelines/get-started-multiplatform?view=azure-devops&WT.mc_id=devops-github-shboyer
 strategy:
   matrix:
     linux:
       imageName: 'ubuntu-18.04'
-#    mac:
-#      imageName: 'macos-10.13'
     windows:
       imageName: 'windows-2019'
 
 pool:
   vmImage: $(imageName)
-  #vmImage: 'windows-2019'
 
 variables:
   buildConfiguration: 'Release'
-  version: 2.20
+  version: 2.21
 
 steps:
 - task: UseDotNet@2
