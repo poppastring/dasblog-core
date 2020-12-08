@@ -68,14 +68,12 @@ steps:
 
 - task: ArchiveFiles@2
   inputs:
-    rootFolderOrFile: '$(Build.ArtifactStagingDirectory)'
-    includeRootFolder: true
     archiveType: 'zip'
-    archiveFile: '$(Build.ArtifactStagingDirectory)/$(imageName)/$(System.TeamProject)_$(Build.BuildNumber).zip'
+    archiveFile: '$(System.TeamProject)_$(Build.BuildNumber).zip'
     replaceExistingArchive: true
 
 - task: PublishPipelineArtifact@1
   condition: and(succeeded(), eq(variables['imageName'], 'windows-2019'))
   inputs:
-    targetPath: $(Build.ArtifactStagingDirectory)/$(imageName)
+    targetPath: $(Build.ArtifactStagingDirectory)
     artifactName: $(System.TeamProject)_$(Build.BuildNumber)
