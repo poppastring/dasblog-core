@@ -63,6 +63,7 @@ steps:
   inputs:
     command: publish
     publishWebProjects: True
+    zipAfterPublish: false
     arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory) --self-contained --no-build --no-restore'
 
 - task: ArchiveFiles@2
