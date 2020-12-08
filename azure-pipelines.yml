@@ -70,6 +70,7 @@ steps:
   inputs:
     rootFolderOrFile: $(Build.ArtifactStagingDirectory)/DasBlog.Web.UI
     archiveType: 'zip'
+    includeRootFolder: false
     archiveFile: '$(Build.ArtifactStagingDirectory)/$(System.TeamProject)_$(Build.BuildNumber).zip'
     replaceExistingArchive: true
 
