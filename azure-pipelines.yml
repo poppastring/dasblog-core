@@ -63,11 +63,18 @@ steps:
   inputs:
     command: publish
     publishWebProjects: True
-    zipAfterPublish: true
+    zipAfterPublish: false
     arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)/$(System.TeamProject)_$(Build.BuildNumber) --self-contained --no-build --no-restore'
+
+- task: ArchiveFiles@2
+  inputs:
+    rootFolderOrFile: $(Build.ArtifactStagingDirectory)/$(System.TeamProject)_$(Build.BuildNumber)
+    archiveType: 'zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/$(System.TeamProject)_$(Build.BuildNumber).zip'
+    replaceExistingArchive: true
 
 - task: PublishPipelineArtifact@1
   condition: and(succeeded(), eq(variables['imageName'], 'windows-2019'))
   inputs:
-    targetPath: $(Build.ArtifactStagingDirectory)/$(System.TeamProject)_$(Build.BuildNumber)
+    targetPath: '$(Build.ArtifactStagingDirectory)/$(System.TeamProject)_$(Build.BuildNumber).zip'
     artifactName: $(System.TeamProject)_$(Build.BuildNumber)
