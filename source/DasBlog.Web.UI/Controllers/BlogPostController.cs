@@ -394,14 +394,14 @@ namespace DasBlog.Web.Controllers
 		{
             List<string> errors = new List<string>();
 
-			if (!dasBlogSettings.SiteConfiguration.EnableComments)
-			{
-				return BadRequest();
-			}
-
 			if (!ModelState.IsValid)
 			{
-				return Comment(addcomment.TargetEntryId);
+				errors.Add("[Some of your entries are invalid]");
+			}
+
+			if (!dasBlogSettings.SiteConfiguration.EnableComments)
+			{
+				errors.Add("Comments are disabled on the site.");
 			}
 
 			// Optional in case of Captcha. Commenting the settings in the config file 
@@ -430,9 +430,10 @@ namespace DasBlog.Web.Controllers
                 }
             }
 
-            if(errors.Count > 0)
-                return CommentError(addcomment, errors);
-
+			if (errors.Count > 0)
+			{
+				return CommentError(addcomment, errors);
+			}
 
 			addcomment.Content = dasBlogSettings.FilterHtml(addcomment.Content);
 
@@ -447,32 +448,35 @@ namespace DasBlog.Web.Controllers
 
 			if (state == NBR.CommentSaveState.Failed)
 			{
-				ModelState.AddModelError("", "Comment failed");
-				return StatusCode(500);
+				logger.LogError(new EventDataItem(EventCodes.CommentBlocked, null, "Failed to save comment: {0}", commt.TargetTitle));
+				errors.Add("Failed to save comment.");
 			}
 
 			if (state == NBR.CommentSaveState.SiteCommentsDisabled)
 			{
-				ModelState.AddModelError("", "Comments are closed for this post");
-				return StatusCode(403);
+				logger.LogError(new EventDataItem(EventCodes.CommentBlocked, null, "Comments are closed for this post: {0}", commt.TargetTitle));
+				errors.Add("Comments are closed for this post.");
 			}
 
 			if (state == NBR.CommentSaveState.PostCommentsDisabled)
 			{
-				ModelState.AddModelError("", "Comment are currently disabled");
-				return StatusCode(403);
+				logger.LogError(new EventDataItem(EventCodes.CommentBlocked, null, "Comment are currently disabled: {0}", commt.TargetTitle));
+				errors.Add("Comment are currently disabled.");
 			}
 
 			if (state == NBR.CommentSaveState.NotFound)
 			{
-				ModelState.AddModelError("", "Invalid Target Post Id");
-				return NotFound();
+				logger.LogError(new EventDataItem(EventCodes.CommentBlocked, null, "Invalid Post Id: {0}", commt.TargetTitle));
+				errors.Add("Invalid Post Id.");
+			}
+
+			if (errors.Count > 0)
+			{
+				return CommentError(addcomment, errors);
 			}
 
 			logger.LogInformation(new EventDataItem(EventCodes.CommentAdded, null, "Comment created on: {0}", commt.TargetTitle));
-
 			BreakSiteCache();
-
 			return Comment(addcomment.TargetEntryId);
 		}
 
