@@ -40,7 +40,7 @@
 
 .dbc-calendar .days li {
     border-bottom: 1px solid #eee;
-    min-height: 8rem;
+    min-height: 10rem;
 }
 
     .dbc-calendar .days li .date {
