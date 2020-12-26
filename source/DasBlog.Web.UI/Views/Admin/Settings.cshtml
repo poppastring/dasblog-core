@@ -3,7 +3,13 @@
 @inject IDasBlogSettings dasBlogSettings
 @model DasBlogSettingsViewModel
 
-<h1>Site Settings</h1>
+
+@{
+    ViewBag.Title = "Site Settings";
+    Layout = "../../Themes/dasblog/_Layout.cshtml";
+}
+
+<h1>@ViewData["Title"]</h1>
 
 @Html.ValidationSummary(false, "", new { @class = "text-danger" })
 
