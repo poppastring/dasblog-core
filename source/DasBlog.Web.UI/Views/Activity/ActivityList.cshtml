@@ -5,7 +5,7 @@
 
 @{
     ViewBag.Title = "Activity Report";
-    Layout = "_Layout";
+    Layout = "../../Themes/dasblog/_Layout.cshtml";
 }
 
 @functions
@@ -36,7 +36,7 @@
 
 }
 
-<h2>@ViewBag.Title</h2>
+<h1>@ViewBag.Title</h1>
 <hr />
 <div class="row">
     <form asp-controller="activity" asp-action="" method="get" class="form-inline">

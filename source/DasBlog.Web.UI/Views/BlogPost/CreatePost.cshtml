@@ -1,11 +1,18 @@
 ﻿@model DasBlog.Web.Models.BlogViewModels.PostViewModel
 
+@{
+    ViewBag.Title = "Create";
+    Layout = "../../Themes/dasblog/_Layout.cshtml";
+}
+
+<h1>@ViewData["Title"]</h1>
+<hr />
 <form asp-controller="post" asp-action="create" method="post" enctype="multipart/form-data">
     <div class="modal-body">
         <partial name="BlogPostFields" model="Model" />
         <div class="form-group row">
             <div class="col-sm-6">
-                <input type="submit" name="submit" value="Post" id="BlogPostCreateSubmit"/>
+                <input type="submit" name="submit" value="Post" id="BlogPostCreateSubmit" />
                 <input asp-controller="Home" asp-action="Index" type="submit" name="submit" value="Cancel" />
             </div>
         </div>
@@ -16,8 +23,8 @@
     @Html.HiddenFor(m => m.CreatedDateTime)
 
 </form>
- 
+
 @section scripts {
-    <rich-edit-scripts control-id="mytextarea"/>
-   
+    <rich-edit-scripts control-id="mytextarea" />
+
 }

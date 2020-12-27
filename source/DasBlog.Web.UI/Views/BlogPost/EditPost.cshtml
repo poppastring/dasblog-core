@@ -1,6 +1,13 @@
 ﻿@model DasBlog.Web.Models.BlogViewModels.PostViewModel
 @using DasBlog.Core.Common
 
+@{
+    ViewBag.Title = "Edit";
+    Layout = "../../Themes/dasblog/_Layout.cshtml";
+}
+
+<h1>@ViewData["Title"]</h1>
+<hr />
 <form asp-controller="post" asp-action="edit" method="post" enctype="multipart/form-data">
 
     <div class="modal-body">
@@ -20,7 +27,7 @@
 </form>
 
 @section Scripts {
-    <rich-edit-scripts control-id="mytextarea"/>
-    
+    <rich-edit-scripts control-id="mytextarea" />
+
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 }
