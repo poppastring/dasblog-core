@@ -5,28 +5,30 @@ using DasBlog.Services;
 using System;
 using System.Linq;
 using System.Security.Cryptography;
-using System.Security.Principal;
 using System.Text;
 
 namespace DasBlog.Managers
 {
 	public class SiteSecurityManager : ISiteSecurityManager
 	{
-		private HashAlgorithm hashAlgorithm;
 		private readonly IDasBlogSettings dasBlogSettings;
 
 		public SiteSecurityManager( IDasBlogSettings dasBlogSettings)
 		{
 			this.dasBlogSettings = dasBlogSettings;
-			hashAlgorithm = SHA512Managed.Create();
 		}
 
 		public string HashPassword(string password)
 		{
-			hashAlgorithm = MD5CryptoServiceProvider.Create();
-			byte[] clearBytes = Encoding.Unicode.GetBytes(password);
+			var hashAlgorithm = SHA512Managed.Create();
+			return HashPassword(password, hashAlgorithm);
+		}
 
-			byte[] hashedBytes = hashAlgorithm.ComputeHash(clearBytes);
+		private string HashPassword(string password, HashAlgorithm hashAlgorithm)
+		{
+			var clearBytes = Encoding.Unicode.GetBytes(password);
+
+			var hashedBytes = hashAlgorithm.ComputeHash(clearBytes);
 
 			return BitConverter.ToString(hashedBytes);
 		}
@@ -40,12 +42,13 @@ namespace DasBlog.Managers
 		{
 			string hashprovidedpassword = string.Empty;
 
+			HashAlgorithm hashAlgorithm = SHA512Managed.Create();
 			if (this.IsMd5Hash(hashedPassword))
 			{
 				hashAlgorithm = MD5CryptoServiceProvider.Create();
 			}
 
-			hashprovidedpassword = this.HashPassword(providedPassword);
+			hashprovidedpassword = HashPassword(providedPassword, hashAlgorithm);
 
 			if (hashedPassword.Equals(hashprovidedpassword, StringComparison.InvariantCultureIgnoreCase))
 			{
