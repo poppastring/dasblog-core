@@ -72,7 +72,8 @@ namespace DasBlog.Managers
 		{			
 			return dataService.GetEntriesForDay(dasBlogSettings.GetContentLookAhead(), dasBlogSettings.GetConfiguredTimeZone(), 
 											acceptLanguageHeader, dasBlogSettings.SiteConfiguration.FrontPageEntryCount, 
-											dasBlogSettings.SiteConfiguration.FrontPageEntryCount, string.Empty);
+											dasBlogSettings.SiteConfiguration.FrontPageEntryCount, 
+											dasBlogSettings.SiteConfiguration.FrontPageCategory);
 		}
 
 		public EntryCollection GetEntriesForPage(int pageIndex, string acceptLanguageHeader)
