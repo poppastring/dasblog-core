@@ -433,6 +433,11 @@ namespace DasBlog.Managers
 			return dataService.GetCommentsFor(postid, allComments);
 		}
 
+		public CommentCollection GetAllComments()
+		{
+			return dataService.GetAllComments();
+		}
+
 		public CategoryCacheEntryCollection GetCategories()
 		{
 			return dataService.GetCategories();

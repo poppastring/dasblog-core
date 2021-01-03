@@ -13,5 +13,6 @@ namespace DasBlog.Web.Models.BlogViewModels
 		public string CommentId { get; set; }
 		public bool IsPublic { get; set; }
 		public SpamStateViewModel SpamState { get; set; }
+		public string Title { get; set; }
 	}
 }

@@ -1,0 +1,42 @@
+﻿@using DasBlog.Services;
+@using DasBlog.Core.Common;
+@using System.Net;
+@inject IDasBlogSettings dasBlogSettings
+@model List<CommentViewModel>
+
+@{
+    ViewData["Title"] = Constants.CategoryPageTitle;
+}
+
+<div class="container">
+
+    <div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Blog Title</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Comment Text</th>
+                    <th scope="col">Approval</th>
+                    <th scope="col">Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var comment in Model)
+                {
+                <tr>
+                    <td>@comment.Title</td>
+                    <td>@comment.Name</td>
+                    <td>@comment.SpamState</td>
+                    <td>@comment.Text</td>
+                    <td><comment-approval-link comment="@comment" admin="true" /></td>
+                    <td><comment-delete-link comment="@comment" admin="true"/></td>
+                </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
+
+</div>

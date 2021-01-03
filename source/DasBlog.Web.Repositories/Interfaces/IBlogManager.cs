@@ -32,7 +32,9 @@ namespace DasBlog.Managers.Interfaces
 
 		CommentCollection GetComments(string postid, bool allComments);
 
-	    EntryCollection SearchEntries(string searchString, string acceptLanguageHeader);
+		CommentCollection GetAllComments();
+
+		EntryCollection SearchEntries(string searchString, string acceptLanguageHeader);
 
 		bool SendTestEmail();
 	}
