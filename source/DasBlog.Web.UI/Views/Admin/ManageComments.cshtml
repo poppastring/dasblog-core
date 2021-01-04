@@ -4,12 +4,15 @@
 @inject IDasBlogSettings dasBlogSettings
 @model List<CommentAdminViewModel>
 
+
 @{
-    ViewData["Title"] = Constants.CategoryPageTitle;
+    ViewBag.Title = "Manage Comments";
+    Layout = "../../Themes/dasblog/_Layout.cshtml";
 }
 
-<div class="container">
+<h1>@ViewData["Title"]</h1>
 
+<div class="container">
     <div>
         <table class="table">
             <thead>
@@ -25,18 +28,16 @@
             <tbody>
                 @foreach (var comment in Model)
                 {
-                <tr>
-                    <td><a>@comment.Title</td>
-                    <td><a href="mailto:@comment.Email">@comment.Name</a>  </td>
-                    <td>@comment.SpamState</td>
-                    <td>@comment.Text</td>
-                    <td><comment-approval-link comment="@comment" admin="true" /></td>
-                    <td><comment-delete-link comment="@comment" admin="true" /></td>
-                </tr>
+                    <tr>
+                        <td><a>@comment.Title</td>
+                        <td><a href="mailto:@comment.Email?subject=@comment.Title&body=@comment.Text">@comment.Name</a></td>
+                        <td>@comment.SpamState</td>
+                        <td>@comment.Text</td>
+                        <td><comment-approval-link comment="@comment" admin="true" /></td>
+                        <td><comment-delete-link comment="@comment" admin="true" /></td>
+                    </tr>
                 }
             </tbody>
         </table>
-
     </div>
-
 </div>
