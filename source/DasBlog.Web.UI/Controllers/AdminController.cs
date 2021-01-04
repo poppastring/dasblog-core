@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using DasBlog.Managers.Interfaces;
@@ -87,16 +88,26 @@ namespace DasBlog.Web.Controllers
 
 		[HttpGet]
 		[Route("/admin/manage-comments")]
-		public IActionResult ManageComments()
+		[HttpGet("/admin/manage-comments/{postid}")]
+		public IActionResult ManageComments(string postid)
 		{
-			var commments = blogManager.GetAllComments().Select(comment => mapper.Map<CommentViewModel>(comment)).ToList();
+			List<CommentAdminViewModel> comments = null;
 
-			foreach (var cmt in commments)
+			if (postid != null)
+			{
+				comments = blogManager.GetComments(postid, true).Select(comment => mapper.Map<CommentAdminViewModel>(comment)).ToList();
+			}
+			else
+			{
+				comments = blogManager.GetAllComments().Select(comment => mapper.Map<CommentAdminViewModel>(comment)).ToList();
+			}
+
+			foreach (var cmt in comments)
 			{
 				cmt.Title = blogManager.GetBlogPostByGuid(new Guid(cmt.BlogPostId))?.Title;
 			}
 
-			return View(commments.OrderBy(d => d.Date).ToList());
+			return View(comments.OrderBy(d => d.Date).ToList());
 		}
 
 		public IActionResult TestEmail()
