@@ -1,9 +1,13 @@
-﻿using AutoMapper;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using AutoMapper;
 using DasBlog.Managers.Interfaces;
 using DasBlog.Services;
 using DasBlog.Services.ActivityLogs;
 using DasBlog.Services.ConfigFile;
 using DasBlog.Web.Models.AdminViewModels;
+using DasBlog.Web.Models.BlogViewModels;
 using DasBlog.Web.Settings;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -81,6 +85,31 @@ namespace DasBlog.Web.Controllers
 
 			return Settings();
 		}
+
+		[HttpGet]
+		[Route("/admin/manage-comments")]
+		[HttpGet("/admin/manage-comments/{postid}")]
+		public IActionResult ManageComments(string postid)
+		{
+			List<CommentAdminViewModel> comments = null;
+
+			if (postid != null)
+			{
+				comments = blogManager.GetComments(postid, true).Select(comment => mapper.Map<CommentAdminViewModel>(comment)).ToList();
+			}
+			else
+			{
+				comments = blogManager.GetAllComments().Select(comment => mapper.Map<CommentAdminViewModel>(comment)).ToList();
+			}
+
+			foreach (var cmt in comments)
+			{
+				cmt.Title = blogManager.GetBlogPostByGuid(new Guid(cmt.BlogPostId))?.Title;
+			}
+
+			return View(comments.OrderBy(d => d.Date).ToList());
+		}
+
 		public IActionResult TestEmail()
 		{
 			if (!blogManager.SendTestEmail())

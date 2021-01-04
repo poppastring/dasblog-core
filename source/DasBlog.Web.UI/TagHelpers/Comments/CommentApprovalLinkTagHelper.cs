@@ -9,6 +9,8 @@ namespace DasBlog.Web.TagHelpers.Comments
 	{
 		public CommentViewModel Comment { get; set; }
 
+		public bool Admin { get; set; } = false;
+
 		private readonly IDasBlogSettings dasBlogSettings;
 
 		private const string COMMENTAPPROVE_URL = "{0}/comments/{1}";
@@ -24,10 +26,16 @@ namespace DasBlog.Web.TagHelpers.Comments
 			var approvalurl = string.Format(COMMENTAPPROVE_URL, dasBlogSettings.GetPermaLinkUrl(Comment.BlogPostId), Comment.CommentId);
 			var commenttxt = string.Format(COMMENTTEXT_MSG, Comment.Name);
 			var message = "Comment Approved";
+			var admin = string.Empty;
+
+			if (Admin)
+			{
+				admin = "ADMIN";
+			}
 
 			output.TagName = "a";
 			output.TagMode = TagMode.StartTagAndEndTag;
-			output.Attributes.SetAttribute("href", $"javascript:commentManagement(\"{approvalurl}\",\"{commenttxt}\",\"PATCH\")");
+			output.Attributes.SetAttribute("href", $"javascript:commentManagement(\"{approvalurl}\",\"{commenttxt}\",\"PATCH\",\"{admin}\")");
 			output.Attributes.SetAttribute("class", "dbc-comment-approve-link");
 
 			if (Comment.SpamState != SpamStateViewModel.NotSpam)
