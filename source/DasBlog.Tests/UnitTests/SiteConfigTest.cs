@@ -38,6 +38,7 @@ namespace DasBlog.Tests.UnitTests
 		public bool SendTrackbacksByEmail { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 		public bool SendPingbacksByEmail { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 		public bool SendPostsByEmail { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+		public bool EnableAboutView { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 		public bool EnableBloggerApi { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 		public bool EnableComments { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 		public bool EnableCommentApi { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
