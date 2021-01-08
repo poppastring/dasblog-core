@@ -102,10 +102,11 @@ namespace DasBlog.Web.Controllers
 
 		public IActionResult About()
 		{
-			DefaultPage();
-
-			ViewData["Message"] = "Your application description page.";
-
+			if (dasBlogSettings.SiteConfiguration.EnableAboutView)
+			{
+				DefaultPage("About");
+				return View();
+			}
 			return NoContent();
 		}
 

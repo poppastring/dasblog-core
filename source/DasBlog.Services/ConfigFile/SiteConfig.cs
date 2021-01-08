@@ -79,6 +79,7 @@ namespace DasBlog.Services.ConfigFile
         public bool SendTrackbacksByEmail { get; set; }
         public bool SendPingbacksByEmail { get; set; }
         public bool SendPostsByEmail { get; set; }
+        public bool EnableAboutView { get; set; }
         public bool EnableBloggerApi { get; set; }
         public bool EnableComments { get; set; }
         public bool EnableCommentApi { get; set; }
