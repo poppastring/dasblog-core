@@ -84,6 +84,10 @@ namespace DasBlog.Web.Models.AdminViewModels
 		[Description("This allows you to design a summary view for each blog post on the home page")]
 		public bool ShowItemSummaryInAggregatedViews { get; set; }
 
+		[DisplayName("Enable the About page ")]
+		[Description("This enables the Home/About view and allows you to customize this in the site theme.")]
+		public bool EnableAboutView { get; set; }
+
 		[DisplayName("RSS day count")]
 		[Description("Maximum number of days to appear in your RSS feed")]
 		[Required(AllowEmptyStrings = false, ErrorMessage = "Enter a value for RSS Day Count")]
