@@ -9,6 +9,7 @@ namespace DasBlog.Web.TagHelpers.Post
 	{
 		public PostViewModel Post { get; set; }
 		public string BlogPostId { get; set; }
+		public string EditLinkText { get; set; } = "Edit this post";
 
 		private readonly IDasBlogSettings dasBlogSettings;
 
@@ -27,7 +28,11 @@ namespace DasBlog.Web.TagHelpers.Post
 			output.TagName = "a";
 			output.TagMode = TagMode.StartTagAndEndTag;
 			output.Attributes.SetAttribute("href", dasBlogSettings.GetPermaLinkUrl(BlogPostId + "/edit"));
-			output.Content.SetHtmlContent("Edit this post");
+			if (!string.IsNullOrEmpty(EditLinkText))
+			{
+				output.Content.SetHtmlContent("Edit this post");
+			}
+
 		}
 
 		public override Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
