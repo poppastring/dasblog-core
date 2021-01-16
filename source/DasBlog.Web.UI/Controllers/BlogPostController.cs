@@ -100,21 +100,22 @@ namespace DasBlog.Web.Controllers
 			var entry = blogManager.GetBlogPostByGuid(postid);
 			if (entry != null)
 			{
+				var pvm = mapper.Map<PostViewModel>(entry);
 
-				/*
-				 * Very old DasBlog links like
-				 * /PermaLink.aspx?guid=b5790285-2eb7-4198-ac1d-6cfbf20735a4
-				 * turn into 
-				 * /post/b5790285-2eb7-4198-ac1d-6cfbf20735a4 
-				 * (given correct IISrewrites)
-				 * but fails to render because the Comments are never loaded, 
-				 * so you'll get the post but it shows ZERO comments. 
-				 * Better to just redirect to the right URL
-				 * I can't figure how to redirect 302 correctly given a /blog baseURL, so for now at least it doesn't break 
-				 * and has the right canonical
-				 * 				//return RedirectToAction("Post", "BlogPost", new { title = lpvm?.Posts?.First().PermaLink });
-				 */
-				lpvm.Posts = new List<PostViewModel>() { mapper.Map<PostViewModel>(entry) };
+				var lcvm = new ListCommentsViewModel
+				{
+					Comments = blogManager.GetComments(entry.EntryId, false)
+									.Select(comment => mapper.Map<CommentViewModel>(comment)).ToList(),
+					PostId = entry.EntryId,
+					PostDate = entry.CreatedUtc,
+					CommentUrl = dasBlogSettings.GetCommentViewUrl(entry.Title),
+					ShowComments = dasBlogSettings.SiteConfiguration.ShowCommentsWhenViewingEntry,
+					AllowComments = entry.AllowComments
+				};
+				pvm.Comments = lcvm;
+
+				lpvm.Posts = new List<PostViewModel>() { pvm };
+
 				return SinglePostView(lpvm);
 			}
 			else
