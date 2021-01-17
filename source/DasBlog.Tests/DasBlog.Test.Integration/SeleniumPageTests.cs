@@ -92,12 +92,12 @@ namespace DasBlog.Test.Integration
 			var olderpostSelector = By.LinkText("<< Older Posts");
 			var link = Browser.FindElement(olderpostSelector);
 			link.Click();
-			Assert.Equal(Browser.Url.TrimEnd('/'), Server.RootUri + "/page/1");
+			Assert.Equal(Server.RootUri + "/page/1", Browser.Url.TrimEnd('/'));
 
 			var newerpostSelector = By.LinkText("Newer Posts >>");
 			var link2 = Browser.FindElement(newerpostSelector);
 			link2.Click();
-			Assert.Equal(Browser.Url.TrimEnd('/'), Server.RootUri + "/page/0");
+			Assert.Equal(Server.RootUri + "/page/0", Browser.Url.TrimEnd('/'));
 		}
 
 
@@ -136,7 +136,7 @@ namespace DasBlog.Test.Integration
 			var link = Browser.FindElement(postSelector);
 			link.Click();
 
-			Assert.Equal(Browser.Url.TrimEnd('/'), Server.RootUri + "/welcome-to-dasblog-core");
+			Assert.Equal(Server.RootUri + "/welcome-to-dasblog-core", Browser.Url.TrimEnd('/'));
 		}
 
 		[SkippableFact(typeof(WebDriverException))]
@@ -150,7 +150,7 @@ namespace DasBlog.Test.Integration
 			var link = Browser.FindElement(navSelector);
 			link.Click();
 
-			Assert.Equal(Browser.Url.TrimEnd('/'), Server.RootUri + "/archive/2020/1");
+			Assert.Equal(Server.RootUri + "/archive/2020/1", Browser.Url.TrimEnd('/'));
 		}
 
 
@@ -165,7 +165,7 @@ namespace DasBlog.Test.Integration
 			var link = Browser.FindElement(navSelector);
 			link.Click();
 
-			Assert.Equal(Browser.Url.TrimEnd('/'), Server.RootUri + "/archive/2020/3");
+			Assert.Equal(Server.RootUri + "/archive/2020/3", Browser.Url.TrimEnd('/'));
 		}
 
 		[SkippableFact(typeof(WebDriverException))]
@@ -203,7 +203,7 @@ namespace DasBlog.Test.Integration
 			var link = Browser.FindElement(navSelector);
 			link.Click();
 
-			Assert.Equal(Browser.Url.TrimEnd('/'), Server.RootUri + "/welcome-to-dasblog-core/comments#comments-start");
+			Assert.Equal(Server.RootUri + "/welcome-to-dasblog-core/comments#comments-start", Browser.Url.TrimEnd('/'));
 
 			var elementid = By.ClassName("dbc-comment-user-homepage-name");
 			Assert.Equal(commentname, Browser.FindElement(elementid).Text); ;
@@ -232,26 +232,75 @@ namespace DasBlog.Test.Integration
 			Assert.True(deletecount - 1 == deletelinks.Count);
 		}
 
-
 		[SkippableFact(typeof(WebDriverException))]
+		public void NavigateToPostAndCreateCommentManageCommentsPage()
+		{
+			Skip.If(AreWe.InDockerOrBuildServer, "In Docker!");
+
+			// Add comment
+			const string commentname = "Second Name";
+
+			Browser.Navigate().GoToUrl(Server.RootUri + "/welcome-to-dasblog-core");
+
+			SendKeysToElement("Name", commentname);
+
+			SendKeysToElement("Email", "otheremail@someplace.com");
+
+			SendKeysToElement("HomePage", "https://www.github.com/poppastring/dasblog-core");
+
+			SendKeysToElement("CheesyQuestionAnswered", "7");
+
+			SendKeysToElement("Content", "Another comment on this blog post");
+
+			var navSelector = By.Id("SaveContentButton");
+			var link = Browser.FindElement(navSelector);
+			link.Click();
+
+			LoginToSite();
+
+			// Navigate to comment management
+			Browser.Navigate().GoToUrl(Server.RootUri + "/admin/manage-comments");
+
+			Assert.Equal(Server.RootUri + "/admin/manage-comments", Browser.Url.TrimEnd('/'));
+
+			var postSelector = By.PartialLinkText("Delete this comment");
+			var link2 = Browser.FindElements(postSelector);
+			var deletecount = link2.Count;
+			link2[0].Click();
+
+			Browser.SwitchTo().Alert().Accept();
+
+			// Navigate to comment management
+			Browser.Navigate().GoToUrl(Server.RootUri + "/admin/manage-comments");
+
+			var deleteSelector = By.LinkText("Delete this comment");
+			var deletelink = Browser.FindElements(deleteSelector);
+			var deletecount2 = deletelink.Count;
+
+			Assert.True(deletecount - deletecount2 == 1, "Comment was not deleted");
+		}
+
+			[SkippableFact(typeof(WebDriverException))]
 		public void NavigateToLoginPageLoginThenLogout()
 		{
 			Skip.If(AreWe.InDockerOrBuildServer, "In Docker!");
 
+			Browser.Navigate().GoToUrl(Server.RootUri + "/post/create");
+
+			Assert.Equal(Server.RootUri + "/account/login?ReturnUrl=%2Fpost%2Fcreate", Browser.Url.TrimEnd('/'));
+
 			LoginToSite();
 
-			var createpostSelector = By.Id("CreatePostLink");
-			var createpostlink = Browser.FindElement(createpostSelector);
-			createpostlink.Click();
+			Browser.Navigate().GoToUrl(Server.RootUri + "/post/create");
 
-			Assert.Equal(Browser.Url.TrimEnd('/'), Server.RootUri + "/post/create");
+			Assert.Equal(Server.RootUri + "/post/create", Browser.Url.TrimEnd('/') );
 
 			Browser.Navigate().GoToUrl(Server.RootUri + "/account/logout");
 
 			try
 			{
-				createpostSelector = By.Id("CreatePostLink");
-				createpostlink = Browser.FindElement(createpostSelector);
+				var createpostSelector = By.Id("CreatePostLink");
+				var createpostlink = Browser.FindElement(createpostSelector);
 			}
 			catch(Exception)
 			{
