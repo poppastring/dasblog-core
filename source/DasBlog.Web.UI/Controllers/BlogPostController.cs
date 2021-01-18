@@ -188,15 +188,16 @@ namespace DasBlog.Web.Controllers
 				entry.Language = "en-us"; //TODO: We inject this fron http context?
 				entry.Latitude = null;
 				entry.Longitude = null;
-				
+
+				BreakSiteCache();
+
 				var sts = blogManager.UpdateEntry(entry);
-				if (sts != NBR.EntrySaveState.Updated)
+				if (sts == NBR.EntrySaveState.Failed)
 				{
 					ModelState.AddModelError("", "Failed to edit blog post. Please check Logs for more details.");
 					return View(post);
 				}
 
-				BreakSiteCache();
 			}
 			catch (Exception ex)
 			{
@@ -256,6 +257,7 @@ namespace DasBlog.Web.Controllers
 				var sts = blogManager.CreateEntry(entry);
 				if (sts != NBR.EntrySaveState.Added)
 				{
+					post.EntryId = entry.EntryId;
 					ModelState.AddModelError("", "Failed to create blog post. Please check Logs for more details.");
 					return View(post);
 				}

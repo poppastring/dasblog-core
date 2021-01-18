@@ -335,8 +335,6 @@ namespace DasBlog.Test.Integration
 			var blogpostSubmitlink = Browser.FindElement(blogpostSelector);
 			blogpostSubmitlink.Click();
 
-
-
 			// Check new post
 			Browser.Navigate().GoToUrl(Server.RootUri);
 
@@ -348,10 +346,15 @@ namespace DasBlog.Test.Integration
 			Browser.Navigate().GoToUrl(Server.RootUri + "/category/test-category");
 			var titleSelector = By.LinkText("A New Post");
 			Browser.FindElement(titleSelector).Click();
-
 			Assert.StartsWith("A New Post", Browser.Title);
 
-		
+
+			//Navigate back to the main page and post
+			Browser.Navigate().GoToUrl(Server.RootUri);
+			Browser.Navigate().GoToUrl(Server.RootUri + "/a-new-post");
+			Assert.StartsWith("A New Post", Browser.Title);
+
+
 			//Edit the post title
 			var editpostSelector = By.LinkText("Edit this post");
 			var editpostSubmitlink = Browser.FindElement(editpostSelector);
@@ -363,6 +366,7 @@ namespace DasBlog.Test.Integration
 			blogpostSubmitlink.Click();
 
 			//Check the new post title
+			Browser.Navigate().GoToUrl(Server.RootUri);
 			Browser.Navigate().GoToUrl(Server.RootUri + "/a-new-post-now-edit");
 			Assert.StartsWith("A New Post Now Edit", Browser.Title);
 
