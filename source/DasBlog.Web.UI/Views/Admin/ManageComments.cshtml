@@ -29,7 +29,7 @@
                 @foreach (var comment in Model)
                 {
                     <tr>
-                        <td><a>@comment.Title</td>
+                        <td><a href="@dasBlogSettings.GetPermaLinkUrl(comment.BlogPostId)">@comment.Title</a></td>
                         <td><a href="mailto:@comment.Email?subject=@comment.Title&body=@comment.Text">@comment.Name</a></td>
                         <td>@comment.SpamState</td>
                         <td>@comment.Text</td>

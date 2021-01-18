@@ -110,15 +110,6 @@ namespace DasBlog.Web.Controllers
 			return NoContent();
 		}
 
-		public IActionResult Contact()
-		{
-			DefaultPage();
-
-			ViewData["Message"] = "Your contact page.";
-
-			return NoContent();
-		}
-
 		public IActionResult Error()
 		{
 			try

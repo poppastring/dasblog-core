@@ -107,7 +107,7 @@ namespace DasBlog.Web.Controllers
 				cmt.Title = blogManager.GetBlogPostByGuid(new Guid(cmt.BlogPostId))?.Title;
 			}
 
-			return View(comments.OrderBy(d => d.Date).ToList());
+			return View(comments.OrderByDescending(d => d.Date).ToList());
 		}
 
 		public IActionResult TestEmail()
