@@ -22,8 +22,11 @@ namespace DasBlog.CLI
 			foreach (var file in files)
 			{
 				var renamefile = file.Name.Replace(".", $".{environment}.");
-				
-				file.CopyTo(Path.Combine(dir.FullName, renamefile), false);
+
+				if (!File.Exists(Path.Combine(dir.FullName, renamefile)))
+				{
+					file.CopyTo(Path.Combine(dir.FullName, renamefile), false);
+				}
 			}
 		}
 
