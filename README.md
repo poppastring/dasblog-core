@@ -27,12 +27,14 @@ One of the primary goals of this project is to create a new blogging engine that
 If you want to build and contribute code to DasBlog Core please fork this repo and submit a PR, check out the [contribution docs here](https://github.com/poppastring/dasblog-core/blob/main/CONTRIBUTING.md#developers) for more details.
 
 ## Deployment
-To run your own instance of DasBlog Core you can [extract and xcopy the latest release](https://github.com/poppastring/dasblog-core/releases) or follow the [Deployment Wiki](https://github.com/poppastring/dasblog-core/wiki/1.-Deployment). To [initialize and configure your blog](https://github.com/poppastring/dasblog-core/wiki/2.-Configure-your-blog), in most cases the best way is to use our CLI tool.
 
-`dasblog-core config root https://www.mysite.com`
+You can deploy anywhere where .NET Core is hosted, here are instructions for Azure App Services:
+* [Deploying to Azure App Services for Linux](https://github.com/poppastring/dasblog-core/wiki/1.-Deployment#deploy-to-azure-app-services-for-linux)
+* [Deploying to Azure App Services for Windows](https://github.com/poppastring/dasblog-core/wiki/1.-Deployment#deploy-to-azure-app-services-for-windows)
+
 
 ## Documentation
 Check out the [wiki](https://github.com/poppastring/dasblog-core/wiki) for additional information on DasBlog Core fundamentals, architecture and themes.
 
 
-Please submit an issue if you encounter any problems.
+Please [submit an issue](https://github.com/poppastring/dasblog-core/issues) if you encounter any problems.
