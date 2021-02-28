@@ -27,4 +27,4 @@ To contribute code to the project simply:
   1. Fork the repo and clone locally (ensure that you have [Git](https://git-scm.com/downloads) installed)
   2. Change to the "source" directory and open the *DasBlog All.sln* and perform a build.
   3. Create a specific topic branch, add a nice feature or fix your bug
-  4. Send a Pull Request and we will start discuss how your changes fit in.
+  4. Send a Pull Request and we will start to discuss how your changes fit in.
