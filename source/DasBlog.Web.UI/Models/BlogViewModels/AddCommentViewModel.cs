@@ -7,6 +7,7 @@ namespace DasBlog.Web.Models.BlogViewModels
 		[Required]
 		[Display(Name = "Name")]
 		[StringLength(60, MinimumLength = 1)]
+		[RegularExpression("^[\\w'\\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\\]]{2,}$", ErrorMessage = "Invalid name format")]
 		public string Name { get; set; }
 
 		[Required]

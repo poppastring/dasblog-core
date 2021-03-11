@@ -173,6 +173,11 @@ namespace DasBlog.Web.Settings
 
 		public string FilterHtml(string input)
 		{
+			if (string.IsNullOrWhiteSpace(input))
+			{
+				return string.Empty;
+			}
+
 			if (SiteConfiguration.ValidCommentTags == null || SiteConfiguration.ValidCommentTags[0].Tag.Count(s => s.Allowed == true) == 0)
 			{
 				return WebUtility.HtmlEncode(input);
