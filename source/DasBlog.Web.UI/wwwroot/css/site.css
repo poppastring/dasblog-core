@@ -150,3 +150,6 @@
     height: 100%;
 }
 
+tbody.dbc-admin-comment-table td {
+    word-break: break-all;
+}
