@@ -29,12 +29,12 @@
                 @foreach (var comment in Model)
                 {
                     <tr>
-                        <td><a href="@dasBlogSettings.GetPermaLinkUrl(comment.BlogPostId)">@comment.Title</a></td>
-                        <td><a href="mailto:@comment.Email?subject=@comment.Title&body=@comment.Text">@comment.Name</a></td>
-                        <td>@comment.SpamState</td>
-                        <td>@comment.Text</td>
-                        <td><comment-approval-link comment="@comment" admin="true" /></td>
-                        <td><comment-delete-link comment="@comment" admin="true" /></td>
+                        <td width="30%"><a href="@dasBlogSettings.GetPermaLinkUrl(comment.BlogPostId)">@comment.Title</a></td>
+                        <td width="10%"><a href="mailto:@comment.Email?subject=@comment.Title">@comment.Name</a></td>
+                        <td width="10%">@comment.SpamState</td>
+                        <td width="30%">@comment.Text</td>
+                        <td width="10%"><comment-approval-link comment="@comment" admin="true" /></td>
+                        <td width="10%"><comment-delete-link comment="@comment" admin="true" /></td>
                     </tr>
                 }
             </tbody>

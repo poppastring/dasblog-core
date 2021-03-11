@@ -409,8 +409,8 @@ namespace DasBlog.Web.Controllers
 
 			// Optional in case of Captcha. Commenting the settings in the config file 
             // Will disable this check. People will typically disable this when using captcha.
-            if (!String.IsNullOrEmpty(dasBlogSettings.SiteConfiguration.CheesySpamQ) &&
-                !String.IsNullOrEmpty(dasBlogSettings.SiteConfiguration.CheesySpamA) && 
+            if (!string.IsNullOrEmpty(dasBlogSettings.SiteConfiguration.CheesySpamQ) &&
+                !string.IsNullOrEmpty(dasBlogSettings.SiteConfiguration.CheesySpamA) && 
                 dasBlogSettings.SiteConfiguration.CheesySpamQ.Trim().Length > 0 && 
 				dasBlogSettings.SiteConfiguration.CheesySpamA.Trim().Length > 0)
 			{
