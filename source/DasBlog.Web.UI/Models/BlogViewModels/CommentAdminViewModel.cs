@@ -9,5 +9,6 @@ namespace DasBlog.Web.Models.BlogViewModels
 	{
 		public string Title { get; set; }
 		public string Email { get; set; }
+		public string AuthorIPAddress { get; set; }
 	}
 }
