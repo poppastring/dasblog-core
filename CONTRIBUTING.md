@@ -1,5 +1,5 @@
 # Contributing to dasblog-core
-DasBlog-core  is an open source project based heavily on the  work produced by a community of volunteers and contributors whole helped make [the original DasBlog blogging engine](https://github.com/shanselman/dasblog) a roaring success. This project has adopted the [code of conduct policy](https://github.com/poppastring/dasblog-core/blob/main/CODE_OF_CONDUCT.md) to clarify expected behavior in our community.
+DasBlog-core  is an open source project based heavily on the  work produced by a community of volunteers and contributors who helped make [the original DasBlog blogging engine](https://github.com/shanselman/dasblog) a roaring success. This project has adopted the [code of conduct policy](https://github.com/poppastring/dasblog-core/blob/main/CODE_OF_CONDUCT.md) to clarify expected behavior in our community.
 
 
 ## Issues
