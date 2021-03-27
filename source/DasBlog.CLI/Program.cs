@@ -41,10 +41,10 @@ namespace DasBlog.CLI
 
 			service
 				.Configure<SiteConfig>(Configuration)
-				.AddSingleton<IConfigFileService<SiteConfig>, SiteConfigFileService>()
-				.AddSingleton<IConfigFileService<SiteSecurityConfigData>, SiteSecurityConfigFileService>()
 				.AddSingleton<IUserDataRepo, UserDataRepo>()
 				.AddSingleton<IUserService, UserService>()
+				.AddSingleton<IConfigFileService<SiteConfig>, SiteConfigFileService>()
+				.AddSingleton<IConfigFileService<SiteSecurityConfigData>, SiteSecurityConfigFileService>()
 				.BuildServiceProvider();
 
 			var app = new CommandLineApplication
@@ -251,8 +251,8 @@ namespace DasBlog.CLI
 
 					users.ForEach(x => x.Password = ADMINPASSWORD);
 
-					var fs = serviceProvider.GetService<IConfigFileService<SiteSecurityConfig>>();
-					if (fs.SaveConfig(new SiteSecurityConfig(userService) { Users = users }))
+					var fs = serviceProvider.GetService<IConfigFileService<SiteSecurityConfigData>>();
+					if (fs.SaveConfig(new SiteSecurityConfigData() { Users = users }))
 					{
 						Console.WriteLine("All passwords reset to 'admin'");
 					}
@@ -305,13 +305,17 @@ namespace DasBlog.CLI
 				if (!new FileInfo(Path.Combine(CONFIG_DIRECTORY, SITECONFIG_FILENAME)).Exists)
 				{
 					SITECONFIG_FILENAME = "site.config";
-					SITESECURITYCONFIG_FILENAME = "siteSecurity.Config";
+				}
+
+				if (!new FileInfo(Path.Combine(CONFIG_DIRECTORY, SITESECURITYCONFIG_FILENAME)).Exists)
+				{
+					SITESECURITYCONFIG_FILENAME = "siteSecurity.config";
 				}
 			}
 			else
 			{
 				SITECONFIG_FILENAME = "site.config";
-				SITESECURITYCONFIG_FILENAME = "siteSecurity.Config";
+				SITESECURITYCONFIG_FILENAME = "siteSecurity.config";
 			}
 		}
 
@@ -365,5 +369,7 @@ namespace DasBlog.CLI
 
 			return true;
 		}
+
+
 	}
 }
