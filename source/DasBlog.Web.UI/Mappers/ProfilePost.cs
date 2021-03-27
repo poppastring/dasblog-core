@@ -114,6 +114,9 @@ namespace DasBlog.Web.Mappers
 
 		private IList<CategoryViewModel> ConvertCategory(string category)
 		{
+			if (string.IsNullOrWhiteSpace(category))
+				return new List<CategoryViewModel>();
+
 			return category.Split(";").ToList().Select(c => new CategoryViewModel {
 													Category = c,
 													CategoryUrl = _dasBlogSettings.CompressTitle(c) })
