@@ -2,7 +2,6 @@
 using DasBlog.Web.Models.BlogViewModels;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using System.Threading.Tasks;
-using System.Web;
 
 namespace DasBlog.Web.TagHelpers.Post
 {
@@ -16,7 +15,7 @@ namespace DasBlog.Web.TagHelpers.Post
 
 		public override void Process(TagHelperContext context, TagHelperOutput output)
 		{
-			var content = HttpUtility.HtmlDecode(Post.Content);
+			var content = Post.Content;
 			output.TagName = "div";
 			output.TagMode = TagMode.StartTagAndEndTag;
 			output.Attributes.SetAttribute("class", "dbc-post-content");
