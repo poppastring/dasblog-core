@@ -4,6 +4,7 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <AssemblyName>dasblog-core</AssemblyName>
+    <Version>2.40.0</Version>
   </PropertyGroup>
 
   <ItemGroup>

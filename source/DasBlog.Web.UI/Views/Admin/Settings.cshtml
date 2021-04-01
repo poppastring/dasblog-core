@@ -490,6 +490,13 @@
 
     </div>
 
+    <div class="dbc-form-check row">
+
+        @Html.LabelFor(m => @Model.SiteConfig.EnableDoubleDecode, null, new { @class = "dbc-col-form-label col-3" })
+        @Html.CheckBoxFor(m => @Model.SiteConfig.EnableDoubleDecode, new { @class = "dbc-form-check-input" })
+
+    </div>
+
     <h3>Internal</h3>
 
     <div class="dbc-form-group row">

@@ -1,7 +1,9 @@
 ﻿using DasBlog.Core.Extensions;
+using DasBlog.Services;
 using DasBlog.Web.Models.BlogViewModels;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace DasBlog.Web.TagHelpers.Post
 {
@@ -13,9 +15,22 @@ namespace DasBlog.Web.TagHelpers.Post
 
 		public int ContentLength { get; set; } = 100000;
 
+		private readonly IDasBlogSettings dasBlogSettings;
+
+		public PostContentTagHelper(IDasBlogSettings dasBlogSettings)
+		{
+			this.dasBlogSettings = dasBlogSettings;
+		}
+
 		public override void Process(TagHelperContext context, TagHelperOutput output)
 		{
 			var content = Post.Content;
+
+			if(dasBlogSettings.SiteConfiguration.EnableDoubleDecode)
+			{
+				content = HttpUtility.HtmlDecode(Post.Content);
+			}
+
 			output.TagName = "div";
 			output.TagMode = TagMode.StartTagAndEndTag;
 			output.Attributes.SetAttribute("class", "dbc-post-content");
