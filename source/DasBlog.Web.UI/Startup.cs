@@ -40,6 +40,7 @@ using reCAPTCHA.AspNetCore;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Net.Http.Headers;
 using SameSiteMode = Microsoft.AspNetCore.Http.SameSiteMode;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace DasBlog.Web
 {
@@ -96,7 +97,7 @@ namespace DasBlog.Web
 			LogFolderPath = new DirectoryInfo(Path.Combine(env.ContentRootPath, Configuration.GetSection("LogDir").Value)).FullName;
 			BinariesUrlRelativePath = "content/binary";
 		}
-		
+
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
@@ -146,16 +147,21 @@ namespace DasBlog.Web
 
 			services.ConfigureApplicationCookie(options =>
 			{
-				options.LoginPath = "/account/login"; // If the LoginPath is not set here, ASP.NET Core will default to /Account/Login
-				options.LogoutPath = "/account/logout"; // If the LogoutPath is not set here, ASP.NET Core will default to /Account/Logout
-				options.AccessDeniedPath = "/account/accessdenied"; // If the AccessDeniedPath is not set here, ASP.NET Core will default to /Account/AccessDenied
-				options.SlidingExpiration = true;
 				options.ExpireTimeSpan = TimeSpan.FromSeconds(10000);
-				options.Cookie = new CookieBuilder
-				{
-					HttpOnly = true
-				};
 			});
+
+			services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+					.AddCookie(options =>
+					{
+						options.LoginPath = "/account/login"; // If the LoginPath is not set here, ASP.NET Core will default to /Account/Login
+						options.LogoutPath = "/account/logout"; // If the LogoutPath is not set here, ASP.NET Core will default to /Account/Logout
+						options.AccessDeniedPath = "/account/accessdenied"; // If the AccessDeniedPath is not set here, ASP.NET Core will default to /Account/AccessDenied
+						options.SlidingExpiration = true;
+						options.Cookie = new CookieBuilder
+						{
+							HttpOnly = true
+						};
+					});
 
 			services.AddResponseCaching();
 
@@ -163,7 +169,7 @@ namespace DasBlog.Web
 			{
 				rveo.ViewLocationExpanders.Add(new DasBlogLocationExpander(Configuration.GetSection("Theme").Value));
 			});
-			
+
 			services.AddSession(options =>
 			{
 				options.IdleTimeout = TimeSpan.FromSeconds(1000);
@@ -203,7 +209,7 @@ namespace DasBlog.Web
 				.AddSingleton<IConfigFileService<MetaTags>, MetaConfigFileService>()
 				.AddSingleton<IConfigFileService<SiteConfig>, SiteConfigFileService>()
 				.AddSingleton<IConfigFileService<SiteSecurityConfigData>, SiteSecurityConfigFileService>();
-		
+
 			services
 				.AddAutoMapper((serviceProvider, mapperConfig) =>
 				{
@@ -217,11 +223,11 @@ namespace DasBlog.Web
 			services
 				.AddControllersWithViews()
 				.AddRazorRuntimeCompilation();
-            
-            services.AddRecaptcha(options =>
-            {
-                options.SiteKey = Configuration.GetSection("RecaptchaSiteKey").Value; 
-                options.SecretKey = Configuration.GetSection("RecaptchaSecretKey").Value;
+
+			services.AddRecaptcha(options =>
+			{
+				options.SiteKey = Configuration.GetSection("RecaptchaSiteKey").Value;
+				options.SecretKey = Configuration.GetSection("RecaptchaSecretKey").Value;
 			});
 
 			services.Configure<CookiePolicyOptions>(options =>
@@ -271,7 +277,7 @@ namespace DasBlog.Web
 			{
 				options.WaitForJobsToComplete = true;
 			});
-        }
+		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IDasBlogSettings dasBlogSettings)
@@ -320,7 +326,7 @@ namespace DasBlog.Web
 			}
 
 			app.UseForwardedHeaders();
-			
+
 			app.UseStaticFiles();
 			app.UseCookiePolicy();
 
@@ -411,7 +417,7 @@ namespace DasBlog.Web
 			app.UseEndpoints(endpoints =>
 			{
 				endpoints.MapHealthChecks("/healthcheck");
-				
+
 				if (dasBlogSettings.SiteConfiguration.EnableTitlePermaLinkUnique)
 				{
 					endpoints.MapControllerRoute(
@@ -422,7 +428,7 @@ namespace DasBlog.Web
 					endpoints.MapControllerRoute(
 						"New Post Format",
 						"~/{year:int}/{month:int}/{day:int}/{posttitle}",
-						new { controller = "BlogPost", action = "Post", postitle = ""  });
+						new { controller = "BlogPost", action = "Post", postitle = "" });
 				}
 				else
 				{
@@ -434,7 +440,7 @@ namespace DasBlog.Web
 					endpoints.MapControllerRoute(
 						"New Post Format",
 						"~/{posttitle}",
-						new { controller = "BlogPost", action = "Post", postitle = ""  });
+						new { controller = "BlogPost", action = "Post", postitle = "" });
 
 				}
 				endpoints.MapControllerRoute(
