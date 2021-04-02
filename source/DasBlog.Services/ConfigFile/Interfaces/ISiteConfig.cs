@@ -348,6 +348,8 @@ namespace DasBlog.Services.ConfigFile.Interfaces
 
 		bool CookieConsentEnabled { get; set; }
 
+		bool EnableDoubleDecode { get; set; }
+
 		[XmlAnyElement]
         XmlElement[] anyElements { get; set; }
 

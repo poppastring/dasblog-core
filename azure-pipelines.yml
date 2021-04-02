@@ -10,7 +10,7 @@ pool:
 
 variables:
   buildConfiguration: 'Release'
-  version: 2.32
+  version: 2.40
 
 steps:
 - task: UseDotNet@2
