@@ -482,10 +482,10 @@ namespace DasBlog.Web
 			switch (entryEditControl)
 			{
 				case Constants.TinyMceEditor:
-					richEditBuilder = new TinyMceBuilder();
+					richEditBuilder = new TinyMceBuilder(serviceProvider.GetService<IDasBlogSettings>());
 					break;
 				case Constants.NicEditEditor:
-					richEditBuilder = new NicEditBuilder();
+					richEditBuilder = new NicEditBuilder(serviceProvider.GetService<IDasBlogSettings>());
 					break;
 				case Constants.TextAreaEditor:
 					richEditBuilder = new TextAreaBuilder();
