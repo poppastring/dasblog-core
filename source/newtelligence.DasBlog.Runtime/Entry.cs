@@ -132,7 +132,7 @@ namespace newtelligence.DasBlog.Runtime
 		public string Categories
 		{
 			get { return _categories; }
-			set { _categories = value.TrimEnd(';'); }
+			set { _categories = string.IsNullOrWhiteSpace(value) ? string.Empty : value.TrimEnd(';'); }
 		}
 
 		public string Author
