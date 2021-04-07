@@ -1,14 +1,21 @@
-﻿using Microsoft.AspNetCore.Razor.TagHelpers;
+﻿using DasBlog.Services;
+using Microsoft.AspNetCore.Razor.TagHelpers;
 
 namespace DasBlog.Web.TagHelpers.RichEdit
 {
 	public class NicEditBuilder : IRichEditBuilder
 	{
-		private const string NIC_EDIT_SERVICE_URL = "https://js.nicedit.com/nicEdit-latest.js";
+		private readonly IDasBlogSettings dasBlogSettings;
+		private const string NIC_EDIT_SERVICE_URL = "{0}/js/nicedit/nicEdit-latest.js";
 
 		private const string INIT_SCRIPT_TEMPLATE = @"
 		<script type=""text/javascript"">area1 = new nicEditor({{fullPanel : true}}).panelInstance('{0}',{{hasPanel : true}});</script>";
-		
+
+		public NicEditBuilder(IDasBlogSettings dasBlogSettings)
+		{
+			this.dasBlogSettings = dasBlogSettings;
+		}
+
 		public void ProcessControl(RichEditTagHelper tagHelper, TagHelperContext context, TagHelperOutput output)
 		{
 			output.TagName = "textarea";
@@ -23,7 +30,7 @@ namespace DasBlog.Web.TagHelpers.RichEdit
 		{
 			output.TagName = "script";
 			output.TagMode = TagMode.StartTagAndEndTag;
-			output.Attributes.SetAttribute("src", NIC_EDIT_SERVICE_URL);
+			output.Attributes.SetAttribute("src", string.Format(NIC_EDIT_SERVICE_URL, dasBlogSettings.SiteConfiguration.Root));
 			string htmlContent = string.Format(INIT_SCRIPT_TEMPLATE, tagHeelper.ControlId);
 			output.PostElement.SetHtmlContent(htmlContent);
 		}
