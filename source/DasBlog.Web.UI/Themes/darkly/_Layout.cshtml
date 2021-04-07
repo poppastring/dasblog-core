@@ -22,29 +22,23 @@
 </head>
 
 <body>
-    <div class="navbar navbar-expand-lg navbar-dark bg-dark"
-          @*class="navbar navbar-dark navbar-expand-lg sticky-top bg-dark"*@
-         >
+    <div class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand"><site-title /></a>
         <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbar-darkly" aria-controls="navbar-darkly" aria-expanded="true" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div id="navbar-darkly" class="navbar-collapse collapse" style="">
-            @*<div class="container">
-                <div>*@
-                    <ul class="navbar-nav mr-auto">
-                        <li class="nav-item nav-item-active"><a class="nav-link" asp-area="" asp-controller="home" asp-action="index">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="category" asp-action="category">Category</a></li>
-                        <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="archive" asp-action="archive">Archive</a></li>
-                        <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="feed" asp-action="rss">Subscribe</a></li>
-                        <li class="nav-item" dasblog-authorized><a id="CreatePostLink" class="nav-link" asp-area="" asp-controller="post" asp-action="create">Create Post</a></li>
-                        <li class="nav-item" dasblog-authorized><a class="nav-link" asp-area="" asp-controller="admin" asp-action="settings">Site Admin</a></li>
-                        <li class="nav-item" dasblog-authorized><a class="nav-link" asp-area="" asp-controller="admin" asp-action="managecomments">Manage Comments</a></li>
-                        <li class="nav-item" dasblog-authorized><a class="nav-link" asp-area="" asp-controller="users" asp-action="index">Users</a></li>
-                        <li class="nav-item" dasblog-authorized><a class="nav-link" asp-area="" asp-controller="activity" asp-action="index">Activity</a></li>
-                    </ul>
-                @*</div>
-            </div>*@
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item nav-item-active"><a class="nav-link" asp-area="" asp-controller="home" asp-action="index">Home</a></li>
+                <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="category" asp-action="category">Category</a></li>
+                <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="archive" asp-action="archive">Archive</a></li>
+                <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="feed" asp-action="rss">Subscribe</a></li>
+                <li class="nav-item" dasblog-authorized><a id="CreatePostLink" class="nav-link" asp-area="" asp-controller="post" asp-action="create">Create Post</a></li>
+                <li class="nav-item" dasblog-authorized><a class="nav-link" asp-area="" asp-controller="admin" asp-action="settings">Site Admin</a></li>
+                <li class="nav-item" dasblog-authorized><a class="nav-link" asp-area="" asp-controller="admin" asp-action="managecomments">Manage Comments</a></li>
+                <li class="nav-item" dasblog-authorized><a class="nav-link" asp-area="" asp-controller="users" asp-action="index">Users</a></li>
+                <li class="nav-item" dasblog-authorized><a class="nav-link" asp-area="" asp-controller="activity" asp-action="index">Activity</a></li>
+            </ul>
             <div class="navbar navbar-collapse  col-md-offset-10 col-md-2">
                 @* could not make this go further right (or perhaps it already was fully justified on an indented column *@
                 <ul class="navbar-nav mr-auto">
