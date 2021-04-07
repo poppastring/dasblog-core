@@ -386,13 +386,14 @@ namespace DasBlog.Web
 
 			var SecurityScriptSources = Configuration.GetSection("SecurityScriptSources")?.Value?.Split(";");
 			var SecurityStyleSources = Configuration.GetSection("SecurityStyleSources")?.Value?.Split(";");
+			var DefaultSources = Configuration.GetSection("DefaultSources")?.Value?.Split(";");
 
-			if (SecurityStyleSources != null && SecurityScriptSources != null)
+			if (SecurityStyleSources != null && SecurityScriptSources != null && DefaultSources != null)
 			{
 				app.UseCsp(options => options
 					.DefaultSources(s => s.Self()
-						.CustomSources("data:")
-						.CustomSources("https:"))
+						.CustomSources(DefaultSources)
+						)
 					.StyleSources(s => s.Self()
 						.CustomSources(SecurityStyleSources)
 						.UnsafeInline()
