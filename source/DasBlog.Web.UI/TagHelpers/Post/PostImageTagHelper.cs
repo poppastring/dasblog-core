@@ -10,7 +10,7 @@ namespace DasBlog.Web.TagHelpers.Post
 		public PostViewModel Post { get; set; }
 
 		public string DefaultImage { get; set; }
-		public string Class { get; set; }
+		public string Css { get; set; }
 		public string Style { get; set; }
 
 		private readonly IDasBlogSettings dasBlogSettings;
@@ -36,9 +36,9 @@ namespace DasBlog.Web.TagHelpers.Post
 				output.Attributes.SetAttribute("src", DefaultImage);
 			}
 
-			if (!string.IsNullOrEmpty(Class))
+			if (!string.IsNullOrEmpty(Css))
 			{
-				output.Attributes.SetAttribute("class", Class);
+				output.Attributes.SetAttribute("class", Css);
 			}
 
 			if (!string.IsNullOrEmpty(Style))
