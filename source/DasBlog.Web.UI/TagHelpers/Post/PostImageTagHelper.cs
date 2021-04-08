@@ -33,7 +33,10 @@ namespace DasBlog.Web.TagHelpers.Post
 			}
 			else
 			{
-				output.Attributes.SetAttribute("src", DefaultImage);
+				if (!string.IsNullOrEmpty(DefaultImage))
+				{
+					output.Attributes.SetAttribute("src", DefaultImage);
+				}
 			}
 
 			if (!string.IsNullOrEmpty(Css))
