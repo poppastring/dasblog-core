@@ -14,7 +14,7 @@
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <UserSecretsId>d3583964-0aca-4de4-9521-c74cdf42f990</UserSecretsId>
-    <Version>2.40.0</Version>
+    <Version>2.41.0</Version>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="9.0.0" />

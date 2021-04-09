@@ -560,6 +560,14 @@
 
     </div>
 
+    <div class="dbc-form-group row">
+
+        @Html.LabelFor(m => @Model.SiteConfig.DefaultSources, null, new { @class = "dbc-col-form-label col-3" })
+        @Html.TextBoxFor(m => @Model.SiteConfig.DefaultSources, null, new { @class = "form-control col-9" })
+        @Html.ValidationMessageFor(m => m.SiteConfig.DefaultSources, null, new { @class = "text-danger" })
+
+    </div>
+
     <hr />
 
     <div class="form-group">
