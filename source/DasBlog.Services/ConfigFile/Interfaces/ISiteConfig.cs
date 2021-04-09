@@ -346,6 +346,8 @@ namespace DasBlog.Services.ConfigFile.Interfaces
 
 		string SecurityStyleSources { get; set; }
 
+		string DefaultSources { get; set; }
+
 		bool CookieConsentEnabled { get; set; }
 
 		bool EnableDoubleDecode { get; set; }

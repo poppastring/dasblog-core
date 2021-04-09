@@ -286,6 +286,11 @@ namespace DasBlog.Web.Models.AdminViewModels
 		[Description("")]
 		public bool EnableDoubleDecode { get; set; }
 
+		[DisplayName("Default Sources (seperated by semi colon")]
+		[Description("")]
+		[StringLength(50, MinimumLength = 1, ErrorMessage = "{0} should be between 1 to 50 characters")]
+		public string DefaultSources { get; set; }
+
 		public bool EntryTitleAsLink { get; set; }
 		public bool ObfuscateEmail { get; set; }
 		public bool SendReferralsByEmail { get; set; }

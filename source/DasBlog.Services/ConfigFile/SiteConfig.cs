@@ -215,6 +215,9 @@ namespace DasBlog.Services.ConfigFile
 		public string SecurityScriptSources { get; set; }
 
 		public string SecurityStyleSources { get; set; }
-		public bool EnableDoubleDecode { get; set; }
+
+		public string DefaultSources { get; set; }
+
+		public bool EnableDoubleDecode { get; set; }		
 	}
 }
