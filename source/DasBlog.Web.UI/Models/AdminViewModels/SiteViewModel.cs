@@ -80,7 +80,7 @@ namespace DasBlog.Web.Models.AdminViewModels
 		[Range(0, 100, ErrorMessage = "Enter a value between  0 and 100")]
 		public int ContentLookaheadDays { get; set; }
 
-		[DisplayName("Show 'Item Summary' in Aggregated Views")]
+		[DisplayName("Show 'Summary View' on home page")]
 		[Description("This allows you to design a summary view for each blog post on the home page")]
 		public bool ShowItemSummaryInAggregatedViews { get; set; }
 
