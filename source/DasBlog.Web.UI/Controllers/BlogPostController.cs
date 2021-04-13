@@ -447,6 +447,8 @@ namespace DasBlog.Web.Controllers
 			commt.EntryId = Guid.NewGuid().ToString();
 			commt.IsPublic = !dasBlogSettings.SiteConfiguration.CommentsRequireApproval;
 
+			logger.LogInformation(new EventDataItem(EventCodes.CommentAdded, null, "Comment CONTENT DUMP", commt.Content));
+
 			var state = blogManager.AddComment(addcomment.TargetEntryId, commt);
 
 			if (state == NBR.CommentSaveState.Failed)

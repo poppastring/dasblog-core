@@ -27,7 +27,8 @@ namespace DasBlog.Web.TagHelpers.Comments
 		{
 			output.TagName = "div";
 			output.TagMode = TagMode.StartTagAndEndTag;
-			output.Attributes.SetAttribute("class", Css);
+
+      output.Attributes.SetAttribute("class", Css);
 			Comment.Text = dasBlogSettings.FilterHtml(Comment.Text);
 			Comment.Text = Regex.Replace(Comment.Text, "\n", "<br />");
 			output.Content.SetHtmlContent(HttpUtility.HtmlDecode(Comment.Text));
