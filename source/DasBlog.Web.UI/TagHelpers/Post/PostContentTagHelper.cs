@@ -24,12 +24,7 @@ namespace DasBlog.Web.TagHelpers.Post
 
 		public override void Process(TagHelperContext context, TagHelperOutput output)
 		{
-			var content = Post.Content;
-
-			if(dasBlogSettings.SiteConfiguration.EnableDoubleDecode)
-			{
-				content = HttpUtility.HtmlDecode(Post.Content);
-			}
+			var content = HttpUtility.HtmlDecode(Post.Content);
 
 			output.TagName = "div";
 			output.TagMode = TagMode.StartTagAndEndTag;

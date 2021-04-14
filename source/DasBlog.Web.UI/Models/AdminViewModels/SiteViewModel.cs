@@ -282,10 +282,6 @@ namespace DasBlog.Web.Models.AdminViewModels
 		[Description("Help meet some of the EU General Data Protection Regulation (GDPR) requirements")]
 		public bool CookieConsentEnabled { get; set; }
 
-		[DisplayName("Double decode")]
-		[Description("")]
-		public bool EnableDoubleDecode { get; set; }
-
 		[DisplayName("Default Sources (seperated by semi colon")]
 		[Description("")]
 		[StringLength(50, MinimumLength = 1, ErrorMessage = "{0} should be between 1 to 50 characters")]

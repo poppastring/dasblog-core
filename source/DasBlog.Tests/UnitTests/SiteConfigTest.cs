@@ -165,7 +165,6 @@ namespace DasBlog.Tests.UnitTests
 		public string SecurityScriptSources { get; set; }
 
 		public string SecurityStyleSources { get; set; }
-		public bool EnableDoubleDecode { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 		public string DefaultSources { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 	}
 }
