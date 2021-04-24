@@ -1,0 +1,24 @@
+﻿@using DasBlog.Core.Common;
+@using DasBlog.Web.Models.BlogViewModels;
+
+@model PostViewModel
+
+@{
+    var CollapsableControl = (bool)ViewData[Constants.ShowPageControl];
+}
+
+@if (CollapsableControl)
+{
+    <a class="btn btn-primary" role="button" data-toggle="collapse" href="#@Model.Comments.PostId" aria-expanded="false" aria-controls="@Model.Comments.PostId">
+        Add a comment
+    </a>
+
+    <div class="collapse" id="@Model.Comments.PostId">
+        <partial name="_CommentBlockPartial" model="@Model.Comments" />
+    </div>
+}
+else
+{
+    <partial name="_CommentBlockPartial" model="@Model.Comments" />
+
+}
