@@ -252,7 +252,10 @@ namespace DasBlog.Web.Models.AdminViewModels
 		[DisplayName("SMTP user name")]
 		[Description("")]
 		public string SmtpUserName { get; set; }
-
+		
+		[DisplayName("From email, user name when blank")]
+		[Description("The from email address used for sending an email.  If this is blank, the SMTP User Name will be used.")]
+		public string SmtpFromEmail { get; set; }
 		[DisplayName("SMTP password")]
 		[Description("")]
 		[DataType(DataType.Password)]

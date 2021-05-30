@@ -447,10 +447,19 @@ namespace DasBlog.Managers
 			return dataService.GetCategories();
 		}
 
+		private string GetFromEmail()
+		{
+			if (string.IsNullOrWhiteSpace(dasBlogSettings.SiteConfiguration.SmtpFromEmail))
+			{
+				return dasBlogSettings.SiteConfiguration.SmtpUserName;
+			}
+
+			return dasBlogSettings.SiteConfiguration.SmtpFromEmail.Trim();
+		}
 		public bool SendTestEmail()
 		{
 			var emailMessage = new MailMessage();
-			emailMessage.From = new MailAddress(dasBlogSettings.SiteConfiguration.SmtpUserName);
+			emailMessage.From = new MailAddress(GetFromEmail());
 			emailMessage.To.Add(dasBlogSettings.SiteConfiguration.NotificationEMailAddress);
 			emailMessage.To.Add(dasBlogSettings.SiteConfiguration.Contact);
 
@@ -539,7 +548,7 @@ namespace DasBlog.Managers
 			emailMessage.IsBodyHtml = false;
 			emailMessage.BodyEncoding = System.Text.Encoding.UTF8;
 
-			emailMessage.From = new MailAddress(dasBlogSettings.SiteConfiguration.SmtpUserName);
+			emailMessage.From = new MailAddress(GetFromEmail());
 
 			return dasBlogSettings.GetMailInfo(emailMessage);
 		}

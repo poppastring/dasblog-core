@@ -236,6 +236,7 @@ namespace DasBlog.Services.ConfigFile.Interfaces
         bool EnableSmtpAuthentication { get; set; }
 
         string SmtpUserName { get; set; }
+        string SmtpFromEmail { get; set; }
 
         string SmtpPassword { get; set; }
 

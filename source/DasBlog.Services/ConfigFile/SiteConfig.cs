@@ -146,6 +146,7 @@ namespace DasBlog.Services.ConfigFile
         public bool EncryptLoginPassword { get; set; }
         public bool EnableSmtpAuthentication { get; set; }
         public string SmtpUserName { get; set; }
+        public string SmtpFromEmail { get; set; }
         public string SmtpPassword { get; set; }
         public string RssLanguage { get; set; }
         public bool EnableSearchHighlight { get; set; }
