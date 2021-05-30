@@ -106,6 +106,7 @@ namespace DasBlog.Tests.UnitTests
 		public bool EnableSmtpAuthentication { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 		public string SmtpUserName { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 		public string SmtpPassword { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+		public string SmtpFromEmail { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 		public string RssLanguage { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 		public bool EnableSearchHighlight { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 		public bool EnableEntryReferrals { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
