@@ -441,7 +441,15 @@
 
     </div>
 
-    <div class="dbc-form-check row">
+    <div class="dbc-form-group row">
+
+        @Html.LabelFor(m => @Model.SiteConfig.SmtpFromEmail, null, new { @class = "dbc-col-form-label col-3" })
+        @Html.TextBoxFor(m => @Model.SiteConfig.SmtpFromEmail, null, new { @class = "form-control col-9" })
+        @Html.ValidationMessageFor(m => m.SiteConfig.SmtpFromEmail, null, new { @class = "text-danger" })
+
+    </div>
+
+<div class="dbc-form-check row">
 
         <label class="dbc-col-form-label col-3">SMTP Test</label>
         <input asp-controller="Admin" asp-action="TestEmail" type="submit" name="submit" value="Send test Email" class="btn-default" />
