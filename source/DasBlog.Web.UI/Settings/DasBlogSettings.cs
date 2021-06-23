@@ -230,6 +230,10 @@ namespace DasBlog.Web.Settings
 			{
 				return false;
 			}
+			else if(SiteConfiguration.EnableComments && !SiteConfiguration.EnableCommentDays)
+			{
+				return true;
+			}
 
 			return (DateTime.UtcNow.AddDays(-1 * SiteConfiguration.DaysCommentsAllowed) < blogpostdate);
 		}
