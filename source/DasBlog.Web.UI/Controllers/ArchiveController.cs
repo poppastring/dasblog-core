@@ -65,6 +65,39 @@ namespace DasBlog.Web.Controllers
 			return View(months);
 		}
 
+		[HttpGet("all")]
+		public IActionResult ArchiveAll()
+		{
+			var entries = new EntryCollection();
+			var languageFilter = httpContextAccessor.HttpContext.Request.Headers["Accept-Language"];
+			var listofyears = archiveManager.GetDaysWithEntries().Select(i => i.Year).Distinct();
+
+			foreach (var year in listofyears)
+			{
+				entries.AddRange(
+				archiveManager.GetEntriesForYear(new DateTime(year, 1, 1) , languageFilter).OrderByDescending(x => x.CreatedUtc));
+			}
+
+			var alvm = new ArchiveListViewModel();
+
+			foreach (var i in entries.ToList().Select(entry => mapper.Map<PostViewModel>(entry)).ToList())
+			{
+				var index = int.Parse(string.Format("{0}{1}", i.CreatedDateTime.Year, string.Format("{0:00}", i.CreatedDateTime.Month)));
+
+				if (alvm.MonthEntries.ContainsKey(index))
+				{
+					alvm.MonthEntries[index].Add(i);
+				}
+				else 
+				{
+					var list = new List<PostViewModel>() { i };
+					alvm.MonthEntries.Add(index, list);
+				}
+			}
+
+			return View(alvm);
+		}
+
 		private List<MonthViewViewModel> GetMonthsViewModel(DateTime dateTime, bool wholeYear = false)
 		{
 			string languageFilter = httpContextAccessor.HttpContext.Request.Headers["Accept-Language"];
