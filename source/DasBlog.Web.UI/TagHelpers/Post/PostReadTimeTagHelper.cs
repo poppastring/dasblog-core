@@ -10,7 +10,7 @@ namespace DasBlog.Web.TagHelpers.Post
 		public PostViewModel Post { get; set; }
 
 		private IDasBlogSettings dasBlogSettings;
-		private const string READTIMEMINUTES = "{0} minutes";
+		private const string READTIMEMINUTES = "{0} min read";
 
 		public PostReadTimeTagHelper(IDasBlogSettings dasBlogSettings)
 		{
