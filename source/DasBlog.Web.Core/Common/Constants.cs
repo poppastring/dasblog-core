@@ -21,6 +21,7 @@
 		public const string PageNumber = "page-number";
 		public const string PostCount = "post-count";
 		public const string ArchivePageTitle = "Archive";
+		public const string ArchiveAllPageTitle = "Complete Archive";
 
 		//
 		public const string TinyMceEditor = "tinymce";
