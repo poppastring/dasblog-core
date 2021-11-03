@@ -129,7 +129,7 @@ namespace DasBlog.Test.Integration
 		public void NavigateToSpecificArchiveDate()
 		{
 			Skip.If(AreWe.InDockerOrBuildServer, "In Docker!");
-			Browser.Navigate().GoToUrl(Server.RootUri + "/archive/2020/2/27");
+			Browser.Navigate().GoToUrl(Server.RootUri + "/archive/2021/11/2");
 			Assert.StartsWith("Archive - My DasBlog!", Browser.Title);
 
 			var postSelector = By.PartialLinkText("Welcome to DasBlog Core");
@@ -287,7 +287,7 @@ namespace DasBlog.Test.Integration
 
 			Browser.Navigate().GoToUrl(Server.RootUri + "/post/create");
 
-			Assert.Equal(Server.RootUri + "/account/login?ReturnUrl=%2Fpost%2Fcreate", Browser.Url.TrimEnd('/'));
+			Assert.Equal(Server.RootUri + "/account/login?ReturnUrl=%2Fpost%2Fcreate", Browser.Url.TrimEnd('/'), true, true, true);
 
 			LoginToSite();
 
