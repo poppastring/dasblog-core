@@ -2,6 +2,7 @@
 @using DasBlog.Web.Models.BlogViewModels;
 
 @model PostViewModel
+@inject IDasBlogSettings dasBlogSettings
 
 @{
     var CollapsableControl = (bool)ViewData[Constants.ShowPageControl];
@@ -9,9 +10,12 @@
 
 @if (CollapsableControl)
 {
-    <a class="btn btn-primary" role="button" data-toggle="collapse" href="#@Model.Comments.PostId" aria-expanded="false" aria-controls="@Model.Comments.PostId">
-        Add a comment
-    </a>
+    @if (Model.AllowComments && dasBlogSettings.SiteConfiguration.EnableComments)
+    {
+        <a class="btn btn-primary" role="button" data-toggle="collapse" href="#@Model.Comments.PostId" aria-expanded="false" aria-controls="@Model.Comments.PostId">
+            Add a comment
+        </a>
+    }
 
     <div class="collapse" id="@Model.Comments.PostId">
         <partial name="_CommentBlockPartial" model="@Model.Comments" />
@@ -20,5 +24,4 @@
 else
 {
     <partial name="_CommentBlockPartial" model="@Model.Comments" />
-
 }
