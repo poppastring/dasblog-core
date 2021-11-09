@@ -1,17 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <Version>3.2.0</Version>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\DasBlog.Web.Core\DasBlog.Core.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Kveer.XmlRPC" Version="1.1.1" />
-    <PackageReference Include="MailKit" Version="2.4.1" />
-    <PackageReference Include="Microsoft.Extensions.Options" Version="3.0.0" />
-    <PackageReference Include="Quartz.AspNetCore" Version="3.1.0" />
+    <PackageReference Include="Kveer.XmlRPC" Version="1.2.0" />
+    <PackageReference Include="MailKit" Version="2.15.0" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="6.0.0" />
+    <PackageReference Include="Quartz.AspNetCore" Version="3.3.3" />
   </ItemGroup>
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />

@@ -31,7 +31,7 @@ namespace DasBlog.Test.Integration
 
 			var driver = new RemoteWebDriver(opts);
 			Browser = driver;
-			Logs = new RemoteLogs(driver); //TODO: Still not bringing the logs over yet?
+			// Logs = new RemoteLogs(driver); //TODO: Still not bringing the logs over yet?
 		}
 
 		[SkippableFact(typeof(WebDriverException))]
