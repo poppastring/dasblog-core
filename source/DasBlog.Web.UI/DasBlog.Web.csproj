@@ -13,6 +13,7 @@
     <Platforms>AnyCPU</Platforms>
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
     <UserSecretsId>d3583964-0aca-4de4-9521-c74cdf42f990</UserSecretsId>
     <Version>3.0.0</Version>
   </PropertyGroup>
