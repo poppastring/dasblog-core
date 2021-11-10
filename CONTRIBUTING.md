@@ -19,8 +19,8 @@ If you would like to discuss a change you are thinking of doing before you start
 ### Install the tools
 To contribute code changes install the following dev tools:
 
-- Install [.NET Core SDK 3.1.1](https://dotnet.microsoft.com/download/dotnet-core/thank-you/runtime-aspnetcore-3.1.1-windows-x64-installer)
-- Install [Visual Studio Community 2019 (16.3.0 or newer)](https://visualstudio.microsoft.com/thank-you-downloading-visual-studio/?sku=Community&rel=16)
+- Install [Visual Studio Community 2019 (17.0 or newer)](https://visualstudio.microsoft.com/downloads/)
+- Visual Studio installs the [.NET SDK 6.0.100](https://dotnet.microsoft.com/download/dotnet/thank-you/sdk-6.0.100-windows-x64-installer)
 
 ### Contribute code
 To contribute code to the project simply:
