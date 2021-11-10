@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <CopyRefAssembliesToPublishDirectory>true</CopyRefAssembliesToPublishDirectory>
     <CopyRazorGenerateFilesToPublishDirectory>true</CopyRazorGenerateFilesToPublishDirectory>
     <AssemblyName>DasBlog.Web</AssemblyName>
@@ -13,21 +13,22 @@
     <Platforms>AnyCPU</Platforms>
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
     <UserSecretsId>d3583964-0aca-4de4-9521-c74cdf42f990</UserSecretsId>
-    <Version>2.43.0</Version>
+    <Version>3.0.0</Version>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="9.0.0" />
-    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.15.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.Extensions" Version="3.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.0.0" />
-    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.9.10" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.0.0" />
-    <PackageReference Include="NetEscapades.Extensions.Logging.RollingFile" Version="2.2.0" />
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.19.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.Extensions" Version="6.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="6.0.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.11.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.0" />
+    <PackageReference Include="NetEscapades.Extensions.Logging.RollingFile" Version="2.4.1" />
     <PackageReference Include="NWebsec.AspNetCore.Middleware" Version="3.0.0" />
     <PackageReference Include="reCAPTCHA.AspNetCore" Version="3.0.10" />
-    <PackageReference Include="Quartz.AspNetCore" Version="3.1.0" />
+    <PackageReference Include="Quartz.AspNetCore" Version="3.3.3" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DasBlog.CLI\DasBlog.CLI.csproj" />
