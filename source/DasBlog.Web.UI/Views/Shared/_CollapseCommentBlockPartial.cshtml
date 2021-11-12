@@ -1,23 +1,25 @@
 ﻿@using DasBlog.Core.Common;
 @using DasBlog.Web.Models.BlogViewModels;
+@using System.Text.RegularExpressions;
 
 @model PostViewModel
 @inject IDasBlogSettings dasBlogSettings
 
 @{
     var CollapsableControl = (bool)ViewData[Constants.ShowPageControl];
+    var rgx = new Regex("[a-zA-Z0-9]");
 }
 
 @if (CollapsableControl)
 {
     @if (Model.AllowComments && dasBlogSettings.SiteConfiguration.EnableComments)
     {
-        <a class="btn btn-primary" role="button" data-toggle="collapse" href="#@Model.Comments.PostId" aria-expanded="false" aria-controls="@Model.Comments.PostId">
+        <a class="btn btn-primary" role="button" data-bs-toggle="collapse" data-bs-target="#@rgx.Replace(Model.Comments.PostId, "")" aria-expanded="false" aria-controls="@rgx.Replace(Model.Comments.PostId, "")">
             Add a comment
         </a>
     }
 
-    <div class="collapse" id="@Model.Comments.PostId">
+    <div class="collapse" id="@rgx.Replace(Model.Comments.PostId, "")">
         <partial name="_CommentBlockPartial" model="@Model.Comments" />
     </div>
 }
