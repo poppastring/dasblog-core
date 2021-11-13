@@ -19,7 +19,7 @@ If you would like to discuss a change you are thinking of doing before you start
 ### Install the tools
 To contribute code changes install the following dev tools:
 
-- Install [Visual Studio Community 2019 (17.0 or newer)](https://visualstudio.microsoft.com/downloads/)
+- Install [Visual Studio Community 2022 (17.0 or newer)](https://visualstudio.microsoft.com/downloads/)
 - Visual Studio installs the [.NET SDK 6.0.100](https://dotnet.microsoft.com/download/dotnet/thank-you/sdk-6.0.100-windows-x64-installer)
 
 ### Contribute code
@@ -43,5 +43,5 @@ Run the following from the command line:
 
 `selenium-standalone install`
 
-Open [Test Explor in Visual Studio](https://docs.microsoft.com/visualstudio/test/run-unit-tests-with-test-explorer) and you can run any of the tests.
+Open [Test Explorer in Visual Studio](https://docs.microsoft.com/visualstudio/test/run-unit-tests-with-test-explorer) and you can run any of the tests.
 
