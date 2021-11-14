@@ -47,5 +47,6 @@ namespace DasBlog.Services
 		bool IsAdmin(string gravatarhash);
 		string GeneratePostUrl(Entry entry);
 		SendMailInfo GetMailInfo(MailMessage emailmessage);
+		DateTime GetDisplayTime(DateTime datetime);
 	}
 }

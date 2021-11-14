@@ -288,5 +288,14 @@ namespace DasBlog.Web.Settings
 						   SiteConfiguration.EnableSmtpAuthentication, SiteConfiguration.UseSSLForSMTP,
 						   SiteConfiguration.SmtpUserName, SiteConfiguration.SmtpPassword, SiteConfiguration.SmtpPort);
 		}
+
+		public DateTime GetDisplayTime(DateTime datetime)
+		{
+			if (SiteConfiguration.AdjustDisplayTimeZone)
+			{
+				return datetime.AddHours(SiteConfiguration.DisplayTimeZoneIndex);
+			}
+			return datetime;
+		}
 	}
 }
