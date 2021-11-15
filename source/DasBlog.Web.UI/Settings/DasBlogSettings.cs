@@ -168,7 +168,14 @@ namespace DasBlog.Web.Settings
 
 		public DateTime GetContentLookAhead()
 		{
-			return DateTime.UtcNow.AddDays(SiteConfiguration.ContentLookaheadDays);
+			if (SiteConfiguration.AdjustDisplayTimeZone)
+			{
+				return DateTime.UtcNow.AddHours(SiteConfiguration.DisplayTimeZoneIndex).AddDays(SiteConfiguration.ContentLookaheadDays);
+			}
+			else
+			{
+				return DateTime.UtcNow.AddDays(SiteConfiguration.ContentLookaheadDays);
+			}
 		}
 
 		public string FilterHtml(string input)
@@ -287,6 +294,15 @@ namespace DasBlog.Web.Settings
 			return new SendMailInfo(emailmessage, SiteConfiguration.SmtpServer,
 						   SiteConfiguration.EnableSmtpAuthentication, SiteConfiguration.UseSSLForSMTP,
 						   SiteConfiguration.SmtpUserName, SiteConfiguration.SmtpPassword, SiteConfiguration.SmtpPort);
+		}
+
+		public DateTime GetDisplayTime(DateTime datetime)
+		{
+			if (SiteConfiguration.AdjustDisplayTimeZone)
+			{
+				return datetime.AddHours(SiteConfiguration.DisplayTimeZoneIndex);
+			}
+			return datetime;
 		}
 	}
 }

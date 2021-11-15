@@ -262,5 +262,10 @@ namespace DasBlog.Tests.UnitTests
 		{
 			throw new NotImplementedException();
 		}
+
+		public DateTime GetDisplayTime(DateTime datetime)
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

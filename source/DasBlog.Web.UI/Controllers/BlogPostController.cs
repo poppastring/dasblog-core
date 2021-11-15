@@ -254,6 +254,15 @@ namespace DasBlog.Web.Controllers
 				entry.Latitude = null;
 				entry.Longitude = null;
 
+				if (dasBlogSettings.SiteConfiguration.AdjustDisplayTimeZone)
+				{
+					entry.CreatedUtc = entry.ModifiedUtc = post.CreatedDateTime.AddHours(-1 * dasBlogSettings.SiteConfiguration.DisplayTimeZoneIndex);
+				}
+				else
+				{
+					entry.CreatedUtc = entry.ModifiedUtc = post.CreatedDateTime;
+				}
+
 				var sts = blogManager.CreateEntry(entry);
 				if (sts != NBR.EntrySaveState.Added)
 				{
@@ -443,10 +452,10 @@ namespace DasBlog.Web.Controllers
 			var commt = mapper.Map<NBR.Comment>(addcomment);
 			commt.AuthorIPAddress = HttpContext.Connection.RemoteIpAddress.ToString();
 			commt.AuthorUserAgent = HttpContext.Request.Headers["User-Agent"].ToString();
-			commt.CreatedUtc = commt.ModifiedUtc = DateTime.UtcNow;
 			commt.EntryId = Guid.NewGuid().ToString();
 			commt.IsPublic = !dasBlogSettings.SiteConfiguration.CommentsRequireApproval;
-
+			commt.CreatedUtc = commt.ModifiedUtc = DateTime.Now.ToUniversalTime();
+			
 			logger.LogInformation(new EventDataItem(EventCodes.CommentAdded, null, "Comment CONTENT DUMP", commt.Content));
 
 			var state = blogManager.AddComment(addcomment.TargetEntryId, commt);
