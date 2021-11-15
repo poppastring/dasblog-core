@@ -254,6 +254,15 @@ namespace DasBlog.Web.Controllers
 				entry.Latitude = null;
 				entry.Longitude = null;
 
+				if (dasBlogSettings.SiteConfiguration.AdjustDisplayTimeZone)
+				{
+					entry.CreatedUtc = entry.ModifiedUtc = post.CreatedDateTime.AddHours(-1 * dasBlogSettings.SiteConfiguration.DisplayTimeZoneIndex);
+				}
+				else
+				{
+					entry.CreatedUtc = entry.ModifiedUtc = post.CreatedDateTime;
+				}
+
 				var sts = blogManager.CreateEntry(entry);
 				if (sts != NBR.EntrySaveState.Added)
 				{
