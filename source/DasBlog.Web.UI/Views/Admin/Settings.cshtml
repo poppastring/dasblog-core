@@ -18,7 +18,7 @@
     <div class="form-group row mb-3">
 
         @Html.LabelFor(m => @Model.SiteConfig.Root, null, new { @class = "col-sm-2" })
-        <div class="col-sm-10">
+        <div class="col-sm-5">
             @Html.TextBoxFor(m => @Model.SiteConfig.Root, null, new { @class = "form-control" })
         </div>
         @Html.ValidationMessageFor(m => m.SiteConfig.Root, null, new { @class = "text-danger" })
@@ -56,10 +56,10 @@
     <div class="form-group row mb-3">
 
         @Html.LabelFor(m => @Model.SiteConfig.Theme, null, new { @class = "col-form-label col-sm-2" })
-        <div class="col-sm-10">
+        <div class="col-sm-3">
             @Html.DropDownListFor(n => n.SiteConfig.Theme,
                 new SelectList(new ThemesListViewModel(dasBlogSettings).Init(), "Name", "Name"),
-                new { @class = "form-control col-2" })
+                new { @class = "form-select col-2" })
         </div>
         @Html.ValidationMessageFor(m => m.SiteConfig.Theme, null, new { @class = "text-danger" })
 
@@ -68,7 +68,7 @@
     <div class="form-group row mb-3">
 
         @Html.LabelFor(m => @Model.SiteConfig.NotificationEMailAddress, null, new { @class = "col-form-label col-sm-2" })
-        <div class="col-sm-10">
+        <div class="col-sm-3">
             @Html.TextBoxFor(m => @Model.SiteConfig.NotificationEMailAddress, null, new { @class = "form-control sm-10" })
         </div>
         @Html.ValidationMessageFor(m => m.SiteConfig.NotificationEMailAddress, null, new { @class = "text-danger" })
@@ -78,7 +78,7 @@
     <div class="form-group row mb-3">
 
         @Html.LabelFor(m => @Model.SiteConfig.Contact, null, new { @class = "col-form-label col-sm-2" })
-        <div class="col-sm-10">
+        <div class="col-sm-3">
             @Html.TextBoxFor(m => @Model.SiteConfig.Contact, null, new { @class = "form-control sm-10" })
         </div>
         @Html.ValidationMessageFor(m => m.SiteConfig.Contact, null, new { @class = "text-danger" })
@@ -110,7 +110,7 @@
     <div class="form-group row mb-3">
 
         @Html.LabelFor(m => @Model.SiteConfig.FrontPageDayCount, null, new { @class = "col-form-label col-sm-2" })
-        <div class="col-sm-10">
+        <div class="col-sm-2">
             @Html.TextBoxFor(m => @Model.SiteConfig.FrontPageDayCount, null, new { @class = "form-control col-2" })
         </div>
         @Html.ValidationMessageFor(m => m.SiteConfig.FrontPageDayCount, null, new { @class = "text-danger" })
@@ -120,7 +120,7 @@
     <div class="form-group row mb-3">
 
         @Html.LabelFor(m => @Model.SiteConfig.FrontPageEntryCount, null, new { @class = "col-form-label col-sm-2" })
-        <div class="col-sm-10">
+        <div class="col-sm-2">
             @Html.TextBoxFor(m => @Model.SiteConfig.FrontPageEntryCount, null, new { @class = "form-control col-2" })
         </div>
         @Html.ValidationMessageFor(m => m.SiteConfig.FrontPageEntryCount, null, new { @class = "text-danger" })
@@ -130,7 +130,7 @@
     <div class="form-group row mb-3">
 
         @Html.LabelFor(m => @Model.SiteConfig.EntriesPerPage, null, new { @class = "col-form-label col-sm-2" })
-        <div class="col-sm-10">
+        <div class="col-sm-2">
             @Html.TextBoxFor(m => @Model.SiteConfig.EntriesPerPage, null, new { @class = "form-control col-2" })
         </div>
         @Html.ValidationMessageFor(m => m.SiteConfig.EntriesPerPage, null, new { @class = "text-danger" })
@@ -140,7 +140,7 @@
     <div class="form-group row mb-3">
 
         @Html.LabelFor(m => @Model.SiteConfig.FrontPageCategory, null, new { @class = "col-form-label col-sm-2" })
-        <div class="col-sm-10">
+        <div class="col-sm-5">
             @Html.TextBoxFor(m => @Model.SiteConfig.FrontPageCategory, null, new { @class = "form-control sm-10" })
         </div>
         @Html.ValidationMessageFor(m => m.SiteConfig.FrontPageCategory, null, new { @class = "text-danger" })
@@ -150,7 +150,7 @@
     <div class="form-group row mb-3">
 
         @Html.LabelFor(m => @Model.SiteConfig.ContentLookaheadDays, null, new { @class = "col-form-label col-sm-2" })
-        <div class="col-sm-10">
+        <div class="col-sm-2">
             @Html.TextBoxFor(m => @Model.SiteConfig.ContentLookaheadDays, null, new { @class = "form-control col-2" })
         </div>
         @Html.ValidationMessageFor(m => m.SiteConfig.ContentLookaheadDays, null, new { @class = "text-danger" })
@@ -190,7 +190,7 @@
     <div class="form-group row mb-3">
 
         @Html.LabelFor(m => @Model.SiteConfig.RssDayCount, null, new { @class = "col-form-label col-sm-2" })
-        <div class="col-sm-10">
+        <div class="col-sm-2">
             @Html.TextBoxFor(m => @Model.SiteConfig.RssDayCount, null, new { @class = "form-control col-2" })
         </div>
         @Html.ValidationMessageFor(m => m.SiteConfig.RssDayCount, null, new { @class = "text-danger" })
@@ -200,7 +200,7 @@
     <div class="form-group row mb-3">
 
         @Html.LabelFor(m => @Model.SiteConfig.RssMainEntryCount, null, new { @class = "col-form-label col-sm-2" })
-        <div class="col-sm-10">
+        <div class="col-sm-2">
             @Html.TextBoxFor(m => @Model.SiteConfig.RssMainEntryCount, null, new { @class = "form-control col-2" })
         </div>
         @Html.ValidationMessageFor(m => m.SiteConfig.RssMainEntryCount, null, new { @class = "text-danger" })
@@ -210,7 +210,7 @@
     <div class="form-group row mb-3">
 
         @Html.LabelFor(m => @Model.SiteConfig.RssEntryCount, null, new { @class = "col-form-label col-sm-2" })
-        <div class="col-sm-10">
+        <div class="col-sm-2">
             @Html.TextBoxFor(m => @Model.SiteConfig.RssEntryCount, null, new { @class = "form-control col-2" })
         </div>
         @Html.ValidationMessageFor(m => m.SiteConfig.RssEntryCount, null, new { @class = "text-danger" })
@@ -268,7 +268,7 @@
     <div class="form-group row mb-3">
 
         @Html.LabelFor(m => @Model.SiteConfig.DaysCommentsAllowed, null, new { @class = "col-form-label col-sm-2" })
-        <div class="col-sm-10">
+        <div class="col-sm-2">
             @Html.TextBoxFor(m => @Model.SiteConfig.DaysCommentsAllowed, null, new { @class = "form-control col-2" })
         </div>
         @Html.ValidationMessageFor(m => m.SiteConfig.DaysCommentsAllowed, null, new { @class = "text-danger" })
@@ -316,7 +316,7 @@
     <div class="form-group row mb-3">
 
         @Html.LabelFor(m => @Model.SiteConfig.RecaptchaMinimumScore, null, new { @class = "col-form-label col-sm-2" })
-        <div class="col-sm-10">
+        <div class="col-sm-2">
             @Html.TextBoxFor(m => @Model.SiteConfig.RecaptchaMinimumScore, null, new { @class = "form-control sm-10" })
         </div>
         @Html.ValidationMessageFor(m => m.SiteConfig.RecaptchaMinimumScore, null, new { @class = "text-danger" })
@@ -325,7 +325,7 @@
     <div class="form-group row mb-3">
 
         @Html.LabelFor(m => @Model.SiteConfig.RecaptchaSiteKey, null, new { @class = "col-form-label col-sm-2" })
-        <div class="col-sm-10">
+        <div class="col-sm-5">
             @Html.TextBoxFor(m => @Model.SiteConfig.RecaptchaSiteKey, null, new { @class = "form-control sm-10" })
         </div>
         @Html.ValidationMessageFor(m => m.SiteConfig.RecaptchaSiteKey, null, new { @class = "text-danger" })
@@ -335,7 +335,7 @@
     <div class="form-group row mb-3">
 
         @Html.LabelFor(m => @Model.SiteConfig.RecaptchaSecretKey, null, new { @class = "col-form-label col-sm-2" })
-        <div class="col-sm-10">
+        <div class="col-sm-5">
             @Html.TextBoxFor(m => @Model.SiteConfig.RecaptchaSecretKey, null, new { @class = "form-control sm-10" })
         </div>
         @Html.ValidationMessageFor(m => m.SiteConfig.RecaptchaSecretKey, null, new { @class = "text-danger" })
@@ -389,7 +389,7 @@
     <div class="form-group row mb-3">
 
         @Html.LabelFor(m => @Model.MetaConfig.TwitterSite, null, new { @class = "col-form-label col-sm-2" })
-        <div class="col-sm-10">
+        <div class="col-sm-5">
             @Html.TextBoxFor(m => @Model.MetaConfig.TwitterSite, null, new { @class = "form-control sm-10" })
         </div>
         @Html.ValidationMessageFor(m => m.MetaConfig.TwitterSite, null, new { @class = "text-danger" })
@@ -399,7 +399,7 @@
     <div class="form-group row mb-3">
 
         @Html.LabelFor(m => @Model.MetaConfig.TwitterCreator, null, new { @class = "col-form-label col-sm-2" })
-        <div class="col-sm-10">
+        <div class="col-sm-5">
             @Html.TextBoxFor(m => @Model.MetaConfig.TwitterCreator, null, new { @class = "form-control sm-10" })
         </div>
         @Html.ValidationMessageFor(m => m.MetaConfig.TwitterCreator, null, new { @class = "text-danger" })
@@ -410,10 +410,10 @@
 
         @Html.LabelFor(m => @Model.MetaConfig.TwitterCard, null, new { @class = "col-form-label col-sm-2" })
 
-        <div class="col-sm-10">
+        <div class="col-sm-3">
             @Html.DropDownListFor(n => n.MetaConfig.TwitterCard,
                 new SelectList(new TwitterCardViewModel().Init(), "Id", "Name"),
-                new { @class = "form-control col-3" })
+                new { @class = "form-select col-3" })
         </div>
         @Html.ValidationMessageFor(m => m.MetaConfig.TwitterCard, null, new { @class = "text-danger" })
 
@@ -429,7 +429,7 @@
 
     <div class="form-group row mb-3">
         @Html.LabelFor(m => @Model.MetaConfig.GoogleAnalyticsID, null, new { @class = "col-form-label col-sm-2" })
-        <div class="col-sm-10">
+        <div class="col-sm-5">
             @Html.TextBoxFor(m => @Model.MetaConfig.GoogleAnalyticsID, null, new { @class = "form-control sm-10" })
         </div>
         @Html.ValidationMessageFor(m => m.MetaConfig.GoogleAnalyticsID, null, new { @class = "text-danger" })
@@ -448,10 +448,10 @@
 
     <div class="form-group row mb-3">
         @Html.LabelFor(m => @Model.SiteConfig.PreferredBloggingAPI, null, new { @class = "col-form-label col-sm-2" })
-        <div class="col-sm-10">
+        <div class="col-sm-3">
             @Html.DropDownListFor(n => n.SiteConfig.PreferredBloggingAPI,
                 new SelectList(new BloggerAPIViewModel().Init(), "Name", "Name"),
-                new { @class = "form-control col-3" })
+                new { @class = "form-select col-3" })
         </div>
         @Html.ValidationMessageFor(m => m.SiteConfig.PreferredBloggingAPI, null, new { @class = "text-danger" })
     </div>
@@ -459,10 +459,10 @@
     <div class="form-group row mb-3">
         @Html.LabelFor(m => @Model.SiteConfig.EntryEditControl, null, new { @class = "col-form-label col-sm-2" })
 
-        <div class="col-sm-10">
+        <div class="col-sm-3">
             @Html.DropDownListFor(n => n.SiteConfig.EntryEditControl,
                 new SelectList(new EntryEditControlViewModel().Init(), "Name", "Name"),
-                new { @class = "form-control col-3" })
+                new { @class = "form-select col-3" })
         </div>
         @Html.ValidationMessageFor(m => m.SiteConfig.EntryEditControl, null, new { @class = "text-danger" })
 
@@ -473,7 +473,7 @@
     <div class="form-group row mb-3">
 
         @Html.LabelFor(m => @Model.SiteConfig.SmtpServer, null, new { @class = "col-form-label col-sm-2" })
-        <div class="col-sm-10">
+        <div class="col-sm-5">
             @Html.TextBoxFor(m => @Model.SiteConfig.SmtpServer, null, new { @class = "form-control sm-10" })
         </div>
         @Html.ValidationMessageFor(m => m.SiteConfig.SmtpServer, null, new { @class = "text-danger" })
@@ -483,7 +483,7 @@
     <div class="form-group row mb-3">
 
         @Html.LabelFor(m => @Model.SiteConfig.SmtpUserName, null, new { @class = "col-form-label col-sm-2" })
-        <div class="col-sm-10">
+        <div class="col-sm-5">
             @Html.TextBoxFor(m => @Model.SiteConfig.SmtpUserName, null, new { @class = "form-control sm-10" })
         </div>
         @Html.ValidationMessageFor(m => m.SiteConfig.SmtpUserName, null, new { @class = "text-danger" })
@@ -493,7 +493,7 @@
     <div class="form-group row mb-3">
 
         @Html.LabelFor(m => @Model.SiteConfig.SmtpPassword, null, new { @class = "col-form-label col-sm-2" })
-        <div class="col-sm-10">
+        <div class="col-sm-5">
             @Html.PasswordFor(m => @Model.SiteConfig.SmtpPassword, new { @class = "form-control sm-10" })
         </div>
         @Html.ValidationMessageFor(m => m.SiteConfig.SmtpPassword, null, new { @class = "text-danger" })
@@ -503,7 +503,7 @@
     <div class="form-group row mb-3">
 
         @Html.LabelFor(m => @Model.SiteConfig.SmtpPort, null, new { @class = "col-form-label col-sm-2" })
-        <div class="col-sm-10">
+        <div class="col-sm-2">
             @Html.TextBoxFor(m => @Model.SiteConfig.SmtpPort, null, new { @class = "form-control sm-10" })
         </div>
         @Html.ValidationMessageFor(m => m.SiteConfig.SmtpPort, null, new { @class = "text-danger" })
@@ -531,7 +531,7 @@
 
     <div class="form-group row mb-3">
         @Html.LabelFor(m => @Model.SiteConfig.SmtpFromEmail, null, new { @class = "col-form-label col-sm-2" })
-        <div class="col-sm-10">
+        <div class="col-sm-5">
             @Html.TextBoxFor(m => @Model.SiteConfig.SmtpFromEmail, null, new { @class = "form-control sm-10" })
         </div>
         @Html.ValidationMessageFor(m => m.SiteConfig.SmtpFromEmail, null, new { @class = "text-danger" })
@@ -577,10 +577,10 @@
 
         @Html.LabelFor(m => @Model.SiteConfig.TitlePermalinkSpaceReplacement, null, new { @class = "col-form-label col-sm-2" })
 
-        <div class="col-sm-10">
+        <div class="col-sm-3">
             @Html.DropDownListFor(n => n.SiteConfig.TitlePermalinkSpaceReplacement,
                 new SelectList(new SpaceReplacementViewModel().Init(), "Name", "Name"),
-                new { @class = "form-control col-1" })
+                new { @class = "form-select col-1" })
         </div>
         @Html.ValidationMessageFor(m => m.SiteConfig.TitlePermalinkSpaceReplacement, null, new { @class = "text-danger" })
 
@@ -609,7 +609,7 @@
     <div class="form-group row mb-3">
 
         @Html.LabelFor(m => @Model.SiteConfig.ContentDir, null, new { @class = "col-form-label col-sm-2" })
-        <div class="col-sm-10">
+        <div class="col-sm-5">
             @Html.TextBoxFor(m => @Model.SiteConfig.ContentDir, null, new { @class = "form-control sm-10" })
         </div>
         @Html.ValidationMessageFor(m => m.SiteConfig.ContentDir, null, new { @class = "text-danger" })
@@ -619,7 +619,7 @@
     <div class="form-group row mb-3">
 
         @Html.LabelFor(m => @Model.SiteConfig.BinariesDir, null, new { @class = "col-form-label col-sm-2" })
-        <div class="col-sm-10">
+        <div class="col-sm-5">
             @Html.TextBoxFor(m => @Model.SiteConfig.BinariesDir, null, new { @class = "form-control sm-10" })
         </div>
         @Html.ValidationMessageFor(m => m.SiteConfig.BinariesDir, null, new { @class = "text-danger" })
@@ -630,7 +630,7 @@
     <div class="form-group row mb-3">
 
         @Html.LabelFor(m => @Model.SiteConfig.LogDir, null, new { @class = "col-form-label col-sm-2" })
-        <div class="col-sm-10">
+        <div class="col-sm-5">
             @Html.TextBoxFor(m => @Model.SiteConfig.LogDir, null, new { @class = "form-control sm-10" })
         </div>
         @Html.ValidationMessageFor(m => m.SiteConfig.LogDir, null, new { @class = "text-danger" })
@@ -639,7 +639,7 @@
 
     <div class="form-check row mb-3">
         <div class="col-sm-10 offset-sm-2">
-            <div class="col-sm-10">
+            <div class="col-sm-2">
                 @Html.CheckBoxFor(m => @Model.SiteConfig.AdjustDisplayTimeZone, new { @class = "form-check-input" })
             </div>
             @Html.LabelFor(m => @Model.SiteConfig.AdjustDisplayTimeZone, null, new { @class = "col-check-label col-sm-2" })
@@ -649,10 +649,10 @@
     <div class="form-group row mb-3">
 
         @Html.LabelFor(m => @Model.SiteConfig.DisplayTimeZoneIndex, null, new { @class = "col-form-label col-sm-2" })
-        <div class="col-sm-10">
+        <div class="col-sm-3">
             @Html.DropDownListFor(n => n.SiteConfig.DisplayTimeZoneIndex,
                 new SelectList(new TimeZoneIndexViewModel().Init(), "Id", "Name"),
-                new { @class = "form-control col-3" })
+                new { @class = "form-select col-3" })
         </div>
         @Html.ValidationMessageFor(m => m.SiteConfig.DisplayTimeZoneIndex, null, new { @class = "text-danger" })
 
@@ -683,7 +683,7 @@
     <div class="form-group row mb-3">
 
         @Html.LabelFor(m => @Model.SiteConfig.DefaultSources, null, new { @class = "col-form-label col-sm-2" })
-        <div class="col-sm-10">
+        <div class="col-sm-5">
             @Html.TextBoxFor(m => @Model.SiteConfig.DefaultSources, null, new { @class = "form-control sm-10" })
         </div>
         @Html.ValidationMessageFor(m => m.SiteConfig.DefaultSources, null, new { @class = "text-danger" })
