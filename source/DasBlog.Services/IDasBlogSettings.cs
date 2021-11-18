@@ -48,5 +48,6 @@ namespace DasBlog.Services
 		string GeneratePostUrl(Entry entry);
 		SendMailInfo GetMailInfo(MailMessage emailmessage);
 		DateTime GetDisplayTime(DateTime datetime);
+		DateTime GetCreateTime(DateTime datetime);
 	}
 }
