@@ -24,11 +24,13 @@ namespace DasBlog.Web.Controllers
 		private readonly IHttpContextAccessor httpContextAccessor;
 		private readonly IMapper mapper;
 		private readonly ILogger<ArchiveController> logger;
+		private readonly IDasBlogSettings dasBlogSettings;
 		private const string ARCHIVE = "Archive";
 
 		public ArchiveController(IArchiveManager archiveManager, IHttpContextAccessor httpContextAccessor, IMapper mapper,
 									ILogger<ArchiveController> logger, IDasBlogSettings settings) : base(settings)
 		{
+			this.dasBlogSettings = settings;
 			this.archiveManager = archiveManager;
 			this.httpContextAccessor = httpContextAccessor;
 			this.mapper = mapper;
@@ -78,6 +80,8 @@ namespace DasBlog.Web.Controllers
 				archiveManager.GetEntriesForYear(new DateTime(year, 1, 1) , languageFilter).OrderByDescending(x => x.CreatedUtc));
 			}
 
+			entries = DateModification(entries);
+
 			var alvm = new ArchiveListViewModel();
 
 			foreach (var i in entries.ToList().Select(entry => mapper.Map<PostViewModel>(entry)).ToList())
@@ -123,11 +127,20 @@ namespace DasBlog.Web.Controllers
 			stopWatch.Stop();
 			logger.LogInformation(new DasBlog.Services.ActivityLogs.EventDataItem(EventCodes.Site, null, $"ArchiveController (Date: {dateTime.ToLongDateString()}; Year: {wholeYear}) Time elapsed: {stopWatch.Elapsed.TotalMilliseconds}ms"));
 
-			//TODO: Do I need this?
-			//entries = new EntryCollection(entries.OrderBy(e => e.CreatedUtc));
+			entries = DateModification(entries);
 
 			DefaultPage(ARCHIVE);
 			return MonthViewViewModel.Create(dateTime, entries, mapper);
+		}
+
+		private EntryCollection DateModification(EntryCollection coll)
+		{
+			foreach (var entry in coll)
+			{
+				entry.CreatedUtc = dasBlogSettings.GetDisplayTime(entry.CreatedUtc);
+			}
+
+			return coll;
 		}
 	}
 }
