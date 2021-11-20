@@ -17,26 +17,50 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th scope="col">Blog Title</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">IP Address</th>
-                    <th scope="col">Status</th>
-                    <th scope="col">Comment Text</th>
-                    <th scope="col">Approval</th>
-                    <th scope="col">Delete</th>
+                    <th scope="col">Comment</th>
+                    <th scope="col">Manages</th>
+                    <th scope="col">Manages</th>
                 </tr>
             </thead>
             <tbody class="dbc-admin-comment-table">
                 @foreach (var comment in Model)
                 {
                 <tr>
-                    <td width="20%"><a href="@dasBlogSettings.GetPermaLinkUrl(comment.BlogPostId)">@comment.Title</a></td>
-                    <td width="15%"><a href="mailto:@comment.Email?subject=@comment.Title">@comment.Name</a></td>
-                    <td width="5%">@comment.AuthorIPAddress</td>
-                    <td width="10%">@comment.SpamState</td>
-                    <td width="30%">@comment.Text</td>
-                    <td width="10%"><comment-approval-link comment="@comment" admin="true" /></td>
-                    <td width="10%"><comment-delete-link comment="@comment" admin="true" /></td>
+                    <td width="10%">
+                        <comment-gravatar-image comment="@comment" css="img-thumbnail rounded float-left" />
+                    </td>
+                    <td width="70%">
+                        <blockquote>
+                            <div class="mb-0">
+                                <comment-user-home-page-link comment="@comment"/> - 
+                                <comment-date comment="@comment" css="fw-light text-muted fs-6" date-time-format="MMMM dd, yyyy H:mm" />
+                                <span class="fw-light text-muted fs-6">(@comment.AuthorIPAddress)</span>
+                                <p class="mb-0 fw-bold"> @comment.Title</p>
+                                <comment-content css="fw-light" comment="@comment" />
+                            </div>
+                        </blockquote>
+                        <figcaption class="blockquote-footer">
+                            <a href="@dasBlogSettings.GetPermaLinkUrl(comment.BlogPostId)">Reply</a>
+                        </figcaption>
+                    </td>
+                    <td width="20%">
+                        <comment-delete-link comment="@comment" admin="true"> 
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                                <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
+                            </svg>
+                        </comment-delete-link>
+                        <comment-approval-link comment="@comment" admin="true"> 
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+                            </svg>
+                        </comment-approval-link>
+                        <comment-mailto-link comment="@comment">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-envelope-check-fill" viewBox="0 0 16 16">
+                              <path d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414.05 3.555ZM0 4.697v7.104l5.803-3.558L0 4.697ZM6.761 8.83l-6.57 4.026A2 2 0 0 0 2 14h6.256A4.493 4.493 0 0 1 8 12.5a4.49 4.49 0 0 1 1.606-3.446l-.367-.225L8 9.586l-1.239-.757ZM16 4.697v4.974A4.491 4.491 0 0 0 12.5 8a4.49 4.49 0 0 0-1.965.45l-.338-.207L16 4.697Z"/>
+                              <path d="M16 12.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Zm-1.993-1.679a.5.5 0 0 0-.686.172l-1.17 1.95-.547-.547a.5.5 0 0 0-.708.708l.774.773a.75.75 0 0 0 1.174-.144l1.335-2.226a.5.5 0 0 0-.172-.686Z"/>
+                            </svg>
+                        </comment-mailto-link>
+                    </td>
                 </tr>
                 }
             </tbody>

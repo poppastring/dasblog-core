@@ -23,11 +23,12 @@ namespace DasBlog.Web.TagHelpers.Comments
 			this.dasBlogSettings = dasBlogSettings;
 		}
 
-		public override void Process(TagHelperContext context, TagHelperOutput output)
+		public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
 		{
 			var deleteurl = string.Format(COMMENTDELETE_URL, dasBlogSettings.GetPermaLinkUrl(Comment.BlogPostId), Comment.CommentId);
 			var commenttxt = string.Format(COMMENTTEXT_MSG, Comment.Name);
 			var admin = string.Empty;
+			string message = "Delete Comment";
 
 			if (Admin)
 			{
@@ -38,12 +39,15 @@ namespace DasBlog.Web.TagHelpers.Comments
 			output.TagMode = TagMode.StartTagAndEndTag;
 			output.Attributes.SetAttribute("href", $"javascript:commentManagement(\"{deleteurl}\",\"{commenttxt}\",\"DELETE\",\"{admin}\")");
 			output.Attributes.SetAttribute("class", "dbc-comment-delete-link");
-			output.Content.SetHtmlContent("Delete this comment");
-		}
+			
+			var content = await output.GetChildContentAsync();
 
-		public override Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
-		{
-			return Task.Run(() => Process(context, output));
+			if (!string.IsNullOrWhiteSpace(content.GetContent()))
+			{
+				message = content.GetContent();
+			}
+
+			output.Content.SetHtmlContent(message);
 		}
 
 	}
