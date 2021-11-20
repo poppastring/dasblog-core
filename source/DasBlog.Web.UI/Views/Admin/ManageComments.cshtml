@@ -25,7 +25,7 @@
             <tbody class="dbc-admin-comment-table">
                 @foreach (var comment in Model)
                 {
-                <tr>
+                <comment-css comment="@comment">   
                     <td width="10%">
                         <comment-gravatar-image comment="@comment" css="img-thumbnail rounded float-left" />
                     </td>
@@ -61,7 +61,7 @@
                             </svg>
                         </comment-mailto-link>
                     </td>
-                </tr>
+                </comment-css>
                 }
             </tbody>
         </table>
