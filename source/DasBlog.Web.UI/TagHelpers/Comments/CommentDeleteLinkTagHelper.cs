@@ -44,7 +44,7 @@ namespace DasBlog.Web.TagHelpers.Comments
 
 			if (!string.IsNullOrWhiteSpace(content.GetContent()))
 			{
-				message = content.GetContent();
+				message = content.GetContent().Trim();
 			}
 
 			output.Content.SetHtmlContent(message);

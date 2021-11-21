@@ -53,7 +53,7 @@ namespace DasBlog.Web.TagHelpers.Comments
 			}
 			else
 			{
-				message = content.GetContent();
+				message = content.GetContent().Trim();
 			}
 
 			output.Content.SetHtmlContent(message);
