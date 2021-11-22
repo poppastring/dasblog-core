@@ -91,7 +91,7 @@ namespace DasBlog.Web.Controllers
 		[HttpGet("/admin/manage-comments/{postid}")]
 		public IActionResult ManageComments(string postid)
 		{
-			List<CommentAdminViewModel> comments = null;
+			var comments = new List<CommentAdminViewModel>();
 
 			if (postid != null)
 			{
@@ -99,7 +99,7 @@ namespace DasBlog.Web.Controllers
 			}
 			else
 			{
-				comments = blogManager.GetAllComments().Select(comment => mapper.Map<CommentAdminViewModel>(comment)).ToList();
+				comments = blogManager.GetCommentsFrontPage().Select(comment => mapper.Map<CommentAdminViewModel>(comment)).ToList();
 			}
 
 			foreach (var cmt in comments)
@@ -108,6 +108,30 @@ namespace DasBlog.Web.Controllers
 			}
 
 			return View(comments.OrderByDescending(d => d.Date).ToList());
+		}
+
+		[HttpGet]
+		[Route("/admin/manage-comments/page")]
+		[HttpGet("/admin/manage-comments/page/{page}")]
+		public IActionResult ManageCommentsByPage(int page) 
+		{
+			var comments = new List<CommentAdminViewModel>();
+
+			if (page > 0)
+			{
+				comments = blogManager.GetCommentsForPage(page).Select(comment => mapper.Map<CommentAdminViewModel>(comment)).ToList();
+			}
+			else
+			{
+				comments = blogManager.GetCommentsFrontPage().Select(comment => mapper.Map<CommentAdminViewModel>(comment)).ToList();
+			}
+
+			foreach (var cmt in comments)
+			{
+				cmt.Title = blogManager.GetBlogPostByGuid(new Guid(cmt.BlogPostId))?.Title;
+			}
+
+			return View("ManageComments", comments.OrderByDescending(d => d.Date).ToList());
 		}
 
 		public IActionResult TestEmail()
