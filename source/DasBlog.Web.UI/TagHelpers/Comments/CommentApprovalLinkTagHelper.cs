@@ -23,7 +23,6 @@ namespace DasBlog.Web.TagHelpers.Comments
 
 		public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
 		{
-			var approvalurl = string.Format(COMMENTAPPROVE_URL, dasBlogSettings.GetPermaLinkUrl(Comment.BlogPostId), Comment.CommentId);
 			var commenttxt = string.Format(COMMENTTEXT_MSG, Comment.Name);
 			var message = "Comment Approved";
 			var admin = string.Empty;
@@ -35,7 +34,7 @@ namespace DasBlog.Web.TagHelpers.Comments
 
 			output.TagName = "a";
 			output.TagMode = TagMode.StartTagAndEndTag;
-			output.Attributes.SetAttribute("href", $"javascript:commentManagement(\"{approvalurl}\",\"{commenttxt}\",\"PATCH\",\"{admin}\")");
+			output.Attributes.SetAttribute("href", $"javascript:commentManagement(\"{Comment.BlogPostId}\",\"{Comment.CommentId}\",\"{commenttxt}\",\"PATCH\",\"{admin}\")");
 			output.Attributes.SetAttribute("class", "dbc-comment-approve-link");
 
 			var content = await output.GetChildContentAsync();

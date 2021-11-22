@@ -25,10 +25,9 @@ namespace DasBlog.Web.TagHelpers.Comments
 
 		public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
 		{
-			var deleteurl = string.Format(COMMENTDELETE_URL, dasBlogSettings.GetPermaLinkUrl(Comment.BlogPostId), Comment.CommentId);
 			var commenttxt = string.Format(COMMENTTEXT_MSG, Comment.Name);
 			var admin = string.Empty;
-			string message = "Delete Comment";
+			var message = "Delete Comment";
 
 			if (Admin)
 			{
@@ -37,7 +36,7 @@ namespace DasBlog.Web.TagHelpers.Comments
 
 			output.TagName = "a";
 			output.TagMode = TagMode.StartTagAndEndTag;
-			output.Attributes.SetAttribute("href", $"javascript:commentManagement(\"{deleteurl}\",\"{commenttxt}\",\"DELETE\",\"{admin}\")");
+			output.Attributes.SetAttribute("href", $"javascript:commentManagement(\"{Comment.BlogPostId}\",\"{Comment.CommentId}\",\"{commenttxt}\",\"DELETE\",\"{admin}\")");
 			output.Attributes.SetAttribute("class", "dbc-comment-delete-link");
 			
 			var content = await output.GetChildContentAsync();
