@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using newtelligence.DasBlog.Runtime;
 
@@ -33,6 +34,10 @@ namespace DasBlog.Managers.Interfaces
 		CommentCollection GetComments(string postid, bool allComments);
 
 		CommentCollection GetAllComments();
+
+		List<Comment> GetCommentsFrontPage();
+
+		List<Comment> GetCommentsForPage(int pageIndex);
 
 		EntryCollection SearchEntries(string searchString, string acceptLanguageHeader);
 
