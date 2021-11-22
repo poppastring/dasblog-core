@@ -54,6 +54,7 @@
    </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties" />
+    <Folder Include="wwwroot\lib\font-awesome\" />
   </ItemGroup>
 
 </Project>

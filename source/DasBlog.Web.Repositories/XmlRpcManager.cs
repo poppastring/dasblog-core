@@ -477,6 +477,8 @@ namespace DasBlog.Managers
 			newPost.IsPublic = publish;
 			newPost.Syndicated = publish;
 
+			newPost.CreatedUtc = newPost.ModifiedUtc = dasBlogSettings.GetCreateTime(newPost.CreatedUtc);
+
 			dataService.SaveEntry(newPost);
 
 			return newPost.EntryId;
@@ -613,6 +615,8 @@ namespace DasBlog.Managers
 			newPost.Author = username;
 
 			var trackbackList = FillEntryFromMetaWeblogPost(newPost, post);
+
+			newPost.CreatedUtc = newPost.ModifiedUtc = dasBlogSettings.GetCreateTime(newPost.CreatedUtc);
 
 			newPost.IsPublic = publish;
 			newPost.Syndicated = publish;

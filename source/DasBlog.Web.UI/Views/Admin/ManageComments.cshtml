@@ -14,30 +14,48 @@
 
 <div class="container">
     <div>
+        <comment-page-control view-context="@ViewContext" />
         <table class="table">
             <thead>
                 <tr>
-                    <th scope="col">Blog Title</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">IP Address</th>
-                    <th scope="col">Status</th>
-                    <th scope="col">Comment Text</th>
-                    <th scope="col">Approval</th>
-                    <th scope="col">Delete</th>
+                    <th scope="col">Comment</th>
+                    <th scope="col"></th>
+                    <th scope="col">Audit</th>
                 </tr>
             </thead>
             <tbody class="dbc-admin-comment-table">
                 @foreach (var comment in Model)
                 {
-                <tr>
-                    <td width="20%"><a href="@dasBlogSettings.GetPermaLinkUrl(comment.BlogPostId)">@comment.Title</a></td>
-                    <td width="15%"><a href="mailto:@comment.Email?subject=@comment.Title">@comment.Name</a></td>
-                    <td width="5%">@comment.AuthorIPAddress</td>
-                    <td width="10%">@comment.SpamState</td>
-                    <td width="30%">@comment.Text</td>
-                    <td width="10%"><comment-approval-link comment="@comment" admin="true" /></td>
-                    <td width="10%"><comment-delete-link comment="@comment" admin="true" /></td>
-                </tr>
+                <comment-css comment="@comment">   
+                    <td width="10%">
+                        <comment-gravatar-image comment="@comment" css="img-thumbnail rounded float-left" />
+                    </td>
+                    <td width="70%">
+                        <blockquote>
+                            <div class="mb-0">
+                                <comment-user-home-page-link comment="@comment"/> - 
+                                <comment-date comment="@comment" css="fw-light text-muted fs-6" date-time-format="MMMM dd, yyyy H:mm" />
+                                <span class="fw-light text-muted fs-6">(@comment.AuthorIPAddress)</span>
+                                <p class="mb-0 fw-bold"><a href="admin/manage-comments/@comment.BlogPostId">@comment.Title</a></p>
+                                <comment-content css="fw-light" comment="@comment" />
+                            </div>
+                        </blockquote>
+                        <figcaption class="blockquote-footer">
+                            <a href="@dasBlogSettings.GetPermaLinkUrl(comment.BlogPostId)">Reply</a>
+                        </figcaption>
+                    </td>
+                    <td width="20%">
+                        <comment-approval-link comment="@comment" admin="true"> 
+                            <i class="far fa-thumbs-up fa-lg" data-bs-toggle="tooltip" data-bs-placement="top" title="Approve comment"></i>
+                        </comment-approval-link>
+                        <comment-delete-link comment="@comment" admin="true" data-bs-placement="top" title="Delete comment">
+                            <i class="fas fa-trash-alt fa-lg"></i>
+                        </comment-delete-link>
+                        <comment-mailto-link comment="@comment"  data-bs-placement="top" title="Email">
+                            <i class="far fa-envelope fa-lg"></i>
+                        </comment-mailto-link>
+                    </td>
+                </comment-css>
                 }
             </tbody>
         </table>

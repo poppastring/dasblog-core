@@ -1,16 +1,18 @@
 ﻿
-function commentManagement(url, commentText, httpVerb, adminhref) {
+function commentManagement(postid, commentid, commentText, httpVerb, adminhref) {
     if (confirm(commentText)) {
         var oReq = new XMLHttpRequest();
+
+        url = 'post/' + postid + '/comments/' + commentid;
         
         oReq.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
 
                 if (adminhref.length != 0) {
-                    url = "admin/manage-comments";
+                    url = 'admin/manage-comments/' + postid;
                 }
-
                 location.href = url;
+                
             }
         };
 

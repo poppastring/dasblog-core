@@ -29,6 +29,7 @@ namespace DasBlog.Managers
 		private readonly ILogger logger;
 		private static readonly Regex stripTags = new Regex("<[^>]*>", RegexOptions.Compiled | RegexOptions.CultureInvariant);
 		private readonly IDasBlogSettings dasBlogSettings;
+		private const int COMMENT_PAGE_SIZE = 5;
 
 		public BlogManager( ILogger<BlogManager> logger, IDasBlogSettings dasBlogSettings)
 		{
@@ -440,6 +441,20 @@ namespace DasBlog.Managers
 		public CommentCollection GetAllComments()
 		{
 			return dataService.GetAllComments();
+		}
+
+		public List<Comment> GetCommentsFrontPage()
+		{
+			var comments = dataService.GetAllComments().OrderByDescending(d => d.CreatedUtc).ToList();
+
+			return comments.Take(COMMENT_PAGE_SIZE).ToList();
+		}
+
+		public List<Comment> GetCommentsForPage(int pageIndex)
+		{
+			var comments = dataService.GetAllComments().OrderByDescending(d => d.CreatedUtc).ToList();
+
+			return comments.Skip((pageIndex) * COMMENT_PAGE_SIZE).Take(COMMENT_PAGE_SIZE).ToList();
 		}
 
 		public CategoryCacheEntryCollection GetCategories()
