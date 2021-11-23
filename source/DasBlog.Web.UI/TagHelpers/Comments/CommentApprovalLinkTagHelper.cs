@@ -13,7 +13,6 @@ namespace DasBlog.Web.TagHelpers.Comments
 
 		private readonly IDasBlogSettings dasBlogSettings;
 
-		private const string COMMENTAPPROVE_URL = "{0}/comments/{1}";
 		private const string COMMENTTEXT_MSG = "Are you sure you want to approve the comment from '{0}'?";
 
 		public CommentApprovalLinkTagHelper(IDasBlogSettings dasBlogSettings)
@@ -25,16 +24,10 @@ namespace DasBlog.Web.TagHelpers.Comments
 		{
 			var commenttxt = string.Format(COMMENTTEXT_MSG, Comment.Name);
 			var message = "Comment Approved";
-			var admin = string.Empty;
-
-			if (Admin)
-			{
-				admin = "ADMIN";
-			}
 
 			output.TagName = "a";
 			output.TagMode = TagMode.StartTagAndEndTag;
-			output.Attributes.SetAttribute("href", $"javascript:commentManagement(\"{Comment.BlogPostId}\",\"{Comment.CommentId}\",\"{commenttxt}\",\"PATCH\",\"{admin}\")");
+			output.Attributes.SetAttribute("href", $"javascript:commentManagement(\"{Comment.BlogPostId}\",\"{Comment.CommentId}\",\"{commenttxt}\",\"PATCH\")");
 			output.Attributes.SetAttribute("class", "dbc-comment-approve-link");
 
 			var content = await output.GetChildContentAsync();
