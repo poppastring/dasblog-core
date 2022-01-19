@@ -6,7 +6,7 @@
       "type": "string",
       "defaultValue": "DasBlog",
       "metadata": {
-        "description": "The name of your Web Site."
+        "description": "The AzureWebSites name of your Web Site (some random text will be added at the end for uniqueness)"
       }
     },
     "sku": {
@@ -58,7 +58,7 @@
     }
   },
   "variables": {
-    "siteName": "[parameters('siteName')]",
+    "siteName": "[toLower(concat(parameters('siteName'), uniqueString(resourceGroup().id)))]",
     "hostingPlanName": "[concat('dbcHosting-', resourceGroup().name)]",
     "location": "[resourceGroup().location]",
     "netFrameworkVersion": "v6.0",
