@@ -41,8 +41,6 @@ namespace DasBlog.Web.Controllers
 				memoryCache.Set(CACHEKEY_RSS, rss, SiteCacheSettings());
 			}
 
-			logger.LogInformation(new EventDataItem(EventCodes.RSS, null, "RSS request"));
-
 			return Ok(rss);
         }
 
@@ -50,15 +48,20 @@ namespace DasBlog.Web.Controllers
 		[HttpGet("feed/rss/{category}"), HttpHead("feed/rss/{category}")]
         public IActionResult RssByCategory(string category)
         {
-
 			if (!memoryCache.TryGetValue(CACHEKEY_RSS + "_" + category, out RssRoot rss))
 			{
 				rss = subscriptionManager.GetRssCategory(category);
 
-				memoryCache.Set(CACHEKEY_RSS + "_" + category, rss, SiteCacheSettings());
+				if (rss.Channels[0]?.Items?.Count > 0)
+				{
+					memoryCache.Set(CACHEKEY_RSS + "_" + category, rss, SiteCacheSettings());
+				}
 			}
 
-			logger.LogInformation(new EventDataItem(EventCodes.RSS, null, "RSS category request: '{0}'", category));
+			if(rss.Channels[0]?.Items?.Count == 0)
+			{
+				return NoContent();
+			}
 
 			return Ok(rss);
         }
@@ -105,8 +108,6 @@ namespace DasBlog.Web.Controllers
 			{
 				logger.LogError(new EventDataItem(EventCodes.RSS, null, "FeedController.BloggerPost Error: {0}", ex.Message));
 			}
-
-			logger.LogInformation(new EventDataItem(EventCodes.RSS, null, "FeedController.BloggerPost successfully submitted"));
 
 			BreakSiteCache();
 
