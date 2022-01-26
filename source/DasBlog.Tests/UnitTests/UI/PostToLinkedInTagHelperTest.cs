@@ -16,10 +16,10 @@ public class PostToLinkedInTagHelperTest
 	[Trait("Category", "UnitTest")]
 	public async Task PostToLinkedInTagHelper_GeneratedTagHelper_BlogPostRendersAsAnchorTag()
 	{
-		var postLink = "some-great-post";
+		var postLink = "what-is-lorem-ipsum";
 		var dasBlogSettings = new DasBlogSettingTest();
 
-		var sut = new PostToLinkedInTagHelper(dasBlogSettings) { Post = new PostViewModel { PermaLink = postLink, EntryId = "F79DCB23-1536-4496-B6F3-109F05DEEE10" } };
+		var sut = new PostToLinkedInTagHelper(dasBlogSettings) { Post = new PostViewModel { PermaLink = postLink, EntryId = "81c57569-3b41-46e5-a2c7-aea8681c380d" } };
 
 		var context = new TagHelperContext(new TagHelperAttributeList(), new Dictionary<object, object>(), Guid.NewGuid().ToString("N"));
 		var output = new TagHelperOutput("editpost", new TagHelperAttributeList(), (useCachedResult, htmlEncoder) =>
