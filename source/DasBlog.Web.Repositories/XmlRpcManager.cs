@@ -731,8 +731,8 @@ namespace DasBlog.Managers
 
 		private MetaWeblog.Post Create(Entry entry)
 		{
-			if (entry == null) throw new ArgumentNullException(nameof(entry));
-
+			// checking entry for null
+			ArgumentNullException.ThrowIfNull(entry, nameof(entry));
 			var post = new MetaWeblog.Post();
 			post.description = entry.Content ?? "";
 			post.mt_excerpt = entry.Description ?? "";

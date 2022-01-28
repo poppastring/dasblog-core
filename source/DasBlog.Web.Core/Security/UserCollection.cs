@@ -65,11 +65,8 @@ namespace DasBlog.Core.Security
         public UserCollection(IList<User> items)
             : base()
         {
-            if (items == null)
-            {
-                throw new ArgumentNullException("items");
-            }
-
+			// checking items for null
+			ArgumentNullException.ThrowIfNull(items, nameof(items));
             this.AddRange(items);
         }
 
@@ -81,12 +78,9 @@ namespace DasBlog.Core.Security
         /// </param>
         public virtual void AddRange(IEnumerable<User> items)
         {
-            if (items == null)
-            {
-                throw new ArgumentNullException("items");
-            }
-
-            foreach (User item in items)
+			// checking items for null
+			ArgumentNullException.ThrowIfNull(items, nameof(items));
+			foreach (User item in items)
             {
                 this.Add(item);
             }

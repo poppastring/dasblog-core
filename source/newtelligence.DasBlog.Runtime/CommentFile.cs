@@ -1,4 +1,4 @@
-#region Copyright (c) 2003, newtelligence AG. All rights reserved.
+﻿#region Copyright (c) 2003, newtelligence AG. All rights reserved.
 
 /*
 // Copyright (c) 2003, newtelligence AG. (http://www.newtelligence.com)
@@ -113,10 +113,8 @@ namespace newtelligence.DasBlog.Runtime {
 		/// <param name="comment">The comment to add.</param>
 		public void AddComment( Comment comment ){
 
-			// parameter check
-			if(comment== null){
-				throw new ArgumentNullException( "comment");
-			}
+			// parameter check			
+			ArgumentNullException.ThrowIfNull(comment, nameof(comment));
 
 			// get the lock
 			fileLock.AcquireWriterLock(100);
@@ -149,9 +147,8 @@ namespace newtelligence.DasBlog.Runtime {
 		/// <param name="comment">The new version of the comment.</param>
 		public void UpdateComment( Comment comment ){
 			// parameter check
-			if(comment== null){
-				throw new ArgumentNullException( "comment");
-			}
+			// checking user for null
+			ArgumentNullException.ThrowIfNull(comment, nameof(comment));
 
 			// get the lock
 			fileLock.AcquireWriterLock(100);

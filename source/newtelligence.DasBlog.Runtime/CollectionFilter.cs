@@ -34,12 +34,10 @@ namespace newtelligence.DasBlog.Runtime
         public static U FindAll(U source, Predicate<T> include, int maxResults)
         {
 
-            if (source == null)
-            {
-                throw new ArgumentNullException("source");
-            }
+			// checking source for null
+			ArgumentNullException.ThrowIfNull(source, nameof(source));
 
-            U filteredCollection = new U();
+			U filteredCollection = new U();
             bool includeThisItem;
 
             foreach (T entry in source)

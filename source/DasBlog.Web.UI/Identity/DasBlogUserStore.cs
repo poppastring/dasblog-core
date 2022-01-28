@@ -25,21 +25,15 @@ namespace DasBlog.Web.Identity
 
 		public Task<string> GetUserIdAsync(DasBlogUser user, CancellationToken cancellationToken)
 		{
-			if (user == null)
-			{
-				throw new ArgumentNullException(nameof(user));
-			}
-
+			// checking user for null
+			ArgumentNullException.ThrowIfNull(user, nameof(user));
 			return Task.FromResult(user.UserName);
 		}
 
 		public Task<string> GetUserNameAsync(DasBlogUser user, CancellationToken cancellationToken)
 		{
-			if (user == null)
-			{
-				throw new ArgumentNullException(nameof(user));
-			}
-
+			// checking user for null
+			ArgumentNullException.ThrowIfNull(user, nameof(user));
 			return Task.FromResult(user.DisplayName);
 		}
 
@@ -50,10 +44,8 @@ namespace DasBlog.Web.Identity
 		public Task SetNormalizedUserNameAsync(DasBlogUser user, string normalizedName, CancellationToken cancellationToken)
 		{
 			cancellationToken.ThrowIfCancellationRequested();
-			if (user == null)
-			{
-				throw new ArgumentNullException(nameof(user));
-			}
+			// checking user for null
+			ArgumentNullException.ThrowIfNull(user, nameof(user));
 
 			user.NormalizedUserName = normalizedName ?? throw new ArgumentNullException(nameof(normalizedName));
 			return Task.FromResult<object>(null);
@@ -62,11 +54,8 @@ namespace DasBlog.Web.Identity
 		public Task<IdentityResult> CreateAsync(DasBlogUser user, CancellationToken cancellationToken)
 		{
 			cancellationToken.ThrowIfCancellationRequested();
-			if (user == null)
-			{
-				throw new ArgumentNullException(nameof(user));
-			}
-
+			// checking user for null
+			ArgumentNullException.ThrowIfNull(user, nameof(user));
 			try
 			{
 				var mappedUser = mapper.Map<User>(user);
@@ -93,10 +82,8 @@ namespace DasBlog.Web.Identity
 		public Task<DasBlogUser> FindByNameAsync(string normalizedUserName, CancellationToken cancellationToken)
 		{
 			cancellationToken.ThrowIfCancellationRequested();
-			if (normalizedUserName == null)
-			{
-				throw new ArgumentNullException(nameof(normalizedUserName));
-			}
+			// checking normalizedUserName for null
+			ArgumentNullException.ThrowIfNull(normalizedUserName, nameof(normalizedUserName));
 
 			var user = dasBlogSettings.SecurityConfiguration.Users.Find(u => u.EmailAddress.Equals(normalizedUserName, StringComparison.InvariantCultureIgnoreCase));
 			var dasBlogUser = mapper.Map<DasBlogUser>(user);
@@ -115,11 +102,8 @@ namespace DasBlog.Web.Identity
 		public Task<string> GetEmailAsync(DasBlogUser user, CancellationToken cancellationToken)
 		{
 			cancellationToken.ThrowIfCancellationRequested();
-			if (user == null)
-			{
-				throw new ArgumentNullException(nameof(user));
-			}
-
+			// checking user for null
+			ArgumentNullException.ThrowIfNull(user, nameof(user));
 			return Task.FromResult(user.Email);
 		}
 
@@ -143,21 +127,16 @@ namespace DasBlog.Web.Identity
 		public Task<string> GetNormalizedEmailAsync(DasBlogUser user, CancellationToken cancellationToken)
 		{
 			cancellationToken.ThrowIfCancellationRequested();
-			if (user == null)
-			{
-				throw new ArgumentNullException(nameof(user));
-			}
-
+			// checking user for null
+			ArgumentNullException.ThrowIfNull(user, nameof(user));
 			return Task.FromResult(user.NormalizedEmail);
 		}
 
 		public Task SetNormalizedEmailAsync(DasBlogUser user, string normalizedEmail, CancellationToken cancellationToken)
 		{
 			cancellationToken.ThrowIfCancellationRequested();
-			if (user == null)
-			{
-				throw new ArgumentNullException(nameof(user));
-			}
+			// checking user for null
+			ArgumentNullException.ThrowIfNull(user, nameof(user));
 
 			user.NormalizedEmail = normalizedEmail ?? throw new ArgumentNullException(nameof(normalizedEmail));
 			return Task.FromResult<object>(null);
@@ -170,10 +149,8 @@ namespace DasBlog.Web.Identity
 		public Task SetPasswordHashAsync(DasBlogUser user, string passwordHash, CancellationToken cancellationToken)
 		{
 			cancellationToken.ThrowIfCancellationRequested();
-			if (user == null)
-			{
-				throw new ArgumentNullException(nameof(user));
-			}
+			// checking user for null
+			ArgumentNullException.ThrowIfNull(user, nameof(user));
 
 			user.PasswordHash = passwordHash ?? throw new ArgumentNullException(nameof(passwordHash));
 			return Task.FromResult<object>(null);
@@ -182,10 +159,8 @@ namespace DasBlog.Web.Identity
 		public Task<string> GetPasswordHashAsync(DasBlogUser user, CancellationToken cancellationToken)
 		{
 			cancellationToken.ThrowIfCancellationRequested();
-			if (user == null)
-			{
-				throw new ArgumentNullException(nameof(user));
-			}
+			// checking user for null
+			ArgumentNullException.ThrowIfNull(user, nameof(user));
 
 			return Task.FromResult(user.PasswordHash);
 		}
@@ -198,11 +173,8 @@ namespace DasBlog.Web.Identity
 		public Task<IList<Claim>> GetClaimsAsync(DasBlogUser user, CancellationToken cancellationToken)
 		{
 			cancellationToken.ThrowIfCancellationRequested();
-			if (user == null)
-			{
-				throw new ArgumentNullException(nameof(user));
-			}
-
+			// checking user for null
+			ArgumentNullException.ThrowIfNull(user, nameof(user));
 			IList<Claim> claims = DefineClaims(user.Role);
 
 			return Task.FromResult(claims);

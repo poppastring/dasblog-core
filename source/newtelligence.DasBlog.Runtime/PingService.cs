@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Xml.Serialization;
@@ -112,11 +112,10 @@ namespace newtelligence.DasBlog.Runtime
         public PingServiceCollection(IList<PingService> items)
             : base()
         {
-            if (items == null) {
-                throw new ArgumentNullException("items");
-            }
+			// checking items for null
+			ArgumentNullException.ThrowIfNull(items, nameof(items));
 
-            this.AddRange(items);
+			this.AddRange(items);
 
         }
 
@@ -128,12 +127,10 @@ namespace newtelligence.DasBlog.Runtime
         /// </param>
         public virtual void AddRange(IEnumerable<PingService> items)
         {
-            if (items == null)
-            {
-                throw new ArgumentNullException("items");
-            }
+			// checking items for null
+			ArgumentNullException.ThrowIfNull(items, nameof(items));
 
-            foreach (PingService item in items)
+			foreach (PingService item in items)
             {
                 this.Items.Add(item);
             }

@@ -322,10 +322,8 @@ namespace newtelligence.DasBlog.Runtime
 				throw new ArgumentOutOfRangeException("logFilePath");
 			}
 
-			if (lockObject == null)
-			{
-				throw new ArgumentNullException("lockObject");
-			}
+			// checking locakObject for null
+			ArgumentNullException.ThrowIfNull(lockObject, nameof(lockObject));
 
 			string result = String.Empty;
 
@@ -424,20 +422,12 @@ namespace newtelligence.DasBlog.Runtime
 		void WriteLogDataItem(LogDataItem logItem, LogCategory category, ReaderWriterLock lockObject,
 		                      LogDataItemFormatter formatter)
 		{
-			if (logItem == null)
-			{
-				throw new ArgumentNullException("logItem");
-			}
-
-			if (lockObject == null)
-			{
-				throw new ArgumentNullException("lockObject");
-			}
-
-			if (formatter == null)
-			{
-				throw new ArgumentNullException("formatter");
-			}
+			// checking logItem for null
+			ArgumentNullException.ThrowIfNull(logItem, nameof(logItem));
+			// checking lockObject for null
+			ArgumentNullException.ThrowIfNull(lockObject, nameof(lockObject));
+			// checking items for null
+			ArgumentNullException.ThrowIfNull(formatter, nameof(formatter));
 
 			try
 			{
@@ -467,20 +457,12 @@ namespace newtelligence.DasBlog.Runtime
 		void WriteEventDataItem(EventDataItem logItem, LogCategory category, ReaderWriterLock lockObject,
 		                        EventDataItemFormatter formatter)
 		{
-			if (logItem == null)
-			{
-				throw new ArgumentNullException("logItem");
-			}
-
-			if (lockObject == null)
-			{
-				throw new ArgumentNullException("lockObject");
-			}
-
-			if (formatter == null)
-			{
-				throw new ArgumentNullException("formatter");
-			}
+			// checking logItem for null
+			ArgumentNullException.ThrowIfNull(logItem, nameof(logItem));
+			// checking lockObject for null
+			ArgumentNullException.ThrowIfNull(lockObject, nameof(lockObject));
+			// checking items for null
+			ArgumentNullException.ThrowIfNull(formatter, nameof(formatter));
 
 			try
 			{
@@ -557,10 +539,8 @@ namespace newtelligence.DasBlog.Runtime
 					throw new ArgumentOutOfRangeException("fileName");
 				}
 
-				if (lockObject == null)
-				{
-					throw new ArgumentNullException("lockObject");
-				}
+				// checking lockObject for null
+				ArgumentNullException.ThrowIfNull(lockObject, nameof(lockObject));
 
 				FileName = fileName;
 				LockObject = lockObject;
@@ -577,15 +557,10 @@ namespace newtelligence.DasBlog.Runtime
 
 			public WriterThreadParams(T logItem, LogCategory category, ReaderWriterLock lockObject)
 			{
-				if (logItem == null)
-				{
-					throw new ArgumentNullException("logItem");
-				}
-
-				if (lockObject == null)
-				{
-					throw new ArgumentNullException("lockObject");
-				}
+				// checking logItem for null
+				ArgumentNullException.ThrowIfNull(logItem, nameof(logItem));
+				// checking lockObject for null
+				ArgumentNullException.ThrowIfNull(lockObject, nameof(lockObject));
 
 				LogItem = logItem;
 				Category = category;

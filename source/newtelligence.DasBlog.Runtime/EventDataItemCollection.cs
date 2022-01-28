@@ -1,4 +1,4 @@
-#region Copyright (c) 2003, newtelligence AG. All rights reserved.
+﻿#region Copyright (c) 2003, newtelligence AG. All rights reserved.
 /*
 // Copyright (c) 2003, newtelligence AG. (http://www.newtelligence.com)
 // Original BlogX Source Code: Copyright (c) 2003, Chris Anderson (http://simplegeek.com)
@@ -69,11 +69,10 @@ namespace newtelligence.DasBlog.Runtime
         public EventDataItemCollection(IList<EventDataItem> items)
             : base()
         {
-            if (items == null) {
-                throw new ArgumentNullException("items");
-            }
+			// checking items for null
+			ArgumentNullException.ThrowIfNull(items, nameof(items));
 
-            this.AddRange(items);
+			this.AddRange(items);
         }
 
         /// <summary>
@@ -84,12 +83,10 @@ namespace newtelligence.DasBlog.Runtime
         /// </param>
         public virtual void AddRange(IEnumerable<EventDataItem> items)
         {
-            if (items == null)
-            {
-                throw new ArgumentNullException("items");
-            }
+			// checking items for null
+			ArgumentNullException.ThrowIfNull(items, nameof(items));
 
-            foreach (EventDataItem item in items)
+			foreach (EventDataItem item in items)
             {
                 this.Items.Add(item);
             }

@@ -39,11 +39,9 @@
 
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 
 namespace DasBlog.Core.Common.Comments
@@ -56,10 +54,8 @@ namespace DasBlog.Core.Common.Comments
 	{
 		public MatchedTagCollection(ValidCommentTags[] allowedTags)
 		{
-
 			// param validation
-			if (allowedTags == null) { throw new ArgumentNullException("allowedTags"); }
-
+			ArgumentNullException.ThrowIfNull(allowedTags, nameof(allowedTags));
 			this.allowedTags = allowedTags[0];
 		}
 
@@ -71,7 +67,7 @@ namespace DasBlog.Core.Common.Comments
 		{
 
 			// param validation
-			if (matches == null) { throw new ArgumentNullException("matches"); }
+			ArgumentNullException.ThrowIfNull(matches, nameof(matches));
 
 			// holds the tags in the order they were matched
 			store = new ArrayList(matches.Count);

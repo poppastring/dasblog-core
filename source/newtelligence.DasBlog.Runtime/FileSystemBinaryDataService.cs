@@ -74,13 +74,12 @@ namespace newtelligence.DasBlog.Runtime
             {
                 throw new ArgumentNullException("loggingService");
             }
+			// checking loggingService for null
+			ArgumentNullException.ThrowIfNull(loggingService, nameof(loggingService));
+			// checking binaryRootUrl for null
+			ArgumentNullException.ThrowIfNull(binaryRootUrl, nameof(binaryRootUrl));
 
-            if (binaryRootUrl == null )
-            {
-                throw new ArgumentNullException("binaryRootUrl");
-            }
-
-            this.contentLocation = contentLocation;
+			this.contentLocation = contentLocation;
             this.loggingService = loggingService;
             this.binaryRoot = binaryRootUrl;
         }

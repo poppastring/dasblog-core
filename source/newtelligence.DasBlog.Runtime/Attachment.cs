@@ -1,4 +1,4 @@
-#region Copyright (c) 2003, newtelligence AG. All rights reserved.
+﻿#region Copyright (c) 2003, newtelligence AG. All rights reserved.
 
 /*
 // Copyright (c) 2003, newtelligence AG. (http://www.newtelligence.com)
@@ -123,11 +123,10 @@ namespace newtelligence.DasBlog.Runtime
         public AttachmentCollection(IList<Attachment> items)
             : base()
         {
-            if (items == null) {
-                throw new ArgumentNullException("items");
-            }
+			// checking items for null
+			ArgumentNullException.ThrowIfNull(items, nameof(items));
 
-            this.AddRange(items);
+			this.AddRange(items);
         }
 
         /// <summary>

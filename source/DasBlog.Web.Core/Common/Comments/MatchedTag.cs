@@ -69,10 +69,7 @@ namespace DasBlog.Core.Common.Comments
 		/// <param name="needsClosing">The tag needs to be self-closed before rendering.</param>
 		public MatchedTag(Match m, bool isValid, bool needsClosing)
 		{
-			if (m == null)
-			{
-				throw new ArgumentNullException("m");
-			}
+			ArgumentNullException.ThrowIfNull(m, nameof(m));
 			this.match = m;
 			this.isValid = isValid;
 			this.needsClosing = needsClosing;
