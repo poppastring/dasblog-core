@@ -6,6 +6,7 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\DasBlog.Web.Core\DasBlog.Core.csproj" />
+    <ProjectReference Include="..\Subtext.Akismet\Subtext.Akismet.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Kveer.XmlRPC" Version="1.2.0" />

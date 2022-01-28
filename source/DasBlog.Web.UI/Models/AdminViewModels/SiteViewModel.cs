@@ -355,9 +355,21 @@ namespace DasBlog.Web.Models.AdminViewModels
 		public string CommentsGravatarRating { get; set; }
 		public bool CommentsAllowHtml { get; set; }
 		public bool EnableCoComment { get; set; }
+
+		
+		[DisplayName("Enable Spam Blocking Service")]
+		[Description("Enable Akismet Spam Blocking Service.")]
 		public bool EnableSpamBlockingService { get; set; }
+
+
+		[DisplayName("Akismet API Key")]
+		[Description("API Key for Spam Blocking Service")]
 		public string SpamBlockingServiceApiKey { get; set; }
 		//public ISpamBlockingService SpamBlockingService { get; set; }
+
+
+		[DisplayName("Enable Spam Moderation")]
+		[Description("Allow Manual Moderation of Spam")]
 		public bool EnableSpamModeration { get; set; }
 		public bool EnableDailyReportEmail { get; set; }
 		public bool EnableGoogleMaps { get; set; }

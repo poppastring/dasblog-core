@@ -19,6 +19,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using reCAPTCHA.AspNetCore;
+using DasBlog.Services.ConfigFile.Interfaces;
 
 namespace DasBlog.Web.Controllers
 {
@@ -434,18 +435,27 @@ namespace DasBlog.Web.Controllers
                 }
             }
 
-			if (errors.Count > 0)
-			{
-				return CommentError(addcomment, errors);
-			}
-
 			var commt = mapper.Map<NBR.Comment>(addcomment);
 			commt.AuthorIPAddress = HttpContext.Connection.RemoteIpAddress.ToString();
 			commt.AuthorUserAgent = HttpContext.Request.Headers["User-Agent"].ToString();
 			commt.EntryId = Guid.NewGuid().ToString();
 			commt.IsPublic = !dasBlogSettings.SiteConfiguration.CommentsRequireApproval;
 			commt.CreatedUtc = commt.ModifiedUtc = DateTime.Now.ToUniversalTime();
-			
+			commt =	CheckForSpam(commt, dasBlogSettings.SiteConfiguration);
+
+			// Spam Moderation is Disabled and the comment is spam. Let's show an error!
+			// Todo: Discuss what are the pros and cons of showing error vs just silently deleting the comment?
+			if(!dasBlogSettings.SiteConfiguration.EnableSpamModeration && commt.SpamState == NBR.SpamState.Spam)
+			{
+				errors.Add("Spam Comment Detected. Please enter a legitimate comment that is not spam to post it.");			
+			}
+
+
+			if (errors.Count > 0)
+			{
+				return CommentError(addcomment, errors);
+			}
+
 			logger.LogInformation(new EventDataItem(EventCodes.CommentAdded, null, "Comment CONTENT DUMP", commt.Content));
 
 			var state = blogManager.AddComment(addcomment.TargetEntryId, commt);
@@ -482,6 +492,28 @@ namespace DasBlog.Web.Controllers
 			logger.LogInformation(new EventDataItem(EventCodes.CommentAdded, null, "Comment created on: {0}", commt.TargetTitle));
 			BreakSiteCache();
 			return Comment(addcomment.TargetEntryId);
+		}
+
+		private NBR.Comment CheckForSpam(NBR.Comment commt, ISiteConfig siteConfiguration)
+		{
+			try 
+			{
+				if (siteConfiguration.SpamBlockingService.IsSpam(commt))
+				{
+						commt.SpamState = NBR.SpamState.Spam;
+						commt.IsPublic = false;
+				}
+				else
+				{
+					commt.SpamState = NBR.SpamState.NotSpam;
+					commt.IsPublic = true;
+				}
+			}
+			catch (Exception ex)
+			{
+				logger.LogError(new EventDataItem(EventCodes.Error, null, String.Format("The external spam blocking service failed for comment {0}. Original exception: {1}", commt.EntryId, ex)));
+			}
+			return commt;
 		}
 
 		[HttpDelete("post/{postid:guid}/comments/{commentid:guid}")]
@@ -586,7 +618,7 @@ namespace DasBlog.Web.Controllers
 			var newCategory = post.NewCategory?.Trim();
 			var newCategoryDisplayName = newCategory;
 			var newCategoryUrl = NBR.Entry.InternalCompressTitle(newCategory);
-					// Category names should not include special characters #200
+			// Category names should not include special characters #200
 			if (post.AllCategories.Any(c => c.CategoryUrl == newCategoryUrl))
 			{
 				ModelState.AddModelError(nameof(post.NewCategory), $"The category, {post.NewCategory}, already exists");
