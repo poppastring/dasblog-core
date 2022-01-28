@@ -444,7 +444,8 @@ namespace DasBlog.Web.Controllers
 			commt =	CheckForSpam(commt, dasBlogSettings.SiteConfiguration);
 
 			// Spam Moderation is Disabled and the comment is spam. Let's show an error!
-			// Todo: Discuss what are the pros and cons of showing error vs just silently deleting the comment?
+			// TODO: Discuss what are the pros and cons of showing error vs just silently deleting the 
+			// comment.
 			if(!dasBlogSettings.SiteConfiguration.EnableSpamModeration && commt.SpamState == NBR.SpamState.Spam)
 			{
 				errors.Add("Spam Comment Detected. Please enter a legitimate comment that is not spam to post it.");			
