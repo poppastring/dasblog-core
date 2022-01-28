@@ -450,7 +450,6 @@ namespace DasBlog.Web.Controllers
 				errors.Add("Spam Comment Detected. Please enter a legitimate comment that is not spam to post it.");			
 			}
 
-
 			if (errors.Count > 0)
 			{
 				return CommentError(addcomment, errors);

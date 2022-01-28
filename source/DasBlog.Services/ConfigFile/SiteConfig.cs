@@ -177,8 +177,9 @@ namespace DasBlog.Services.ConfigFile
         public string SpamBlockingServiceApiKey { get; set; }
 
 		[XmlIgnore]
-        public ISpamBlockingService SpamBlockingService {
-             get
+        public ISpamBlockingService SpamBlockingService 
+        {
+            get
             {
                 //TODO: this may eventually be configurable, if Akismet alternatives show up
                 if (! EnableSpamBlockingService|| SpamBlockingServiceApiKey.Length == 0)
