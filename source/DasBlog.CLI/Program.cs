@@ -26,6 +26,11 @@ namespace DasBlog.CLI
 
 		static int Main(string[] args)
         {
+			if (string.IsNullOrWhiteSpace(ASPNETCORE_ENVIRONMENT))
+			{
+				ASPNETCORE_ENVIRONMENT = "Production";
+			}
+
 			DefineConfigNames();
 
 			Configuration = DasBlogConfigurationBuilder();
