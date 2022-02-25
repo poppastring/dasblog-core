@@ -9,6 +9,13 @@
         "description": "The AzureWebSites name of your Web Site (some random text will be added at the end for uniqueness)"
       }
     },
+    "hostingPlan": {
+      "type": "string",
+      "defaultValue": "DasBlogHosting",
+      "metadata": {
+        "description": "The name of the hosting plan to deploy to. If the plan doesn't exist, it will be created"
+      }
+    },
     "sku": {
       "type": "string",
       "allowedValues": [
@@ -58,8 +65,8 @@
     }
   },
   "variables": {
-    "siteName": "[toLower(concat(parameters('siteName'), uniqueString(resourceGroup().id)))]",
-    "hostingPlanName": "[concat('dbcHosting-', resourceGroup().name)]",
+    "siteName": "[toLower(concat(parameters('siteName'),'-', uniqueString(resourceGroup().id)))]",
+    "hostingPlanName": "[parameters('hostingPlan')]",
     "location": "[resourceGroup().location]",
     "netFrameworkVersion": "v6.0",
     "use32BitWorkerProcess": false
