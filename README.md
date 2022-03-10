@@ -29,8 +29,10 @@ If you want to build and contribute code to DasBlog Core please fork this repo a
 ## Deployment
 
 You can deploy anywhere where .NET Core is hosted, here are instructions for Azure App Services:
-* [Deploying to Azure App Services for Linux](https://github.com/poppastring/dasblog-core/wiki/1.-Deployment#deploy-to-azure-app-services-for-linux)
+
+### Deploying Manually
 * [Deploying to Azure App Services for Windows](https://github.com/poppastring/dasblog-core/wiki/1.-Deployment#deploy-to-azure-app-services-for-windows)
+* [Deploying to Azure App Services for Linux](https://github.com/poppastring/dasblog-core/wiki/1.-Deployment#deploy-to-azure-app-services-for-linux)
 * [Deploying to a web host](https://github.com/poppastring/dasblog-core/wiki/1.-Deployment#deploy-to-your-own-web-host)
 
 After deploying the app you should immediately [update  the security settings](https://github.com/poppastring/dasblog-core/wiki/2.-Configure-your-blog).   
