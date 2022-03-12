@@ -30,6 +30,8 @@ namespace DasBlog.Web.TagHelpers.Comments
 					dasBlogSettings.SiteConfiguration.CommentsGravatarRating, dasBlogSettings.SiteConfiguration.CommentsGravatarSize, 
 					dasBlogSettings.SiteConfiguration.CommentsGravatarNoImgPath));
 
+			output.Attributes.SetAttribute("alt", "gravatar");
+
 			var style = "dbc-comment-gravatar";
 
 			if (!string.IsNullOrEmpty(Css))
