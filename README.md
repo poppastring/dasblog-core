@@ -34,7 +34,7 @@ You can deploy anywhere where .NET Core is hosted.
 
 Click the button below, answer some questions, and be up and running on your DasBlog instance in a few minutes. Once you've deployed, be sure to read the [post-deployment instructions here](https://github.com/poppastring/dasblog-core/wiki/1.-Deployment#2-configure-dasblog-core-settings).
 
-[![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Frumdood%2Fdasblog-core%2Fissue-492-deploytoazurebutton%2Fdeploy%2Fazuredeploy.json)
+[![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Frumdood%2Fdasblog-core%2Fmain%2Fdeploy%2Fazuredeploy.json)
 
 ### Deploying Manually
 * [Deploying to Azure App Services for Windows](https://github.com/poppastring/dasblog-core/wiki/1.-Deployment#deploy-to-azure-app-services-for-windows)
