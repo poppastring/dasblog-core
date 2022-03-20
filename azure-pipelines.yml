@@ -1,16 +1,16 @@
 strategy:
   matrix:
     linux:
-      imageName: 'ubuntu-18.04'
+      imageName: 'ubuntu-latest'
     windows:
-      imageName: 'windows-2019'
+      imageName: 'windows-latest'
 
 pool:
   vmImage: $(imageName)
 
 variables:
   buildConfiguration: 'Release'
-  version: 3.0
+  version: 3.1
 
 steps:
 - task: UseDotNet@2
@@ -35,7 +35,7 @@ steps:
     projects: '**/*.sln'
 
 - script: 'echo -e "$(Build.BuildNumber)\n$(Build.BuildId)" > .buildinfo.json'
-  condition: and(always(), eq(variables['imageName'], 'ubuntu-18.04'))
+  condition: and(always(), eq(variables['imageName'], 'ubuntu-latest'))
   displayName: "Emit build number"
   workingDirectory: '$(Build.SourcesDirectory)/source/DasBlog.Web.UI'
   failOnStderr: true
@@ -49,11 +49,11 @@ steps:
 
 - script: dotnet test source/DasBlog.Tests/UnitTests/ --logger trx;LogfileName=test_results.xml --results-directory $(System.DefaultWorkingDirectory)/test_results --filter Category=UnitTest
   displayName: Run Unit Tests on Windows
-  condition: and(succeeded(), eq(variables['imageName'], 'windows-2019'))
+  condition: and(succeeded(), eq(variables['imageName'], 'windows-latest'))
 
 - task: PublishTestResults@2
   displayName: Publish Test Results
-  condition: and(always(), eq(variables['imageName'], 'windows-2019'))
+  condition: and(always(), eq(variables['imageName'], 'windows-latest'))
   inputs:
     testRunner: VSTest
     testResultsFiles: '**/*.xml'
@@ -76,7 +76,7 @@ steps:
     replaceExistingArchive: true
 
 - task: PublishPipelineArtifact@1
-  condition: and(succeeded(), eq(variables['imageName'], 'windows-2019'))
+  condition: and(succeeded(), eq(variables['imageName'], 'windows-latest'))
   inputs:
     targetPath: '$(Build.ArtifactStagingDirectory)/$(System.TeamProject)_$(Build.BuildNumber).zip'
     artifactName: $(System.TeamProject)_$(Build.BuildNumber)
