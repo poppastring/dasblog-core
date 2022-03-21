@@ -15,9 +15,11 @@
 
             <partial name="UserAdminFields" model="Model" />
 
+            <hr />
+
             <div class="form-group">
-                <input type="submit" name="submitAction" value="Save" class="btn btn-default btn-primary" @ViewBag.Clickability />
-                <input asp-controller="Home" asp-action="Index" type="submit" name="submit" value="Cancel" class="btn cancel" />
+                <input type="submit" name="submitAction" value="Save" class="btn btn-default btn-primary btn-lg" @ViewBag.Clickability />
+                <input asp-controller="Home" asp-action="Index" type="submit" name="submit" value="Cancel" class="btn btn-default btn-secondary btn-lg" />
             </div>
         </form>
     </div>

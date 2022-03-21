@@ -186,6 +186,7 @@ namespace DasBlog.Web.Controllers
 				var entry = mapper.Map<NBR.Entry>(post);
 				entry.Author = httpContextAccessor.HttpContext.User.Identity.Name;
 				entry.Language = "en-us"; //TODO: We inject this fron http context?
+				entry.ModifiedUtc = DateTime.UtcNow;
 				entry.Latitude = null;
 				entry.Longitude = null;
 
