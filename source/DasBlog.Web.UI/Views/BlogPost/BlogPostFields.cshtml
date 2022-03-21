@@ -74,15 +74,15 @@
             }
         }
         <input asp-for="@Model.NewCategory" type="text" id="BlogNewCategoryName"/>
-        <input value="Add" class="btn" type="submit" name="submit" id="NewCategorySubmit"/>
+        <input value="Add" class="btn btn-default" type="submit" name="submit" id="NewCategorySubmit"/>
     </div>
 </div>
 <div class="col-3 offset-3 ">
     <span asp-validation-for="@Model.NewCategory" class="text-danger"></span>
 </div>
 <div class="col-2">
-    <input type="file" name="Image" accept="image/jpeg,image/gif,image/png"/>
-    <input type="submit" name="submit" value="@Constants.UploadImageAction" class="btn"/>
+    <input type="file" name="Image" accept="image/jpeg,image/gif,image/png" class="btn btn-default" />
+    <input type="submit" name="submit" value="@Constants.UploadImageAction" class="btn btn-default"/>
 </div>
 <div class="form-group row">
     <label asp-for="Language" class="col-2 control-label"></label>
