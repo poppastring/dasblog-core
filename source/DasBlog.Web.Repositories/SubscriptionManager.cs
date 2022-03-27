@@ -314,15 +314,15 @@ namespace DasBlog.Managers
 
         protected EntryCollection BuildEntries(string category, int maxDayCount, int maxEntryCount)
         {
-            EntryCollection entryList = new EntryCollection();
+            var entryList = new EntryCollection();
 
             if (category != null)
             {
                 int entryCount = dasBlogSettings.SiteConfiguration.RssEntryCount;
-                category = category.ToUpper();
-                foreach (CategoryCacheEntry catEntry in dataService.GetCategories())
+                category = category.Replace(dasBlogSettings.SiteConfiguration.TitlePermalinkSpaceReplacement, " ");
+                foreach (var catEntry in dataService.GetCategories())
                 {
-                    if (catEntry.Name.ToUpper() == category)
+					if (string.Compare(catEntry.Name, category, CultureInfo.CurrentCulture, CompareOptions.IgnoreCase | CompareOptions.IgnoreSymbols) == 0)
                     {
                         foreach (CategoryCacheEntryDetail detail in catEntry.EntryDetails)
                         {
