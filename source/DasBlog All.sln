@@ -95,3 +95,15 @@ Global
 		SolutionGuid = {8F3ACFB8-CB52-4953-A1CF-4151E2789889}
 	EndGlobalSection
 EndGlobal
+
+			string pattern = @"<img.*?src="".*?"".*?>";
+			Regex rx = new Regex(pattern);
+			var numberImages = string.Empty;
+			foreach(Match m in rx.Matches(Post.Content))
+			{
+				var numberImages = m.Count;
+			}
+
+			var imgMinutes = (numberImages*30)/60; 
+			var delimiters = news char[] { ' ', '\r', '\n' };
+			var minute = Math.Round((double)dasBlogSettings.FilterHtml(Post.Content).Split(delimiters, StringSplitOptions.RemoveEmptyEntries).Length / 200) + imgMinutes;
