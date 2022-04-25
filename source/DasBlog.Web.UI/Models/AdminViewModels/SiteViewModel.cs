@@ -204,6 +204,12 @@ namespace DasBlog.Web.Models.AdminViewModels
 		[Description("")]
 		[StringLength(300, MinimumLength = 1, ErrorMessage = "{0} should be between 1 to 300 characters")]
 		public string EntryEditControl { get; set; }
+		
+		[DisplayName("TinyMCE API Key")]
+		[Description("")]
+		[StringLength(300, MinimumLength = 1, ErrorMessage = "{0} should be between 1 to 300 characters")]
+		[Required(AllowEmptyStrings = false, ErrorMessage = "Enter a value for TinyMCE API Key or enter 'no-api-key'")]
+		public string TinyMCEApiKey { get; set; }		
 
 		[DisplayName("Content directory")]
 		[Description("")]

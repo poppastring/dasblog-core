@@ -468,6 +468,16 @@
 
     </div>
 
+    <div class="form-group row mb-3">
+        @Html.LabelFor(m => @Model.SiteConfig.TinyMCEApiKey, null, new { @class = "col-form-label col-sm-2" })
+
+        <div class="col-sm-5">
+            @Html.TextBoxFor(m => @Model.SiteConfig.TinyMCEApiKey, null, new { @class = "form-control sm-10" })
+        </div>
+
+        @Html.ValidationMessageFor(m => m.SiteConfig.TinyMCEApiKey, null, new { @class = "text-danger" })
+    </div>
+
     <h3>Email Settings & Notifications</h3>
 
     <div class="form-group row mb-3">
