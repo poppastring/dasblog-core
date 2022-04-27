@@ -2,7 +2,7 @@
 using DasBlog.Web.Models.BlogViewModels;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using System;
-using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace DasBlog.Web.TagHelpers.Post
 {
@@ -20,19 +20,12 @@ namespace DasBlog.Web.TagHelpers.Post
 
 		public override void Process(TagHelperContext context, TagHelperOutput output)
 		{
+			var rx = new Regex(@"<img.*?src="".*?"".*?>");
+			var numberImages = rx.Matches(Post.Content).Count;
 
-			string pattern = @"<img.*?src="".*?"".*?>";
-			Regex rx = new Regex(pattern);
-			var numberImages = string.Empty;
-			foreach(Match m in rx.Matches(Post.Content))
-			{
-				var numberImages = m.Count;
-			}
-
-			var imgMinutes = (numberImages*30)/60; 
+			var imgMinutes = (double)(numberImages*30)/60;
 			var delimiters = new char[] { ' ', '\r', '\n' };
-			var minute = Math.Round((double)dasBlogSettings.FilterHtml(Post.Content).Split(delimiters, StringSplitOptions.RemoveEmptyEntries).Length / 200) + imgMinutes;
-
+			var minute = Math.Round((double)dasBlogSettings.FilterHtml(Post.Content).Split(delimiters, StringSplitOptions.RemoveEmptyEntries).Length / 200) + Math.Round(imgMinutes, MidpointRounding.AwayFromZero);
 			output.TagName = "span";
 			output.TagMode = TagMode.StartTagAndEndTag;
 			output.Attributes.SetAttribute("class", "dbc-post-readtime");
