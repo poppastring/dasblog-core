@@ -17,7 +17,6 @@ using DasBlog.Services.ActivityLogs;
 namespace DasBlog.Web.Controllers
 {
 	[Route("archive")]
-	[ResponseCache(Duration = 14400, Location = ResponseCacheLocation.Any)]
 	public class ArchiveController : DasBlogBaseController
 	{
 		private readonly IArchiveManager archiveManager;
