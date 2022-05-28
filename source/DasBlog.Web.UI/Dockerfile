@@ -1,9 +1,9 @@
-FROM mcr.microsoft.com/dotnet/core/aspnet:6.0-buster-slim AS base
+FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
 WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 
-FROM mcr.microsoft.com/dotnet/core/sdk:6.0-buster AS build
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
 COPY ["DasBlog.Web.UI/DasBlog.Web.csproj", "/"]
 COPY ["DasBlog.Web.Core/DasBlog.Core.csproj", "DasBlog.Web.Core/"]
