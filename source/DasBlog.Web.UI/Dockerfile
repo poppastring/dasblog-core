@@ -5,7 +5,7 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["DasBlog.Web.UI/DasBlog.Web.csproj", "/"]
+COPY ["DasBlog.Web.UI/DasBlog.Web.csproj", "DasBlog.Web.UI/"]
 COPY ["DasBlog.Web.Core/DasBlog.Core.csproj", "DasBlog.Web.Core/"]
 COPY ["newtelligence.DasBlog.Runtime/newtelligence.DasBlog.Runtime.csproj", "newtelligence.DasBlog.Runtime/"]
 COPY ["DasBlog.Services/DasBlog.Services.csproj", "DasBlog.Services/"]
