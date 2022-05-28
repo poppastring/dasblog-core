@@ -46,7 +46,4 @@ After deploying the app you should immediately [update  the security settings](h
 ## Documentation
 Check out the [wiki](https://github.com/poppastring/dasblog-core/wiki) for additional information on DasBlog Core fundamentals, architecture and themes.
 
-## Code Diagram
-![Visualization of the codebase](./diagram.svg) or an [interactive code diagram here](https://octo-repo-visualization.vercel.app/?repo=poppastring%2Fdasblog-core).
-
 Please [submit an issue](https://github.com/poppastring/dasblog-core/issues) if you encounter any problems.
