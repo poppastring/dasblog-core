@@ -20,7 +20,7 @@
 
     <div class="container-fluid" id="wrapper">
         <div class="row">
-            <nav class="sidebar col-xs-12 col-sm-4 col-lg-3 col-xl-2">
+            <nav class="sidebar col-xs-12 col-sm-4 col-lg-3 col-xl-2 bg-faded sidebar-style-1">
 
                 <a href="#menu-toggle" class="btn btn-default" id="menu-toggle"><em class="fa fa-bars"></em></a>
                 <ul class="nav nav-pills flex-column sidebar-nav">
@@ -37,7 +37,8 @@
                 <a dasblog-unauthorized class="logout-button" asp-controller="account" asp-action="login"><em class="fa fa-power-off"></em>Signin</a>
                 <a dasblog-authorized class="logout-button" asp-controller="account" asp-action="logout"><em class="fa fa-power-off"></em>Signout</a>
             </nav>
-            <main class="col-xs-12 col-sm-8 col-lg-9 col-xl-10 pt-3 pl-4 ml-auto">
+
+            <main class="col-xs-12 col-sm-8 offset-sm-4 col-lg-9 offset-lg-3 col-xl-10 offset-xl-2 pt-3 pl-4">
                 <header class="page-header row justify-center">
                     <div class="col-md-6 col-lg-8">
                         <h1 class="site-title"> <site-title-link css="fa fa-rocket" />  </h1>
