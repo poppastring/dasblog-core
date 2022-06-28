@@ -1,7 +1,7 @@
 ﻿@model ListPostsViewModel
 
 
-@if (Model.Posts.Count > 0)
+@if (Model?.Posts?.Count > 0)
 {
     foreach (var post in Model.Posts)
     {
