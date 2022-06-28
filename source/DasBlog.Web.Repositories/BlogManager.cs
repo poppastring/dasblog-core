@@ -466,10 +466,10 @@ namespace DasBlog.Managers
 		{
 			if (string.IsNullOrWhiteSpace(dasBlogSettings.SiteConfiguration.SmtpFromEmail))
 			{
-				return dasBlogSettings.SiteConfiguration.SmtpUserName;
+				return dasBlogSettings.SiteConfiguration.SmtpUserName?.Trim();
 			}
 
-			return dasBlogSettings.SiteConfiguration.SmtpFromEmail.Trim();
+			return dasBlogSettings.SiteConfiguration.SmtpFromEmail?.Trim();
 		}
 		public bool SendTestEmail()
 		{
