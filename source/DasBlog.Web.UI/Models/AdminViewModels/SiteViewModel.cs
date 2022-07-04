@@ -51,7 +51,7 @@ namespace DasBlog.Web.Models.AdminViewModels
 		[DisplayName("Front page day count")]
 		[Description("The maximum number of days to appear on your home page")]
 		[Required(AllowEmptyStrings = false, ErrorMessage = "Please enter a Front Page Day Count")]
-		[Range(1, 1000, ErrorMessage = "Enter a value between  1 and 1000")]
+		[Range(1, 10000, ErrorMessage = "Enter a value between  1 and 10000")]
 		public int FrontPageDayCount { get; set; }
 
 		[DisplayName("Front page entry count")]
