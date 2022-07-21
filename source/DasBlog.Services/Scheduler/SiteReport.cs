@@ -4,14 +4,14 @@ using System.Linq;
 using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
+using Coravel.Invocable;
 using DasBlog.Services.ActivityLogs;
 using Microsoft.Extensions.Logging;
 using newtelligence.DasBlog.Runtime;
-using Quartz;
 
 namespace DasBlog.Services.Scheduler
 {
-	public class SiteEmailReport : IJob
+	public class SiteEmailReport : IInvocable
 	{
 		private readonly ILogger<SiteEmailReport> logger;
 		private readonly IActivityService activityService;
@@ -34,11 +34,11 @@ namespace DasBlog.Services.Scheduler
 			EMAIL_TITLE = string.Format("Weblog Daily Activity Report for {0}, {1}", midnight.DayOfWeek, midnight.ToString("MMMM dd, yyyy"));
 		}
 
-		public async Task Execute(IJobExecutionContext context)
+		public async Task Invoke()
 		{
 			if(dasBlogSettings.SiteConfiguration.EnableDailyReportEmail)
 			{ 
-				logger.LogInformation(context.JobDetail.Key + " job executing, triggered by " + context.Trigger.Key);
+				logger.LogInformation("Daily email report triggered");
 
 				var emailbody = FormatEmail();
 			
