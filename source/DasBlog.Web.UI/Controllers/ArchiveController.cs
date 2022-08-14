@@ -27,7 +27,6 @@ namespace DasBlog.Web.Controllers
 		private readonly IDasBlogSettings dasBlogSettings;
 		private readonly IMemoryCache memoryCache;
 		private const string ARCHIVE = "Archive";
-		protected const string CACHEKEY_ARCHIVE = "CACHEKEY_ARCHIVE";
 
 		public ArchiveController(IArchiveManager archiveManager, IHttpContextAccessor httpContextAccessor, IMapper mapper,
 									ILogger<ArchiveController> logger, IDasBlogSettings settings, IMemoryCache memoryCache) : base(settings)
