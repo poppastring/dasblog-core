@@ -26,7 +26,7 @@ namespace DasBlog.Web.Controllers
 		public ActionResult WebFinger(string resource)
 		{
 			string usersurl = new Uri(new Uri(dasBlogSettings.SiteConfiguration.MastodonServerUrl),
-						string.Format("users/{0}", dasBlogSettings.SiteConfiguration.MastodonAccount)).AbsoluteUri;
+						string.Format("users/{0}", dasBlogSettings.SiteConfiguration.MastodonAccount.Remove(0,1))).AbsoluteUri;
 
 			string accturl = new Uri(new Uri(dasBlogSettings.SiteConfiguration.MastodonServerUrl),
 						string.Format("{0}", dasBlogSettings.SiteConfiguration.MastodonAccount)).AbsoluteUri;
