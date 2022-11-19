@@ -219,5 +219,11 @@ namespace DasBlog.Services.ConfigFile
 		public string SecurityStyleSources { get; set; }
 
 		public string DefaultSources { get; set; }
+
+		public string MastodonServerUrl { get; set; }
+
+		public string MastodonAccount { get; set; }
+
+		public string MastodonEmail { get; set; }
 	}
 }

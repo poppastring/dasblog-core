@@ -296,6 +296,23 @@ namespace DasBlog.Web.Models.AdminViewModels
 		[StringLength(50, MinimumLength = 1, ErrorMessage = "{0} should be between 1 to 50 characters")]
 		public string DefaultSources { get; set; }
 
+		[DisplayName("Mastadon Server")]
+		[Description("")]
+		[DataType(DataType.Url, ErrorMessage = "Invalid URL format")]
+		public string MastodonServerUrl { get; set; }
+
+		[DisplayName("Mastadon Account (@username)")]
+		[Description("")]
+		[RegularExpression("(@)((?:[A-Za-z0-9-_]*))")]
+		public string MastodonAccount { get; set; }
+
+		[DisplayName("Mastadon Email")]
+		[Description("")]
+		[DataType(DataType.EmailAddress, ErrorMessage = "Invalid email format")]
+		public string MastodonEmail { get; set; }
+
+
+
 		public bool EntryTitleAsLink { get; set; }
 		public bool ObfuscateEmail { get; set; }
 		public bool SendReferralsByEmail { get; set; }

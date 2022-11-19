@@ -57,6 +57,7 @@
     </None>
    </ItemGroup>
   <ItemGroup>
+    <Folder Include="Models\ActivityPubModels\" />
     <Folder Include="Properties" />
     <Folder Include="wwwroot\lib\font-awesome\" />
   </ItemGroup>
