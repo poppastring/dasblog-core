@@ -353,6 +353,12 @@ namespace DasBlog.Services.ConfigFile.Interfaces
 
 		bool CookieConsentEnabled { get; set; }
 
+		string MastodonServerUrl { get; set; }
+
+		string MastodonAccount { get; set; }
+
+		string MastodonEmail { get; set; }
+
 		[XmlAnyElement]
         XmlElement[] anyElements { get; set; }
 

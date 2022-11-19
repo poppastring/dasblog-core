@@ -387,6 +387,30 @@
     <h3>Social</h3>
 
     <div class="form-group row mb-3">
+        @Html.LabelFor(m => @Model.SiteConfig.MastodonServerUrl, null, new { @class = "col-form-label col-sm-2" })
+        <div class="col-sm-5">
+            @Html.TextBoxFor(m => @Model.SiteConfig.MastodonServerUrl, null, new { @class = "form-control sm-10" })
+        </div>
+        @Html.ValidationMessageFor(m => m.SiteConfig.MastodonServerUrl, null, new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group row mb-3">
+        @Html.LabelFor(m => @Model.SiteConfig.MastodonAccount, null, new { @class = "col-form-label col-sm-2" })
+        <div class="col-sm-5">
+            @Html.TextBoxFor(m => @Model.SiteConfig.MastodonAccount, null, new { @class = "form-control sm-10" })
+        </div>
+        @Html.ValidationMessageFor(m => m.SiteConfig.MastodonAccount, null, new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group row mb-3">
+        @Html.LabelFor(m => @Model.SiteConfig.MastodonEmail, null, new { @class = "col-form-label col-sm-2" })
+        <div class="col-sm-5">
+            @Html.TextBoxFor(m => @Model.SiteConfig.MastodonEmail, null, new { @class = "form-control sm-10" })
+        </div>
+        @Html.ValidationMessageFor(m => m.SiteConfig.MastodonEmail, null, new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group row mb-3">
 
         @Html.LabelFor(m => @Model.MetaConfig.TwitterSite, null, new { @class = "col-form-label col-sm-2" })
         <div class="col-sm-5">
@@ -434,6 +458,8 @@
         </div>
         @Html.ValidationMessageFor(m => m.MetaConfig.GoogleAnalyticsID, null, new { @class = "text-danger" })
     </div>
+
+
 
     <h3>Blogging & Editing</h3>
 
