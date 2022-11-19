@@ -29,7 +29,7 @@ namespace DasBlog.Web.Controllers
 						string.Format("users/{0}", dasBlogSettings.SiteConfiguration.MastodonAccount)).AbsoluteUri;
 
 			string accturl = new Uri(new Uri(dasBlogSettings.SiteConfiguration.MastodonServerUrl),
-						string.Format("@{0}", dasBlogSettings.SiteConfiguration.MastodonAccount)).AbsoluteUri;
+						string.Format("{0}", dasBlogSettings.SiteConfiguration.MastodonAccount)).AbsoluteUri;
 
 			string authurl = new Uri(new Uri(dasBlogSettings.SiteConfiguration.MastodonServerUrl), 
 						"authorize_interaction").AbsoluteUri + "?uri={uri}";
