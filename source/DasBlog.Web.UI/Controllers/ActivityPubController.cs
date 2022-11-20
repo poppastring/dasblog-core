@@ -49,7 +49,7 @@ namespace DasBlog.Web.Controllers
 
 			var results = new Root
 			{
-				subject = string.Format("{0}@{1}", dasBlogSettings.SiteConfiguration.MastodonAccount, dasBlogSettings.SiteConfiguration.MastodonServerUrl),
+				subject = string.Format("acct:{0}@{1}", dasBlogSettings.SiteConfiguration.MastodonAccount, dasBlogSettings.SiteConfiguration.MastodonServerUrl),
 				aliases = new List<string> { accturl, usersurl },
 
 				links = new List<Link>
