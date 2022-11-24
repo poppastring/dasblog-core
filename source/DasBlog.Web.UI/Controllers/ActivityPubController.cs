@@ -34,17 +34,10 @@ namespace DasBlog.Web.Controllers
 			string authurl = new Uri(new Uri(dasBlogSettings.SiteConfiguration.MastodonServerUrl), 
 						"authorize_interaction").AbsoluteUri + "?uri={uri}";
 
-			string email = string.Format("acct:{0}", dasBlogSettings.SiteConfiguration.MastodonEmail);
-
 			if (dasBlogSettings.SiteConfiguration.MastodonServerUrl.IsNullOrWhiteSpace() || 
 				dasBlogSettings.SiteConfiguration.MastodonAccount.IsNullOrWhiteSpace())
 			{
 				return NoContent();
-			}
-
-			if(string.Compare(email, resource, StringComparison.InvariantCultureIgnoreCase) != 0)
-			{
-				return NotFound();
 			}
 
 			var results = new Root
