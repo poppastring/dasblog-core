@@ -224,6 +224,5 @@ namespace DasBlog.Services.ConfigFile
 
 		public string MastodonAccount { get; set; }
 
-		public string MastodonEmail { get; set; }
 	}
 }

@@ -170,6 +170,5 @@ namespace DasBlog.Tests.UnitTests
 		public string DefaultSources { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 		public string MastodonServerUrl { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 		public string MastodonAccount { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-		public string MastodonEmail { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 	}
 }

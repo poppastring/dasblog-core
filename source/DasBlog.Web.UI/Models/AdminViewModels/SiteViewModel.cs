@@ -306,12 +306,6 @@ namespace DasBlog.Web.Models.AdminViewModels
 		[RegularExpression("(@)((?:[A-Za-z0-9-_]*))")]
 		public string MastodonAccount { get; set; }
 
-		[DisplayName("Mastadon Email")]
-		[Description("")]
-		[DataType(DataType.EmailAddress, ErrorMessage = "Invalid email format")]
-		public string MastodonEmail { get; set; }
-
-
 
 		public bool EntryTitleAsLink { get; set; }
 		public bool ObfuscateEmail { get; set; }

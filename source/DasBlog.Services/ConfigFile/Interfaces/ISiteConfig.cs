@@ -357,8 +357,6 @@ namespace DasBlog.Services.ConfigFile.Interfaces
 
 		string MastodonAccount { get; set; }
 
-		string MastodonEmail { get; set; }
-
 		[XmlAnyElement]
         XmlElement[] anyElements { get; set; }
 
