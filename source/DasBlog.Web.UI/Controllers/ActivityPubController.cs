@@ -11,7 +11,7 @@ using Quartz.Util;
 
 namespace DasBlog.Web.Controllers
 {
-	[Route(".wellknown")]
+	[Route(".well-known")]
 	public class ActivityPubController : DasBlogBaseController
 	{
 		private readonly IDasBlogSettings dasBlogSettings;
