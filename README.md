@@ -7,7 +7,7 @@
 	<a href="https://github.com/poppastring/dasblog-core/blob/main/FAQ.md">FAQ</a> |
 	<a href="https://github.com/poppastring/dasblog-core/wiki/1.-Deployment">Deployment</a> |
 	<a href="https://www.poppastring.com/blog/category/dasblog-core">Blog</a> |
-	<a href="https://github.com/poppastring/dasblog-core/blob/main/CONTRIBUTING.md">Contributing to DasBlog Core</a>
+	<a href="https://github.com/poppastring/dasblog-core/blob/main/CONTRIBUTING.md">Contributing to DasBlog</a>
 	<br /><br />
 	<a href="https://github.com/poppastring/dasblog-core/releases/">
 		<img src="https://img.shields.io/github/v/release/poppastring/dasblog-core.svg" alt="Latest release" />
@@ -20,11 +20,11 @@
 	</a>
 </p>
 
-# DasBlog Core
+# DasBlog
 One of the primary goals of this project is to create a new blogging engine that preserves the essence of the original [DasBlog Blogging Engine](https://msdn.microsoft.com/en-us/library/aa480016.aspx), we also get the opportunity to take advantage of the modern cross platform goodness of ASP.NET Core.
 
 ## Building 
-If you want to build and contribute code to DasBlog Core please fork this repo and submit a PR, check out the [contribution docs here](https://github.com/poppastring/dasblog-core/blob/main/CONTRIBUTING.md#developers) for more details.
+If you want to build and contribute code to DasBlog please fork this repo and submit a PR, check out the [contribution docs here](https://github.com/poppastring/dasblog-core/blob/main/CONTRIBUTING.md#developers) for more details.
 
 ## Deployment
 
@@ -44,6 +44,6 @@ Click the button below, answer some questions, and be up and running on your Das
 After deploying the app you should immediately [update  the security settings](https://github.com/poppastring/dasblog-core/wiki/2.-Configure-your-blog).   
 
 ## Documentation
-Check out the [wiki](https://github.com/poppastring/dasblog-core/wiki) for additional information on DasBlog Core fundamentals, architecture and themes.
+Check out the [wiki](https://github.com/poppastring/dasblog-core/wiki) for additional information on DasBlog fundamentals, architecture and themes.
 
 Please [submit an issue](https://github.com/poppastring/dasblog-core/issues) if you encounter any problems.
