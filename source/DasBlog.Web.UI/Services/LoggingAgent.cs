@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using DasBlog.Services;
 using DasBlog.Services.ActivityLogs;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
-using Quartz.Util;
 
 namespace DasBlog.Web.Services
 {
@@ -26,17 +22,17 @@ namespace DasBlog.Web.Services
 		{
 			try
 			{
-				if (!context.Request.Headers["User-Agent"].ToString().IsNullOrWhiteSpace())
+				if (!string.IsNullOrWhiteSpace(context.Request.Headers["User-Agent"].ToString()))
 				{
 					logger.LogInformation(new EventDataItem(EventCodes.HttpUserAgent, null, context.Request.Headers["User-Agent"].ToString()));
 				}
 
-				if (!context.Request.Headers["Referrer"].ToString().IsNullOrWhiteSpace())
+				if (!string.IsNullOrWhiteSpace(context.Request.Headers["Referrer"].ToString()))
 				{
 					logger.LogInformation(new EventDataItem(EventCodes.HttpReferrer, null, context.Request.Headers["Referrer"].ToString()));
 				}
 
-				if (!context.Request.HttpContext.Connection.RemoteIpAddress.ToString().IsNullOrWhiteSpace())
+				if (!string.IsNullOrWhiteSpace(context.Request.HttpContext.Connection.RemoteIpAddress.ToString()))
 				{
 					logger.LogInformation(new EventDataItem(EventCodes.HttpReferrer, null, context.Request.HttpContext.Connection.RemoteIpAddress.ToString()));
 				}

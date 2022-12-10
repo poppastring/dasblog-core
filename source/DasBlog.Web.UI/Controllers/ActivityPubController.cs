@@ -6,8 +6,6 @@ using DasBlog.Services;
 using DasBlog.Web.Models.ActivityPubModels;
 using DasBlog.Web.Settings;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using Quartz.Util;
 
 namespace DasBlog.Web.Controllers
 {
@@ -34,8 +32,8 @@ namespace DasBlog.Web.Controllers
 			string authurl = new Uri(new Uri(dasBlogSettings.SiteConfiguration.MastodonServerUrl), 
 						"authorize_interaction").AbsoluteUri + "?uri={uri}";
 
-			if (dasBlogSettings.SiteConfiguration.MastodonServerUrl.IsNullOrWhiteSpace() || 
-				dasBlogSettings.SiteConfiguration.MastodonAccount.IsNullOrWhiteSpace())
+			if (string.IsNullOrWhiteSpace(dasBlogSettings.SiteConfiguration.MastodonServerUrl) ||
+				string.IsNullOrWhiteSpace(dasBlogSettings.SiteConfiguration.MastodonAccount))
 			{
 				return NoContent();
 			}
