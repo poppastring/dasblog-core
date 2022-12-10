@@ -12,11 +12,11 @@
     <ProjectReference Include="..\DasBlog.Web.Core\DasBlog.Core.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Coravel" Version="4.1.2" />
+    <PackageReference Include="Coravel" Version="4.2.0" />
     <PackageReference Include="Kveer.XmlRPC" Version="1.2.0" />
-    <PackageReference Include="MailKit" Version="2.15.0" />
-    <PackageReference Include="Microsoft.Extensions.Options" Version="6.0.0" />
-    <PackageReference Include="Quartz.AspNetCore" Version="3.3.3" />
+    <PackageReference Include="MailKit" Version="3.4.3" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="7.0.0" />
+    <PackageReference Include="Quartz.AspNetCore" Version="3.5.0" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
   </ItemGroup>
   <ItemGroup>
