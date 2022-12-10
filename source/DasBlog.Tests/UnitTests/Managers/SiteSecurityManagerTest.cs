@@ -1,14 +1,4 @@
-﻿using DasBlog.Web;
-using DasBlog.Core.Configuration;
-using DasBlog.Web.Settings;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Options;
-using Microsoft.Extensions.PlatformAbstractions;
-using System;
-using System.IO;
-using System.Xml.Serialization;
-using Xunit;
+﻿using Xunit;
 
 namespace DasBlog.Tests.UnitTests.Managers
 {
