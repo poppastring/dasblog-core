@@ -3,7 +3,7 @@
     "tfm": "net7.0",
     "framework": {
       "name": "Microsoft.AspNetCore.App",
-      "version": ".0.0"
+      "version": "7.0.0"
     }
   }
 }
