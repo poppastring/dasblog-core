@@ -123,6 +123,10 @@ namespace DasBlog.Web.Models.AdminViewModels
 		[Description("Allow comments on your blog posts")]
 		public bool EnableComments { get; set; }
 
+        [DisplayName("Allow Markdown In Comments")]
+        [Description("Allow the use of Markdown In Comments")]
+        public bool AllowMarkdownInComments { get; set; }
+
 		[DisplayName("Enable comment days limitation")]
 		[Description("Once enabled comments are allowed as defined by 'Days Comments Allowed'")]
 		public bool EnableCommentDays { get; set; }

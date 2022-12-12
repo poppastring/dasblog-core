@@ -106,6 +106,8 @@ namespace DasBlog.Services.ConfigFile.Interfaces
 
         bool EnableComments { get; set; }
 
+        bool AllowMarkdownInComments {get; set;}
+
         bool EnableCommentApi { get; set; }
 
         bool EnableConfigEditService { get; set; }

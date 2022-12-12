@@ -83,6 +83,7 @@ namespace DasBlog.Services.ConfigFile
         public string TinyMCEApiKey { get; set; }
         public bool EnableBloggerApi { get; set; }
         public bool EnableComments { get; set; }
+        public bool AllowMarkdownInComments {get; set;}
         public bool EnableCommentApi { get; set; }
         public bool EnableConfigEditService { get; set; }
         public bool EnableEditService { get; set; }
