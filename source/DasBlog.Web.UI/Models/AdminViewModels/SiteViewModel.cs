@@ -123,7 +123,7 @@ namespace DasBlog.Web.Models.AdminViewModels
 		[Description("Allow comments on your blog posts")]
 		public bool EnableComments { get; set; }
 
-        [DisplayName("Allow Markdown In Comments")]
+        [DisplayName("Allow Markdown in comments")]
         [Description("Allow the use of Markdown In Comments")]
         public bool AllowMarkdownInComments { get; set; }
 
