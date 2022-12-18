@@ -411,7 +411,8 @@ namespace DasBlog.Web.Controllers
 
             if(dasBlogSettings.SiteConfiguration.AllowMarkdownInComments)
             {
-                addcomment.Content = Markdown.ToHtml(addcomment.Content);
+                var pipeline = new MarkdownPipelineBuilder().UseReferralLinks("nofollow").Build();
+                addcomment.Content = Markdown.ToHtml(addcomment.Content, pipeline);
             }
 
 			// Optional in case of Captcha. Commenting the settings in the config file 
