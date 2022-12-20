@@ -19,6 +19,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using reCAPTCHA.AspNetCore;
+using Markdig;
 
 namespace DasBlog.Web.Controllers
 {
@@ -35,7 +36,6 @@ namespace DasBlog.Web.Controllers
 		private readonly IBlogPostViewModelCreator modelViewCreator;
 		private readonly IMemoryCache memoryCache;
 		private readonly IRecaptchaService recaptcha;
-
 
 		public BlogPostController(IBlogManager blogManager, IHttpContextAccessor httpContextAccessor, IDasBlogSettings dasBlogSettings,
 									IMapper mapper, ICategoryManager categoryManager, IFileSystemBinaryManager binaryManager, ILogger<BlogPostController> logger,
@@ -408,6 +408,12 @@ namespace DasBlog.Web.Controllers
 			{
 				errors.Add("Comments are disabled on the site.");
 			}
+
+            if(dasBlogSettings.SiteConfiguration.AllowMarkdownInComments)
+            {
+                var pipeline = new MarkdownPipelineBuilder().UseReferralLinks("nofollow").Build();
+                addcomment.Content = Markdown.ToHtml(addcomment.Content, pipeline);
+            }
 
 			// Optional in case of Captcha. Commenting the settings in the config file 
 			// Will disable this check. People will typically disable this when using captcha.

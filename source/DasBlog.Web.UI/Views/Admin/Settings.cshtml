@@ -249,6 +249,15 @@
 
     <div class="form-check row mb-3">
         <div class="col-sm-10 offset-sm-2">
+            <div class="col-sm-10">
+                @Html.CheckBoxFor(m => @Model.SiteConfig.AllowMarkdownInComments, new { @class = "form-check-input form-check-input" })
+            </div>
+            @Html.LabelFor(m => @Model.SiteConfig.AllowMarkdownInComments, null, new { @class = "col-check-label col-sm-2" })
+        </div>
+    </div>
+
+    <div class="form-check row mb-3">
+        <div class="col-sm-10 offset-sm-2">
             <div class="col-sm-2">
                 @Html.CheckBoxFor(m => @Model.SiteConfig.EnableCommentDays, new { @class = "form-check-input form-check-input" })
             </div>

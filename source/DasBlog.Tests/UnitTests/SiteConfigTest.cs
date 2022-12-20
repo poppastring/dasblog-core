@@ -170,5 +170,6 @@ namespace DasBlog.Tests.UnitTests
 		public string DefaultSources { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 		public string MastodonServerUrl { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 		public string MastodonAccount { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-	}
+        public bool AllowMarkdownInComments { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+       }
 }
