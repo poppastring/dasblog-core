@@ -8,6 +8,7 @@ namespace DasBlog.Web.Controllers
 	/// How Federated servers communicate with other federated servers only.
 	/// The Inbox stream contains all activities received by the actor.
 	/// </summary>
+	[Produces("text/json")]
 	public class InboxController : DasBlogBaseController
 	{
 		private readonly IDasBlogSettings dasBlogSettings;
