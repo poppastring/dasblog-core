@@ -5,16 +5,15 @@ using Microsoft.AspNetCore.Mvc;
 namespace DasBlog.Web.Controllers
 {
 	/// <summary>
-	/// How clients can post Activities to this actor's outbox 
+	/// How Federated servers communicate with other federated servers only.
 	/// </summary>
-	public class OutboxController : DasBlogBaseController
+	public class InboxController : DasBlogBaseController
 	{
 		private readonly IDasBlogSettings dasBlogSettings;
 
-		public OutboxController(IDasBlogSettings settings) : base(settings)
+		public InboxController(IDasBlogSettings settings) : base(settings)
 		{
 			dasBlogSettings = settings;
 		}
-
 	}
 }
