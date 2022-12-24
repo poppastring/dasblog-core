@@ -21,7 +21,7 @@ namespace DasBlog.Web.Controllers
 		}
 
 		[Produces("text/json")]
-		[HttpGet(".well-known/webfinger")]
+		[HttpGet("/.well-known/webfinger")]
 		public ActionResult WebFinger(string resource)
 		{
 			string usersurl = new Uri(new Uri(dasBlogSettings.SiteConfiguration.MastodonServerUrl),
