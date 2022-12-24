@@ -1,5 +1,5 @@
 ﻿@using DasBlog.Core.Common
-@model DasBlog.Web.Models.UsersViewModel
+@model DasBlog.Web.Models.AuthorViewModel
 
 @{
     ViewBag.Title = "User";
@@ -8,11 +8,11 @@
 <h2>@ViewBag.Title</h2>
 
 
-<form asp-action="adminuser" method="get">
+<form asp-action="adminauthor" method="get">
 
     <input type="submit" class="btn btn-primary btn-default" name="maintenanceMode" value="Edit" />    
 
-    <partial name="ViewEditUser" model="Model" />
+    <partial name="ViewEditAuthor" model="Model" />
 
 </form>
 

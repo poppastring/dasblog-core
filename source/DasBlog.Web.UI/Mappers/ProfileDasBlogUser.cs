@@ -36,7 +36,7 @@ namespace DasBlog.Web.Mappers
 				.ForMember(dest => dest.PasswordHash, opt => opt.MapFrom(src => src.Password))
 				.ForMember(dest => dest.SecurityStamp, opt => opt.MapFrom(src => src.Name));
 			
-			CreateMap<UsersViewModel, User>()
+			CreateMap<AuthorViewModel, User>()
 				.ForMember(dest => dest.EmailAddress, opt => opt.MapFrom(src => src.EmailAddress.Trim()))
 				.ForMember(dest => dest.Role, opt => opt.MapFrom(src => src.Role))
 				.ForMember(dest => dest.Ask, opt => opt.MapFrom(src => src.Ask))
@@ -49,7 +49,7 @@ namespace DasBlog.Web.Mappers
 				.ForMember(dest => dest.Password, opt => opt.MapFrom(src => siteSecurityManager.HashPassword((src.Password))))
 				;
 
-			CreateMap<User, UsersViewModel>()
+			CreateMap<User, AuthorViewModel>()
 				.ForMember(dest => dest.EmailAddress, opt => opt.MapFrom(src => src.EmailAddress))
 				.ForMember(dest => dest.Role, opt => opt.MapFrom(src => src.Role))
 				.ForMember(dest => dest.Ask, opt => opt.MapFrom(src => src.Ask))

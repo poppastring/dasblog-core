@@ -11,18 +11,17 @@ using Quartz.Util;
 
 namespace DasBlog.Web.Controllers
 {
-	[Route(".well-known")]
-	public class ActivityPubController : DasBlogBaseController
+	public class WebFingerUserController : DasBlogBaseController
 	{
 		private readonly IDasBlogSettings dasBlogSettings;
 
-		public ActivityPubController(IDasBlogSettings settings) : base(settings) 
+		public WebFingerUserController(IDasBlogSettings settings) : base(settings) 
 		{
 			dasBlogSettings = settings;
 		}
 
 		[Produces("text/json")]
-		[HttpGet("webfinger")]
+		[HttpGet(".well-known/webfinger")]
 		public ActionResult WebFinger(string resource)
 		{
 			string usersurl = new Uri(new Uri(dasBlogSettings.SiteConfiguration.MastodonServerUrl),

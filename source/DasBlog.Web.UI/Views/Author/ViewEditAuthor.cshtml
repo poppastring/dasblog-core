@@ -1,6 +1,6 @@
 ﻿@using DasBlog.Core.Common
 @using DasBlog.Core.Security
-@model DasBlog.Web.Models.UsersViewModel
+@model DasBlog.Web.Models.AuthorViewModel
 
 @{
     ViewBag.Title = "View/Edit User";
@@ -11,9 +11,9 @@
 <hr />
 <div class="row">
     <div class="col-md-9">
-        <form asp-action="UpdateUser" name="editForm" id="editForm">
+        <form asp-action="UpdateAuthor" name="editForm" id="editForm">
 
-            <partial name="UserAdminFields" model="Model" />
+            <partial name="AuthorAdminFields" model="Model" />
 
             <hr />
 
