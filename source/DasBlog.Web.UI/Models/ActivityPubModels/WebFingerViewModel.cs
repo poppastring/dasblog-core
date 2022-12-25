@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace DasBlog.Web.Models.ActivityPubModels
 {
-	public class Link
+	public class WebFingerLinkViewModel
 	{
 		[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
 		public string rel { get; set; }
@@ -18,11 +18,11 @@ namespace DasBlog.Web.Models.ActivityPubModels
 		public string template { get; set; }
 	}
 
-	public class Root
+	public class WebFingerViewModel
 	{
 		public string subject { get; set; }
 		public List<string> aliases { get; set; }
-		public List<Link> links { get; set; }
+		public List<WebFingerLinkViewModel> links { get; set; }
 	}
 }
 
