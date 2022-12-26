@@ -5,5 +5,9 @@ namespace DasBlog.Managers.Interfaces
 	public interface IActivityPubManager
 	{
 		WebFinger WebFinger(string resource);
+
+		User GetUser();
+
+		UserPage GetUserPage();
 	}
 }

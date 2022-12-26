@@ -17,6 +17,7 @@ using Quartz.Util;
 
 namespace DasBlog.Web.Controllers
 {
+	[Produces("text/json")]
 	public class WebFingerUserController : DasBlogBaseController
 	{
 		private readonly IDasBlogSettings dasBlogSettings;
@@ -30,7 +31,6 @@ namespace DasBlog.Web.Controllers
 			this.mapper = mapper;
 		}
 
-		[Produces("text/json")]
 		[HttpGet("/.well-known/webfinger")]
 		public ActionResult WebFinger(string resource)
 		{	

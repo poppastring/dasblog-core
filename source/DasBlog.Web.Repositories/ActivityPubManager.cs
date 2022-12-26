@@ -25,6 +25,16 @@ namespace DasBlog.Managers
 			dataService = BlogDataServiceFactory.GetService(Path.Combine(dasBlogSettings.WebRootDirectory, dasBlogSettings.SiteConfiguration.ContentDir), loggingDataService);
 		}
 
+		public User GetUser()
+		{
+			throw new NotImplementedException();
+		}
+
+		public UserPage GetUserPage()
+		{
+			throw new NotImplementedException();
+		}
+
 		public WebFinger WebFinger(string resource)
 		{
 			// validate resource
