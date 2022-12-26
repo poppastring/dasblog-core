@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Linq;
+using AutoMapper;
 using DasBlog.Managers.Interfaces;
 using DasBlog.Services;
 using DasBlog.Services.ActivityPub;
@@ -40,6 +41,7 @@ namespace DasBlog.Web.Controllers
 			{
 				var userpage = activityPubManager.GetUserPage();
 				var upvm = mapper.Map<UserPageViewModel>(userpage);
+				upvm.orderedItems = userpage.OrderItems.Select(entry => mapper.Map<OrderedItemViewModel>(entry)).ToArray();
 
 				return Json(upvm, jsonSerializerOptions);
 			}

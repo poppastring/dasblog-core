@@ -9,7 +9,8 @@ namespace DasBlog.Web.Mappers
 		public ProfileActivityPub()
 		{
 			CreateMap<WebFinger, WebFingerViewModel>()
-				.ForMember(dest => dest.subject, opt => opt.MapFrom(src => src.Subject));
+				.ForMember(dest => dest.subject, opt => opt.MapFrom(src => src.Subject))
+				.ForMember(dest => dest.aliases, opt => opt.MapFrom(src => src.Aliases.ToArray()));
 
 			CreateMap<WebFingerLink, WebFingerLinkViewModel>()
 				.ForMember(dest => dest.type, opt => opt.MapFrom(src => src.Type))
@@ -35,7 +36,9 @@ namespace DasBlog.Web.Mappers
 				.ForMember(dest => dest.id, opt => opt.MapFrom(src => src.Id))
 				.ForMember(dest => dest.published, opt => opt.MapFrom(src => src.Published))
 				.ForMember(dest => dest.actor, opt => opt.MapFrom(src => src.Actor))
-				.ForMember(dest => dest.actor, opt => opt.MapFrom(src => src.Object));
+				.ForMember(dest => dest.Object, opt => opt.MapFrom(src => src.Object))
+				.ForMember(dest => dest.to, opt => opt.MapFrom(src => src.To.ToArray()))
+				.ForMember(dest => dest.cc, opt => opt.MapFrom(src => src.Cc.ToArray()));
 
 			CreateMap<User, UserViewModel>()
 				.ForMember(dest => dest.first, opt => opt.MapFrom(src => src.First))

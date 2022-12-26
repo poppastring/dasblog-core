@@ -39,7 +39,6 @@ namespace DasBlog.Web.Controllers
 			{
 				var wfvm = mapper.Map<WebFingerViewModel>(webfinger);
 				wfvm.links = webfinger.Links.Select(entry => mapper.Map<WebFingerLinkViewModel>(entry)).ToList();
-				wfvm.aliases = webfinger.Aliases.Select(entry => mapper.Map<string>(entry)).ToList();
 
 				return Json(wfvm, jsonSerializerOptions);
 			}

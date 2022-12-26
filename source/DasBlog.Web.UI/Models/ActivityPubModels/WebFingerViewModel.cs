@@ -21,7 +21,7 @@ namespace DasBlog.Web.Models.ActivityPubModels
 	public class WebFingerViewModel
 	{
 		public string subject { get; set; }
-		public List<string> aliases { get; set; }
+		public string[] aliases { get; set; }
 		public List<WebFingerLinkViewModel> links { get; set; }
 	}
 }
