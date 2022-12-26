@@ -24,7 +24,7 @@ namespace DasBlog.Services.ActivityPub
 		public DateTime Published { get; set; }
 		public List<string> To { get; set; }
 		public List<string> Cc { get; set; }
-		public string _object { get; set; }
+		public string Object { get; set; }
 	}
 
 	public class User

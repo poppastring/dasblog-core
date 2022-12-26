@@ -1,5 +1,8 @@
-﻿using DasBlog.Managers.Interfaces;
+﻿using AutoMapper;
+using DasBlog.Managers.Interfaces;
 using DasBlog.Services;
+using DasBlog.Services.ActivityPub;
+using DasBlog.Web.Models.ActivityPubModels;
 using DasBlog.Web.Settings;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -15,11 +18,13 @@ namespace DasBlog.Web.Controllers
 	{
 		private readonly IDasBlogSettings dasBlogSettings;
 		private readonly IActivityPubManager activityPubManager;
+		private readonly IMapper mapper;
 
-		public OutboxController(IActivityPubManager pubManager, IDasBlogSettings settings) : base(settings)
+		public OutboxController(IActivityPubManager activityPubManager, IDasBlogSettings dasBlogSettings, IMapper mapper) : base(dasBlogSettings)
 		{
-			dasBlogSettings = settings;
-			activityPubManager = pubManager;
+			this.dasBlogSettings = dasBlogSettings;
+			this.activityPubManager = activityPubManager;
+			this.mapper = mapper;
 		}
 
 		[HttpGet]
@@ -28,20 +33,21 @@ namespace DasBlog.Web.Controllers
 		{
 			if(string.Compare(user, dasBlogSettings.SiteConfiguration.MastodonAccount, System.StringComparison.InvariantCultureIgnoreCase) != 0)
 			{
-				return NoContent();
+				return NotFound();
 			}
 
 			if(page)
 			{
-				activityPubManager.GetUserPage();
-			}
-			else
-			{
-				activityPubManager.GetUser();
+				var userpage = activityPubManager.GetUserPage();
+				var upvm = mapper.Map<UserPageViewModel>(userpage);
 
+				return Json(upvm, jsonSerializerOptions);
 			}
 
-			return Json("");
+			var userinfo = activityPubManager.GetUser();
+			var uvm = mapper.Map<UserViewModel>(userinfo);
+
+			return Json(uvm, jsonSerializerOptions);
 		}
 	}
 }

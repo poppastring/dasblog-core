@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
 using DasBlog.Services.ActivityPub;
-using DasBlog.Services.ConfigFile;
 using DasBlog.Web.Models.ActivityPubModels;
-using DasBlog.Web.Models.AdminViewModels;
 
 namespace DasBlog.Web.Mappers
 {
@@ -19,6 +17,31 @@ namespace DasBlog.Web.Mappers
 				.ForMember(dest => dest.template, opt => opt.MapFrom(src => src.Template))
 				.ForMember(dest => dest.rel, opt => opt.MapFrom(src => src.Relationship));
 
+			CreateMap<UserPage, UserPageViewModel>()
+				.ForMember(dest => dest.prev, opt => opt.MapFrom(src => src.Previous))
+				.ForMember(dest => dest.next, opt => opt.MapFrom(src => src.Next))
+				.ForMember(dest => dest.partOf, opt => opt.MapFrom(src => src.PartOf))
+				.ForMember(dest => dest.type, opt => opt.MapFrom(src => src.Type))
+				.ForMember(dest => dest.id, opt => opt.MapFrom(src => src.Id));
+
+			CreateMap<UserPage, UserPageViewModel>()
+				.ForMember(dest => dest.prev, opt => opt.MapFrom(src => src.Previous))
+				.ForMember(dest => dest.next, opt => opt.MapFrom(src => src.Next))
+				.ForMember(dest => dest.partOf, opt => opt.MapFrom(src => src.PartOf))
+				.ForMember(dest => dest.type, opt => opt.MapFrom(src => src.Type))
+				.ForMember(dest => dest.id, opt => opt.MapFrom(src => src.Id));
+
+			CreateMap<OrderedItem, OrderedItemViewModel>()
+				.ForMember(dest => dest.id, opt => opt.MapFrom(src => src.Id))
+				.ForMember(dest => dest.published, opt => opt.MapFrom(src => src.Published))
+				.ForMember(dest => dest.actor, opt => opt.MapFrom(src => src.Actor))
+				.ForMember(dest => dest.actor, opt => opt.MapFrom(src => src.Object));
+
+			CreateMap<User, UserViewModel>()
+				.ForMember(dest => dest.first, opt => opt.MapFrom(src => src.First))
+				.ForMember(dest => dest.id, opt => opt.MapFrom(src => src.Id))
+				.ForMember(dest => dest.context, opt => opt.MapFrom(src => src.Context))
+				.ForMember(dest => dest.type, opt => opt.MapFrom(src => src.Type));
 		}
 	}
 }
