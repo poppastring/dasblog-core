@@ -36,7 +36,8 @@ namespace DasBlog.Web.Mappers
 				.ForMember(dest => dest.id, opt => opt.MapFrom(src => src.Id))
 				.ForMember(dest => dest.published, opt => opt.MapFrom(src => src.Published))
 				.ForMember(dest => dest.actor, opt => opt.MapFrom(src => src.Actor))
-				.ForMember(dest => dest.Object, opt => opt.MapFrom(src => src.Object))
+				.ForMember(dest => dest.sensitive, opt => opt.MapFrom(src => src.Sensitive))
+				.ForMember(dest => dest.content, opt => opt.MapFrom(src => src.Content))
 				.ForMember(dest => dest.to, opt => opt.MapFrom(src => src.To.ToArray()))
 				.ForMember(dest => dest.cc, opt => opt.MapFrom(src => src.Cc.ToArray()));
 

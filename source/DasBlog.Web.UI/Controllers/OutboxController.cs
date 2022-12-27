@@ -19,12 +19,14 @@ namespace DasBlog.Web.Controllers
 	{
 		private readonly IDasBlogSettings dasBlogSettings;
 		private readonly IActivityPubManager activityPubManager;
+		private readonly IBlogManager blogManager;
 		private readonly IMapper mapper;
 
-		public OutboxController(IActivityPubManager activityPubManager, IDasBlogSettings dasBlogSettings, IMapper mapper) : base(dasBlogSettings)
+		public OutboxController(IActivityPubManager activityPubManager, IBlogManager blogManager, IDasBlogSettings dasBlogSettings, IMapper mapper) : base(dasBlogSettings)
 		{
 			this.dasBlogSettings = dasBlogSettings;
 			this.activityPubManager = activityPubManager;
+			this.blogManager = blogManager;
 			this.mapper = mapper;
 		}
 
@@ -39,10 +41,13 @@ namespace DasBlog.Web.Controllers
 
 			if(page)
 			{
-				var userpage = activityPubManager.GetUserPage();
-				var upvm = mapper.Map<UserPageViewModel>(userpage);
-				upvm.orderedItems = userpage.OrderItems.Select(entry => mapper.Map<OrderedItemViewModel>(entry)).ToArray();
+				var fpentries = blogManager.GetFrontPagePosts(Request.Headers["Accept-Language"]).ToList();
 
+				var userpage = activityPubManager.GetUserPage(fpentries);
+				var upvm = mapper.Map<UserPageViewModel>(userpage);
+
+				upvm.orderedItems = userpage.OrderItems.Select(entry => mapper.Map<OrderedItemViewModel>(entry)).ToArray();
+				
 				return Json(upvm, jsonSerializerOptions);
 			}
 
@@ -50,6 +55,27 @@ namespace DasBlog.Web.Controllers
 			var uvm = mapper.Map<UserViewModel>(userinfo);
 
 			return Json(uvm, jsonSerializerOptions);
+		}
+
+		[HttpGet]
+		[Route("/users/@{user}")]
+		public IActionResult Actor(string user)
+		{
+			return NotFound();	
+		}
+
+		[HttpGet]
+		[Route("/@{user}/{id}")]
+		public IActionResult ObjectSearch(string user, string id)
+		{
+			return NotFound();
+		}
+
+		[HttpGet]
+		[Route("/@{user}/statuses/{id}/activity")]
+		public IActionResult ObjectStatusActivity(string user, string id)
+		{
+			return NotFound();
 		}
 	}
 }

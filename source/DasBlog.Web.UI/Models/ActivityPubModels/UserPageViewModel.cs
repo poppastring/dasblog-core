@@ -21,9 +21,8 @@ namespace DasBlog.Web.Models.ActivityPubModels
 		public DateTime published { get; set; }
 		public string[] to { get; set; }
 		public string[] cc { get; set; }
-
-		[JsonPropertyName("object")]
-		public string Object { get; set; }
+		public bool sensitive { get; set; }
+		public string content { get; set; }
 	}
 
 }

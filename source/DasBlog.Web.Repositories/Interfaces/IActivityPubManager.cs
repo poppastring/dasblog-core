@@ -1,4 +1,6 @@
-﻿using DasBlog.Services.ActivityPub;
+﻿using System.Collections.Generic;
+using DasBlog.Services.ActivityPub;
+using newtelligence.DasBlog.Runtime;
 
 namespace DasBlog.Managers.Interfaces
 {
@@ -8,6 +10,6 @@ namespace DasBlog.Managers.Interfaces
 
 		User GetUser();
 
-		UserPage GetUserPage();
+		UserPage GetUserPage(IList<Entry> page);
 	}
 }
