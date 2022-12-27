@@ -218,3 +218,4 @@ test_results.xml
 /source/DasBlog.Tests/FunctionalTests/Properties/launchSettings.json
 /source/DasBlog.Web.UI/Properties/ServiceDependencies/dasblog-linux - Zip Deploy/profile.arm.json
 /source/DasBlog.Web.UI/Properties/ServiceDependencies/dasblog-linux - Zip Deploy
+/source/DasBlog.Web.UI/Properties/ServiceDependencies
