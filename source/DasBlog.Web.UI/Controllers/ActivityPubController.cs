@@ -25,14 +25,25 @@ namespace DasBlog.Web.Controllers
 		[HttpGet("webfinger")]
 		public ActionResult WebFinger(string resource)
 		{
-			string usersurl = new Uri(new Uri(dasBlogSettings.SiteConfiguration.MastodonServerUrl),
-						string.Format("users/{0}", dasBlogSettings.SiteConfiguration.MastodonAccount.Remove(0,1))).AbsoluteUri;
+			string mastodonUrl = dasBlogSettings.SiteConfiguration.MastodonServerUrl;
+			string mastodonAccount = dasBlogSettings.SiteConfiguration.MastodonAccount;
+			if (string.IsNullOrEmpty(mastodonUrl) || string.IsNullOrEmpty(mastodonAccount))
+			{
+				return NotFound();
+			}
+			if ( !mastodonUrl.Contains("://"))
+			{
+				mastodonUrl = "https://" + mastodonUrl;
+			}
+			if ( mastodonAccount.StartsWith("@"))
+			{
+				mastodonAccount = mastodonAccount.Remove(0, 1);
+			}
 
-			string accturl = new Uri(new Uri(dasBlogSettings.SiteConfiguration.MastodonServerUrl),
-						string.Format("{0}", dasBlogSettings.SiteConfiguration.MastodonAccount)).AbsoluteUri;
-
-			string authurl = new Uri(new Uri(dasBlogSettings.SiteConfiguration.MastodonServerUrl), 
-						"authorize_interaction").AbsoluteUri + "?uri={uri}";
+			var mastotonSiteUri = new Uri(mastodonUrl);
+			string usersUrl = new Uri(mastotonSiteUri, $"users/{mastodonAccount}").AbsoluteUri;
+			string accountUrl = new Uri(mastotonSiteUri,	mastodonAccount).AbsoluteUri;
+			string authurl = new Uri(mastotonSiteUri, "authorize_interaction").AbsoluteUri + "?uri={uri}";
 
 			if (dasBlogSettings.SiteConfiguration.MastodonServerUrl.IsNullOrWhiteSpace() || 
 				dasBlogSettings.SiteConfiguration.MastodonAccount.IsNullOrWhiteSpace())
@@ -42,14 +53,14 @@ namespace DasBlog.Web.Controllers
 
 			var results = new Root
 			{
-				subject = string.Format("acct:{0}@{1}", dasBlogSettings.SiteConfiguration.MastodonAccount.Remove(0, 1), new Uri(dasBlogSettings.SiteConfiguration.MastodonServerUrl).Host),
-				aliases = new List<string> { accturl, usersurl },
+				subject = $"acct:{mastodonAccount}@{mastotonSiteUri.Host}",
+				aliases = new List<string> { accountUrl, usersUrl },
 
 				links = new List<Link>
 				{
-					new Link() { rel="http://webfinger.net/rel/profile-page", type="text/html", href=accturl },
-					new Link() { rel="self", type=@"application/activity+json", href=usersurl},
-					new Link() { rel="http://ostatus.org/schema/1.0/subscribe", template=authurl }
+					new Link() { rel="http://webfinger.net/rel/profile-page", type="text/html", href= accountUrl },
+					new Link() { rel="self", type=@"application/activity+json", href= usersUrl},
+					new Link() { rel="http://ostatus.org/schema/1.0/subscribe", template= authurl }
 				}
 			};
 
