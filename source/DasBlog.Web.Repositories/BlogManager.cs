@@ -265,7 +265,7 @@ namespace DasBlog.Managers
 			data.ModifiedUtc = entry.ModifiedUtc;
 			data.Tags = entry.Categories;
 			data.Description = entry.Description;
-			data.PermaLink = entry.Link;
+			data.PermaLink = MakePermaLinkFromCompressedTitle(entry).ToString();
 			data.DetailsLink = dasBlogSettings.GetRssEntryUrl(entry.EntryId);
 			data.IsPublic = entry.IsPublic;
 			data.Author = entry.Author;
@@ -313,7 +313,7 @@ namespace DasBlog.Managers
 			{
 				Type = "dasblog.post.deleted",
 				Source = new Uri(dasBlogSettings.GetBaseUrl()),
-				Subject = entry.Link,
+				Subject = MakePermaLinkFromCompressedTitle(entry).ToString(),
 				Id = Guid.NewGuid().ToString(),
 				Time = DateTime.UtcNow,
 				Data = MapEntryToCloudEventData(entry)
