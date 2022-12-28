@@ -199,19 +199,27 @@ namespace DasBlog.Managers
 
 		private void RaisePostCreatedCloudEvent(Entry entry)
 		{
+			var cloudEvent = CreateCloudEvent(entry);
+			cloudEvent.Type = "dasblog.post.created";
+			RaiseCloudEvent(cloudEvent);
+		}
+
+		private CloudEvent CreateCloudEvent(Entry entry)
+		{
 			var ext = CloudEventAttribute.CreateExtension("tags", CloudEventAttributeType.String);
 			var cloudEvent = new CloudEvent(CloudEventsSpecVersion.V1_0, new[] { ext })
 			{
-				Type = "dasblog.post.created",
 				Source = new Uri(dasBlogSettings.GetBaseUrl()),
-				Subject = entry.Link,
+				Subject = MakePermaLinkFromCompressedTitle(entry).ToString(),
 				Data = MapEntryToCloudEventData(entry),
 				Id = Guid.NewGuid().ToString(),
 				Time = DateTime.UtcNow,
 			};
-			cloudEvent.SetAttributeFromString("tags", entry.Categories);
-			RaiseCloudEvent(cloudEvent);
-
+			if (!string.IsNullOrEmpty(entry.Categories))
+			{
+				cloudEvent.SetAttributeFromString("tags", entry.Categories);
+			}
+			return cloudEvent;
 		}
 
 		private void RaiseCloudEvent(CloudEvent cloudEvent)
@@ -284,17 +292,8 @@ namespace DasBlog.Managers
 
 		private void RaisePostUpdatedCloudEvent(Entry entry)
 		{
-			var ext = CloudEventAttribute.CreateExtension("tags", CloudEventAttributeType.String);
-			var cloudEvent = new CloudEvent(CloudEventsSpecVersion.V1_0, new[] { ext })
-			{
-				Type = "dasblog.post.updated",
-				Source = new Uri(dasBlogSettings.GetBaseUrl()),
-				Subject = entry.Link,
-				Data = MapEntryToCloudEventData(entry),
-				Id = Guid.NewGuid().ToString(),
-				Time = DateTime.UtcNow,
-			};
-			cloudEvent.SetAttributeFromString("tags", entry.Categories);
+			var cloudEvent = CreateCloudEvent(entry);
+			cloudEvent.Type = "dasblog.post.updated";
 			RaiseCloudEvent(cloudEvent);
 		}
 
@@ -308,17 +307,8 @@ namespace DasBlog.Managers
 
 		private void RaisePostDeletedCloudEvent(Entry entry)
 		{
-			var ext = CloudEventAttribute.CreateExtension("tags", CloudEventAttributeType.String);
-			var cloudEvent = new CloudEvent(CloudEventsSpecVersion.V1_0, new[] { ext })
-			{
-				Type = "dasblog.post.deleted",
-				Source = new Uri(dasBlogSettings.GetBaseUrl()),
-				Subject = MakePermaLinkFromCompressedTitle(entry).ToString(),
-				Id = Guid.NewGuid().ToString(),
-				Time = DateTime.UtcNow,
-				Data = MapEntryToCloudEventData(entry)
-			};
-			cloudEvent.SetAttributeFromString("tags", entry.Categories);
+			var cloudEvent = CreateCloudEvent(entry);
+			cloudEvent.Type = "dasblog.post.deleted";
 			RaiseCloudEvent(cloudEvent);
 		}
 
