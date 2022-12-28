@@ -14,7 +14,7 @@ namespace DasBlog.Web.Models.AdminViewModels
 		public List<TwitterCardViewModel> Init()
 		{
 			return new List<TwitterCardViewModel>() {
-				new TwitterCardViewModel { Id = "summarywithlargeimage", Name = "Summary card with a large image" },
+				new TwitterCardViewModel { Id = "summary_large_image", Name = "Summary card with a large image" },
 				new TwitterCardViewModel { Id = "summary", Name = "Summary card" }
 			};
 		}
