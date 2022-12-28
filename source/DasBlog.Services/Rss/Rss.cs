@@ -125,7 +125,10 @@ namespace DasBlog.Services.Rss.Rss20
 		[XmlAttribute("xml:lang")]
         public string Language;
 
-        [XmlElement("author")]
+		[XmlAttribute("id")]
+		public string Id;
+
+		[XmlElement("author")]
 		public string Author { get; set; }
 
 		[XmlElement("title")]

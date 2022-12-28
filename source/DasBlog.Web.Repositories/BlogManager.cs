@@ -20,6 +20,11 @@ using DasBlog.Core.Security;
 using System.Net.Mail;
 using System.Net;
 using System.IO;
+using CloudNative.CloudEvents;
+using System.Xml.Linq;
+using CloudNative.CloudEvents.Http;
+using CloudNative.CloudEvents.SystemTextJson;
+using System.Net.Http;
 
 namespace DasBlog.Managers
 {
@@ -187,22 +192,134 @@ namespace DasBlog.Managers
 		{
 			var rtn = InternalSaveEntry(entry, null, null);
 			LogEvent(EventCodes.EntryAdded, entry);
+			RaisePostCreatedCloudEvent(entry);
 			return rtn;
+		}
+
+
+		private void RaisePostCreatedCloudEvent(Entry entry)
+		{
+			var ext = CloudEventAttribute.CreateExtension("tags", CloudEventAttributeType.String);
+			var cloudEvent = new CloudEvent(CloudEventsSpecVersion.V1_0, new[] { ext })
+			{
+				Type = "dasblog.post.created",
+				Source = new Uri(dasBlogSettings.GetBaseUrl()),
+				Subject = entry.Link,
+				Data = MapEntryToCloudEventData(entry),
+				Id = Guid.NewGuid().ToString(),
+				Time = DateTime.UtcNow,
+			};
+			cloudEvent.SetAttributeFromString("tags", entry.Categories);
+			RaiseCloudEvent(cloudEvent);
+
+		}
+
+		private void RaiseCloudEvent(CloudEvent cloudEvent)
+		{
+			if ( dasBlogSettings.SiteConfiguration.EnableCloudEvents &&
+				 dasBlogSettings.SiteConfiguration.CloudEventsTargets != null)
+			{
+				foreach (var target in dasBlogSettings.SiteConfiguration.CloudEventsTargets)
+				{
+					if (!string.IsNullOrEmpty(target.Uri))
+					{
+						try
+						{
+							var content = cloudEvent.ToHttpContent(ContentMode.Structured, new JsonEventFormatter());
+							var uriBuilder = new UriBuilder(target.Uri);
+							if (target.Headers != null)
+							{
+								foreach (var header in target.Headers)
+								{
+									if (!string.IsNullOrEmpty(header.Name))
+									{
+										content.Headers.Add(header.Name, header.Value);
+									}
+								}
+							}
+							if (target.QueryArgs!= null)
+							{
+								foreach (var queryArgs in target.QueryArgs)
+								{
+									uriBuilder.Query = (string.IsNullOrEmpty(uriBuilder.Query) ? string.Empty : uriBuilder.Query + "&") + queryArgs.Name + "=" + queryArgs.Value;
+								}
+							}
+							var httpClient = new HttpClient();
+							var result = httpClient.PostAsync(uriBuilder.Uri, content).GetAwaiter().GetResult();
+						}
+						catch(Exception ex)
+						{
+							logger.LogError(ex, "Failed to post CloudEvent");
+						}
+					}
+				}
+			}
+		}
+
+		private EntryCloudEventData MapEntryToCloudEventData(Entry entry)
+		{
+			var data = new EntryCloudEventData();
+			data.Id = entry.EntryId;
+			data.Title = entry.Title;
+			data.CreatedUtc = entry.CreatedUtc;
+			data.ModifiedUtc = entry.ModifiedUtc;
+			data.Tags = entry.Categories;
+			data.Description = entry.Description;
+			data.PermaLink = entry.Link;
+			data.DetailsLink = dasBlogSettings.GetRssEntryUrl(entry.EntryId);
+			data.IsPublic = entry.IsPublic;
+			data.Author = entry.Author;
+			data.Longitude = entry.Longitude;
+			data.Latitude = entry.Latitude;
+			return data;
 		}
 
 		public EntrySaveState UpdateEntry(Entry entry)
 		{
 			var rtn = InternalSaveEntry(entry, null, null);
 			LogEvent(EventCodes.EntryChanged, entry);
+			RaisePostUpdatedCloudEvent(entry);
 			return rtn;
+		}
+
+		private void RaisePostUpdatedCloudEvent(Entry entry)
+		{
+			var ext = CloudEventAttribute.CreateExtension("tags", CloudEventAttributeType.String);
+			var cloudEvent = new CloudEvent(CloudEventsSpecVersion.V1_0, new[] { ext })
+			{
+				Type = "dasblog.post.updated",
+				Source = new Uri(dasBlogSettings.GetBaseUrl()),
+				Subject = entry.Link,
+				Data = MapEntryToCloudEventData(entry),
+				Id = Guid.NewGuid().ToString(),
+				Time = DateTime.UtcNow,
+			};
+			cloudEvent.SetAttributeFromString("tags", entry.Categories);
+			RaiseCloudEvent(cloudEvent);
 		}
 
 		public void DeleteEntry(string postid)
 		{
 			var entry = GetEntryForEdit(postid);
 			dataService.DeleteEntry(postid, null);
-
 			LogEvent(EventCodes.EntryDeleted, entry);
+			RaisePostDeletedCloudEvent(entry);
+		}
+
+		private void RaisePostDeletedCloudEvent(Entry entry)
+		{
+			var ext = CloudEventAttribute.CreateExtension("tags", CloudEventAttributeType.String);
+			var cloudEvent = new CloudEvent(CloudEventsSpecVersion.V1_0, new[] { ext })
+			{
+				Type = "dasblog.post.deleted",
+				Source = new Uri(dasBlogSettings.GetBaseUrl()),
+				Subject = entry.Link,
+				Id = Guid.NewGuid().ToString(),
+				Time = DateTime.UtcNow,
+				Data = MapEntryToCloudEventData(entry)
+			};
+			cloudEvent.SetAttributeFromString("tags", entry.Categories);
+			RaiseCloudEvent(cloudEvent);
 		}
 
 		private static StringCollection GetSearchWords(string searchString)

@@ -32,7 +32,17 @@ namespace DasBlog.Managers
             return GetRssCore(null,  dasBlogSettings.SiteConfiguration.RssDayCount, dasBlogSettings.SiteConfiguration.RssMainEntryCount);
         }
 
-        public RssRoot GetRssCategory(string categoryName)
+		public RssItem GetRssItem(string entryId)
+		{
+			Entry entry = dataService.GetEntry(entryId);
+			if (entry != null)
+			{
+				return MapEntryToRssItem(entry);
+			}
+			return null;			
+		}
+
+		public RssRoot GetRssCategory(string categoryName)
         {
             return GetRssCore(categoryName, 0, 0);
         }
@@ -149,170 +159,188 @@ namespace DasBlog.Managers
 			documentRoot.Channels.Add(ch);
 
 			foreach (var entry in entries)
-            {
-                if (entry.IsPublic == false || entry.Syndicated == false)
-                {
-                    continue;
-                }
-                var doc2 = new XmlDocument();
-                var anyElements = new List<XmlElement>();
-                var item = new RssItem();
-                item.Title = entry.Title;
-                item.Guid = new DasBlog.Services.Rss.Rss20.Guid();
-                item.Guid.IsPermaLink = false;
-                item.Guid.Text = dasBlogSettings.GetPermaLinkUrl(entry.EntryId);
-                item.Link = dasBlogSettings.RelativeToRoot(dasBlogSettings.GeneratePostUrl(entry));
-                User user = dasBlogSettings.GetUserByEmail(entry.Author);
+			{
+				if (entry.IsPublic == false || entry.Syndicated == false)
+				{
+					continue;
+				}
+				var item = MapEntryToRssItem(entry, ch, true);
+				ch.Items.Add(item);
+			}
 
-                XmlElement trackbackPing = doc2.CreateElement("trackback", "ping", "http://madskills.com/public/xml/rss/module/trackback/");
-                trackbackPing.InnerText = dasBlogSettings.GetTrackbackUrl(entry.EntryId);
-                anyElements.Add(trackbackPing);
-
-                XmlElement pingbackServer = doc2.CreateElement("pingback", "server", "http://madskills.com/public/xml/rss/module/pingback/");
-                pingbackServer.InnerText = dasBlogSettings.PingBackUrl;
-                anyElements.Add(pingbackServer);
-
-                XmlElement pingbackTarget = doc2.CreateElement("pingback", "target", "http://madskills.com/public/xml/rss/module/pingback/");
-                pingbackTarget.InnerText = dasBlogSettings.GetPermaLinkUrl(entry.EntryId);
-                anyElements.Add(pingbackTarget);
-
-				XmlElement dcCreator = doc2.CreateElement("dc", "creator", "http://purl.org/dc/elements/1.1/");
-                if (user != null)
-                {
-                    dcCreator.InnerText = user.DisplayName;
-                }
-                anyElements.Add(dcCreator);
-
-                // Add GeoRSS if it exists.
-                if (dasBlogSettings.SiteConfiguration.EnableGeoRss)
-                {
-                    var latitude = new Nullable<double>();
-                    var longitude = new Nullable<double>();
-
-                    if (entry.Latitude.HasValue)
-                    {
-                        latitude = entry.Latitude;
-                    }
-                    else
-                    {
-                        if (dasBlogSettings.SiteConfiguration.EnableDefaultLatLongForNonGeoCodedPosts)
-                        {
-                            latitude = dasBlogSettings.SiteConfiguration.DefaultLatitude;
-                        }
-                    }
-
-                    if (entry.Longitude.HasValue)
-                    {
-                        longitude = entry.Longitude;
-                    }
-                    else
-                    {
-                        if (dasBlogSettings.SiteConfiguration.EnableDefaultLatLongForNonGeoCodedPosts)
-                        {
-                            longitude = dasBlogSettings.SiteConfiguration.DefaultLongitude;
-                        }
-                    }
-
-                    if (latitude.HasValue && longitude.HasValue)
-                    {
-                        XmlElement geoLoc = doc2.CreateElement("georss", "point", "http://www.georss.org/georss");
-                        geoLoc.InnerText = String.Format(CultureInfo.InvariantCulture, "{0:R} {1:R}", latitude, longitude);
-                        anyElements.Add(geoLoc);
-                    }
-                }
-
-                if (dasBlogSettings.SiteConfiguration.EnableComments)
-                {
-                    if (entry.AllowComments)
-                    {
-                        XmlElement commentApi = doc2.CreateElement("wfw", "comment", "http://wellformedweb.org/CommentAPI/");
-                        commentApi.InnerText = dasBlogSettings.GetCommentViewUrl(dasBlogSettings.GeneratePostUrl(entry));
-                        anyElements.Add(commentApi);
-                    }
-
-                    XmlElement commentRss = doc2.CreateElement("wfw", "commentRss", "http://wellformedweb.org/CommentAPI/");
-					commentRss.InnerText = dasBlogSettings.GetEntryCommentsRssUrl(entry.EntryId);
-					anyElements.Add(commentRss);
-
-                    //for RSS conformance per FeedValidator.org
-                    int commentsCount = dataService.GetPublicCommentsFor(entry.EntryId).Count;
-                    if (commentsCount > 0)
-                    {
-                        XmlElement slashComments = doc2.CreateElement("slash", "comments", "http://purl.org/rss/1.0/modules/slash/");
-                        slashComments.InnerText = commentsCount.ToString();
-                        anyElements.Add(slashComments);
-                    }
-                    item.Comments = dasBlogSettings.GetCommentViewUrl(dasBlogSettings.GeneratePostUrl(entry));
-                }
-                item.Language = entry.Language;
-
-                if (entry.Categories != null && entry.Categories.Length > 0)
-                {
-                    if (item.Categories == null) item.Categories = new RssCategoryCollection();
-
-                    string[] cats = entry.Categories.Split(';');
-                    foreach (string c in cats)
-                    {
-                        RssCategory cat = new RssCategory();
-                        string cleanCat = c.Replace('|', '/');
-                        cat.Text = cleanCat;
-                        item.Categories.Add(cat);
-                    }
-                }
-                if (entry.Attachments.Count > 0)
-                {
-                    // RSS currently supports only a single enclsoure so we return the first one	
-                    item.Enclosure = new Enclosure();
-                    item.Enclosure.Url = entry.Attachments[0].Name;
-                    item.Enclosure.Type = entry.Attachments[0].Type;
-                    item.Enclosure.Length = entry.Attachments[0].Length.ToString();
-                }
-                item.PubDate = entry.CreatedUtc.ToString("R");
-                if (ch.LastBuildDate == null || ch.LastBuildDate.Length == 0)
-                {
-                    ch.LastBuildDate = item.PubDate;
-                }
-
-                if (!dasBlogSettings.SiteConfiguration.AlwaysIncludeContentInRSS &&
-                    entry.Description != null &&
-                    entry.Description.Trim().Length > 0)
-                {
-                    item.Description = PreprocessItemContent(entry.EntryId, entry.Description);
-
-                }
-                else
-                {
-                    if (dasBlogSettings.SiteConfiguration.HtmlTidyContent == false)
-                    {
-                        item.Description = "<div>" + PreprocessItemContent(entry.EntryId, entry.Content) + "</div>";
-                    }
-                    else
-                    {
-                        item.Description = ContentFormatter.FormatContentAsHTML(PreprocessItemContent(entry.EntryId, entry.Content));
-
-
-                        try
-                        {
-                            string xhtml = ContentFormatter.FormatContentAsXHTML(PreprocessItemContent(entry.EntryId, entry.Content));
-                            doc2.LoadXml(xhtml);
-                            anyElements.Add((XmlElement)doc2.SelectSingleNode("//*[local-name() = 'body'][namespace-uri()='http://www.w3.org/1999/xhtml']"));
-                        }
-                        catch //(Exception ex)
-                        {
-                            //Debug.Write(ex.ToString());
-                            // absorb
-                        }
-                    }
-                }
-
-                item.anyElements = anyElements.ToArray();
-                ch.Items.Add(item);
-            }
-            
-            return documentRoot;
+			return documentRoot;
         }
 
-        protected EntryCollection BuildEntries(string category, int maxDayCount, int maxEntryCount)
+		private RssItem MapEntryToRssItem(Entry entry, RssChannel ch = null, bool feedView = false)
+		{
+			var doc2 = new XmlDocument();
+			var anyElements = new List<XmlElement>();
+			var item = new RssItem();
+			item.Id = entry.EntryId;
+			item.Title = entry.Title;
+			item.Guid = new DasBlog.Services.Rss.Rss20.Guid();
+			item.Guid.IsPermaLink = false;
+			item.Guid.Text = dasBlogSettings.GetPermaLinkUrl(entry.EntryId);
+			item.Link = dasBlogSettings.RelativeToRoot(dasBlogSettings.GeneratePostUrl(entry));
+			User user = dasBlogSettings.GetUserByEmail(entry.Author);
+
+			if (dasBlogSettings.SiteConfiguration.EnableTrackbackService)
+			{
+				XmlElement trackbackPing = doc2.CreateElement("trackback", "ping", "http://madskills.com/public/xml/rss/module/trackback/");
+				trackbackPing.InnerText = dasBlogSettings.GetTrackbackUrl(entry.EntryId);
+				anyElements.Add(trackbackPing);
+			}
+
+			if (dasBlogSettings.SiteConfiguration.EnablePingbackService)
+			{
+				XmlElement pingbackServer = doc2.CreateElement("pingback", "server", "http://madskills.com/public/xml/rss/module/pingback/");
+				pingbackServer.InnerText = dasBlogSettings.PingBackUrl;
+				anyElements.Add(pingbackServer);
+
+				XmlElement pingbackTarget = doc2.CreateElement("pingback", "target", "http://madskills.com/public/xml/rss/module/pingback/");
+				pingbackTarget.InnerText = dasBlogSettings.GetPermaLinkUrl(entry.EntryId);
+				anyElements.Add(pingbackTarget);
+			}
+
+			XmlElement dcCreator = doc2.CreateElement("dc", "creator", "http://purl.org/dc/elements/1.1/");
+			if (user != null)
+			{
+				dcCreator.InnerText = user.DisplayName;
+			}
+			anyElements.Add(dcCreator);
+
+			// Add GeoRSS if it exists.
+			if (dasBlogSettings.SiteConfiguration.EnableGeoRss)
+			{
+				var latitude = new Nullable<double>();
+				var longitude = new Nullable<double>();
+
+				if (entry.Latitude.HasValue)
+				{
+					latitude = entry.Latitude;
+				}
+				else
+				{
+					if (dasBlogSettings.SiteConfiguration.EnableDefaultLatLongForNonGeoCodedPosts)
+					{
+						latitude = dasBlogSettings.SiteConfiguration.DefaultLatitude;
+					}
+				}
+
+				if (entry.Longitude.HasValue)
+				{
+					longitude = entry.Longitude;
+				}
+				else
+				{
+					if (dasBlogSettings.SiteConfiguration.EnableDefaultLatLongForNonGeoCodedPosts)
+					{
+						longitude = dasBlogSettings.SiteConfiguration.DefaultLongitude;
+					}
+				}
+
+				if (latitude.HasValue && longitude.HasValue)
+				{
+					XmlElement geoLoc = doc2.CreateElement("georss", "point", "http://www.georss.org/georss");
+					geoLoc.InnerText = String.Format(CultureInfo.InvariantCulture, "{0:R} {1:R}", latitude, longitude);
+					anyElements.Add(geoLoc);
+				}
+			}
+
+			if (dasBlogSettings.SiteConfiguration.EnableComments)
+			{
+				if (entry.AllowComments)
+				{
+					XmlElement commentApi = doc2.CreateElement("wfw", "comment", "http://wellformedweb.org/CommentAPI/");
+					commentApi.InnerText = dasBlogSettings.GetCommentViewUrl(dasBlogSettings.GeneratePostUrl(entry));
+					anyElements.Add(commentApi);
+				}
+
+				XmlElement commentRss = doc2.CreateElement("wfw", "commentRss", "http://wellformedweb.org/CommentAPI/");
+				commentRss.InnerText = dasBlogSettings.GetEntryCommentsRssUrl(entry.EntryId);
+				anyElements.Add(commentRss);
+
+				//for RSS conformance per FeedValidator.org
+				int commentsCount = dataService.GetPublicCommentsFor(entry.EntryId).Count;
+				if (commentsCount > 0)
+				{
+					XmlElement slashComments = doc2.CreateElement("slash", "comments", "http://purl.org/rss/1.0/modules/slash/");
+					slashComments.InnerText = commentsCount.ToString();
+					anyElements.Add(slashComments);
+				}
+				item.Comments = dasBlogSettings.GetCommentViewUrl(dasBlogSettings.GeneratePostUrl(entry));
+			}
+			item.Language = entry.Language;
+
+			if (entry.Categories != null && entry.Categories.Length > 0)
+			{
+				if (item.Categories == null) item.Categories = new RssCategoryCollection();
+
+				string[] cats = entry.Categories.Split(';');
+				foreach (string c in cats)
+				{
+					RssCategory cat = new RssCategory();
+					string cleanCat = c.Replace('|', '/');
+					cat.Text = cleanCat;
+					item.Categories.Add(cat);
+				}
+			}
+			if (entry.Attachments.Count > 0)
+			{
+				// RSS currently supports only a single enclsoure so we return the first one	
+				item.Enclosure = new Enclosure();
+				item.Enclosure.Url = entry.Attachments[0].Name;
+				item.Enclosure.Type = entry.Attachments[0].Type;
+				item.Enclosure.Length = entry.Attachments[0].Length.ToString();
+			}
+			item.PubDate = entry.CreatedUtc.ToString("R");
+			if (ch != null && (ch.LastBuildDate == null || ch.LastBuildDate.Length == 0))
+			{
+				ch.LastBuildDate = item.PubDate;
+			}
+
+			if (feedView || !dasBlogSettings.SiteConfiguration.AlwaysIncludeContentInRSS &&
+				entry.Description != null &&
+				entry.Description.Trim().Length > 0)
+			{
+				if (feedView)
+				{
+					item.Description = PreprocessItemContent(entry.EntryId, entry.Description);
+				}
+				else
+				{
+					item.Description = entry.Description;
+				}
+			}
+			else
+			{
+				var content = (feedView ? PreprocessItemContent(entry.EntryId, entry.Content) : entry.Content);
+				if (!dasBlogSettings.SiteConfiguration.HtmlTidyContent && feedView)
+				{
+					item.Description = "<div>" + content + "</div>";
+				}
+				else
+				{
+					item.Description = ContentFormatter.FormatContentAsHTML(!string.IsNullOrEmpty(entry.Description)?entry.Description:content);
+					try
+					{
+						string xhtml = ContentFormatter.FormatContentAsXHTML(System.Net.WebUtility.HtmlDecode(content));
+						doc2.LoadXml(xhtml);
+						anyElements.Add((XmlElement)doc2.SelectSingleNode("//*[local-name() = 'body'][namespace-uri()='http://www.w3.org/1999/xhtml']"));
+					}
+					catch //(Exception ex)
+					{
+						//Debug.Write(ex.ToString());
+						// absorb
+					}
+				}
+			}
+
+			item.anyElements = anyElements.ToArray();
+			return item;
+		}
+
+		protected EntryCollection BuildEntries(string category, int maxDayCount, int maxEntryCount)
         {
             var entryList = new EntryCollection();
 

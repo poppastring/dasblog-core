@@ -49,5 +49,6 @@ namespace DasBlog.Services
 		SendMailInfo GetMailInfo(MailMessage emailmessage);
 		DateTime GetDisplayTime(DateTime datetime);
 		DateTime GetCreateTime(DateTime datetime);
+		string GetRssEntryUrl(string entryId);
 	}
 }

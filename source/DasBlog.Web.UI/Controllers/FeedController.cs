@@ -45,7 +45,20 @@ namespace DasBlog.Web.Controllers
         }
 
 		[Produces("text/xml")]
-		[HttpGet("feed/rss/{category}"), HttpHead("feed/rss/{category}")]
+		[HttpGet("feed/rss/{id}"), HttpHead("feed/rss/{id}")]
+		public IActionResult RssItem(string id)
+		{
+			if (!memoryCache.TryGetValue(CACHEKEY_RSS+id, out RssItem rssItem))
+			{
+				rssItem = subscriptionManager.GetRssItem(id);
+
+				memoryCache.Set(CACHEKEY_RSS+id, rssItem, SiteCacheSettings());
+			}
+			return Ok(rssItem);
+		}
+
+		[Produces("text/xml")]
+		[HttpGet("feed/tags/{category}/rss"), HttpHead("feed/tags/{category}/rss")]
         public IActionResult RssByCategory(string category)
         {
 			if (!memoryCache.TryGetValue(CACHEKEY_RSS + "_" + category, out RssRoot rss))
@@ -120,7 +133,7 @@ namespace DasBlog.Web.Controllers
 			return Ok();
 		}
 
-		[HttpGet("feed/rss/comments/{entryid}"), HttpHead("feed/rss/comments/{entryid}")]
+		[HttpGet("feed/rss/{entryid}/comments"), HttpHead("feed/rss/{entryid}/comments")]
 		public ActionResult RssComments(string entryid)
 		{
 			return Ok();

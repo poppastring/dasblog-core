@@ -272,5 +272,10 @@ namespace DasBlog.Tests.UnitTests
 		{
 			throw new NotImplementedException();
 		}
+
+		public string GetRssEntryUrl(string entryId)
+		{
+			throw new NotImplementedException();
+		}
 	}
 }
