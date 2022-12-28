@@ -51,6 +51,8 @@ namespace DasBlog.Services.ConfigFile
 	[XmlType("SiteConfig")]
 	public class SiteConfig : ISiteConfig
     {
+        private string _root;
+
         public SiteConfig() { }
 
         public string Title { get; set; }
@@ -58,7 +60,23 @@ namespace DasBlog.Services.ConfigFile
         public string Theme { get; set; }
         public string Description { get; set; }
         public string Contact { get; set; }
-        public string Root { get; set; }
+        public string Root {
+            get
+            {
+                return _root;
+            }
+            set 
+            {
+                if ( !string.IsNullOrEmpty(value) )
+                {
+                    _root = value + (value.EndsWith("/")?"":"/");
+                }
+                else
+                {
+                    _root = value;
+                }
+            }
+        }
 		public string AllowedHosts { get; set; }
 		public string Copyright { get; set; }
         public int RssDayCount { get; set; }
