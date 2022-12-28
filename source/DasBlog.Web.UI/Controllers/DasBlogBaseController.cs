@@ -43,20 +43,27 @@ namespace DasBlog.Web.Settings
 
 		protected void SinglePost(PostViewModel post)
 		{
+			DefaultPage();
 			if (post != null)
 			{
 				ViewData["PageTitle"] = post.Title;
-				ViewData["Description"] = post.Content.StripHTMLFromText().CutLongString(80); 
+				ViewData["CreatedTime"] = post.CreatedDateTime.ToString("R");
+				ViewData["ModifiedTime"] = post.ModifiedDateTime.ToString("R");
+				if (string.IsNullOrEmpty(post.Description))
+				{
+					ViewData["Description"] = post.Content.StripHTMLFromText().CutLongString(80);
+				}
+				else
+				{
+					ViewData["Description"] = post.Description.StripHTMLFromText().CutLongString(80);
+				}
+				ViewData["PermaLink"] = dasBlogSettings.RelativeToRoot(post.PermaLink);
 				ViewData["Keywords"] = string.Join(",", post.Categories.Select(x => x.Category).ToArray());
 				ViewData["Canonical"] = dasBlogSettings.RelativeToRoot(post.PermaLink);
 				ViewData["Author"] = dasBlogSettings.GetUserByEmail(post.Author)?.DisplayName; ;
-				ViewData["PageImageUrl"] = (post.ImageUrl?.Length > 0) ? post.ImageUrl : dasBlogSettings.MetaTags.TwitterImage;
-				ViewData["PageVideoUrl"] = (post.VideoUrl?.Length > 0) ? post.VideoUrl : string.Empty;
+				ViewData["PageImageUrl"] = (post.ImageUrl?.Length > 0) ? dasBlogSettings.RelativeToRoot(post.ImageUrl) : dasBlogSettings.MetaTags.TwitterImage;
+				ViewData["PageVideoUrl"] = (post.VideoUrl?.Length > 0) ? dasBlogSettings.RelativeToRoot(post.VideoUrl) : string.Empty;
                 ShowErrors(post);
-			}
-			else
-			{
-				DefaultPage();
 			}
 		}
 
@@ -73,9 +80,15 @@ namespace DasBlog.Web.Settings
 
         protected void DefaultPage(string pageTitle = "")
 		{
+			ViewData["PermaLink"] = dasBlogSettings.GetBaseUrl();
+			ViewData["TwitterCreator"] = dasBlogSettings.MetaTags.TwitterCreator;
+			ViewData["TwitterImage"] = dasBlogSettings.MetaTags.TwitterImage;
+			ViewData["TwitterSite"] = dasBlogSettings.MetaTags.TwitterSite;
+			ViewData["TwitterCard"] = dasBlogSettings.MetaTags.TwitterCard;
 			if (pageTitle.Length > 0)
 			{
 				ViewData["PageTitle"] = string.Format("{0} - {1}", pageTitle, dasBlogSettings.SiteConfiguration.Title);
+				ViewData["SiteTitle"] = dasBlogSettings.SiteConfiguration.Title;
 				ViewData["Description"] = string.Format("{0} - {1}", pageTitle, dasBlogSettings.MetaTags.MetaDescription);
 				ViewData["Keywords"] = string.Empty;
 				ViewData["Canonical"] = string.Empty;
@@ -86,6 +99,7 @@ namespace DasBlog.Web.Settings
 			else
 			{
 				ViewData["PageTitle"] = dasBlogSettings.SiteConfiguration.Title;
+				ViewData["SiteTitle"] = dasBlogSettings.SiteConfiguration.Title;
 				ViewData["Description"] = dasBlogSettings.MetaTags.MetaDescription;
 				ViewData["Keywords"] = dasBlogSettings.MetaTags.MetaKeywords;
 				ViewData["Canonical"] = dasBlogSettings.SiteConfiguration.Root;
