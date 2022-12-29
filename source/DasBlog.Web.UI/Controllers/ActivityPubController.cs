@@ -1,28 +1,22 @@
-﻿using System.Linq;
-using AutoMapper;
+﻿using AutoMapper;
 using DasBlog.Managers.Interfaces;
 using DasBlog.Services;
-using DasBlog.Services.ActivityPub;
 using DasBlog.Web.Models.ActivityPubModels;
 using DasBlog.Web.Settings;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 
 namespace DasBlog.Web.Controllers
 {
-	/// <summary>
-	/// How clients can post Activities to this actor's outbox 
-	/// A feed of whatever the user shares publicly.
-	/// </summary>
 	[Produces("text/json")]
-	public class OutboxController : DasBlogBaseController
+	public class ActivityPubController : DasBlogBaseController
 	{
 		private readonly IDasBlogSettings dasBlogSettings;
 		private readonly IActivityPubManager activityPubManager;
 		private readonly IBlogManager blogManager;
 		private readonly IMapper mapper;
 
-		public OutboxController(IActivityPubManager activityPubManager, IBlogManager blogManager, IDasBlogSettings dasBlogSettings, IMapper mapper) : base(dasBlogSettings)
+		public ActivityPubController(IActivityPubManager activityPubManager, IBlogManager blogManager, IDasBlogSettings dasBlogSettings, IMapper mapper) : base(dasBlogSettings)
 		{
 			this.dasBlogSettings = dasBlogSettings;
 			this.activityPubManager = activityPubManager;
@@ -30,16 +24,31 @@ namespace DasBlog.Web.Controllers
 			this.mapper = mapper;
 		}
 
+		[HttpGet(".well-known/webfinger")]
+		public ActionResult WebFinger(string resource)
+		{
+			var webfinger = activityPubManager.WebFinger(resource);
+			if (webfinger != null)
+			{
+				var wfvm = mapper.Map<WebFingerViewModel>(webfinger);
+				wfvm.links = webfinger.Links.Select(entry => mapper.Map<WebFingerLinkViewModel>(entry)).ToList();
+
+				return Json(wfvm, jsonSerializerOptions);
+			}
+
+			return NoContent();
+		}
+
 		[HttpGet]
 		[Route("/users/{user}/outbox")]
 		public IActionResult GetUser(string user, bool page)
 		{
-			if(string.Compare(user, dasBlogSettings.SiteConfiguration.MastodonAccount, System.StringComparison.InvariantCultureIgnoreCase) != 0)
+			if (string.Compare(user, dasBlogSettings.SiteConfiguration.MastodonAccount, System.StringComparison.InvariantCultureIgnoreCase) != 0)
 			{
 				return NotFound();
 			}
 
-			if(page)
+			if (page)
 			{
 				var fpentries = blogManager.GetFrontPagePosts(Request.Headers["Accept-Language"]).ToList();
 
@@ -47,7 +56,7 @@ namespace DasBlog.Web.Controllers
 				var upvm = mapper.Map<UserPageViewModel>(userpage);
 
 				upvm.orderedItems = userpage.OrderItems.Select(entry => mapper.Map<OrderedItemViewModel>(entry)).ToArray();
-				
+
 				return Json(upvm, jsonSerializerOptions);
 			}
 
@@ -61,7 +70,7 @@ namespace DasBlog.Web.Controllers
 		[Route("/users/@{user}")]
 		public IActionResult Actor(string user)
 		{
-			return NotFound();	
+			return NotFound();
 		}
 
 		[HttpGet]

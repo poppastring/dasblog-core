@@ -81,31 +81,43 @@ namespace DasBlog.Managers
 		{
 			// validate resource
 
-			if (string.IsNullOrWhiteSpace(dasBlogSettings.SiteConfiguration.MastodonServerUrl) ||
-					string.IsNullOrWhiteSpace(dasBlogSettings.SiteConfiguration.MastodonAccount))
+			string mastodonUrl = dasBlogSettings.SiteConfiguration.MastodonServerUrl;
+			string mastodonAccount = dasBlogSettings.SiteConfiguration.MastodonAccount;
+			if (string.IsNullOrEmpty(mastodonUrl) || string.IsNullOrEmpty(mastodonAccount))
 			{
 				return null;
 			}
 
-			var usersurl = new Uri(new Uri(dasBlogSettings.SiteConfiguration.MastodonServerUrl),
-						string.Format("users/{0}", dasBlogSettings.SiteConfiguration.MastodonAccount.Remove(0, 1))).AbsoluteUri;
+			if (!mastodonUrl.Contains("://"))
+			{
+				mastodonUrl = "https://" + mastodonUrl;
+			}
+			if (mastodonAccount.StartsWith("@"))
+			{
+				mastodonAccount = mastodonAccount.Remove(0, 1);
+			}
 
-			var accturl = new Uri(new Uri(dasBlogSettings.SiteConfiguration.MastodonServerUrl),
-						string.Format("{0}", dasBlogSettings.SiteConfiguration.MastodonAccount)).AbsoluteUri;
+			var mastotonSiteUri = new Uri(mastodonUrl);
+			string usersUrl = new Uri(mastotonSiteUri, $"users/{mastodonAccount}").AbsoluteUri;
+			string accountUrl = new Uri(mastotonSiteUri, mastodonAccount).AbsoluteUri;
+			string authurl = new Uri(mastotonSiteUri, "authorize_interaction").AbsoluteUri + "?uri={uri}";
 
-			var authurl = new Uri(new Uri(dasBlogSettings.SiteConfiguration.MastodonServerUrl),
-						"authorize_interaction").AbsoluteUri + "?uri={uri}";
+			if (string.IsNullOrWhiteSpace(dasBlogSettings.SiteConfiguration.MastodonServerUrl) ||
+				string.IsNullOrWhiteSpace(dasBlogSettings.SiteConfiguration.MastodonAccount))
+			{
+				return null;
+			}
 
 			var webFinger = new WebFinger
 			{
-				Subject = string.Format("acct:{0}@{1}", dasBlogSettings.SiteConfiguration.MastodonAccount.Remove(0, 1), new Uri(dasBlogSettings.SiteConfiguration.MastodonServerUrl).Host),
-				Aliases = new List<string> { accturl, usersurl },
+				Subject = $"acct:{mastodonAccount}@{mastotonSiteUri.Host}",
+				Aliases = new List<string> { accountUrl, usersUrl },
 
-				Links =  new List<WebFingerLink>
+				Links = new List<WebFingerLink>
 				{
-					new WebFingerLink() { Relationship="http://webfinger.net/rel/profile-page", Type="text/html", HRef=accturl },
-					new WebFingerLink() { Relationship="self", Type=@"application/activity+json", HRef=usersurl},
-					new WebFingerLink() { Relationship="http://ostatus.org/schema/1.0/subscribe", Template=authurl }
+					new WebFingerLink() { Relationship="http://webfinger.net/rel/profile-page", Type="text/html", HRef= accountUrl },
+					new WebFingerLink() { Relationship="self", Type=@"application/activity+json", HRef= usersUrl},
+					new WebFingerLink() { Relationship="http://ostatus.org/schema/1.0/subscribe", Template= authurl }
 				}
 			};
 
