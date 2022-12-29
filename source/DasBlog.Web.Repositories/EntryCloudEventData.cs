@@ -19,7 +19,7 @@ namespace DasBlog.Managers
 		public string Description { get; internal set; }
 		[JsonPropertyName("permaLink")]
 		public string PermaLink { get; internal set; }
-		[JsonPropertyName("contentLink")]
+		[JsonPropertyName("detailsLink")]
 		public string DetailsLink { get; internal set; }
 		[JsonPropertyName("isPublic")]
 		public bool IsPublic { get; internal set; }
