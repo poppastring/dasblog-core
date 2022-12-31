@@ -4,6 +4,7 @@ using DasBlog.Services;
 using DasBlog.Web.Models.ActivityPubModels;
 using DasBlog.Web.Settings;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Linq;
 
 namespace DasBlog.Web.Controllers
@@ -45,7 +46,41 @@ namespace DasBlog.Web.Controllers
 		}
 
 		[HttpGet]
-		[Route("/users/{user}/outbox")]
+		[Route("@{user}")]
+		[Route("users/{user}")]
+		public IActionResult Actor(string user)
+		{
+			var mastodonAccount = dasBlogSettings.SiteConfiguration.MastodonAccount;
+			if (mastodonAccount.StartsWith("@"))
+			{
+				mastodonAccount = mastodonAccount.Remove(0, 1);
+			}
+
+			if (string.Compare(user, mastodonAccount, StringComparison.InvariantCultureIgnoreCase) != 0)
+			{
+				return NotFound();
+			}
+
+			var actor = new ActorViewModel
+			{
+				id = dasBlogSettings.RelativeToRoot($"users/{mastodonAccount}"),
+				type = "Person",
+				following = dasBlogSettings.RelativeToRoot($"users/{mastodonAccount}/following"),
+				followers = dasBlogSettings.RelativeToRoot($"users/{mastodonAccount}/followers"),
+				inbox = dasBlogSettings.RelativeToRoot($"users/{mastodonAccount}/inbox"),
+				outbox = dasBlogSettings.RelativeToRoot($"users/{mastodonAccount}/outbox"),
+				preferredUsername = mastodonAccount,
+				name = dasBlogSettings.SiteConfiguration.Title,
+				summary = dasBlogSettings.SiteConfiguration.Description,
+				url = dasBlogSettings.RelativeToRoot($"@{mastodonAccount}"),
+				published = DateTime.UtcNow
+			};
+
+			return Json(actor, jsonSerializerOptions);
+		}
+
+		[HttpGet]
+		[Route("users/{user}/outbox")]
 		public IActionResult GetUser(string user, bool page)
 		{
 			string mastodonAccount = dasBlogSettings.SiteConfiguration.MastodonAccount;
@@ -54,7 +89,7 @@ namespace DasBlog.Web.Controllers
 				mastodonAccount = mastodonAccount.Remove(0, 1);
 			}
 
-			if (string.Compare(user, mastodonAccount, System.StringComparison.InvariantCultureIgnoreCase) != 0)
+			if (string.Compare(user, mastodonAccount, StringComparison.InvariantCultureIgnoreCase) != 0)
 			{
 				return NotFound();
 			}
@@ -78,21 +113,7 @@ namespace DasBlog.Web.Controllers
 		}
 
 		[HttpGet]
-		[Route("/users/@{user}")]
-		public IActionResult Actor(string user)
-		{
-			return NotFound();
-		}
-
-		[HttpGet]
-		[Route("/@{user}/{id}")]
-		public IActionResult ObjectSearch(string user, string id)
-		{
-			return NotFound();
-		}
-
-		[HttpGet]
-		[Route("/@{user}/statuses/{id}/activity")]
+		[Route("@{user}/statuses/{id}/activity")]
 		public IActionResult ObjectStatusActivity(string user, string id)
 		{
 			return NotFound();
