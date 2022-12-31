@@ -99,7 +99,7 @@ namespace DasBlog.Managers
 
 			var mastotonSiteUri = new Uri(mastodonUrl);
 			string usersUrl = new Uri(mastotonSiteUri, $"users/{mastodonAccount}").AbsoluteUri;
-			string accountUrl = new Uri(mastotonSiteUri, mastodonAccount).AbsoluteUri;
+			string accountUrl = new Uri(mastotonSiteUri, $"@{mastodonAccount}").AbsoluteUri;
 			string authurl = new Uri(mastotonSiteUri, "authorize_interaction").AbsoluteUri + "?uri={uri}";
 
 			if (string.IsNullOrWhiteSpace(dasBlogSettings.SiteConfiguration.MastodonServerUrl) ||
