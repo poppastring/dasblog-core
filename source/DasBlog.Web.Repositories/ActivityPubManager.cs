@@ -103,16 +103,16 @@ namespace DasBlog.Managers
 			{
 				return null;
 			}
+		
+			if (!mastodonUrl.Contains("://"))
+			{
+				mastodonUrl = "https://" + mastodonUrl;
+			}
 
 			var host = new Uri(mastodonUrl);
 			if (string.Compare(address.Host, host.Host, StringComparison.InvariantCultureIgnoreCase) != 0)
 			{
 				return null;
-			}
-
-			if (!mastodonUrl.Contains("://"))
-			{
-				mastodonUrl = "https://" + mastodonUrl;
 			}
 
 			var mastotonSiteUri = new Uri(mastodonUrl);
