@@ -27,6 +27,11 @@ namespace DasBlog.Web.Controllers
 		[HttpGet(".well-known/webfinger")]
 		public ActionResult WebFinger(string resource)
 		{
+			if (resource.StartsWith("acct:"))
+			{
+				resource = resource.Remove(0, 5);
+			}
+
 			var webfinger = activityPubManager.WebFinger(resource);
 			if (webfinger != null)
 			{
@@ -43,7 +48,13 @@ namespace DasBlog.Web.Controllers
 		[Route("/users/{user}/outbox")]
 		public IActionResult GetUser(string user, bool page)
 		{
-			if (string.Compare(user, dasBlogSettings.SiteConfiguration.MastodonAccount, System.StringComparison.InvariantCultureIgnoreCase) != 0)
+			string mastodonAccount = dasBlogSettings.SiteConfiguration.MastodonAccount;
+			if (mastodonAccount.StartsWith("@"))
+			{
+				mastodonAccount = mastodonAccount.Remove(0, 1);
+			}
+
+			if (string.Compare(user, mastodonAccount, System.StringComparison.InvariantCultureIgnoreCase) != 0)
 			{
 				return NotFound();
 			}

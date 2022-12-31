@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Mail;
 using DasBlog.Managers.Interfaces;
 using DasBlog.Services;
 using DasBlog.Services.ActivityPub;
@@ -79,11 +80,32 @@ namespace DasBlog.Managers
 
 		public WebFinger WebFinger(string resource)
 		{
-			// validate resource
-
 			string mastodonUrl = dasBlogSettings.SiteConfiguration.MastodonServerUrl;
 			string mastodonAccount = dasBlogSettings.SiteConfiguration.MastodonAccount;
+
 			if (string.IsNullOrEmpty(mastodonUrl) || string.IsNullOrEmpty(mastodonAccount))
+			{
+				return null;
+			}
+
+			if (resource.StartsWith("@"))
+			{
+				resource = resource.Remove(0, 1);
+			}
+
+			if (mastodonAccount.StartsWith("@"))
+			{
+				mastodonAccount = mastodonAccount.Remove(0, 1);
+			}
+
+			var address = new MailAddress(resource);
+			if (string.Compare(address.User, mastodonAccount, StringComparison.InvariantCultureIgnoreCase) != 0)
+			{
+				return null;
+			}
+
+			var host = new Uri(mastodonUrl);
+			if (string.Compare(address.Host, host.Host, StringComparison.InvariantCultureIgnoreCase) != 0)
 			{
 				return null;
 			}
@@ -91,10 +113,6 @@ namespace DasBlog.Managers
 			if (!mastodonUrl.Contains("://"))
 			{
 				mastodonUrl = "https://" + mastodonUrl;
-			}
-			if (mastodonAccount.StartsWith("@"))
-			{
-				mastodonAccount = mastodonAccount.Remove(0, 1);
 			}
 
 			var mastotonSiteUri = new Uri(mastodonUrl);
