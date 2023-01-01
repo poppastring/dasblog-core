@@ -5,7 +5,9 @@ using DasBlog.Web.Models.ActivityPubModels;
 using DasBlog.Web.Settings;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 
 namespace DasBlog.Web.Controllers
 {
@@ -63,6 +65,7 @@ namespace DasBlog.Web.Controllers
 
 			var actor = new ActorViewModel
 			{
+				context = CreateActorContext(),
 				id = dasBlogSettings.RelativeToRoot($"users/{mastodonAccount}"),
 				type = "Person",
 				following = dasBlogSettings.RelativeToRoot($"users/{mastodonAccount}/following"),
@@ -73,7 +76,11 @@ namespace DasBlog.Web.Controllers
 				name = dasBlogSettings.SiteConfiguration.Title,
 				summary = dasBlogSettings.SiteConfiguration.Description,
 				url = dasBlogSettings.RelativeToRoot($"@{mastodonAccount}"),
-				published = DateTime.UtcNow
+				published = DateTime.UtcNow.AddDays(-400),
+				endpoints = new Endpoints { sharedInbox = dasBlogSettings.RelativeToRoot($"users/{mastodonAccount}/inbox") },
+				publicKey = null,
+				icon = null,
+				image = null
 			};
 
 			return Json(actor, jsonSerializerOptions);
@@ -117,6 +124,48 @@ namespace DasBlog.Web.Controllers
 		public IActionResult ObjectStatusActivity(string user, string id)
 		{
 			return NotFound();
+		}
+
+		private object[] CreateActorContext()
+		{
+			var list = new List<object>();
+			list.Add("https://www.w3.org/ns/activitystreams");
+			list.Add("https://w3id.org/security/v1");
+
+			var ac = new ActorContext 
+			{
+				manuallyApprovesFollowers = "as:manuallyApprovesFollowers",
+				toot = "http://joinmastodon.org/ns#",
+				featured = new Featured { id = "toot:featured", type = "@id" },
+				featuredTags = new Featuredtags { id = "toot:featuredTags", type = "@id" },
+				alsoKnownAs = new Alsoknownas { id = "as:alsoKnownAs", type = "@id" },
+				movedTo = new Movedto { id = "as:movedTo", type = "@id" },
+				schema = "http://schema.org#",
+				PropertyValue = "schema:PropertyValue",
+				value = "schema:value",
+				discoverable = "toot:discoverable",
+				Device = "toot:Device",
+				Ed25519Signature = "toot:Ed25519Signature",
+				Ed25519Key = "toot:Ed25519Key",
+				Curve25519Key = "toot:Curve25519Key",
+				EncryptedMessage = "toot:EncryptedMessage",
+				publicKeyBase64 = "toot:publicKeyBase64",
+				deviceId = "toot:deviceId",
+				claim = new Claim { id = "toot:Claim", type = "@id" },
+				fingerprintKey = new Fingerprintkey { id = "toot:fingerprintKey", type = "@id" },
+				identityKey = new Identitykey { id = "toot:identityKey", type = "@id" },
+				devices = new Devices { id = "toot:devices", type = "@id" },
+				messageFranking = "toot:messageFranking",
+				messageType = "toot:messageType",
+				cipherText = "toot:cipherText",
+				suspended = "toot:suspended",
+				Emoji = "toot:Emoji",
+				focalPoint = new Focalpoint { id = "toot:focalPoint", container = "@list" }
+			};
+
+			list.Add(ac);
+
+			return list.ToArray();
 		}
 	}
 }
