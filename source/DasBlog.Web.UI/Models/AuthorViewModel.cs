@@ -3,7 +3,7 @@ using DasBlog.Core.Security;
 
 namespace DasBlog.Web.Models
 {
-	public class UsersViewModel
+	public class AuthorViewModel
 	{
 		public string Name { get; set; }
 

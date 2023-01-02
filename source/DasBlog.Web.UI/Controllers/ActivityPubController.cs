@@ -1,72 +1,171 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text.Encodings.Web;
-using System.Text.Json;
+﻿using AutoMapper;
+using DasBlog.Managers.Interfaces;
 using DasBlog.Services;
 using DasBlog.Web.Models.ActivityPubModels;
 using DasBlog.Web.Settings;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using Quartz.Util;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 
 namespace DasBlog.Web.Controllers
 {
-	[Route(".well-known")]
+	[Produces("text/json")]
 	public class ActivityPubController : DasBlogBaseController
 	{
 		private readonly IDasBlogSettings dasBlogSettings;
+		private readonly IActivityPubManager activityPubManager;
+		private readonly IBlogManager blogManager;
+		private readonly IMapper mapper;
 
-		public ActivityPubController(IDasBlogSettings settings) : base(settings) 
+		public ActivityPubController(IActivityPubManager activityPubManager, IBlogManager blogManager, IDasBlogSettings dasBlogSettings, IMapper mapper) : base(dasBlogSettings)
 		{
-			dasBlogSettings = settings;
+			this.dasBlogSettings = dasBlogSettings;
+			this.activityPubManager = activityPubManager;
+			this.blogManager = blogManager;
+			this.mapper = mapper;
 		}
 
-		[Produces("text/json")]
-		[HttpGet("webfinger")]
+		[HttpGet(".well-known/webfinger")]
 		public ActionResult WebFinger(string resource)
 		{
-			string mastodonUrl = dasBlogSettings.SiteConfiguration.MastodonServerUrl;
-			string mastodonAccount = dasBlogSettings.SiteConfiguration.MastodonAccount;
-			if (string.IsNullOrEmpty(mastodonUrl) || string.IsNullOrEmpty(mastodonAccount))
+			if (resource.StartsWith("acct:"))
 			{
-				return NotFound();
+				resource = resource.Remove(0, 5);
 			}
-			if ( !mastodonUrl.Contains("://"))
+
+			var webfinger = activityPubManager.WebFinger(resource);
+			if (webfinger != null)
 			{
-				mastodonUrl = "https://" + mastodonUrl;
+				var wfvm = mapper.Map<WebFingerViewModel>(webfinger);
+				wfvm.links = webfinger.Links.Select(entry => mapper.Map<WebFingerLinkViewModel>(entry)).ToList();
+
+				return Json(wfvm, jsonSerializerOptions);
 			}
-			if ( mastodonAccount.StartsWith("@"))
+
+			return NoContent();
+		}
+
+		[HttpGet]
+		[Route("@{user}")]
+		[Route("users/{user}")]
+		public IActionResult Actor(string user)
+		{
+			var mastodonAccount = dasBlogSettings.SiteConfiguration.MastodonAccount;
+			if (mastodonAccount.StartsWith("@"))
 			{
 				mastodonAccount = mastodonAccount.Remove(0, 1);
 			}
 
-			var mastotonSiteUri = new Uri(mastodonUrl);
-			string usersUrl = new Uri(mastotonSiteUri, $"users/{mastodonAccount}").AbsoluteUri;
-			string accountUrl = new Uri(mastotonSiteUri,	mastodonAccount).AbsoluteUri;
-			string authurl = new Uri(mastotonSiteUri, "authorize_interaction").AbsoluteUri + "?uri={uri}";
-
-			if (dasBlogSettings.SiteConfiguration.MastodonServerUrl.IsNullOrWhiteSpace() || 
-				dasBlogSettings.SiteConfiguration.MastodonAccount.IsNullOrWhiteSpace())
+			if (string.Compare(user, mastodonAccount, StringComparison.InvariantCultureIgnoreCase) != 0)
 			{
-				return NoContent();
+				return NotFound();
 			}
 
-			var results = new Root
+			var actor = new ActorViewModel
 			{
-				subject = $"acct:{mastodonAccount}@{mastotonSiteUri.Host}",
-				aliases = new List<string> { accountUrl, usersUrl },
-
-				links = new List<Link>
-				{
-					new Link() { rel="http://webfinger.net/rel/profile-page", type="text/html", href= accountUrl },
-					new Link() { rel="self", type=@"application/activity+json", href= usersUrl},
-					new Link() { rel="http://ostatus.org/schema/1.0/subscribe", template= authurl }
-				}
+				context = CreateActorContext(),
+				id = dasBlogSettings.RelativeToRoot($"users/{mastodonAccount}"),
+				type = "Person",
+				following = dasBlogSettings.RelativeToRoot($"users/{mastodonAccount}/following"),
+				followers = dasBlogSettings.RelativeToRoot($"users/{mastodonAccount}/followers"),
+				inbox = dasBlogSettings.RelativeToRoot($"users/{mastodonAccount}/inbox"),
+				outbox = dasBlogSettings.RelativeToRoot($"users/{mastodonAccount}/outbox"),
+				preferredUsername = mastodonAccount,
+				name = dasBlogSettings.SiteConfiguration.Title,
+				summary = dasBlogSettings.SiteConfiguration.Description,
+				url = dasBlogSettings.RelativeToRoot($"@{mastodonAccount}"),
+				published = DateTime.UtcNow.AddDays(-400),
+				endpoints = new Endpoints { sharedInbox = dasBlogSettings.RelativeToRoot($"users/{mastodonAccount}/inbox") },
+				publicKey = null,
+				icon = null,
+				image = null
 			};
 
-			var options = new JsonSerializerOptions { Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping };
+			return Json(actor, jsonSerializerOptions);
+		}
 
-			return Json(results, options);
+		[HttpGet]
+		[Route("users/{user}/outbox")]
+		public IActionResult GetUser(string user, bool page)
+		{
+			string mastodonAccount = dasBlogSettings.SiteConfiguration.MastodonAccount;
+			if (mastodonAccount.StartsWith("@"))
+			{
+				mastodonAccount = mastodonAccount.Remove(0, 1);
+			}
+
+			if (string.Compare(user, mastodonAccount, StringComparison.InvariantCultureIgnoreCase) != 0)
+			{
+				return NotFound();
+			}
+
+			if (page)
+			{
+				var fpentries = blogManager.GetFrontPagePosts(Request.Headers["Accept-Language"]).ToList();
+
+				var userpage = activityPubManager.GetUserPage(fpentries);
+				var upvm = mapper.Map<UserPageViewModel>(userpage);
+
+				upvm.orderedItems = userpage.OrderItems.Select(entry => mapper.Map<OrderedItemViewModel>(entry)).ToArray();
+
+				return Json(upvm, jsonSerializerOptions);
+			}
+
+			var userinfo = activityPubManager.GetUser();
+			var uvm = mapper.Map<UserViewModel>(userinfo);
+
+			return Json(uvm, jsonSerializerOptions);
+		}
+
+		[HttpGet]
+		[Route("@{user}/statuses/{id}/activity")]
+		public IActionResult ObjectStatusActivity(string user, string id)
+		{
+			return NotFound();
+		}
+
+		private object[] CreateActorContext()
+		{
+			var list = new List<object>();
+			list.Add("https://www.w3.org/ns/activitystreams");
+			list.Add("https://w3id.org/security/v1");
+
+			var ac = new ActorContext 
+			{
+				manuallyApprovesFollowers = "as:manuallyApprovesFollowers",
+				toot = "http://joinmastodon.org/ns#",
+				featured = new Featured { id = "toot:featured", type = "@id" },
+				featuredTags = new Featuredtags { id = "toot:featuredTags", type = "@id" },
+				alsoKnownAs = new Alsoknownas { id = "as:alsoKnownAs", type = "@id" },
+				movedTo = new Movedto { id = "as:movedTo", type = "@id" },
+				schema = "http://schema.org#",
+				PropertyValue = "schema:PropertyValue",
+				value = "schema:value",
+				discoverable = "toot:discoverable",
+				Device = "toot:Device",
+				Ed25519Signature = "toot:Ed25519Signature",
+				Ed25519Key = "toot:Ed25519Key",
+				Curve25519Key = "toot:Curve25519Key",
+				EncryptedMessage = "toot:EncryptedMessage",
+				publicKeyBase64 = "toot:publicKeyBase64",
+				deviceId = "toot:deviceId",
+				claim = new Claim { id = "toot:Claim", type = "@id" },
+				fingerprintKey = new Fingerprintkey { id = "toot:fingerprintKey", type = "@id" },
+				identityKey = new Identitykey { id = "toot:identityKey", type = "@id" },
+				devices = new Devices { id = "toot:devices", type = "@id" },
+				messageFranking = "toot:messageFranking",
+				messageType = "toot:messageType",
+				cipherText = "toot:cipherText",
+				suspended = "toot:suspended",
+				Emoji = "toot:Emoji",
+				focalPoint = new Focalpoint { id = "toot:focalPoint", container = "@list" }
+			};
+
+			list.Add(ac);
+
+			return list.ToArray();
 		}
 	}
 }

@@ -199,6 +199,7 @@ namespace DasBlog.Web
 				.AddSingleton<ISiteSecurityManager, SiteSecurityManager>()
 				.AddSingleton<IXmlRpcManager, XmlRpcManager>()
 				.AddSingleton<ISiteManager, SiteManager>()
+				.AddSingleton<IActivityPubManager, ActivityPubManager>()
 				.AddSingleton<IHttpContextAccessor, HttpContextAccessor>()
 				.AddSingleton<IFileSystemBinaryManager, FileSystemBinaryManager>()
 				.AddSingleton<IUserDataRepo, UserDataRepo>()
@@ -219,6 +220,7 @@ namespace DasBlog.Web
 					mapperConfig.AddProfile(new ProfilePost(serviceProvider.GetService<IDasBlogSettings>()));
 					mapperConfig.AddProfile(new ProfileDasBlogUser(serviceProvider.GetService<ISiteSecurityManager>()));
 					mapperConfig.AddProfile(new ProfileSettings());
+					mapperConfig.AddProfile(new ProfileActivityPub());
 				})
 				.AddMvc()
 				.AddXmlSerializerFormatters();

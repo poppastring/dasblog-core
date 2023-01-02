@@ -6,6 +6,8 @@ using DasBlog.Web.Controllers;
 using DasBlog.Web.Models.BlogViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using System.Text.Encodings.Web;
+using System.Text.Json;
 
 namespace DasBlog.Web.Settings
 {
@@ -16,10 +18,12 @@ namespace DasBlog.Web.Settings
 		protected const string BLOG_PAGESUMMARY = "_BlogPageSummary";
 		protected const string BLOG_EMAIL_COMMENT_SUBJECT = "Weblog comment by {0} from {1} on {2}";
 		protected const string BLOG_EMAIL_COMMENT_TEMPLATE_BODY = "@Model.Comment \r\n\r\n Comment Page @Model.CommentUrl \r\n Login and approve/delete the comment.";
-		
+		protected readonly JsonSerializerOptions jsonSerializerOptions;
+
 		protected DasBlogBaseController(IDasBlogSettings settings)
 		{
 			dasBlogSettings = settings;
+			jsonSerializerOptions = new JsonSerializerOptions { Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping };
 		}
 
 		protected ViewResult SinglePostView(ListPostsViewModel listPostsViewModel)
