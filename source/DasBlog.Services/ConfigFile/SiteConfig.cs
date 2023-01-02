@@ -144,8 +144,10 @@ namespace DasBlog.Services.ConfigFile
         public ContentFilterCollection ContentFilters { get; set; }
         public ContentFilter[] ContentFilterArray { get; set; }
         public CrosspostSiteCollection CrosspostSites { get; set; }
-        public CrosspostSite[] CrosspostSiteArray { get; set; }
-        public bool Pop3DeleteAllMessages { get; set; }
+		public CloudEventsTargetCollection CloudEventsTargets { get; set; }
+		public CrosspostSite[] CrosspostSiteArray { get; set; }
+		public CloudEventsTarget[] CloudEventsTargetArray { get; set; }
+		public bool Pop3DeleteAllMessages { get; set; }
         public bool Pop3LogIgnoredEmails { get; set; }
         public bool EnableReferralUrlBlackList { get; set; }
         public string ReferralUrlBlackList { get; set; }
@@ -242,6 +244,6 @@ namespace DasBlog.Services.ConfigFile
 		public string MastodonServerUrl { get; set; }
 
 		public string MastodonAccount { get; set; }
-
+		public bool EnableCloudEvents { get; set; }
 	}
 }

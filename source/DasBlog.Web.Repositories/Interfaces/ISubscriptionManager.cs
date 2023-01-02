@@ -10,5 +10,6 @@ namespace DasBlog.Managers.Interfaces
         RssRoot GetAtom();
         RssRoot GetAtomCategory(string categoryName);
         RsdRoot GetRsd();
-    }
+		RssItem GetRssItem(string entryId);
+	}
 }

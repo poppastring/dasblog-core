@@ -101,7 +101,7 @@ namespace DasBlog.Web.Settings
 
         public string GetEntryCommentsRssUrl(string entryId)
         {
-            return RelativeToRoot(RssUrl + "/comments/" + entryId);
+            return RelativeToRoot(RssUrl + $"/{entryId}/comments/");
         }
 
 		public string GetCategoryViewUrl(string category)
@@ -116,7 +116,12 @@ namespace DasBlog.Web.Settings
 
 		public string GetRssCategoryUrl(string category)
 		{
-			return string.Empty;
+			return RelativeToRoot($"feed/tags/{category}/rss");
+		}
+
+		public string GetRssEntryUrl(string entryId)
+		{
+			return RelativeToRoot($"feed/rss/{entryId}");
 		}
 
 		public User GetUser(string userName)
@@ -307,5 +312,7 @@ namespace DasBlog.Web.Settings
 
 			return datetime;
 		}
+
+		
 	}
 }

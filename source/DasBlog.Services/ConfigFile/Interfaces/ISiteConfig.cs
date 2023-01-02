@@ -130,7 +130,9 @@ namespace DasBlog.Services.ConfigFile.Interfaces
 
         bool EnableCrossposts { get; set; }
 
-        bool UseUserCulture { get; set; }
+		bool EnableCloudEvents { get; set; }
+
+		bool UseUserCulture { get; set; }
 
 		bool ShowItemSummaryInAggregatedViews { get; set; }
 
@@ -199,7 +201,13 @@ namespace DasBlog.Services.ConfigFile.Interfaces
         [XmlArray("CrosspostSites")]
         CrosspostSite[] CrosspostSiteArray { get; set; }
 
-        bool Pop3DeleteAllMessages { get; set; }
+		[XmlIgnore]
+		CloudEventsTargetCollection CloudEventsTargets { get; set; }
+
+		[XmlArray("CloudEventsTargets")]
+		CloudEventsTarget[] CloudEventsTargetArray { get; set; }
+
+		bool Pop3DeleteAllMessages { get; set; }
 
         bool Pop3LogIgnoredEmails { get; set; }
 

@@ -10,6 +10,8 @@
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="CloudNative.CloudEvents" Version="2.5.1" />
+    <PackageReference Include="CloudNative.CloudEvents.SystemTextJson" Version="2.5.1" />
     <PackageReference Include="NodaTime" Version="3.0.9" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
   </ItemGroup>
