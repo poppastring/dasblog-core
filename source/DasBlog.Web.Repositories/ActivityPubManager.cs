@@ -54,23 +54,23 @@ namespace DasBlog.Managers
 		public UserPage GetUserPage(IList<Entry> page)
 		{
 			var ordereditems = page.Select(o => new OrderedItem
-				{
-					Id = string.Format(statusActivity, dasBlogSettings.SiteConfiguration.MastodonAccount, o.EntryId),
-					Type = "Create",
-					Actor = actor,
-					Published = DateTime.UtcNow,
-					To = new List<string>() { ACTIVITYSTREAM_PUBLIC },
-					Cc = new List<string>() { carbonCopy },
-					Sensitive = false,
-					Content = string.Format("New post: {0} {1}", o.Title, o.CompressedTitle)
-				}).ToList();
+			{
+				Id = string.Format(statusActivity, dasBlogSettings.SiteConfiguration.MastodonAccount, o.EntryId),
+				Type = "Create",
+				Actor = actor,
+				Published = DateTime.UtcNow,
+				To = new List<string>() { ACTIVITYSTREAM_PUBLIC },
+				Cc = new List<string>() { carbonCopy },
+				Sensitive = false,
+				Content = string.Format("New post: {0} {1}", o.Title, o.CompressedTitle)
+			}).ToList();
 
 			var userpage = new UserPage
 			{
 				Id = outBox + PAGE_TRUE,
 				Type = "OrderedCollectionPage",
-				Next = "",
-				Previous = "",
+				Next = new Uri(new Uri(dasBlogSettings.SiteConfiguration.Root), "outbox?maxid=1&page=true").AbsoluteUri,
+				Previous = new Uri(new Uri(dasBlogSettings.SiteConfiguration.Root), "outbox?maxid=1&page=true").AbsoluteUri,
 				PartOf = outBox,
 				OrderItems = ordereditems
 			};

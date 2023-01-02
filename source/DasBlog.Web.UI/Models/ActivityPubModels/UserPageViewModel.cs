@@ -5,6 +5,8 @@ namespace DasBlog.Web.Models.ActivityPubModels
 {
 	public class UserPageViewModel
 	{
+		[JsonPropertyName("@context")]
+		public object[] context { get; set; }
 		public string id { get; set; }
 		public string type { get; set; }
 		public string next { get; set; }
@@ -25,4 +27,17 @@ namespace DasBlog.Web.Models.ActivityPubModels
 		public string content { get; set; }
 	}
 
+	public class UserPageContextViewModel
+	{
+		public string ostatus { get; set; }
+		public string atomUri { get; set; }
+		public string inReplyToAtomUri { get; set; }
+		public string conversation { get; set; }
+		public string sensitive { get; set; }
+		public string toot { get; set; }
+		public string votersCount { get; set; }
+		public string blurhash { get; set; }
+		public Focalpoint focalPoint { get; set; }
+		public string Hashtag { get; set; }
+	}
 }

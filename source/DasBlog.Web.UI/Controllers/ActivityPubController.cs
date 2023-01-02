@@ -108,6 +108,13 @@ namespace DasBlog.Web.Controllers
 				var userpage = activityPubManager.GetUserPage(fpentries);
 				var upvm = mapper.Map<UserPageViewModel>(userpage);
 
+				var context = new List<object>
+				{
+					"https://www.w3.org/ns/activitystreams",
+					GetUserPageContext()
+				};
+
+				upvm.context =  context.ToArray();
 				upvm.orderedItems = userpage.OrderItems.Select(entry => mapper.Map<OrderedItemViewModel>(entry)).ToArray();
 
 				return Json(upvm, jsonSerializerOptions);
@@ -166,6 +173,23 @@ namespace DasBlog.Web.Controllers
 			list.Add(ac);
 
 			return list.ToArray();
+		}
+
+		private static UserPageContextViewModel GetUserPageContext()
+		{
+			return new UserPageContextViewModel
+			{
+				ostatus = "http://ostatus.org#",
+				atomUri = "ostatus:atomUri",
+				inReplyToAtomUri = "ostatus:inReplyToAtomUri",
+				conversation = "ostatus:conversation",
+				sensitive = "as:sensitive",
+				toot = "http://joinmastodon.org/ns#",
+				votersCount = "toot:votersCount",
+				blurhash = "toot:blurhash",
+				focalPoint = new Focalpoint { container = "@list", id = "toot:focalPoint" },
+				Hashtag = "as:Hashtag"
+			};
 		}
 	}
 }
