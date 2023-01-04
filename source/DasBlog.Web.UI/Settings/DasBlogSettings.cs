@@ -24,13 +24,14 @@ namespace DasBlog.Web.Settings
 	{
 		private readonly string siteSecurityConfigFilePath;
 		private readonly ConfigFilePathsDataOption filePathDataOptions;
-
+		
 		public DasBlogSettings(IWebHostEnvironment env, IOptionsMonitor<SiteConfig> siteConfig, IOptionsMonitor<MetaTags> metaTagsConfig, 
+			                        IOptionsMonitor<OEmbedProviders> embedProvidersConfig, 
 									ISiteSecurityConfig siteSecurityConfig, IOptions<ConfigFilePathsDataOption> optionsAccessor)
 		{
 			WebRootDirectory = env.ContentRootPath;
 			SiteConfiguration = siteConfig.CurrentValue;
-
+			OEmbedProviders = embedProvidersConfig.CurrentValue;
 			SecurityConfiguration = siteSecurityConfig;
 			MetaTags = metaTagsConfig.CurrentValue;
 			filePathDataOptions = optionsAccessor.Value;
@@ -70,6 +71,7 @@ namespace DasBlog.Web.Settings
 		public ISiteConfig SiteConfiguration { get; set;  }
 
 		public ISiteSecurityConfig SecurityConfiguration { get; }
+		public IOEmbedProviders OEmbedProviders { get;  set; }
 
 		private static Regex htmlFilterRegex = new Regex("<(?<end>/)?(?<name>\\w+)((\\s+(?<attNameValue>(?<attName>\\w+)(\\s*=\\s*(?:\"(?<attVal>[^\"]*)\"|'(?<attVal>[^']*)'|(?<attVal>[^'\">\\s]+)))?))+\\s*|\\s*)(?<self>/)?>",
 			RegexOptions.CultureInvariant | RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.Compiled);

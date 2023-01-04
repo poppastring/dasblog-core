@@ -215,7 +215,6 @@ source/DasBlog.Web.UI/content
 # dasblog-core test infrasructure
 test_results/
 test_results.xml
-/source/DasBlog.Tests/FunctionalTests/Properties/launchSettings.json
-/source/DasBlog.Web.UI/Properties/ServiceDependencies/dasblog-linux - Zip Deploy/profile.arm.json
-/source/DasBlog.Web.UI/Properties/ServiceDependencies/dasblog-linux - Zip Deploy
-/source/DasBlog.Web.UI/Properties/ServiceDependencies
+source/DasBlog.Tests/FunctionalTests/Properties/launchSettings.json
+source/DasBlog.Web.UI/Properties/ServiceDependencies/*
+source/DasBlog.Web.UI/.config

@@ -14,6 +14,8 @@ namespace DasBlog.Services
 		IMetaTags MetaTags { get; set; }
 		ISiteSecurityConfig SecurityConfiguration { get; }
 
+		IOEmbedProviders OEmbedProviders { get; set; }
+
 		string WebRootDirectory { get; }
 
 		string RssUrl { get; }

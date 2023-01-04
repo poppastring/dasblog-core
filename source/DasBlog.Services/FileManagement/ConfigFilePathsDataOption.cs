@@ -19,5 +19,6 @@ namespace DasBlog.Services.FileManagement
 		public string BinaryFolder { get; set; }
 
 		public string BinaryUrlRelative { get; set; }
+		public string OEmbedProvidersFilePath { get; set; }
 	}
 }
