@@ -52,8 +52,9 @@ namespace DasBlog.Services.ConfigFile
 	public class SiteConfig : ISiteConfig
     {
         private string _root;
+        private string _cdnRoot;
 
-        public SiteConfig() { }
+		public SiteConfig() { }
 
         public string Title { get; set; }
         public string Subtitle { get; set; }
@@ -77,6 +78,26 @@ namespace DasBlog.Services.ConfigFile
                 }
             }
         }
+
+		public string CdnRoot
+		{
+			get
+			{
+				return _cdnRoot;
+			}
+			set
+			{
+				if (!string.IsNullOrEmpty(value))
+				{
+					_cdnRoot = value + (value.EndsWith("/") ? "" : "/");
+				}
+				else
+				{
+					_cdnRoot = value;
+				}
+			}
+		}
+
 		public string AllowedHosts { get; set; }
 		public string Copyright { get; set; }
         public int RssDayCount { get; set; }

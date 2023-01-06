@@ -1,7 +1,6 @@
 ﻿using DasBlog.Managers.Interfaces;
 using DasBlog.Services;
 using DasBlog.Services.ConfigFile;
-using DasBlog.Services.ConfigFile.Interfaces;
 using DasBlog.Services.FileManagement;
 using DasBlog.Services.FileManagement.Interfaces;
 using Microsoft.Extensions.Options;
@@ -33,7 +32,9 @@ namespace DasBlog.Managers
 
 			var loggingDataService = LoggingDataServiceFactory.GetService(Path.Combine(dasBlogSettings.WebRootDirectory, dasBlogSettings.SiteConfiguration.LogDir));
 
-			this.binaryDataService = BinaryDataServiceFactory.GetService(options.BinaryFolder, physBinaryPathUrl, loggingDataService);
+			var cdnManager = CdnManagerFactory.GetService(dasBlogSettings.SiteConfiguration.Root, dasBlogSettings.SiteConfiguration.CdnRoot);
+
+			binaryDataService = BinaryDataServiceFactory.GetService(options.BinaryFolder, physBinaryPathUrl, loggingDataService, cdnManager);
 		}
 
 		public string SaveFile(Stream inputFile, string fileName)

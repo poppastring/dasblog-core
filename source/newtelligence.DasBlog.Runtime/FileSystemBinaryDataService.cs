@@ -19,7 +19,7 @@ namespace newtelligence.DasBlog.Runtime
         /// </summary>
         /// <param name="contentLocation"></param>
         /// <returns></returns>
-        public static IBinaryDataService GetService(string contentLocation, Uri rootUrl, ILoggingDataService loggingService)
+        public static IBinaryDataService GetService(string contentLocation, Uri rootUrl, ILoggingDataService loggingService, ICdnManager cdnManager)
         {
             IBinaryDataService service;
 
@@ -27,7 +27,7 @@ namespace newtelligence.DasBlog.Runtime
             {
                 if (!services.TryGetValue(contentLocation, out service))
                 {
-                    service = new FileSystemBinaryDataService(contentLocation, rootUrl, loggingService);
+	                service = new FileSystemBinaryDataService(contentLocation, rootUrl, loggingService, cdnManager);
                     services.Add(contentLocation, service);
                 }
             }
@@ -50,14 +50,14 @@ namespace newtelligence.DasBlog.Runtime
 
     internal sealed class FileSystemBinaryDataService : IBinaryDataService
     {
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="contentLocation">The location of the content on disk.</param>
-        /// <param name="binaryRelativeUrl">The relative url to the binary content from the root of the site.</param>
-        /// <param name="loggingService">The logging service.</param>
-        internal FileSystemBinaryDataService(string contentLocation, Uri binaryRootUrl, ILoggingDataService loggingService)
+	    /// <summary>
+	    /// 
+	    /// </summary>
+	    /// <param name="contentLocation">The location of the content on disk.</param>
+	    /// <param name="binaryRootUrl">The relative url to the binary content from the root of the site.</param>
+	    /// <param name="loggingService">The logging service.</param>
+	    /// <param name="cdnManager">Creates content URis for CDN locations.</param>
+	    internal FileSystemBinaryDataService(string contentLocation, Uri binaryRootUrl, ILoggingDataService loggingService, ICdnManager cdnManager)
         {
             // parameter validation
             if (string.IsNullOrEmpty(contentLocation))
@@ -82,6 +82,7 @@ namespace newtelligence.DasBlog.Runtime
 
             this.contentLocation = contentLocation;
             this.loggingService = loggingService;
+            this.cdnManager = cdnManager;
             this.binaryRoot = binaryRootUrl;
         }
 
@@ -144,9 +145,11 @@ namespace newtelligence.DasBlog.Runtime
 
             string absUri = GetAbsoluteFileUri(file.FullName, out relUri);
 
-            fileName = relUri;
+			fileName = relUri; 
+			
+			absUri = cdnManager.ApplyCdnUri(absUri);
 
-            return absUri;
+			return absUri;
         }
 
         private string GetAbsoluteFileUri(string fullPath, out string relFileUri)
@@ -218,6 +221,6 @@ namespace newtelligence.DasBlog.Runtime
         private string contentLocation;
         private Uri binaryRoot;
         private ILoggingDataService loggingService;
-
+        private readonly ICdnManager cdnManager;
     }
 }
