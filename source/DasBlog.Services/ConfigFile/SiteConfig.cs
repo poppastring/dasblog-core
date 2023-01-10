@@ -79,44 +79,8 @@ namespace DasBlog.Services.ConfigFile
                 }
             }
         }
-
-		public string CdnFrom
-		{
-			get
-			{
-				return _cdnFrom;
-			}
-			set
-			{
-				if (!string.IsNullOrEmpty(value))
-				{
-					_cdnFrom = value + (value.EndsWith("/") ? "" : "/");
-				}
-				else
-				{
-					_cdnFrom = value;
-				}
-			}
-		}
-
-		public string CdnTo
-		{
-			get
-			{
-				return _cdnTo;
-			}
-			set
-			{
-				if (!string.IsNullOrEmpty(value))
-				{
-					_cdnTo= value + (value.EndsWith("/") ? "" : "/");
-				}
-				else
-				{
-					_cdnTo = value;
-				}
-			}
-		}
+		public string CdnFrom { get; set; }
+		public string CdnTo { get; set; }
 
 		public string AllowedHosts { get; set; }
 		public string Copyright { get; set; }

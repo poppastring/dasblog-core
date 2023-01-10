@@ -240,8 +240,15 @@ namespace DasBlog.Web.Models.AdminViewModels
 
 		[DisplayName("Time zone index")]
 		[Description("")]
-
 		public int DisplayTimeZoneIndex { get; set; }
+
+		[DisplayName("CDN from")]
+		[Description("The part of your Root URL to replace with the CDN URL. (optional)")]
+		public string CdnFrom { get; set; }
+
+		[DisplayName("CDN to")]
+		[Description("The CDN URL that will replace 'CDN from'. (optional)")]
+		public string CdnTo { get; set; }
 
 		[DisplayName("Comments require approval")]
 		[Description("")]
