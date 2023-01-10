@@ -15,7 +15,8 @@ namespace DasBlog.Tests.UnitTests
 		public string Description { get => "Description"; set => throw new NotImplementedException(); }
 		public string Contact { get => "Contact"; set => throw new NotImplementedException(); }
 		public string Root { get => "http://www.poppastring.com/"; set => throw new NotImplementedException(); }
-		public string CdnRoot { get => ""; set => throw new NotImplementedException(); }
+		public string CdnFrom{ get => ""; set => throw new NotImplementedException(); }
+		public string CdnTo{ get => ""; set => throw new NotImplementedException(); }
 		public string Copyright { get => "CopyRight"; set => throw new NotImplementedException(); }
 		public int RssDayCount { get => 100; set => throw new NotImplementedException(); }
 		public bool ShowCommentCount { get => true; set => throw new NotImplementedException(); }
