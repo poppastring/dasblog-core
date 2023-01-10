@@ -4,6 +4,7 @@ using DasBlog.Services;
 using DasBlog.Web.Models.ActivityPubModels;
 using DasBlog.Web.Settings;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,7 @@ namespace DasBlog.Web.Controllers
 		private readonly IActivityPubManager activityPubManager;
 		private readonly IBlogManager blogManager;
 		private readonly IMapper mapper;
+		private static readonly IList<MastodonUserViewModel> followersList = new List<MastodonUserViewModel>();
 
 		public ActivityPubController(IActivityPubManager activityPubManager, IBlogManager blogManager, IDasBlogSettings dasBlogSettings, IMapper mapper) : base(dasBlogSettings)
 		{
@@ -126,11 +128,65 @@ namespace DasBlog.Web.Controllers
 			return Json(uvm, jsonSerializerOptions);
 		}
 
-		[HttpGet]
-		[Route("@{user}/statuses/{id}/activity")]
-		public IActionResult ObjectStatusActivity(string user, string id)
+		[HttpPost]
+		[Route("users/{user}/inbox/followers")]
+		public IActionResult PostFollow([FromBody] MastodonUserViewModel follower, string user)
 		{
-			return NotFound();
+			string mastodonAccount = dasBlogSettings.SiteConfiguration.MastodonAccount;
+			if (mastodonAccount.StartsWith("@"))
+			{
+				mastodonAccount = mastodonAccount.Remove(0, 1);
+			}
+
+			if (string.Compare(user, mastodonAccount, StringComparison.InvariantCultureIgnoreCase) != 0)
+			{
+				return NotFound();
+			}
+
+			// Verify the content (validate bearer token)
+
+			// Store the follow details, not like this though
+			followersList.Add(follower);
+
+			return Ok();
+		}
+
+		[HttpGet]
+		[Route("users/{user}/inbox/followers")]
+		public IActionResult GetFollowers(string user, int? page)
+		{
+			string mastodonAccount = dasBlogSettings.SiteConfiguration.MastodonAccount;
+			if (mastodonAccount.StartsWith("@"))
+			{
+				mastodonAccount = mastodonAccount.Remove(0, 1);
+			}
+
+			if (string.Compare(user, mastodonAccount, StringComparison.InvariantCultureIgnoreCase) != 0)
+			{
+				return NotFound();
+			}
+
+			if (page == null)
+			{
+				var ufvm = new UserFollowersViewModel();
+				ufvm.context = "https://www.w3.org/ns/activitystreams";
+				ufvm.id = dasBlogSettings.RelativeToRoot($"users/{mastodonAccount}/followers");
+				ufvm.first = dasBlogSettings.RelativeToRoot($"users/{mastodonAccount}/followers?page=1");
+				ufvm.type = "OrderedCollection";
+				ufvm.totalItems = followersList.Count;
+
+				return Json(ufvm);
+			}
+
+			var ufpvm = new UserFollowersPageViewModel();
+			ufpvm.context = "https://www.w3.org/ns/activitystreams";
+			ufpvm.id = dasBlogSettings.RelativeToRoot($"users/{mastodonAccount}/followers");
+			ufpvm.next = dasBlogSettings.RelativeToRoot($"users/{mastodonAccount}/followers?page=2");
+			ufpvm.type = "OrderedCollectionPage";
+			ufpvm.totalItems = followersList.Count;
+			ufpvm.orderedItems = followersList.Select(follow => follow.userid).ToArray();
+
+			return Json(ufpvm);
 		}
 
 		private object[] CreateActorContext()
