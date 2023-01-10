@@ -61,9 +61,10 @@ namespace DasBlog.Services.ConfigFile.Interfaces
 
         string Root { get; set; }
 
-        string CdnRoot { get; set; }
+        string CdnFrom { get; set; }
+        string CdnTo { get; set; }
 
-        string Copyright { get; set; }
+		string Copyright { get; set; }
 		
 		int RssDayCount { get; set; }
 

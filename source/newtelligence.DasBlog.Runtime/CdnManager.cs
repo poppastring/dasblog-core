@@ -4,39 +4,32 @@ namespace newtelligence.DasBlog.Runtime
 {
 	public static class CdnManagerFactory
 	{
-		public static ICdnManager GetService(string rootUri, string cdnUri)
+		public static ICdnManager GetService(string cdnFrom, string cdnTo)
 		{
-			return new CdnManager(rootUri, cdnUri);
+			return new CdnManager(cdnFrom, cdnTo);
 		}
 	}
 
 	internal sealed class CdnManager : ICdnManager
 	{
-		private readonly string rootUri;
-		private readonly string cdnUri;
+		private readonly string cdnFrom;
+		private readonly string cdnTo;
 
 		/// <summary>
 		/// Setting up the cdn manager to return cdn uris when that is configured.
 		/// </summary>
-		/// <param name="rootUri">The root of the </param>
-		/// <param name="cdnUri"></param>
-		public CdnManager(string rootUri, string cdnUri)
+		/// <param name="cdnFrom">The binary hosting path to be replaced.</param>
+		/// <param name="cdnTo">The cdn binary hosting path to change to.</param>
+		public CdnManager(string cdnFrom, string cdnTo)
 		{
-			this.rootUri = 
-				string.IsNullOrWhiteSpace(rootUri) || !Uri.TryCreate(rootUri, UriKind.Absolute, out _) ?
-				null :
-				rootUri;
-			this.cdnUri = 
-				string.IsNullOrWhiteSpace(cdnUri) || !Uri.TryCreate(cdnUri, UriKind.Absolute, out _) ? 
-				null : 
-				cdnUri;
-			if (this.rootUri == null) this.cdnUri = null;
+			this.cdnFrom = string.IsNullOrWhiteSpace(cdnFrom) ? null : cdnFrom;
+			this.cdnTo = string.IsNullOrWhiteSpace(cdnTo) || this.cdnFrom == null ? null : cdnTo;
 		}
 
 		public string ApplyCdnUri(string uri)
 		{
 			// If the cdnUri is null then we can just return the uri.
-			return cdnUri == null ? uri : uri.Replace(rootUri, cdnUri);
+			return cdnTo == null ? uri : uri.Replace(cdnFrom, cdnTo);
 		}
 	}
 }

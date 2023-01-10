@@ -32,7 +32,7 @@ namespace DasBlog.Managers
 
 			var loggingDataService = LoggingDataServiceFactory.GetService(Path.Combine(dasBlogSettings.WebRootDirectory, dasBlogSettings.SiteConfiguration.LogDir));
 
-			var cdnManager = CdnManagerFactory.GetService(dasBlogSettings.SiteConfiguration.Root, dasBlogSettings.SiteConfiguration.CdnRoot);
+			var cdnManager = CdnManagerFactory.GetService(dasBlogSettings.SiteConfiguration.CdnFrom, dasBlogSettings.SiteConfiguration.CdnTo);
 
 			binaryDataService = BinaryDataServiceFactory.GetService(options.BinaryFolder, physBinaryPathUrl, loggingDataService, cdnManager);
 		}
