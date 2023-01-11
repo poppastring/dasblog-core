@@ -110,7 +110,11 @@ namespace DasBlog.Services.ConfigFile
         public bool EnableTrackbackService { get; set; }
         public bool EnablePingbackService { get; set; }
         public bool EnableStartPageCaching { get; set; }
-        public bool EnableBlogrollDescription { get; set; }
+		public bool EnableRewritingHashtagsToCategoryLinks { get; set; }
+		public bool EnableRewritingBareLinksToEmbeddings { get; set; }
+		public bool EnableRewritingBareLinksToIcons { get; set; }
+
+		public bool EnableBlogrollDescription { get; set; }
         public bool EnableUrlRewriting { get; set; }
         public bool EnableCrossposts { get; set; }
         public bool UseUserCulture { get; set; }

@@ -364,5 +364,8 @@ namespace DasBlog.Services.ConfigFile.Interfaces
 
         [XmlAnyAttribute]
         XmlAttribute[] anyAttributes { get; set; }
-    }
+		bool EnableRewritingHashtagsToCategoryLinks { get; set; }
+		bool EnableRewritingBareLinksToEmbeddings { get; set; }
+		bool EnableRewritingBareLinksToIcons { get; set; }
+	}
 }

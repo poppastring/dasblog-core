@@ -20,6 +20,9 @@ using System.Linq;
 using System.Net;
 using reCAPTCHA.AspNetCore;
 using Markdig;
+using DasBlog.Core.Extensions;
+using System.Text.RegularExpressions;
+using DasBlog.Services.Site;
 
 namespace DasBlog.Web.Controllers
 {
@@ -35,11 +38,12 @@ namespace DasBlog.Web.Controllers
 		private readonly ILogger<BlogPostController> logger;
 		private readonly IBlogPostViewModelCreator modelViewCreator;
 		private readonly IMemoryCache memoryCache;
+		private readonly IExternalEmbeddingHandler embeddingHandler;
 		private readonly IRecaptchaService recaptcha;
 
 		public BlogPostController(IBlogManager blogManager, IHttpContextAccessor httpContextAccessor, IDasBlogSettings dasBlogSettings,
 									IMapper mapper, ICategoryManager categoryManager, IFileSystemBinaryManager binaryManager, ILogger<BlogPostController> logger,
-									IBlogPostViewModelCreator modelViewCreator, IMemoryCache memoryCache, IRecaptchaService recaptcha)
+									IBlogPostViewModelCreator modelViewCreator, IMemoryCache memoryCache, IExternalEmbeddingHandler embeddingHandler, IRecaptchaService recaptcha)
 									: base(dasBlogSettings)
 		{
 			this.blogManager = blogManager;
@@ -51,6 +55,7 @@ namespace DasBlog.Web.Controllers
 			this.logger = logger;
 			this.modelViewCreator = modelViewCreator;
 			this.memoryCache = memoryCache;
+			this.embeddingHandler = embeddingHandler;
 			this.recaptcha = recaptcha;
 		}
 
@@ -65,6 +70,9 @@ namespace DasBlog.Web.Controllers
 			if (entry != null)
 			{
 				var pvm = mapper.Map<PostViewModel>(entry);
+				pvm.Content = embeddingHandler.InjectCategoryLinksAsync(pvm.Content).GetAwaiter().GetResult();
+				pvm.Content = embeddingHandler.InjectDynamicEmbeddingsAsync(pvm.Content).GetAwaiter().GetResult();
+				pvm.Content = embeddingHandler.InjectIconsForBareLinksAsync(pvm.Content).GetAwaiter().GetResult();
 
 				var lcvm = new ListCommentsViewModel
 				{
@@ -113,7 +121,8 @@ namespace DasBlog.Web.Controllers
 					AllowComments = entry.AllowComments
 				};
 				pvm.Comments = lcvm;
-
+				pvm.Content = embeddingHandler.InjectCategoryLinksAsync(pvm.Content).GetAwaiter().GetResult();
+				pvm.Content = embeddingHandler.InjectIconsForBareLinksAsync(pvm.Content).GetAwaiter().GetResult();
 				lpvm.Posts = new List<PostViewModel>() { pvm };
 
 				return SinglePostView(lpvm);
