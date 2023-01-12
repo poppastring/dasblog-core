@@ -171,5 +171,8 @@ namespace DasBlog.Tests.UnitTests
 		public string MastodonServerUrl { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 		public string MastodonAccount { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public bool AllowMarkdownInComments { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-       }
+		public bool EnableRewritingHashtagsToCategoryLinks { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+		public bool EnableRewritingBareLinksToEmbeddings { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+		public bool EnableRewritingBareLinksToIcons { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+	}
 }

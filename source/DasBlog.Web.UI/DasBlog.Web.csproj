@@ -52,6 +52,7 @@
     <Content Remove="Config\IISUrlRewrite.Development.config" />
     <Content Remove="Config\meta.config" />
     <Content Remove="Config\meta.Development.config" />
+    <Content Remove="Config\oembed-providers.json" />
     <None Remove="Config\siteSecurity.Development.config" />
     <None Include="logs\logs.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

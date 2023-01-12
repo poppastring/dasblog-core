@@ -3,6 +3,7 @@ using DasBlog.Core.Common;
 using DasBlog.Managers.Interfaces;
 using DasBlog.Services;
 using DasBlog.Services.ActivityLogs;
+using DasBlog.Services.Site;
 using DasBlog.Web.Models;
 using DasBlog.Web.Models.BlogViewModels;
 using DasBlog.Web.Settings;
@@ -13,7 +14,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Diagnostics;
 using System.Linq;
-
+using System.Threading.Tasks;
 
 namespace DasBlog.Web.Controllers
 {
@@ -24,15 +25,17 @@ namespace DasBlog.Web.Controllers
 		private readonly IMapper mapper;
 		private readonly ILogger<HomeController> logger;
 		private readonly IMemoryCache memoryCache;
+		private readonly IExternalEmbeddingHandler embeddingHandler;
 
 		public HomeController(IBlogManager blogManager, IDasBlogSettings dasBlogSettings, IMapper mapper, 
-								ILogger<HomeController> logger, IMemoryCache memoryCache) : base(dasBlogSettings)
+								ILogger<HomeController> logger, IMemoryCache memoryCache, IExternalEmbeddingHandler embeddingHandler) : base(dasBlogSettings)
 		{
 			this.blogManager = blogManager;
 			this.dasBlogSettings = dasBlogSettings;
 			this.mapper = mapper;
 			this.logger = logger;
 			this.memoryCache = memoryCache;
+			this.embeddingHandler = embeddingHandler;
 		}
 
 		public IActionResult Index()
@@ -48,6 +51,12 @@ namespace DasBlog.Web.Controllers
 								.Select(entry => mapper.Map<PostViewModel>(entry))
 								.Select(editentry => editentry).ToList()
 				};
+
+				foreach( var post in lpvm.Posts )
+				{
+					post.Content = embeddingHandler.InjectCategoryLinksAsync(post.Content).GetAwaiter().GetResult();
+					post.Content = embeddingHandler.InjectIconsForBareLinksAsync(post.Content).GetAwaiter().GetResult();
+				}
 
 				AddComments(lpvm);
 
