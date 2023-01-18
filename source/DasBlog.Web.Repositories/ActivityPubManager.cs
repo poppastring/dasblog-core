@@ -97,22 +97,10 @@ namespace DasBlog.Managers
 			{
 				mastodonAccount = mastodonAccount.Remove(0, 1);
 			}
-
-			var address = new MailAddress(resource);
-			if (string.Compare(address.User, mastodonAccount, StringComparison.InvariantCultureIgnoreCase) != 0)
-			{
-				return null;
-			}
 		
 			if (!mastodonUrl.Contains("://"))
 			{
 				mastodonUrl = "https://" + mastodonUrl;
-			}
-
-			var host = new Uri(mastodonUrl);
-			if (string.Compare(address.Host, host.Host, StringComparison.InvariantCultureIgnoreCase) != 0)
-			{
-				return null;
 			}
 
 			var mastotonSiteUri = new Uri(mastodonUrl);
