@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using DasBlog.Web.Models.BlogViewModels;
 
 namespace DasBlog.Web.Models.AdminViewModels
 {
@@ -9,5 +7,6 @@ namespace DasBlog.Web.Models.AdminViewModels
 	{
 		public MetaViewModel MetaConfig { get; set; }
 		public SiteViewModel SiteConfig { get; set; }
+		public List<PostViewModel> Posts { get; set; }
 	}
 }

@@ -46,6 +46,8 @@ namespace DasBlog.Web.Controllers
 			var dbsvm = new DasBlogSettingsViewModel();
 			dbsvm.MetaConfig = mapper.Map<MetaViewModel>(dasBlogSettings.MetaTags);
 			dbsvm.SiteConfig = mapper.Map<SiteViewModel>(dasBlogSettings.SiteConfiguration);
+			dbsvm.Posts = blogManager.GetAllEntries()
+								.Select(entry => mapper.Map<PostViewModel>(entry)).ToList();
 
 			return View(dbsvm);
 		}
