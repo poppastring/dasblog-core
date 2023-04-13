@@ -370,5 +370,7 @@ namespace DasBlog.Services.ConfigFile.Interfaces
 		bool EnableRewritingHashtagsToCategoryLinks { get; set; }
 		bool EnableRewritingBareLinksToEmbeddings { get; set; }
 		bool EnableRewritingBareLinksToIcons { get; set; }
+
+		string PostPinnedToHomePage { get; set; }
 	}
 }

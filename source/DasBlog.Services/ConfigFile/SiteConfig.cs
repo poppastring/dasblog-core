@@ -251,6 +251,6 @@ namespace DasBlog.Services.ConfigFile
 		public string MastodonServerUrl { get; set; }
 
 		public string MastodonAccount { get; set; }
-
+		public string PostPinnedToHomePage { get; set; }
 	}
 }

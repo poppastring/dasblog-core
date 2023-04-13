@@ -205,6 +205,11 @@ namespace DasBlog.Managers
 			LogEvent(EventCodes.EntryDeleted, entry);
 		}
 
+		public EntryCollection GetAllEntries()
+		{
+			return dataService.GetEntries(false);
+		}
+
 		private static StringCollection GetSearchWords(string searchString)
 		{
 			var searchWords = new StringCollection();
