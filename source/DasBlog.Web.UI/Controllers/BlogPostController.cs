@@ -41,6 +41,7 @@ namespace DasBlog.Web.Controllers
 		private readonly IExternalEmbeddingHandler embeddingHandler;
 		private readonly IRecaptchaService recaptcha;
 
+		
 		public BlogPostController(IBlogManager blogManager, IHttpContextAccessor httpContextAccessor, IDasBlogSettings dasBlogSettings,
 									IMapper mapper, ICategoryManager categoryManager, IFileSystemBinaryManager binaryManager, ILogger<BlogPostController> logger,
 									IBlogPostViewModelCreator modelViewCreator, IMemoryCache memoryCache, IExternalEmbeddingHandler embeddingHandler, IRecaptchaService recaptcha)
@@ -96,6 +97,14 @@ namespace DasBlog.Web.Controllers
 			}
 			else
 			{
+				// Post was not found. Let's see if it's a static page before we route user to home page.
+				var sp = blogManager.GetStaticPage(posttitle);
+				if(sp != null)	
+				{
+					var spvm = mapper.Map<StaticPageViewModel>(sp);
+					return View("LoadStaticPage", spvm);
+
+				}
 				return RedirectToAction("index", "home");
 			}
 		}

@@ -232,6 +232,7 @@ namespace DasBlog.Web
 					mapperConfig.AddProfile(new ProfileDasBlogUser(serviceProvider.GetService<ISiteSecurityManager>()));
 					mapperConfig.AddProfile(new ProfileSettings());
 					mapperConfig.AddProfile(new ProfileActivityPub());
+					mapperConfig.AddProfile(new ProfileStaticPage());
 				})
 				.AddMvc()
 				.AddXmlSerializerFormatters();
