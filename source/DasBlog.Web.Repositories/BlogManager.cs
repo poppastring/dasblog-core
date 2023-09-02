@@ -59,6 +59,11 @@ namespace DasBlog.Managers
 			}
 		}
 
+		public StaticPage GetStaticPage(string posttitle)
+		{
+			return dataService.GetStaticPage(posttitle);
+		}
+
 		public Entry GetBlogPostByGuid(Guid postid)
 		{
 			return dataService.GetEntry(postid.ToString());
