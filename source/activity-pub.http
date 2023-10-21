@@ -1,0 +1,12 @@
+@hostname=localhost
+@port=5001
+@account=poppastring@dotnet.social
+
+GET https://{{hostname}}:{{port}}/.well-known/webfinger?resource=acct:{{account}}
+Accept: application/jrd+json
+
+###
+GET https://{{hostname}}:{{port}}/users/{{account}}/outbox?page=true
+Accept: application/jrd+json
+
+

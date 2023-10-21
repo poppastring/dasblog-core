@@ -89,7 +89,7 @@ namespace DasBlog.Web.Controllers
 		}
 
 		[HttpGet]
-		[Route("users/{user}/outbox")]
+		[Route("users/{user}/outbox?page={page}")]
 		public IActionResult GetUser(string user, bool page)
 		{
 			string mastodonAccount = dasBlogSettings.SiteConfiguration.MastodonAccount;
@@ -105,9 +105,9 @@ namespace DasBlog.Web.Controllers
 
 			if (page)
 			{
-				var fpentries = blogManager.GetFrontPagePosts(Request.Headers["Accept-Language"]).ToList();
+				var fpentries = blogManager.GetFrontPagePosts(Request.Headers["Accept-Language"]).First();
 
-				var userpage = activityPubManager.GetUserPage(fpentries);
+				var userpage = activityPubManager.GetUserPage(new List<newtelligence.DasBlog.Runtime.Entry>() { fpentries });
 				var upvm = mapper.Map<UserPageViewModel>(userpage);
 
 				var context = new List<object>
@@ -116,7 +116,7 @@ namespace DasBlog.Web.Controllers
 					GetUserPageContext()
 				};
 
-				upvm.context =  context.ToArray();
+				upvm.context = context.ToArray();
 				upvm.orderedItems = userpage.OrderItems.Select(entry => mapper.Map<OrderedItemViewModel>(entry)).ToArray();
 
 				return Json(upvm, jsonSerializerOptions);
@@ -195,7 +195,7 @@ namespace DasBlog.Web.Controllers
 			list.Add("https://www.w3.org/ns/activitystreams");
 			list.Add("https://w3id.org/security/v1");
 
-			var ac = new ActorContext 
+			var ac = new ActorContext
 			{
 				manuallyApprovesFollowers = "as:manuallyApprovesFollowers",
 				toot = "http://joinmastodon.org/ns#",
