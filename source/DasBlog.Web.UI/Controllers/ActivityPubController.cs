@@ -89,7 +89,7 @@ namespace DasBlog.Web.Controllers
 		}
 
 		[HttpGet]
-		[Route("users/{user}/outbox?page={page}")]
+		[Route("users/{user}/outbox")]
 		public IActionResult GetUser(string user, bool page)
 		{
 			string mastodonAccount = dasBlogSettings.SiteConfiguration.MastodonAccount;
