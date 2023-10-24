@@ -1,7 +1,7 @@
 @hostname=localhost
 @port=5001
-@account=@poppastring@dotnet.social
-@user=poppastring
+@account=@mark@poppastring.com
+@user=mark
 
 GET https://{{hostname}}:{{port}}/.well-known/webfinger?resource=acct:{{account}}
 Accept: application/jrd+json
