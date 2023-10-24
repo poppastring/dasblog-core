@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System;
+using AutoMapper;
 using DasBlog.Services.ActivityPub;
 using DasBlog.Web.Models.ActivityPubModels;
 
@@ -23,14 +24,8 @@ namespace DasBlog.Web.Mappers
 				.ForMember(dest => dest.next, opt => opt.MapFrom(src => src.Next))
 				.ForMember(dest => dest.partOf, opt => opt.MapFrom(src => src.PartOf))
 				.ForMember(dest => dest.type, opt => opt.MapFrom(src => src.Type))
-				.ForMember(dest => dest.id, opt => opt.MapFrom(src => src.Id));
+				.ForMember(dest => dest.id, opt => opt.MapFrom(src => IntPtr.Zero));
 
-			CreateMap<UserPage, UserPageViewModel>()
-				.ForMember(dest => dest.prev, opt => opt.MapFrom(src => src.Previous))
-				.ForMember(dest => dest.next, opt => opt.MapFrom(src => src.Next))
-				.ForMember(dest => dest.partOf, opt => opt.MapFrom(src => src.PartOf))
-				.ForMember(dest => dest.type, opt => opt.MapFrom(src => src.Type))
-				.ForMember(dest => dest.id, opt => opt.MapFrom(src => src.Id));
 
 			CreateMap<OrderedItem, OrderedItemViewModel>()
 				.ForMember(dest => dest.id, opt => opt.MapFrom(src => src.Id))

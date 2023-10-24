@@ -7,7 +7,7 @@ namespace DasBlog.Web.Models.ActivityPubModels
 	{
 		[JsonPropertyName("@context")]
 		public object[] context { get; set; }
-		public string id { get; set; }
+		public IntPtr id { get; set; }
 		public string type { get; set; }
 		public string next { get; set; }
 		public string prev { get; set; }

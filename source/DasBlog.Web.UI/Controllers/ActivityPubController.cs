@@ -105,9 +105,9 @@ namespace DasBlog.Web.Controllers
 
 			if (page)
 			{
-				var fpentries = blogManager.GetFrontPagePosts(Request.Headers["Accept-Language"]).First();
+				var fpentries = blogManager.GetFrontPagePosts(Request.Headers["Accept-Language"]).ToList();
 
-				var userpage = activityPubManager.GetUserPage(new List<newtelligence.DasBlog.Runtime.Entry>() { fpentries });
+				var userpage = activityPubManager.GetUserPage(fpentries);
 				var upvm = mapper.Map<UserPageViewModel>(userpage);
 
 				var context = new List<object>
@@ -119,7 +119,8 @@ namespace DasBlog.Web.Controllers
 				upvm.context = context.ToArray();
 				upvm.orderedItems = userpage.OrderItems.Select(entry => mapper.Map<OrderedItemViewModel>(entry)).ToArray();
 
-				return Json(upvm, jsonSerializerOptions);
+				var result = Json(upvm, jsonSerializerOptions);
+				return result;
 			}
 
 			var userinfo = activityPubManager.GetUser();
