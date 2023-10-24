@@ -1,6 +1,6 @@
 @hostname=localhost
 @port=5001
-@account=@mark@poppastring.com
+@account=@mark@gm0xww3w-5001.use.devtunnels.ms
 @user=mark
 
 GET https://{{hostname}}:{{port}}/.well-known/webfinger?resource=acct:{{account}}
@@ -10,4 +10,6 @@ Accept: application/jrd+json
 GET https://{{hostname}}:{{port}}/users/{{user}}/outbox?page=true
 Accept: application/jrd+json
 
-
+###
+GET https://gm0xww3w-5001.use.devtunnels.ms/users/{{user}}/outbox?page=false
+Accept: application/jrd+json
