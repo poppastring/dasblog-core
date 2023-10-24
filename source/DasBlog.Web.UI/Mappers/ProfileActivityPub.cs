@@ -24,7 +24,7 @@ namespace DasBlog.Web.Mappers
 				.ForMember(dest => dest.next, opt => opt.MapFrom(src => src.Next))
 				.ForMember(dest => dest.partOf, opt => opt.MapFrom(src => src.PartOf))
 				.ForMember(dest => dest.type, opt => opt.MapFrom(src => src.Type))
-				.ForMember(dest => dest.id, opt => opt.MapFrom(src => IntPtr.Zero));
+				.ForMember(dest => dest.id, opt => opt.MapFrom(src => IntPtr.MaxValue));
 
 
 			CreateMap<OrderedItem, OrderedItemViewModel>()

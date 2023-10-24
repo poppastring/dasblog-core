@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
+using System.Text.Json;
 
 namespace DasBlog.Web.Controllers
 {
@@ -119,7 +120,8 @@ namespace DasBlog.Web.Controllers
 				upvm.context = context.ToArray();
 				upvm.orderedItems = userpage.OrderItems.Select(entry => mapper.Map<OrderedItemViewModel>(entry)).ToArray();
 
-				var result = Json(upvm, jsonSerializerOptions);
+				var val = JsonSerializer.Serialize(upvm);
+				var result = Json(val, jsonSerializerOptions);
 				return result;
 			}
 

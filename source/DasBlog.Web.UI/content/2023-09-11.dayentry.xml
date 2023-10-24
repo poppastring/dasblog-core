@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DayEntry xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="urn:newtelligence-com:dasblog:runtime:data">
+  <Date>2023-09-10T20:00:00-04:00</Date>
+  <Entries>
+    <Entry>
+      <Content>&lt;p&gt;test3&lt;/p&gt;</Content>
+      <Created>2023-09-11T09:51:10.872-04:00</Created>
+      <Modified>2023-09-11T09:51:10.872-04:00</Modified>
+      <EntryId>89e43039-e98c-44b3-b12f-921de0468842</EntryId>
+      <Description />
+      <Title>test3</Title>
+      <Categories />
+      <Author>Admin Name</Author>
+      <IsPublic>true</IsPublic>
+      <Syndicated>true</Syndicated>
+      <ShowOnFrontPage>true</ShowOnFrontPage>
+      <AllowComments>true</AllowComments>
+      <Attachments />
+      <Crossposts />
+      <Latitude xsi:nil="true" />
+      <Longitude xsi:nil="true" />
+    </Entry>
+    <Entry>
+      <Content>&lt;p&gt;test2&lt;/p&gt;</Content>
+      <Created>2023-09-11T09:50:57.814-04:00</Created>
+      <Modified>2023-09-11T09:50:57.814-04:00</Modified>
+      <EntryId>69b38d26-b507-42d8-a36f-d4c1bebaa091</EntryId>
+      <Description />
+      <Title>test2</Title>
+      <Categories />
+      <Author>Admin Name</Author>
+      <IsPublic>true</IsPublic>
+      <Syndicated>true</Syndicated>
+      <ShowOnFrontPage>true</ShowOnFrontPage>
+      <AllowComments>true</AllowComments>
+      <Attachments />
+      <Crossposts />
+      <Latitude xsi:nil="true" />
+      <Longitude xsi:nil="true" />
+    </Entry>
+    <Entry>
+      <Content>&lt;p&gt;test&lt;/p&gt;</Content>
+      <Created>2023-09-11T09:50:37.685-04:00</Created>
+      <Modified>2023-09-11T09:50:37.685-04:00</Modified>
+      <EntryId>d2fd36a8-983a-42df-bec0-9e1d655135b3</EntryId>
+      <Description />
+      <Title>Test</Title>
+      <Categories>Dasblog Core</Categories>
+      <Author>Admin Name</Author>
+      <IsPublic>true</IsPublic>
+      <Syndicated>true</Syndicated>
+      <ShowOnFrontPage>true</ShowOnFrontPage>
+      <AllowComments>true</AllowComments>
+      <Attachments />
+      <Crossposts />
+      <Latitude xsi:nil="true" />
+      <Longitude xsi:nil="true" />
+    </Entry>
+  </Entries>
+</DayEntry>
