@@ -121,8 +121,7 @@ namespace DasBlog.Web.Controllers
 				upvm.orderedItems = userpage.OrderItems.Select(entry => mapper.Map<OrderedItemViewModel>(entry)).ToArray();
 
 				var val = JsonSerializer.Serialize(upvm);
-				var result = Json(val, jsonSerializerOptions);
-				return result;
+				return Json(val, jsonSerializerOptions);
 			}
 
 			var userinfo = activityPubManager.GetUser();
