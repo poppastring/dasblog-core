@@ -120,7 +120,7 @@ namespace DasBlog.Web.Controllers
 				upvm.context = context.ToArray();
 				upvm.orderedItems = userpage.OrderItems.Select(entry => mapper.Map<OrderedItemViewModel>(entry)).ToArray();
 
-				var val = JsonSerializer.Serialize(upvm);
+				var val = upvm.ToJson();
 				return Json(val, jsonSerializerOptions);
 			}
 
