@@ -1,7 +1,9 @@
 ﻿using System;
 using System.IO;
+using System.Reflection.Emit;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
+using System.Text;
 using System.Text.Json.Serialization;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -30,6 +32,29 @@ namespace DasBlog.Web.Models.ActivityPubModels
 					return json;
 				}
 			}
+		}
+
+		public static UserPageViewModel FromJson(string json)
+		{
+			using (MemoryStream stream = new MemoryStream(Encoding.UTF8.GetBytes(json)))
+			{
+				DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(UserPageViewModel));
+				return (UserPageViewModel)serializer.ReadObject(stream);
+			}
+		}
+
+		public override bool Equals(object obj)
+		{
+			if (obj == null || GetType() != obj.GetType())
+			{
+				return false;
+			}
+
+			UserPageViewModel otheruser = (UserPageViewModel)obj;
+
+			bool isEqual = id == otheruser.id && type == otheruser.type;
+
+			return isEqual;
 		}
 	}
 
