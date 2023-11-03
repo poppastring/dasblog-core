@@ -12,6 +12,8 @@ namespace DasBlog.Tests.UnitTests.Models
 		public void SerializationDeserializationTest()
 		{
 			UserPageViewModel user = new UserPageViewModel();
+			user.id = "@someuser@poppastrin.com";
+			user.type = "blogger";
 
 			string serialized = user.ToJson();
 			var nextuser = UserPageViewModel.FromJson(serialized);
