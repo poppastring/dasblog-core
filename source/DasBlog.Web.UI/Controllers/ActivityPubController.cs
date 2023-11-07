@@ -4,12 +4,9 @@ using DasBlog.Services;
 using DasBlog.Web.Models.ActivityPubModels;
 using DasBlog.Web.Settings;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Server.Kestrel.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text.Json;
 
 namespace DasBlog.Web.Controllers
 {
