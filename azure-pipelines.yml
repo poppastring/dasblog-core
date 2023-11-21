@@ -17,7 +17,7 @@ steps:
   displayName: Installing .NET 8
   inputs:
     packageType: 'sdk'
-    version: '8.0.x'
+    version: '8.x'
     installationPath: $(Agent.ToolsDirectory)/dotnet
 
 - task: PowerShell@2
