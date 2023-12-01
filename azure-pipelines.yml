@@ -45,7 +45,7 @@ steps:
   inputs:
     command: build
     projects: '**/*.sln'
-    arguments: '--no-restore --configuration $(BuildConfiguration) -p:VersionPrefix=$(Build.BuildNumber) -p:FileVersion=$(Build.BuildNumber).0 -p:SourceRevisionId=$(Build.SourceVersion)'
+    arguments: '--no-restore --configuration $(BuildConfiguration) -p:VersionPrefix=$(Build.BuildNumber) -p:FileVersion=$(Build.BuildNumber).0 -p:SourceRevisionId=$(Build.SourceVersion) -bl'
 
 - script: dotnet test source/DasBlog.Tests/UnitTests/ --logger trx;LogfileName=test_results.xml --results-directory $(System.DefaultWorkingDirectory)/test_results --filter Category=UnitTest
   displayName: Run Unit Tests on Windows
