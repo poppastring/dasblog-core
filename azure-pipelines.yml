@@ -65,7 +65,7 @@ steps:
     publishWebProjects: True
     zipAfterPublish: false
     modifyOutputPath: false
-    arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)/$(System.TeamProject)_$(Build.BuildNumber) --self-contained --no-build'
+    arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)/$(System.TeamProject)_$(Build.BuildNumber) '
 
 - task: ArchiveFiles@2
   inputs:
