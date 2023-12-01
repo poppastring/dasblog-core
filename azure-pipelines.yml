@@ -45,7 +45,7 @@ steps:
   inputs:
     command: build
     projects: '**/*.sln'
-    arguments: '--no-restore --configuration $(BuildConfiguration) -p:VersionPrefix=$(Build.BuildNumber) -p:FileVersion=$(Build.BuildNumber).0 -p:SourceRevisionId=$(Build.SourceVersion) -bl'
+    arguments: '--no-restore --configuration $(BuildConfiguration) -p:VersionPrefix=$(Build.BuildNumber) -p:FileVersion=$(Build.BuildNumber).0 -p:SourceRevisionId=$(Build.SourceVersion)'
 
 - script: dotnet test source/DasBlog.Tests/UnitTests/ --logger trx;LogfileName=test_results.xml --results-directory $(System.DefaultWorkingDirectory)/test_results --filter Category=UnitTest
   displayName: Run Unit Tests on Windows
@@ -65,7 +65,7 @@ steps:
     publishWebProjects: True
     zipAfterPublish: false
     modifyOutputPath: false
-    arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)/$(System.TeamProject)_$(Build.BuildNumber) --self-contained --no-build --no-restore'
+    arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)/$(System.TeamProject)_$(Build.BuildNumber) --self-contained --no-build --no-restore -bl'
 
 - task: ArchiveFiles@2
   inputs:
