@@ -10,14 +10,14 @@ pool:
 
 variables:
   buildConfiguration: 'Release'
-  version: 3.4
+  version: 8.0
 
 steps:
 - task: UseDotNet@2
-  displayName: Installing .NET 6
+  displayName: Installing .NET 8
   inputs:
     packageType: 'sdk'
-    version: '6.0.x'
+    version: '8.x'
     installationPath: $(Agent.ToolsDirectory)/dotnet
 
 - task: PowerShell@2
@@ -65,7 +65,7 @@ steps:
     publishWebProjects: True
     zipAfterPublish: false
     modifyOutputPath: false
-    arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)/$(System.TeamProject)_$(Build.BuildNumber) --self-contained --no-build --no-restore'
+    arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)/$(System.TeamProject)_$(Build.BuildNumber) '
 
 - task: ArchiveFiles@2
   inputs:
