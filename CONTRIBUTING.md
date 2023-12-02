@@ -20,7 +20,7 @@ If you would like to discuss a change you are thinking of doing before you start
 To contribute code changes install the following dev tools:
 
 - Install [Visual Studio Community 2022 (17.0 or newer)](https://visualstudio.microsoft.com/downloads/)
-- Visual Studio installs the [.NET SDK 8.0.100]([https://dotnet.microsoft.com/download/dotnet/thank-you/sdk-6.0.100-windows-x64-installer](https://dotnet.microsoft.com/en-us/download/dotnet/8.0))
+- Visual Studio installs the [.NET SDK 8.0.100](https://dotnet.microsoft.com/en-us/download/dotnet/8.0))
 
 ### Contribute code
 To contribute code to the project simply:
