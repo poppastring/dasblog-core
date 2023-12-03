@@ -24,7 +24,7 @@ namespace DasBlog.Web.TagHelpers
 			output.TagMode = TagMode.StartTagAndEndTag;
 			output.Attributes.SetAttribute("class", "dasblog-a-share-facebook");
 			output.Attributes.SetAttribute("href", string.Format(FACEBOOK_SHARE_URL, 
-				UrlEncoder.Default.Encode(new Uri(new Uri(dasBlogSettings.GetBaseUrl()), Post.PermaLink).AbsoluteUri)));
+				UrlEncoder.Default.Encode(dasBlogSettings.RelativeToRoot(Post.PermaLink))));
 
 			var content = await output.GetChildContentAsync();
 

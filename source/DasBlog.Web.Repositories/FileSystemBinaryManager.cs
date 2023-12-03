@@ -3,6 +3,7 @@ using DasBlog.Services;
 using DasBlog.Services.ConfigFile;
 using DasBlog.Services.FileManagement;
 using DasBlog.Services.FileManagement.Interfaces;
+using DasBlog.Services.Site;
 using Microsoft.Extensions.Options;
 using newtelligence.DasBlog.Runtime;
 using System;
@@ -18,7 +19,6 @@ namespace DasBlog.Managers
 		private readonly IConfigFileService<OEmbedProviders> oembedProvidersService;
 		private readonly IConfigFileService<SiteConfig> siteConfigFileService;
 		private readonly ConfigFilePathsDataOption options;
-		private readonly string contentBinaryUrl;
 
 		public FileSystemBinaryManager(IDasBlogSettings dasBlogSettings, IConfigFileService<MetaTags> metaTagFileService,
 										 IConfigFileService<OEmbedProviders> oembedProvidersService,
@@ -27,17 +27,24 @@ namespace DasBlog.Managers
 			this.dasBlogSettings = dasBlogSettings;
 			this.metaTagFileService = metaTagFileService;
 			this.oembedProvidersService = oembedProvidersService;
-			this.siteConfigFileService = siteConfigFileService;
+			this.siteConfigFileService = siteConfigFileService;;
 			options = optionsAccessor.Value;
-			contentBinaryUrl = dasBlogSettings.RelativeToRoot(options.BinaryUrlRelative);
 
-			var physBinaryPathUrl = new Uri(contentBinaryUrl);
+			Uri physBinaryPathUrl;
+
+			if (!string.IsNullOrWhiteSpace(dasBlogSettings.SiteConfiguration.Root))
+			{
+				physBinaryPathUrl = new Uri(dasBlogSettings.RelativeToRoot(options.BinaryUrlRelative));
+			}
+			else
+			{
+				physBinaryPathUrl = new Uri(new Uri(SiteHttpContext.AppBaseUrl), options.BinaryUrlRelative);
+			}
 
 			var loggingDataService = LoggingDataServiceFactory.GetService(Path.Combine(dasBlogSettings.WebRootDirectory, dasBlogSettings.SiteConfiguration.LogDir));
-
 			var cdnManager = CdnManagerFactory.GetService(dasBlogSettings.SiteConfiguration.CdnFrom, dasBlogSettings.SiteConfiguration.CdnTo);
 
-			binaryDataService = BinaryDataServiceFactory.GetService(options.BinaryFolder, physBinaryPathUrl, loggingDataService, cdnManager);
+			this.binaryDataService = BinaryDataServiceFactory.GetService(options.BinaryFolder, physBinaryPathUrl, loggingDataService, cdnManager);
 		}
 
 		public string SaveFile(Stream inputFile, string fileName)
