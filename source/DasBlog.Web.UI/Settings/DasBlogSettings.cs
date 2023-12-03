@@ -78,12 +78,26 @@ namespace DasBlog.Web.Settings
 
 		public string GetBaseUrl()
 		{
-			return new Uri(SiteConfiguration.Root).AbsoluteUri;
+			if (!string.IsNullOrWhiteSpace(SiteConfiguration.Root))
+			{
+				return new Uri(SiteConfiguration.Root).AbsoluteUri;
+			}
+			else
+			{
+				return "/";
+			}
 		}
 
 		public string RelativeToRoot(string relative)
 		{
-			return new Uri(new Uri(SiteConfiguration.Root), relative).AbsoluteUri;
+			if (!string.IsNullOrWhiteSpace(SiteConfiguration.Root))
+			{
+				return new Uri(new Uri(GetBaseUrl()), relative).AbsoluteUri;
+			}
+			else
+			{
+				return relative;
+			}
 		}
 
         public string GetPermaLinkUrl(string entryId)

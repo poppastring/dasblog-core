@@ -208,6 +208,7 @@ namespace DasBlog.Web
 				.AddSingleton<ISiteManager, SiteManager>()
 				.AddSingleton<IActivityPubManager, ActivityPubManager>()
 				.AddSingleton<IHttpContextAccessor, HttpContextAccessor>()
+				.AddSingleton<SiteHttpContext>()
 				.AddSingleton<IFileSystemBinaryManager, FileSystemBinaryManager>()
 				.AddSingleton<IUserDataRepo, UserDataRepo>()
 				.AddSingleton<ISiteSecurityConfig, SiteSecurityConfig>()
@@ -297,8 +298,12 @@ namespace DasBlog.Web
 			app.UseRouting();
 
 			//if you've configured it at /blog or /whatever, set that pathbase so ~ will generate correctly
-			var rootUri = new Uri(dasBlogSettings.SiteConfiguration.Root);
-			var path = rootUri.AbsolutePath;
+			var path = "/";
+			if (!string.IsNullOrWhiteSpace(dasBlogSettings.SiteConfiguration.Root))
+			{
+				var rootUri = new Uri(dasBlogSettings.SiteConfiguration.Root);
+				path = rootUri.AbsolutePath;
+			}
 
 			//Deal with path base and proxies that change the request path
 			if (path != "/")
@@ -432,6 +437,8 @@ namespace DasBlog.Web
 				endpoints.MapControllerRoute(
 					name: "default", "~/{controller=Home}/{action=Index}/{id?}");
 			});
+
+			app.UseHttpContext();
 		}
 
 		/// <summary>
