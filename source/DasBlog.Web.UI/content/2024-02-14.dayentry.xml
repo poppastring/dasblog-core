@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DayEntry xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="urn:newtelligence-com:dasblog:runtime:data">
+  <Date>2024-02-13T19:00:00-05:00</Date>
+  <Entries>
+    <Entry>
+      <Content>&lt;p&gt;This is a test&lt;/p&gt;</Content>
+      <Created>2024-02-13T21:39:05.8655234-05:00</Created>
+      <Modified>2024-02-13T21:39:05.8655234-05:00</Modified>
+      <EntryId>a8e19bce-c082-44de-be39-5f667adff6d1</EntryId>
+      <Description />
+      <Title>A test</Title>
+      <Author>myemail@myemail.com</Author>
+      <IsPublic>true</IsPublic>
+      <Syndicated>true</Syndicated>
+      <ShowOnFrontPage>true</ShowOnFrontPage>
+      <AllowComments>true</AllowComments>
+      <Attachments />
+      <Crossposts />
+      <Latitude xsi:nil="true" />
+      <Longitude xsi:nil="true" />
+    </Entry>
+  </Entries>
+</DayEntry>
