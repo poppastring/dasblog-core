@@ -3,8 +3,6 @@ using DasBlog.Core.Configuration;
 using DasBlog.Services.ConfigFile.Interfaces;
 using newtelligence.DasBlog.Runtime;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Xml;
 
 namespace DasBlog.Tests.UnitTests
@@ -17,10 +15,11 @@ namespace DasBlog.Tests.UnitTests
 		public string Description { get => "Description"; set => throw new NotImplementedException(); }
 		public string Contact { get => "Contact"; set => throw new NotImplementedException(); }
 		public string Root { get => "http://www.poppastring.com/"; set => throw new NotImplementedException(); }
+		public string CdnFrom{ get => ""; set => throw new NotImplementedException(); }
+		public string CdnTo{ get => ""; set => throw new NotImplementedException(); }
 		public string Copyright { get => "CopyRight"; set => throw new NotImplementedException(); }
 		public int RssDayCount { get => 100; set => throw new NotImplementedException(); }
 		public bool ShowCommentCount { get => true; set => throw new NotImplementedException(); }
-
 		public int RssMainEntryCount { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 		public int RssEntryCount { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 		public bool EnableRssItemFooters { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
@@ -171,5 +170,9 @@ namespace DasBlog.Tests.UnitTests
 		public string MastodonServerUrl { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 		public string MastodonAccount { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public bool AllowMarkdownInComments { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-       }
+		public bool EnableRewritingHashtagsToCategoryLinks { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+		public bool EnableRewritingBareLinksToEmbeddings { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+		public bool EnableRewritingBareLinksToIcons { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+		public string PostPinnedToHomePage { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+	}
 }

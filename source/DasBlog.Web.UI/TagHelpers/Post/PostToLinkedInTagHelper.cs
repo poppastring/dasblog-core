@@ -24,7 +24,7 @@ public class PostToLinkedInTagHelper : TagHelper
 		output.TagMode = TagMode.StartTagAndEndTag;
 		output.Attributes.SetAttribute("class", "dasblog-a-share-linkedin");
 		output.Attributes.SetAttribute("href", string.Format(LINKEDIN_SHARE_URL, 
-			UrlEncoder.Default.Encode(new Uri(new Uri(dasBlogSettings.GetBaseUrl()), Post.PermaLink).AbsoluteUri)));
+			UrlEncoder.Default.Encode(dasBlogSettings.RelativeToRoot(Post.PermaLink))));
 
 		var content = await output.GetChildContentAsync();
 

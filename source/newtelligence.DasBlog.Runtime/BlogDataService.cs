@@ -1421,5 +1421,21 @@ namespace newtelligence.DasBlog.Runtime
 
             return data.lastCommentUpdate;
         }
+
+        public StaticPage GetStaticPage( string pagename )
+        {
+            StaticPage page = new StaticPage();
+            page.Name = pagename;
+            string staticPathLocation = this.contentBaseDirectory + "\\static\\" + pagename + ".html";
+            if (File.Exists(staticPathLocation))
+            {
+                page.Content = File.ReadAllText(staticPathLocation);
+            }
+            else
+            {
+                return null;
+            }
+            return page;
+        }
     }
 }

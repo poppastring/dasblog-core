@@ -240,8 +240,15 @@ namespace DasBlog.Web.Models.AdminViewModels
 
 		[DisplayName("Time zone index")]
 		[Description("")]
-
 		public int DisplayTimeZoneIndex { get; set; }
+
+		[DisplayName("CDN from")]
+		[Description("The part of your Root URL to replace with the CDN URL. (optional)")]
+		public string CdnFrom { get; set; }
+
+		[DisplayName("CDN to")]
+		[Description("The CDN URL that will replace 'CDN from'. (optional)")]
+		public string CdnTo { get; set; }
 
 		[DisplayName("Comments require approval")]
 		[Description("")]
@@ -295,21 +302,25 @@ namespace DasBlog.Web.Models.AdminViewModels
 		[Description("Help meet some of the EU General Data Protection Regulation (GDPR) requirements")]
 		public bool CookieConsentEnabled { get; set; }
 
-		[DisplayName("Default Sources (seperated by semi colon")]
+		[DisplayName("Default Sources (separated by semi colon")]
 		[Description("")]
 		[StringLength(50, MinimumLength = 1, ErrorMessage = "{0} should be between 1 to 50 characters")]
 		public string DefaultSources { get; set; }
 
-		[DisplayName("Mastadon Server")]
+		[DisplayName("Mastodon Server")]
 		[Description("")]
 		[DataType(DataType.Url, ErrorMessage = "Invalid URL format")]
 		public string MastodonServerUrl { get; set; }
 
-		[DisplayName("Mastadon Account (@username)")]
+		[DisplayName("Mastodon Account (@username)")]
 		[Description("")]
 		[RegularExpression("(@)((?:[A-Za-z0-9-_]*))")]
 		public string MastodonAccount { get; set; }
 
+		[DisplayName("Pin this Post to the Home Page")]
+		[Description("")]
+		[DataType(DataType.Text, ErrorMessage = "Invalid Guid format")]
+		public string PostPinnedToHomePage { get; set; }
 
 		public bool EntryTitleAsLink { get; set; }
 		public bool ObfuscateEmail { get; set; }

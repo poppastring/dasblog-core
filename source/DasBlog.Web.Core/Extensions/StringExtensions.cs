@@ -91,6 +91,27 @@ namespace DasBlog.Core.Extensions
 			return firstimage.Trim();
 		}
 
+		public static string FindHeroImage(this string blogcontent)
+		{
+			var heroImage = string.Empty;
+
+			var regex = new Regex("<img[^>]*class=\"hero-image\"[^>]*src=\"([^\"]+)\"[^>]*>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+
+			var match = regex.Match(blogcontent);
+
+			if (match.Success)
+			{
+				heroImage = match.Groups[1].Value.Trim();
+			}
+
+			if (string.IsNullOrEmpty(heroImage))
+			{
+				heroImage = FindFirstImage(blogcontent);
+			}
+
+			return heroImage;
+		}
+
 		public static string FindFirstYouTubeVideo(this string blogcontent)
 		{
 			var firstVideo = string.Empty;

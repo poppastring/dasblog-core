@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Newtonsoft.Json;
 
 namespace DasBlog.Web.Models.BlogViewModels
 {
@@ -28,7 +29,7 @@ namespace DasBlog.Web.Models.BlogViewModels
 		public IList<CategoryViewModel> Categories { get; set; } = new List<CategoryViewModel>();
 
 		// all categories currently available on this blog
-		public IList<CategoryViewModel> AllCategories { get; set; }= new List<CategoryViewModel>();
+		public IList<CategoryViewModel> AllCategories { get; set; } = new List<CategoryViewModel>();
 
 		public string NewCategory { get; set; }
 
@@ -47,11 +48,11 @@ namespace DasBlog.Web.Models.BlogViewModels
 		public DateTime ModifiedDateTime { get; set; }
 
 		public ListCommentsViewModel Comments { get; set; }
-		
+
 		public IFormFile Image { get; set; }
 		public string Language { get; set; }
 
-		public IEnumerable<SelectListItem> Languages { get; set; }= new List<SelectListItem>();
+		public IEnumerable<SelectListItem> Languages { get; set; } = new List<SelectListItem>();
 
 		public string ImageUrl { get; set; } = string.Empty;
 
@@ -60,7 +61,6 @@ namespace DasBlog.Web.Models.BlogViewModels
 		public int Order { get; set; } = 0;
 
 
-        public List<string> ErrorMessages { get; set; }
-    
+		public List<string> ErrorMessages { get; set; }
 	}
 }

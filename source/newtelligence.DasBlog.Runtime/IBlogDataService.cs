@@ -233,5 +233,7 @@ namespace newtelligence.DasBlog.Runtime
 		/// </summary>
 		/// <returns></returns>
 		DateTime GetLastCommentUpdate();
+
+		StaticPage GetStaticPage( string pagename );
 	}
 }

@@ -54,13 +54,16 @@ namespace DasBlog.Web
 		private readonly string LogFolderPath;
 		private readonly string BinariesPath;
 		private readonly string BinariesUrlRelativePath;
+		private readonly string OEmbedProvidersPath;
 
 		private readonly string DefaultSiteConfigPath;
 		private readonly string DefaultMetaConfigPath;
+		private readonly string DefaultOEmbedProvidersConfigPath;
 		private readonly string DefaultSiteSecurityConfigPath;
 		private readonly string DefaultIISUrlRewriteConfigPath;
 
 		private readonly IWebHostEnvironment hostingEnvironment;
+		
 
 		public IConfiguration Configuration { get; }
 
@@ -77,6 +80,7 @@ namespace DasBlog.Web
 			DefaultSiteConfigPath = Path.Combine("Config", $"site.config");
 			MetaConfigPath = Path.Combine("Config", $"meta.{env.EnvironmentName}.config");
 			DefaultMetaConfigPath = Path.Combine("Config", $"meta.config");
+			OEmbedProvidersPath = DefaultOEmbedProvidersConfigPath = Path.Combine("Config", $"oembed-providers.json");
 
 			ConfigFileInitializationPrep();
 
@@ -88,6 +92,7 @@ namespace DasBlog.Web
 				.AddXmlFile(MetaConfigPath, optional: true, reloadOnChange: true)
 				.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
 				.AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+				.AddJsonFile(DefaultOEmbedProvidersConfigPath, optional: true, reloadOnChange: true)
 				.AddEnvironmentVariables();
 
 			Configuration = builder.Build();
@@ -115,12 +120,14 @@ namespace DasBlog.Web
 			services.Configure<TimeZoneProviderOptions>(Configuration);
 			services.Configure<SiteConfig>(Configuration);
 			services.Configure<MetaTags>(Configuration);
+			services.Configure<OEmbedProviders>(Configuration);
 			services.AddSingleton<AppVersionInfo>();
 
 			services.Configure<ConfigFilePathsDataOption>(options =>
 			{
 				options.SiteConfigFilePath = Path.Combine(hostingEnvironment.ContentRootPath, SiteConfigPath);
 				options.MetaConfigFilePath = Path.Combine(hostingEnvironment.ContentRootPath, MetaConfigPath);
+				options.OEmbedProvidersFilePath = Path.Combine(hostingEnvironment.ContentRootPath, OEmbedProvidersPath);
 				options.SecurityConfigFilePath = Path.Combine(hostingEnvironment.ContentRootPath, SiteSecurityConfigPath);
 				options.IISUrlRewriteFilePath = Path.Combine(hostingEnvironment.ContentRootPath, IISUrlRewriteConfigPath);
 				options.ThemesFolder = ThemeFolderPath;
@@ -201,6 +208,7 @@ namespace DasBlog.Web
 				.AddSingleton<ISiteManager, SiteManager>()
 				.AddSingleton<IActivityPubManager, ActivityPubManager>()
 				.AddSingleton<IHttpContextAccessor, HttpContextAccessor>()
+				.AddSingleton<SiteHttpContext>()
 				.AddSingleton<IFileSystemBinaryManager, FileSystemBinaryManager>()
 				.AddSingleton<IUserDataRepo, UserDataRepo>()
 				.AddSingleton<ISiteSecurityConfig, SiteSecurityConfig>()
@@ -211,8 +219,12 @@ namespace DasBlog.Web
 				.AddSingleton<ITimeZoneProvider, TimeZoneProvider>()
 				.AddSingleton<ISubscriptionManager, SubscriptionManager>()
 				.AddSingleton<IConfigFileService<MetaTags>, MetaConfigFileService>()
+				.AddSingleton<IConfigFileService<OEmbedProviders>, OEmbedProvidersFileService>()
 				.AddSingleton<IConfigFileService<SiteConfig>, SiteConfigFileService>()
 				.AddSingleton<IConfigFileService<SiteSecurityConfigData>, SiteSecurityConfigFileService>();
+
+			services.AddSingleton<IExternalEmbeddingHandler, ExternalEmbeddingHandler>();
+
 
 			services
 				.AddAutoMapper((serviceProvider, mapperConfig) =>
@@ -221,6 +233,7 @@ namespace DasBlog.Web
 					mapperConfig.AddProfile(new ProfileDasBlogUser(serviceProvider.GetService<ISiteSecurityManager>()));
 					mapperConfig.AddProfile(new ProfileSettings());
 					mapperConfig.AddProfile(new ProfileActivityPub());
+					mapperConfig.AddProfile(new ProfileStaticPage());
 				})
 				.AddMvc()
 				.AddXmlSerializerFormatters();
@@ -285,8 +298,12 @@ namespace DasBlog.Web
 			app.UseRouting();
 
 			//if you've configured it at /blog or /whatever, set that pathbase so ~ will generate correctly
-			var rootUri = new Uri(dasBlogSettings.SiteConfiguration.Root);
-			var path = rootUri.AbsolutePath;
+			var path = "/";
+			if (!string.IsNullOrWhiteSpace(dasBlogSettings.SiteConfiguration.Root))
+			{
+				var rootUri = new Uri(dasBlogSettings.SiteConfiguration.Root);
+				path = rootUri.AbsolutePath;
+			}
 
 			//Deal with path base and proxies that change the request path
 			if (path != "/")
@@ -420,6 +437,8 @@ namespace DasBlog.Web
 				endpoints.MapControllerRoute(
 					name: "default", "~/{controller=Home}/{action=Index}/{id?}");
 			});
+
+			app.UseHttpContext();
 		}
 
 		/// <summary>

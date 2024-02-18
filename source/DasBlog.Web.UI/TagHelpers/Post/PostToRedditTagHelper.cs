@@ -24,7 +24,7 @@ namespace DasBlog.Web.TagHelpers.Post
 			output.TagMode = TagMode.StartTagAndEndTag;
 			output.Attributes.SetAttribute("class", "dasblog-a-share-reddit");
 			output.Attributes.SetAttribute("href", string.Format(REDDIT_SHARE_URL,
-								UrlEncoder.Default.Encode(new Uri(new Uri(dasBlogSettings.GetBaseUrl()), Post.PermaLink).AbsoluteUri),
+								UrlEncoder.Default.Encode(dasBlogSettings.RelativeToRoot(Post.PermaLink)),
 								UrlEncoder.Default.Encode(Post.Title)
 								));
 

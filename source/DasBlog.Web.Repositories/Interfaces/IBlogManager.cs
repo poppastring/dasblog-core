@@ -8,7 +8,7 @@ namespace DasBlog.Managers.Interfaces
     public interface IBlogManager
     {
         Entry GetBlogPost(string posttitle, DateTime? postDate);
-
+		StaticPage GetStaticPage(string posttitle);	
 		Entry GetBlogPostByGuid(Guid postid);
 
 		Entry GetEntryForEdit(string postid);
@@ -16,6 +16,8 @@ namespace DasBlog.Managers.Interfaces
 		EntryCollection GetFrontPagePosts(string acceptLanguageHeader);
 
         EntryCollection GetEntriesForPage(int pageIndex, string acceptLanguageHeader);
+
+		EntryCollection GetAllEntries();
 
 		EntrySaveState CreateEntry(Entry entry);
 

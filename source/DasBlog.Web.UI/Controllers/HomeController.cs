@@ -3,6 +3,7 @@ using DasBlog.Core.Common;
 using DasBlog.Managers.Interfaces;
 using DasBlog.Services;
 using DasBlog.Services.ActivityLogs;
+using DasBlog.Services.Site;
 using DasBlog.Web.Models;
 using DasBlog.Web.Models.BlogViewModels;
 using DasBlog.Web.Settings;
@@ -10,10 +11,11 @@ using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
+using Quartz.Util;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-
 
 namespace DasBlog.Web.Controllers
 {
@@ -24,15 +26,17 @@ namespace DasBlog.Web.Controllers
 		private readonly IMapper mapper;
 		private readonly ILogger<HomeController> logger;
 		private readonly IMemoryCache memoryCache;
+		private readonly IExternalEmbeddingHandler embeddingHandler;
 
 		public HomeController(IBlogManager blogManager, IDasBlogSettings dasBlogSettings, IMapper mapper, 
-								ILogger<HomeController> logger, IMemoryCache memoryCache) : base(dasBlogSettings)
+								ILogger<HomeController> logger, IMemoryCache memoryCache, IExternalEmbeddingHandler embeddingHandler) : base(dasBlogSettings)
 		{
 			this.blogManager = blogManager;
 			this.dasBlogSettings = dasBlogSettings;
 			this.mapper = mapper;
 			this.logger = logger;
 			this.memoryCache = memoryCache;
+			this.embeddingHandler = embeddingHandler;
 		}
 
 		public IActionResult Index()
@@ -44,10 +48,14 @@ namespace DasBlog.Web.Controllers
 			{
 				lpvm = new ListPostsViewModel
 				{
-					Posts = blogManager.GetFrontPagePosts(Request.Headers["Accept-Language"])
-								.Select(entry => mapper.Map<PostViewModel>(entry))
-								.Select(editentry => editentry).ToList()
+					Posts = HomePagePosts()
 				};
+
+				foreach( var post in lpvm.Posts )
+				{
+					post.Content = embeddingHandler.InjectCategoryLinksAsync(post.Content).GetAwaiter().GetResult();
+					post.Content = embeddingHandler.InjectIconsForBareLinksAsync(post.Content).GetAwaiter().GetResult();
+				}
 
 				AddComments(lpvm);
 
@@ -82,7 +90,6 @@ namespace DasBlog.Web.Controllers
 			{
 				return Index();
 			}
-
 
 			var lpvm = new ListPostsViewModel
 			{
@@ -147,6 +154,29 @@ namespace DasBlog.Web.Controllers
 			}
 
 			return listPostsViewModel;
+		}
+
+		private IList<PostViewModel> HomePagePosts()
+		{
+			IList<PostViewModel> posts = new List<PostViewModel>();
+
+			if (!dasBlogSettings.SiteConfiguration.PostPinnedToHomePage.IsNullOrWhiteSpace() &&
+				Guid.TryParse(dasBlogSettings.SiteConfiguration.PostPinnedToHomePage, out var results))
+			{
+				var entry = blogManager.GetBlogPostByGuid(results);
+
+				if (entry != null)
+				{
+					posts.Add(mapper.Map<PostViewModel>(entry));
+				}
+			}
+			else
+			{
+				posts = blogManager.GetFrontPagePosts(Request.Headers["Accept-Language"])
+							.Select(entry => mapper.Map<PostViewModel>(entry)).ToList();
+			}
+
+			return posts;
 		}
 	}
 }
