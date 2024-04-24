@@ -12,7 +12,7 @@ namespace DasBlog.Services.ActivityPub
 		[JsonPropertyName("@context")]
 		public string context { get; set; }
 		public string id { get; set; }
-		public string type { get; set; }
+		public string type { get; set; } = "Person";
 		public string following { get; set; }
 		public string followers { get; set; }
 		public string inbox { get; set; }
@@ -31,22 +31,24 @@ namespace DasBlog.Services.ActivityPub
 
 	public class Icon
 	{
-		public string type { get; set; }
-		public string mediaType { get; set; }
+		public string type { get; set; } = "Image";
+		public string mediaType { get; set; } = "image/png";
 		public string url { get; set; }
 	}
 
 	public class Image
 	{
-		public string type { get; set; }
-		public string mediaType { get; set; }
+		public string type { get; set; } = "Image";
+		public string mediaType { get; set; } = "image/png";
 		public string url { get; set; }
 	}
 
 	public class Publickey
 	{
-		public string context { get; set; }
-		public string type { get; set; }
+		[JsonPropertyName("@context")]
+		public string context { get; set; } = "https://w3id.org/security/v1";
+		[JsonPropertyName("@type")]
+		public string type { get; set; } = "Key";
 		public string id { get; set; }
 		public string owner { get; set; }
 		public string publicKeyPem { get; set; }

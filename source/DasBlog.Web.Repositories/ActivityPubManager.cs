@@ -22,7 +22,6 @@ namespace DasBlog.Managers
 		private readonly string outBox;
 		private const string ACTIVITYSTREAM_CONTEXT = "https://www.w3.org/ns/activitystreams";
 
-
 		public ActivityPubManager(IDasBlogSettings settings)
 		{
 			dasBlogSettings = settings;
@@ -75,12 +74,13 @@ namespace DasBlog.Managers
 				url = dasBlogSettings.SiteConfiguration.Root,
 				discoverable = true,
 				memorial = false,
-				icon = new() { type = "Image", mediaType = "image/png", url = dasBlogSettings.SiteConfiguration.ChannelImageUrl },
-				image = new() { type = "Image", mediaType = "image/png", url = dasBlogSettings.SiteConfiguration.ChannelImageUrl },
-				publicKey = new Publickey() { },
+				icon = new() {  url = dasBlogSettings.SiteConfiguration.ChannelImageUrl },
+				image = new() { url = dasBlogSettings.SiteConfiguration.ChannelImageUrl },
+				publicKey = new() { id = alias + "#main-key", owner = alias, publicKeyPem = "" },
 				attachment =
 				[
-					new() { name="Blog", type ="PropertyValue", value = dasBlogSettings.SiteConfiguration.Root }
+					new() { name="Blog", type ="PropertyValue", value = dasBlogSettings.SiteConfiguration.Root },
+					new() { name="RSS", type ="PropertyValue", value = dasBlogSettings.RssUrl }
 				]
 			};
 
