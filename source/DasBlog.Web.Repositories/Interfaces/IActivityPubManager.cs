@@ -1,15 +1,11 @@
-﻿using System.Collections.Generic;
-using DasBlog.Services.ActivityPub;
-using newtelligence.DasBlog.Runtime;
+﻿using DasBlog.Services.ActivityPub;
 
 namespace DasBlog.Managers.Interfaces
 {
 	public interface IActivityPubManager
 	{
-		WebFinger WebFinger(string resource);
+		WebFinger WebFinger();
 
-		User GetUser();
-
-		UserPage GetUserPage(IList<Entry> page);
+		Actor Actor();
 	}
 }

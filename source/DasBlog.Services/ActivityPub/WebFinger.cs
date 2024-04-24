@@ -8,17 +8,20 @@ namespace DasBlog.Services.ActivityPub
 {
 	public class WebFinger
 	{
-		public string Subject { get; set; }
-		public List<string> Aliases { get; set; } = new List<string>();
-		public List<WebFingerLink> Links { get; set; } = new List<WebFingerLink>();
+		public string subject { get; set; }
+		public string[] aliases { get; set; }
+		public Link[] links { get; set; }
 	}
 
-	public class WebFingerLink
+	public class Link
 	{
-		public string Relationship { get; set;}
-		public string Type { get; set;}	
-		public string HRef { get; set;}
-		public string Template { get; set;}
+		public string rel { get; set; }
+		public string type { get; set; }
+		public string href { get; set; }
 	}
 
 }
+
+
+
+
