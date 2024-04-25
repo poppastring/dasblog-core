@@ -11,3 +11,7 @@ Accept: text/html
 ###
 GET {{DOMAIN}}/users/poppastring
 Accept: text/html
+
+###
+GET https://dotnet.social/users/poppastring/outbox?page=true
+Accept: text/html

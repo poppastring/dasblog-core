@@ -30,7 +30,7 @@ namespace DasBlog.Web.Controllers
 		[HttpGet(".well-known/webfinger")]
 		public ActionResult WebFinger()
 		{
-			var webfinger = activityPubManager.WebFinger();
+			var webfinger = activityPubManager.GetWebFinger();
 			if (webfinger != null)
 			{
 				return Json(webfinger, jsonSerializerOptions);
@@ -43,7 +43,7 @@ namespace DasBlog.Web.Controllers
 		[Route("@blog")]
 		public IActionResult Actor()
 		{
-			var actor = activityPubManager.Actor();
+			var actor = activityPubManager.GetActor();
 			if (actor != null)
 			{
 				return Json(actor, jsonSerializerOptions);
@@ -61,7 +61,6 @@ namespace DasBlog.Web.Controllers
 
 			return Json(outbox, jsonSerializerOptions);
 		}
-
 
 		[HttpPost]
 		[Route("api/inbox")]
@@ -82,5 +81,15 @@ namespace DasBlog.Web.Controllers
 
 			return Json(notes, jsonSerializerOptions);
 		}
+
+		[HttpGet]
+		[Route("replies/{id}")]
+		public IActionResult Replies(string id)
+		{
+			var replies = string.Empty;
+
+			return Json(replies, jsonSerializerOptions);
+		}
+
 	}
 }
