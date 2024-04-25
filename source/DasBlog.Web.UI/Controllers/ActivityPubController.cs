@@ -54,7 +54,7 @@ namespace DasBlog.Web.Controllers
 
 		[HttpGet]
 		[Route("api/outbox")]
-		public IActionResult Outbox(string user, bool page)
+		public IActionResult Outbox()
 		{
 			// will contain references to all the posts from the blog
 			var outbox = string.Empty;
@@ -65,13 +65,22 @@ namespace DasBlog.Web.Controllers
 
 		[HttpPost]
 		[Route("api/inbox")]
-		public IActionResult Inbox(string user, bool page)
+		public IActionResult Inbox()
 		{
 			// will receive POST requests each time someone follows/unfollows the blog, replies, deletes a comment, etc.
 			// If we intend to follow other people, it will also receive the posts created in other instances?
 			var inbox = string.Empty;
 
 			return Json(inbox, jsonSerializerOptions);
+		}
+
+		[HttpGet]
+		[Route("notes/{id}")]
+		public IActionResult Notes(string id)
+		{
+			var notes = string.Empty;
+
+			return Json(notes, jsonSerializerOptions);
 		}
 	}
 }

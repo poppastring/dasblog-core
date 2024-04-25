@@ -41,7 +41,7 @@ namespace DasBlog.Managers
 			alias = new Uri(new Uri(roothost), "@blog").AbsoluteUri;
 		}
 
-		public WebFinger WebFinger()
+		public WebFinger GetWebFinger()
 		{
 			var webFinger = new WebFinger
 			{
@@ -57,7 +57,7 @@ namespace DasBlog.Managers
 			return webFinger;
 		}
 
-		public Actor Actor()
+		public Actor GetActor()
 		{
 			var actor = new Actor()
 			{
@@ -86,6 +86,11 @@ namespace DasBlog.Managers
 
 
 			return actor;
+		}
+
+		public Outbox GenerateOutbox()
+		{
+			throw new NotImplementedException();
 		}
 	}
 }

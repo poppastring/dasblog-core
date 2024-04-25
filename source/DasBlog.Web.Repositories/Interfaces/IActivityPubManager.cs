@@ -4,8 +4,10 @@ namespace DasBlog.Managers.Interfaces
 {
 	public interface IActivityPubManager
 	{
-		WebFinger WebFinger();
+		WebFinger GetWebFinger();
 
-		Actor Actor();
+		Actor GetActor();
+
+		Outbox GenerateOutbox();
 	}
 }
