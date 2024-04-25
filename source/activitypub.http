@@ -1,0 +1,13 @@
+@DOMAIN=https://localhost:5001
+
+
+GET {{DOMAIN}}/.well-known/webfinger
+Accept: text/html
+
+###
+GET {{DOMAIN}}/@blog
+Accept: text/html
+
+###
+GET {{DOMAIN}}/users/poppastring
+Accept: text/html

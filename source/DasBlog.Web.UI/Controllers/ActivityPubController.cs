@@ -28,13 +28,8 @@ namespace DasBlog.Web.Controllers
 		}
 
 		[HttpGet(".well-known/webfinger")]
-		public ActionResult WebFinger(string resource)
+		public ActionResult WebFinger()
 		{
-			if (resource.StartsWith("acct:"))
-			{
-				resource = resource.Remove(0, 5);
-			}
-
 			var webfinger = activityPubManager.WebFinger();
 			if (webfinger != null)
 			{
@@ -45,23 +40,16 @@ namespace DasBlog.Web.Controllers
 		}
 
 		[HttpGet]
-		[Route("@{user}")]
-		public IActionResult Actor(string user)
+		[Route("@blog")]
+		public IActionResult Actor()
 		{
-			var mastodonAccount = dasBlogSettings.SiteConfiguration.MastodonAccount;
-			if (mastodonAccount.StartsWith("@"))
-			{
-				mastodonAccount = mastodonAccount.Remove(0, 1);
-			}
-
-			if (string.Compare(user, mastodonAccount, StringComparison.InvariantCultureIgnoreCase) != 0)
-			{
-				return NotFound();
-			}
-
 			var actor = activityPubManager.Actor();
+			if (actor != null)
+			{
+				return Json(actor, jsonSerializerOptions);
+			}
 
-			return Json(actor, jsonSerializerOptions);
+			return NoContent();
 		}
 
 		[HttpGet]
