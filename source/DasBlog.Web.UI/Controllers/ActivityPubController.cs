@@ -1,9 +1,14 @@
 ﻿using AutoMapper;
+using DasBlog.Managers;
 using DasBlog.Managers.Interfaces;
 using DasBlog.Services;
 using DasBlog.Services.ActivityPub;
+using DasBlog.Services.Rss.Rss20;
 using DasBlog.Web.Settings;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
+using newtelligence.DasBlog.Runtime;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,14 +22,22 @@ namespace DasBlog.Web.Controllers
 		private readonly IDasBlogSettings dasBlogSettings;
 		private readonly IActivityPubManager activityPubManager;
 		private readonly IBlogManager blogManager;
+		private readonly IArchiveManager archiveManager;
+		private readonly IHttpContextAccessor httpContextAccessor;
 		private readonly IMapper mapper;
+		private IMemoryCache memoryCache;
 
-		public ActivityPubController(IActivityPubManager activityPubManager, IBlogManager blogManager, IDasBlogSettings dasBlogSettings, IMapper mapper) : base(dasBlogSettings)
+		public ActivityPubController(IActivityPubManager activityPubManager, IBlogManager blogManager,
+								IArchiveManager archiveManager, IDasBlogSettings dasBlogSettings,
+								IMemoryCache memoryCache, IMapper mapper, IHttpContextAccessor httpContextAccessor) : base(dasBlogSettings)
 		{
 			this.dasBlogSettings = dasBlogSettings;
 			this.activityPubManager = activityPubManager;
 			this.blogManager = blogManager;
+			this.archiveManager = archiveManager;
 			this.mapper = mapper;
+			this.memoryCache = memoryCache;
+			this.httpContextAccessor = httpContextAccessor;
 		}
 
 		[HttpGet(".well-known/webfinger")]
@@ -57,7 +70,20 @@ namespace DasBlog.Web.Controllers
 		public IActionResult Outbox()
 		{
 			// will contain references to all the posts from the blog
-			var outbox = string.Empty;
+			if (!memoryCache.TryGetValue(CACHEKEY_ACTIVITYPUB, out EntryCollection entries))
+			{	
+				var languageFilter = httpContextAccessor.HttpContext.Request.Headers["Accept-Language"];
+				var listofyears = archiveManager.GetDaysWithEntries().Select(i => i.Year).Distinct();
+
+				foreach (var year in listofyears)
+				{
+					entries.AddRange(
+					archiveManager.GetEntriesForYear(new DateTime(year, 1, 1), languageFilter).OrderByDescending(x => x.CreatedUtc));
+				}
+				memoryCache.Set(CACHEKEY_ACTIVITYPUB, entries, SiteCacheSettings());
+			}
+
+			var outbox = activityPubManager.GenerateOutbox(entries);
 
 			return Json(outbox, jsonSerializerOptions);
 		}

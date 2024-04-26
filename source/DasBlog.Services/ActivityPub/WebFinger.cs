@@ -21,6 +21,3 @@ namespace DasBlog.Services.ActivityPub
 	}
 
 }
-
-
-

@@ -1,4 +1,6 @@
 ﻿using DasBlog.Services.ActivityPub;
+using DasBlog.Services.Rss.Rss20;
+using newtelligence.DasBlog.Runtime;
 
 namespace DasBlog.Managers.Interfaces
 {
@@ -8,6 +10,6 @@ namespace DasBlog.Managers.Interfaces
 
 		Actor GetActor();
 
-		Outbox GenerateOutbox();
+		Outbox GenerateOutbox(EntryCollection rss);
 	}
 }

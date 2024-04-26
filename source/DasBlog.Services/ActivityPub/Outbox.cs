@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 namespace DasBlog.Services.ActivityPub
 {
-
 	public class Outbox
 	{
 		public string context { get; set; }
@@ -66,6 +65,5 @@ namespace DasBlog.Services.ActivityPub
 		public string Href { get; set; }
 		public string Name { get; set; }
 	}
-
 
 }

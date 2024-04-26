@@ -9,7 +9,7 @@ GET {{DOMAIN}}/@blog
 Accept: text/html
 
 ###
-GET {{DOMAIN}}/users/poppastring
+GET {{DOMAIN}}/api/outbox
 Accept: text/html
 
 ###

@@ -14,6 +14,7 @@ namespace DasBlog.Web.Controllers
 		protected const string CACHEKEY_RSS = "CACHEKEY_RSS";
 		protected const string CACHEKEY_FRONTPAGE = "CACHEKEY_FRONTPAGE";
 		protected const string CACHEKEY_ARCHIVE = "CACHEKEY_ARCHIVE";
+		protected const string CACHEKEY_ACTIVITYPUB = "CACHEKEY_ACTIVITYPUB";
 
 		// avoid the exception handling middleware which would log the exception again
 		public virtual IActionResult HandleError(string message, LoggedException ex)
