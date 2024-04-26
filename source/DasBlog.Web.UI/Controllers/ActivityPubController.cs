@@ -75,7 +75,9 @@ namespace DasBlog.Web.Controllers
 				var languageFilter = httpContextAccessor.HttpContext.Request.Headers["Accept-Language"];
 				var listofyears = archiveManager.GetDaysWithEntries().Select(i => i.Year).Distinct();
 
-				foreach (var year in listofyears)
+				entries = [];
+
+				foreach (int year in listofyears)
 				{
 					entries.AddRange(
 					archiveManager.GetEntriesForYear(new DateTime(year, 1, 1), languageFilter).OrderByDescending(x => x.CreatedUtc));

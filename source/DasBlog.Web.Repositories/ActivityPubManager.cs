@@ -5,11 +5,13 @@ using System.Linq;
 using System.Net.Mail;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.Json;
 using DasBlog.Managers.Interfaces;
 using DasBlog.Services;
 using DasBlog.Services.ActivityPub;
 using DasBlog.Services.Rss.Rss20;
 using newtelligence.DasBlog.Runtime;
+using static Org.BouncyCastle.Math.EC.ECCurve;
 
 namespace DasBlog.Managers
 {
@@ -26,6 +28,9 @@ namespace DasBlog.Managers
 		private readonly string notes;
 		private readonly string replies;
 		private readonly string tags;
+		private readonly string authorUsername;
+		private readonly string authorUrl;
+		private readonly string authorUserid;
 		private const string ACTIVITYSTREAM_CONTEXT = "https://www.w3.org/ns/activitystreams";
 
 		public ActivityPubManager(IDasBlogSettings settings)
@@ -36,6 +41,7 @@ namespace DasBlog.Managers
 			dataService = BlogDataServiceFactory.GetService(Path.Combine(dasBlogSettings.WebRootDirectory, dasBlogSettings.SiteConfiguration.ContentDir), loggingDataService);
 
 			roothost = new Uri(dasBlogSettings.SiteConfiguration.Root).AbsoluteUri.Replace("www", "");
+			var authdomain = new Uri(dasBlogSettings.SiteConfiguration.MastodonServerUrl).Host.Replace("www", "");
 
 			var followingrelative = string.Format("users/{0}/following", dasBlogSettings.SiteConfiguration.MastodonAccount);
 			var followersrelative = string.Format("users/{0}/followers", dasBlogSettings.SiteConfiguration.MastodonAccount);
@@ -48,6 +54,10 @@ namespace DasBlog.Managers
 			notes = new Uri(new Uri(roothost), "notes").AbsoluteUri;
 			replies = new Uri(new Uri(roothost), "replies").AbsoluteUri;
 			tags = new Uri(new Uri(roothost), "tags").AbsoluteUri;
+
+			authorUsername = $"@{dasBlogSettings.SiteConfiguration.MastodonAccount}@{authdomain}";
+			authorUrl = $"{roothost}/users/{dasBlogSettings.SiteConfiguration.MastodonAccount}";
+			authorUserid = dasBlogSettings.SiteConfiguration.MastodonAccount;
 		}
 
 		public WebFinger GetWebFinger()
@@ -98,12 +108,28 @@ namespace DasBlog.Managers
 
 		public Outbox GenerateOutbox(EntryCollection entries)
 		{
-			foreach(var item in entries)
+			var items = entries
+				.Select(item => new
+				{
+					Title = item.Title,
+					Link = dasBlogSettings.RelativeToRoot((dasBlogSettings.GeneratePostUrl(item))),
+					Description = dasBlogSettings.SiteConfiguration.Description,
+					PubDate = item.CreatedUtc,
+					Hash = item.EntryId,
+					Tags = item.Categories.Split(',').ToList()
+				});
+
+			var ordereditems = new List<Ordereditem>();
+
+			foreach (var item in items)
 			{
-				
+				var note = GetNote(item);
+				var createNote = GetCreateNote(note);
+
+				ordereditems.Add(createNote);
 			}
 
-			throw new NotImplementedException();
+			return GetOutbox(ordereditems.ToArray());
 		}
 
 		private Outbox GetOutbox(Ordereditem [] orderedItems)
@@ -122,13 +148,11 @@ namespace DasBlog.Managers
 			return outbox;
 		}
 
-		private dynamic GetNote(dynamic item, string AuthorUsername, string AuthorUrl, string AuthorUserId)
+		private Note GetNote(dynamic item)
 		{
-			var itemHash = GetLinkUniqueHash(item.Link!);
-
 			var tags = new List<Tag>()
 			{
-				new Tag() { Type = "Mention", Href = AuthorUrl, Name = AuthorUsername }
+				new Tag() { Type = "Mention", Href = authorUrl, Name = authorUsername }
 			};
 
 			var itemTags = item?.Tags as List<string> ?? [];
@@ -146,31 +170,31 @@ namespace DasBlog.Managers
 				}
 			}
 
-			var noteId = $"{notes}/{itemHash}";
+			var noteId = $"{notes}/{item.Hash}";
 
-			var note = new
+			var note = new Note()
 			{
-				_context = "https://www.w3.org/ns/activitystreams",
+				context = "https://www.w3.org/ns/activitystreams",
 				id = noteId,
 				type = "Note",
-				hash = itemHash,
-				content = GetContent(item!, this.tags, AuthorUserId, AuthorUrl),
+				hash = item.Hash,
+				content = GetContent(item!, this.tags, authorUserid, authorUrl),
 				url = item!.Link!,
 				attributedTo = alias, // domain/@blog
-				to = new List<string>() { "https://www.w3.org/ns/activitystreams#Public" },
-				cc = new List<string>(),
-				published = ParsePubDate(item.PubDate),
-				tag = tags,
-				replies = new
+				to = new List<string>() { "https://www.w3.org/ns/activitystreams#Public" }.ToArray(),
+				cc = new List<string>().ToArray(),
+				published = item.PubDate,
+				tag = tags.ToArray(),
+				replies = new Replies
 				{
-					id = $"{replies}/{itemHash}",
+					id = $"{replies}/{item.Hash}",
 					type = "Collection",
-					first = new
+					first = new First
 					{
 						type = "CollectionPage",
-						next = $"{replies}/{itemHash}?page=true",
-						partOf = $"{replies}/{itemHash}",
-						items = new List<string>()
+						next = $"{replies}/{item.Hash}?page=true",
+						partOf = $"{replies}/{item.Hash}",
+						items = new List<string>().ToArray()
 					}
 				}
 			};
@@ -178,29 +202,19 @@ namespace DasBlog.Managers
 			return note;
 		}
 
-		private string? ParsePubDate(string? pubDate)
-		{
-			if (DateTimeOffset.TryParse(pubDate, out DateTimeOffset parsedDate))
-			{
-				return parsedDate.ToString("yyyy-MM-ddTHH:mm:sszzz");
-			}
 
-			// If parsing fails, return the original string
-			return pubDate;
-		}
-
-		private dynamic GetCreateNote(dynamic note, string siteactoruri)
+		private Ordereditem GetCreateNote(Note note)
 		{
-			var createNote = new
+			var createNote = new Ordereditem
 			{
-				_context = "https://www.w3.org/ns/activitystreams",
+				context = "https://www.w3.org/ns/activitystreams",
 				id = $"{note.id}/create",
 				type = "Create",
-				actor = siteactoruri,
-				to = new List<string>() { "https://www.w3.org/ns/activitystreams#Public" },
-				cc = new List<string>(),
+				actor = alias,
+				to = new List<string>() { "https://www.w3.org/ns/activitystreams#Public" }.ToArray(),
+				cc = new List<string>().ToArray(),
 				published = note.published,
-				@object = note
+				_object = note
 			};
 
 			return createNote;
@@ -240,25 +254,6 @@ namespace DasBlog.Managers
 		private static string GetMention(string name, string link)
 		{
 			return $"<a href=\"{link}\" class=\"u-url mention\">@<span>{name}</span></a>";
-		}
-
-		private static string GetLinkUniqueHash(string input)
-		{
-			using (MD5 md5 = MD5.Create())
-			{
-				// Convert the input string to a byte array and compute the hash.
-				byte[] inputBytes = Encoding.UTF8.GetBytes(input);
-				byte[] hashBytes = md5.ComputeHash(inputBytes);
-
-				// Convert the byte array to a hexadecimal string representation.
-				StringBuilder sb = new StringBuilder();
-				for (int i = 0; i < hashBytes.Length; i++)
-				{
-					sb.Append(hashBytes[i].ToString("x2")); // "x2" means hexadecimal with two digits.
-				}
-
-				return sb.ToString();
-			}
 		}
 	}
 }

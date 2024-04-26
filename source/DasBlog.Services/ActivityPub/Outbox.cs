@@ -25,10 +25,10 @@ namespace DasBlog.Services.ActivityPub
 		public string[] to { get; set; }
 		public object[] cc { get; set; }
 		public DateTime published { get; set; }
-		public Object _object { get; set; }
+		public Note _object { get; set; }
 	}
 
-	public class Object
+	public class Note
 	{
 		public string context { get; set; }
 		public string id { get; set; }
