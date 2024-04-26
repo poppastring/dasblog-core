@@ -51,12 +51,12 @@ namespace DasBlog.Managers
 			inBox = new Uri(new Uri(roothost), "api/inbox").AbsoluteUri;
 			outBox = new Uri(new Uri(roothost), "api/outbox").AbsoluteUri;
 			alias = new Uri(new Uri(roothost), "@blog").AbsoluteUri;
-			notes = new Uri(new Uri(roothost), "notes").AbsoluteUri;
-			replies = new Uri(new Uri(roothost), "replies").AbsoluteUri;
-			tags = new Uri(new Uri(roothost), "tags").AbsoluteUri;
+			notes = new Uri(new Uri(roothost), "api/notes").AbsoluteUri;
+			replies = new Uri(new Uri(roothost), "api/replies").AbsoluteUri;
+			tags = new Uri(new Uri(roothost), "api/tags").AbsoluteUri;
 
 			authorUsername = $"@{dasBlogSettings.SiteConfiguration.MastodonAccount}@{authdomain}";
-			authorUrl = $"{roothost}/users/{dasBlogSettings.SiteConfiguration.MastodonAccount}";
+			authorUrl = new Uri(new Uri(roothost), $"users/{dasBlogSettings.SiteConfiguration.MastodonAccount}").AbsoluteUri;
 			authorUserid = dasBlogSettings.SiteConfiguration.MastodonAccount;
 		}
 
@@ -93,8 +93,8 @@ namespace DasBlog.Managers
 				url = dasBlogSettings.SiteConfiguration.Root,
 				discoverable = true,
 				memorial = false,
-				icon = new() {  url = dasBlogSettings.SiteConfiguration.ChannelImageUrl },
-				image = new() { url = dasBlogSettings.SiteConfiguration.ChannelImageUrl },
+				icon = new() {  url = new Uri(new Uri(dasBlogSettings.SiteConfiguration.Root), dasBlogSettings.SiteConfiguration.ChannelImageUrl).AbsoluteUri },
+				image = new() { url = new Uri(new Uri(dasBlogSettings.SiteConfiguration.Root), dasBlogSettings.SiteConfiguration.ChannelImageUrl).AbsoluteUri },
 				publicKey = new() { id = alias + "#main-key", owner = alias, publicKeyPem = "" },
 				attachment =
 				[
@@ -116,7 +116,7 @@ namespace DasBlog.Managers
 					Description = dasBlogSettings.SiteConfiguration.Description,
 					PubDate = item.CreatedUtc,
 					Hash = item.EntryId,
-					Tags = item.Categories.Split(',').ToList()
+					Tags = item.Categories.Split(',').ToList().Select(x => dasBlogSettings.CompressTitle(x)).ToList()
 				});
 
 			var ordereditems = new List<Ordereditem>();
@@ -164,11 +164,13 @@ namespace DasBlog.Managers
 					tags.Add(new Tag()
 					{
 						Type = "Hashtag",
-						Href = $"{tags}/{tag}",
+						Href = $"{this.tags}/{tag}",
 						Name = $"#{tag}"
 					});
 				}
 			}
+
+
 
 			var noteId = $"{notes}/{item.Hash}";
 
