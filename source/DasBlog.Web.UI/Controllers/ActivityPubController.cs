@@ -1,18 +1,20 @@
 ﻿using AutoMapper;
-using DasBlog.Managers;
 using DasBlog.Managers.Interfaces;
 using DasBlog.Services;
 using DasBlog.Services.ActivityPub;
-using DasBlog.Services.Rss.Rss20;
 using DasBlog.Web.Settings;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using newtelligence.DasBlog.Runtime;
 using System;
-using System.Collections.Generic;
+using System.IO;
+using System.Text.Json;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
+using System.Threading.Tasks;
+using Org.BouncyCastle.Ocsp;
+using System.Net;
+using Microsoft.Extensions.Logging;
 
 namespace DasBlog.Web.Controllers
 {
@@ -26,10 +28,12 @@ namespace DasBlog.Web.Controllers
 		private readonly IHttpContextAccessor httpContextAccessor;
 		private readonly IMapper mapper;
 		private IMemoryCache memoryCache;
+		private readonly ILogger<ActivityPubController> logger;
 
 		public ActivityPubController(IActivityPubManager activityPubManager, IBlogManager blogManager,
 								IArchiveManager archiveManager, IDasBlogSettings dasBlogSettings,
-								IMemoryCache memoryCache, IMapper mapper, IHttpContextAccessor httpContextAccessor) : base(dasBlogSettings)
+								IMemoryCache memoryCache, IMapper mapper, IHttpContextAccessor httpContextAccessor,
+								ILogger<ActivityPubController> logger) : base(dasBlogSettings)
 		{
 			this.dasBlogSettings = dasBlogSettings;
 			this.activityPubManager = activityPubManager;
@@ -38,6 +42,7 @@ namespace DasBlog.Web.Controllers
 			this.mapper = mapper;
 			this.memoryCache = memoryCache;
 			this.httpContextAccessor = httpContextAccessor;
+			this.logger = logger;
 		}
 
 		[HttpGet(".well-known/webfinger")]
@@ -92,14 +97,71 @@ namespace DasBlog.Web.Controllers
 
 		[HttpPost]
 		[Route("api/inbox")]
-		public IActionResult Inbox()
-		{
-			// will receive POST requests each time someone follows/unfollows the blog, replies, deletes a comment, etc.
-			// If we intend to follow other people, it will also receive the posts created in other instances?
-			var inbox = string.Empty;
+        public async Task<IActionResult> Inbox()
+        {
+            // will receive POST requests each time someone follows/unfollows the blog, replies, deletes a comment, etc.
+            // If we intend to follow other people, it will also receive the posts created in other instances?
+            var requestbody = string.Empty;
 
-			return Json(inbox, jsonSerializerOptions);
-		}
+            using (var reader = new StreamReader(httpContextAccessor.HttpContext.Request.Body))
+            {
+                requestbody = await reader.ReadToEndAsync();
+            }
+
+			var options = new JsonSerializerOptions
+			{
+				PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+			};
+
+			InboxMessage? message;
+			try
+			{
+				message = JsonSerializer.Deserialize<InboxMessage>(requestbody, options);
+			}
+			catch (Exception e)
+			{
+				logger.LogError(e.ToString());
+				throw;
+			}
+
+			if (message?.IsDelete() ?? false)
+			{
+				throw new NotImplementedException("Delete not supported");
+			}
+
+			logger.LogInformation($"Received Activity: {requestbody}");
+
+			var response = new JsonResult("") { StatusCode = (int)HttpStatusCode.OK, ContentType = "application/activity+json" };
+
+			try
+			{
+				if (message?.IsFollow() ?? false)
+				{
+					// follow
+				}
+				else if (message?.IsUndoFollow() ?? false)
+				{
+					// Unfollow
+					// get actor info
+					// Send signed request to the actor's inbox				
+				}
+				else if (message?.IsCreateActivity() ?? false)
+				{
+					// add reply 
+				}
+				else
+				{
+					// unsupported activity
+				}
+			}
+			catch (Exception e)
+			{
+				logger.LogError(e.ToString());
+				throw;
+			}
+
+			return response;
+        }
 
 		[HttpGet]
 		[Route("notes/{id}")]
