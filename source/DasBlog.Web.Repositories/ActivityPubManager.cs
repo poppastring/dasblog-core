@@ -6,6 +6,7 @@ using System.Net.Mail;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
+using System.Threading.Tasks;
 using DasBlog.Managers.Interfaces;
 using DasBlog.Services;
 using DasBlog.Services.ActivityPub;
@@ -132,6 +133,21 @@ namespace DasBlog.Managers
 			return GetOutbox(ordereditems.ToArray());
 		}
 
+		public async Task Follow(InboxMessage message)
+		{
+			throw new NotImplementedException();
+		}
+
+		public async Task Unfollow(InboxMessage message)
+		{
+			throw new NotImplementedException();
+		}
+
+		public async Task AddReply(InboxMessage message)
+		{
+			throw new NotImplementedException();
+		}
+
 		private Outbox GetOutbox(Ordereditem [] orderedItems)
 		{
 			// Create outbox JSON structure
@@ -170,8 +186,6 @@ namespace DasBlog.Managers
 				}
 			}
 
-
-
 			var noteId = $"{notes}/{item.Hash}";
 
 			var note = new Note()
@@ -203,7 +217,6 @@ namespace DasBlog.Managers
 
 			return note;
 		}
-
 
 		private Ordereditem GetCreateNote(Note note)
 		{

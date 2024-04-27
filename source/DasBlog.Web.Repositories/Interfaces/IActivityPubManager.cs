@@ -1,5 +1,5 @@
-﻿using DasBlog.Services.ActivityPub;
-using DasBlog.Services.Rss.Rss20;
+﻿using System.Threading.Tasks;
+using DasBlog.Services.ActivityPub;
 using newtelligence.DasBlog.Runtime;
 
 namespace DasBlog.Managers.Interfaces
@@ -10,6 +10,12 @@ namespace DasBlog.Managers.Interfaces
 
 		Actor GetActor();
 
-		Outbox GenerateOutbox(EntryCollection rss);
+		Outbox GenerateOutbox(EntryCollection entries);
+
+		public Task Follow(InboxMessage message);
+
+		public Task Unfollow(InboxMessage message);
+
+		public Task AddReply(InboxMessage message);
 	}
 }

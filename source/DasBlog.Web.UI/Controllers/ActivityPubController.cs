@@ -29,6 +29,7 @@ namespace DasBlog.Web.Controllers
 		private readonly IMapper mapper;
 		private IMemoryCache memoryCache;
 		private readonly ILogger<ActivityPubController> logger;
+		private readonly JsonSerializerOptions jsonSerOptions; 
 
 		public ActivityPubController(IActivityPubManager activityPubManager, IBlogManager blogManager,
 								IArchiveManager archiveManager, IDasBlogSettings dasBlogSettings,
@@ -43,6 +44,7 @@ namespace DasBlog.Web.Controllers
 			this.memoryCache = memoryCache;
 			this.httpContextAccessor = httpContextAccessor;
 			this.logger = logger;
+			jsonSerOptions =  new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
 		}
 
 		[HttpGet(".well-known/webfinger")]
@@ -108,15 +110,10 @@ namespace DasBlog.Web.Controllers
                 requestbody = await reader.ReadToEndAsync();
             }
 
-			var options = new JsonSerializerOptions
-			{
-				PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-			};
-
 			InboxMessage? message;
 			try
 			{
-				message = JsonSerializer.Deserialize<InboxMessage>(requestbody, options);
+				message = JsonSerializer.Deserialize<InboxMessage>(requestbody, jsonSerOptions);
 			}
 			catch (Exception e)
 			{
