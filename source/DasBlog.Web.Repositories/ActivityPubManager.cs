@@ -2,17 +2,11 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net.Mail;
-using System.Security.Cryptography;
-using System.Text;
-using System.Text.Json;
 using System.Threading.Tasks;
 using DasBlog.Managers.Interfaces;
 using DasBlog.Services;
 using DasBlog.Services.ActivityPub;
-using DasBlog.Services.Rss.Rss20;
 using newtelligence.DasBlog.Runtime;
-using static Org.BouncyCastle.Math.EC.ECCurve;
 
 namespace DasBlog.Managers
 {
