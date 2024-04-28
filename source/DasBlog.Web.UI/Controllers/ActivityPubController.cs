@@ -134,21 +134,20 @@ namespace DasBlog.Web.Controllers
 			{
 				if (message?.IsFollow() ?? false)
 				{
-					// follow
+					await activityPubManager.Follow(message);
 				}
 				else if (message?.IsUndoFollow() ?? false)
 				{
-					// Unfollow
-					// get actor info
-					// Send signed request to the actor's inbox				
+					await activityPubManager.Unfollow(message);
 				}
 				else if (message?.IsCreateActivity() ?? false)
 				{
-					// add reply 
+					await activityPubManager.AddReply(message);
 				}
 				else
 				{
 					// unsupported activity
+					return StatusCode(500);
 				}
 			}
 			catch (Exception e)

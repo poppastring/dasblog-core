@@ -14,18 +14,9 @@ namespace DasBlog.Managers
 	{
 		private readonly IBlogDataService dataService;
 		private readonly IDasBlogSettings dasBlogSettings;
-		private readonly string roothost;
-		private readonly string alias;
-		private readonly string following;
-		private readonly string followers;
-		private readonly string inBox;
-		private readonly string outBox;
-		private readonly string notes;
-		private readonly string replies;
-		private readonly string tags;
-		private readonly string authorUsername;
-		private readonly string authorUrl;
-		private readonly string authorUserid;
+		private readonly string roothost, alias, following, followers, inBox, outBox, notes, replies;
+		private readonly string tags, authorUsername, authorUrl, authorUserid;
+
 		private const string ACTIVITYSTREAM_CONTEXT = "https://www.w3.org/ns/activitystreams";
 
 		public ActivityPubManager(IDasBlogSettings settings)
@@ -129,16 +120,24 @@ namespace DasBlog.Managers
 
 		public async Task Follow(InboxMessage message)
 		{
+			// add follow to a persistent list
+
 			throw new NotImplementedException();
 		}
 
 		public async Task Unfollow(InboxMessage message)
 		{
+			// delete follow from persistent list
+			// get actor info
+			// Send signed request to the actor's inbox of the unfollow
+
 			throw new NotImplementedException();
 		}
 
 		public async Task AddReply(InboxMessage message)
-		{
+		{ 
+			// add reply
+
 			throw new NotImplementedException();
 		}
 
