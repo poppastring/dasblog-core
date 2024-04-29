@@ -41,6 +41,7 @@ using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Net.Http.Headers;
 using SameSiteMode = Microsoft.AspNetCore.Http.SameSiteMode;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using DasBlog.Services.ActivityPub.Helper;
 
 namespace DasBlog.Web
 {
@@ -221,10 +222,9 @@ namespace DasBlog.Web
 				.AddSingleton<IConfigFileService<MetaTags>, MetaConfigFileService>()
 				.AddSingleton<IConfigFileService<OEmbedProviders>, OEmbedProvidersFileService>()
 				.AddSingleton<IConfigFileService<SiteConfig>, SiteConfigFileService>()
-				.AddSingleton<IConfigFileService<SiteSecurityConfigData>, SiteSecurityConfigFileService>();
-
-			services.AddSingleton<IExternalEmbeddingHandler, ExternalEmbeddingHandler>();
-
+				.AddSingleton<IConfigFileService<SiteSecurityConfigData>, SiteSecurityConfigFileService>()
+				.AddSingleton<IExternalEmbeddingHandler, ExternalEmbeddingHandler>()
+				.AddSingleton<ActorService>();
 
 			services
 				.AddAutoMapper((serviceProvider, mapperConfig) =>

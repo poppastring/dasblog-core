@@ -2,11 +2,15 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection.Metadata;
+using System.Text.Json;
 using System.Threading.Tasks;
 using DasBlog.Managers.Interfaces;
 using DasBlog.Services;
 using DasBlog.Services.ActivityPub;
+using DasBlog.Services.ActivityPub.Helper;
 using newtelligence.DasBlog.Runtime;
+using Org.BouncyCastle.Asn1.X509;
 
 namespace DasBlog.Managers
 {
@@ -14,15 +18,16 @@ namespace DasBlog.Managers
 	{
 		private readonly IBlogDataService dataService;
 		private readonly IDasBlogSettings dasBlogSettings;
+		private readonly ActorService actorService;
 		private readonly string roothost, alias, following, followers, inBox, outBox, notes, replies;
 		private readonly string tags, authorUsername, authorUrl, authorUserid;
 
 		private const string ACTIVITYSTREAM_CONTEXT = "https://www.w3.org/ns/activitystreams";
 
-		public ActivityPubManager(IDasBlogSettings settings)
+		public ActivityPubManager(IDasBlogSettings settings, ActorService actorservice)
 		{
 			dasBlogSettings = settings;
-
+			actorService = actorservice;
 			var loggingDataService = LoggingDataServiceFactory.GetService(Path.Combine(dasBlogSettings.WebRootDirectory, dasBlogSettings.SiteConfiguration.LogDir));
 			dataService = BlogDataServiceFactory.GetService(Path.Combine(dasBlogSettings.WebRootDirectory, dasBlogSettings.SiteConfiguration.ContentDir), loggingDataService);
 
@@ -120,18 +125,54 @@ namespace DasBlog.Managers
 
 		public async Task Follow(InboxMessage message)
 		{
-			// add follow to a persistent list
+			var target = message.Object!.ToString();
 
-			throw new NotImplementedException();
+			// add follower to a persistent list
+
+			// get actor info
+			var actor = await actorService.FetchActorInformationAsync(message.Actor);
+
+			var acceptRequest = new AcceptRequest()
+			{
+				context = "https://www.w3.org/ns/activitystreams",
+				id = $"{target}#accepts/follows/{actor.id}",
+				actor = $"{target}",
+				Object = new
+				{
+					message.Id,
+					Actor = actor.url,
+					Type = "Follow",
+					Object = $"{target}"
+				}
+			};
+
+			await actorService.SendSignedRequest(
+							JsonSerializer.Serialize(acceptRequest, ActorService.SerializerOptions),
+							new Uri(actor.inbox));
+
 		}
 
-		public async Task Unfollow(InboxMessage message)
+		public async Task Unfollow(InboxMessage message, string requestbody)
 		{
-			// delete follow from persistent list
-			// get actor info
-			// Send signed request to the actor's inbox of the unfollow
+			// delete follower from persistent list
 
-			throw new NotImplementedException();
+			// get actor info
+			var actor = await actorService.FetchActorInformationAsync(message.Actor);
+
+			var uuid = Guid.NewGuid().ToString();
+
+			var acceptRequest = new AcceptRequest()
+			{
+				context = "https://www.w3.org/ns/activitystreams",
+				id = new Uri(new Uri(roothost), uuid).AbsoluteUri,
+				actor = alias,
+				Object = JsonSerializer.Deserialize<dynamic>(requestbody, ActorService.SerializerOptions)!
+			};
+
+			// Send signed request to the actor's inbox of the unfollow
+			await actorService.SendSignedRequest(
+								JsonSerializer.Serialize(acceptRequest, ActorService.SerializerOptions), 
+								new Uri(actor.inbox));
 		}
 
 		public async Task AddReply(InboxMessage message)

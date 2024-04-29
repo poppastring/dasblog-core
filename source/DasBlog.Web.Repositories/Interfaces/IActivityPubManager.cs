@@ -14,7 +14,7 @@ namespace DasBlog.Managers.Interfaces
 
 		public Task Follow(InboxMessage message);
 
-		public Task Unfollow(InboxMessage message);
+		public Task Unfollow(InboxMessage message, string requestbody);
 
 		public Task AddReply(InboxMessage message);
 	}

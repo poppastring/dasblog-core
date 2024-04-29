@@ -138,7 +138,7 @@ namespace DasBlog.Web.Controllers
 				}
 				else if (message?.IsUndoFollow() ?? false)
 				{
-					await activityPubManager.Unfollow(message);
+					await activityPubManager.Unfollow(message, requestbody);
 				}
 				else if (message?.IsCreateActivity() ?? false)
 				{
