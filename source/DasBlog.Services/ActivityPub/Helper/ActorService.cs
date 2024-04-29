@@ -21,15 +21,15 @@ namespace DasBlog.Services.ActivityPub.Helper
 
 		public static async Task<Actor> FetchActorInformationAsync(string actorUrl)
 		{
-			using (HttpClient httpClient = new HttpClient())
+			using (var httpClient = new HttpClient())
 			{
 				httpClient.DefaultRequestHeaders.Add("Accept", "application/activity+json");
 
-				HttpResponseMessage response = await httpClient.GetAsync(actorUrl);
+				var response = await httpClient.GetAsync(actorUrl);
 
 				if (response.IsSuccessStatusCode)
 				{
-					string jsonContent = await response.Content.ReadAsStringAsync();
+					var jsonContent = await response.Content.ReadAsStringAsync();
 					return JsonSerializer.Deserialize<Actor>(jsonContent, ActorService.SerializerOptions)!;
 				}
 
@@ -39,7 +39,7 @@ namespace DasBlog.Services.ActivityPub.Helper
 
 		static string CreateHashSha256(string input)
 		{
-			using (SHA256 sha256 = SHA256.Create())
+			using (var sha256 = SHA256.Create())
 			{
 				byte[] hashBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(input));
 				return Convert.ToBase64String(hashBytes);
@@ -49,33 +49,33 @@ namespace DasBlog.Services.ActivityPub.Helper
 		public async Task SendSignedRequest(string document, Uri url)
 		{
 			// Get current UTC date in HTTP format
-			string date = DateTime.UtcNow.ToString("r");
+			var date = DateTime.UtcNow.ToString("r");
 
 			// Load RSA private key from file
-			using (RSA rsa = RSA.Create())
+			using (var rsa = RSA.Create())
 			{
 				rsa.ImportFromPem(this._privatePem);
 
-				string digest = $"SHA-256={CreateHashSha256(document)}";
+				var digest = $"SHA-256={CreateHashSha256(document)}";
 
 				// Build the to-be-signed string
 				// string signedString = $"(request-target): post {url.AbsolutePath}\nhost: {url.Host}\ndate: {date}";
-				string signedString = $"(request-target): post {url.AbsolutePath}\nhost: {url.Host}\ndate: {date}\ndigest: {digest}";
+				var signedString = $"(request-target): post {url.AbsolutePath}\nhost: {url.Host}\ndate: {date}\ndigest: {digest}";
 
 				// Sign the to-be-signed string
 
-				byte[] signatureBytes = rsa.SignData(Encoding.UTF8.GetBytes(signedString), HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
+				var signatureBytes = rsa.SignData(Encoding.UTF8.GetBytes(signedString), HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
 
 				// Base64 encode the signature
-				string signature = Convert.ToBase64String(signatureBytes);
+				var signature = Convert.ToBase64String(signatureBytes);
 
 				Logger?.LogInformation($"Using key: {this._keyId}");
 
 				// Build the HTTP signature header
-				string header = $"keyId=\"{this._keyId}\",headers=\"(request-target) host date digest\",signature=\"{signature}\",algorithm=\"rsa-sha256\"";
+				var header = $"keyId=\"{this._keyId}\",headers=\"(request-target) host date digest\",signature=\"{signature}\",algorithm=\"rsa-sha256\"";
 
 				// Create HTTP client
-				using (HttpClient client = new HttpClient())
+				using (var client = new HttpClient())
 				{
 					// Set request headers
 					client.DefaultRequestHeaders.Add("Host", url.Host);
