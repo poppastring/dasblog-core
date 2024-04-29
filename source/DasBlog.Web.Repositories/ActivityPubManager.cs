@@ -130,7 +130,7 @@ namespace DasBlog.Managers
 			// add follower to a persistent list
 
 			// get actor info
-			var actor = await actorService.FetchActorInformationAsync(message.Actor);
+			var actor = await ActorService.FetchActorInformationAsync(message.Actor);
 
 			var acceptRequest = new AcceptRequest()
 			{
@@ -157,7 +157,7 @@ namespace DasBlog.Managers
 			// delete follower from persistent list
 
 			// get actor info
-			var actor = await actorService.FetchActorInformationAsync(message.Actor);
+			var actor = await ActorService.FetchActorInformationAsync(message.Actor);
 
 			var uuid = Guid.NewGuid().ToString();
 

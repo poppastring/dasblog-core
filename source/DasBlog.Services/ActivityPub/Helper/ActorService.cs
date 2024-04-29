@@ -19,7 +19,7 @@ namespace DasBlog.Services.ActivityPub.Helper
 			PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
 		};
 
-		public async Task<Actor> FetchActorInformationAsync(string actorUrl)
+		public static async Task<Actor> FetchActorInformationAsync(string actorUrl)
 		{
 			using (HttpClient httpClient = new HttpClient())
 			{
