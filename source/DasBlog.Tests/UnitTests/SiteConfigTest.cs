@@ -174,5 +174,7 @@ namespace DasBlog.Tests.UnitTests
 		public bool EnableRewritingBareLinksToEmbeddings { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 		public bool EnableRewritingBareLinksToIcons { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 		public string PostPinnedToHomePage { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+		public string MastodonPublicKey { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+		public string MastodonPrivateKey { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 	}
 }

@@ -372,5 +372,10 @@ namespace DasBlog.Services.ConfigFile.Interfaces
 		bool EnableRewritingBareLinksToIcons { get; set; }
 
 		string PostPinnedToHomePage { get; set; }
+
+		string MastodonPublicKey { get; set; }
+
+		string MastodonPrivateKey { get; set; }
+
 	}
 }
