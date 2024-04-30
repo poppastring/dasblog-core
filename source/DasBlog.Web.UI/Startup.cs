@@ -224,7 +224,7 @@ namespace DasBlog.Web
 				.AddSingleton<IConfigFileService<SiteConfig>, SiteConfigFileService>()
 				.AddSingleton<IConfigFileService<SiteSecurityConfigData>, SiteSecurityConfigFileService>()
 				.AddSingleton<IExternalEmbeddingHandler, ExternalEmbeddingHandler>()
-				.AddSingleton<ActorService>();
+				.AddSingleton<IActorService, ActorService>();
 
 			services
 				.AddAutoMapper((serviceProvider, mapperConfig) =>

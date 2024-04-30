@@ -18,13 +18,13 @@ namespace DasBlog.Managers
 	{
 		private readonly IBlogDataService dataService;
 		private readonly IDasBlogSettings dasBlogSettings;
-		private readonly ActorService actorService;
+		private readonly IActorService actorService;
 		private readonly string roothost, alias, following, followers, inBox, outBox, notes, replies;
 		private readonly string tags, authorUsername, authorUrl, authorUserid;
 
 		private const string ACTIVITYSTREAM_CONTEXT = "https://www.w3.org/ns/activitystreams";
 
-		public ActivityPubManager(IDasBlogSettings settings, ActorService actorservice)
+		public ActivityPubManager(IDasBlogSettings settings, IActorService actorservice)
 		{
 			dasBlogSettings = settings;
 			actorService = actorservice;
@@ -86,7 +86,7 @@ namespace DasBlog.Managers
 				memorial = false,
 				icon = new() {  url = new Uri(new Uri(dasBlogSettings.SiteConfiguration.Root), dasBlogSettings.SiteConfiguration.ChannelImageUrl).AbsoluteUri },
 				image = new() { url = new Uri(new Uri(dasBlogSettings.SiteConfiguration.Root), dasBlogSettings.SiteConfiguration.ChannelImageUrl).AbsoluteUri },
-				publicKey = new() { id = alias + "#main-key", owner = alias, publicKeyPem = "" },
+				publicKey = new() { id = alias + "#main-key", owner = alias, publicKeyPem = dasBlogSettings.SiteConfiguration.MastodonPublicKey },
 				attachment =
 				[
 					new() { name="Blog", type ="PropertyValue", value = dasBlogSettings.SiteConfiguration.Root },

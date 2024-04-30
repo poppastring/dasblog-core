@@ -4,15 +4,24 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using DasBlog.Services.ConfigFile.Interfaces;
 using Microsoft.Extensions.Logging;
+using Org.BouncyCastle.Asn1.Mozilla;
 
 namespace DasBlog.Services.ActivityPub.Helper
 {
-	public class ActorService(string privatePem, string keyId, ILogger? logger = null)
+	public class ActorService : IActorService
 	{
-		private readonly string _privatePem = privatePem;
-		private readonly string _keyId = keyId;
-		public ILogger? Logger { get; set; } = logger;
+		private readonly string _privatePem;
+		private readonly string _keyId;
+		ILogger<ActorService> logger;
+
+		public ActorService(IDasBlogSettings settings,  ILogger<ActorService> logger)
+		{
+			this.logger = logger;
+			_privatePem = settings.SiteConfiguration.MastodonPrivateKey;
+			_keyId = "keyId";
+		}
 
 		public static readonly JsonSerializerOptions SerializerOptions = new()
 		{
@@ -69,7 +78,7 @@ namespace DasBlog.Services.ActivityPub.Helper
 				// Base64 encode the signature
 				var signature = Convert.ToBase64String(signatureBytes);
 
-				Logger?.LogInformation($"Using key: {this._keyId}");
+				logger.LogInformation($"Using key: {this._keyId}");
 
 				// Build the HTTP signature header
 				var header = $"keyId=\"{this._keyId}\",headers=\"(request-target) host date digest\",signature=\"{signature}\",algorithm=\"rsa-sha256\"";
@@ -83,7 +92,7 @@ namespace DasBlog.Services.ActivityPub.Helper
 					client.DefaultRequestHeaders.Add("Signature", header);
 					client.DefaultRequestHeaders.Add("Digest", digest);
 
-					Logger?.LogInformation(document);
+					logger.LogInformation(document);
 
 					// Make the POST request
 					var response = await client.PostAsync(url, new StringContent(document, Encoding.UTF8, "application/activity+json"));
@@ -91,7 +100,7 @@ namespace DasBlog.Services.ActivityPub.Helper
 					// Print the response
 					var responseString = await response.Content.ReadAsStringAsync();
 
-					Logger?.LogInformation($"Response {response.StatusCode} - {responseString}");
+					logger.LogInformation($"Response {response.StatusCode} - {responseString}");
 				}
 			}
 		}
