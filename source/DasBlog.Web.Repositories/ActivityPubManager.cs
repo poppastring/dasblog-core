@@ -21,6 +21,7 @@ namespace DasBlog.Managers
 		private readonly IActorService actorService;
 		private readonly string roothost, alias, following, followers, inBox, outBox, notes, replies;
 		private readonly string tags, authorUsername, authorUrl, authorUserid;
+		private readonly List<string> followersList = new List<string>();
 
 		private const string ACTIVITYSTREAM_CONTEXT = "https://www.w3.org/ns/activitystreams";
 
@@ -127,10 +128,11 @@ namespace DasBlog.Managers
 		{
 			var target = message.Object!.ToString();
 
-			// add follower to a persistent list
-
 			// get actor info
 			var actor = await ActorService.FetchActorInformationAsync(message.Actor);
+
+			// temporary follower to a persistent list
+			followersList.Add(actor.id);
 
 			var acceptRequest = new AcceptRequest()
 			{

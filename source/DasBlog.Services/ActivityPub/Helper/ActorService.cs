@@ -19,8 +19,8 @@ namespace DasBlog.Services.ActivityPub.Helper
 		public ActorService(IDasBlogSettings settings,  ILogger<ActorService> logger)
 		{
 			this.logger = logger;
-			_privatePem = settings.SiteConfiguration.MastodonPrivateKey;
-			_keyId = "keyId";
+			_privatePem = "";
+			_keyId = settings.SiteConfiguration.MastodonPrivateKey;
 		}
 
 		public static readonly JsonSerializerOptions SerializerOptions = new()
@@ -39,7 +39,7 @@ namespace DasBlog.Services.ActivityPub.Helper
 				if (response.IsSuccessStatusCode)
 				{
 					var jsonContent = await response.Content.ReadAsStringAsync();
-					return JsonSerializer.Deserialize<Actor>(jsonContent, ActorService.SerializerOptions)!;
+					return JsonSerializer.Deserialize<Actor>(jsonContent, ActorService.SerializerOptions);
 				}
 
 				throw new Exception($"Failed to fetch information from {actorUrl}");
@@ -63,7 +63,14 @@ namespace DasBlog.Services.ActivityPub.Helper
 			// Load RSA private key from file
 			using (var rsa = RSA.Create())
 			{
-				rsa.ImportFromPem(this._privatePem);
+				try
+				{
+					rsa.ImportRSAPrivateKey(Encoding.UTF8.GetBytes(_keyId), out int val);
+				}
+				catch (Exception e)
+				{
+					logger.LogError(e, "Failed to import RSA key");
+				}
 
 				var digest = $"SHA-256={CreateHashSha256(document)}";
 

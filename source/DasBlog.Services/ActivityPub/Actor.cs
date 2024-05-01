@@ -10,7 +10,7 @@ namespace DasBlog.Services.ActivityPub
 	public class Actor
 	{
 		[JsonPropertyName("@context")]
-		public string context { get; set; }
+		public object context { get; set; }
 		public string id { get; set; }
 		public string type { get; set; } = "Person";
 		public string following { get; set; }
