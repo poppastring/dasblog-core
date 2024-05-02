@@ -5,6 +5,15 @@ GET {{DOMAIN}}/.well-known/webfinger
 Accept: text/html
 
 ###
+GET {{DOMAIN}}/.well-known/webfinger?resource=blog:thedasblog.com
+Accept: text/html
+
+###
+GET https://poppastring.com/.well-known/webfinger?resource=blog:thedasblog.com
+Accept: text/html
+
+
+###
 GET {{DOMAIN}}/@blog
 Accept: text/html
 

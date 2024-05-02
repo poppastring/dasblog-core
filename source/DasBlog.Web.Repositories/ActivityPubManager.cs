@@ -20,7 +20,7 @@ namespace DasBlog.Managers
 		private readonly IDasBlogSettings dasBlogSettings;
 		private readonly IActorService actorService;
 		private readonly string roothost, alias, following, followers, inBox, outBox, notes, replies;
-		private readonly string tags, authorUsername, authorUrl, authorUserid;
+		private readonly string tags, authorUsername, authorUrl, authorUserid, rootdomain;
 		private readonly List<string> followersList = new List<string>();
 
 		private const string ACTIVITYSTREAM_CONTEXT = "https://www.w3.org/ns/activitystreams";
@@ -33,6 +33,7 @@ namespace DasBlog.Managers
 			dataService = BlogDataServiceFactory.GetService(Path.Combine(dasBlogSettings.WebRootDirectory, dasBlogSettings.SiteConfiguration.ContentDir), loggingDataService);
 
 			roothost = new Uri(dasBlogSettings.SiteConfiguration.Root).AbsoluteUri.Replace("www", "");
+			rootdomain = new Uri(dasBlogSettings.SiteConfiguration.Root).Host.Replace("www", "");
 			var authdomain = new Uri(dasBlogSettings.SiteConfiguration.MastodonServerUrl).Host.Replace("www", "");
 
 			var followingrelative = string.Format("users/{0}/following", dasBlogSettings.SiteConfiguration.MastodonAccount);
@@ -56,12 +57,12 @@ namespace DasBlog.Managers
 		{
 			var webFinger = new WebFinger
 			{
-				subject = $"acct:blog@{roothost}",
+				subject = $"acct:blog@{rootdomain}",
 				aliases = [alias],
 
 				links = [
-					new Link() { rel="self", type=@"application/activity+json", href= alias },
-					new Link() { rel="http://webfinger.net/rel/profile-page", type="text/html", href=roothost }
+					new Link() { rel="self", type=@"application/activity+json", href=roothost },
+					new Link() { rel="http://webfinger.net/rel/profile-page", type="text/html", href=alias }
 				]
 			};
 
