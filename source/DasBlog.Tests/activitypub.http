@@ -1,4 +1,4 @@
-@DOMAIN=https://localhost:5001
+@DOMAIN=https://thedasblog.com
 
 
 GET {{DOMAIN}}/.well-known/webfinger
@@ -12,7 +12,7 @@ Accept: text/html
 GET {{DOMAIN}}/api/outbox
 Accept: text/html
 
-###
+### Follow request
 POST {{DOMAIN}}/api/inbox
 {
   "@context": "https://www.w3.org/ns/activitystreams",
@@ -22,7 +22,7 @@ POST {{DOMAIN}}/api/inbox
   "object": "https://maho.dev/@blog"
 }
 
-###
+### Unfollow request
 POST {{DOMAIN}}/api/inbox
 { 
   "@context":"https://www.w3.org/ns/activitystreams",
