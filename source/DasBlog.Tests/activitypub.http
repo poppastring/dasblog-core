@@ -1,25 +1,34 @@
-@DOMAIN=https://thedasblog.com
+### blog@r62099d2-5001.use.devtunnels.ms
+### https://dotnet.social
+### https://thedasblog.com
+### https://localhost:5001
+### https://r62099d2-5001.use.devtunnels.ms
 
+@DOMAIN=https://r62099d2-5001.use.devtunnels.ms
 
 GET {{DOMAIN}}/.well-known/webfinger
-Accept: text/html
 
 ###
-GET {{DOMAIN}}/.well-known/webfinger?resource=blog:thedasblog.com
-Accept: text/html
-
-###
-GET https://poppastring.com/.well-known/webfinger?resource=blog:thedasblog.com
-Accept: text/html
-
+GET https://maho.dev/.well-known/webfinger
 
 ###
 GET {{DOMAIN}}/@blog
-Accept: text/html
+
+###
+GET https://maho.dev/@blog
+
+###
+GET https://dotnet.social/@poppastring
+Accept: application/activity+json
 
 ###
 GET {{DOMAIN}}/api/outbox
-Accept: text/html
+Accept: application/activity+json
+
+###
+GET https://maho.dev/socialweb/outbox
+Accept: application/activity+json
+
 
 ### Follow request
 POST {{DOMAIN}}/api/inbox

@@ -6,19 +6,19 @@ using DasBlog.Web.Settings;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Logging;
 using newtelligence.DasBlog.Runtime;
 using System;
 using System.IO;
 using System.Text.Json;
 using System.Linq;
 using System.Threading.Tasks;
-using Org.BouncyCastle.Ocsp;
 using System.Net;
-using Microsoft.Extensions.Logging;
+using System.Text.Json.Serialization;
+using System.Text.Encodings.Web;
 
 namespace DasBlog.Web.Controllers
 {
-	[Produces("text/json")]
 	public class ActivityPubController : DasBlogBaseController
 	{
 		private readonly IDasBlogSettings dasBlogSettings;
@@ -44,7 +44,7 @@ namespace DasBlog.Web.Controllers
 			this.memoryCache = memoryCache;
 			this.httpContextAccessor = httpContextAccessor;
 			this.logger = logger;
-			jsonSerOptions =  new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
+			jsonSerOptions =  new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase, DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull };
 		}
 
 		[HttpGet(".well-known/webfinger")]
@@ -53,7 +53,7 @@ namespace DasBlog.Web.Controllers
 			var webfinger = activityPubManager.GetWebFinger();
 			if (webfinger != null)
 			{
-				return Json(webfinger, jsonSerializerOptions);
+				return Json(webfinger, jsonSerOptions);
 			}
 
 			return NoContent();
@@ -66,7 +66,7 @@ namespace DasBlog.Web.Controllers
 			var actor = activityPubManager.GetActor();
 			if (actor != null)
 			{
-				return Json(actor, jsonSerializerOptions);
+				return Json(actor, jsonSerOptions);
 			}
 
 			return NoContent();
@@ -93,8 +93,8 @@ namespace DasBlog.Web.Controllers
 			}
 
 			var outbox = activityPubManager.GenerateOutbox(entries);
-
-			return Json(outbox, jsonSerializerOptions);
+			
+			return Json(outbox, jsonSerOptions);
 		}
 
 		[HttpPost]
@@ -160,21 +160,21 @@ namespace DasBlog.Web.Controllers
         }
 
 		[HttpGet]
-		[Route("notes/{id}")]
+		[Route("api/notes/{id}")]
 		public IActionResult Notes(string id)
 		{
 			var notes = string.Empty;
 
-			return Json(notes, jsonSerializerOptions);
+			return Json(notes, jsonSerOptions);
 		}
 
 		[HttpGet]
-		[Route("replies/{id}")]
+		[Route("api/replies/{id}")]
 		public IActionResult Replies(string id)
 		{
 			var replies = string.Empty;
 
-			return Json(replies, jsonSerializerOptions);
+			return Json(replies, jsonSerOptions);
 		}
 
 	}

@@ -19,8 +19,8 @@ namespace DasBlog.Managers
 		private readonly IBlogDataService dataService;
 		private readonly IDasBlogSettings dasBlogSettings;
 		private readonly IActorService actorService;
-		private readonly string roothost, alias, following, followers, inBox, outBox, notes, replies;
-		private readonly string tags, authorUsername, authorUrl, authorUserid, rootdomain;
+		private readonly string roothost, alias, following, followers, inBox, outBox, notes, replies, users;
+		private readonly string tags, authorUsername, authorUrl, authorUserid, rootdomain, template;
 		private readonly List<string> followersList = new List<string>();
 
 		private const string ACTIVITYSTREAM_CONTEXT = "https://www.w3.org/ns/activitystreams";
@@ -47,6 +47,8 @@ namespace DasBlog.Managers
 			notes = new Uri(new Uri(roothost), "api/notes").AbsoluteUri;
 			replies = new Uri(new Uri(roothost), "api/replies").AbsoluteUri;
 			tags = new Uri(new Uri(roothost), "api/tags").AbsoluteUri;
+			users = new Uri(new Uri(roothost), "api/users/blog").AbsoluteUri;
+			template = new Uri(new Uri(roothost), "authorize_interaction?uri=").AbsoluteUri;
 
 			authorUsername = $"@{dasBlogSettings.SiteConfiguration.MastodonAccount}@{authdomain}";
 			authorUrl = new Uri(new Uri(roothost), $"users/{dasBlogSettings.SiteConfiguration.MastodonAccount}").AbsoluteUri;
@@ -61,8 +63,9 @@ namespace DasBlog.Managers
 				aliases = [alias],
 
 				links = [
-					new Link() { rel="self", type=@"application/activity+json", href=roothost },
-					new Link() { rel="http://webfinger.net/rel/profile-page", type="text/html", href=alias }
+					new Link() { rel="http://webfinger.net/rel/profile-page", type="text/html", href=dasBlogSettings.SiteConfiguration.Root },
+					new Link() { rel="self", type=@"application/activity+json", href=alias },
+					// new Link() { rel="http://ostatus.org/schema/1.0/subscribe", template=template + "{uri}" },
 				]
 			};
 
@@ -86,13 +89,13 @@ namespace DasBlog.Managers
 				url = dasBlogSettings.SiteConfiguration.Root,
 				discoverable = true,
 				memorial = false,
-				icon = new() {  url = new Uri(new Uri(dasBlogSettings.SiteConfiguration.Root), dasBlogSettings.SiteConfiguration.ChannelImageUrl).AbsoluteUri },
-				image = new() { url = new Uri(new Uri(dasBlogSettings.SiteConfiguration.Root), dasBlogSettings.SiteConfiguration.ChannelImageUrl).AbsoluteUri },
+				icon = new() {  url = new Uri(new Uri(dasBlogSettings.SiteConfiguration.Root), dasBlogSettings.SiteConfiguration.ChannelImageUrl).AbsoluteUri, mediaType = "image/png" },
+				image = new() { url = new Uri(new Uri(dasBlogSettings.SiteConfiguration.Root), dasBlogSettings.SiteConfiguration.ChannelImageUrl).AbsoluteUri, mediaType = "image/png" },
 				publicKey = new() { id = alias + "#main-key", owner = alias, publicKeyPem = dasBlogSettings.SiteConfiguration.MastodonPublicKey },
 				attachment =
 				[
-					new() { name="Blog", type ="PropertyValue", value = dasBlogSettings.SiteConfiguration.Root },
-					new() { name="RSS", type ="PropertyValue", value = dasBlogSettings.RssUrl }
+					new() { name="Blog", type ="PropertyValue", value = GetAttachment(dasBlogSettings.SiteConfiguration.Root,  dasBlogSettings.SiteConfiguration.Root) },
+					new() { name="RSS", type ="PropertyValue", value = GetAttachment(dasBlogSettings.SiteConfiguration.Root, dasBlogSettings.RssUrl) }
 				]
 			};
 
@@ -307,5 +310,10 @@ namespace DasBlog.Managers
 		{
 			return $"<a href=\"{link}\" class=\"u-url mention\">@<span>{name}</span></a>";
 		}
+
+		private static string GetAttachment(string tag, string link)
+		{
+			return $"<a href=\"{link}\" target=\"_blank\" rel=\"nofollow noopener noreferrer me\" translate=\"no\"><span class=\"invisible\">https://</span><span class=\"\">{tag}</span><span class=\"invisible\"></span></a>";
+		}	
 	}
 }

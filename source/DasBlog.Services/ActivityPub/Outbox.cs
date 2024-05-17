@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace DasBlog.Services.ActivityPub
 {
 	public class Outbox
 	{
+		[JsonPropertyName("@context")]
 		public string context { get; set; }
 		public string id { get; set; }
 		public string type { get; set; }
@@ -18,6 +20,7 @@ namespace DasBlog.Services.ActivityPub
 
 	public class Ordereditem
 	{
+		[JsonPropertyName("@context")]
 		public string context { get; set; }
 		public string id { get; set; }
 		public string type { get; set; }
@@ -25,11 +28,14 @@ namespace DasBlog.Services.ActivityPub
 		public string[] to { get; set; }
 		public object[] cc { get; set; }
 		public DateTime published { get; set; }
+
+		[JsonPropertyName("object")]
 		public Note _object { get; set; }
 	}
 
 	public class Note
 	{
+		[JsonPropertyName("@context")]
 		public string context { get; set; }
 		public string id { get; set; }
 		public string type { get; set; }
@@ -61,8 +67,11 @@ namespace DasBlog.Services.ActivityPub
 
 	public class Tag
 	{
+		[JsonPropertyName("Type")]
 		public string Type { get; set; }
+		[JsonPropertyName("Href")]
 		public string Href { get; set; }
+		[JsonPropertyName("Name")]
 		public string Name { get; set; }
 	}
 
