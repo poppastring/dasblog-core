@@ -39,5 +39,15 @@ namespace DasBlog.Services.ActivityPub
 		{
 			return Type.Equals("Create");
 		}
+
+		public bool IsEchoRequest()
+		{
+			return Type.Equals("EchoRequest");
+		}
+
+		public bool IsLikeRequest()
+		{
+			return Type.Equals("Like");
+		}
 	}
 }

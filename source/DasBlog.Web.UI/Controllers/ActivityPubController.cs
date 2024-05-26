@@ -19,6 +19,7 @@ using System.Text.Encodings.Web;
 
 namespace DasBlog.Web.Controllers
 {
+	[Produces("application/activity+json")]
 	public class ActivityPubController : DasBlogBaseController
 	{
 		private readonly IDasBlogSettings dasBlogSettings;
@@ -76,6 +77,8 @@ namespace DasBlog.Web.Controllers
 		[Route("api/outbox")]
 		public IActionResult Outbox()
 		{
+			return Ok();
+			
 			// will contain references to all the posts from the blog
 			if (!memoryCache.TryGetValue(CACHEKEY_ACTIVITYPUB, out EntryCollection entries))
 			{	
@@ -99,13 +102,16 @@ namespace DasBlog.Web.Controllers
 
 		[HttpPost]
 		[Route("api/inbox")]
-        public async Task<IActionResult> Inbox()
+        public async Task<JsonResult> Inbox()
         {
-            // will receive POST requests each time someone follows/unfollows the blog, replies, deletes a comment, etc.
-            // If we intend to follow other people, it will also receive the posts created in other instances?
-            var requestbody = string.Empty;
+			// return Accepted();
 
-            using (var reader = new StreamReader(httpContextAccessor.HttpContext.Request.Body))
+			// will receive POST requests each time someone follows/unfollows the blog, replies, deletes a comment, etc.
+			// If we intend to follow other people, it will also receive the posts created in other instances?
+			var requestbody = string.Empty;
+			var requestheader = httpContextAccessor.HttpContext.Request.Headers;
+
+			using (var reader = new StreamReader(httpContextAccessor.HttpContext.Request.Body))
             {
                 requestbody = await reader.ReadToEndAsync();
             }
@@ -128,10 +134,15 @@ namespace DasBlog.Web.Controllers
 
 			logger.LogInformation($"Received Activity: {requestbody}");
 
-			var response = new JsonResult("") { StatusCode = (int)HttpStatusCode.OK, ContentType = "application/activity+json" };
+			var response = new JsonResult(string.Empty) { StatusCode = (int)HttpStatusCode.Accepted, ContentType = "application/activity+json" };
 
 			try
 			{
+				if(message.Actor == null)
+				{
+					return new JsonResult(string.Empty) { StatusCode = (int)HttpStatusCode.Unauthorized };
+				}
+
 				if (message?.IsFollow() ?? false)
 				{
 					await activityPubManager.Follow(message);
@@ -144,10 +155,17 @@ namespace DasBlog.Web.Controllers
 				{
 					await activityPubManager.AddReply(message);
 				}
+				else if (message?.IsLikeRequest() ?? false)
+				{
+					await activityPubManager.Like(message);
+				}
+				else if (message?.IsEchoRequest() ?? false)
+				{
+					return new JsonResult(string.Empty) { StatusCode = (int)HttpStatusCode.Accepted };
+				}
 				else
 				{
-					// unsupported activity
-					return StatusCode(500);
+                    return new JsonResult(string.Empty) { StatusCode = (int)HttpStatusCode.InternalServerError };
 				}
 			}
 			catch (Exception e)

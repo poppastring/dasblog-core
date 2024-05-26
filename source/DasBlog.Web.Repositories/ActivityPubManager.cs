@@ -63,8 +63,8 @@ namespace DasBlog.Managers
 				aliases = [alias],
 
 				links = [
-					new Link() { rel="http://webfinger.net/rel/profile-page", type="text/html", href=dasBlogSettings.SiteConfiguration.Root },
 					new Link() { rel="self", type=@"application/activity+json", href=alias },
+					new Link() { rel="http://webfinger.net/rel/profile-page", type="text/html", href=dasBlogSettings.SiteConfiguration.Root },
 					// new Link() { rel="http://ostatus.org/schema/1.0/subscribe", template=template + "{uri}" },
 				]
 			};
@@ -89,8 +89,8 @@ namespace DasBlog.Managers
 				url = dasBlogSettings.SiteConfiguration.Root,
 				discoverable = true,
 				memorial = false,
-				icon = new() {  url = new Uri(new Uri(dasBlogSettings.SiteConfiguration.Root), dasBlogSettings.SiteConfiguration.ChannelImageUrl).AbsoluteUri, mediaType = "image/png" },
-				image = new() { url = new Uri(new Uri(dasBlogSettings.SiteConfiguration.Root), dasBlogSettings.SiteConfiguration.ChannelImageUrl).AbsoluteUri, mediaType = "image/png" },
+				icon = new() {  url = new Uri(new Uri(dasBlogSettings.SiteConfiguration.Root), dasBlogSettings.SiteConfiguration.ChannelImageUrl).AbsoluteUri, mediaType = "image/jpeg" },
+				image = new() { url = new Uri(new Uri(dasBlogSettings.SiteConfiguration.Root), dasBlogSettings.SiteConfiguration.ChannelImageUrl).AbsoluteUri, mediaType = "image/jpeg" },
 				publicKey = new() { id = alias + "#main-key", owner = alias, publicKeyPem = dasBlogSettings.SiteConfiguration.MastodonPublicKey },
 				attachment =
 				[
@@ -179,6 +179,13 @@ namespace DasBlog.Managers
 			await actorService.SendSignedRequest(
 								JsonSerializer.Serialize(acceptRequest, ActorService.SerializerOptions), 
 								new Uri(actor.inbox));
+		}
+
+		public async Task Like(InboxMessage message)
+		{
+			var actor = await ActorService.FetchActorInformationAsync(message.Actor);
+
+
 		}
 
 		public async Task AddReply(InboxMessage message)

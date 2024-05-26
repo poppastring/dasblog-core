@@ -16,13 +16,14 @@ GET {{DOMAIN}}/@blog
 
 ###
 GET https://maho.dev/@blog
+Accept: application/activity+json
 
 ###
 GET https://dotnet.social/@poppastring
 Accept: application/activity+json
 
 ###
-GET {{DOMAIN}}/api/outbox
+GET https://dotnet.social/users/poppastring
 Accept: application/activity+json
 
 ###
