@@ -19,7 +19,6 @@ using System.Text.Encodings.Web;
 
 namespace DasBlog.Web.Controllers
 {
-	[Produces("application/activity+json")]
 	public class ActivityPubController : DasBlogBaseController
 	{
 		private readonly IDasBlogSettings dasBlogSettings;
@@ -49,32 +48,47 @@ namespace DasBlog.Web.Controllers
 		}
 
 		[HttpGet(".well-known/webfinger")]
+		[Produces("application/json")]
 		public ActionResult WebFinger()
 		{
+			var acceptheader = httpContextAccessor.HttpContext.Request.Headers["Accept"];
+
 			var webfinger = activityPubManager.GetWebFinger();
 			if (webfinger != null)
 			{
-				return Json(webfinger, jsonSerOptions);
+				return Ok(webfinger);
+
+				// return Json(webfinger, jsonSerOptions);
 			}
 
 			return NoContent();
 		}
 
-		[HttpGet]
-		[Route("@blog")]
+		[HttpGet("@blog")]
+		[Produces("application/activity+json")]
 		public IActionResult Actor()
 		{
+			var acceptheader = httpContextAccessor.HttpContext.Request.Headers["Accept"];
+
 			var actor = activityPubManager.GetActor();
 			if (actor != null)
 			{
-				return Json(actor, jsonSerOptions);
+				return Ok(actor);
+				// return Json(actor, jsonSerOptions);
 			}
 
 			return NoContent();
 		}
 
-		[HttpGet]
-		[Route("api/outbox")]
+		[HttpGet("api/users/blog")]
+		[Produces("application/activity+json")]
+		public IActionResult BlogUser()
+		{
+			return Actor();
+		}
+
+		[HttpGet("api/outbox")]
+		[Produces("application/activity+json")]
 		public IActionResult Outbox()
 		{
 			return Ok();
@@ -135,7 +149,7 @@ namespace DasBlog.Web.Controllers
 			logger.LogInformation($"Received Activity: {requestbody}");
 
 			var response = new JsonResult(string.Empty) { StatusCode = (int)HttpStatusCode.Accepted, ContentType = "application/activity+json" };
-
+	
 			try
 			{
 				if(message.Actor == null)

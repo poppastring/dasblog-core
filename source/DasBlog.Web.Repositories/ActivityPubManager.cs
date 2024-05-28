@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection.Metadata;
 using System.Text.Json;
 using System.Threading.Tasks;
 using DasBlog.Managers.Interfaces;
@@ -10,7 +9,6 @@ using DasBlog.Services;
 using DasBlog.Services.ActivityPub;
 using DasBlog.Services.ActivityPub.Helper;
 using newtelligence.DasBlog.Runtime;
-using Org.BouncyCastle.Asn1.X509;
 
 namespace DasBlog.Managers
 {
@@ -19,7 +17,7 @@ namespace DasBlog.Managers
 		private readonly IBlogDataService dataService;
 		private readonly IDasBlogSettings dasBlogSettings;
 		private readonly IActorService actorService;
-		private readonly string roothost, alias, following, followers, inBox, outBox, notes, replies, users;
+		private readonly string roothost, alias, following, followers, inBox, outBox, notes, replies, users, icon;
 		private readonly string tags, authorUsername, authorUrl, authorUserid, rootdomain, template;
 		private readonly List<string> followersList = new List<string>();
 
@@ -49,6 +47,7 @@ namespace DasBlog.Managers
 			tags = new Uri(new Uri(roothost), "api/tags").AbsoluteUri;
 			users = new Uri(new Uri(roothost), "api/users/blog").AbsoluteUri;
 			template = new Uri(new Uri(roothost), "authorize_interaction?uri=").AbsoluteUri;
+			icon = new Uri(new Uri(dasBlogSettings.SiteConfiguration.Root), dasBlogSettings.SiteConfiguration.ChannelImageUrl).AbsoluteUri;
 
 			authorUsername = $"@{dasBlogSettings.SiteConfiguration.MastodonAccount}@{authdomain}";
 			authorUrl = new Uri(new Uri(roothost), $"users/{dasBlogSettings.SiteConfiguration.MastodonAccount}").AbsoluteUri;
@@ -60,12 +59,13 @@ namespace DasBlog.Managers
 			var webFinger = new WebFinger
 			{
 				subject = $"acct:blog@{rootdomain}",
-				aliases = [alias],
+				aliases = [alias, users],
 
 				links = [
 					new Link() { rel="self", type=@"application/activity+json", href=alias },
 					new Link() { rel="http://webfinger.net/rel/profile-page", type="text/html", href=dasBlogSettings.SiteConfiguration.Root },
-					// new Link() { rel="http://ostatus.org/schema/1.0/subscribe", template=template + "{uri}" },
+					new Link() { rel="http://ostatus.org/schema/1.0/subscribe", template=template + "{uri}" },
+					new Link() { rel="http://webfinger.net/rel/avatar", type="image/jpeg", href=icon }
 				]
 			};
 
@@ -89,8 +89,8 @@ namespace DasBlog.Managers
 				url = dasBlogSettings.SiteConfiguration.Root,
 				discoverable = true,
 				memorial = false,
-				icon = new() {  url = new Uri(new Uri(dasBlogSettings.SiteConfiguration.Root), dasBlogSettings.SiteConfiguration.ChannelImageUrl).AbsoluteUri, mediaType = "image/jpeg" },
-				image = new() { url = new Uri(new Uri(dasBlogSettings.SiteConfiguration.Root), dasBlogSettings.SiteConfiguration.ChannelImageUrl).AbsoluteUri, mediaType = "image/jpeg" },
+				icon = new() {  url = icon, mediaType = "image/jpeg" },
+				image = new() { url = icon, mediaType = "image/jpeg" },
 				publicKey = new() { id = alias + "#main-key", owner = alias, publicKeyPem = dasBlogSettings.SiteConfiguration.MastodonPublicKey },
 				attachment =
 				[
