@@ -246,7 +246,7 @@ namespace DasBlog.Managers
 				attributedTo = alias, // domain/@blog
 				to = new List<string>() { "https://www.w3.org/ns/activitystreams#Public" }.ToArray(),
 				cc = new List<string>().ToArray(),
-				published = item.PubDate,
+				published = item.PubDate.ToString("yyyy-MM-ddTHH:mm:sszzz"),
 				tag = tags.ToArray(),
 				replies = new Replies
 				{

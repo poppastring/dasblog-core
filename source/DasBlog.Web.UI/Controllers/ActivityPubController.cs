@@ -51,13 +51,10 @@ namespace DasBlog.Web.Controllers
 		[Produces("application/json")]
 		public ActionResult WebFinger()
 		{
-			var acceptheader = httpContextAccessor.HttpContext.Request.Headers["Accept"];
-
 			var webfinger = activityPubManager.GetWebFinger();
 			if (webfinger != null)
 			{
 				return Ok(webfinger);
-
 				// return Json(webfinger, jsonSerOptions);
 			}
 
@@ -68,8 +65,6 @@ namespace DasBlog.Web.Controllers
 		[Produces("application/activity+json")]
 		public IActionResult Actor()
 		{
-			var acceptheader = httpContextAccessor.HttpContext.Request.Headers["Accept"];
-
 			var actor = activityPubManager.GetActor();
 			if (actor != null)
 			{
@@ -90,9 +85,7 @@ namespace DasBlog.Web.Controllers
 		[HttpGet("api/outbox")]
 		[Produces("application/activity+json")]
 		public IActionResult Outbox()
-		{
-			return Ok();
-			
+		{			
 			// will contain references to all the posts from the blog
 			if (!memoryCache.TryGetValue(CACHEKEY_ACTIVITYPUB, out EntryCollection entries))
 			{	
@@ -111,7 +104,33 @@ namespace DasBlog.Web.Controllers
 
 			var outbox = activityPubManager.GenerateOutbox(entries);
 			
-			return Json(outbox, jsonSerOptions);
+			return Ok(outbox);
+
+			// return Json(outbox, jsonSerOptions);
+		}
+
+		[HttpGet("api/notes/{id}")]
+		[Produces("application/activity+json")]
+		public IActionResult Notes(string id)
+		{
+			if (!string.IsNullOrEmpty(id))
+			{
+				var entry = blogManager.GetEntryForEdit(id);
+				if (entry != null)
+				{
+					var entries = new EntryCollection
+					{
+						entry
+					};
+
+					var outbox = activityPubManager.GenerateOutbox(entries);
+
+					return Ok(outbox.orderedItems);
+				}
+			}
+
+			return NotFound();
+			// return Json(notes, jsonSerOptions);
 		}
 
 		[HttpPost]
@@ -190,15 +209,6 @@ namespace DasBlog.Web.Controllers
 
 			return response;
         }
-
-		[HttpGet]
-		[Route("api/notes/{id}")]
-		public IActionResult Notes(string id)
-		{
-			var notes = string.Empty;
-
-			return Json(notes, jsonSerOptions);
-		}
 
 		[HttpGet]
 		[Route("api/replies/{id}")]

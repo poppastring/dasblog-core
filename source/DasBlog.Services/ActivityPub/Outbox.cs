@@ -27,7 +27,7 @@ namespace DasBlog.Services.ActivityPub
 		public string actor { get; set; }
 		public string[] to { get; set; }
 		public object[] cc { get; set; }
-		public DateTime published { get; set; }
+		public string published { get; set; }
 
 		[JsonPropertyName("object")]
 		public Note _object { get; set; }
@@ -45,7 +45,7 @@ namespace DasBlog.Services.ActivityPub
 		public string attributedTo { get; set; }
 		public string[] to { get; set; }
 		public object[] cc { get; set; }
-		public DateTime published { get; set; }
+		public string published { get; set; }
 		public Tag[] tag { get; set; }
 		public Replies replies { get; set; }
 	}
