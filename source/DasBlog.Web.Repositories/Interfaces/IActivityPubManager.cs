@@ -12,6 +12,8 @@ namespace DasBlog.Managers.Interfaces
 
 		Outbox GenerateOutbox(EntryCollection entries);
 
+		Note GetNote(Entry entry);
+
 		public Task Follow(InboxMessage message);
 
 		public Task Unfollow(InboxMessage message, string requestbody);

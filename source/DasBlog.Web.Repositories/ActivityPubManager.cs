@@ -44,7 +44,7 @@ namespace DasBlog.Managers
 			alias = new Uri(new Uri(roothost), "@blog").AbsoluteUri;
 			notes = new Uri(new Uri(roothost), "api/notes").AbsoluteUri;
 			replies = new Uri(new Uri(roothost), "api/replies").AbsoluteUri;
-			tags = new Uri(new Uri(roothost), "api/tags").AbsoluteUri;
+			tags = new Uri(new Uri(roothost), "category").AbsoluteUri;
 			users = new Uri(new Uri(roothost), "api/users/blog").AbsoluteUri;
 			template = new Uri(new Uri(roothost), "authorize_interaction?uri=").AbsoluteUri;
 			icon = new Uri(new Uri(dasBlogSettings.SiteConfiguration.Root), dasBlogSettings.SiteConfiguration.ChannelImageUrl).AbsoluteUri;
@@ -109,7 +109,7 @@ namespace DasBlog.Managers
 				{
 					Title = item.Title,
 					Link = dasBlogSettings.RelativeToRoot((dasBlogSettings.GeneratePostUrl(item))),
-					Description = dasBlogSettings.SiteConfiguration.Description,
+					Description = string.Empty,
 					PubDate = item.CreatedUtc,
 					Hash = item.EntryId,
 					Tags = item.Categories.Split(',').ToList().Select(x => dasBlogSettings.CompressTitle(x)).ToList()
@@ -126,6 +126,21 @@ namespace DasBlog.Managers
 			}
 
 			return GetOutbox(ordereditems.ToArray());
+		}
+
+		public Note GetNote(Entry entry)
+		{
+			var item = new
+			{
+				Title = entry.Title,
+				Link = dasBlogSettings.RelativeToRoot((dasBlogSettings.GeneratePostUrl(entry))),
+				Description = string.Empty,
+				PubDate = entry.CreatedUtc,
+				Hash = entry.EntryId,
+				Tags = entry.Categories.Split(',').ToList().Select(x => dasBlogSettings.CompressTitle(x)).ToList()
+			};
+
+			return GetNote(item);
 		}
 
 		public async Task Follow(InboxMessage message)

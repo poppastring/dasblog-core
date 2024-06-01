@@ -111,31 +111,25 @@ namespace DasBlog.Web.Controllers
 
 		[HttpGet("api/notes/{id}")]
 		[Produces("application/activity+json")]
-		public IActionResult Notes(string id)
+		public IActionResult Note(string id)
 		{
 			if (!string.IsNullOrEmpty(id))
 			{
 				var entry = blogManager.GetEntryForEdit(id);
 				if (entry != null)
 				{
-					var entries = new EntryCollection
-					{
-						entry
-					};
+					var outbox = activityPubManager.GetNote(entry);
 
-					var outbox = activityPubManager.GenerateOutbox(entries);
-
-					return Ok(outbox.orderedItems);
+					return Ok(outbox);
 				}
 			}
 
 			return NotFound();
-			// return Json(notes, jsonSerOptions);
 		}
 
-		[HttpPost]
-		[Route("api/inbox")]
-        public async Task<JsonResult> Inbox()
+		[HttpPost("api/inbox")]
+		[Produces("application/activity+json")]
+		public async Task<IActionResult> Inbox()
         {
 			// return Accepted();
 
@@ -167,13 +161,13 @@ namespace DasBlog.Web.Controllers
 
 			logger.LogInformation($"Received Activity: {requestbody}");
 
-			var response = new JsonResult(string.Empty) { StatusCode = (int)HttpStatusCode.Accepted, ContentType = "application/activity+json" };
+			// var response = new JsonResult(string.Empty) { StatusCode = (int)HttpStatusCode.Accepted, ContentType = "application/activity+json" };
 	
 			try
 			{
 				if(message.Actor == null)
 				{
-					return new JsonResult(string.Empty) { StatusCode = (int)HttpStatusCode.Unauthorized };
+					return Unauthorized();
 				}
 
 				if (message?.IsFollow() ?? false)
@@ -194,11 +188,11 @@ namespace DasBlog.Web.Controllers
 				}
 				else if (message?.IsEchoRequest() ?? false)
 				{
-					return new JsonResult(string.Empty) { StatusCode = (int)HttpStatusCode.Accepted };
+					return Accepted();
 				}
 				else
 				{
-                    return new JsonResult(string.Empty) { StatusCode = (int)HttpStatusCode.InternalServerError };
+					return StatusCode(500);
 				}
 			}
 			catch (Exception e)
@@ -207,7 +201,7 @@ namespace DasBlog.Web.Controllers
 				throw;
 			}
 
-			return response;
+			return Accepted();
         }
 
 		[HttpGet]
