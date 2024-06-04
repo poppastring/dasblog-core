@@ -16,6 +16,7 @@ using System.Threading.Tasks;
 using System.Net;
 using System.Text.Json.Serialization;
 using System.Text.Encodings.Web;
+using DasBlog.Managers;
 
 namespace DasBlog.Web.Controllers
 {
@@ -105,8 +106,6 @@ namespace DasBlog.Web.Controllers
 			var outbox = activityPubManager.GenerateOutbox(entries);
 			
 			return Ok(outbox);
-
-			// return Json(outbox, jsonSerOptions);
 		}
 
 		[HttpGet("api/notes/{id}")]
@@ -158,10 +157,6 @@ namespace DasBlog.Web.Controllers
 			{
 				throw new NotImplementedException("Delete not supported");
 			}
-
-			logger.LogInformation($"Received Activity: {requestbody}");
-
-			// var response = new JsonResult(string.Empty) { StatusCode = (int)HttpStatusCode.Accepted, ContentType = "application/activity+json" };
 	
 			try
 			{
@@ -172,18 +167,26 @@ namespace DasBlog.Web.Controllers
 
 				if (message?.IsFollow() ?? false)
 				{
+					// Add to follower list
+
 					await activityPubManager.Follow(message);
 				}
 				else if (message?.IsUndoFollow() ?? false)
 				{
+					// Remove from follower list
+
 					await activityPubManager.Unfollow(message, requestbody);
 				}
 				else if (message?.IsCreateActivity() ?? false)
 				{
+					// blogManager.AddComment(message);
+
 					await activityPubManager.AddReply(message);
 				}
 				else if (message?.IsLikeRequest() ?? false)
 				{
+					// blogManager.AddComment(message); 
+
 					await activityPubManager.Like(message);
 				}
 				else if (message?.IsEchoRequest() ?? false)
@@ -204,14 +207,16 @@ namespace DasBlog.Web.Controllers
 			return Accepted();
         }
 
-		[HttpGet]
-		[Route("api/replies/{id}")]
-		public IActionResult Replies(string id)
+		[HttpGet("api/replies/{postid}")]
+		[Produces("application/activity+json")]
+		public IActionResult Replies(string postid)
 		{
-			var replies = string.Empty;
+			var comments = blogManager.GetComments(postid, true)
+					.Where(x => x.IsActivityPubReply == true).ToList();
 
-			return Json(replies, jsonSerOptions);
+			var replies = activityPubManager.GetReplies(postid, comments);
+
+			return Ok(replies);
 		}
-
 	}
 }

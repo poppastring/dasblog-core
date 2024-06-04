@@ -29,6 +29,10 @@ Accept: application/activity+json
 GET https://maho.dev/socialweb/notes/a9132ebc5912005b06d8cc3c8a4d52e9
 Accept: application/activity+json
 
+###
+GET https://maho.dev/socialweb/replies/a9132ebc5912005b06d8cc3c8a4d52e9
+Accept: application/activity+json
+
 
 ###
 GET {{DOMAIN}}/api/notes/4844caf4-5272-47b5-ae18-dd3ecd207631

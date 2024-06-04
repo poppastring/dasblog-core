@@ -226,6 +226,16 @@ namespace DasBlog.Managers
 			return outbox;
 		}
 
+		public RepliesList GetReplies(string postid, List<Comment> comments)
+		{
+			return new RepliesList
+			{
+				id = $"{replies}/{postid}?page=true",
+				partof = $"{replies}/{postid}",
+				items = comments.Select(x => x.ActivityPubUrl).ToArray()
+			};
+		}
+
 		private Note GetNote(dynamic item)
 		{
 			var tags = new List<Tag>()

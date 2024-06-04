@@ -1,4 +1,4 @@
-#region Copyright (c) 2003, newtelligence AG. All rights reserved.
+﻿#region Copyright (c) 2003, newtelligence AG. All rights reserved.
 /*
 // Copyright (c) 2003, newtelligence AG. (http://www.newtelligence.com)
 // Original BlogX Source Code: Copyright (c) 2003, Chris Anderson (http://simplegeek.com)
@@ -68,8 +68,13 @@ namespace newtelligence.DasBlog.Runtime
       public string AuthorEmail { get { return _authorEmail; } set { _authorEmail = value; } }
       public string AuthorHomepage { get { return _authorHomepage; } set { _authorHomepage = value; } }
       public string AuthorIPAddress { get { return _authorIpAddress; } set { _authorIpAddress = value; } }
+	  public bool IsActivityPubReply { get; set; } = false;
+	  public bool IsActivityPubLike { get; set; } = false;
 
-      private string _referer;
+	  public string ActivityPubUrl { get; set; } = null;
+
+		private string _referer;
+
       [XmlIgnore]
       public string Referer { get { return _referer; } set { _referer = value; } }
 

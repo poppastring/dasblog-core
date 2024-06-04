@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -62,6 +63,16 @@ namespace DasBlog.Services.ActivityPub
 		public string type { get; set; }
 		public string next { get; set; }
 		public string partOf { get; set; }
+		public object[] items { get; set; }
+	}
+
+	public class RepliesList
+	{
+		[JsonPropertyName("@context")]
+		public string context { get; set; } = "https://www.w3.org/ns/activitystreams";
+		public string id { get; set; }
+		public string partof { get; set; }
+		public string type { get; set; } = "CollectionPage";
 		public object[] items { get; set; }
 	}
 

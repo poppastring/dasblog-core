@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using DasBlog.Services.ActivityPub;
 using newtelligence.DasBlog.Runtime;
 
@@ -21,5 +22,7 @@ namespace DasBlog.Managers.Interfaces
 		public Task Like(InboxMessage message);
 
 		public Task AddReply(InboxMessage message);
+
+		RepliesList GetReplies(string postid, List<Comment> comments);
 	}
 }
