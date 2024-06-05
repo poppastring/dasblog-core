@@ -218,5 +218,16 @@ namespace DasBlog.Web.Controllers
 
 			return Ok(replies);
 		}
+
+		private Comment ConvertMessageToComment(InboxMessage message)
+		{
+			return new Comment
+			{
+				IsActivityPubLike = message.IsLikeRequest(),
+				IsActivityPubReply = message.IsCreateActivity(),
+				ActivityPubUrl = message.Context.ToString(),
+				IsPublic = false
+			};
+		}
 	}
 }
