@@ -17,6 +17,7 @@ using System.Net;
 using System.Text.Json.Serialization;
 using System.Text.Encodings.Web;
 using DasBlog.Managers;
+using Org.BouncyCastle.Utilities;
 
 namespace DasBlog.Web.Controllers
 {
@@ -119,7 +120,8 @@ namespace DasBlog.Web.Controllers
 				{
 					var outbox = activityPubManager.GetNote(entry);
 
-					return Ok(outbox);
+					return Json(outbox, jsonSerOptions);
+					//return Ok(outbox);
 				}
 			}
 
@@ -179,13 +181,15 @@ namespace DasBlog.Web.Controllers
 				}
 				else if (message?.IsCreateActivity() ?? false)
 				{
-					// blogManager.AddComment(message);
-
-					await activityPubManager.AddReply(message);
+					var status = AddCommentFromMessage(message);
+					if (status != CommentSaveState.Added)
+					{
+						return StatusCode(500);
+					}
 				}
 				else if (message?.IsLikeRequest() ?? false)
 				{
-					// blogManager.AddComment(message); 
+					AddCommentFromMessage(message);
 
 					await activityPubManager.Like(message);
 				}
@@ -219,15 +223,19 @@ namespace DasBlog.Web.Controllers
 			return Ok(replies);
 		}
 
-		private Comment ConvertMessageToComment(InboxMessage message)
+		private CommentSaveState AddCommentFromMessage(InboxMessage message)
 		{
-			return new Comment
+			string postid = message.Context.ToString();
+
+			var comment = new Comment
 			{
 				IsActivityPubLike = message.IsLikeRequest(),
 				IsActivityPubReply = message.IsCreateActivity(),
-				ActivityPubUrl = message.Context.ToString(),
+				ActivityPubUrl = message.Object.Id.ToString(),
 				IsPublic = false
 			};
+
+			return blogManager.AddComment(postid, comment);
 		}
 	}
 }

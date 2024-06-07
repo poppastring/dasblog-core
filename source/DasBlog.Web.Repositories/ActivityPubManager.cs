@@ -199,8 +199,6 @@ namespace DasBlog.Managers
 		public async Task Like(InboxMessage message)
 		{
 			var actor = await ActorService.FetchActorInformationAsync(message.Actor);
-
-
 		}
 
 		public async Task AddReply(InboxMessage message)

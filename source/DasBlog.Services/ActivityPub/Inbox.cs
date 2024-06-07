@@ -14,7 +14,7 @@ namespace DasBlog.Services.ActivityPub
 		public string Actor { get; set; } = default!;
 		public List<string>? Cc { get; set; }
 		public string? Id { get; set; }
-		public object? Object { get; set; }
+		public ObjectContent? Object { get; set; }
 		public DateTime? Published { get; set; }
 		public string? State { get; set; }
 		public List<string>? To { get; set; }
@@ -49,5 +49,11 @@ namespace DasBlog.Services.ActivityPub
 		{
 			return Type.Equals("Like");
 		}
+	}
+
+	public class ObjectContent
+	{
+		public string Id { get; set; }
+		public string InReplTo { get; set; }
 	}
 }
