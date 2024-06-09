@@ -4,7 +4,7 @@
 ### https://localhost:5001
 ### https://q5jspdph-5001.use.devtunnels.ms
 
-@DOMAIN=https://q5jspdph-5001.use.devtunnels.ms
+@DOMAIN=https://06tbxm70-5001.use.devtunnels.ms
 
 GET {{DOMAIN}}/.well-known/webfinger
 
@@ -34,17 +34,15 @@ GET https://thedasblog.com/api/notes/518b8b08-2eea-4848-bf26-4b94b7b9abe9
 Accept: application/activity+json
 
 ###
-
 GET https://mstdn.social/@ntv/112573010898384571
-Accept: application/activity+json
 
 ###
 GET https://maho.dev/socialweb/replies/a9132ebc5912005b06d8cc3c8a4d52e9
-
+Accept: text/html
 
 ###
 GET {{DOMAIN}}/api/notes/4844caf4-5272-47b5-ae18-dd3ecd207631
-
+Accept: application/activity+json
 
 ###
 GET {{DOMAIN}}/api/outbox

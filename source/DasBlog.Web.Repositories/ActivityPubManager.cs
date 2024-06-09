@@ -50,7 +50,7 @@ namespace DasBlog.Managers
 			icon = new Uri(new Uri(dasBlogSettings.SiteConfiguration.Root), dasBlogSettings.SiteConfiguration.ChannelImageUrl).AbsoluteUri;
 
 			authorUsername = $"@{dasBlogSettings.SiteConfiguration.MastodonAccount}@{authdomain}";
-			authorUrl = new Uri(new Uri(roothost), $"users/{dasBlogSettings.SiteConfiguration.MastodonAccount}").AbsoluteUri;
+			authorUrl = new Uri(new Uri(dasBlogSettings.SiteConfiguration.MastodonServerUrl), $"users/{dasBlogSettings.SiteConfiguration.MastodonAccount}").AbsoluteUri;
 			authorUserid = dasBlogSettings.SiteConfiguration.MastodonAccount;
 		}
 

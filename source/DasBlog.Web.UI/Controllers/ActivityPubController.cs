@@ -13,11 +13,6 @@ using System.IO;
 using System.Text.Json;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Net;
-using System.Text.Json.Serialization;
-using System.Text.Encodings.Web;
-using DasBlog.Managers;
-using Org.BouncyCastle.Utilities;
 
 namespace DasBlog.Web.Controllers
 {
@@ -46,7 +41,7 @@ namespace DasBlog.Web.Controllers
 			this.memoryCache = memoryCache;
 			this.httpContextAccessor = httpContextAccessor;
 			this.logger = logger;
-			jsonSerOptions =  new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase, DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull };
+			jsonSerOptions =  new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase, WriteIndented = false };
 		}
 
 		[HttpGet(".well-known/webfinger")]
@@ -57,7 +52,6 @@ namespace DasBlog.Web.Controllers
 			if (webfinger != null)
 			{
 				return Ok(webfinger);
-				// return Json(webfinger, jsonSerOptions);
 			}
 
 			return NoContent();
@@ -71,7 +65,6 @@ namespace DasBlog.Web.Controllers
 			if (actor != null)
 			{
 				return Ok(actor);
-				// return Json(actor, jsonSerOptions);
 			}
 
 			return NoContent();
@@ -120,8 +113,7 @@ namespace DasBlog.Web.Controllers
 				{
 					var outbox = activityPubManager.GetNote(entry);
 
-					return Json(outbox, jsonSerOptions);
-					//return Ok(outbox);
+					return Ok(outbox);
 				}
 			}
 
