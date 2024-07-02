@@ -103,7 +103,6 @@ namespace DasBlog.Web.Controllers
 		}
 
 		[HttpGet("api/notes/{id}")]
-		[Produces("application/activity+json")]
 		public IActionResult Note(string id)
 		{
 			if (!string.IsNullOrEmpty(id))

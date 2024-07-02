@@ -59,7 +59,7 @@ namespace DasBlog.Managers
 			var webFinger = new WebFinger
 			{
 				subject = $"acct:blog@{rootdomain}",
-				aliases = [alias, users],
+				aliases = [alias],
 
 				links = [
 					new Link() { rel="self", type=@"application/activity+json", href=alias },
@@ -95,7 +95,7 @@ namespace DasBlog.Managers
 				attachment =
 				[
 					new() { name="Blog", type ="PropertyValue", value = GetAttachment(dasBlogSettings.SiteConfiguration.Root,  dasBlogSettings.SiteConfiguration.Root) },
-					new() { name="RSS", type ="PropertyValue", value = GetAttachment(dasBlogSettings.SiteConfiguration.Root, dasBlogSettings.RssUrl) }
+					new() { name="RSS", type ="PropertyValue", value = GetAttachment(dasBlogSettings.RssUrl, dasBlogSettings.RssUrl) }
 				]
 			};
 
@@ -266,10 +266,12 @@ namespace DasBlog.Managers
 				hash = item.Hash,
 				content = GetContent(item!, this.tags, authorUserid, authorUrl),
 				url = item!.Link!,
+				//atomUri = item!.Link!,
 				attributedTo = alias, // domain/@blog
 				to = new List<string>() { "https://www.w3.org/ns/activitystreams#Public" }.ToArray(),
 				cc = new List<string>().ToArray(),
 				published = item.PubDate.ToString("yyyy-MM-ddTHH:mm:sszzz"),
+
 				tag = tags.ToArray(),
 				replies = new Replies
 				{

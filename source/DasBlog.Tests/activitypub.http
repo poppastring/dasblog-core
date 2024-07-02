@@ -4,7 +4,7 @@
 ### https://localhost:5001
 ### https://q5jspdph-5001.use.devtunnels.ms
 
-@DOMAIN=https://06tbxm70-5001.use.devtunnels.ms
+@DOMAIN=https://9p0bs5mk-5001.use.devtunnels.ms
 
 GET {{DOMAIN}}/.well-known/webfinger
 
@@ -35,6 +35,7 @@ Accept: application/activity+json
 
 ###
 GET https://mstdn.social/@ntv/112573010898384571
+Accept: application/activity+json
 
 ###
 GET https://maho.dev/socialweb/replies/a9132ebc5912005b06d8cc3c8a4d52e9
