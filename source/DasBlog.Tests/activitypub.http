@@ -1,15 +1,28 @@
-### blog@r62099d2-5001.use.devtunnels.ms
-### https://dotnet.social
-### https://thedasblog.com
-### https://localhost:5001
-### https://q5jspdph-5001.use.devtunnels.ms
-
+###
 @DOMAIN=https://9p0bs5mk-5001.use.devtunnels.ms
 
+###
 GET {{DOMAIN}}/.well-known/webfinger
 
 ###
 GET https://maho.dev/.well-known/webfinger
+
+###
+GET https://6h4pfmxf-5001.use.devtunnels.ms/api/notes/4844caf4-5272-47b5-ae18-dd3ecd207631
+Accept: text/html
+
+###
+GET https://6h4pfmxf-5001.use.devtunnels.ms/api/notes/4844caf4527247b5ae18dd3ecd207631
+
+###
+GET https://thedasblog.com/api/notes/518b8b08-2eea-4848-bf26-4b94b7b9abe9
+Accept: application/activity+json
+
+###
+GET https://thedasblog.com/api/notes/518b8b082eea4848bf264b94b7b9abe9
+Accept: application/activity+json
+
+### application/activity+json  text/html  application/json
 
 ###
 GET {{DOMAIN}}/@blog
@@ -27,11 +40,11 @@ Accept: application/activity+json
 
 ###
 GET https://maho.dev/socialweb/notes/a9132ebc5912005b06d8cc3c8a4d52e9
-Accept: application/activity+json
+Accept: text/html
 
 ###
 GET https://thedasblog.com/api/notes/518b8b08-2eea-4848-bf26-4b94b7b9abe9
-Accept: application/activity+json
+
 
 ###
 GET https://mstdn.social/@ntv/112573010898384571

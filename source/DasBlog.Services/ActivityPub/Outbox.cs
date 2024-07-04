@@ -50,9 +50,6 @@ namespace DasBlog.Services.ActivityPub
 		public Tag[] tag { get; set; }
 		public Replies replies { get; set; }
 
-		// public bool sensitive { get; set; } = false;
-		// public string atomUri { get; set; }
-		// public object[] attatchment { get; set; } = new List<string>().ToArray();
 	}
 
 	public class Replies

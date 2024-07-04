@@ -103,11 +103,12 @@ namespace DasBlog.Web.Controllers
 		}
 
 		[HttpGet("api/notes/{id}")]
+		[Produces("application/activity+json", "text/html")]
 		public IActionResult Note(string id)
 		{
-			if (!string.IsNullOrEmpty(id))
+			if(Guid.TryParse(id, out Guid resultid))
 			{
-				var entry = blogManager.GetEntryForEdit(id);
+				var entry = blogManager.GetEntryForEdit(resultid.ToString());
 				if (entry != null)
 				{
 					var outbox = activityPubManager.GetNote(entry);
