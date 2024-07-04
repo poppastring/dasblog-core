@@ -41,7 +41,7 @@ namespace DasBlog.Web.Controllers
 			this.memoryCache = memoryCache;
 			this.httpContextAccessor = httpContextAccessor;
 			this.logger = logger;
-			jsonSerOptions =  new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase, WriteIndented = false };
+			jsonSerOptions =  new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
 		}
 
 		[HttpGet(".well-known/webfinger")]
@@ -223,8 +223,8 @@ namespace DasBlog.Web.Controllers
 			{
 				IsActivityPubLike = message.IsLikeRequest(),
 				IsActivityPubReply = message.IsCreateActivity(),
-				ActivityPubUrl = message.Object.Id.ToString(),
-				IsPublic = false
+				ActivityPubUrl = message.Object,
+				IsPublic = false,
 			};
 
 			return blogManager.AddComment(postid, comment);

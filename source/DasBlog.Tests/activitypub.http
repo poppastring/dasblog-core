@@ -1,18 +1,9 @@
-###
-@DOMAIN=https://9p0bs5mk-5001.use.devtunnels.ms
+@domain=localhost:5001
+
+GET https://{{domain}}/.well-known/webfinger
 
 ###
-GET {{DOMAIN}}/.well-known/webfinger
-
-###
-GET https://maho.dev/.well-known/webfinger
-
-###
-GET https://6h4pfmxf-5001.use.devtunnels.ms/api/notes/4844caf4-5272-47b5-ae18-dd3ecd207631
-Accept: text/html
-
-###
-GET https://6h4pfmxf-5001.use.devtunnels.ms/api/notes/4844caf4527247b5ae18dd3ecd207631
+GET https://{{domain}}/api/notes/4844caf4527247b5ae18dd3ecd207631
 
 ###
 GET https://thedasblog.com/api/notes/518b8b08-2eea-4848-bf26-4b94b7b9abe9
@@ -22,55 +13,31 @@ Accept: application/activity+json
 GET https://thedasblog.com/api/notes/518b8b082eea4848bf264b94b7b9abe9
 Accept: application/activity+json
 
-### application/activity+json  text/html  application/json
+###
+GET https://{{domain}}/@blog
 
 ###
-GET {{DOMAIN}}/@blog
+GET https://{{domain}}/api/outbox
 
-###
-GET {{DOMAIN}}/api/outbox
-
-###
-GET https://maho.dev/@blog
+### Like post
+POST https://{{domain}}/api/inbox
 Accept: application/activity+json
-
-###
-GET https://maho.dev/socialweb/outbox
-Accept: application/activity+json
-
-###
-GET https://maho.dev/socialweb/notes/a9132ebc5912005b06d8cc3c8a4d52e9
-Accept: text/html
-
-###
-GET https://thedasblog.com/api/notes/518b8b08-2eea-4848-bf26-4b94b7b9abe9
-
-
-###
-GET https://mstdn.social/@ntv/112573010898384571
-Accept: application/activity+json
-
-###
-GET https://maho.dev/socialweb/replies/a9132ebc5912005b06d8cc3c8a4d52e9
-Accept: text/html
-
-###
-GET {{DOMAIN}}/api/notes/4844caf4-5272-47b5-ae18-dd3ecd207631
-Accept: application/activity+json
-
-###
-GET {{DOMAIN}}/api/outbox
-Accept: application/activity+json
-
+{
+  "@context": "https://www.w3.org/ns/activitystreams",
+  "id": "https://mastodon.social/64527582-3605-4d19-ac99-6715df3b0707",
+  "type": "Like",
+  "actor": "https://dotnet.social/users/poppastring",
+  "object": "https://{{domain}}/@blog"
+}
 
 ### Follow request
-POST {{DOMAIN}}/api/inbox
+POST https://{{domain}}/api/inbox
 {
   "@context": "https://www.w3.org/ns/activitystreams",
   "id": "https://mastodon.social/64527582-3605-4d19-ac99-6715df3b0707",
   "type": "Follow",
   "actor": "https://dotnet.social/users/poppastring",
-  "object": "https://maho.dev/@blog"
+  "object": "https://{{domain}}/@blog"
 }
 
 ### Unfollow request
@@ -85,81 +52,5 @@ POST {{DOMAIN}}/api/inbox
     "type":"Follow",
     "actor":"https://dotnet.social/users/poppastring",
     "object":"https://maho.dev/@blog"
-  }
-}
-
-###
-POST {{DOMAIN}}/api/inbox
-{
-  "@context": [
-    "https://www.w3.org/ns/activitystreams",
-    {
-      "ostatus": "http://ostatus.org#",
-      "atomUri": "ostatus:atomUri",
-      "inReplyToAtomUri": "ostatus:inReplyToAtomUri",
-      "conversation": "ostatus:conversation",
-      "sensitive": "as:sensitive",
-      "toot": "http://joinmastodon.org/ns#",
-      "votersCount": "toot:votersCount"
-    }
-  ],
-  "id": "https://hachyderm.io/users/mapache/statuses/112281648967418926/activity",
-  "type": "Create",
-  "actor": "https://hachyderm.io/users/mapache",
-  "published": "2024-04-16T15:39:57Z",
-  "to": [
-    "https://www.w3.org/ns/activitystreams#Public"
-  ],
-  "cc": [
-    "https://hachyderm.io/users/mapache/followers",
-    "https://maho.dev/@blog"
-  ],
-  "object": {
-    "id": "https://hachyderm.io/users/mapache/statuses/112281648967418926",
-    "type": "Note",
-    "summary": null,
-    "inReplyTo": "https://hachyderm.io/users/mapache/statuses/111910324565541779",
-    "published": "2024-04-16T15:39:57Z",
-    "url": "https://hachyderm.io/@mapache/112281648967418926",
-    "attributedTo": "https://hachyderm.io/users/mapache",
-    "to": [
-      "https://www.w3.org/ns/activitystreams#Public"
-    ],
-    "cc": [
-      "https://hachyderm.io/users/mapache/followers",
-      "https://maho.dev/@blog"
-    ],
-    "sensitive": false,
-    "atomUri": "https://hachyderm.io/users/mapache/statuses/112281648967418926",
-    "inReplyToAtomUri": "https://hachyderm.io/users/mapache/statuses/111910324565541779",
-    "conversation": "tag:hachyderm.io,2024-02-11:objectId=125092496:objectType=Conversation",
-    "content": "<p><span class=\"h-card\" translate=\"no\"><a href=\"https://maho.dev/\" class=\"u-url mention\">@<span>blog</span></a></span> I will reply to this post for the part 6.</p>",
-    "contentMap": {
-      "en": "<p><span class=\"h-card\" translate=\"no\"><a href=\"https://maho.dev/\" class=\"u-url mention\">@<span>blog</span></a></span> I will reply to this post for the part 6.</p>"
-    },
-    "attachment": [],
-    "tag": [
-      {
-        "type": "Mention",
-        "href": "https://maho.dev/@blog",
-        "name": "@blog@maho.dev"
-      }
-    ],
-    "replies": {
-      "id": "https://hachyderm.io/users/mapache/statuses/112281648967418926/replies",
-      "type": "Collection",
-      "first": {
-        "type": "CollectionPage",
-        "next": "https://hachyderm.io/users/mapache/statuses/112281648967418926/replies?only_other_accounts=true&page=true",
-        "partOf": "https://hachyderm.io/users/mapache/statuses/112281648967418926/replies",
-        "items": []
-      }
-    }
-  },
-  "signature": {
-    "type": "RsaSignature2017",
-    "creator": "https://hachyderm.io/users/mapache#main-key",
-    "created": "2024-04-16T15:39:57Z",
-    "signatureValue": "am2S196mTFCudcFl5GwghZu93aE2WwNTcmFVIzR18YgHso9qVAd4mE2dkJH9WygJnGikS+yPvHAHXK2bP/6qq6NkTCf3p3F0JR8UlbunT06qbZTa4Vi6KKGsXjL4PA7AzjMd0Wk8jUxYm2yJtDm8xzEr7SH8rwBxg8u+ozkIY0cPBAPoBZwb8+j7DQYxN67YJp0MQCRj6TmODgw/ywZySijs1sbCO1Q6U53icHiW19P27vwZzD41i9tMZajosBJHCNX2Bh6uop/LCRiXbAwvbqVPoS3T8k0x22kwdo4oo3tdtfrUAL9giBjQ/nTHGSPDbCvygQT2U43FbN1u47Feww=="
   }
 }
