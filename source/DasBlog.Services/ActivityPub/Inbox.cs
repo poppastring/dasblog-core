@@ -54,6 +54,6 @@ namespace DasBlog.Services.ActivityPub
 	public class ObjectContent
 	{
 		public string Id { get; set; }
-		public string InReplTo { get; set; }
+		public string InReplyTo { get; set; }
 	}
 }

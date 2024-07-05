@@ -124,8 +124,6 @@ namespace DasBlog.Web.Controllers
 		[Produces("application/activity+json")]
 		public async Task<IActionResult> Inbox()
         {
-			// return Accepted();
-
 			// will receive POST requests each time someone follows/unfollows the blog, replies, deletes a comment, etc.
 			// If we intend to follow other people, it will also receive the posts created in other instances?
 			var requestbody = string.Empty;
@@ -161,14 +159,10 @@ namespace DasBlog.Web.Controllers
 
 				if (message?.IsFollow() ?? false)
 				{
-					// Add to follower list
-
 					await activityPubManager.Follow(message);
 				}
 				else if (message?.IsUndoFollow() ?? false)
 				{
-					// Remove from follower list
-
 					await activityPubManager.Unfollow(message, requestbody);
 				}
 				else if (message?.IsCreateActivity() ?? false)
@@ -217,13 +211,13 @@ namespace DasBlog.Web.Controllers
 
 		private CommentSaveState AddCommentFromMessage(InboxMessage message)
 		{
-			string postid = message.Context.ToString();
+			string postid = message.Object;
 
 			var comment = new Comment
 			{
 				IsActivityPubLike = message.IsLikeRequest(),
 				IsActivityPubReply = message.IsCreateActivity(),
-				ActivityPubUrl = message.Object,
+				ActivityPubUrl = message.Actor,
 				IsPublic = false,
 			};
 

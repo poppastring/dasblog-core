@@ -8,6 +8,9 @@ using DasBlog.Managers.Interfaces;
 using DasBlog.Services;
 using DasBlog.Services.ActivityPub;
 using DasBlog.Services.ActivityPub.Helper;
+using DasBlog.Services.ConfigFile;
+using DasBlog.Services.FileManagement.Interfaces;
+using Microsoft.Extensions.Options;
 using newtelligence.DasBlog.Runtime;
 
 namespace DasBlog.Managers
@@ -17,16 +20,20 @@ namespace DasBlog.Managers
 		private readonly IBlogDataService dataService;
 		private readonly IDasBlogSettings dasBlogSettings;
 		private readonly IActorService actorService;
+		private readonly ActivityPubFollowers activityFollowers;
+		private readonly IConfigFileService<ActivityPubFollowers> followersFileService;
 		private readonly string roothost, alias, following, followers, inBox, outBox, notes, replies, users, icon;
 		private readonly string tags, authorUsername, authorUrl, authorUserid, rootdomain, template;
-		private readonly List<string> followersList = new List<string>();
 
 		private const string ACTIVITYSTREAM_CONTEXT = "https://www.w3.org/ns/activitystreams";
 
-		public ActivityPubManager(IDasBlogSettings settings, IActorService actorservice)
+		public ActivityPubManager(IDasBlogSettings settings, IActorService actorservice, 
+									IConfigFileService<ActivityPubFollowers> followersfileservice, IOptionsMonitor<ActivityPubFollowers> activityfollowers)
 		{
 			dasBlogSettings = settings;
 			actorService = actorservice;
+			followersFileService = followersfileservice;
+			activityFollowers = activityfollowers.CurrentValue;
 			var loggingDataService = LoggingDataServiceFactory.GetService(Path.Combine(dasBlogSettings.WebRootDirectory, dasBlogSettings.SiteConfiguration.LogDir));
 			dataService = BlogDataServiceFactory.GetService(Path.Combine(dasBlogSettings.WebRootDirectory, dasBlogSettings.SiteConfiguration.ContentDir), loggingDataService);
 
@@ -150,8 +157,8 @@ namespace DasBlog.Managers
 			// get actor info
 			var actor = await ActorService.FetchActorInformationAsync(message.Actor);
 
-			// temporary follower to a persistent list
-			followersList.Add(actor.id);
+			activityFollowers.Followers.Add(actor.id);
+			followersFileService.SaveConfig(new ActivityPubFollowers() { Followers = activityFollowers.Followers });
 
 			var acceptRequest = new AcceptRequest()
 			{
@@ -175,10 +182,12 @@ namespace DasBlog.Managers
 
 		public async Task Unfollow(InboxMessage message, string requestbody)
 		{
-			// delete follower from persistent list
-
 			// get actor info
 			var actor = await ActorService.FetchActorInformationAsync(message.Actor);
+
+			// delete follower from persistent list
+			activityFollowers.Followers.Remove(actor.id);
+			followersFileService.SaveConfig(new ActivityPubFollowers() { Followers = activityFollowers.Followers });
 
 			var uuid = Guid.NewGuid().ToString();
 

@@ -1,4 +1,4 @@
-@domain=localhost:5001
+@domain=47q45gwl-5001.use.devtunnels.ms
 
 GET https://{{domain}}/.well-known/webfinger
 
@@ -19,15 +19,15 @@ GET https://{{domain}}/@blog
 ###
 GET https://{{domain}}/api/outbox
 
-### Like post
+
+### Reply request
 POST https://{{domain}}/api/inbox
-Accept: application/activity+json
 {
   "@context": "https://www.w3.org/ns/activitystreams",
-  "id": "https://mastodon.social/64527582-3605-4d19-ac99-6715df3b0707",
-  "type": "Like",
+  "id": "https://dotnet.social/users/poppastring/statuses/112281648967418926/activity",
+  "type": "Create",
   "actor": "https://dotnet.social/users/poppastring",
-  "object": "https://{{domain}}/@blog"
+  
 }
 
 ### Follow request
@@ -41,16 +41,27 @@ POST https://{{domain}}/api/inbox
 }
 
 ### Unfollow request
-POST {{DOMAIN}}/api/inbox
+POST https://{{domain}}/api/inbox
 { 
   "@context":"https://www.w3.org/ns/activitystreams",
   "id":"https://dotnet.social/users/poppastring#follows/51971777/undo",
   "type":"Undo",
-  "actor":"https://mastodon.social/users/mictlan",
+  "actor":"https://dotnet.social/users/poppastring",
   "object":{
     "id":"https://poppastring.social/f722c435-5a8a-4e94-b7c8-529cdcdf12a6",
     "type":"Follow",
     "actor":"https://dotnet.social/users/poppastring",
-    "object":"https://maho.dev/@blog"
+    "object":"https://{{domain}}/@blog"
   }
+}
+
+### Like post
+POST https://{{domain}}/api/inbox
+Accept: application/activity+json
+{
+  "@context": "https://www.w3.org/ns/activitystreams",
+  "id": "https://mastodon.social/64527582-3605-4d19-ac99-6715df3b0707",
+  "type": "Like",
+  "actor": "https://dotnet.social/users/poppastring",
+  "object": "https://{{domain}}/@blog"
 }

@@ -61,6 +61,7 @@
     </None>
    </ItemGroup>
   <ItemGroup>
+    <Folder Include="content\activitypub\" />
     <Folder Include="Properties" />
     <Folder Include="wwwroot\lib\font-awesome\" />
   </ItemGroup>

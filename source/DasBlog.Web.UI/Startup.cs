@@ -56,6 +56,7 @@ namespace DasBlog.Web
 		private readonly string BinariesPath;
 		private readonly string BinariesUrlRelativePath;
 		private readonly string OEmbedProvidersPath;
+		private readonly string ActivityPubFollowersPath;
 
 		private readonly string DefaultSiteConfigPath;
 		private readonly string DefaultMetaConfigPath;
@@ -82,6 +83,7 @@ namespace DasBlog.Web
 			MetaConfigPath = Path.Combine("Config", $"meta.{env.EnvironmentName}.config");
 			DefaultMetaConfigPath = Path.Combine("Config", $"meta.config");
 			OEmbedProvidersPath = DefaultOEmbedProvidersConfigPath = Path.Combine("Config", $"oembed-providers.json");
+			ActivityPubFollowersPath = Path.Combine("content","activitypub", $"followers.json");
 
 			ConfigFileInitializationPrep();
 
@@ -94,6 +96,7 @@ namespace DasBlog.Web
 				.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
 				.AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
 				.AddJsonFile(DefaultOEmbedProvidersConfigPath, optional: true, reloadOnChange: true)
+				.AddJsonFile(ActivityPubFollowersPath, optional: true, reloadOnChange: true)
 				.AddEnvironmentVariables();
 
 			Configuration = builder.Build();
@@ -122,6 +125,7 @@ namespace DasBlog.Web
 			services.Configure<SiteConfig>(Configuration);
 			services.Configure<MetaTags>(Configuration);
 			services.Configure<OEmbedProviders>(Configuration);
+			services.Configure<ActivityPubFollowers>(Configuration);
 			services.AddSingleton<AppVersionInfo>();
 
 			services.Configure<ConfigFilePathsDataOption>(options =>
@@ -134,6 +138,7 @@ namespace DasBlog.Web
 				options.ThemesFolder = ThemeFolderPath;
 				options.BinaryFolder = BinariesPath;
 				options.BinaryUrlRelative = string.Format("{0}/", BinariesUrlRelativePath);
+				options.ActivityPubFollowingFilePath = ActivityPubFollowersPath;
 			});
 
 			services.Configure<ActivityRepoOptions>(options
@@ -223,6 +228,7 @@ namespace DasBlog.Web
 				.AddSingleton<IConfigFileService<OEmbedProviders>, OEmbedProvidersFileService>()
 				.AddSingleton<IConfigFileService<SiteConfig>, SiteConfigFileService>()
 				.AddSingleton<IConfigFileService<SiteSecurityConfigData>, SiteSecurityConfigFileService>()
+				.AddSingleton<IConfigFileService<ActivityPubFollowers>, ActivityPubFollowingFilePath>()
 				.AddSingleton<IExternalEmbeddingHandler, ExternalEmbeddingHandler>()
 				.AddSingleton<IActorService, ActorService>();
 
