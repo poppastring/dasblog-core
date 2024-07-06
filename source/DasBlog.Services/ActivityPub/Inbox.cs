@@ -14,7 +14,7 @@ namespace DasBlog.Services.ActivityPub
 		public string Actor { get; set; } = default!;
 		public List<string>? Cc { get; set; }
 		public string? Id { get; set; }
-		public string? Object { get; set; }
+		public object? Object { get; set; }
 		public DateTime? Published { get; set; }
 		public string? State { get; set; }
 		public List<string>? To { get; set; }

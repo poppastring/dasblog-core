@@ -157,8 +157,8 @@ namespace DasBlog.Managers
 			// get actor info
 			var actor = await ActorService.FetchActorInformationAsync(message.Actor);
 
-			activityFollowers.Followers.Add(actor.id);
-			followersFileService.SaveConfig(new ActivityPubFollowers() { Followers = activityFollowers.Followers });
+			activityFollowers.Followers.Add(actor.id.Trim());
+			followersFileService.SaveConfig(new ActivityPubFollowers() { Followers = activityFollowers.Followers.Distinct().ToList() });
 
 			var acceptRequest = new AcceptRequest()
 			{

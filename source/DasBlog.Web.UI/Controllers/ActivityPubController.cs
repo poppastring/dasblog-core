@@ -211,7 +211,7 @@ namespace DasBlog.Web.Controllers
 
 		private CommentSaveState AddCommentFromMessage(InboxMessage message)
 		{
-			string postid = message.Object;
+			string postid = ""; //message.Object;
 
 			var comment = new Comment
 			{
