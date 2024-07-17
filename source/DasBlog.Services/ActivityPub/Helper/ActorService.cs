@@ -12,15 +12,15 @@ namespace DasBlog.Services.ActivityPub.Helper
 {
 	public class ActorService : IActorService
 	{
-		private readonly string _privatePem;
-		private readonly string _keyId;
+		private string PublicKey;
+		private string PrivateKey;
 		ILogger<ActorService> logger;
 
 		public ActorService(IDasBlogSettings settings,  ILogger<ActorService> logger)
 		{
 			this.logger = logger;
-			_privatePem = "";
-			_keyId = settings.SiteConfiguration.MastodonPrivateKey;
+			PrivateKey = settings.SiteConfiguration.MastodonPrivateKey;
+			PublicKey = settings.SiteConfiguration.MastodonPublicKey;
 		}
 
 		public static readonly JsonSerializerOptions SerializerOptions = new()
@@ -60,12 +60,18 @@ namespace DasBlog.Services.ActivityPub.Helper
 			// Get current UTC date in HTTP format
 			var date = DateTime.UtcNow.ToString("r");
 
+			PrivateKey = System.IO.File.ReadAllText(@"C:\dev\tools\private.pem");
+			PublicKey = System.IO.File.ReadAllText(@"C:\dev\tools\public.pem")
+										.Replace("\n", "").Replace("\r", ""); ;
+			
+			// PublicKey = PublicKey.Replace("\n", "").Replace("\r", "");
+
 			// Load RSA private key from file
 			using (var rsa = RSA.Create())
 			{
 				try
 				{
-					rsa.ImportRSAPrivateKey(Encoding.UTF8.GetBytes(_keyId), out int val);
+					rsa.ImportFromPem(PrivateKey);
 				}
 				catch (Exception e)
 				{
@@ -75,20 +81,18 @@ namespace DasBlog.Services.ActivityPub.Helper
 				var digest = $"SHA-256={CreateHashSha256(document)}";
 
 				// Build the to-be-signed string
-				// string signedString = $"(request-target): post {url.AbsolutePath}\nhost: {url.Host}\ndate: {date}";
 				var signedString = $"(request-target): post {url.AbsolutePath}\nhost: {url.Host}\ndate: {date}\ndigest: {digest}";
 
 				// Sign the to-be-signed string
-
 				var signatureBytes = rsa.SignData(Encoding.UTF8.GetBytes(signedString), HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
 
 				// Base64 encode the signature
 				var signature = Convert.ToBase64String(signatureBytes);
 
-				logger.LogInformation($"Using key: {this._keyId}");
+				logger.LogInformation($"Using key: {this.PublicKey}");
 
 				// Build the HTTP signature header
-				var header = $"keyId=\"{this._keyId}\",headers=\"(request-target) host date digest\",signature=\"{signature}\",algorithm=\"rsa-sha256\"";
+				var header = $"keyId=\"{this.PublicKey}\",headers=\"(request-target) host date digest\",signature=\"{signature}\",algorithm=\"rsa-sha256\"";
 
 				// Create HTTP client
 				using (var client = new HttpClient())

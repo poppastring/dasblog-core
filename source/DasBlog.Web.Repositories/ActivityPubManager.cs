@@ -157,16 +157,19 @@ namespace DasBlog.Managers
 			// get actor info
 			var actor = await ActorService.FetchActorInformationAsync(message.Actor);
 
-			activityFollowers.Followers.Add(actor.id.Trim());
+			var actorid = $"{actor.preferredUsername}@{new Uri(actor.id).Host}";
+
+			activityFollowers.Followers.Add(actor.id);
 			followersFileService.SaveConfig(new ActivityPubFollowers() { Followers = activityFollowers.Followers.Distinct().ToList() });
 
 			var acceptRequest = new AcceptRequest()
 			{
 				context = "https://www.w3.org/ns/activitystreams",
-				id = $"{target}#accepts/follows/{actor.id}",
+				id = $"{target}#accepts/follows/{actorid}",
 				actor = $"{target}",
 				Object = new
 				{
+					context = "https://www.w3.org/ns/activitystreams",
 					message.Id,
 					Actor = actor.url,
 					Type = "Follow",
