@@ -58,7 +58,7 @@ namespace DasBlog.Services.ActivityPub.Helper
 			// Get current UTC date in HTTP format
 			var date = DateTime.UtcNow.ToString("r");
 
-			_privateKey = System.IO.File.ReadAllText(@"C:\dev\tools\private.pem");
+			// _privateKey = System.IO.File.ReadAllText(@"C:\dev\tools\private.pem");
 
 			// Load RSA private key from file
 			using (var rsa = RSA.Create())
