@@ -12,15 +12,13 @@ namespace DasBlog.Services.ActivityPub.Helper
 {
 	public class ActorService : IActorService
 	{
-		private string PublicKey;
-		private string PrivateKey;
+		private string _privateKey;
 		ILogger<ActorService> logger;
 
 		public ActorService(IDasBlogSettings settings,  ILogger<ActorService> logger)
 		{
 			this.logger = logger;
-			PrivateKey = settings.SiteConfiguration.MastodonPrivateKey;
-			PublicKey = settings.SiteConfiguration.MastodonPublicKey;
+			_privateKey = settings.SiteConfiguration.MastodonPrivateKey;
 		}
 
 		public static readonly JsonSerializerOptions SerializerOptions = new()
@@ -55,23 +53,19 @@ namespace DasBlog.Services.ActivityPub.Helper
 			}
 		}
 
-		public async Task SendSignedRequest(string document, Uri url)
+		public async Task SendSignedRequest(string document, Uri url, string publickeyid)
 		{
 			// Get current UTC date in HTTP format
 			var date = DateTime.UtcNow.ToString("r");
 
-			PrivateKey = System.IO.File.ReadAllText(@"C:\dev\tools\private.pem");
-			PublicKey = System.IO.File.ReadAllText(@"C:\dev\tools\public.pem")
-										.Replace("\n", "").Replace("\r", ""); ;
-			
-			// PublicKey = PublicKey.Replace("\n", "").Replace("\r", "");
+			_privateKey = System.IO.File.ReadAllText(@"C:\dev\tools\private.pem");
 
 			// Load RSA private key from file
 			using (var rsa = RSA.Create())
 			{
 				try
 				{
-					rsa.ImportFromPem(PrivateKey);
+					rsa.ImportFromPem(_privateKey);
 				}
 				catch (Exception e)
 				{
@@ -89,10 +83,10 @@ namespace DasBlog.Services.ActivityPub.Helper
 				// Base64 encode the signature
 				var signature = Convert.ToBase64String(signatureBytes);
 
-				logger.LogInformation($"Using key: {this.PublicKey}");
+				logger.LogInformation($"Using key: {publickeyid}");
 
 				// Build the HTTP signature header
-				var header = $"keyId=\"{this.PublicKey}\",headers=\"(request-target) host date digest\",signature=\"{signature}\",algorithm=\"rsa-sha256\"";
+				var header = $"keyId=\"{publickeyid}\",headers=\"(request-target) host date digest\",signature=\"{signature}\",algorithm=\"rsa-sha256\"";
 
 				// Create HTTP client
 				using (var client = new HttpClient())

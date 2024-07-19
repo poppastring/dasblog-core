@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text.Json;
 using System.Threading.Tasks;
 using DasBlog.Managers.Interfaces;
@@ -22,7 +23,7 @@ namespace DasBlog.Managers
 		private readonly IActorService actorService;
 		private readonly ActivityPubFollowers activityFollowers;
 		private readonly IConfigFileService<ActivityPubFollowers> followersFileService;
-		private readonly string roothost, alias, following, followers, inBox, outBox, notes, replies, users, icon;
+		private readonly string roothost, alias, publickeyid, following, followers, inBox, outBox, notes, replies, users, icon;
 		private readonly string tags, authorUsername, authorUrl, authorUserid, rootdomain, template;
 
 		private const string ACTIVITYSTREAM_CONTEXT = "https://www.w3.org/ns/activitystreams";
@@ -49,6 +50,7 @@ namespace DasBlog.Managers
 			inBox = new Uri(new Uri(roothost), "api/inbox").AbsoluteUri;
 			outBox = new Uri(new Uri(roothost), "api/outbox").AbsoluteUri;
 			alias = new Uri(new Uri(roothost), "@blog").AbsoluteUri;
+			publickeyid = alias + "#main-key";
 			notes = new Uri(new Uri(roothost), "api/notes").AbsoluteUri;
 			replies = new Uri(new Uri(roothost), "api/replies").AbsoluteUri;
 			tags = new Uri(new Uri(roothost), "category").AbsoluteUri;
@@ -98,7 +100,7 @@ namespace DasBlog.Managers
 				memorial = false,
 				icon = new() {  url = icon, mediaType = "image/jpeg" },
 				image = new() { url = icon, mediaType = "image/jpeg" },
-				publicKey = new() { id = alias + "#main-key", owner = alias, publicKeyPem = dasBlogSettings.SiteConfiguration.MastodonPublicKey },
+				publicKey = new() { id = publickeyid, owner = alias, publicKeyPem = dasBlogSettings.SiteConfiguration.MastodonPublicKey },
 				attachment =
 				[
 					new() { name="Blog", type ="PropertyValue", value = GetAttachment(dasBlogSettings.SiteConfiguration.Root,  dasBlogSettings.SiteConfiguration.Root) },
@@ -179,7 +181,7 @@ namespace DasBlog.Managers
 
 			await actorService.SendSignedRequest(
 							JsonSerializer.Serialize(acceptRequest, ActorService.SerializerOptions),
-							new Uri(actor.inbox));
+							new Uri(actor.inbox), publickeyid);
 
 		}
 
@@ -205,7 +207,7 @@ namespace DasBlog.Managers
 			// Send signed request to the actor's inbox of the unfollow
 			await actorService.SendSignedRequest(
 								JsonSerializer.Serialize(acceptRequest, ActorService.SerializerOptions), 
-								new Uri(actor.inbox));
+								new Uri(actor.inbox), publickeyid);
 		}
 
 		public async Task Like(InboxMessage message)

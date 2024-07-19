@@ -8,7 +8,7 @@ namespace DasBlog.Services.ActivityPub.Helper
 {
 	public interface IActorService
 	{
-		public Task SendSignedRequest(string document, Uri url);
+		public Task SendSignedRequest(string document, Uri url, string publickeyid);
 
 	}
 }
