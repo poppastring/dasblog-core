@@ -1,0 +1,45 @@
+<Project>
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+    <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageVersion Include="coverlet.collector" Version="6.0.0" />
+    <PackageVersion Include="reCAPTCHA.AspNetCore" Version="3.0.10" />
+    <PackageVersion Include="xunit" Version="2.6.2" />
+    <PackageVersion Include="xunit.runner.visualstudio" Version="2.5.4" />
+    <PackageVersion Include="AutoMapper" Version="12.0.1" />
+    <PackageVersion Include="ConsoleTables" Version="2.6.1" />
+    <PackageVersion Include="Coravel" Version="5.0.2" />
+    <PackageVersion Include="Kveer.XmlRPC" Version="1.2.1" />
+    <PackageVersion Include="NodaTime" Version="3.1.9" />
+    <PackageVersion Include="MailKit" Version="4.3.0" />
+    <PackageVersion Include="Markdig" Version="0.33.0" />
+    <PackageVersion Include="McMaster.Extensions.CommandLineUtils" Version="4.1.0" />
+    <PackageVersion Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.21.0" />
+    <PackageVersion Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.0" />
+    <PackageVersion Include="Microsoft.AspNetCore.Mvc.Razor.Extensions" Version="6.0.25" />
+    <PackageVersion Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="8.0.0" />
+    <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.Configuration.Xml" Version="8.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.Options" Version="8.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.PlatformAbstractions" Version="1.1.0" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
+    <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="8.0.0" />
+    <PackageVersion Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.5" />
+    <PackageVersion Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.0" />
+    <PackageVersion Include="Moq" Version="4.20.69" />
+    <PackageVersion Include="NetEscapades.Extensions.Logging.RollingFile" Version="2.5.0" />
+    <PackageVersion Include="NWebsec.AspNetCore.Middleware" Version="3.0.0" />
+    <PackageVersion Include="HtmlAgilityPack" Version="1.11.54" />
+    <PackageVersion Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageVersion Include="Quartz.AspNetCore" Version="3.8.0" />
+    <PackageVersion Include="Selenium.Support" Version="4.15.0" />
+    <PackageVersion Include="Selenium.WebDriver" Version="4.15.0" />
+    <PackageVersion Include="Xunit.SkippableFact" Version="1.4.13" />
+  </ItemGroup>
+</Project>

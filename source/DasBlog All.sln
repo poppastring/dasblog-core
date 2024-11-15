@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.28917.181
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35327.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DasBlog.Web", "DasBlog.Web.UI\DasBlog.Web.csproj", "{37817A48-6954-4DAF-A931-C540C5687579}"
 EndProject
@@ -14,6 +14,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 		ContributorFAQ.md = ContributorFAQ.md
 		CrossPlatform.md = CrossPlatform.md
+		Directory.Packages.props = Directory.Packages.props
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dasblog.Tests", "Dasblog.Tests", "{F0F076E7-9863-46B7-8C3C-5C220D4BC118}"

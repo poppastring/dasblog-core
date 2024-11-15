@@ -12,14 +12,14 @@
     <ProjectReference Include="..\DasBlog.Web.Core\DasBlog.Core.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Coravel" Version="5.0.2" />
-    <PackageReference Include="HtmlAgilityPack" Version="1.11.54" />
-    <PackageReference Include="Kveer.XmlRPC" Version="1.2.1" />
-    <PackageReference Include="MailKit" Version="4.3.0" />
-    <PackageReference Include="Microsoft.Extensions.Options" Version="8.0.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="Quartz.AspNetCore" Version="3.8.0" />
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
+    <PackageReference Include="Coravel" />
+    <PackageReference Include="HtmlAgilityPack" />
+    <PackageReference Include="Kveer.XmlRPC" />
+    <PackageReference Include="MailKit" />
+    <PackageReference Include="Microsoft.Extensions.Options" />
+    <PackageReference Include="Newtonsoft.Json" />
+    <PackageReference Include="Quartz.AspNetCore" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="All" />
   </ItemGroup>
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
