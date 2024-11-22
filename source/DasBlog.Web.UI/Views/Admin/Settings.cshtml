@@ -341,7 +341,7 @@
 
         @Html.LabelFor(m => @Model.SiteConfig.RecaptchaMinimumScore, null, new { @class = "col-form-label col-sm-2" })
         <div class="col-sm-2">
-            @Html.TextBoxFor(m => @Model.SiteConfig.RecaptchaMinimumScore, null, new { @class = "form-control sm-10" })
+            @Html.TextBoxFor(m => @Model.SiteConfig.RecaptchaMinimumScore, null, new { type = "number", step="0.1", @class = "form-control sm-10" })
         </div>
         @Html.ValidationMessageFor(m => m.SiteConfig.RecaptchaMinimumScore, null, new { @class = "text-danger" })
 
