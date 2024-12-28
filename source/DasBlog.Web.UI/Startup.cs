@@ -265,7 +265,6 @@ namespace DasBlog.Web
 			if (env.IsDevelopment() || env.IsStaging())
 			{
 				app.UseDeveloperExceptionPage();
-				//app.UseBrowserLink();
 			}
 			else
 			{
