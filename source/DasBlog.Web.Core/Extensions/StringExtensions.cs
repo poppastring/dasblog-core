@@ -15,14 +15,20 @@ namespace DasBlog.Core.Extensions
 			return text;
 		}
 
-		public static string StripHtml(this string text)
-		{
-			text = Regex.Replace(text, "<.*?>", string.Empty, RegexOptions.Compiled);
-			text = text.Replace("<", "");
-			text = text.Replace(">", "");
-			text = text.Replace("&quot;", "");
-			return text;
-		}
+        public static string StripHtml(this string text)
+        {
+            // Replace closing paragraph tags and <br> tags with a space, allowing for optional whitespace
+            text = Regex.Replace(text, "</\\s*p\\s*>|<\\s*br\\s*/?>", " ", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+
+            // Remove all other HTML tags
+            text = Regex.Replace(text, "<.*?>", string.Empty, RegexOptions.Compiled);
+
+            text = text.Replace("<", "");
+            text = text.Replace(">", "");
+            text = text.Replace("&quot;", "");
+
+            return text;
+        }
 
 		public static string StripHTMLFromText(this string text)
 		{
