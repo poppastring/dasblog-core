@@ -1,0 +1,30 @@
+# For more info on HTTP files go to https://aka.ms/vs/httpfile
+
+@ROOT_URL=https://localhost
+#@ROOT_URL=https://fw71bt65-5001.use.devtunnels.ms
+@port=5001
+
+
+GET https://devblogs.microsoft.com/visualstudio/
+
+###
+GET {{ROOT_URL}}:{{port}}
+
+###
+POST {{ROOT_URL}}:{{port}}/account/login
+Content-Type: text/html
+{'login': 'login@example.com', 'password': '123456' }
+
+
+###
+GET {{ROOT_URL}}:{{port}}/feed/rss
+Accept: text/xml
+
+###
+GET {{ROOT_URL}}:{{port}}/feed/rss/dasblog-Core
+Accept: text/xml
+
+###
+GET {{ROOT_URL}}:{{port}}/feed/rsd
+Accept: text/xml
+
