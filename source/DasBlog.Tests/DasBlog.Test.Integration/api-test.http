@@ -24,7 +24,5 @@ Accept: text/xml
 GET {{ROOT_URL}}:{{port}}/feed/rss/dasblog-Core
 Accept: text/xml
 
-###
-GET {{ROOT_URL}}:{{port}}/feed/rsd
-Accept: text/xml
+
 
