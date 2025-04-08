@@ -26,6 +26,7 @@ namespace DasBlog.Web.Controllers
 		private readonly IBlogManager blogManager;
 		private readonly IHostApplicationLifetime appLifetime;
 		private readonly ILogger<AdminController> logger;
+		private readonly List<PostViewModel> posts = [];	
 
 		public AdminController(IDasBlogSettings dasBlogSettings, IFileSystemBinaryManager fileSystemBinaryManager, IMapper mapper,
 								IBlogManager blogManager, IHostApplicationLifetime appLifetime, ILogger<AdminController> logger) : base(dasBlogSettings)
@@ -36,6 +37,8 @@ namespace DasBlog.Web.Controllers
 			this.blogManager = blogManager;
 			this.appLifetime = appLifetime;
 			this.logger = logger;
+			this.posts = blogManager.GetAllEntries()
+								.Select(entry => mapper.Map<PostViewModel>(entry)).ToList();
 		}
 
 		[HttpGet]
@@ -46,8 +49,7 @@ namespace DasBlog.Web.Controllers
 			var dbsvm = new DasBlogSettingsViewModel();
 			dbsvm.MetaConfig = mapper.Map<MetaViewModel>(dasBlogSettings.MetaTags);
 			dbsvm.SiteConfig = mapper.Map<SiteViewModel>(dasBlogSettings.SiteConfiguration);
-			dbsvm.Posts = blogManager.GetAllEntries()
-								.Select(entry => mapper.Map<PostViewModel>(entry)).ToList();
+			dbsvm.Posts = posts;
 
 			return View(dbsvm);
 		}
@@ -60,7 +62,8 @@ namespace DasBlog.Web.Controllers
 			//save settings and reload...
 			if (ModelState.ErrorCount > 0)
 			{
-				return Settings(settings);
+				settings.Posts = posts;
+				return View("Settings", settings);
 			}
 
 			var site = mapper.Map<SiteConfig>(settings.SiteConfig);
@@ -74,7 +77,8 @@ namespace DasBlog.Web.Controllers
 			{
 				ModelState.AddModelError("", "Unable to save Site configuration file.");
 				logger.LogError(new EventDataItem(EventCodes.Error, null, "Unable to save Site Config file"));
-				return Settings(settings);
+				settings.Posts = posts;
+				return View("Settings", settings);
 			}
 			dasBlogSettings.SiteConfiguration = site;
 
@@ -82,7 +86,8 @@ namespace DasBlog.Web.Controllers
 			{
 				ModelState.AddModelError("", "Unable to save Meta configuration file.");
 				logger.LogError(new EventDataItem(EventCodes.Error, null, "Unable to save Site Config file"));
-				return Settings(settings);
+				settings.Posts = posts;
+				return View("Settings", settings);
 			}
 			dasBlogSettings.MetaTags = meta;
 
