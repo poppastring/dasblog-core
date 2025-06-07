@@ -1,0 +1,94 @@
+﻿@using DasBlog.Web.Models.AdminViewModels
+
+@inject IDasBlogSettings dasBlogSettings
+@model DasBlogSettingsViewModel
+
+<div class="form-group row mb-3">
+
+    @Html.LabelFor(m => @Model.SiteConfig.Root, null, new { @class = "col-sm-2" })
+    <div class="col-sm-5">
+        @Html.TextBoxFor(m => @Model.SiteConfig.Root, null, new { @class = "form-control" })
+    </div>
+    @Html.ValidationMessageFor(m => m.SiteConfig.Root, null, new { @class = "text-danger" })
+</div>
+
+<div class="form-group row mb-3">
+
+    @Html.LabelFor(m => @Model.SiteConfig.Title, null, new { @class = "col-sm-2" })
+    <div class="col-sm-10">
+        @Html.TextBoxFor(m => @Model.SiteConfig.Title, null, new { @class = "form-control" })
+    </div>
+    @Html.ValidationMessageFor(m => m.SiteConfig.Title, null, new { @class = "text-danger" })
+</div>
+
+<div class="form-group row mb-3">
+
+    @Html.LabelFor(m => @Model.SiteConfig.Subtitle, null, new { @class = "col-form-label col-sm-2" })
+    <div class="col-sm-10">
+        @Html.TextBoxFor(m => @Model.SiteConfig.Subtitle, null, new { @class = "form-control" })
+    </div>
+    @Html.ValidationMessageFor(m => m.SiteConfig.Subtitle, null, new { @class = "text-danger" })
+
+</div>
+
+<div class="form-group row mb-3">
+
+    @Html.LabelFor(m => @Model.SiteConfig.Description, null, new { @class = "col-form-label col-sm-2" })
+    <div class="col-sm-10">
+        @Html.TextBoxFor(m => @Model.SiteConfig.Description, null, new { @class = "form-control sm-10" })
+    </div>
+    @Html.ValidationMessageFor(m => m.SiteConfig.Description, null, new { @class = "text-danger" })
+
+</div>
+
+<div class="form-group row mb-3">
+
+    @Html.LabelFor(m => @Model.SiteConfig.Theme, null, new { @class = "col-form-label col-sm-2" })
+    <div class="col-sm-3">
+        @Html.DropDownListFor(n => n.SiteConfig.Theme,
+            new SelectList(new ThemesListViewModel(dasBlogSettings).Init(), "Name", "Name"),
+            new { @class = "form-select col-2" })
+    </div>
+    @Html.ValidationMessageFor(m => m.SiteConfig.Theme, null, new { @class = "text-danger" })
+
+</div>
+
+<div class="form-group row mb-3">
+
+    @Html.LabelFor(m => @Model.SiteConfig.NotificationEMailAddress, null, new { @class = "col-form-label col-sm-2" })
+    <div class="col-sm-3">
+        @Html.TextBoxFor(m => @Model.SiteConfig.NotificationEMailAddress, null, new { @class = "form-control sm-10" })
+    </div>
+    @Html.ValidationMessageFor(m => m.SiteConfig.NotificationEMailAddress, null, new { @class = "text-danger" })
+
+</div>
+
+<div class="form-group row mb-3">
+
+    @Html.LabelFor(m => @Model.SiteConfig.Contact, null, new { @class = "col-form-label col-sm-2" })
+    <div class="col-sm-3">
+        @Html.TextBoxFor(m => @Model.SiteConfig.Contact, null, new { @class = "form-control sm-10" })
+    </div>
+    @Html.ValidationMessageFor(m => m.SiteConfig.Contact, null, new { @class = "text-danger" })
+
+</div>
+
+<div class="form-group row mb-3">
+
+    @Html.LabelFor(m => @Model.SiteConfig.Copyright, null, new { @class = "col-form-label col-sm-2" })
+    <div class="col-sm-10">
+        @Html.TextBoxFor(m => @Model.SiteConfig.Copyright, null, new { @class = "form-control sm-10" })
+    </div>
+    @Html.ValidationMessageFor(m => m.SiteConfig.Copyright, null, new { @class = "text-danger" })
+
+</div>
+
+<div class="form-check row mb-3">
+    <div class="col-sm-10 offset-sm-2">
+        <div class="col-sm-2">
+            @Html.CheckBoxFor(m => @Model.SiteConfig.EnableAboutView, new { @class = "form-check-input" })
+        </div>
+
+        @Html.LabelFor(m => @Model.SiteConfig.EnableAboutView, null, new { @class = "form-check-label col-sm-10" })
+    </div>
+</div>

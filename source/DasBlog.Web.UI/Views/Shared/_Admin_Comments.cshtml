@@ -1,0 +1,136 @@
+﻿@using DasBlog.Web.Models.AdminViewModels
+
+@inject IDasBlogSettings dasBlogSettings
+@model DasBlogSettingsViewModel
+
+    <div class="form-check row mb-3">
+        <div class="col-sm-10 offset-sm-2">
+            <div class="col-sm-10">
+                @Html.CheckBoxFor(m => @Model.SiteConfig.EnableComments, new { @class = "form-check-input form-check-input" })
+            </div>
+            @Html.LabelFor(m => @Model.SiteConfig.EnableComments, null, new { @class = "col-check-label col-sm-2" })
+        </div>
+    </div>
+
+    <div class="form-check row mb-3">
+        <div class="col-sm-10 offset-sm-2">
+            <div class="col-sm-10">
+                @Html.CheckBoxFor(m => @Model.SiteConfig.AllowMarkdownInComments, new { @class = "form-check-input form-check-input" })
+            </div>
+            @Html.LabelFor(m => @Model.SiteConfig.AllowMarkdownInComments, null, new { @class = "col-check-label col-sm-2" })
+        </div>
+    </div>
+
+    <div class="form-check row mb-3">
+        <div class="col-sm-10 offset-sm-2">
+            <div class="col-sm-2">
+                @Html.CheckBoxFor(m => @Model.SiteConfig.EnableCommentDays, new { @class = "form-check-input form-check-input" })
+            </div>
+            @Html.LabelFor(m => @Model.SiteConfig.EnableCommentDays, null, new { @class = "col-check-label col-sm-10" })
+        </div>
+    </div>
+
+    <div class="form-check row mb-3">
+        <div class="col-sm-10 offset-sm-2">
+            <div class="col-sm-2">
+                @Html.CheckBoxFor(m => @Model.SiteConfig.ShowCommentsWhenViewingEntry, new { @class = "form-check-input form-check-input" })
+            </div>
+            @Html.LabelFor(m => @Model.SiteConfig.ShowCommentsWhenViewingEntry, null, new { @class = "col-check-label col-sm-10" })
+        </div>
+    </div>
+
+    <div class="form-group row mb-3">
+
+        @Html.LabelFor(m => @Model.SiteConfig.DaysCommentsAllowed, null, new { @class = "col-form-label col-sm-2" })
+        <div class="col-sm-2">
+            @Html.TextBoxFor(m => @Model.SiteConfig.DaysCommentsAllowed, null, new { @class = "form-control col-2" })
+        </div>
+        @Html.ValidationMessageFor(m => m.SiteConfig.DaysCommentsAllowed, null, new { @class = "text-danger" })
+
+    </div>
+
+    <div class="form-check row mb-3">
+        <div class="col-sm-10 offset-sm-2">
+            <div class="col-sm-2">
+                @Html.CheckBoxFor(m => @Model.SiteConfig.CommentsRequireApproval, new { @class = "form-check-input" })
+            </div>
+            @Html.LabelFor(m => @Model.SiteConfig.CommentsRequireApproval, null, new { @class = "col-check-label col-sm-10" })
+        </div>
+    </div>
+
+    <div class="form-group row mb-3">
+
+        @Html.LabelFor(m => @Model.SiteConfig.CheesySpamQ, null, new { @class = "col-form-label col-sm-2" })
+        <div class="col-sm-10">
+            @Html.TextBoxFor(m => @Model.SiteConfig.CheesySpamQ, null, new { @class = "form-control sm-10" })
+        </div>
+        @Html.ValidationMessageFor(m => m.SiteConfig.CheesySpamQ, null, new { @class = "text-danger" })
+
+    </div>
+
+    <div class="form-group row mb-3">
+
+        @Html.LabelFor(m => @Model.SiteConfig.CheesySpamA, null, new { @class = "col-form-label col-sm-2" })
+        <div class="col-sm-10">
+            @Html.TextBoxFor(m => @Model.SiteConfig.CheesySpamA, null, new { @class = "form-control sm-10" })
+        </div>
+        @Html.ValidationMessageFor(m => m.SiteConfig.CheesySpamA, null, new { @class = "text-danger" })
+
+    </div>
+
+    <div class="form-check row mb-3">
+        <div class="col-sm-10 offset-sm-2">
+            <div class="col-sm-2">
+                @Html.CheckBoxFor(m => @Model.SiteConfig.EnableCaptcha, new { @class = "form-check-input form-check-input" })
+            </div>
+            @Html.LabelFor(m => @Model.SiteConfig.EnableCaptcha, null, new { @class = "col-check-label col-sm-10" })
+        </div>
+    </div>
+
+    <div class="form-group row mb-3">
+
+        @Html.LabelFor(m => @Model.SiteConfig.RecaptchaMinimumScore, null, new { @class = "col-form-label col-sm-2" })
+        <div class="col-sm-2">
+            @Html.TextBoxFor(m => @Model.SiteConfig.RecaptchaMinimumScore, null, new { type = "number", step="0.1", @class = "form-control sm-10" })
+        </div>
+        @Html.ValidationMessageFor(m => m.SiteConfig.RecaptchaMinimumScore, null, new { @class = "text-danger" })
+
+    </div>
+    <div class="form-group row mb-3">
+
+        @Html.LabelFor(m => @Model.SiteConfig.RecaptchaSiteKey, null, new { @class = "col-form-label col-sm-2" })
+        <div class="col-sm-5">
+            @Html.TextBoxFor(m => @Model.SiteConfig.RecaptchaSiteKey, null, new { @class = "form-control sm-10" })
+        </div>
+        @Html.ValidationMessageFor(m => m.SiteConfig.RecaptchaSiteKey, null, new { @class = "text-danger" })
+
+    </div>
+
+    <div class="form-group row mb-3">
+
+        @Html.LabelFor(m => @Model.SiteConfig.RecaptchaSecretKey, null, new { @class = "col-form-label col-sm-2" })
+        <div class="col-sm-5">
+            @Html.TextBoxFor(m => @Model.SiteConfig.RecaptchaSecretKey, null, new { @class = "form-control sm-10" })
+        </div>
+        @Html.ValidationMessageFor(m => m.SiteConfig.RecaptchaSecretKey, null, new { @class = "text-danger" })
+
+    </div>
+
+
+    <div class="form-group row mb-3">
+
+        <div class="dasblog-col-title col-sm-2">
+            @Html.LabelFor(m => @Model.SiteConfig.ValidCommentTags, null, new { @class = "col-form-label" })
+        </div>
+
+        <div class="dasblog-col-body col-sm-10">
+            @for (var i = 0; i < @Model.SiteConfig.ValidCommentTags[0].Tag.Count; i++)
+            {
+                <input type="checkbox" asp-for="@Model.SiteConfig.ValidCommentTags[0].Tag[i].Allowed" />
+                <input type="hidden" asp-for="@Model.SiteConfig.ValidCommentTags[0].Tag[i].Attributes" />
+                <label asp-for="@Model.SiteConfig.ValidCommentTags[0].Tag[i].Allowed">@Model.SiteConfig.ValidCommentTags[0].Tag[i].Name</label>
+                <input type="hidden" asp-for="@Model.SiteConfig.ValidCommentTags[0].Tag[i].Name" />
+                <span style="display: inline-block; width: 1em;"></span>
+            }
+        </div>
+    </div>

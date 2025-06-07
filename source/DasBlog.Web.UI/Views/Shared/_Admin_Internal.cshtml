@@ -1,0 +1,72 @@
+﻿@using DasBlog.Web.Models.AdminViewModels
+
+@inject IDasBlogSettings dasBlogSettings
+@model DasBlogSettingsViewModel
+
+<div class="form-group row mb-3">
+
+    @Html.LabelFor(m => @Model.SiteConfig.ContentDir, null, new { @class = "col-form-label col-sm-2" })
+    <div class="col-sm-5">
+        @Html.TextBoxFor(m => @Model.SiteConfig.ContentDir, null, new { @class = "form-control sm-10" })
+    </div>
+    @Html.ValidationMessageFor(m => m.SiteConfig.ContentDir, null, new { @class = "text-danger" })
+
+</div>
+
+<div class="form-group row mb-3">
+
+    @Html.LabelFor(m => @Model.SiteConfig.BinariesDir, null, new { @class = "col-form-label col-sm-2" })
+    <div class="col-sm-5">
+        @Html.TextBoxFor(m => @Model.SiteConfig.BinariesDir, null, new { @class = "form-control sm-10" })
+    </div>
+    @Html.ValidationMessageFor(m => m.SiteConfig.BinariesDir, null, new { @class = "text-danger" })
+
+</div>
+
+
+<div class="form-group row mb-3">
+
+    @Html.LabelFor(m => @Model.SiteConfig.LogDir, null, new { @class = "col-form-label col-sm-2" })
+    <div class="col-sm-5">
+        @Html.TextBoxFor(m => @Model.SiteConfig.LogDir, null, new { @class = "form-control sm-10" })
+    </div>
+    @Html.ValidationMessageFor(m => m.SiteConfig.LogDir, null, new { @class = "text-danger" })
+
+</div>
+
+<div class="form-check row mb-3">
+    <div class="col-sm-10 offset-sm-2">
+        <div class="col-sm-2">
+            @Html.CheckBoxFor(m => @Model.SiteConfig.AdjustDisplayTimeZone, new { @class = "form-check-input" })
+        </div>
+        @Html.LabelFor(m => @Model.SiteConfig.AdjustDisplayTimeZone, null, new { @class = "col-check-label col-sm-2" })
+    </div>
+</div>
+
+<div class="form-group row mb-3">
+
+    @Html.LabelFor(m => @Model.SiteConfig.DisplayTimeZoneIndex, null, new { @class = "col-form-label col-sm-2" })
+    <div class="col-sm-3">
+        @Html.DropDownListFor(n => n.SiteConfig.DisplayTimeZoneIndex,
+            new SelectList(new TimeZoneIndexViewModel().Init(), "Id", "Name"),
+            new { @class = "form-select col-3" })
+    </div>
+    @Html.ValidationMessageFor(m => m.SiteConfig.DisplayTimeZoneIndex, null, new { @class = "text-danger" })
+
+</div>
+    
+<div class="form-group row mb-3">
+
+    @Html.LabelFor(m => @Model.SiteConfig.CdnFrom, null, new { @class = "col-form-label col-sm-2" })
+    <div class="col-sm-5">
+            @Html.TextBoxFor(m => @Model.SiteConfig.CdnFrom, null, new { @class = "form-control sm-10" })
+    </div>
+    @Html.ValidationMessageFor(m => m.SiteConfig.CdnFrom, null, new { @class = "text-danger" })
+
+    @Html.LabelFor(m => @Model.SiteConfig.CdnTo, null, new { @class = "col-form-label col-sm-2" })
+    <div class="col-sm-5">
+        @Html.TextBoxFor(m => @Model.SiteConfig.CdnTo, null, new { @class = "form-control sm-10" })
+    </div>
+    @Html.ValidationMessageFor(m => m.SiteConfig.CdnTo, null, new { @class = "text-danger" })
+    
+</div>

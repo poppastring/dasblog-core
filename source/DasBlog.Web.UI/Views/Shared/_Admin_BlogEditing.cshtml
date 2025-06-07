@@ -1,0 +1,45 @@
+﻿@using DasBlog.Web.Models.AdminViewModels
+
+@inject IDasBlogSettings dasBlogSettings
+@model DasBlogSettingsViewModel
+
+<div class="form-check row mb-3">
+    <div class="col-sm-10 offset-sm-2">
+        <div class="col-sm-2">
+            @Html.CheckBoxFor(m => @Model.SiteConfig.EnableBloggerApi, new { @class = "form-check-input" })
+        </div>
+        @Html.LabelFor(m => @Model.SiteConfig.EnableBloggerApi, null, new { @class = "col-check-label col-sm-10" })
+    </div>
+</div>
+
+<div class="form-group row mb-3">
+    @Html.LabelFor(m => @Model.SiteConfig.PreferredBloggingAPI, null, new { @class = "col-form-label col-sm-2" })
+    <div class="col-sm-3">
+        @Html.DropDownListFor(n => n.SiteConfig.PreferredBloggingAPI,
+            new SelectList(new BloggerAPIViewModel().Init(), "Name", "Name"),
+            new { @class = "form-select col-3" })
+    </div>
+    @Html.ValidationMessageFor(m => m.SiteConfig.PreferredBloggingAPI, null, new { @class = "text-danger" })
+</div>
+
+<div class="form-group row mb-3">
+    @Html.LabelFor(m => @Model.SiteConfig.EntryEditControl, null, new { @class = "col-form-label col-sm-2" })
+
+    <div class="col-sm-3">
+        @Html.DropDownListFor(n => n.SiteConfig.EntryEditControl,
+            new SelectList(new EntryEditControlViewModel().Init(), "Name", "Name"),
+            new { @class = "form-select col-3" })
+    </div>
+    @Html.ValidationMessageFor(m => m.SiteConfig.EntryEditControl, null, new { @class = "text-danger" })
+
+</div>
+
+<div class="form-group row mb-3">
+    @Html.LabelFor(m => @Model.SiteConfig.TinyMCEApiKey, null, new { @class = "col-form-label col-sm-2" })
+
+    <div class="col-sm-5">
+        @Html.TextBoxFor(m => @Model.SiteConfig.TinyMCEApiKey, null, new { @class = "form-control sm-10" })
+    </div>
+
+    @Html.ValidationMessageFor(m => m.SiteConfig.TinyMCEApiKey, null, new { @class = "text-danger" })
+</div>
