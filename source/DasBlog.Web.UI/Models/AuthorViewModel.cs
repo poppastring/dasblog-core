@@ -23,13 +23,13 @@ namespace DasBlog.Web.Models
 		[Display(Name = "Open ID Url")]
 		public string OpenIDUrl { get; set; }
 
-		[Display(Name = "Receive Notifications For A New Post")]
+		[Display(Name = "Receive notifications for a new post")]
 		public bool NotifyOnNewPost { get; set; }
 
-		[Display(Name = "Receive Notifications for All Comments")]
+		[Display(Name = "Receive notifications for all comments")]
 		public bool NotifyOnAllComment { get; set; }
 
-		[Display(Name = "Receive Notifications for Own Comments")]
+		[Display(Name = "Receive notifications for own comments")]
 		public bool NotifyOnOwnComment { get; set; }
 
 		[Required]
