@@ -43,7 +43,7 @@ namespace DasBlog.Web.Models.AdminViewModels
 		[DataType(DataType.Url, ErrorMessage = "Invalid URL format")]
 		public string Root { get; set; }
 
-		[DisplayName("Copyright")]
+		[DisplayName("Copyright owner")]
 		[Description("Name of the sites copyright owner")]
 		[StringLength(300, ErrorMessage = "{0} should be between 1 to 300 characters")]
 		public string Copyright { get; set; }
