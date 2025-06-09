@@ -27,7 +27,7 @@ namespace DasBlog.Web.Models.AdminViewModels
 		[StringLength(300, MinimumLength = 0, ErrorMessage = "{0} should be between 1 to 300 characters")]
 		public string Description { get; set; }
 
-		[DisplayName("Email contact")]
+		[DisplayName("Site email contact")]
 		[Description("The email that you want to be publicly available, it also shows up in the RSS feed")]
 		[EmailAddress]
 		public string Contact { get; set; }
@@ -43,7 +43,7 @@ namespace DasBlog.Web.Models.AdminViewModels
 		[DataType(DataType.Url, ErrorMessage = "Invalid URL format")]
 		public string Root { get; set; }
 
-		[DisplayName("Copyright owner")]
+		[DisplayName("Site copyright owner")]
 		[Description("Name of the sites copyright owner")]
 		[StringLength(300, ErrorMessage = "{0} should be between 1 to 300 characters")]
 		public string Copyright { get; set; }

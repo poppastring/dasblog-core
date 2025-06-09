@@ -3,46 +3,48 @@
 @inject IDasBlogSettings dasBlogSettings
 @model DasBlogSettingsViewModel
 
-<div class="col-md-4 form-check-inline">
-    @Html.LabelFor(m => @Model.SiteConfig.Root, null, new { @class = "form-label" })
-    @Html.TextBoxFor(m => @Model.SiteConfig.Root, null, new { @class = "form-control" })
-    @Html.ValidationMessageFor(m => m.SiteConfig.Root, null, new { @class = "text-danger" })
+<div class="row gy-2 gx-3 align-items-md-start">
+    <div class="col-sm-4">
+        @Html.LabelFor(m => @Model.SiteConfig.Root, null, new { @class = "form-label" })
+        @Html.TextBoxFor(m => @Model.SiteConfig.Root, null, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.SiteConfig.Root, null, new { @class = "text-danger" })
+    </div>
+    <div class="col-sm-6">
+        @Html.LabelFor(m => @Model.SiteConfig.Title, null, new { @class = "form-label" })
+        @Html.TextBoxFor(m => @Model.SiteConfig.Title, null, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.SiteConfig.Title, null, new { @class = "text-danger" })
+    </div>
 </div>
 
-<div class="col-md-6 form-check-inline">
-    @Html.LabelFor(m => @Model.SiteConfig.Title, null, new { @class = "form-label" })
-    @Html.TextBoxFor(m => @Model.SiteConfig.Title, null, new { @class = "form-control" })
-    @Html.ValidationMessageFor(m => m.SiteConfig.Title, null, new { @class = "text-danger" })
+<div class="row gy-2 gx-3 align-items-md-start">
+    <div class="col-sm-4">
+        @Html.LabelFor(m => @Model.SiteConfig.Subtitle, null, new { @class = "col-form-label" })
+        @Html.TextBoxFor(m => @Model.SiteConfig.Subtitle, null, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.SiteConfig.Subtitle, null, new { @class = "text-danger" })
+    </div>
+    <div class="col-sm-8">
+        @Html.LabelFor(m => @Model.SiteConfig.Description, null, new { @class = "col-form-label" })
+        @Html.TextBoxFor(m => @Model.SiteConfig.Description, null, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.SiteConfig.Description, null, new { @class = "text-danger" })
+    </div>
 </div>
 
-<div class="col-md-4 form-check-inline">
-    @Html.LabelFor(m => @Model.SiteConfig.Subtitle, null, new { @class = "col-form-label" })
-    @Html.TextBoxFor(m => @Model.SiteConfig.Subtitle, null, new { @class = "form-control" })
-    @Html.ValidationMessageFor(m => m.SiteConfig.Subtitle, null, new { @class = "text-danger" })
-</div>
-
-<div class="col-md-6 form-check-inline">
-    @Html.LabelFor(m => @Model.SiteConfig.Description, null, new { @class = "col-form-label" })
-    @Html.TextBoxFor(m => @Model.SiteConfig.Description, null, new { @class = "form-control" })
-    @Html.ValidationMessageFor(m => m.SiteConfig.Description, null, new { @class = "text-danger" })
-</div>
-
-<div class="col-md-4">
-    @Html.LabelFor(m => @Model.SiteConfig.Copyright, null, new { @class = "col-form-label" })
-    @Html.TextBoxFor(m => @Model.SiteConfig.Copyright, null, new { @class = "form-control" })
-    @Html.ValidationMessageFor(m => m.SiteConfig.Copyright, null, new { @class = "text-danger" })
-</div>
-
-<div class="col-md-4 form-check-inline">
-    @Html.LabelFor(m => @Model.SiteConfig.Contact, null, new { @class = "col-form-label" })
-    @Html.TextBoxFor(m => @Model.SiteConfig.Contact, null, new { @class = "form-control" })
-    @Html.ValidationMessageFor(m => m.SiteConfig.Contact, null, new { @class = "text-danger" })
-</div>
-
-<div class="col-md-4 form-check-inline">
-    @Html.LabelFor(m => @Model.SiteConfig.NotificationEMailAddress, null, new { @class = "col-form-label" })
-    @Html.TextBoxFor(m => @Model.SiteConfig.NotificationEMailAddress, null, new { @class = "form-control" })
-    @Html.ValidationMessageFor(m => m.SiteConfig.NotificationEMailAddress, null, new { @class = "text-danger" })
+<div class="row gy-2 gx-3 align-items-md-start">
+    <div class="col-sm-4">
+        @Html.LabelFor(m => @Model.SiteConfig.Contact, null, new { @class = "col-form-label" })
+        @Html.TextBoxFor(m => @Model.SiteConfig.Contact, null, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.SiteConfig.Contact, null, new { @class = "text-danger" })
+    </div>
+    <div class="col-sm-4">
+        @Html.LabelFor(m => @Model.SiteConfig.Copyright, null, new { @class = "col-form-label" })
+        @Html.TextBoxFor(m => @Model.SiteConfig.Copyright, null, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.SiteConfig.Copyright, null, new { @class = "text-danger" })
+    </div>
+    <div class="col-sm-4">
+        @Html.LabelFor(m => @Model.SiteConfig.NotificationEMailAddress, null, new { @class = "col-form-label" })
+        @Html.TextBoxFor(m => @Model.SiteConfig.NotificationEMailAddress, null, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.SiteConfig.NotificationEMailAddress, null, new { @class = "text-danger" })
+    </div>
 </div>
 
 <div class="col-md-4 form-check-inline">

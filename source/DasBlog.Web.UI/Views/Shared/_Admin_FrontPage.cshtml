@@ -3,51 +3,49 @@
 @inject IDasBlogSettings dasBlogSettings
 @model DasBlogSettingsViewModel
 
-<div class="col-md-2 form-check-inline">
-    @Html.LabelFor(m => @Model.SiteConfig.FrontPageDayCount, null, new { @class = "col-form-label" })
-    @Html.TextBoxFor(m => @Model.SiteConfig.FrontPageDayCount, null, new { @class = "form-control" })
-    @Html.ValidationMessageFor(m => m.SiteConfig.FrontPageDayCount, null, new { @class = "text-danger" })
-</div>
-
-<div class="col-md-2 form-check-inline">
-    @Html.LabelFor(m => @Model.SiteConfig.FrontPageEntryCount, null, new { @class = "col-form-label" })
-    @Html.TextBoxFor(m => @Model.SiteConfig.FrontPageEntryCount, null, new { @class = "form-control" })
-    @Html.ValidationMessageFor(m => m.SiteConfig.FrontPageEntryCount, null, new { @class = "text-danger" })
-</div>
-
-<div class="col-md-2 form-check-inline">
-    @Html.LabelFor(m => @Model.SiteConfig.EntriesPerPage, null, new { @class = "col-form-label" })
-    @Html.TextBoxFor(m => @Model.SiteConfig.EntriesPerPage, null, new { @class = "form-control" })
-    @Html.ValidationMessageFor(m => m.SiteConfig.EntriesPerPage, null, new { @class = "text-danger" })
-</div>
-
-<div class="col-md-3 form-check-inline">
-    @Html.LabelFor(m => @Model.SiteConfig.ContentLookaheadDays, null, new { @class = "col-form-label" })
-    @Html.TextBoxFor(m => @Model.SiteConfig.ContentLookaheadDays, null, new { @class = "form-control" })
-    @Html.ValidationMessageFor(m => m.SiteConfig.ContentLookaheadDays, null, new { @class = "text-danger" })
-</div>
-
-<div class="col-md-4 ">
-    @Html.LabelFor(m => @Model.SiteConfig.FrontPageCategory, null, new { @class = "col-form-label" })
-    @Html.TextBoxFor(m => @Model.SiteConfig.FrontPageCategory, null, new { @class = "form-control" })
-    @Html.ValidationMessageFor(m => m.SiteConfig.FrontPageCategory, null, new { @class = "text-danger" })
-</div>
-
-<div class="col-mb-5">
-    @Html.LabelFor(m => @Model.SiteConfig.PostPinnedToHomePage, null, new { @class = "col-form-label" })        
-    @Html.DropDownListFor(n => n.SiteConfig.PostPinnedToHomePage,
-        new SelectList(new BlogPostListViewModel().Init(Model.Posts), "Id", "Name"),
-        new { @class = "form-select" })
-    @Html.ValidationMessageFor(m => m.SiteConfig.PostPinnedToHomePage, null, new { @class = "text-danger" })
-</div>
-
-<div class="col-mb-6">
-    <div class="form-check">
-        @Html.CheckBoxFor(m => @Model.SiteConfig.EnableStartPageCaching, new { @class = "form-check-input" })
-        @Html.LabelFor(m => @Model.SiteConfig.EnableStartPageCaching, null, new { @class = "form-check-label" })
+<div class="row gy-2 gx-3 align-items-md-start">
+    <div class="col-sm-2">
+        @Html.LabelFor(m => @Model.SiteConfig.FrontPageDayCount, null, new { @class = "col-form-label" })
+        @Html.TextBoxFor(m => @Model.SiteConfig.FrontPageDayCount, null, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.SiteConfig.FrontPageDayCount, null, new { @class = "text-danger" })
     </div>
-    <div class="form-check">
-        @Html.CheckBoxFor(m => @Model.SiteConfig.ShowItemSummaryInAggregatedViews, new { @class = "form-check-input" })
-        @Html.LabelFor(m => @Model.SiteConfig.ShowItemSummaryInAggregatedViews, null, new { @class = "form-check-label" })
+    <div class="col-sm-2">
+        @Html.LabelFor(m => @Model.SiteConfig.FrontPageEntryCount, null, new { @class = "col-form-label" })
+        @Html.TextBoxFor(m => @Model.SiteConfig.FrontPageEntryCount, null, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.SiteConfig.FrontPageEntryCount, null, new { @class = "text-danger" })
+
     </div>
+    <div class="col-sm-2">
+        @Html.LabelFor(m => @Model.SiteConfig.EntriesPerPage, null, new { @class = "col-form-label" })
+        @Html.TextBoxFor(m => @Model.SiteConfig.EntriesPerPage, null, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.SiteConfig.EntriesPerPage, null, new { @class = "text-danger" })
+    </div>
+    <div class="col-sm-3">
+        @Html.LabelFor(m => @Model.SiteConfig.ContentLookaheadDays, null, new { @class = "col-form-label" })
+        @Html.TextBoxFor(m => @Model.SiteConfig.ContentLookaheadDays, null, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.SiteConfig.ContentLookaheadDays, null, new { @class = "text-danger" })
+    </div>
+</div>
+
+<div class="row gy-2 gx-3 align-items-md-start">
+    <div class="col-sm-4">
+        @Html.LabelFor(m => @Model.SiteConfig.FrontPageCategory, null, new { @class = "col-form-label" })
+        @Html.TextBoxFor(m => @Model.SiteConfig.FrontPageCategory, null, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.SiteConfig.FrontPageCategory, null, new { @class = "text-danger" })
+    </div>
+    <div class="col-sm-4">
+        @Html.LabelFor(m => @Model.SiteConfig.PostPinnedToHomePage, null, new { @class = "col-form-label" })
+        @Html.DropDownListFor(n => n.SiteConfig.PostPinnedToHomePage,
+                new SelectList(new BlogPostListViewModel().Init(Model.Posts), "Id", "Name"),
+                new { @class = "form-select" })
+        @Html.ValidationMessageFor(m => m.SiteConfig.PostPinnedToHomePage, null, new { @class = "text-danger" })
+    </div>
+</div>
+
+<div class="d-flex flex-wrap">
+    @Html.CheckBoxFor(m => @Model.SiteConfig.EnableStartPageCaching, new { @class = "form-check-input me-1" })
+    @Html.LabelFor(m => @Model.SiteConfig.EnableStartPageCaching, null, new { @class = "form-check-label me-3" })
+    
+    @Html.CheckBoxFor(m => @Model.SiteConfig.ShowItemSummaryInAggregatedViews, new { @class = "form-check-input me-1" })
+    @Html.LabelFor(m => @Model.SiteConfig.ShowItemSummaryInAggregatedViews, null, new { @class = "form-check-label me-3" })
 </div>
