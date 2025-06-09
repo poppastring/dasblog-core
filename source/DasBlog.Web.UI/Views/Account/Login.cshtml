@@ -12,45 +12,43 @@
 
 <h2>@ViewData["Title"]</h2>
 <hr />
-<div class="row">
-    <div class="col-md-8">
-        <section>
-            <form asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
-                <div asp-validation-summary="All" class="text-danger"></div>
-                <div class="form-group">
-                    <label for="@Constants.Email" class="col-md-2 control-label">@Constants.Email</label>
-                    <div class="col-md-10">
-                        <input id="@Constants.Email" name="@Constants.Email" value="" class="form-control" />
-                        <span asp-validation-for="@Constants.Email" class="text-danger"></span>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="@Constants.Password" class="col-md-2 control-label">@Constants.Password</label>
-                    <div class="col-md-10">
-                        <input id="@Constants.Password" name="@Constants.Password" value="" type="password" class="form-control" />
-                        <span id="@Constants.PasswordValidationId" asp-validation-for="@Constants.Password" class="text-danger"></span>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <div class="checkbox">
-                            <label asp-for="RememberMe">
-                                <input asp-for="RememberMe" />
-                                @Html.DisplayNameFor(m => m.RememberMe)
-                            </label>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <button id="LoginButton" type="submit" class="btn btn-default btn-primary">Log in</button>
-                    </div>
-                </div>
-            </form>
-        </section>
+<form asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
+
+    <div class="row gy-2 gx-3 align-items-md-start mb-3">
+        <div class="col-sm-4">
+            <div class="form-floating">
+                @Html.TextBoxFor(m => @Model.Email, null, new { @class = "form-control", id = "EmailLogin" })
+                @Html.LabelFor(m => @Model.Email, null, new { @class = "form-label", @for = "EmailLogin" })
+            </div>
+            @Html.ValidationMessageFor(m => m.Email, null, new { @class = "text-danger" })
+        </div>
     </div>
 
-</div>
+    <div class="row gy-2 gx-3 align-items-md-start mb-3">
+        <div class="col-sm-4">
+            <div class="form-floating">
+                @Html.TextBoxFor(m => @Model.Password, null, new { @class = "form-control", id = "PasswordLogin" })
+                @Html.LabelFor(m => @Model.Password, null, new { @class = "form-label", @for = "PasswordLogin" })
+            </div>
+            @Html.ValidationMessageFor(m => m.Password, null, new { @class = "text-danger" })
+        </div>
+    </div>
+    
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <div class="d-flex flex-wrap">
+        @Html.CheckBoxFor(m => @Model.RememberMe, new { @class = "form-check-input me-1" })
+        @Html.LabelFor(m => @Model.RememberMe, null, new { @class = "form-check-label me-3" })
+    </div>
+
+    <hr />
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <button id="LoginButton" type="submit" class="btn btn-default btn-primary">Log in</button>
+        </div>
+    </div>
+</form>
+
 
 @section Scripts {
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
