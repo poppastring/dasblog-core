@@ -3,85 +3,61 @@
 @inject IDasBlogSettings dasBlogSettings
 @model DasBlogSettingsViewModel
 
-<div class="form-group row mb-3">
-
-    @Html.LabelFor(m => @Model.SiteConfig.SmtpServer, null, new { @class = "col-form-label col-sm-2" })
-    <div class="col-sm-5">
-        @Html.TextBoxFor(m => @Model.SiteConfig.SmtpServer, null, new { @class = "form-control sm-10" })
+<div class="row gy-2 gx-3 align-items-md-start">
+    <div class="col-sm-4">
+        @Html.LabelFor(m => @Model.SiteConfig.SmtpServer, null, new { @class = "col-form-label" })
+        @Html.TextBoxFor(m => @Model.SiteConfig.SmtpServer, null, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.SiteConfig.SmtpServer, null, new { @class = "text-danger" })
     </div>
-    @Html.ValidationMessageFor(m => m.SiteConfig.SmtpServer, null, new { @class = "text-danger" })
-
-</div>
-
-<div class="form-group row mb-3">
-
-    @Html.LabelFor(m => @Model.SiteConfig.SmtpUserName, null, new { @class = "col-form-label col-sm-2" })
-    <div class="col-sm-5">
-        @Html.TextBoxFor(m => @Model.SiteConfig.SmtpUserName, null, new { @class = "form-control sm-10" })
-    </div>
-    @Html.ValidationMessageFor(m => m.SiteConfig.SmtpUserName, null, new { @class = "text-danger" })
-
-</div>
-
-<div class="form-group row mb-3">
-
-    @Html.LabelFor(m => @Model.SiteConfig.SmtpPassword, null, new { @class = "col-form-label col-sm-2" })
-    <div class="col-sm-5">
-        @Html.PasswordFor(m => @Model.SiteConfig.SmtpPassword, new { @class = "form-control sm-10" })
-    </div>
-    @Html.ValidationMessageFor(m => m.SiteConfig.SmtpPassword, null, new { @class = "text-danger" })
-
-</div>
-
-<div class="form-group row mb-3">
-
-    @Html.LabelFor(m => @Model.SiteConfig.SmtpPort, null, new { @class = "col-form-label col-sm-2" })
-    <div class="col-sm-2">
-        @Html.TextBoxFor(m => @Model.SiteConfig.SmtpPort, null, new { @class = "form-control sm-10" })
-    </div>
-    @Html.ValidationMessageFor(m => m.SiteConfig.SmtpPort, null, new { @class = "text-danger" })
-
-</div>
-
-<div class="form-check row mb-3">
-
-    <div class="col-sm-10 offset-sm-2">        
-        <div class="col-sm-2">
-            @Html.CheckBoxFor(m => @Model.SiteConfig.UseSSLForSMTP, new { @class = "form-check-input form-check-input" })
-        </div>
-        @Html.LabelFor(m => @Model.SiteConfig.UseSSLForSMTP, null, new { @class = "col-check-label col-sm-10" })
+    <div class="col-sm-4">
+        @Html.LabelFor(m => @Model.SiteConfig.SmtpPort, null, new { @class = "col-form-label" })
+        @Html.TextBoxFor(m => @Model.SiteConfig.SmtpPort, null, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.SiteConfig.SmtpPort, null, new { @class = "text-danger" })
     </div>
 </div>
 
-<div class="form-check row mb-3">
-    <div class="col-sm-10 offset-sm-2">
-        <div class="col-sm-2">
-            @Html.CheckBoxFor(m => @Model.SiteConfig.EnableSmtpAuthentication, new { @class = "form-check-input" })
-        </div>
-        @Html.LabelFor(m => @Model.SiteConfig.EnableSmtpAuthentication, null, new { @class = "col-check-label col-sm-10" })
+<div class="row gy-2 gx-3 align-items-md-start">
+    <div class="col-sm-4">
+        @Html.LabelFor(m => @Model.SiteConfig.SmtpUserName, null, new { @class = "col-form-label" })
+        @Html.TextBoxFor(m => @Model.SiteConfig.SmtpUserName, null, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.SiteConfig.SmtpUserName, null, new { @class = "text-danger" })
+    </div>
+    <div class="col-sm-4">
+        @Html.LabelFor(m => @Model.SiteConfig.SmtpPassword, null, new { @class = "col-form-label" })
+        @Html.PasswordFor(m => @Model.SiteConfig.SmtpPassword, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.SiteConfig.SmtpPassword, null, new { @class = "text-danger" })
     </div>
 </div>
 
-<div class="form-group row mb-3">
-    @Html.LabelFor(m => @Model.SiteConfig.SmtpFromEmail, null, new { @class = "col-form-label col-sm-2" })
-    <div class="col-sm-5">
-        @Html.TextBoxFor(m => @Model.SiteConfig.SmtpFromEmail, null, new { @class = "form-control sm-10" })
+<div class="d-flex flex-wrap">
+    <div class="col-auto">
+        @Html.CheckBoxFor(m => @Model.SiteConfig.EnableSmtpAuthentication, new { @class = "form-check-input me-1" })
+        @Html.LabelFor(m => @Model.SiteConfig.EnableSmtpAuthentication, null, new { @class = "col-check-label me-3" })
     </div>
-    @Html.ValidationMessageFor(m => m.SiteConfig.SmtpFromEmail, null, new { @class = "text-danger" })
+    <div class="col-auto">
+        @Html.CheckBoxFor(m => @Model.SiteConfig.UseSSLForSMTP, new { @class = "form-check-input form-check-input me-1" })
+        @Html.LabelFor(m => @Model.SiteConfig.UseSSLForSMTP, null, new { @class = "col-check-label me-3" })
+    </div>
+</div>
+<div class="row gy-2 gx-3 align-items-md-start">
+    <div class="col-sm-4">
+        @Html.LabelFor(m => @Model.SiteConfig.SmtpFromEmail, null, new { @class = "col-form-label" })
+        @Html.TextBoxFor(m => @Model.SiteConfig.SmtpFromEmail, null, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.SiteConfig.SmtpFromEmail, null, new { @class = "text-danger" })
+    </div>
 </div>
 
-<div class="form-check row mb-3">
-    <div class="col-sm-10 offset-sm-2">
-        <div class="col-sm-2">
-            @Html.CheckBoxFor(m => @Model.SiteConfig.SendCommentsByEmail, new { @class = "form-check-input form-check-input" })
-        </div>
+<div class="row gy-2 gx-3 align-items-md-start">
+    <div class="col-sm-4">
+        @Html.CheckBoxFor(m => @Model.SiteConfig.SendCommentsByEmail, new { @class = "form-check-input form-check-input" })
         @Html.LabelFor(m => @Model.SiteConfig.SendCommentsByEmail, null, new { @class = "col-check-label col-sm-10" })
     </div>
 </div>
 
-<div class="form-check row mb-3">
+<hr />
 
-    <div class="col-sm-10 offset-sm-2">
+<div class="row gy-2 gx-3 align-items-md-start">
+    <div class="col-sm-4">
         <input asp-controller="Admin" asp-action="TestEmail" type="submit" name="submit" value="Send test Email" class="btn-default" />
     </div>
 </div>
