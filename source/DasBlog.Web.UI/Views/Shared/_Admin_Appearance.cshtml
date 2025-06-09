@@ -31,13 +31,6 @@
 
 <div class="row gy-2 gx-3 align-items-md-start">
     <div class="col-sm-4">
-        @Html.CheckBoxFor(m => @Model.SiteConfig.CookieConsentEnabled, new { @class = "form-check-input" })
-        @Html.LabelFor(m => @Model.SiteConfig.CookieConsentEnabled, null, new { @class = "col-check-label" })
-    </div>
-</div>
-
-<div class="row gy-2 gx-3 align-items-md-start">
-    <div class="col-sm-4">
         @Html.CheckBoxFor(m => @Model.SiteConfig.UseAspxExtension, new { @class = "form-check-input" })
         @Html.LabelFor(m => @Model.SiteConfig.UseAspxExtension, null, new { @class = "col-check-label" })
     </div>
@@ -45,59 +38,9 @@
 
 <div class="row gy-2 gx-3 align-items-md-start">
     <div class="col-sm-4">
-        <div class="form-floating">
-            @Html.TextBoxFor(m => @Model.SiteConfig.ContentDir, null, new { @class = "form-control", id = "contentDir" })
-            @Html.LabelFor(m => @Model.SiteConfig.ContentDir, null, new { @class = "form-label", @for = "contentDir" })
-        </div>
-        @Html.ValidationMessageFor(m => m.SiteConfig.ContentDir, null, new { @class = "text-danger" })
-    </div>
-    <div class="col-sm-4">
-        <div class="form-floating">
-            @Html.TextBoxFor(m => @Model.SiteConfig.BinariesDir, null, new { @class = "form-control", id = "binariesDir" })
-            @Html.LabelFor(m => @Model.SiteConfig.BinariesDir, null, new { @class = "form-label", @for = "binariesDir" })
-        </div>
-        @Html.ValidationMessageFor(m => m.SiteConfig.BinariesDir, null, new { @class = "text-danger" })
-    </div>
-    <div class="col-sm-4">
-        <div class="form-floating">
-            @Html.TextBoxFor(m => @Model.SiteConfig.LogDir, null, new { @class = "form-control", id = "logDir" })
-            @Html.LabelFor(m => @Model.SiteConfig.LogDir, null, new { @class = "form-label", @for = "logDir" })
-        </div>
-        @Html.ValidationMessageFor(m => m.SiteConfig.LogDir, null, new { @class = "text-danger" })
+        @Html.CheckBoxFor(m => @Model.SiteConfig.CookieConsentEnabled, new { @class = "form-check-input" })
+        @Html.LabelFor(m => @Model.SiteConfig.CookieConsentEnabled, null, new { @class = "col-check-label" })
     </div>
 </div>
 
-<div class="row gy-2 gx-3 align-items-center">
-    <div class="col-sm-4">
-        <div class="form-floating">
-            @Html.DropDownListFor(n => n.SiteConfig.DisplayTimeZoneIndex,
-                new SelectList(new TimeZoneIndexViewModel().Init(), "Id", "Name"),
-                new { @class = "form-select col-3", id = "displayTimeZoneIndex" })
-            @Html.LabelFor(m => @Model.SiteConfig.DisplayTimeZoneIndex, null, new { @class = "form-label", @for = "displayTimeZoneIndex" })
-        </div>
-        @Html.ValidationMessageFor(m => m.SiteConfig.DisplayTimeZoneIndex, null, new { @class = "text-danger" })
-    </div>
-    <div class="col-sm3">
-        <div class="form-check">
-            @Html.CheckBoxFor(m => @Model.SiteConfig.AdjustDisplayTimeZone, new { @class = "form-check-input" })
-            @Html.LabelFor(m => @Model.SiteConfig.AdjustDisplayTimeZone, null, new { @class = "col-check-label" })
-        </div>
-    </div>
-</div>
-   
-<div class="row gy-2 gx-3 align-items-md-start">
-    <div class="col-sm-4">
-        <div class="form-floating">
-            @Html.TextBoxFor(m => @Model.SiteConfig.CdnFrom, null, new { @class = "form-control", id = "cdnFrom" })
-            @Html.LabelFor(m => @Model.SiteConfig.CdnFrom, null, new { @class = "form-label", @for = "cdnFrom" })
-        </div>
-        @Html.ValidationMessageFor(m => m.SiteConfig.CdnFrom, null, new { @class = "text-danger" })
-    </div>
-    <div class="col-sm-4">
-        <div class="form-floating">
-            @Html.TextBoxFor(m => @Model.SiteConfig.CdnTo, null, new { @class = "form-control", id = "cdnTo" })
-            @Html.LabelFor(m => @Model.SiteConfig.CdnTo, null, new { @class = "form-label", @for = "cdnTo" })
-        </div>
-        @Html.ValidationMessageFor(m => m.SiteConfig.CdnTo, null, new { @class = "text-danger" })
-    </div>
-</div>
+
