@@ -3,7 +3,7 @@
 @inject IDasBlogSettings dasBlogSettings
 @model DasBlogSettingsViewModel
 
-<div class="row gy-2 gx-3 align-items-md-start">
+<div class="row gy-2 gx-3 align-items-md-start mb-3">
     <div class="col-sm-4">
         <div class="form-floating">
             @Html.TextBoxFor(m => @Model.SiteConfig.Root, null, new { @class = "form-control", id = "root" })
@@ -20,7 +20,7 @@
     </div>
 </div>
 
-<div class="row gy-2 gx-3 align-items-md-start">
+<div class="row gy-2 gx-3 align-items-md-start mb-3">
     <div class="col-sm-4">
         <div class="form-floating">
             @Html.TextBoxFor(m => @Model.SiteConfig.Subtitle, null, new { @class = "form-control", id = "subtitle" })
@@ -37,7 +37,7 @@
     </div>
 </div>
 
-<div class="row gy-2 gx-3 align-items-md-start">
+<div class="row gy-2 gx-3 align-items-md-start mb-3">
     <div class="col-sm-4">
         <div class="form-floating">
             @Html.TextBoxFor(m => @Model.SiteConfig.Contact, null, new { @class = "form-control", id = "contact" })
@@ -61,7 +61,7 @@
     </div>
 </div>
 
-<div class="col-md-4 form-check-inline">
+<div class="col-md-4 form-check-inline mb-3">
     <div class="form-floating">
         @Html.DropDownListFor(n => n.SiteConfig.Theme,
             new SelectList(new ThemesListViewModel(dasBlogSettings).Init(), "Name", "Name"),

@@ -3,7 +3,7 @@
 @inject IDasBlogSettings dasBlogSettings
 @model DasBlogSettingsViewModel
 
-<div class="row gy-2 gx-3 align-items-md-start">
+<div class="row gy-2 gx-3 align-items-md-start mb-3">
     <div class="col-sm-2">
         <div class="form-floating">
             @Html.DropDownListFor(n => n.SiteConfig.TitlePermalinkSpaceReplacement,
@@ -15,28 +15,28 @@
     </div>
 </div>
 
-<div class="row gy-2 gx-3 align-items-md-start">
+<div class="row gy-2 gx-3 align-items-md-start mb-3">
     <div class="col-sm-2">
         @Html.CheckBoxFor(m => @Model.SiteConfig.EnableTitlePermaLinkUnique, new { @class = "form-check-input" })
         @Html.LabelFor(m => @Model.SiteConfig.EnableTitlePermaLinkUnique, null, new { @class = "col-check-label" })
     </div>
 </div>
 
-<div class="row gy-2 gx-3 align-items-md-start">
+<div class="row gy-2 gx-3 align-items-md-start mb-3">
     <div class="col-sm-4">
         @Html.CheckBoxFor(m => @Model.SiteConfig.ShowCommentCount, new { @class = "form-check-input" })
         @Html.LabelFor(m => @Model.SiteConfig.ShowCommentCount, null, new { @class = "col-check-label" })
     </div>
 </div>
 
-<div class="row gy-2 gx-3 align-items-md-start">
+<div class="row gy-2 gx-3 align-items-md-start mb-3">
     <div class="col-sm-4">
         @Html.CheckBoxFor(m => @Model.SiteConfig.UseAspxExtension, new { @class = "form-check-input" })
         @Html.LabelFor(m => @Model.SiteConfig.UseAspxExtension, null, new { @class = "col-check-label" })
     </div>
 </div>
 
-<div class="row gy-2 gx-3 align-items-md-start">
+<div class="row gy-2 gx-3 align-items-md-start mb-3">
     <div class="col-sm-4">
         @Html.CheckBoxFor(m => @Model.SiteConfig.CookieConsentEnabled, new { @class = "form-check-input" })
         @Html.LabelFor(m => @Model.SiteConfig.CookieConsentEnabled, null, new { @class = "col-check-label" })

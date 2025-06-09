@@ -3,14 +3,14 @@
 @inject IDasBlogSettings dasBlogSettings
 @model DasBlogSettingsViewModel
 
-<div class="row gy-2 gx-3 align-items-md-start">
+<div class="row gy-2 gx-3 align-items-md-start mb-3">
     <div class="col-sm-4">
         @Html.CheckBoxFor(m => @Model.SiteConfig.EnableBloggerApi, new { @class = "form-check-input" })
         @Html.LabelFor(m => @Model.SiteConfig.EnableBloggerApi, null, new { @class = "col-check-label" })
-    </div>
+    </div>  
 </div>
 
-<div class="row gy-2 gx-3 align-items-md-start">
+<div class="row gy-2 gx-3 align-items-md-start mb-3">
     <div class="col-sm-4">
         <div class="form-floating">
             @Html.DropDownListFor(n => n.SiteConfig.PreferredBloggingAPI,
@@ -21,7 +21,7 @@
     </div>
 </div>
 
-<div class="row gy-2 gx-3 align-items-md-start">
+<div class="row gy-2 gx-3 align-items-md-start mb-3">
     <div class="col-sm-4">
         <div class="form-floating">
             @Html.DropDownListFor(n => n.SiteConfig.EntryEditControl,
@@ -33,7 +33,7 @@
     </div>
 </div>
 
-<div class="row gy-2 gx-3 align-items-md-start">
+<div class="row gy-2 gx-3 align-items-md-start mb-3">
     <div class="col-sm-4">
         <div class="form-floating">
             @Html.TextBoxFor(m => @Model.SiteConfig.TinyMCEApiKey, null, new { @class = "form-control", id = "tinyMCEApiKey" })

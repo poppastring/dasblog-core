@@ -3,7 +3,7 @@
 @inject IDasBlogSettings dasBlogSettings
 @model DasBlogSettingsViewModel
 
-<div class="row gy-2 gx-3 align-items-md-start">
+<div class="row gy-2 gx-3 align-items-md-start mb-3">
     <div class="col-sm-12">
         <div class="form-floating">
             @Html.TextBoxFor(m => @Model.MetaConfig.MetaDescription, null, new { @class = "form-control", id = "metaDescription" })
@@ -13,7 +13,7 @@
     </div>
 </div>
 
-<div class="row gy-2 gx-3 align-items-md-start">
+<div class="row gy-2 gx-3 align-items-md-start mb-3">
     <div class="col-sm-12">
         <div class="form-floating">
             @Html.TextBoxFor(m => @Model.MetaConfig.MetaKeywords, null, new { @class = "form-control", id = "metaKeywords" })

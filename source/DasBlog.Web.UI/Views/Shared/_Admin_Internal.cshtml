@@ -3,7 +3,7 @@
 @inject IDasBlogSettings dasBlogSettings
 @model DasBlogSettingsViewModel
 
-<div class="row gy-2 gx-3 align-items-md-start">
+<div class="row gy-2 gx-3 align-items-md-start mb-3">
     <div class="col-sm-4">
         <div class="form-floating">
             @Html.TextBoxFor(m => @Model.SiteConfig.ContentDir, null, new { @class = "form-control", id = "contentDir" })
@@ -17,13 +17,6 @@
             @Html.LabelFor(m => @Model.SiteConfig.BinariesDir, null, new { @class = "form-label", @for = "binariesDir" })
         </div>
         @Html.ValidationMessageFor(m => m.SiteConfig.BinariesDir, null, new { @class = "text-danger" })
-    </div>
-    <div class="col-sm-4">
-        <div class="form-floating">
-            @Html.TextBoxFor(m => @Model.SiteConfig.LogDir, null, new { @class = "form-control", id = "logDir" })
-            @Html.LabelFor(m => @Model.SiteConfig.LogDir, null, new { @class = "form-label", @for = "logDir" })
-        </div>
-        @Html.ValidationMessageFor(m => m.SiteConfig.LogDir, null, new { @class = "text-danger" })
     </div>
 </div>
 

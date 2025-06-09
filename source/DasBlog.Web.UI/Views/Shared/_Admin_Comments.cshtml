@@ -29,7 +29,7 @@
     @Html.ValidationMessageFor(m => m.SiteConfig.DaysCommentsAllowed, null, new { @class = "text-danger" })
 </div>
 
-<div class="row gy-2 gx-3 align-items-md-start">
+<div class="row gy-2 gx-3 align-items-md-start mb-3">
     <div class="col-sm-5">
         <div class="form-floating">
             @Html.TextBoxFor(m => @Model.SiteConfig.CheesySpamQ, null, new { @class = "form-control", id = "cheesySpamQ" })
