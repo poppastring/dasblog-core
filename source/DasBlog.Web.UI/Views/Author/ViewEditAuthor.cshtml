@@ -16,9 +16,9 @@
 
     <hr />
 
-    <div class="form-group">
-        <input type="submit" name="submitAction" value="Submit" class="btn btn-default btn-primary btn-lg" @ViewBag.Clickability />
-        <input asp-controller="Home" asp-action="Index" type="submit" name="submit" value="Cancel" class="btn btn-default btn-secondary btn-lg" />
+    <div class="d-flex flex-wrap">
+        <input type="submit" name="submitAction" value="Submit" class="btn btn-primary me-2" @ViewBag.Clickability />
+        <input asp-controller="Home" asp-action="Index" type="submit" name="submit" value="Cancel" class="btn btn-secondary me-2" />
     </div>
 
 </form>
