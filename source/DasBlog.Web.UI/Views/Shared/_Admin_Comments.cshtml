@@ -22,20 +22,26 @@
 </div>
 
 <div class="col-md-4">
-    @Html.LabelFor(m => @Model.SiteConfig.DaysCommentsAllowed, null, new { @class = "col-form-label" })
-    @Html.TextBoxFor(m => @Model.SiteConfig.DaysCommentsAllowed, null, new { @class = "form-control" })
+    <div class="form-floating">
+        @Html.TextBoxFor(m => @Model.SiteConfig.DaysCommentsAllowed, null, new { @class = "form-control", id = "daysCommentsAllowed" })
+        @Html.LabelFor(m => @Model.SiteConfig.DaysCommentsAllowed, null, new { @class = "form-label", @for = "daysCommentsAllowed" })
+    </div>
     @Html.ValidationMessageFor(m => m.SiteConfig.DaysCommentsAllowed, null, new { @class = "text-danger" })
 </div>
 
 <div class="row gy-2 gx-3 align-items-md-start">
     <div class="col-sm-5">
-        @Html.LabelFor(m => @Model.SiteConfig.CheesySpamQ, null, new { @class = "col-form-label" })
-        @Html.TextBoxFor(m => @Model.SiteConfig.CheesySpamQ, null, new { @class = "form-control" })
+        <div class="form-floating">
+            @Html.TextBoxFor(m => @Model.SiteConfig.CheesySpamQ, null, new { @class = "form-control", id = "cheesySpamQ" })
+            @Html.LabelFor(m => @Model.SiteConfig.CheesySpamQ, null, new { @class = "form-label", @for = "cheesySpamQ" })
+        </div>
         @Html.ValidationMessageFor(m => m.SiteConfig.CheesySpamQ, null, new { @class = "text-danger" })
     </div>
     <div class="col-sm-5">
-        @Html.LabelFor(m => @Model.SiteConfig.CheesySpamA, null, new { @class = "col-form-label" })
-        @Html.TextBoxFor(m => @Model.SiteConfig.CheesySpamA, null, new { @class = "form-control" })
+        <div class="form-floating">
+            @Html.TextBoxFor(m => @Model.SiteConfig.CheesySpamA, null, new { @class = "form-control", id = "cheesySpamA" })
+            @Html.LabelFor(m => @Model.SiteConfig.CheesySpamA, null, new { @class = "form-label", @for = "cheesySpamA" })
+        </div>
         @Html.ValidationMessageFor(m => m.SiteConfig.CheesySpamA, null, new { @class = "text-danger" })
     </div>
 </div>
@@ -58,18 +64,24 @@
 
 <div class="row gy-2 gx-3 align-items-md-start">
     <div class="col-sm-4">
-        @Html.LabelFor(m => @Model.SiteConfig.RecaptchaMinimumScore, null, new { @class = "col-form-label" })
-        @Html.TextBoxFor(m => @Model.SiteConfig.RecaptchaMinimumScore, null, new { type = "number", step = "0.1", @class = "form-control" })
+        <div class="form-floating">
+            @Html.TextBoxFor(m => @Model.SiteConfig.RecaptchaMinimumScore, null, new { type = "number", step = "0.1", @class = "form-control", id = "recaptchaMinimumScore" })
+            @Html.LabelFor(m => @Model.SiteConfig.RecaptchaMinimumScore, null, new { @class = "form-label", @for = "recaptchaMinimumScore" })
+        </div>
         @Html.ValidationMessageFor(m => m.SiteConfig.RecaptchaMinimumScore, null, new { @class = "text-danger" })
     </div>
     <div class="col-sm-4">
-        @Html.LabelFor(m => @Model.SiteConfig.RecaptchaSiteKey, null, new { @class = "col-form-label" })
-        @Html.TextBoxFor(m => @Model.SiteConfig.RecaptchaSiteKey, null, new { @class = "form-control" })
+        <div class="form-floating">
+            @Html.TextBoxFor(m => @Model.SiteConfig.RecaptchaSiteKey, null, new { @class = "form-control", id = "recaptchaSiteKey" })
+            @Html.LabelFor(m => @Model.SiteConfig.RecaptchaSiteKey, null, new { @class = "form-label", @for = "recaptchaSiteKey" })
+        </div>
         @Html.ValidationMessageFor(m => m.SiteConfig.RecaptchaSiteKey, null, new { @class = "text-danger" })
     </div>
     <div class="col-sm-4">
-        @Html.LabelFor(m => @Model.SiteConfig.RecaptchaSecretKey, null, new { @class = "col-form-label" })
-        @Html.TextBoxFor(m => @Model.SiteConfig.RecaptchaSecretKey, null, new { @class = "form-control" })
+        <div class="form-floating">
+            @Html.TextBoxFor(m => @Model.SiteConfig.RecaptchaSecretKey, null, new { @class = "form-control", id = "recaptchaSecretKey" })
+            @Html.LabelFor(m => @Model.SiteConfig.RecaptchaSecretKey, null, new { @class = "form-label", @for = "recaptchaSecretKey" })
+        </div>
         @Html.ValidationMessageFor(m => m.SiteConfig.RecaptchaSecretKey, null, new { @class = "text-danger" })
     </div>
 </div>

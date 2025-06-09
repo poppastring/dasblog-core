@@ -5,28 +5,36 @@
 
 <div class="row gy-2 gx-3 align-items-md-start">
     <div class="col-sm-4">
-        @Html.LabelFor(m => @Model.SiteConfig.ContentDir, null, new { @class = "col-form-label" })
-        @Html.TextBoxFor(m => @Model.SiteConfig.ContentDir, null, new { @class = "form-control" })
+        <div class="form-floating">
+            @Html.TextBoxFor(m => @Model.SiteConfig.ContentDir, null, new { @class = "form-control", id = "contentDir" })
+            @Html.LabelFor(m => @Model.SiteConfig.ContentDir, null, new { @class = "form-label", @for = "contentDir" })
+        </div>
         @Html.ValidationMessageFor(m => m.SiteConfig.ContentDir, null, new { @class = "text-danger" })
     </div>
     <div class="col-sm-4">
-        @Html.LabelFor(m => @Model.SiteConfig.BinariesDir, null, new { @class = "col-form-label" })
-        @Html.TextBoxFor(m => @Model.SiteConfig.BinariesDir, null, new { @class = "form-control" })
+        <div class="form-floating">
+            @Html.TextBoxFor(m => @Model.SiteConfig.BinariesDir, null, new { @class = "form-control", id = "binariesDir" })
+            @Html.LabelFor(m => @Model.SiteConfig.BinariesDir, null, new { @class = "form-label", @for = "binariesDir" })
+        </div>
         @Html.ValidationMessageFor(m => m.SiteConfig.BinariesDir, null, new { @class = "text-danger" })
     </div>
     <div class="col-sm-4">
-        @Html.LabelFor(m => @Model.SiteConfig.LogDir, null, new { @class = "col-form-label" })
-        @Html.TextBoxFor(m => @Model.SiteConfig.LogDir, null, new { @class = "form-control" })
+        <div class="form-floating">
+            @Html.TextBoxFor(m => @Model.SiteConfig.LogDir, null, new { @class = "form-control", id = "logDir" })
+            @Html.LabelFor(m => @Model.SiteConfig.LogDir, null, new { @class = "form-label", @for = "logDir" })
+        </div>
         @Html.ValidationMessageFor(m => m.SiteConfig.LogDir, null, new { @class = "text-danger" })
     </div>
 </div>
 
 <div class="row gy-2 gx-3 align-items-center">
     <div class="col-sm-4">
-        @Html.LabelFor(m => @Model.SiteConfig.DisplayTimeZoneIndex, null, new { @class = "col-form-label" })
-        @Html.DropDownListFor(n => n.SiteConfig.DisplayTimeZoneIndex,
+        <div class="form-floating">
+            @Html.DropDownListFor(n => n.SiteConfig.DisplayTimeZoneIndex,
                 new SelectList(new TimeZoneIndexViewModel().Init(), "Id", "Name"),
-                new { @class = "form-select col-3" })
+                new { @class = "form-select col-3", id = "displayTimeZoneIndex" })
+            @Html.LabelFor(m => @Model.SiteConfig.DisplayTimeZoneIndex, null, new { @class = "form-label", @for = "displayTimeZoneIndex" })
+        </div>
         @Html.ValidationMessageFor(m => m.SiteConfig.DisplayTimeZoneIndex, null, new { @class = "text-danger" })
     </div>
     <div class="col-sm3">
@@ -37,16 +45,19 @@
     </div>
 </div>
    
-
 <div class="row gy-2 gx-3 align-items-md-start">
     <div class="col-sm-4">
-        @Html.LabelFor(m => @Model.SiteConfig.CdnFrom, null, new { @class = "col-form-label" })
-        @Html.TextBoxFor(m => @Model.SiteConfig.CdnFrom, null, new { @class = "form-control" })
+        <div class="form-floating">
+            @Html.TextBoxFor(m => @Model.SiteConfig.CdnFrom, null, new { @class = "form-control", id = "cdnFrom" })
+            @Html.LabelFor(m => @Model.SiteConfig.CdnFrom, null, new { @class = "form-label", @for = "cdnFrom" })
+        </div>
         @Html.ValidationMessageFor(m => m.SiteConfig.CdnFrom, null, new { @class = "text-danger" })
     </div>
     <div class="col-sm-4">
-        @Html.LabelFor(m => @Model.SiteConfig.CdnTo, null, new { @class = "col-form-label" })
-        @Html.TextBoxFor(m => @Model.SiteConfig.CdnTo, null, new { @class = "form-control" })
+        <div class="form-floating">
+            @Html.TextBoxFor(m => @Model.SiteConfig.CdnTo, null, new { @class = "form-control", id = "cdnTo" })
+            @Html.LabelFor(m => @Model.SiteConfig.CdnTo, null, new { @class = "form-label", @for = "cdnTo" })
+        </div>
         @Html.ValidationMessageFor(m => m.SiteConfig.CdnTo, null, new { @class = "text-danger" })
     </div>
 </div>

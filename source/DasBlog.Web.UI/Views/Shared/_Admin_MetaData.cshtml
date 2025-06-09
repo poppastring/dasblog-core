@@ -5,16 +5,20 @@
 
 <div class="row gy-2 gx-3 align-items-md-start">
     <div class="col-sm-12">
-        @Html.LabelFor(m => @Model.MetaConfig.MetaDescription, null, new { @class = "col-form-label" })
-        @Html.TextBoxFor(m => @Model.MetaConfig.MetaDescription, null, new { @class = "form-control" })
+        <div class="form-floating">
+            @Html.TextBoxFor(m => @Model.MetaConfig.MetaDescription, null, new { @class = "form-control", id = "metaDescription" })
+            @Html.LabelFor(m => @Model.MetaConfig.MetaDescription, null, new { @class = "form-label", @for = "metaDescription" })
+        </div>
         @Html.ValidationMessageFor(m => m.MetaConfig.MetaDescription, null, new { @class = "text-danger" })
     </div>
 </div>
 
 <div class="row gy-2 gx-3 align-items-md-start">
     <div class="col-sm-12">
-        @Html.LabelFor(m => @Model.MetaConfig.MetaKeywords, null, new { @class = "col-form-label" })
-        @Html.TextBoxFor(m => @Model.MetaConfig.MetaKeywords, null, new { @class = "form-control" })
+        <div class="form-floating">
+            @Html.TextBoxFor(m => @Model.MetaConfig.MetaKeywords, null, new { @class = "form-control", id = "metaKeywords" })
+            @Html.LabelFor(m => @Model.MetaConfig.MetaKeywords, null, new { @class = "form-label", @for = "metaKeywords" })
+        </div>
         @Html.ValidationMessageFor(m => m.MetaConfig.MetaKeywords, null, new { @class = "text-danger" })
     </div>
 </div>

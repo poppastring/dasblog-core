@@ -5,26 +5,34 @@
 
 <div class="row gy-2 gx-3 align-items-md-start">
     <div class="col-sm-4">
-        @Html.LabelFor(m => @Model.SiteConfig.SmtpServer, null, new { @class = "col-form-label" })
-        @Html.TextBoxFor(m => @Model.SiteConfig.SmtpServer, null, new { @class = "form-control" })
+        <div class="form-floating">
+            @Html.TextBoxFor(m => @Model.SiteConfig.SmtpServer, null, new { @class = "form-control", id = "smtpServer" })
+            @Html.LabelFor(m => @Model.SiteConfig.SmtpServer, null, new { @class = "form-label", @for = "smtpServer" })
+        </div>
         @Html.ValidationMessageFor(m => m.SiteConfig.SmtpServer, null, new { @class = "text-danger" })
     </div>
     <div class="col-sm-4">
-        @Html.LabelFor(m => @Model.SiteConfig.SmtpPort, null, new { @class = "col-form-label" })
-        @Html.TextBoxFor(m => @Model.SiteConfig.SmtpPort, null, new { @class = "form-control" })
+        <div class="form-floating">
+            @Html.TextBoxFor(m => @Model.SiteConfig.SmtpPort, null, new { @class = "form-control", id = "smtpPort" })
+            @Html.LabelFor(m => @Model.SiteConfig.SmtpPort, null, new { @class = "form-label", @for = "smtpPort" })
+        </div>
         @Html.ValidationMessageFor(m => m.SiteConfig.SmtpPort, null, new { @class = "text-danger" })
     </div>
 </div>
 
 <div class="row gy-2 gx-3 align-items-md-start">
     <div class="col-sm-4">
-        @Html.LabelFor(m => @Model.SiteConfig.SmtpUserName, null, new { @class = "col-form-label" })
-        @Html.TextBoxFor(m => @Model.SiteConfig.SmtpUserName, null, new { @class = "form-control" })
+        <div class="form-floating">
+            @Html.TextBoxFor(m => @Model.SiteConfig.SmtpUserName, null, new { @class = "form-control", id = "smtpUserName" })
+            @Html.LabelFor(m => @Model.SiteConfig.SmtpUserName, null, new { @class = "form-label", @for = "smtpUserName" })
+        </div>
         @Html.ValidationMessageFor(m => m.SiteConfig.SmtpUserName, null, new { @class = "text-danger" })
     </div>
     <div class="col-sm-4">
-        @Html.LabelFor(m => @Model.SiteConfig.SmtpPassword, null, new { @class = "col-form-label" })
-        @Html.PasswordFor(m => @Model.SiteConfig.SmtpPassword, new { @class = "form-control" })
+        <div class="form-floating">
+            @Html.PasswordFor(m => @Model.SiteConfig.SmtpPassword, new { @class = "form-control", id = "smtpPassword" })
+            @Html.LabelFor(m => @Model.SiteConfig.SmtpPassword, null, new { @class = "form-label", @for = "smtpPassword" })
+        </div>
         @Html.ValidationMessageFor(m => m.SiteConfig.SmtpPassword, null, new { @class = "text-danger" })
     </div>
 </div>
@@ -41,8 +49,10 @@
 </div>
 <div class="row gy-2 gx-3 align-items-md-start">
     <div class="col-sm-4">
-        @Html.LabelFor(m => @Model.SiteConfig.SmtpFromEmail, null, new { @class = "col-form-label" })
-        @Html.TextBoxFor(m => @Model.SiteConfig.SmtpFromEmail, null, new { @class = "form-control" })
+        <div class="form-floating">
+            @Html.TextBoxFor(m => @Model.SiteConfig.SmtpFromEmail, null, new { @class = "form-control", id = "smtpFromEmail" })
+            @Html.LabelFor(m => @Model.SiteConfig.SmtpFromEmail, null, new { @class = "form-label", @for = "smtpFromEmail" })
+        </div>
         @Html.ValidationMessageFor(m => m.SiteConfig.SmtpFromEmail, null, new { @class = "text-danger" })
     </div>
 </div>

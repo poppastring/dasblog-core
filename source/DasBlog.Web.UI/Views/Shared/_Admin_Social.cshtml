@@ -5,49 +5,63 @@
 
 <div class="row gy-2 gx-3 align-items-md-start">
     <div class="col-sm-4">
-        @Html.LabelFor(m => @Model.SiteConfig.MastodonServerUrl, null, new { @class = "col-form-label" })
-        @Html.TextBoxFor(m => @Model.SiteConfig.MastodonServerUrl, null, new { @class = "form-control" })
+        <div class="form-floating">
+            @Html.TextBoxFor(m => @Model.SiteConfig.MastodonServerUrl, null, new { @class = "form-control", id = "mastodonServerUrl" })
+            @Html.LabelFor(m => @Model.SiteConfig.MastodonServerUrl, null, new { @class = "form-label", @for = "mastodonServerUrl" })
+        </div>
         @Html.ValidationMessageFor(m => m.SiteConfig.MastodonServerUrl, null, new { @class = "text-danger" })
     </div>
     <div class="col-sm-4">
-        @Html.LabelFor(m => @Model.SiteConfig.MastodonAccount, null, new { @class = "col-form-label" })
-        @Html.TextBoxFor(m => @Model.SiteConfig.MastodonAccount, null, new { @class = "form-control" })
+        <div class="form-floating">
+            @Html.TextBoxFor(m => @Model.SiteConfig.MastodonAccount, null, new { @class = "form-control", id = "mastodonAccount" })
+            @Html.LabelFor(m => @Model.SiteConfig.MastodonAccount, null, new { @class = "form-label", @for = "mastodonAccount" })
+        </div>
         @Html.ValidationMessageFor(m => m.SiteConfig.MastodonAccount, null, new { @class = "text-danger" })
     </div> 
 </div>
 
 <div class="row gy-2 gx-3 align-items-md-start">
     <div class="col-sm-4">
-        @Html.LabelFor(m => @Model.MetaConfig.TwitterSite, null, new { @class = "col-form-label" })
-        @Html.TextBoxFor(m => @Model.MetaConfig.TwitterSite, null, new { @class = "form-control" })
+        <div class="form-floating">
+            @Html.TextBoxFor(m => @Model.MetaConfig.TwitterSite, null, new { @class = "form-control", id = "twitterSite" })
+            @Html.LabelFor(m => @Model.MetaConfig.TwitterSite, null, new { @class = "form-label", @for = "twitterSite" })
+        </div>
         @Html.ValidationMessageFor(m => m.MetaConfig.TwitterSite, null, new { @class = "text-danger" })
     </div>
     <div class="col-sm-4">
-        @Html.LabelFor(m => @Model.MetaConfig.TwitterCreator, null, new { @class = "col-form-label" })
-        @Html.TextBoxFor(m => @Model.MetaConfig.TwitterCreator, null, new { @class = "form-control" })
+        <div class="form-floating">
+            @Html.TextBoxFor(m => @Model.MetaConfig.TwitterCreator, null, new { @class = "form-control", id = "twitterCreator" })
+            @Html.LabelFor(m => @Model.MetaConfig.TwitterCreator, null, new { @class = "form-label", @for = "twitterCreator" })
+        </div>
         @Html.ValidationMessageFor(m => m.MetaConfig.TwitterCreator, null, new { @class = "text-danger" })
     </div>
 </div>
 
 <div class="row gy-2 gx-3 align-items-md-start">
     <div class="col-sm-4">
-        @Html.LabelFor(m => @Model.MetaConfig.TwitterCard, null, new { @class = "col-form-label" })
-        @Html.DropDownListFor(n => n.MetaConfig.TwitterCard,
+        <div class="form-floating">
+            @Html.DropDownListFor(n => n.MetaConfig.TwitterCard,
                 new SelectList(new TwitterCardViewModel().Init(), "Id", "Name"),
-                new { @class = "form-select col-3" })
+                new { @class = "form-select col-3", id = "twitterCard" })
+            @Html.LabelFor(m => @Model.MetaConfig.TwitterCard, null, new { @class = "form-label", @for = "twitterCard" })
+        </div>
         @Html.ValidationMessageFor(m => m.MetaConfig.TwitterCard, null, new { @class = "text-danger" })
     </div>
     <div class="col-sm-8">
-        @Html.LabelFor(m => @Model.MetaConfig.TwitterImage, null, new { @class = "col-form-label" })
-        @Html.TextBoxFor(m => @Model.MetaConfig.TwitterImage, null, new { @class = "form-control" })
+        <div class="form-floating">
+        @Html.TextBoxFor(m => @Model.MetaConfig.TwitterImage, null, new { @class = "form-control", id = "twitterImage" })
+        @Html.LabelFor(m => @Model.MetaConfig.TwitterImage, null, new { @class = "col-form-label", @for = "twitterImage"})
+        </div>
         @Html.ValidationMessageFor(m => m.MetaConfig.TwitterImage, null, new { @class = "text-danger" })
     </div>
 </div>
 
 <div class="row gy-2 gx-3 align-items-md-start">
     <div class="col-sm-4">
-        @Html.LabelFor(m => @Model.MetaConfig.GoogleAnalyticsID, null, new { @class = "col-form-label" })
-        @Html.TextBoxFor(m => @Model.MetaConfig.GoogleAnalyticsID, null, new { @class = "form-control" })
+        <div class="form-floating">
+            @Html.TextBoxFor(m => @Model.MetaConfig.GoogleAnalyticsID, null, new { @class = "form-control", id = "googleAnalyticsID" })
+            @Html.LabelFor(m => @Model.MetaConfig.GoogleAnalyticsID, null, new { @class = "form-label", @for = "googleAnalyticsID" })
+        </div>
         @Html.ValidationMessageFor(m => m.MetaConfig.GoogleAnalyticsID, null, new { @class = "text-danger" })
     </div>
 </div>

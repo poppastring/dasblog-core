@@ -12,27 +12,33 @@
 
 <div class="row gy-2 gx-3 align-items-md-start">
     <div class="col-sm-4">
-        @Html.LabelFor(m => @Model.SiteConfig.PreferredBloggingAPI, null, new { @class = "col-form-label" })
-        @Html.DropDownListFor(n => n.SiteConfig.PreferredBloggingAPI,
+        <div class="form-floating">
+            @Html.DropDownListFor(n => n.SiteConfig.PreferredBloggingAPI,
                 new SelectList(new BloggerAPIViewModel().Init(), "Name", "Name"),
-                new { @class = "form-select" })
+                new { @class = "form-select", id = "preferredBloggingAPI" })
+            @Html.LabelFor(m => @Model.SiteConfig.PreferredBloggingAPI, null, new { @class = "form-label", @for = "preferredBloggingAPI" })
+        </div>
     </div>
 </div>
 
 <div class="row gy-2 gx-3 align-items-md-start">
     <div class="col-sm-4">
-        @Html.LabelFor(m => @Model.SiteConfig.EntryEditControl, null, new { @class = "col-form-label" })
-        @Html.DropDownListFor(n => n.SiteConfig.EntryEditControl,
+        <div class="form-floating">
+            @Html.DropDownListFor(n => n.SiteConfig.EntryEditControl,
                 new SelectList(new EntryEditControlViewModel().Init(), "Name", "Name"),
-                new { @class = "form-select col-3" })
+                new { @class = "form-select col-3", id = "entryEditControl" })
+            @Html.LabelFor(m => @Model.SiteConfig.EntryEditControl, null, new { @class = "form-label", @for = "entryEditControl" })
+        </div>
         @Html.ValidationMessageFor(m => m.SiteConfig.EntryEditControl, null, new { @class = "text-danger" })
     </div>
 </div>
 
 <div class="row gy-2 gx-3 align-items-md-start">
     <div class="col-sm-4">
-        @Html.LabelFor(m => @Model.SiteConfig.TinyMCEApiKey, null, new { @class = "col-form-label" })
-        @Html.TextBoxFor(m => @Model.SiteConfig.TinyMCEApiKey, null, new { @class = "form-control" })
+        <div class="form-floating">
+            @Html.TextBoxFor(m => @Model.SiteConfig.TinyMCEApiKey, null, new { @class = "form-control", id = "tinyMCEApiKey" })
+            @Html.LabelFor(m => @Model.SiteConfig.TinyMCEApiKey, null, new { @class = "form-label", @for = "tinyMCEApiKey" })
+        </div>
         @Html.ValidationMessageFor(m => m.SiteConfig.TinyMCEApiKey, null, new { @class = "text-danger" })
     </div>
 </div>

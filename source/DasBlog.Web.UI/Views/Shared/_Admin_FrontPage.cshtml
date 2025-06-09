@@ -5,39 +5,50 @@
 
 <div class="row gy-2 gx-3 align-items-md-start">
     <div class="col-sm-2">
-        @Html.LabelFor(m => @Model.SiteConfig.FrontPageDayCount, null, new { @class = "col-form-label" })
-        @Html.TextBoxFor(m => @Model.SiteConfig.FrontPageDayCount, null, new { @class = "form-control" })
+        <div class="form-floating">
+            @Html.TextBoxFor(m => @Model.SiteConfig.FrontPageDayCount, null, new { @class = "form-control", id = "frontPageDayCount" })
+            @Html.LabelFor(m => @Model.SiteConfig.FrontPageDayCount, null, new { @class = "form-label", @for = "frontPageDayCount" })
+        </div>
         @Html.ValidationMessageFor(m => m.SiteConfig.FrontPageDayCount, null, new { @class = "text-danger" })
     </div>
     <div class="col-sm-2">
-        @Html.LabelFor(m => @Model.SiteConfig.FrontPageEntryCount, null, new { @class = "col-form-label" })
-        @Html.TextBoxFor(m => @Model.SiteConfig.FrontPageEntryCount, null, new { @class = "form-control" })
+        <div class="form-floating">
+            @Html.TextBoxFor(m => @Model.SiteConfig.FrontPageEntryCount, null, new { @class = "form-control", id = "frontPageEntryCount" })
+            @Html.LabelFor(m => @Model.SiteConfig.FrontPageEntryCount, null, new { @class = "form-label", @for = "frontPageEntryCount" })
+        </div>
         @Html.ValidationMessageFor(m => m.SiteConfig.FrontPageEntryCount, null, new { @class = "text-danger" })
-
     </div>
     <div class="col-sm-2">
-        @Html.LabelFor(m => @Model.SiteConfig.EntriesPerPage, null, new { @class = "col-form-label" })
-        @Html.TextBoxFor(m => @Model.SiteConfig.EntriesPerPage, null, new { @class = "form-control" })
+        <div class="form-floating">
+            @Html.TextBoxFor(m => @Model.SiteConfig.EntriesPerPage, null, new { @class = "form-control", id = "entriesPerPage" })
+            @Html.LabelFor(m => @Model.SiteConfig.EntriesPerPage, null, new { @class = "form-label", @for = "entriesPerPage" })
+        </div>
         @Html.ValidationMessageFor(m => m.SiteConfig.EntriesPerPage, null, new { @class = "text-danger" })
     </div>
     <div class="col-sm-3">
-        @Html.LabelFor(m => @Model.SiteConfig.ContentLookaheadDays, null, new { @class = "col-form-label" })
-        @Html.TextBoxFor(m => @Model.SiteConfig.ContentLookaheadDays, null, new { @class = "form-control" })
+        <div class="form-floating">
+            @Html.TextBoxFor(m => @Model.SiteConfig.ContentLookaheadDays, null, new { @class = "form-control", id = "contentLookaheadDays" })
+            @Html.LabelFor(m => @Model.SiteConfig.ContentLookaheadDays, null, new { @class = "form-label", @for = "contentLookaheadDays" })
+        </div>
         @Html.ValidationMessageFor(m => m.SiteConfig.ContentLookaheadDays, null, new { @class = "text-danger" })
     </div>
 </div>
 
 <div class="row gy-2 gx-3 align-items-md-start">
     <div class="col-sm-4">
-        @Html.LabelFor(m => @Model.SiteConfig.FrontPageCategory, null, new { @class = "col-form-label" })
-        @Html.TextBoxFor(m => @Model.SiteConfig.FrontPageCategory, null, new { @class = "form-control" })
+        <div class="form-floating">
+            @Html.TextBoxFor(m => @Model.SiteConfig.FrontPageCategory, null, new { @class = "form-control", id = "frontPageCategory" })
+            @Html.LabelFor(m => @Model.SiteConfig.FrontPageCategory, null, new { @class = "form-label", @for = "frontPageCategory" })
+        </div>
         @Html.ValidationMessageFor(m => m.SiteConfig.FrontPageCategory, null, new { @class = "text-danger" })
     </div>
     <div class="col-sm-4">
-        @Html.LabelFor(m => @Model.SiteConfig.PostPinnedToHomePage, null, new { @class = "col-form-label" })
-        @Html.DropDownListFor(n => n.SiteConfig.PostPinnedToHomePage,
+        <div class="form-floating">
+            @Html.DropDownListFor(n => n.SiteConfig.PostPinnedToHomePage,
                 new SelectList(new BlogPostListViewModel().Init(Model.Posts), "Id", "Name"),
-                new { @class = "form-select" })
+                new { @class = "form-select", id = "postPinnedToHomePage" })
+            @Html.LabelFor(m => @Model.SiteConfig.PostPinnedToHomePage, null, new { @class = "form-label", @for = "postPinnedToHomePage" })
+        </div>
         @Html.ValidationMessageFor(m => m.SiteConfig.PostPinnedToHomePage, null, new { @class = "text-danger" })
     </div>
 </div>
