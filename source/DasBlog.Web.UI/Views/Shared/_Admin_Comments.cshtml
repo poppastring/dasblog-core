@@ -4,11 +4,11 @@
 @model DasBlogSettingsViewModel
 
 <div class="d-flex flex-wrap">
-    <div class="form-check">
+    <div class="col-auto">
         @Html.CheckBoxFor(m => @Model.SiteConfig.EnableComments, new { @class = "form-check-input" })
         @Html.LabelFor(m => @Model.SiteConfig.EnableComments, null, new { @class = "form-check-label me-3" })
     </div>
-    <div class="form-check">
+    <div class="col-auto">
         @Html.CheckBoxFor(m => @Model.SiteConfig.ShowCommentsWhenViewingEntry, new { @class = "form-check-input" })
         @Html.LabelFor(m => @Model.SiteConfig.ShowCommentsWhenViewingEntry, null, new { @class = "form-check-label" })
     </div>
