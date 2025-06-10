@@ -47,7 +47,7 @@
     </div>
 </div>
 
-<div class="d-flex flex-wrap">
+<div class="d-flex flex-wrap mt-0">
     <input name="Active" checked="@Model.Active" type="checkbox" class="form-check-input me-1" @ViewBag.Clickability />
     <label asp-for="Active" class="form-check-label me-3"></label>
 </div>
@@ -73,7 +73,7 @@
         <div class="form-floating">
             <input name="OpenIDUrl" value="@Model.OpenIDUrl" type="text" class="form-control col-6 me-3" @ViewBag.Writability disabled readonly />
             <label asp-for="OpenIDUrl" class="col-form-label me-3"></label>
-        <div>
+        </div>
     </div>
 </div>
 

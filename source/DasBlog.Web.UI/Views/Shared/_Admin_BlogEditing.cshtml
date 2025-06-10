@@ -3,7 +3,7 @@
 @inject IDasBlogSettings dasBlogSettings
 @model DasBlogSettingsViewModel
 
-<div class="row gy-2 gx-3 align-items-md-start mb-3">
+<div class="row gy-2 gx-3 align-items-md-start">
     <div class="col-sm-4">
         @Html.CheckBoxFor(m => @Model.SiteConfig.EnableBloggerApi, new { @class = "form-check-input" })
         @Html.LabelFor(m => @Model.SiteConfig.EnableBloggerApi, null, new { @class = "col-check-label" })
@@ -31,9 +31,6 @@
         </div>
         @Html.ValidationMessageFor(m => m.SiteConfig.EntryEditControl, null, new { @class = "text-danger" })
     </div>
-</div>
-
-<div class="row gy-2 gx-3 align-items-md-start mb-3">
     <div class="col-sm-4">
         <div class="form-floating">
             @Html.TextBoxFor(m => @Model.SiteConfig.TinyMCEApiKey, null, new { @class = "form-control", id = "tinyMCEApiKey" })

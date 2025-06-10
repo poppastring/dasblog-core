@@ -3,7 +3,7 @@
 @inject IDasBlogSettings dasBlogSettings
 @model DasBlogSettingsViewModel
 
-<div class="d-flex flex-wrap">
+<div class="d-flex flex-wrap mb-3">
     <div class="col-auto">
         @Html.CheckBoxFor(m => @Model.SiteConfig.EnableComments, new { @class = "form-check-input me-1" })
         @Html.LabelFor(m => @Model.SiteConfig.EnableComments, null, new { @class = "form-check-label me-3" })
