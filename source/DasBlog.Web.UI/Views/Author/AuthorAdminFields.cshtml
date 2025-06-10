@@ -25,9 +25,8 @@
 <div class="row gy-2 gx-3 align-items-md-start mb-3">
     <div class="col-sm-8">
         <div class="form-floating">
-            <label asp-for="Password" class="col-form-label col-2"></label>
             <input name="Password" value="@Model.Password" type="password" class="form-control col-6" @ViewBag.Writability />
-            
+            <label asp-for="Password" class="col-form-label col-2"></label>
         </div>
         <span asp-validation-for="Password" class="text-danger" data-valmsg-for="Password" data-valmsg-replace="true"></span>
     </div>
