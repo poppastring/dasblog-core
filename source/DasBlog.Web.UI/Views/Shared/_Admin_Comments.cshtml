@@ -21,7 +21,7 @@
     </div>
 </div>
 
-<div class="col-md-4">
+<div class="col-md-4 mb-3">
     <div class="form-floating">
         @Html.TextBoxFor(m => @Model.SiteConfig.DaysCommentsAllowed, null, new { @class = "form-control", id = "daysCommentsAllowed" })
         @Html.LabelFor(m => @Model.SiteConfig.DaysCommentsAllowed, null, new { @class = "form-label", @for = "daysCommentsAllowed" })
@@ -46,7 +46,7 @@
     </div>
 </div>
 
-<div class="col-md-4">
+<div class="col-md-4 mb-3">
     <div class="form-check">
         @Html.CheckBoxFor(m => @Model.SiteConfig.AllowMarkdownInComments, new { @class = "form-check-input" })
         @Html.LabelFor(m => @Model.SiteConfig.AllowMarkdownInComments, null, new { @class = "col-check-label" })
