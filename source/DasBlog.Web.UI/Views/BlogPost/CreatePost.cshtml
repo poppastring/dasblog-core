@@ -12,13 +12,11 @@
 
     <partial name="BlogPostFields" model="Model" />
 
-    <div class="form-group row">
-        <div class="col-sm-6">
-            <input class="btn btn-primary" type="submit" name="submit" value="Create Post" id="BlogPostCreateSubmit" />
-            <input class="btn btn-secondary" asp-controller="Home" asp-action="Index" type="submit" name="submit" value="Cancel" />
-        </div>
+    <hr />
+    <div class="d-flex flex-wrap">
+        <input class="btn btn-primary me-2" type="submit" name="submit" value="Create Post" id="BlogPostCreateSubmit" />
+        <input class="btn btn-secondary me-2" asp-controller="Home" asp-action="Index" type="submit" name="submit" value="Cancel" />
     </div>
-
 
     @Html.HiddenFor(m => m.EntryId)
     @Html.HiddenFor(m => m.Author)

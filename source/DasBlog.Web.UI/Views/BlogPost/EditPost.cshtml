@@ -9,29 +9,24 @@
 <h1>@ViewData["Title"]</h1>
 
 <form asp-controller="post" asp-action="edit" method="post" enctype="multipart/form-data">
-    <ul class="nav">
-      <li class="nav-item">
-        <input class="btn btn-default btn-primary btn-lg" type="submit" name="submit" value="Save" id="BlogPostEditSubmit" />
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="@Model.PermaLink">Navigate to permalink</a>
-      </li>
-    </ul>
+
+    <div class="row gy-2 gx-3 align-items-md-start mb-2">
+        <div class="col-sm-12">
+            <input class="btn btn-outline-primary me-2" type="submit" name="submit" value="Save" id="BlogPostEditSubmit" />
+            <a class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="@Model.PermaLink">View your post</a>
+        </div>
+    </div>
 
     <hr />
 
-    <div class="modal-body">
-        <partial name="BlogPostFields" model="Model" />
+    <partial name="BlogPostFields" model="Model" />
 
-        <hr />
-
-        <div class="form-group">
-            <div class="col-lg-6">
-                <input class="btn btn-default btn-primary" type="submit" name="submit" value="Save" id="BlogPostEditSubmit" />
-                <input class="btn btn-default btn-secondary" asp-controller="Home" asp-action="Index" type="submit" name="submit" value="Cancel" />
-            </div>
-        </div>
+    <hr />
+    <div class="d-flex flex-wrap">
+        <input class="btn btn-default btn-primary me-2" type="submit" name="submit" value="Save" id="BlogPostEditSubmit" />
+        <input class="btn btn-default btn-secondary me-2" asp-controller="Home" asp-action="Index" type="submit" name="submit" value="Cancel" />
     </div>
+
 
     @Html.HiddenFor(m => m.EntryId)
     @Html.HiddenFor(m => m.Author)
