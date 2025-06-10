@@ -14,7 +14,7 @@
 <hr />
 <form asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
 
-    <div class="row gy-2 gx-3 align-items-md-start mb-3">
+    <div class="row gy-2 gx-3 justify-content-md-center mb-3">
         <div class="col-sm-4">
             <div class="form-floating">
                 @Html.TextBoxFor(m => @Model.Email, null, new { @class = "form-control", id = "EmailLogin" })
@@ -24,7 +24,7 @@
         </div>
     </div>
 
-    <div class="row gy-2 gx-3 align-items-md-start mb-3">
+    <div class="row gy-2 gx-3 justify-content-md-center mb-3">
         <div class="col-sm-4">
             <div class="form-floating">
                 @Html.TextBoxFor(m => @Model.Password, null, new { @class = "form-control", id = "PasswordLogin", Type="password" })
@@ -34,17 +34,17 @@
         </div>
     </div>
 
-    <div class="d-flex flex-wrap">
+    <div class="d-flex flex-wrap justify-content-md-center">
         @Html.CheckBoxFor(m => @Model.RememberMe, new { @class = "form-check-input me-1" })
         @Html.LabelFor(m => @Model.RememberMe, null, new { @class = "form-check-label me-3" })
     </div>
 
     <hr />
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
+    <div class="d-flex flex-wrap justify-content-md-center">
+
             <button id="LoginButton" type="submit" class="btn btn-primary me-2">Log in</button>
             <a href="~/" class="btn btn-secondary">Cancel</a>
-        </div>
+
     </div>
 </form>
 
