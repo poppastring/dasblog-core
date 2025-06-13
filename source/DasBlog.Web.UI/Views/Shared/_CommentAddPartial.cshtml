@@ -7,59 +7,79 @@
 @inject IDasBlogSettings dasBlogSettings
 @inject IOptions<RecaptchaSettings> RecaptchaSettings
 
-<div class="post-new-comment">
-    <form asp-controller="post" asp-action="comments" method="post">
-        <div class="modal-body form-horizontal">
-            <div asp-validation-summary="All" class="text-danger"></div>
-            
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <label for="@Constants.Name" class="control-label">@Constants.Name</label>
-                    <input id="@Constants.Name" name="@Constants.Name" value="@Model.Name" class="form-control" />
+
+<form asp-controller="post" asp-action="comments" method="post">
+    <div class="post-new-comment">
+        <div asp-validation-summary="All" class="text-danger"></div>
+
+        <div class="row gy-2 gx-3 align-items-md-start mb-3">
+            <div class="col-sm-2">
+                <div class="form-floating">
+                    @Html.TextBoxFor(m => @Model.Name, null, new { @class = "form-control", id = "Name" })
+                    @Html.LabelFor(m => @Model.Name, null, new { @class = "form-label", @for = "Name" })
                 </div>
+                @Html.ValidationMessageFor(m => m.Name, null, new { @class = "text-danger" })
             </div>
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <label for="@Constants.Email" class="control-label">@Constants.Email</label>
-                    <input id="@Constants.Email" name="@Constants.Email" value="@Model.Email" class="form-control" />
+            <div class="col-sm-3">
+                <div class="form-floating">
+                    @Html.TextBoxFor(m => @Model.Email, null, new { @class = "form-control", id = "Email" })
+                    @Html.LabelFor(m => @Model.Email, null, new { @class = "form-label", @for = "Email" })
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <label asp-for="HomePage" class="control-label"></label>
-                    <input asp-for="HomePage" class="form-control" />
-                </div>
-            </div>
-            @if(!string.IsNullOrEmpty(dasBlogSettings.SiteConfiguration.CheesySpamQ) && !string.IsNullOrEmpty(dasBlogSettings.SiteConfiguration.CheesySpamA)
-                && dasBlogSettings.SiteConfiguration.CheesySpamQ.Length > 0 && dasBlogSettings.SiteConfiguration.CheesySpamA.Length > 0)
-            {
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <label class="control-label">@dasBlogSettings.SiteConfiguration.CheesySpamQ</label>
-                    <input asp-for="@Model.CheesyQuestionAnswered" class="form-control" />
-                </div>
-            </div>
-            }
-            <div class="row">
-                <div class="col-md-12 mb-3">
-                    <label for="@Constants.Content" class="control-label">@Constants.Content</label>
-                    <textarea id="@Constants.Content" name="@Constants.Content" rows="12" cols="60" class="form-control">@Model.Content</textarea>
-                </div>
-            </div>
-            @if(dasBlogSettings.SiteConfiguration.EnableCaptcha)
-            {
-             <div class="row">
-                <div class="col-md-12 mb-3">
-                    @(Html.Recaptcha<RecaptchaV2Checkbox>(RecaptchaSettings?.Value))
-                </div>
-            </div>
-            }
-            <div class="row">
-                <div class="col-md-4 mb-2">
-                    <button type="submit" id="@Constants.SaveContentButtonId" class="btn btn-primary btn-block">SAVE COMMENT</button>
-                </div>
+                @Html.ValidationMessageFor(m => m.Email, null, new { @class = "text-danger" })
             </div>
         </div>
-        @Html.HiddenFor(m => m.TargetEntryId)
-    </form>
-</div>
+
+        <div class="row gy-2 gx-3 align-items-md-start mb-3">
+            <div class="col-sm-5">
+                <div class="form-floating">
+                    @Html.TextBoxFor(m => @Model.HomePage, null, new { @class = "form-control", id = "homePage" })
+                    @Html.LabelFor(m => @Model.HomePage, null, new { @class = "form-label", @for = "homePage" })
+                </div>
+                @Html.ValidationMessageFor(m => m.HomePage, null, new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @if(!string.IsNullOrEmpty(dasBlogSettings.SiteConfiguration.CheesySpamQ) && !string.IsNullOrEmpty(dasBlogSettings.SiteConfiguration.CheesySpamA)
+            && dasBlogSettings.SiteConfiguration.CheesySpamQ.Length > 0 && dasBlogSettings.SiteConfiguration.CheesySpamA.Length > 0)
+        {
+            <div class="row gy-2 gx-3 align-items-md-start mb-3">
+                <div class="col-sm-3">
+                    <div class="form-floating">
+                        @Html.TextBoxFor(m => @Model.CheesyQuestionAnswered, null, new { @class = "form-control", id = "cheesyQuestionAnswered" })
+                        <label for="cheesyQuestionAnswered" class="control-label">@dasBlogSettings.SiteConfiguration.CheesySpamQ</label>
+                    </div>
+                    
+                </div>
+            </div>
+        }
+
+        <div class="row gy-2 gx-3 align-items-md-start mb-3">
+            <div class="col-sm-8">
+                <div class="form-floating">
+                    @Html.TextAreaFor(m => m.Content, new { @class = "form-control", id = "content", style = "height: 100px" })
+                    @Html.LabelFor(m => @Model.Content, null, new { @class = "form-label", @for = "content" })
+                </div>
+                @Html.ValidationMessageFor(m => m.Content, null, new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @if(dasBlogSettings.SiteConfiguration.EnableCaptcha)
+        {
+            <div class="row gy-2 gx-3 align-items-md-start mb-3">
+                <div class="col-sm-3">
+                    <div class="form-floating">
+                        @(Html.Recaptcha<RecaptchaV2Checkbox>(RecaptchaSettings?.Value))
+                    </div>
+
+                </div>
+            </div>
+        }
+
+        <div class="row gy-2 gx-3 align-items-md-start mb-3">
+            <div class="col-sm-2">
+                <button type="submit" id="SaveContentButtonId" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+    </div>
+    @Html.HiddenFor(m => m.TargetEntryId)
+</form>

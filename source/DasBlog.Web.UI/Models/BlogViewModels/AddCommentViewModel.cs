@@ -22,8 +22,8 @@ namespace DasBlog.Web.Models.BlogViewModels
 		public string HomePage { get; set; }
 
 		[Required]
-		[Display(Name = "Content")]
-		[StringLength(600, MinimumLength = 1)]
+		[Display(Name = "Post a comment")]
+		[StringLength(500, MinimumLength = 1, ErrorMessage = "Response length is limited")]
 		public string Content { get; set; }
 
 		public string CheesyQuestionAnswered { get; set; }
