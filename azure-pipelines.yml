@@ -10,7 +10,7 @@ pool:
 
 variables:
   buildConfiguration: 'Release'
-  version: 8.1
+  version: 8.2
 
 steps:
 - task: UseDotNet@2
