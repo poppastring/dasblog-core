@@ -3,24 +3,22 @@
 @model DasBlog.Web.Models.AuthorViewModel
 
 @{
-    ViewBag.Title = "View/Edit User";
+    ViewBag.Title = "Edit User";
     Layout = "../../Themes/dasblog/_Layout.cshtml";
 }
 
 <h1>@ViewData["Title"]</h1>
 <hr />
-<div class="row">
-    <div class="col-md-9">
-        <form asp-action="UpdateAuthor" name="editForm" id="editForm">
 
-            <partial name="AuthorAdminFields" model="Model" />
+<form asp-action="UpdateAuthor" name="editForm" id="editForm" class="row g-3">
 
-            <hr />
+    <partial name="AuthorAdminFields" model="Model" />
 
-            <div class="form-group">
-                <input type="submit" name="submitAction" value="Save" class="btn btn-default btn-primary btn-lg" @ViewBag.Clickability />
-                <input asp-controller="Home" asp-action="Index" type="submit" name="submit" value="Cancel" class="btn btn-default btn-secondary btn-lg" />
-            </div>
-        </form>
+    <hr />
+
+    <div class="d-flex flex-wrap">
+        <input type="submit" name="submitAction" value="Submit" class="btn btn-primary me-2" @ViewBag.Clickability />
+        <input asp-controller="Home" asp-action="Index" type="submit" name="submit" value="Cancel" class="btn btn-secondary me-2" />
     </div>
-</div>
+
+</form>

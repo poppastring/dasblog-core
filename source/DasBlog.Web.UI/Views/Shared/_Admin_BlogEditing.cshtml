@@ -1,0 +1,41 @@
+﻿@using DasBlog.Web.Models.AdminViewModels
+
+@inject IDasBlogSettings dasBlogSettings
+@model DasBlogSettingsViewModel
+
+<div class="row gy-2 gx-3 align-items-md-start">
+    <div class="col-sm-4">
+        @Html.CheckBoxFor(m => @Model.SiteConfig.EnableBloggerApi, new { @class = "form-check-input" })
+        @Html.LabelFor(m => @Model.SiteConfig.EnableBloggerApi, null, new { @class = "col-check-label" })
+    </div>  
+</div>
+
+<div class="row gy-2 gx-3 align-items-md-start mb-3">
+    <div class="col-sm-4">
+        <div class="form-floating">
+            @Html.DropDownListFor(n => n.SiteConfig.PreferredBloggingAPI,
+                new SelectList(new BloggerAPIViewModel().Init(), "Name", "Name"),
+                new { @class = "form-select", id = "preferredBloggingAPI" })
+            @Html.LabelFor(m => @Model.SiteConfig.PreferredBloggingAPI, null, new { @class = "form-label", @for = "preferredBloggingAPI" })
+        </div>
+    </div>
+</div>
+
+<div class="row gy-2 gx-3 align-items-md-start mb-3">
+    <div class="col-sm-4">
+        <div class="form-floating">
+            @Html.DropDownListFor(n => n.SiteConfig.EntryEditControl,
+                new SelectList(new EntryEditControlViewModel().Init(), "Name", "Name"),
+                new { @class = "form-select col-3", id = "entryEditControl" })
+            @Html.LabelFor(m => @Model.SiteConfig.EntryEditControl, null, new { @class = "form-label", @for = "entryEditControl" })
+        </div>
+        @Html.ValidationMessageFor(m => m.SiteConfig.EntryEditControl, null, new { @class = "text-danger" })
+    </div>
+    <div class="col-sm-4">
+        <div class="form-floating">
+            @Html.TextBoxFor(m => @Model.SiteConfig.TinyMCEApiKey, null, new { @class = "form-control", id = "tinyMCEApiKey" })
+            @Html.LabelFor(m => @Model.SiteConfig.TinyMCEApiKey, null, new { @class = "form-label", @for = "tinyMCEApiKey" })
+        </div>
+        @Html.ValidationMessageFor(m => m.SiteConfig.TinyMCEApiKey, null, new { @class = "text-danger" })
+    </div>
+</div>

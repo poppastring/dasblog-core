@@ -1,0 +1,55 @@
+﻿@using DasBlog.Web.Models.AdminViewModels
+
+@inject IDasBlogSettings dasBlogSettings
+@model DasBlogSettingsViewModel
+
+<div class="row gy-2 gx-3 align-items-md-start mb-3">
+    <div class="col-sm-3">
+        <div class="form-floating">
+            @Html.TextBoxFor(m => @Model.SiteConfig.RssDayCount, null, new { @class = "form-control", id = "rssDayCount" })
+            @Html.LabelFor(m => @Model.SiteConfig.RssDayCount, null, new { @class = "form-label", @for = "rssDayCount" })
+        </div>
+        @Html.ValidationMessageFor(m => m.SiteConfig.RssDayCount, null, new { @class = "text-danger" })
+    </div>
+    <div class="col-sm-3">
+        <div class="form-floating">
+            @Html.TextBoxFor(m => @Model.SiteConfig.RssMainEntryCount, null, new { @class = "form-control", id = "rssMainEntryCount" })
+            @Html.LabelFor(m => @Model.SiteConfig.RssMainEntryCount, null, new { @class = "form-label", @for = "rssMainEntryCount" })
+        </div>
+        @Html.ValidationMessageFor(m => m.SiteConfig.RssMainEntryCount, null, new { @class = "text-danger" })
+    </div>
+    <div class="col-sm-3">
+        <div class="form-floating">
+            @Html.TextBoxFor(m => @Model.SiteConfig.RssEntryCount, null, new { @class = "form-control", id = "rssEntryCount" })
+            @Html.LabelFor(m => @Model.SiteConfig.RssEntryCount, null, new { @class = "form-label", @for = "rssEntryCount" })
+        </div>
+        @Html.ValidationMessageFor(m => m.SiteConfig.RssEntryCount, null, new { @class = "text-danger" })
+    </div>
+</div>
+
+<div class="row gy-2 gx-3 align-items-md-start mb-3">
+    <div class="col-sm-3">
+        @Html.CheckBoxFor(m => @Model.SiteConfig.AlwaysIncludeContentInRSS, new { @class = "form-check-input" })
+        @Html.LabelFor(m => @Model.SiteConfig.AlwaysIncludeContentInRSS, null, new { @class = "col-label " })
+    </div>
+</div>
+
+<div class="row gy-2 gx-3 align-items-md-start">
+    <div class="col-sm-3">
+        @Html.CheckBoxFor(m => @Model.SiteConfig.EnableRssItemFooters, new { @class = "form-check-input" })
+        @Html.LabelFor(m => @Model.SiteConfig.EnableRssItemFooters, null, new { @class = "col-check-label" })
+    </div>
+</div>
+
+<div class="row gy-2 gx-3 align-items-center mb-3">
+    <div class="col-sm-9">
+        <div class="form-floating">
+            @Html.TextBoxFor(m => @Model.SiteConfig.RssItemFooter, null, new { @class = "form-control", id = "rssItemFooter" })
+            @Html.LabelFor(m => @Model.SiteConfig.RssItemFooter, null, new { @class = "form-label", @for = "rssItemFooter" })
+        </div>
+        @Html.ValidationMessageFor(m => m.SiteConfig.RssItemFooter, null, new { @class = "text-danger" })
+    </div>
+</div>
+
+
+

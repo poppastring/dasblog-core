@@ -4,67 +4,78 @@
 
 <input type="hidden" name="OriginalEmail" value="@Model.OriginalEmail" />        
 
-<div class="form-group row">
-    <label asp-for="EmailAddress" class="col-form-label col-2" ></label>
-    <input name="EmailAddress" value="@Model.EmailAddress" type="email" class="form-control col-6" @ViewBag.Writability
-           data-val-email="The Email field is not a valid e-mail address." data-val-required="The Email field is required."/>
-    <span asp-validation-for="EmailAddress" class="text-danger"  data-valmsg-for="EmailAddress" data-valmsg-replace="true" ></span>
+<div class="row gy-2 gx-3 align-items-md-start mb-3">
+    <div class="col-sm-4">
+        <div class="form-floating">
+            <input name="EmailAddress" value="@Model.EmailAddress" type="email" class="form-control col-6" @ViewBag.Writability
+                   data-val-email="The Email field is not a valid e-mail address." data-val-required="The Email field is required." />
+            <label asp-for="EmailAddress" class="form-label"></label>
+        </div>
+        <span asp-validation-for="EmailAddress" class="text-danger" data-valmsg-for="EmailAddress" data-valmsg-replace="true"></span>
+    </div>
+    <div class="col-sm-8">
+        <div class="form-floating">
+            <input name="DisplayName" value="@Model.DisplayName" type="text" class="form-control col-6" @ViewBag.Writability />
+            <label asp-for="DisplayName" class="form-label"></label>
+        </div>
+        <span asp-validation-for="DisplayName" class="text-danger" data-valmsg-for="DisplayName" data-valmsg-replace="true"></span>
+    </div>
 </div>
 
-<div class="form-group row">
-    <label asp-for="DisplayName" class="col-form-label col-2"></label>
-    <input name="DisplayName" value="@Model.DisplayName" type="text" class="form-control col-6" @ViewBag.Writability />
-    <span asp-validation-for="DisplayName" class="text-danger" data-valmsg-for="DisplayName" data-valmsg-replace="true"></span>
+<div class="row gy-2 gx-3 align-items-md-start mb-3">
+    <div class="col-sm-8">
+        <div class="form-floating">
+            <input name="Password" value="@Model.Password" type="password" class="form-control col-6" @ViewBag.Writability />
+            <label asp-for="Password" class="col-form-label col-2"></label>
+        </div>
+        <span asp-validation-for="Password" class="text-danger" data-valmsg-for="Password" data-valmsg-replace="true"></span>
+    </div>
+    <div class="col-sm-4">
+        <div class="form-floating">
+            @if ((ViewBag.Writability ?? string.Empty) == "readonly")
+            {
+                <select asp-for="Role" name="Role" asp-items="@Html.GetEnumSelectList<Role>()" type="text" class="form-control col-6" disabled readonly>
+                </select>
+            }
+            else
+            {
+                <select asp-for="Role" name="Role" asp-items="@Html.GetEnumSelectList<Role>()" type="text" class="form-control col-6" disabled readonly>
+                </select>
+            }
+            <label asp-for="Role" class="col-form-label col-2"></label>
+        </div>
+    </div>
 </div>
 
-<div class="form-group row">
-    <label asp-for="Role" class="col-form-label col-2" ></label>
-    @if ((ViewBag.Writability ?? string.Empty) == "readonly")
-    {
-        <select asp-for="Role" name="Role" asp-items="@Html.GetEnumSelectList<Role>()" type="text" class="form-control col-6" readonly>
-        </select>
-    }
-    else
-    {
-        <select asp-for="Role" name="Role" asp-items="@Html.GetEnumSelectList<Role>()" type="text" class="form-control col-6" >
-        </select>
-    }
+<div class="d-flex flex-wrap mt-0">
+    <input name="Active" checked="@Model.Active" type="checkbox" class="form-check-input me-1" @ViewBag.Clickability />
+    <label asp-for="Active" class="form-check-label me-3"></label>
 </div>
 
-<div class="form-check row">
-    <label asp-for="Ask" class="form-check-label col-2"></label>
-    <input name="Ask" checked="@Model.Ask" type="checkbox" class="form-check-input col-1" @ViewBag.Clickability />    
+<div class="d-flex flex-wrap">
+    <input name="NotifyOnNewPost" checked="@Model.NotifyOnNewPost" type="checkbox" class="form-check-input me-1" @ViewBag.Clickability />
+    <label asp-for="NotifyOnNewPost" class="form-check-label me-3"></label>
+
+    <input name="NotifyOnOwnComment" checked="@Model.NotifyOnOwnComment" type="checkbox" class="form-check-input me-1" @ViewBag.Clickability />
+    <label asp-for="NotifyOnOwnComment" class="form-check-label me-3"></label>
 </div>
 
-<div class="form-group row">
-    <label asp-for="OpenIDUrl" class="col-form-label col-2" ></label>
-    <input name="OpenIDUrl" value="@Model.OpenIDUrl" type="text" class="form-control col-6" @ViewBag.Writability />    
+<div class="d-flex flex-wrap">
+    <input name="NotifyOnAllComment" checked="@Model.NotifyOnAllComment" type="checkbox" class="form-check-input me-1" @ViewBag.Clickability disabled readonly />
+    <label asp-for="NotifyOnAllComment" class="form-check-label me-3"></label>
+
+    <input name="Ask" checked="@Model.Ask" type="checkbox" class="form-check-input me-1" @ViewBag.Clickability disabled readonly />
+    <label asp-for="Ask" class="form-check-label me-3"></label>
 </div>
 
-<div class="form-check row">
-    <label asp-for="NotifyOnAllComment" class="form-check-label col-5"></label>
-    <input name="NotifyOnAllComment" checked="@Model.NotifyOnAllComment" type="checkbox" class="form-check-input col-1" @ViewBag.Clickability />    
+<div class="d-flex flex-wrap">
+    <div class="col-sm-12">
+        <div class="form-floating">
+            <input name="OpenIDUrl" value="@Model.OpenIDUrl" type="text" class="form-control col-6 me-3" @ViewBag.Writability disabled readonly />
+            <label asp-for="OpenIDUrl" class="col-form-label me-3"></label>
+        </div>
+    </div>
 </div>
 
-<div class="form-check row">
-    <label asp-for="NotifyOnOwnComment" class="form-check-label col-5" ></label>
-    <input name="NotifyOnOwnComment" checked="@Model.NotifyOnOwnComment" type="checkbox" class="form-check-input col-1" @ViewBag.Clickability />
-</div>
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-<div class="form-check row">
-    <label asp-for="NotifyOnNewPost" class="form-check-label col-5" ></label>
-    <input name="NotifyOnNewPost" checked="@Model.NotifyOnNewPost" type="checkbox" class="form-check-input col-1" @ViewBag.Clickability />
-</div>
-
-<div class="form-check row">
-    <label asp-for="Active" class="form-check-label col-5" ></label>
-    <input name="Active" checked="@Model.Active" type="checkbox" class="form-check-input col-1" @ViewBag.Clickability />
-</div>
-
-<div class="form-group row">
-    <label asp-for="Password" class="col-form-label col-2"></label>
-    <input name="Password" value="@Model.Password" type="password" class="form-control col-6" @ViewBag.Writability />
-    <span asp-validation-for="Password" class="text-danger" data-valmsg-for="Password" data-valmsg-replace="true"></span>
-</div>
-
- <div asp-validation-summary="ModelOnly" class="text-danger"></div>

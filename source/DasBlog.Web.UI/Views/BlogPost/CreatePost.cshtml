@@ -6,22 +6,16 @@
 }
 
 <h1>@ViewData["Title"]</h1>
+<hr />
 
 <form asp-controller="post" asp-action="create" method="post" enctype="multipart/form-data">
 
+    <partial name="BlogPostFields" model="Model" />
+
     <hr />
-
-    <div class="modal-body">
-        <partial name="BlogPostFields" model="Model" />
-
-        <hr />
-
-        <div class="form-group row">
-            <div class="col-sm-6">
-                <input class="btn btn-default btn-primary btn-lg" type="submit" name="submit" value="Create Post" id="BlogPostCreateSubmit" />
-                <input class="btn btn-default btn-secondary btn-lg" asp-controller="Home" asp-action="Index" type="submit" name="submit" value="Cancel" />
-            </div>
-        </div>
+    <div class="d-flex flex-wrap">
+        <input class="btn btn-primary me-2" type="submit" name="submit" value="Create Post" id="BlogPostCreateSubmit" />
+        <input class="btn btn-secondary me-2" asp-controller="Home" asp-action="Index" type="submit" name="submit" value="Cancel" />
     </div>
 
     @Html.HiddenFor(m => m.EntryId)
@@ -32,5 +26,4 @@
 
 @section scripts {
     <rich-edit-scripts control-id="mytextarea" />
-
 }
