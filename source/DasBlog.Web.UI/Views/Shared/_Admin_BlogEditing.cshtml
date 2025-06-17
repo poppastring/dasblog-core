@@ -39,3 +39,21 @@
         @Html.ValidationMessageFor(m => m.SiteConfig.TinyMCEApiKey, null, new { @class = "text-danger" })
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const enableBloggerApiCheckbox = document.querySelector('[id$="EnableBloggerApi"]');
+        const preferredBloggingApiDropdown = document.getElementById('preferredBloggingAPI');
+
+        function togglePreferredBloggingApi() {
+            const isEnabled = enableBloggerApiCheckbox.checked;
+            preferredBloggingApiDropdown.disabled = !isEnabled;
+        }
+
+        // Initialize the state on page load
+        togglePreferredBloggingApi();
+
+        // Add event listener to toggle dropdown on checkbox change
+        enableBloggerApiCheckbox.addEventListener('change', togglePreferredBloggingApi);
+    });
+</script>

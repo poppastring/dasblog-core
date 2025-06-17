@@ -99,3 +99,45 @@
         }
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const enableCaptchaCheckbox = document.querySelector('[id$="EnableCaptcha"]');
+        const recaptchaFields = [
+            document.getElementById('recaptchaMinimumScore'),
+            document.getElementById('recaptchaSiteKey'),
+            document.getElementById('recaptchaSecretKey')
+        ];
+
+        function toggleRecaptchaFields() {
+            const isEnabled = enableCaptchaCheckbox.checked;
+            recaptchaFields.forEach(field => {
+                field.disabled = !isEnabled;
+            });
+        }
+
+        // Initialize the state on page load
+        toggleRecaptchaFields();
+
+        // Add event listener to toggle fields on checkbox change
+        enableCaptchaCheckbox.addEventListener('change', toggleRecaptchaFields);
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const enableCommentDaysCheckbox = document.querySelector('[id$="EnableCommentDays"]');
+        const daysCommentsAllowedTextbox = document.getElementById('daysCommentsAllowed');
+
+        function toggleDaysCommentsAllowed() {
+            const isEnabled = enableCommentDaysCheckbox.checked;
+            daysCommentsAllowedTextbox.disabled = !isEnabled;
+        }
+
+        // Initialize the state on page load
+        toggleDaysCommentsAllowed();
+
+        // Add event listener to toggle text box on checkbox change
+        enableCommentDaysCheckbox.addEventListener('change', toggleDaysCommentsAllowed);
+    });
+</script>
