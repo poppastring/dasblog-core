@@ -44,16 +44,25 @@
     document.addEventListener('DOMContentLoaded', function () {
         const enableBloggerApiCheckbox = document.querySelector('[id$="EnableBloggerApi"]');
         const preferredBloggingApiDropdown = document.getElementById('preferredBloggingAPI');
+        const entryEditControlDropdown = document.getElementById('entryEditControl');
+        const tinyMCEApiKeyTextbox = document.getElementById('tinyMCEApiKey');
 
         function togglePreferredBloggingApi() {
             const isEnabled = enableBloggerApiCheckbox.checked;
             preferredBloggingApiDropdown.disabled = !isEnabled;
         }
 
+        function toggleTinyMCEApiKey() {
+            const isTinyMce = entryEditControlDropdown.value === 'TinyMce';
+            tinyMCEApiKeyTextbox.disabled = !isTinyMce;
+        }
+
         // Initialize the state on page load
         togglePreferredBloggingApi();
+        toggleTinyMCEApiKey();
 
-        // Add event listener to toggle dropdown on checkbox change
+        // Add event listeners
         enableBloggerApiCheckbox.addEventListener('change', togglePreferredBloggingApi);
+        entryEditControlDropdown.addEventListener('change', toggleTinyMCEApiKey);
     });
 </script>
