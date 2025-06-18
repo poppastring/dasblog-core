@@ -141,3 +141,35 @@
         enableCommentDaysCheckbox.addEventListener('change', toggleDaysCommentsAllowed);
     });
 </script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const enableCommentsCheckbox = document.querySelector('[id$="EnableComments"]');
+        // Select all inputs and selects except the EnableComments checkbox itself
+        const allFormFields = Array.from(document.querySelectorAll('input, select, textarea'))
+            .filter(el => el !== enableCommentsCheckbox);
+
+        function toggleAllFields() {
+            const enabled = enableCommentsCheckbox.checked;
+            allFormFields.forEach(field => {
+                // Only toggle if not already disabled by other logic
+                if (enabled) {
+                    // Re-enable, but let other scripts (e.g., captcha, comment days) handle their own logic
+                    field.disabled = false;
+                } else {
+                    field.disabled = true;
+                }
+            });
+            // After enabling, re-run other toggles to respect their own logic
+            if (enabled) {
+                if (typeof toggleRecaptchaFields === 'function') toggleRecaptchaFields();
+                if (typeof toggleDaysCommentsAllowed === 'function') toggleDaysCommentsAllowed();
+            }
+        }
+
+        // Initialize on page load
+        toggleAllFields();
+        // Listen for changes
+        enableCommentsCheckbox.addEventListener('change', toggleAllFields);
+    });
+</script>
