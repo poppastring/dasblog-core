@@ -1,6 +1,9 @@
-﻿@using DasBlog.Web.Models.AdminViewModels
+﻿@using AutoMapper
+@using DasBlog.Web.Models.AdminViewModels
+@using DasBlog.Managers.Interfaces
 
 @inject IDasBlogSettings dasBlogSettings
+@inject IBlogManager blogManager
 @model DasBlogSettingsViewModel
 
 <div class="row gy-2 gx-3 align-items-md-start mb-3">
@@ -36,8 +39,11 @@
 
 <div class="row gy-2 gx-3 align-items-md-start mb-3">
     <div class="col-sm-4">
-        <div class="form-floating">
-            @Html.TextBoxFor(m => @Model.SiteConfig.FrontPageCategory, null, new { @class = "form-control", id = "frontPageCategory" })
+        <div class="form-floating">            
+            @Html.DropDownListFor(n => n.SiteConfig.FrontPageCategory,
+                        new SelectList(new DasBlog.Web.Models.AdminViewModels.CategoryListViewModel().Init(blogManager.GetCategories().Select(p => p.Name).ToList()), "Category", "Category"),
+                        new { @class = "form-select", id = "frontPageCategory" })
+
             @Html.LabelFor(m => @Model.SiteConfig.FrontPageCategory, null, new { @class = "form-label", @for = "frontPageCategory" })
         </div>
         @Html.ValidationMessageFor(m => m.SiteConfig.FrontPageCategory, null, new { @class = "text-danger" })

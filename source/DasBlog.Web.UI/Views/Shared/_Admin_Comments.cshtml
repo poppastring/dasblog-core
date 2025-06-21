@@ -99,3 +99,55 @@
         }
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const enableCommentsCheckbox = document.querySelector('[id$="EnableComments"]');
+        const enableCaptchaCheckbox = document.querySelector('[id$="EnableCaptcha"]');
+        const enableCommentDaysCheckbox = document.querySelector('[id$="EnableCommentDays"]');
+        const daysCommentsAllowedTextbox = document.getElementById('daysCommentsAllowed');
+        const recaptchaFields = [
+            document.getElementById('recaptchaMinimumScore'),
+            document.getElementById('recaptchaSiteKey'),
+            document.getElementById('recaptchaSecretKey')
+        ];
+        // All form fields except EnableComments
+        const allFormFields = Array.from(document.querySelectorAll('input, select, textarea'))
+            .filter(el => el !== enableCommentsCheckbox);
+
+        function toggleRecaptchaFields() {
+            const isEnabled = enableCaptchaCheckbox.checked && enableCommentsCheckbox.checked;
+            recaptchaFields.forEach(field => {
+                field.disabled = !isEnabled;
+            });
+        }
+
+        function toggleDaysCommentsAllowed() {
+            const isEnabled = enableCommentDaysCheckbox.checked && enableCommentsCheckbox.checked;
+            daysCommentsAllowedTextbox.disabled = !isEnabled;
+        }
+
+        function toggleAllFields() {
+            const enabled = enableCommentsCheckbox.checked;
+            allFormFields.forEach(field => {
+                field.disabled = !enabled;
+            });
+            // If enabled, apply field-specific logic
+            if (enabled) {
+                toggleRecaptchaFields();
+                toggleDaysCommentsAllowed();
+            }
+        }
+
+        // Initialize on page load
+        toggleAllFields();
+        // Listen for changes
+        enableCommentsCheckbox.addEventListener('change', toggleAllFields);
+        enableCaptchaCheckbox.addEventListener('change', function () {
+            if (enableCommentsCheckbox.checked) toggleRecaptchaFields();
+        });
+        enableCommentDaysCheckbox.addEventListener('change', function () {
+            if (enableCommentsCheckbox.checked) toggleDaysCommentsAllowed();
+        });
+    });
+</script>

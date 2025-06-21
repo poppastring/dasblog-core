@@ -65,5 +65,23 @@
     </div>
 </div>
 
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const adjustTimeZoneCheckbox = document.querySelector('[id$="AdjustDisplayTimeZone"]');
+        const timeZoneIndexDropdown = document.getElementById('displayTimeZoneIndex');
+
+        function toggleTimeZoneIndex() {
+            const isEnabled = adjustTimeZoneCheckbox.checked;
+            timeZoneIndexDropdown.disabled = !isEnabled;
+        }
+
+        // Initialize the state on page load
+        toggleTimeZoneIndex();
+
+        // Add event listener to toggle dropdown on checkbox change
+        adjustTimeZoneCheckbox.addEventListener('change', toggleTimeZoneIndex);
+    });
+</script>
+
 
 
