@@ -36,7 +36,7 @@
 
 <div class="row gy-2 gx-3 align-items-md-start">
     <div class="col-sm-3">
-        @Html.CheckBoxFor(m => @Model.SiteConfig.EnableRssItemFooters, new { @class = "form-check-input" })
+        @Html.CheckBoxFor(m => @Model.SiteConfig.EnableRssItemFooters, new { @class = "form-check-input", id = "EnableRssItemFooters" })
         @Html.LabelFor(m => @Model.SiteConfig.EnableRssItemFooters, null, new { @class = "col-check-label" })
     </div>
 </div>
@@ -50,6 +50,23 @@
         @Html.ValidationMessageFor(m => m.SiteConfig.RssItemFooter, null, new { @class = "text-danger" })
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const rssFooterCheckbox = document.querySelector('#EnableRssItemFooters');
+        const rssFooterText = document.querySelector('#rssItemFooter');
+
+        function toggleRssFooterText() {
+            rssFooterText.disabled = !rssFooterCheckbox.checked;
+        }
+
+        // Initialize the state on page load
+        toggleRssFooterText();
+
+        // Add event listener to toggle on checkbox change
+        rssFooterCheckbox.addEventListener('change', toggleRssFooterText);
+    });
+</script>
 
 
 
