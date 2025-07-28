@@ -1,5 +1,4 @@
-﻿
-using DasBlog.Core.Security;
+﻿using DasBlog.Core.Security;
 using DasBlog.Managers.Interfaces;
 using DasBlog.Services;
 using System;
@@ -20,7 +19,7 @@ namespace DasBlog.Managers
 
 		public string HashPassword(string password)
 		{
-			var hashAlgorithm = SHA512Managed.Create();
+			var hashAlgorithm = SHA512.Create();
 			return HashPassword(password, hashAlgorithm);
 		}
 
@@ -42,10 +41,10 @@ namespace DasBlog.Managers
 		{
 			string hashprovidedpassword = string.Empty;
 
-			HashAlgorithm hashAlgorithm = SHA512Managed.Create();
+			HashAlgorithm hashAlgorithm = SHA512.Create();
 			if (this.IsMd5Hash(hashedPassword))
 			{
-				hashAlgorithm = MD5CryptoServiceProvider.Create();
+				hashAlgorithm = MD5.Create();
 			}
 
 			hashprovidedpassword = HashPassword(providedPassword, hashAlgorithm);
