@@ -14,7 +14,7 @@ namespace DasBlog.Core.Common
 
 			data = Encoding.Default.GetBytes(email.ToLowerInvariant());
 
-			using (MD5 md5 = new MD5CryptoServiceProvider())
+			using (MD5 md5 = MD5.Create())
 			{
 				enc = md5.TransformFinalBlock(data, 0, data.Length);
 				foreach (byte b in md5.Hash)
