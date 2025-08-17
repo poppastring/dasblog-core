@@ -60,7 +60,8 @@ namespace DasBlog.Web.Models.BlogViewModels
 
 		public int Order { get; set; } = 0;
 
-
 		public List<string> ErrorMessages { get; set; }
+
+		public string ImageAlt { get; set; } = string.Empty;
 	}
 }
