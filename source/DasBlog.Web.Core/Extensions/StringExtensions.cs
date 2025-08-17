@@ -97,26 +97,36 @@ namespace DasBlog.Core.Extensions
 			return firstimage.Trim();
 		}
 
-		public static string FindHeroImage(this string blogcontent)
-		{
-			var heroImage = string.Empty;
+        public static (string url, string alt) FindHeroImage(this string blogcontent)
+        {
+            string heroSrc = string.Empty;
+            string heroAlt = string.Empty;
 
-			var regex = new Regex("<img[^>]*class=\"hero-image\"[^>]*src=\"([^\"]+)\"[^>]*>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+            // Match <img> tag with class containing 'hero-image'
+            var imgTagRegex = new Regex("<img[^>]*class\\s*=\\s*\"[^\"]*hero-image[^\"]*\"[^>]*>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+            var imgTagMatch = imgTagRegex.Match(blogcontent);
 
-			var match = regex.Match(blogcontent);
+            if (imgTagMatch.Success)
+            {
+                string imgTag = imgTagMatch.Value;
+                // Extract src and alt from the matched tag, regardless of order
+                var srcRegex = new Regex("src\\s*=\\s*\"([^\"]+)\"", RegexOptions.IgnoreCase);
+                var altRegex = new Regex("alt\\s*=\\s*\"([^\"]*)\"", RegexOptions.IgnoreCase);
+                var srcMatch = srcRegex.Match(imgTag);
+                var altMatch = altRegex.Match(imgTag);
+                if (srcMatch.Success)
+                    heroSrc = srcMatch.Groups[1].Value.Trim();
+                if (altMatch.Success)
+                    heroAlt = altMatch.Groups[1].Value.Trim();
+            }
 
-			if (match.Success)
-			{
-				heroImage = match.Groups[1].Value.Trim();
-			}
+            if (string.IsNullOrEmpty(heroSrc))
+            {
+                heroSrc = FindFirstImage(blogcontent);
+            }
 
-			if (string.IsNullOrEmpty(heroImage))
-			{
-				heroImage = FindFirstImage(blogcontent);
-			}
-
-			return heroImage;
-		}
+            return (heroSrc, heroAlt);
+        }
 
 		public static string FindFirstYouTubeVideo(this string blogcontent)
 		{
