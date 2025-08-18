@@ -1,7 +1,7 @@
 ﻿using DasBlog.Core.Extensions;
 using Xunit;
 
-namespace DasBlog.Tests.UnitTests.Misc
+namespace DasBlog.Tests.UnitTests.ExtensionsConfig
 {
 	public class StringExtensionTest
 	{
