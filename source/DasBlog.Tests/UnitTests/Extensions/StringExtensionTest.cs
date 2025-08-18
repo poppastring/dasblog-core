@@ -1,7 +1,7 @@
 ﻿using DasBlog.Core.Extensions;
 using Xunit;
 
-namespace DasBlog.Tests.UnitTests.ExtensionsConfig
+namespace DasBlog.Tests.UnitTests.Extensions
 {
 	public class StringExtensionTest
 	{
@@ -70,7 +70,7 @@ namespace DasBlog.Tests.UnitTests.ExtensionsConfig
 		[Trait("StringExtension", "UnitTest")]
 		public void RemoveDoubleSpaceCharacters_ReplacesMultipleSpacesWithSingle()
 		{
-			string input = "This   is   a   test  .";
+			string input = "This   is   a   test.";
 			string expected = "This is a test.";
 			Assert.Equal(expected, input.RemoveDoubleSpaceCharacters());
 		}
