@@ -77,24 +77,30 @@ namespace DasBlog.Core.Extensions
 			return text;
 		}
 
-		public static string FindFirstImage(this string blogcontent)
+		public static (string url, string alt) FindFirstImage(this string blogcontent)
 		{
-			var firstimage = string.Empty;
+			string firstimage = string.Empty;
+			string altText = string.Empty;
 
-			//Look for all the img src tags...
+			// Look for all the img src tags...
 			var urlRx = new Regex("<img.+?src=[\"'](.+?)[\"'].*?>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-
 			var matches = urlRx.Matches(blogcontent);
 
 			if (matches != null && matches.Count > 0)
 			{
-				if (matches[0].Groups != null && matches[0].Groups.Count > 0)
-				{
-					firstimage = matches[0].Groups[1].Value.Trim();
-				}
+				var imgTag = matches[0].Value;
+				// Extract src and alt from the matched tag, regardless of order
+				var srcRegex = new Regex("src\\s*=\\s*\"([^\"]+)\"", RegexOptions.IgnoreCase);
+				var altRegex = new Regex("alt\\s*=\\s*\"([^\"]*)\"", RegexOptions.IgnoreCase);
+				var srcMatch = srcRegex.Match(imgTag);
+				var altMatch = altRegex.Match(imgTag);
+				if (srcMatch.Success)
+					firstimage = srcMatch.Groups[1].Value.Trim();
+				if (altMatch.Success)
+					altText = altMatch.Groups[1].Value.Trim();
 			}
 
-			return firstimage.Trim();
+			return (firstimage.Trim(), altText);
 		}
 
         public static (string url, string alt) FindHeroImage(this string blogcontent)
@@ -122,7 +128,7 @@ namespace DasBlog.Core.Extensions
 
             if (string.IsNullOrEmpty(heroSrc))
             {
-                heroSrc = FindFirstImage(blogcontent);
+                (heroSrc, heroAlt) = FindFirstImage(blogcontent);
             }
 
             return (heroSrc, heroAlt);

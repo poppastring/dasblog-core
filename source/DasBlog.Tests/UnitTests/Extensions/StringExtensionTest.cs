@@ -11,20 +11,22 @@ namespace DasBlog.Tests.UnitTests.Extensions
 		[Trait("StringExtension", "UnitTest")]
 		public void FindHeroImage_ReturnsHeroImage_WhenHeroImageExists()
 		{
-			string blogContent = "<img class=\"hero-image\" src=\"image.jpg\">";
-			string result = blogContent.FindHeroImage();
+			string blogContent = "<img class=\"pull-right\" src=\"image.jpg\" alt=\"blank\"> <img src=\"image2.jpg\" alt=\"blank2\" class=\"pull-right hero-image\">";
+			var (result, alt) = blogContent.FindHeroImage();
 
-			Assert.Equal("image.jpg", result);
+			Assert.Equal("image2.jpg", result);
+			Assert.Equal("blank2", alt);
 		}
 
 		[Fact]
 		[Trait("StringExtension", "UnitTest")]
 		public void FindHeroImage_ReturnsFirstImage_WhenHeroImageDoesNotExist()
 		{
-			string blogContent = "<img src=\"image.jpg\">";
-			string result = blogContent.FindHeroImage();
+			string blogContent = "<img class=\"pull-right\" src=\"image.jpg\" alt=\"blank\"> <img src=\"image2.jpg\" alt=\"blank2\" class=\"pull-right\">";
+			var (result, alt) = blogContent.FindHeroImage();
 
 			Assert.Equal("image.jpg", result);
+			Assert.Equal("blank", alt);
 		}
 
 		[Fact]
@@ -32,9 +34,30 @@ namespace DasBlog.Tests.UnitTests.Extensions
 		public void FindHeroImage_ReturnsNoImage_WhenNoImageExist()
 		{
 			string blogContent = "<p>This is some test...</p";
-			string result = blogContent.FindHeroImage();
+			var (result, _) = blogContent.FindHeroImage();
 
 			Assert.Empty(result);
+		}
+
+		[Fact]
+		[Trait("StringExtension", "UnitTest")]
+		public void FindFirstImage_ReturnsFirstImageSrc()
+		{
+			string input = "<img src=\"first.jpg\" alt=\"alt-second\"><img src=\"second.jpg\" alt=\"alt second\">";
+			var (url, alt) = input.FindFirstImage();
+			
+			Assert.Equal("first.jpg", url);
+			Assert.Equal("alt-second", alt);
+		}
+
+		[Fact]
+		[Trait("StringExtension", "UnitTest")]
+		public void FindFirstImage_ReturnsEmpty_WhenNoImage()
+		{
+			string input = "<p>No images here</p>";
+			var(url, alt) = input.FindFirstImage();
+			
+			Assert.Empty(url);
 		}
 
 		[Fact]
@@ -92,23 +115,6 @@ namespace DasBlog.Tests.UnitTests.Extensions
 			string input = "\"Test\" ¨Test¨ “Test” „Test„";
 			string expected = "'Test' 'Test' 'Test' 'Test'";
 			Assert.Equal(expected, input.RemoveQuotationMarks());
-		}
-
-		[Fact]
-		[Trait("StringExtension", "UnitTest")]
-		public void FindFirstImage_ReturnsFirstImageSrc()
-		{
-			string input = "<img src='first.jpg'><img src=\"second.jpg\">";
-			string expected = "first.jpg";
-			Assert.Equal(expected, input.FindFirstImage());
-		}
-
-		[Fact]
-		[Trait("StringExtension", "UnitTest")]
-		public void FindFirstImage_ReturnsEmpty_WhenNoImage()
-		{
-			string input = "<p>No images here</p>";
-			Assert.Empty(input.FindFirstImage());
 		}
 
 		[Fact]
