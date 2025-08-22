@@ -153,6 +153,127 @@ namespace DasBlog.Tests.UnitTests.UI
 			Assert.Equal("dbc-comment-content", output.Attributes[0].Value.ToString());
 			Assert.Equal("", output.Content.GetContent().Trim());
 		}
+
+		[Fact]
+		[Trait("Category", "UnitTest")]
+		public async Task SitePageControlTagHelper_RendersExpectedOutput()
+		{
+			var dasBlogSettingsMock = new DasBlogSettingsMock();
+			var dasBlogSettings = dasBlogSettingsMock.CreateSettings();
+			var viewContext = new Microsoft.AspNetCore.Mvc.Rendering.ViewContext();
+			viewContext.ViewData[DasBlog.Core.Common.Constants.PostCount] = 5;
+			viewContext.ViewData[DasBlog.Core.Common.Constants.PageNumber] = 2;
+
+			var sut = new DasBlog.Web.TagHelpers.Layout.SitePageControlTagHelper(dasBlogSettings)
+			{
+				ViewContext = viewContext
+			};
+
+			var context = new TagHelperContext(new TagHelperAttributeList(), new Dictionary<object, object>(), Guid.NewGuid().ToString("N"));
+			var output = new TagHelperOutput("sitepagecontrol", new TagHelperAttributeList(), (useCachedResult, htmlEncoder) =>
+			{
+				var tagHelperContent = new DefaultTagHelperContent();
+				tagHelperContent.SetContent(string.Empty);
+				return Task.FromResult<TagHelperContent>(tagHelperContent);
+			});
+
+			await sut.ProcessAsync(context, output);
+
+			Assert.Equal("span", output.TagName);
+			Assert.Equal("dbc-span-page-control", output.Attributes[0].Value.ToString());
+			Assert.Contains("Older Posts", output.Content.GetContent());
+			Assert.Contains("Newer Posts", output.Content.GetContent());
+		}
+
+		[Fact]
+		[Trait("Category", "UnitTest")]
+		public async Task PostCategoriesListTagHelper_RendersCategories()
+		{
+			var dasBlogSettingsMock = new DasBlogSettingsMock();
+			var dasBlogSettings = dasBlogSettingsMock.CreateSettings();
+			var categories = new List<DasBlog.Web.Models.BlogViewModels.CategoryViewModel>
+			{
+				new DasBlog.Web.Models.BlogViewModels.CategoryViewModel { Category = "Tech", CategoryUrl = "tech" },
+				new DasBlog.Web.Models.BlogViewModels.CategoryViewModel { Category = "Life", CategoryUrl = "life" }
+			};
+			var post = new DasBlog.Web.Models.BlogViewModels.PostViewModel { Categories = categories };
+			var sut = new DasBlog.Web.TagHelpers.Post.PostCategoriesListTagHelper(dasBlogSettings)
+			{
+				Post = post
+			};
+
+			var context = new TagHelperContext(new TagHelperAttributeList(), new Dictionary<object, object>(), Guid.NewGuid().ToString("N"));
+			var output = new TagHelperOutput("postcategorieslist", new TagHelperAttributeList(), (useCachedResult, htmlEncoder) =>
+			{
+				var tagHelperContent = new DefaultTagHelperContent();
+				tagHelperContent.SetContent(string.Empty);
+				return Task.FromResult<TagHelperContent>(tagHelperContent);
+			});
+
+			await sut.ProcessAsync(context, output);
+
+			Assert.Equal("span", output.TagName);
+			Assert.Equal("dbc-span-category", output.Attributes[0].Value.ToString());
+			Assert.Contains("Tech", output.Content.GetContent());
+			Assert.Contains("Life", output.Content.GetContent());
+		}
+
+		[Fact]
+		[Trait("Category", "UnitTest")]
+		public void SiteDescriptionTagHelper_RendersDescription()
+		{
+			var dasBlogSettingsMock = new DasBlogSettingsMock();
+			var dasBlogSettings = dasBlogSettingsMock.CreateSettings();
+			dasBlogSettings.SiteConfiguration.Description = "Test Description";
+			var sut = new DasBlog.Web.TagHelpers.SiteDescriptionTagHelper(dasBlogSettings);
+			var context = new TagHelperContext(new TagHelperAttributeList(), new Dictionary<object, object>(), Guid.NewGuid().ToString("N"));
+			var output = new TagHelperOutput("sitedescription", new TagHelperAttributeList(), (useCachedResult, htmlEncoder) =>
+			{
+				var tagHelperContent = new DefaultTagHelperContent();
+				tagHelperContent.SetContent(string.Empty);
+				return Task.FromResult<TagHelperContent>(tagHelperContent);
+			});
+			sut.Process(context, output);
+			Assert.Equal("Test Description", output.Content.GetContent());
+		}
+
+		[Fact]
+		[Trait("Category", "UnitTest")]
+		public void SiteRootTagHelper_RendersRoot()
+		{
+			var dasBlogSettingsMock = new DasBlogSettingsMock();
+			var dasBlogSettings = dasBlogSettingsMock.CreateSettings();
+			dasBlogSettings.SiteConfiguration.Root = "https://example.com/";
+			var sut = new DasBlog.Web.TagHelpers.SiteRootTagHelper(dasBlogSettings);
+			var context = new TagHelperContext(new TagHelperAttributeList(), new Dictionary<object, object>(), Guid.NewGuid().ToString("N"));
+			var output = new TagHelperOutput("siteroot", new TagHelperAttributeList(), (useCachedResult, htmlEncoder) =>
+			{
+				var tagHelperContent = new DefaultTagHelperContent();
+				tagHelperContent.SetContent(string.Empty);
+				return Task.FromResult<TagHelperContent>(tagHelperContent);
+			});
+			sut.Process(context, output);
+			Assert.Equal("https://example.com/", output.Content.GetContent());
+		}
+
+		[Fact]
+		[Trait("Category", "UnitTest")]
+		public void SiteTitleTagHelper_RendersTitle()
+		{
+			var dasBlogSettingsMock = new DasBlogSettingsMock();
+			var dasBlogSettings = dasBlogSettingsMock.CreateSettings();
+			dasBlogSettings.SiteConfiguration.Title = "Test Title";
+			var sut = new DasBlog.Web.TagHelpers.SiteTitleTagHelper(dasBlogSettings);
+			var context = new TagHelperContext(new TagHelperAttributeList(), new Dictionary<object, object>(), Guid.NewGuid().ToString("N"));
+			var output = new TagHelperOutput("sitetitle", new TagHelperAttributeList(), (useCachedResult, htmlEncoder) =>
+			{
+				var tagHelperContent = new DefaultTagHelperContent();
+				tagHelperContent.SetContent(string.Empty);
+				return Task.FromResult<TagHelperContent>(tagHelperContent);
+			});
+			sut.Process(context, output);
+			Assert.Equal("Test Title", output.Content.GetContent());
+		}
 	}
 }
 
