@@ -43,10 +43,10 @@ namespace DasBlog.Tests.UnitTests.UI
 
 		public static TheoryData<TagHelper, string, string> DasBlogPostLinkTagHelperData = new TheoryData<TagHelper, string, string>
 		{
-			{new PostEditLinkTagHelper(new DasBlogSettingTest()) {BlogPostId = "theBlogPost"}, "theBlogPost", "Edit this post"},
-			{new PostCommentLinkTagHelper(new DasBlogSettingTest()) { Post = new PostViewModel { PermaLink = "some-blog-post", EntryId = "0B74C9D3-4D2C-4754-B607-F3847183221C" }}, "/post/some-blog-post/comments", "Comment on this post [0]" },
-			{new PostCommentLinkTagHelper(new DasBlogSettingTest()) { Post = new PostViewModel { PermaLink = "some-blog-post", EntryId = "0B74C9D3-4D2C-4754-B607-F3847183221C" }, LinkText = "Custom text ({0})"}, "/post/some-blog-post/comments", "Custom text (0)" },
-			{new PostCommentLinkTagHelper(new DasBlogSettingTest()) { Post = new PostViewModel { PermaLink = "some-blog-post", EntryId = "0B74C9D3-4D2C-4754-B607-F3847183221C" }, LinkText = "Link text only "}, "/post/some-blog-post/comments", "Link text only" }
+			{new PostEditLinkTagHelper(new DasBlogSettingsMock()) {BlogPostId = "theBlogPost"}, "theBlogPost", "Edit this post"},
+			{new PostCommentLinkTagHelper(new DasBlogSettingsMock()) { Post = new PostViewModel { PermaLink = "some-blog-post", EntryId = "0B74C9D3-4D2C-4754-B607-F3847183221C" }}, "/post/some-blog-post/comments", "Comment on this post [0]" },
+			{new PostCommentLinkTagHelper(new DasBlogSettingsMock()) { Post = new PostViewModel { PermaLink = "some-blog-post", EntryId = "0B74C9D3-4D2C-4754-B607-F3847183221C" }, LinkText = "Custom text ({0})"}, "/post/some-blog-post/comments", "Custom text (0)" },
+			{new PostCommentLinkTagHelper(new DasBlogSettingsMock()) { Post = new PostViewModel { PermaLink = "some-blog-post", EntryId = "0B74C9D3-4D2C-4754-B607-F3847183221C" }, LinkText = "Link text only "}, "/post/some-blog-post/comments", "Link text only" }
 		};
 	}
 }

@@ -15,7 +15,7 @@ public class CommentContentTagHelperTest
 	[Trait("Category", "UnitTest")]
 	public void CommentContentTagHelper_WhenCommentIsNull_ShouldNotThrow()
 	{
-		var dasBlogSettings = new DasBlogSettingTest();
+		var dasBlogSettings = new DasBlogSettingsMock();
 
 		var helper = new CommentContentTagHelper(dasBlogSettings);
 		var context = new TagHelperContext(new TagHelperAttributeList(), new Dictionary<object, object>(), Guid.NewGuid().ToString("N"));
@@ -32,7 +32,7 @@ public class CommentContentTagHelperTest
 	[Trait("Category", "UnitTest")]
 	public void CommentContentTagHelper_WhenCommentTextIsNull_ShouldNotThrow()
 	{
-		var dasBlogSettings = new DasBlogSettingTest();
+		var dasBlogSettings = new DasBlogSettingsMock();
 
 		var helper = new CommentContentTagHelper(dasBlogSettings)
 		{

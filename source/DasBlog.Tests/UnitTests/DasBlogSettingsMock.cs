@@ -13,7 +13,7 @@ using System.Net.Mail;
 
 namespace DasBlog.Tests.UnitTests
 {
-	public class DasBlogSettingTest : IDasBlogSettings
+	public class DasBlogSettingsMock : IDasBlogSettings
 	{
 		public const string SITESECURITYCONFIG = @"Config\siteSecurity.config";
 		public const string SITECONFIG = @"Config\site.config";
@@ -21,7 +21,7 @@ namespace DasBlog.Tests.UnitTests
 
 		private readonly IFileProvider fileProvider;
 
-		public DasBlogSettingTest()
+		public DasBlogSettingsMock()
 		{
 			fileProvider = new PhysicalFileProvider(AppDomain.CurrentDomain.BaseDirectory);
 

@@ -17,7 +17,7 @@ public class PostToLinkedInTagHelperTest
 	public async Task PostToLinkedInTagHelper_GeneratedTagHelper_BlogPostRendersAsAnchorTag()
 	{
 		var postLink = "what-is-lorem-ipsum";
-		var dasBlogSettings = new DasBlogSettingTest();
+		var dasBlogSettings = new DasBlogSettingsMock();
 
 		var sut = new PostToLinkedInTagHelper(dasBlogSettings) { Post = new PostViewModel { PermaLink = postLink, EntryId = "81c57569-3b41-46e5-a2c7-aea8681c380d" } };
 
