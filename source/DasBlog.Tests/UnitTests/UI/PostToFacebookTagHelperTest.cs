@@ -25,7 +25,8 @@ namespace DasBlog.Tests.UnitTests.UI
 		public async Task PostToFacebookTagHelper_GeneratedTagHelper_BlogPostRendersAsAnchorTag()
 		{
 			var postLink = "some-great-post";
-			var dasBlogSettings = new DasBlogSettingsMock();
+			var dasBlogSettingsMock = new DasBlogSettingsMock();
+			var dasBlogSettings = dasBlogSettingsMock.CreateSettings();
 
 			var sut = new PostToFacebookTagHelper(dasBlogSettings) { Post = new PostViewModel { PermaLink = postLink, EntryId = "F79DCB23-1536-4496-B6F3-109F05DEEE10" } };
 

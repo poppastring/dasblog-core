@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DasBlog.Web.Models.BlogViewModels;
+using DasBlog.Web.Settings;
 using DasBlog.Web.TagHelpers.Post;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using Xunit;
@@ -11,6 +12,7 @@ namespace DasBlog.Tests.UnitTests.UI
 {
 	public class TagHelperTest
 	{
+		public static DasBlogSettings dasBlogSettings = new DasBlogSettingsMock().CreateSettings();
 		/// <summary>
 		/// All test methods should follow this naming pattern
 		/// </summary>
@@ -43,10 +45,10 @@ namespace DasBlog.Tests.UnitTests.UI
 
 		public static TheoryData<TagHelper, string, string> DasBlogPostLinkTagHelperData = new TheoryData<TagHelper, string, string>
 		{
-			{new PostEditLinkTagHelper(new DasBlogSettingsMock()) {BlogPostId = "theBlogPost"}, "theBlogPost", "Edit this post"},
-			{new PostCommentLinkTagHelper(new DasBlogSettingsMock()) { Post = new PostViewModel { PermaLink = "some-blog-post", EntryId = "0B74C9D3-4D2C-4754-B607-F3847183221C" }}, "/post/some-blog-post/comments", "Comment on this post [0]" },
-			{new PostCommentLinkTagHelper(new DasBlogSettingsMock()) { Post = new PostViewModel { PermaLink = "some-blog-post", EntryId = "0B74C9D3-4D2C-4754-B607-F3847183221C" }, LinkText = "Custom text ({0})"}, "/post/some-blog-post/comments", "Custom text (0)" },
-			{new PostCommentLinkTagHelper(new DasBlogSettingsMock()) { Post = new PostViewModel { PermaLink = "some-blog-post", EntryId = "0B74C9D3-4D2C-4754-B607-F3847183221C" }, LinkText = "Link text only "}, "/post/some-blog-post/comments", "Link text only" }
+			{new PostEditLinkTagHelper(dasBlogSettings) {BlogPostId = "theBlogPost"}, "theBlogPost", "Edit this post"},
+			{new PostCommentLinkTagHelper(dasBlogSettings) { Post = new PostViewModel { PermaLink = "some-blog-post", EntryId = "0B74C9D3-4D2C-4754-B607-F3847183221C" }}, "/some-blog-post/comments", "Comment on this post [0]" },
+			{new PostCommentLinkTagHelper(dasBlogSettings) { Post = new PostViewModel { PermaLink = "some-blog-post", EntryId = "0B74C9D3-4D2C-4754-B607-F3847183221C" }, LinkText = "Custom text ({0})"}, "/some-blog-post/comments", "Custom text (0)" },
+			{new PostCommentLinkTagHelper(dasBlogSettings) { Post = new PostViewModel { PermaLink = "some-blog-post", EntryId = "0B74C9D3-4D2C-4754-B607-F3847183221C" }, LinkText = "Link text only "}, "/some-blog-post/comments", "Link text only" }
 		};
 	}
 }

@@ -1,277 +1,87 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Net.Mail;
+using System.Xml.Serialization;
 using DasBlog.Core.Security;
+using DasBlog.Services;
 using DasBlog.Services.ConfigFile;
 using DasBlog.Services.ConfigFile.Interfaces;
+using DasBlog.Services.FileManagement;
+using DasBlog.Web.Settings;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.FileProviders;
-using NodaTime;
-using System.Xml.Serialization;
-using DasBlog.Services;
+using Microsoft.Extensions.Options;
+using Moq;
 using newtelligence.DasBlog.Runtime;
-using System.Net.Mail;
+using NodaTime;
 
 namespace DasBlog.Tests.UnitTests
 {
-	public class DasBlogSettingsMock : IDasBlogSettings
+	public class DasBlogSettingsMock
 	{
-		public const string SITESECURITYCONFIG = @"Config\siteSecurity.config";
-		public const string SITECONFIG = @"Config\site.config";
-		public const string METACONFIG = @"Config\metaConfig.config";
-
-		private readonly IFileProvider fileProvider;
+		public readonly Mock<IWebHostEnvironment> envMock;
+		public readonly Mock<IOptionsMonitor<SiteConfig>> siteConfigMock;
+		public readonly Mock<IOptionsMonitor<MetaTags>> metaTagsMock;
+		public readonly Mock<IOptionsMonitor<OEmbedProviders>> oembedMock;
+		public readonly Mock<ISiteSecurityConfig> securityConfigMock;
+		public readonly Mock<IOptions<ConfigFilePathsDataOption>> configFilePathsMock;
+		public readonly SiteConfig siteConfig;
+		public readonly List<User> users;
 
 		public DasBlogSettingsMock()
 		{
-			fileProvider = new PhysicalFileProvider(AppDomain.CurrentDomain.BaseDirectory);
+			envMock = new Mock<IWebHostEnvironment>();
+			siteConfigMock = new Mock<IOptionsMonitor<SiteConfig>>();
+			metaTagsMock = new Mock<IOptionsMonitor<MetaTags>>();
+			oembedMock = new Mock<IOptionsMonitor<OEmbedProviders>>();
+			securityConfigMock = new Mock<ISiteSecurityConfig>();
+			configFilePathsMock = new Mock<IOptions<ConfigFilePathsDataOption>>();
 
-			WebRootDirectory = "";
-			SiteConfiguration = GetSiteConfig(fileProvider.GetFileInfo(SITECONFIG).PhysicalPath);
-
-			// SecurityConfiguration = GetSecurity(fileProvider.GetFileInfo(SITESECURITYCONFIG).PhysicalPath);
-			// MetaTags = GetMetaConfig(fileProvider.GetFileInfo(SITESECURITYCONFIG).PhysicalPath);
-
-			RssUrl = RelativeToRoot("feed/rss");
-			CategoryUrl = RelativeToRoot("category");
-			ArchiveUrl = RelativeToRoot("archive");
-			MicroSummaryUrl = RelativeToRoot("site/microsummary");
-			RsdUrl = RelativeToRoot("rsd");
-			ShortCutIconUrl = RelativeToRoot("icon.jpg");
-			ThemeCssUrl = RelativeToRoot(string.Format("{0}.css", SiteConfiguration.Theme));
-		}
-
-		public string WebRootDirectory { get; }
-		
-		public string RssUrl { get; }
-
-		public string PingBackUrl { get; }
-
-		public string CategoryUrl { get; }
-
-		public string ArchiveUrl { get; }
-
-		public string MicroSummaryUrl { get; }
-
-		public string RsdUrl { get; }
-
-		public string ShortCutIconUrl { get; }
-
-		public string ThemeCssUrl { get; }
-
-		public IMetaTags MetaTags { get; set; }
-
-		public ISiteConfig SiteConfiguration { get; set; }
-
-		public ISiteSecurityConfig SecurityConfiguration { get; }
-		public IOEmbedProviders OEmbedProviders { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-
-		public string GetBaseUrl()
-		{
-			return new Uri(SiteConfiguration.Root).AbsoluteUri;
-		}
-
-		public string RelativeToRoot(string relative)
-		{
-			return new Uri(new Uri(SiteConfiguration.Root), relative).AbsoluteUri;
-		}
-
-		public string GetPermaLinkUrl(string entryId)
-		{
-			return RelativeToRoot("post/" + entryId);
-		}
-
-		public string GetPermaTitle(string title)
-		{
-			string titlePermalink = title.Trim().ToLower();
-
-			titlePermalink = titlePermalink.Replace("+", SiteConfiguration.TitlePermalinkSpaceReplacement);
-
-			return titlePermalink;
-		}
-
-		public string GetCommentViewUrl(string entryId)
-		{
-			return GetPermaLinkUrl(entryId) + "/comments";
-		}
-
-		public string GetTrackbackUrl(string entryId)
-		{
-			return RelativeToRoot("feed/trackback/" + entryId);
-		}
-
-		public string GetEntryCommentsRssUrl(string entryId)
-		{
-			return RelativeToRoot(RssUrl + "/comments/" + entryId);
-		}
-
-		public string GetCategoryViewUrl(string category)
-		{
-			return RelativeToRoot("category/" + category);
-		}
-
-		public string GetCategoryViewUrlName(string category)
-		{
-			return string.Empty;
-		}
-
-		public string GetRssCategoryUrl(string category)
-		{
-			return string.Empty;
-		}
-
-		public User GetUser(string userName)
-		{
-			if (false == string.IsNullOrEmpty(userName))
+			siteConfig = new SiteConfig
 			{
-				return SecurityConfiguration.Users.Find(delegate (User x)
-				{
-					return string.Compare(x.DisplayName, userName, StringComparison.InvariantCultureIgnoreCase) == 0;
-				});
-			}
-			return null;
+				Root = "https://example.com/",
+				Theme = "default",
+				TitlePermalinkSpaceReplacement = "-",
+				UseAspxExtension = false,
+				EnableTitlePermaLinkUnique = false,
+				EnableComments = true,
+				EnableCommentDays = true,
+				DaysCommentsAllowed = 7,
+				AdjustDisplayTimeZone = true,
+				DisplayTimeZoneIndex = 2,
+				ContentLookaheadDays = 3,
+				SmtpServer = "smtp.example.com",
+				EnableSmtpAuthentication = true,
+				UseSSLForSMTP = true,
+				SmtpUserName = "user",
+				SmtpPassword = "pass",
+				SmtpPort = 25,
+				ShowCommentCount = true
+			};
+			users = new List<User> {
+				new User { DisplayName = "admin", EmailAddress = "admin@example.com", Active = true, Role = Role.Admin },
+				new User { DisplayName = "user1", EmailAddress = "user1@example.com", Active = true, Role = Role.Contributor },
+				new User { DisplayName = "user2", EmailAddress = "user2@example.com", Active = false, Role = Role.Contributor }
+			};
+			securityConfigMock.SetupGet(s => s.Users).Returns(users);
 		}
 
-		public User GetUserByEmail(string userEmail)
+		public DasBlogSettings CreateSettings()
 		{
-			if (!string.IsNullOrEmpty(userEmail))
-			{
-				return SecurityConfiguration.Users.Find(delegate (User x)
-				{
-					return string.Compare(x.EmailAddress, userEmail, StringComparison.InvariantCultureIgnoreCase) == 0;
-				});
-			}
-			return null;
-		}
-
-		public void AddUser(User user)
-		{
-			SecurityConfiguration.Users.Add(user);
-			var ser = new XmlSerializer(typeof(SiteSecurityConfig));
-			var fileInfo = fileProvider.GetFileInfo(SITESECURITYCONFIG);
-			using (var writer = new StreamWriter(fileInfo.PhysicalPath))
-			{
-				ser.Serialize(writer, SecurityConfiguration);
-			}
-		}
-
-		public DateTimeZone GetConfiguredTimeZone()
-		{
-			if (SiteConfiguration.AdjustDisplayTimeZone)
-			{
-				return DateTimeZone.ForOffset(Offset.FromHours(SiteConfiguration.DisplayTimeZoneIndex));
-			}
-			else
-			{
-				return DateTimeZone.Utc;
-			}
-		}
-
-		public DateTime GetContentLookAhead()
-		{
-			return DateTime.UtcNow.AddDays(SiteConfiguration.ContentLookaheadDays);
-		}
-
-		public SiteSecurityConfig GetSecurity(string path)
-		{
-			if (string.IsNullOrEmpty(path))
-			{
-				throw new ArgumentNullException("path");
-			}
-
-			var ser = new XmlSerializer(typeof(SiteSecurityConfig));
-
-			using (var reader = new StreamReader(path))
-			{
-				return (SiteSecurityConfig)ser.Deserialize(reader);
-			}
-		}
-
-		public IMetaTags GetMetaConfig(string path)
-		{
-			if (string.IsNullOrEmpty(path))
-			{
-				throw new ArgumentNullException("path");
-			}
-
-			var ser = new XmlSerializer(typeof(SiteSecurityConfig));
-
-			using (var reader = new StreamReader(path))
-			{
-				return (IMetaTags)ser.Deserialize(reader);
-			}
-		}
-
-		public ISiteConfig GetSiteConfig(string path)
-		{
-			// Need to point this to the config file
-			return new SiteConfigTest();
-
-			//if (string.IsNullOrEmpty(path))
-			//{
-			//	throw new ArgumentNullException("path");
-			//}
-
-			//var ser = new XmlSerializer(typeof(ISiteConfig));
-
-			//using (var reader = new StreamReader(path))
-			//{
-			//	return (ISiteConfig)ser.Deserialize(reader);
-			//}
-		}
-
-		public string FilterHtml(string input)
-		{
-			return input;
-		}
-
-		public bool AreCommentsPermitted(DateTime blogpostdate)
-		{
-			return true;
-		}
-
-		public string CompressTitle(string title)
-		{
-			string titlePermalink = title.Trim().ToLower();
-
-			titlePermalink = titlePermalink.Replace("+", SiteConfiguration.TitlePermalinkSpaceReplacement);
-
-			return titlePermalink;
-		}
-
-		public bool IsAdmin(string gravatarhash)
-		{
-			throw new NotImplementedException();
-		}
-
-		public string GeneratePostUrl(Entry entry)
-		{
-			string link;
-
-			if (SiteConfiguration.EnableTitlePermaLinkUnique)
-			{
-				link = GetPermaTitle(entry.CompressedTitleUnique);
-			}
-			else
-			{
-				link = GetPermaTitle(entry.CompressedTitle);
-			}
-
-			return link;
-		}
-
-		public SendMailInfo GetMailInfo(MailMessage emailmessage)
-		{
-			throw new NotImplementedException();
-		}
-
-		public DateTime GetDisplayTime(DateTime datetime)
-		{
-			throw new NotImplementedException();
-		}
-
-		public DateTime GetCreateTime(DateTime datetime)
-		{
-			throw new NotImplementedException();
+			envMock.Setup(e => e.ContentRootPath).Returns("/app");
+			siteConfigMock.Setup(s => s.CurrentValue).Returns(siteConfig);
+			metaTagsMock.Setup(m => m.CurrentValue).Returns(new MetaTags());
+			oembedMock.Setup(o => o.CurrentValue).Returns(new OEmbedProviders());
+			configFilePathsMock.Setup(c => c.Value).Returns(new ConfigFilePathsDataOption { SecurityConfigFilePath = "security.config" });
+			return new DasBlogSettings(
+				envMock.Object,
+				siteConfigMock.Object,
+				metaTagsMock.Object,
+				oembedMock.Object,
+				securityConfigMock.Object,
+				configFilePathsMock.Object
+			);
 		}
 	}
 }
