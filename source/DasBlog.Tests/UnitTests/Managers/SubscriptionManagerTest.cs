@@ -15,7 +15,6 @@ namespace DasBlog.Tests.UnitTests.Managers
         private Mock<IDasBlogSettings> settingsMock;
         private Mock<ISiteConfig> siteConfigMock;
 		private Mock<IMetaTags> metaTagsMock;
-		private Mock<IBlogDataService> blogDataServiceMock;
 
         public SubscriptionManagerTest()
         {
@@ -67,7 +66,7 @@ namespace DasBlog.Tests.UnitTests.Managers
             var manager = CreateManager();
             var result = manager.GetRssCategory("A Random Mathematical Quotation");
 			Assert.NotNull(result);
-			Assert.Equal(1, result.Channels.Count);
+			Assert.Single(result.Channels);
 			Assert.Equal("Test Blog - A Random Mathematical Quotation", result.Channels[0].Title);
 		}
 
