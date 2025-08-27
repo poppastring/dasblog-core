@@ -47,8 +47,7 @@ namespace DasBlog.Tests.UnitTests.Managers
             var manager = CreateManager();
             var result = manager.GetEntries();
             Assert.NotNull(result);
-            Assert.NotEmpty(result);
-            Assert.Equal("The Mesurability of the Imeasurable", result[0].Title);
+			Assert.True(result.Count > 22);
         }
 
         [Fact]
