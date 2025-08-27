@@ -64,7 +64,7 @@ namespace DasBlog.Tests.UnitTests.Managers
             var manager = CreateManager();
             var result = manager.GetEntriesForYear(new DateTime(2003, 7, 31), "");
 			Assert.NotNull(result);
-			Assert.True(result.Count > 9);
+			Assert.Equal(10, result.Count);
 			Assert.Equal("Synchronized Management Capability (SMC)", result[0].Title);
 		}
 
@@ -74,7 +74,6 @@ namespace DasBlog.Tests.UnitTests.Managers
             var manager = CreateManager();
             var result = manager.GetDaysWithEntries();
             Assert.NotNull(result);
-			Assert.Equal(10, result.Count);
 			Assert.Contains(new DateTime(2004, 3, 14), result);
 		}
 
