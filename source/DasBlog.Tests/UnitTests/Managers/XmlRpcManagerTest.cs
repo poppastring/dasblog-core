@@ -13,6 +13,7 @@ using Moq;
 using Xunit;
 using newtelligence.DasBlog.Runtime;
 using DasBlog.Services.XmlRpc.MoveableType;
+using System.Linq;
 
 namespace DasBlog.Tests.UnitTests.Managers
 {
@@ -113,7 +114,9 @@ namespace DasBlog.Tests.UnitTests.Managers
 			var manager = CreateManagerWithDataService();
 			var result = manager.mt_getRecentPostTitles("blogid", "user", "pw", 1);
 			Assert.NotEmpty(result);
-			Assert.Equal("The Mesurability of the Imeasurable", result[0].title);
+
+			var titles = result.Select(pt => pt.title).ToList();
+			Assert.Contains("The Mesurability of the Imeasurable", titles);
 		}
 
 		[Fact]

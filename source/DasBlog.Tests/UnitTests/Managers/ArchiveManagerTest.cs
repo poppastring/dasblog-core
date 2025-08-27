@@ -16,7 +16,6 @@ namespace DasBlog.Tests.UnitTests.Managers
     {
         private Mock<IDasBlogSettings> settingsMock;
         private Mock<ISiteConfig> siteConfigMock;
-        private Mock<IBlogDataService> blogDataServiceMock;
 
         public ArchiveManagerTest()
         {
