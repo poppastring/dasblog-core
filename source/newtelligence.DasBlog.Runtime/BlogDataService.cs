@@ -44,8 +44,11 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Net;
+using System.Net.Http;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Threading.Tasks;
 using NodaTime;
 
 namespace newtelligence.DasBlog.Runtime
@@ -96,6 +99,7 @@ namespace newtelligence.DasBlog.Runtime
 
     internal class BlogDataServiceXml : IBlogDataService
     {
+        private static readonly HttpClient httpClient = new HttpClient();
         private string contentBaseDirectory;
         private DataManager data;
         private AutoResetEvent trackingQueueEvent;
@@ -399,19 +403,9 @@ namespace newtelligence.DasBlog.Runtime
 
                     trackbackMsg += "&blog_name=" + WebUtility.UrlEncode(job.info.SourceBlogName);
 
-                    WebRequest request = WebRequest.Create(new Uri(trackbackUrl));
-
-                    request.Method = "POST";
-                    request.ContentType = "application/x-www-form-urlencoded";
-
-                    using (StreamWriter requestWriter = new StreamWriter(request.GetRequestStream()))
-                    {
-                        requestWriter.Write(trackbackMsg);
-                    }
-
-                    using (request.GetResponse())
-                    {
-                    }
+                    var content = new StringContent(trackbackMsg, Encoding.UTF8, "application/x-www-form-urlencoded");
+                    var response = httpClient.PostAsync(new Uri(trackbackUrl), content).Result;
+                    response.EnsureSuccessStatusCode();
 
                     this.loggingService.AddEvent(
                         new EventDataItem(

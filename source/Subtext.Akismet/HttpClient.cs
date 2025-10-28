@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Net;
+using System.Net.Http;
 using System.Text;
 
 namespace Subtext.Akismet
@@ -15,6 +16,8 @@ namespace Subtext.Akismet
 	/// </remarks>
 	public class HttpClient
 	{
+		private static readonly System.Net.Http.HttpClient httpClient = new System.Net.Http.HttpClient();
+
 		/// <summary>
 		/// Posts the request and returns a text response.  
 		/// This is all that is needed for Akismet.
@@ -27,34 +30,22 @@ namespace Subtext.Akismet
 		public virtual string PostRequest(Uri url, string userAgent, int timeout, string formParameters)
 		{
 			System.Net.ServicePointManager.Expect100Continue = false;
-			HttpWebRequest request = WebRequest.Create(url) as HttpWebRequest;
-
-			if (null != request)
-			{			
-				request.UserAgent = userAgent;
-				request.Timeout = timeout;
-				request.Method = "POST";
-				request.ContentLength = formParameters.Length;
-				request.ContentType = "application/x-www-form-urlencoded; charset=utf-8";
-				request.KeepAlive = true;
-
-				using (StreamWriter myWriter = new StreamWriter(request.GetRequestStream()))
-				{
-					myWriter.Write(formParameters);
-				}
-			}
-
-			HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-			if (response.StatusCode < HttpStatusCode.OK && response.StatusCode >= HttpStatusCode.Ambiguous)
-				throw new InvalidResponseException(string.Format("The service was not able to handle our request. Http Status '{0}'.", response.StatusCode), response.StatusCode);
-
-			string responseText;
-			using(StreamReader reader = new StreamReader(response.GetResponseStream(), Encoding.ASCII)) //They only return "true" or "false"
-			{
-				responseText = reader.ReadToEnd();
-			}
 			
-			return responseText;
+			var request = new HttpRequestMessage(System.Net.Http.HttpMethod.Post, url);
+			request.Headers.Add("User-Agent", userAgent);
+			request.Content = new StringContent(formParameters, Encoding.UTF8, "application/x-www-form-urlencoded");
+			
+			using (var cts = new System.Threading.CancellationTokenSource(timeout))
+			{
+				var response = httpClient.SendAsync(request, cts.Token).Result;
+				
+				if (response.StatusCode < HttpStatusCode.OK || response.StatusCode >= HttpStatusCode.Ambiguous)
+					throw new InvalidResponseException(string.Format("The service was not able to handle our request. Http Status '{0}'.", response.StatusCode), response.StatusCode);
+
+				string responseText = response.Content.ReadAsStringAsync().Result;
+				
+				return responseText;
+			}
 		}
 	}
 }
