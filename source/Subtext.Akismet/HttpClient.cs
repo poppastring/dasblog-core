@@ -38,14 +38,15 @@ namespace Subtext.Akismet
 				
 				using (var cts = new System.Threading.CancellationTokenSource(timeout))
 				{
-					var response = httpClient.SendAsync(request, cts.Token).GetAwaiter().GetResult();
-					
-					if (response.StatusCode < HttpStatusCode.OK || response.StatusCode >= HttpStatusCode.Ambiguous)
-						throw new InvalidResponseException(string.Format("The service was not able to handle our request. Http Status '{0}'.", response.StatusCode), response.StatusCode);
+					using (var response = httpClient.SendAsync(request, cts.Token).GetAwaiter().GetResult())
+					{
+						if (response.StatusCode < HttpStatusCode.OK || response.StatusCode >= HttpStatusCode.Ambiguous)
+							throw new InvalidResponseException(string.Format("The service was not able to handle our request. Http Status '{0}'.", response.StatusCode), response.StatusCode);
 
-					string responseText = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
-					
-					return responseText;
+						string responseText = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+						
+						return responseText;
+					}
 				}
 			}
 		}

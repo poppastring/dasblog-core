@@ -404,8 +404,10 @@ namespace newtelligence.DasBlog.Runtime
                     trackbackMsg += "&blog_name=" + WebUtility.UrlEncode(job.info.SourceBlogName);
 
                     var content = new StringContent(trackbackMsg, Encoding.UTF8, "application/x-www-form-urlencoded");
-                    var response = httpClient.PostAsync(new Uri(trackbackUrl), content).GetAwaiter().GetResult();
-                    response.EnsureSuccessStatusCode();
+                    using (var response = httpClient.PostAsync(new Uri(trackbackUrl), content).GetAwaiter().GetResult())
+                    {
+                        response.EnsureSuccessStatusCode();
+                    }
 
                     this.loggingService.AddEvent(
                         new EventDataItem(
