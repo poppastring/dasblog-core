@@ -31,20 +31,22 @@ namespace Subtext.Akismet
 		{
 			System.Net.ServicePointManager.Expect100Continue = false;
 			
-			var request = new HttpRequestMessage(System.Net.Http.HttpMethod.Post, url);
-			request.Headers.Add("User-Agent", userAgent);
-			request.Content = new StringContent(formParameters, Encoding.UTF8, "application/x-www-form-urlencoded");
-			
-			using (var cts = new System.Threading.CancellationTokenSource(timeout))
+			using (var request = new HttpRequestMessage(System.Net.Http.HttpMethod.Post, url))
 			{
-				var response = httpClient.SendAsync(request, cts.Token).Result;
+				request.Headers.Add("User-Agent", userAgent);
+				request.Content = new StringContent(formParameters, Encoding.UTF8, "application/x-www-form-urlencoded");
 				
-				if (response.StatusCode < HttpStatusCode.OK || response.StatusCode >= HttpStatusCode.Ambiguous)
-					throw new InvalidResponseException(string.Format("The service was not able to handle our request. Http Status '{0}'.", response.StatusCode), response.StatusCode);
+				using (var cts = new System.Threading.CancellationTokenSource(timeout))
+				{
+					var response = httpClient.SendAsync(request, cts.Token).GetAwaiter().GetResult();
+					
+					if (response.StatusCode < HttpStatusCode.OK || response.StatusCode >= HttpStatusCode.Ambiguous)
+						throw new InvalidResponseException(string.Format("The service was not able to handle our request. Http Status '{0}'.", response.StatusCode), response.StatusCode);
 
-				string responseText = response.Content.ReadAsStringAsync().Result;
-				
-				return responseText;
+					string responseText = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+					
+					return responseText;
+				}
 			}
 		}
 	}
