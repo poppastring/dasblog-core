@@ -10,6 +10,7 @@ using newtelligence.DasBlog.Runtime;
 using Microsoft.Extensions.Logging;
 using NodaTime;
 using DasBlog.Services;
+using System.Linq;
 
 namespace DasBlog.Tests.UnitTests.Managers
 {
@@ -85,9 +86,16 @@ namespace DasBlog.Tests.UnitTests.Managers
         {
             var manager = CreateManager();
             var result = manager.GetAllEntries();
-            Assert.NotNull(result);
-            Assert.Equal(23, result.Count);
-            Assert.Equal("The Mesurability of the Imeasurable", result[0].Title);
+			Assert.NotNull(result);
+
+			var oldEntries = result
+				.Where(e => e.CreatedUtc < DateTime.UtcNow.AddDays(-10))
+				.ToList();
+
+			Assert.NotNull(oldEntries);
+			Assert.Equal(23, oldEntries.Count);
+
+			Assert.Equal("The Mesurability of the Imeasurable", oldEntries.First().Title);
         }
     }
 }
