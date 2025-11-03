@@ -14,14 +14,12 @@ namespace DasBlog.Tests.UnitTests.Managers
     public class SiteSecurityManagerTest
     {
         private Mock<IDasBlogSettings> settingsMock;
-        private Mock<ISiteConfig> siteConfigMock;
         private Mock<ISiteSecurityConfig> securityConfigMock;
         private List<User> users;
 
         public SiteSecurityManagerTest()
         {
             settingsMock = new Mock<IDasBlogSettings>();
-            siteConfigMock = new Mock<ISiteConfig>();
             securityConfigMock = new Mock<ISiteSecurityConfig>();
 
             users = new List<User>
