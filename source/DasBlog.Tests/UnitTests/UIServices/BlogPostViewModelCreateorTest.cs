@@ -68,7 +68,7 @@ namespace DasBlog.Tests.UnitTests.UIServices
 		{
 			IBlogPostViewModelCreator bpvmc = new BlogPostViewModelCreator(blogManager, mapper, timeZoneProvider);
 			var postViewModel = bpvmc.CreateBlogPostVM();
-			Assert.Equal(1, postViewModel.AllCategories.Count);
+			Assert.Single(postViewModel.AllCategories);
 		}
 		[Fact]
 		[Trait("Category", "UnitTest")]
