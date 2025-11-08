@@ -4,26 +4,26 @@ using System.Xml.Serialization;
 namespace DasBlog.Core.Services.GoogleSiteMap
 {
 	/// <remarks/>
-	[System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.google.com/schemas/sitemap/0.84")]
-	[System.Xml.Serialization.XmlRootAttribute(Namespace = "http://www.google.com/schemas/sitemap/0.84", IsNullable = false)]
-	public class urlset
+	[System.Xml.Serialization.XmlTypeAttribute("urlset", Namespace = "http://www.google.com/schemas/sitemap/0.84")]
+	[System.Xml.Serialization.XmlRootAttribute("urlset", Namespace = "http://www.google.com/schemas/sitemap/0.84", IsNullable = false)]
+	public class UrlSet
 	{
 
-		public urlset() { }
+		public UrlSet() { }
 
 		/// <remarks/>
 		[System.Xml.Serialization.XmlElementAttribute("url")]
-		public urlCollection url;
+		public UrlCollection url;
 	}
 
 	/// <remarks/>
-	[System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.google.com/schemas/sitemap/0.84")]
-	[System.Xml.Serialization.XmlRootAttribute(Namespace = "http://www.google.com/schemas/sitemap/0.84", IsNullable = false)]
-	public class url
+	[System.Xml.Serialization.XmlTypeAttribute("url", Namespace = "http://www.google.com/schemas/sitemap/0.84")]
+	[System.Xml.Serialization.XmlRootAttribute("url", Namespace = "http://www.google.com/schemas/sitemap/0.84", IsNullable = false)]
+	public class Url
 	{
-		public url() { }
+		public Url() { }
 
-		public url(string locIn, DateTime lastmodIn, changefreq freqIn, Decimal priorityIn)
+		public Url(string locIn, DateTime lastmodIn, ChangeFreq freqIn, Decimal priorityIn)
 		{
 			loc = locIn;
 			lastmod = lastmodIn;
@@ -55,7 +55,7 @@ namespace DasBlog.Core.Services.GoogleSiteMap
 		public DateTime lastmod;
 
 		/// <remarks/>
-		public changefreq changefreq;
+		public ChangeFreq changefreq;
 
 		/// <remarks/>
 		[System.Xml.Serialization.XmlIgnoreAttribute()]
@@ -70,9 +70,9 @@ namespace DasBlog.Core.Services.GoogleSiteMap
 	}
 
 	/// <remarks/>
-	[System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.google.com/schemas/sitemap/0.84")]
-	[System.Xml.Serialization.XmlRootAttribute(Namespace = "http://www.google.com/schemas/sitemap/0.84", IsNullable = false)]
-	public enum changefreq
+	[System.Xml.Serialization.XmlTypeAttribute("changefreq", Namespace = "http://www.google.com/schemas/sitemap/0.84")]
+	[System.Xml.Serialization.XmlRootAttribute("changefreq", Namespace = "http://www.google.com/schemas/sitemap/0.84", IsNullable = false)]
+	public enum ChangeFreq
 	{
 
 		/// <remarks/>
@@ -98,134 +98,134 @@ namespace DasBlog.Core.Services.GoogleSiteMap
 	}
 
 	/// <summary>
-	/// A collection of elements of type url
+	/// A collection of elements of type Url
 	/// </summary>
-	public class urlCollection : System.Collections.CollectionBase
+	public class UrlCollection : System.Collections.CollectionBase
 	{
 		/// <summary>
-		/// Initializes a new empty instance of the urlCollection class.
+		/// Initializes a new empty instance of the UrlCollection class.
 		/// </summary>
-		public urlCollection()
+		public UrlCollection()
 		{
 			// empty
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the urlCollection class, containing elements
+		/// Initializes a new instance of the UrlCollection class, containing elements
 		/// copied from an array.
 		/// </summary>
 		/// <param name="items">
-		/// The array whose elements are to be added to the new urlCollection.
+		/// The array whose elements are to be added to the new UrlCollection.
 		/// </param>
-		public urlCollection(url[] items)
+		public UrlCollection(Url[] items)
 		{
 			this.AddRange(items);
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the urlCollection class, containing elements
-		/// copied from another instance of urlCollection
+		/// Initializes a new instance of the UrlCollection class, containing elements
+		/// copied from another instance of UrlCollection
 		/// </summary>
 		/// <param name="items">
-		/// The urlCollection whose elements are to be added to the new urlCollection.
+		/// The UrlCollection whose elements are to be added to the new UrlCollection.
 		/// </param>
-		public urlCollection(urlCollection items)
+		public UrlCollection(UrlCollection items)
 		{
 			this.AddRange(items);
 		}
 
 		/// <summary>
-		/// Adds the elements of an array to the end of this urlCollection.
+		/// Adds the elements of an array to the end of this UrlCollection.
 		/// </summary>
 		/// <param name="items">
-		/// The array whose elements are to be added to the end of this urlCollection.
+		/// The array whose elements are to be added to the end of this UrlCollection.
 		/// </param>
-		public virtual void AddRange(url[] items)
+		public virtual void AddRange(Url[] items)
 		{
-			foreach (url item in items)
+			foreach (Url item in items)
 			{
 				this.List.Add(item);
 			}
 		}
 
 		/// <summary>
-		/// Adds the elements of another urlCollection to the end of this urlCollection.
+		/// Adds the elements of another UrlCollection to the end of this UrlCollection.
 		/// </summary>
 		/// <param name="items">
-		/// The urlCollection whose elements are to be added to the end of this urlCollection.
+		/// The UrlCollection whose elements are to be added to the end of this UrlCollection.
 		/// </param>
-		public virtual void AddRange(urlCollection items)
+		public virtual void AddRange(UrlCollection items)
 		{
-			foreach (url item in items)
+			foreach (Url item in items)
 			{
 				this.List.Add(item);
 			}
 		}
 
 		/// <summary>
-		/// Adds an instance of type url to the end of this urlCollection.
+		/// Adds an instance of type Url to the end of this UrlCollection.
 		/// </summary>
 		/// <param name="value">
-		/// The url to be added to the end of this urlCollection.
+		/// The Url to be added to the end of this UrlCollection.
 		/// </param>
-		public virtual void Add(url value)
+		public virtual void Add(Url value)
 		{
 			this.List.Add(value);
 		}
 
 		/// <summary>
-		/// Determines whether a specfic url value is in this urlCollection.
+		/// Determines whether a specfic Url value is in this UrlCollection.
 		/// </summary>
 		/// <param name="value">
-		/// The url value to locate in this urlCollection.
+		/// The Url value to locate in this UrlCollection.
 		/// </param>
 		/// <returns>
-		/// true if value is found in this urlCollection;
+		/// true if value is found in this UrlCollection;
 		/// false otherwise.
 		/// </returns>
-		public virtual bool Contains(url value)
+		public virtual bool Contains(Url value)
 		{
 			return this.List.Contains(value);
 		}
 
 		/// <summary>
 		/// Return the zero-based index of the first occurrence of a specific value
-		/// in this urlCollection
+		/// in this UrlCollection
 		/// </summary>
 		/// <param name="value">
-		/// The url value to locate in the urlCollection.
+		/// The Url value to locate in the UrlCollection.
 		/// </param>
 		/// <returns>
 		/// The zero-based index of the first occurrence of the _ELEMENT value if found;
 		/// -1 otherwise.
 		/// </returns>
-		public virtual int IndexOf(url value)
+		public virtual int IndexOf(Url value)
 		{
 			return this.List.IndexOf(value);
 		}
 
 		/// <summary>
-		/// Inserts an element into the urlCollection at the specified index
+		/// Inserts an element into the UrlCollection at the specified index
 		/// </summary>
 		/// <param name="index">
-		/// The index at which the url is to be inserted.
+		/// The index at which the Url is to be inserted.
 		/// </param>
 		/// <param name="value">
-		/// The url to insert.
+		/// The Url to insert.
 		/// </param>
-		public virtual void Insert(int index, url value)
+		public virtual void Insert(int index, Url value)
 		{
 			this.List.Insert(index, value);
 		}
 
 		/// <summary>
-		/// Gets or sets the url at the given index in this urlCollection.
+		/// Gets or sets the Url at the given index in this UrlCollection.
 		/// </summary>
-		public virtual url this[int index]
+		public virtual Url this[int index]
 		{
 			get
 			{
-				return (url)this.List[index];
+				return (Url)this.List[index];
 			}
 			set
 			{
@@ -234,33 +234,33 @@ namespace DasBlog.Core.Services.GoogleSiteMap
 		}
 
 		/// <summary>
-		/// Removes the first occurrence of a specific url from this urlCollection.
+		/// Removes the first occurrence of a specific Url from this UrlCollection.
 		/// </summary>
 		/// <param name="value">
-		/// The url value to remove from this urlCollection.
+		/// The Url value to remove from this UrlCollection.
 		/// </param>
-		public virtual void Remove(url value)
+		public virtual void Remove(Url value)
 		{
 			this.List.Remove(value);
 		}
 
 		/// <summary>
-		/// Type-specific enumeration class, used by urlCollection.GetEnumerator.
+		/// Type-specific enumeration class, used by UrlCollection.GetEnumerator.
 		/// </summary>
 		public class Enumerator : System.Collections.IEnumerator
 		{
 			private System.Collections.IEnumerator wrapped;
 
-			public Enumerator(urlCollection collection)
+			public Enumerator(UrlCollection collection)
 			{
 				this.wrapped = ((System.Collections.CollectionBase)collection).GetEnumerator();
 			}
 
-			public url Current
+			public Url Current
 			{
 				get
 				{
-					return (url)(this.wrapped.Current);
+					return (Url)(this.wrapped.Current);
 				}
 			}
 
@@ -268,7 +268,7 @@ namespace DasBlog.Core.Services.GoogleSiteMap
 			{
 				get
 				{
-					return (url)(this.wrapped.Current);
+					return (Url)(this.wrapped.Current);
 				}
 			}
 
@@ -284,14 +284,14 @@ namespace DasBlog.Core.Services.GoogleSiteMap
 		}
 
 		/// <summary>
-		/// Returns an enumerator that can iterate through the elements of this urlCollection.
+		/// Returns an enumerator that can iterate through the elements of this UrlCollection.
 		/// </summary>
 		/// <returns>
 		/// An object that implements System.Collections.IEnumerator.
 		/// </returns>        
-		public new virtual urlCollection.Enumerator GetEnumerator()
+		public new virtual UrlCollection.Enumerator GetEnumerator()
 		{
-			return new urlCollection.Enumerator(this);
+			return new UrlCollection.Enumerator(this);
 		}
 	}
 

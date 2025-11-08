@@ -4,13 +4,13 @@ using System.Xml.Serialization;
 namespace DasBlog.Services.Seo.GoogleSiteMap
 {
 	/// <remarks/>
-	[System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.google.com/schemas/sitemap/0.84")]
-	[System.Xml.Serialization.XmlRootAttribute(Namespace = "http://www.google.com/schemas/sitemap/0.84", IsNullable = false)]
-	public class url
+	[System.Xml.Serialization.XmlTypeAttribute("url", Namespace = "http://www.google.com/schemas/sitemap/0.84")]
+	[System.Xml.Serialization.XmlRootAttribute("url", Namespace = "http://www.google.com/schemas/sitemap/0.84", IsNullable = false)]
+	public class Url
 	{
-		public url() { }
+		public Url() { }
 
-		public url(string locIn, DateTime lastmodIn, changefreq freqIn, Decimal priorityIn)
+		public Url(string locIn, DateTime lastmodIn, ChangeFreq freqIn, Decimal priorityIn)
 		{
 			loc = locIn;
 			lastmod = lastmodIn;
@@ -42,7 +42,7 @@ namespace DasBlog.Services.Seo.GoogleSiteMap
 		public DateTime lastmod;
 
 		/// <remarks/>
-		public changefreq changefreq;
+		public ChangeFreq changefreq;
 
 		/// <remarks/>
 		[System.Xml.Serialization.XmlIgnoreAttribute()]
