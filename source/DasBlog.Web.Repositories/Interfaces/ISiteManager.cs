@@ -7,6 +7,6 @@ namespace DasBlog.Managers.Interfaces
 {
     public interface ISiteManager
     {
-        urlset GetGoogleSiteMap();
+        UrlSet GetGoogleSiteMap();
     }
 }

@@ -21,19 +21,19 @@ namespace DasBlog.Managers
 			dataService = BlogDataServiceFactory.GetService(Path.Combine(dasBlogSettings.WebRootDirectory, dasBlogSettings.SiteConfiguration.ContentDir), loggingDataService);
 		}
 
-        public urlset GetGoogleSiteMap()
+        public UrlSet GetGoogleSiteMap()
         {
-            var root = new urlset();
-            root.url = new urlCollection();
+            var root = new UrlSet();
+            root.url = new UrlCollection();
 
             //Default first...
-            var basePage = new url(dasBlogSettings.GetBaseUrl(), DateTime.Now, changefreq.daily, 1.0M);
+            var basePage = new Url(dasBlogSettings.GetBaseUrl(), DateTime.Now, ChangeFreq.daily, 1.0M);
             root.url.Add(basePage);
 
-            var archivePage = new url(dasBlogSettings.RelativeToRoot("archive"), DateTime.Now, changefreq.daily, 1.0M);
+            var archivePage = new Url(dasBlogSettings.RelativeToRoot("archive"), DateTime.Now, ChangeFreq.daily, 1.0M);
             root.url.Add(archivePage);
 
-			var categorpage = new url(dasBlogSettings.RelativeToRoot("category"), DateTime.Now, changefreq.daily, 1.0M);
+			var categorpage = new Url(dasBlogSettings.RelativeToRoot("category"), DateTime.Now, ChangeFreq.daily, 1.0M);
 			root.url.Add(categorpage);
 
 			//All Pages
@@ -44,36 +44,36 @@ namespace DasBlog.Managers
                 {
                     //Start with a RARE change freq...newer posts are more likely to change more often.
                     // The older a post, the less likely it is to change...
-                    var freq = changefreq.daily;
+                    var freq = ChangeFreq.daily;
 
                     //new stuff?
                     if (e.CreatedLocalTime < DateTime.Now.AddMonths(-9))
                     {
-                        freq = changefreq.yearly;
+                        freq = ChangeFreq.yearly;
                     }
                     else if (e.CreatedLocalTime < DateTime.Now.AddDays(-30))
                     {
-                        freq = changefreq.monthly;
+                        freq = ChangeFreq.monthly;
                     }
                     else if (e.CreatedLocalTime < DateTime.Now.AddDays(-7))
                     {
-                        freq = changefreq.weekly;
+                        freq = ChangeFreq.weekly;
                     }
                     if (e.CreatedLocalTime > DateTime.Now.AddDays(-2))
                     {
-                        freq = changefreq.hourly;
+                        freq = ChangeFreq.hourly;
                     }
 
                     //Add comments pages, since comments have indexable content...
                     // Only add comments if we aren't showing comments on permalink pages already
                     if (dasBlogSettings.SiteConfiguration.ShowCommentsWhenViewingEntry == false)
                     {
-                        var commentPage = new url(dasBlogSettings.GetCommentViewUrl(e.CompressedTitle), e.CreatedLocalTime, freq, 0.7M);
+                        var commentPage = new Url(dasBlogSettings.GetCommentViewUrl(e.CompressedTitle), e.CreatedLocalTime, freq, 0.7M);
                         root.url.Add(commentPage);
                     }
 
                     //then add permalinks
-                    var permaPage = new url(dasBlogSettings.RelativeToRoot(dasBlogSettings.GeneratePostUrl(e)), e.CreatedLocalTime, freq, 0.9M);
+                    var permaPage = new Url(dasBlogSettings.RelativeToRoot(dasBlogSettings.GeneratePostUrl(e)), e.CreatedLocalTime, freq, 0.9M);
                     root.url.Add(permaPage);
                 }
             }
@@ -85,7 +85,7 @@ namespace DasBlog.Managers
                 if (cce.IsPublic)
                 {
 					var catname = Entry.InternalCompressTitle(cce.Name, dasBlogSettings.SiteConfiguration.TitlePermalinkSpaceReplacement).ToLower();
-					var caturl = new url(dasBlogSettings.GetCategoryViewUrl(catname), DateTime.Now, changefreq.weekly, 0.6M);
+					var caturl = new Url(dasBlogSettings.GetCategoryViewUrl(catname), DateTime.Now, ChangeFreq.weekly, 0.6M);
                     root.url.Add(caturl);
                 }
             }
