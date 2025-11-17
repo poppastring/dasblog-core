@@ -12,7 +12,7 @@
 
     <div class="row gy-2 gx-3 align-items-md-start mb-2">
         <div class="col-sm-12">
-            <input class="btn btn-outline-primary me-2" type="submit" name="submit" value="Save" id="BlogPostEditSubmit" />
+            <button class="btn btn-outline-primary me-2" type="button" data-bs-toggle="modal" data-bs-target="#saveConfirmModal">Save</button>
             <a class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="@Model.PermaLink">View your post</a>
         </div>
     </div>
@@ -23,7 +23,7 @@
 
     <hr />
     <div class="d-flex flex-wrap">
-        <input class="btn btn-default btn-primary me-2" type="submit" name="submit" value="Save" id="BlogPostEditSubmit" />
+        <button class="btn btn-default btn-primary me-2" type="button" data-bs-toggle="modal" data-bs-target="#saveConfirmModal">Save</button>
         <input class="btn btn-default btn-secondary me-2" asp-controller="Home" asp-action="Index" type="submit" name="submit" value="Cancel" />
     </div>
 
@@ -34,8 +34,39 @@
 
 </form>
 
+<!-- Confirmation Modal -->
+<div class="modal fade" id="saveConfirmModal" tabindex="-1" aria-labelledby="saveConfirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="saveConfirmModalLabel">Confirm Save</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to save changes to this blog post?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="confirmSaveBtn">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @section Scripts {
     <rich-edit-scripts control-id="mytextarea" />
 
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+    
+    <script>
+        document.getElementById('confirmSaveBtn').addEventListener('click', function() {
+            var form = document.querySelector('form[asp-action="edit"]');
+            var input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'submit';
+            input.value = 'Save';
+            form.appendChild(input);
+            form.submit();
+        });
+    </script>
 }

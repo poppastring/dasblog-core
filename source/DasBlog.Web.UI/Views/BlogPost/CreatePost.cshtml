@@ -14,7 +14,7 @@
 
     <hr />
     <div class="d-flex flex-wrap">
-        <input class="btn btn-primary me-2" type="submit" name="submit" value="Create Post" id="BlogPostCreateSubmit" />
+        <button class="btn btn-primary me-2" type="button" data-bs-toggle="modal" data-bs-target="#createConfirmModal">Create Post</button>
         <input class="btn btn-secondary me-2" asp-controller="Home" asp-action="Index" type="submit" name="submit" value="Cancel" />
     </div>
 
@@ -24,6 +24,37 @@
 
 </form>
 
+<!-- Confirmation Modal -->
+<div class="modal fade" id="createConfirmModal" tabindex="-1" aria-labelledby="createConfirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createConfirmModalLabel">Confirm Create</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to create this blog post?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="confirmCreateBtn">Create Post</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @section scripts {
     <rich-edit-scripts control-id="mytextarea" />
+    
+    <script>
+        document.getElementById('confirmCreateBtn').addEventListener('click', function() {
+            var form = document.querySelector('form[asp-action="create"]');
+            var input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'submit';
+            input.value = 'Create Post';
+            form.appendChild(input);
+            form.submit();
+        });
+    </script>
 }
