@@ -1,4 +1,5 @@
 ﻿using DasBlog.Core.Security;
+using DasBlog.Services.Rss.Atom;
 using DasBlog.Services.Rss.Rsd;
 using DasBlog.Services.Rss.Rss20;
 using DasBlog.Managers.Interfaces;
@@ -37,14 +38,152 @@ namespace DasBlog.Managers
             return GetRssCore(categoryName, 0, 0);
         }
 
-        public RssRoot GetAtom()
+        public AtomRoot GetAtom()
         {
-            throw new NotImplementedException();
+            return GetAtomCore(null, dasBlogSettings.SiteConfiguration.RssDayCount, dasBlogSettings.SiteConfiguration.RssMainEntryCount);
         }
 
-        public RssRoot GetAtomCategory(string categoryName)
+        public AtomRoot GetAtomCategory(string categoryName)
         {
-            throw new NotImplementedException();
+            return GetAtomCore(categoryName, 0, 0);
+        }
+
+        private AtomRoot GetAtomCore(string category, int maxDayCount, int maxEntryCount)
+        {
+            var entries = BuildEntries(category, maxDayCount, maxEntryCount);
+            var feed = new AtomRoot();
+
+            // Set feed title
+            if (category == null)
+            {
+                feed.Title = new AtomText(dasBlogSettings.SiteConfiguration.Title);
+            }
+            else
+            {
+                feed.Title = new AtomText(dasBlogSettings.SiteConfiguration.Title + " - " + category);
+            }
+
+            // Set feed subtitle/description
+            if (!string.IsNullOrEmpty(dasBlogSettings.SiteConfiguration.Description))
+            {
+                feed.Subtitle = new AtomText(dasBlogSettings.SiteConfiguration.Description);
+            }
+            else if (!string.IsNullOrEmpty(dasBlogSettings.SiteConfiguration.Subtitle))
+            {
+                feed.Subtitle = new AtomText(dasBlogSettings.SiteConfiguration.Subtitle);
+            }
+
+            // Set feed ID and links
+            feed.Id = dasBlogSettings.GetBaseUrl();
+            feed.Links.Add(new AtomLink(dasBlogSettings.GetBaseUrl(), "alternate", "text/html"));
+            feed.Links.Add(new AtomLink(dasBlogSettings.RelativeToRoot("feed/atom"), "self", "application/atom+xml"));
+
+            // Set rights/copyright
+            if (!string.IsNullOrEmpty(dasBlogSettings.SiteConfiguration.Copyright))
+            {
+                feed.Rights = dasBlogSettings.SiteConfiguration.Copyright;
+            }
+
+            // Set logo/icon
+            if (!string.IsNullOrWhiteSpace(dasBlogSettings.SiteConfiguration.ChannelImageUrl))
+            {
+                if (dasBlogSettings.SiteConfiguration.ChannelImageUrl.StartsWith("http"))
+                {
+                    feed.Logo = dasBlogSettings.SiteConfiguration.ChannelImageUrl;
+                }
+                else
+                {
+                    feed.Logo = dasBlogSettings.RelativeToRoot(dasBlogSettings.SiteConfiguration.ChannelImageUrl);
+                }
+            }
+
+            // Set author
+            feed.Author = new AtomPerson(dasBlogSettings.SiteConfiguration.Title, dasBlogSettings.SiteConfiguration.Contact);
+
+            // Set updated time
+            string lastUpdated = DateTime.UtcNow.ToString("o");
+
+            foreach (var entry in entries)
+            {
+                if (entry.IsPublic == false || entry.Syndicated == false)
+                {
+                    continue;
+                }
+
+                var atomEntry = new AtomEntry();
+                atomEntry.Title = new AtomText(entry.Title);
+                atomEntry.Id = dasBlogSettings.RelativeToRoot(dasBlogSettings.GeneratePostUrl(entry));
+                atomEntry.Published = entry.CreatedUtc.ToString("o");
+                atomEntry.Updated = (entry.ModifiedUtc != DateTime.MinValue ? entry.ModifiedUtc : entry.CreatedUtc).ToString("o");
+
+                // Update feed's last updated time based on first entry
+                if (feed.Updated == null)
+                {
+                    feed.Updated = atomEntry.Updated;
+                }
+
+                // Set entry link
+                atomEntry.Links.Add(new AtomLink(dasBlogSettings.RelativeToRoot(dasBlogSettings.GeneratePostUrl(entry)), "alternate", "text/html"));
+
+                // Set author
+                User user = dasBlogSettings.GetUserByEmail(entry.Author);
+                if (user != null)
+                {
+                    atomEntry.Author = new AtomPerson(user.DisplayName, entry.Author);
+                }
+                else
+                {
+                    atomEntry.Author = new AtomPerson(entry.Author);
+                }
+
+                // Set categories
+                if (entry.Categories != null && entry.Categories.Length > 0)
+                {
+                    string[] cats = entry.Categories.Split(';');
+                    foreach (string c in cats)
+                    {
+                        string cleanCat = c.Replace('|', '/');
+                        atomEntry.Categories.Add(new AtomCategory(cleanCat, cleanCat));
+                    }
+                }
+
+                // Set content
+                if (!dasBlogSettings.SiteConfiguration.AlwaysIncludeContentInRSS &&
+                    entry.Description != null &&
+                    entry.Description.Trim().Length > 0)
+                {
+                    atomEntry.Summary = new AtomText(PreprocessItemContent(entry.EntryId, entry.Description), "html");
+                }
+                else
+                {
+                    string content = PreprocessItemContent(entry.EntryId, entry.Content);
+                    if (dasBlogSettings.SiteConfiguration.HtmlTidyContent)
+                    {
+                        content = ContentFormatter.FormatContentAsHTML(content);
+                    }
+                    atomEntry.Content = new AtomContent(content, "html");
+                }
+
+                // Handle enclosures/attachments
+                if (entry.Attachments.Count > 0)
+                {
+                    var attachment = entry.Attachments[0];
+                    atomEntry.Links.Add(new AtomLink(attachment.Name, "enclosure", attachment.Type) 
+                    { 
+                        Length = attachment.Length.ToString() 
+                    });
+                }
+
+                feed.Entries.Add(atomEntry);
+            }
+
+            // If no entries, set updated to now
+            if (feed.Updated == null)
+            {
+                feed.Updated = lastUpdated;
+            }
+
+            return feed;
         }
 
         private RssRoot GetRssCore(string category, int maxDayCount, int maxEntryCount)

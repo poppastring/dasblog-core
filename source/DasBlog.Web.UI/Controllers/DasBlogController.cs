@@ -12,6 +12,7 @@ namespace DasBlog.Web.Controllers
 	public abstract class DasBlogController : Controller
 	{
 		protected const string CACHEKEY_RSS = "CACHEKEY_RSS";
+		protected const string CACHEKEY_ATOM = "CACHEKEY_ATOM";
 		protected const string CACHEKEY_FRONTPAGE = "CACHEKEY_FRONTPAGE";
 		protected const string CACHEKEY_ARCHIVE = "CACHEKEY_ARCHIVE";
 
