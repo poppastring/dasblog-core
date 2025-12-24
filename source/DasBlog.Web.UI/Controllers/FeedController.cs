@@ -1,6 +1,7 @@
 ﻿using DasBlog.Managers.Interfaces;
 using DasBlog.Services;
 using DasBlog.Services.ActivityLogs;
+using DasBlog.Services.Rss.Atom;
 using DasBlog.Services.Rss.Rss20;
 using DasBlog.Services.Rss.Rsd;
 using Microsoft.AspNetCore.Mvc;
@@ -58,16 +59,52 @@ namespace DasBlog.Web.Controllers
 				}
 			}
 
-			if(rss.Channels[0]?.Items?.Count == 0)
-			{
-				return NoContent();
+				if(rss.Channels[0]?.Items?.Count == 0)
+				{
+					return NoContent();
+				}
+
+				return Ok(rss);
 			}
 
-			return Ok(rss);
-        }
+			[Produces("application/atom+xml")]
+			[HttpGet("feed/atom"), HttpHead("feed/atom")]
+			public IActionResult Atom()
+			{
+				if (!memoryCache.TryGetValue(CACHEKEY_ATOM, out AtomRoot atom))
+				{
+					atom = subscriptionManager.GetAtom();
 
-		[Produces("text/xml")]
-		[HttpGet("feed/rsd")]
+					memoryCache.Set(CACHEKEY_ATOM, atom, SiteCacheSettings());
+				}
+
+				return Ok(atom);
+			}
+
+			[Produces("application/atom+xml")]
+			[HttpGet("feed/atom/{category}"), HttpHead("feed/atom/{category}")]
+			public IActionResult AtomByCategory(string category)
+			{
+				if (!memoryCache.TryGetValue(CACHEKEY_ATOM + "_" + category, out AtomRoot atom))
+				{
+					atom = subscriptionManager.GetAtomCategory(category);
+
+					if (atom.Entries?.Count > 0)
+					{
+						memoryCache.Set(CACHEKEY_ATOM + "_" + category, atom, SiteCacheSettings());
+					}
+				}
+
+				if (atom.Entries?.Count == 0)
+				{
+					return NoContent();
+				}
+
+				return Ok(atom);
+			}
+
+			[Produces("text/xml")]
+			[HttpGet("feed/rsd")]
         public ActionResult Rsd()
         {
             RsdRoot rsd = null;
@@ -132,10 +169,11 @@ namespace DasBlog.Web.Controllers
 			return Ok();
 		}
 
-		private void BreakSiteCache()
-		{
-			memoryCache.Remove(CACHEKEY_RSS);
-			memoryCache.Remove(CACHEKEY_FRONTPAGE);
+				private void BreakSiteCache()
+				{
+					memoryCache.Remove(CACHEKEY_RSS);
+					memoryCache.Remove(CACHEKEY_ATOM);
+					memoryCache.Remove(CACHEKEY_FRONTPAGE);
+				}
+			}
 		}
-	}
-}

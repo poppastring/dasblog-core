@@ -1,4 +1,5 @@
-﻿using DasBlog.Services.Rss.Rsd;
+﻿using DasBlog.Services.Rss.Atom;
+using DasBlog.Services.Rss.Rsd;
 using DasBlog.Services.Rss.Rss20;
 
 namespace DasBlog.Managers.Interfaces
@@ -7,8 +8,8 @@ namespace DasBlog.Managers.Interfaces
     {
         RssRoot GetRss();
         RssRoot GetRssCategory(string categoryName);
-        RssRoot GetAtom();
-        RssRoot GetAtomCategory(string categoryName);
+        AtomRoot GetAtom();
+        AtomRoot GetAtomCategory(string categoryName);
         RsdRoot GetRsd();
     }
 }
