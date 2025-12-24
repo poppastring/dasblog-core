@@ -14,11 +14,18 @@ namespace DasBlog.Services.Rss.Atom
         private readonly string generator;
         private List<AtomEntry> entries;
 
+        [XmlNamespaceDeclarations]
+        public XmlSerializerNamespaces Namespaces { get; set; }
+
         public AtomRoot()
         {
             generator = "dasBlog Core " + GetType().Assembly.GetName().Version;
             entries = new List<AtomEntry>();
             Links = new List<AtomLink>();
+
+            // Initialize namespaces to suppress xsi and xsd declarations
+            Namespaces = new XmlSerializerNamespaces();
+            Namespaces.Add("", "http://www.w3.org/2005/Atom");
         }
 
         [XmlElement("title")]
