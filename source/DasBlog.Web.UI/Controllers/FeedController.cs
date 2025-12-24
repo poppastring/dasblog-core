@@ -9,7 +9,10 @@ using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using System;
 using System.IO;
+using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
+using System.Xml.Serialization;
 
 namespace DasBlog.Web.Controllers
 {
@@ -67,7 +70,6 @@ namespace DasBlog.Web.Controllers
 				return Ok(rss);
 			}
 
-			[Produces("application/atom+xml")]
 			[HttpGet("feed/atom"), HttpHead("feed/atom")]
 			public IActionResult Atom()
 			{
@@ -78,10 +80,9 @@ namespace DasBlog.Web.Controllers
 					memoryCache.Set(CACHEKEY_ATOM, atom, SiteCacheSettings());
 				}
 
-				return Ok(atom);
+				return AtomContent(atom);
 			}
 
-			[Produces("application/atom+xml")]
 			[HttpGet("feed/atom/{category}"), HttpHead("feed/atom/{category}")]
 			public IActionResult AtomByCategory(string category)
 			{
@@ -100,7 +101,30 @@ namespace DasBlog.Web.Controllers
 					return NoContent();
 				}
 
-				return Ok(atom);
+				return AtomContent(atom);
+			}
+
+			/// <summary>
+			/// Serializes AtomRoot to XML with proper namespace handling (no xsi/xsd declarations)
+			/// </summary>
+			private ContentResult AtomContent(AtomRoot atom)
+			{
+				var serializer = new XmlSerializer(typeof(AtomRoot));
+				var settings = new XmlWriterSettings
+				{
+					Indent = false,
+					OmitXmlDeclaration = false,
+					Encoding = new UTF8Encoding(false) // UTF-8 without BOM
+				};
+
+				using var memoryStream = new MemoryStream();
+				using (var xmlWriter = XmlWriter.Create(memoryStream, settings))
+				{
+					serializer.Serialize(xmlWriter, atom, atom.Namespaces);
+				}
+
+				var xmlContent = Encoding.UTF8.GetString(memoryStream.ToArray());
+				return Content(xmlContent, "application/atom+xml; charset=utf-8");
 			}
 
 			[Produces("text/xml")]

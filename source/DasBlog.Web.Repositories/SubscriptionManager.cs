@@ -112,7 +112,7 @@ namespace DasBlog.Managers
 
                 var atomEntry = new AtomEntry();
                 atomEntry.Title = new AtomText(entry.Title);
-                atomEntry.Id = dasBlogSettings.GetPermaLinkUrl(entry.EntryId);
+                atomEntry.Id = dasBlogSettings.RelativeToRoot(dasBlogSettings.GeneratePostUrl(entry));
                 atomEntry.Published = entry.CreatedUtc.ToString("o");
                 atomEntry.Updated = (entry.ModifiedUtc != DateTime.MinValue ? entry.ModifiedUtc : entry.CreatedUtc).ToString("o");
 

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Xml;
 using System.Xml.Serialization;
 
@@ -8,6 +7,7 @@ namespace DasBlog.Services.Rss.Atom
     /// <summary>
     /// Atom 1.0 Feed Root Element
     /// </summary>
+    [XmlType(IncludeInSchema = false)]
     [XmlRoot("feed", Namespace = "http://www.w3.org/2005/Atom")]
     public class AtomRoot
     {
@@ -15,7 +15,7 @@ namespace DasBlog.Services.Rss.Atom
         private List<AtomEntry> entries;
 
         [XmlNamespaceDeclarations]
-        public XmlSerializerNamespaces Namespaces { get; set; }
+        public XmlSerializerNamespaces Namespaces;
 
         public AtomRoot()
         {
@@ -67,6 +67,15 @@ namespace DasBlog.Services.Rss.Atom
 
         [XmlAnyElement]
         public XmlElement[] AnyElements { get; set; }
+
+        // Suppress empty/null elements
+        public bool ShouldSerializeSubtitle() => Subtitle != null;
+        public bool ShouldSerializeRights() => !string.IsNullOrEmpty(Rights);
+        public bool ShouldSerializeIcon() => !string.IsNullOrEmpty(Icon);
+        public bool ShouldSerializeLogo() => !string.IsNullOrEmpty(Logo);
+        public bool ShouldSerializeLinks() => Links != null && Links.Count > 0;
+        public bool ShouldSerializeEntries() => entries != null && entries.Count > 0;
+        public bool ShouldSerializeAnyElements() => AnyElements != null && AnyElements.Length > 0;
     }
 
     /// <summary>
@@ -109,6 +118,14 @@ namespace DasBlog.Services.Rss.Atom
 
         [XmlAnyElement]
         public XmlElement[] AnyElements { get; set; }
+
+        // Suppress empty/null elements
+        public bool ShouldSerializePublished() => !string.IsNullOrEmpty(Published);
+        public bool ShouldSerializeLinks() => Links != null && Links.Count > 0;
+        public bool ShouldSerializeCategories() => Categories != null && Categories.Count > 0;
+        public bool ShouldSerializeSummary() => Summary != null;
+        public bool ShouldSerializeContent() => Content != null;
+        public bool ShouldSerializeAnyElements() => AnyElements != null && AnyElements.Length > 0;
     }
 
     /// <summary>
@@ -124,11 +141,15 @@ namespace DasBlog.Services.Rss.Atom
 
         public AtomText() { }
 
-        public AtomText(string text, string type = "text")
+        public AtomText(string text, string type = null)
         {
             Text = text;
-            Type = type;
+            // Only set type if it's not the default "text"
+            Type = type == "text" ? null : type;
         }
+
+        // Suppress type attribute if null or "text" (default)
+        public bool ShouldSerializeType() => !string.IsNullOrEmpty(Type) && Type != "text";
     }
 
     /// <summary>
@@ -152,6 +173,10 @@ namespace DasBlog.Services.Rss.Atom
             Text = text;
             Type = type;
         }
+
+        // Suppress empty attributes
+        public bool ShouldSerializeType() => !string.IsNullOrEmpty(Type);
+        public bool ShouldSerializeSrc() => !string.IsNullOrEmpty(Src);
     }
 
     /// <summary>
@@ -185,6 +210,13 @@ namespace DasBlog.Services.Rss.Atom
             Rel = rel;
             Type = type;
         }
+
+        // Suppress empty attributes
+        public bool ShouldSerializeRel() => !string.IsNullOrEmpty(Rel);
+        public bool ShouldSerializeType() => !string.IsNullOrEmpty(Type);
+        public bool ShouldSerializeHrefLang() => !string.IsNullOrEmpty(HrefLang);
+        public bool ShouldSerializeTitle() => !string.IsNullOrEmpty(Title);
+        public bool ShouldSerializeLength() => !string.IsNullOrEmpty(Length);
     }
 
     /// <summary>
@@ -209,6 +241,10 @@ namespace DasBlog.Services.Rss.Atom
             Email = email;
             Uri = uri;
         }
+
+        // Suppress empty elements
+        public bool ShouldSerializeUri() => !string.IsNullOrEmpty(Uri);
+        public bool ShouldSerializeEmail() => !string.IsNullOrEmpty(Email);
     }
 
     /// <summary>
@@ -232,5 +268,9 @@ namespace DasBlog.Services.Rss.Atom
             Term = term;
             Label = label;
         }
+
+        // Suppress empty attributes
+        public bool ShouldSerializeScheme() => !string.IsNullOrEmpty(Scheme);
+        public bool ShouldSerializeLabel() => !string.IsNullOrEmpty(Label);
     }
 }
