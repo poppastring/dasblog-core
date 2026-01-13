@@ -10,15 +10,86 @@
 <h1>@ViewData["Title"]</h1>
 <hr />
 
-<form asp-action="UpdateAuthor" name="editForm" id="editForm" class="row g-3">
+<!-- Success Alert -->
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert" id="successAlert">
+        <i class="fa-solid fa-circle-check me-2"></i>
+        <strong>Success!</strong> @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<form asp-action="UpdateAuthor" method="post" name="editForm" id="editForm" class="row g-3">
 
     <partial name="AuthorAdminFields" model="Model" />
 
     <hr />
 
     <div class="d-flex flex-wrap">
-        <input type="submit" name="submitAction" value="Submit" class="btn btn-primary me-2" @ViewBag.Clickability />
+        <button type="button" class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#confirmUpdateModal" @ViewBag.Clickability>Submit</button>
         <input asp-controller="Home" asp-action="Index" type="submit" name="submit" value="Cancel" class="btn btn-secondary me-2" />
     </div>
 
+    <!-- Hidden submit button for actual form submission -->
+    <input type="submit" name="submitAction" value="Submit" id="hiddenSubmitButton" style="display:none;" @ViewBag.Clickability />
+
 </form>
+
+<!-- Update Confirmation Modal -->
+<div class="modal fade" id="confirmUpdateModal" tabindex="-1" aria-labelledby="confirmUpdateModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmUpdateModalLabel">Confirm Update</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to update the author profile?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="confirmUpdateButton">Update</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.16.0/jquery.validate.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.validation.unobtrusive/3.2.6/jquery.validate.unobtrusive.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const confirmUpdateButton = document.getElementById('confirmUpdateButton');
+            const hiddenSubmitButton = document.getElementById('hiddenSubmitButton');
+            const confirmUpdateModal = document.getElementById('confirmUpdateModal');
+
+            confirmUpdateButton.addEventListener('click', function() {
+                // Close the modal
+                const modalInstance = bootstrap.Modal.getInstance(confirmUpdateModal);
+                if (modalInstance) {
+                    modalInstance.hide();
+                }
+
+                // Click the hidden submit button to trigger normal form submission
+                setTimeout(function() {
+                    hiddenSubmitButton.click();
+                }, 300);
+            });
+
+            // Auto-dismiss success alert after 5 seconds
+            const successAlert = document.getElementById('successAlert');
+            if (successAlert) {
+                // Scroll to top to show the alert
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+
+                setTimeout(function() {
+                    const alert = bootstrap.Alert.getOrCreateInstance(successAlert);
+                    alert.close();
+                }, 5000);
+            }
+        });
+    </script>
+}
