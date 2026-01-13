@@ -8,11 +8,21 @@
 
 <h1>@ViewData["Title"]</h1>
 
-<form asp-controller="post" asp-action="edit" method="post" enctype="multipart/form-data">
+<!-- Success Alert -->
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert" id="successAlert">
+        <i class="fa-solid fa-circle-check me-2"></i>
+        <strong>Success!</strong> @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<form asp-controller="post" asp-action="edit" method="post" enctype="multipart/form-data" id="EditPostForm">
 
     <div class="row gy-2 gx-3 align-items-md-start mb-2">
         <div class="col-sm-12">
-            <input class="btn btn-outline-primary me-2" type="submit" name="submit" value="Save" id="BlogPostEditSubmit" />
+            <button type="button" class="btn btn-outline-primary me-2" data-bs-toggle="modal" data-bs-target="#confirmSaveModal">Save</button>
             <a class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="@Model.PermaLink">View your post</a>
         </div>
     </div>
@@ -23,10 +33,12 @@
 
     <hr />
     <div class="d-flex flex-wrap">
-        <input class="btn btn-default btn-primary me-2" type="submit" name="submit" value="Save" id="BlogPostEditSubmit" />
+        <button type="button" class="btn btn-default btn-primary me-2" data-bs-toggle="modal" data-bs-target="#confirmSaveModal">Save</button>
         <input class="btn btn-default btn-secondary me-2" asp-controller="Home" asp-action="Index" type="submit" name="submit" value="Cancel" />
     </div>
 
+    <!-- Hidden submit button for actual form submission -->
+    <input type="submit" name="submit" value="Save" id="hiddenSaveButton" style="display:none;" />
 
     @Html.HiddenFor(m => m.EntryId)
     @Html.HiddenFor(m => m.Author)
@@ -34,8 +46,60 @@
 
 </form>
 
+<!-- Save Confirmation Modal -->
+<div class="modal fade" id="confirmSaveModal" tabindex="-1" aria-labelledby="confirmSaveModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmSaveModalLabel">Confirm Save</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to save changes to this blog post?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="confirmSaveButton">Save Changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @section Scripts {
     <rich-edit-scripts control-id="mytextarea" />
 
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const confirmSaveButton = document.getElementById('confirmSaveButton');
+            const hiddenSaveButton = document.getElementById('hiddenSaveButton');
+            const confirmSaveModal = document.getElementById('confirmSaveModal');
+
+            confirmSaveButton.addEventListener('click', function() {
+                // Close the modal
+                const modalInstance = bootstrap.Modal.getInstance(confirmSaveModal);
+                if (modalInstance) {
+                    modalInstance.hide();
+                }
+
+                // Click the hidden submit button to trigger normal form submission
+                setTimeout(function() {
+                    hiddenSaveButton.click();
+                }, 300);
+            });
+
+            // Auto-dismiss success alert after 5 seconds
+            const successAlert = document.getElementById('successAlert');
+            if (successAlert) {
+                // Scroll to top to show the alert
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+
+                setTimeout(function() {
+                    const alert = bootstrap.Alert.getOrCreateInstance(successAlert);
+                    alert.close();
+                }, 5000);
+            }
+        });
+    </script>
 }
