@@ -12,6 +12,13 @@
 
 <h1>@ViewData["Title"]</h1>
 
+<!-- Success Alert -->
+<div class="alert alert-success alert-dismissible fade" role="alert" id="successAlert" style="display:none;">
+    <i class="fa-solid fa-circle-check me-2"></i>
+    <strong>Success!</strong> <span id="successMessage"></span>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+
 <div class="container">
     <div>
         <comment-page-control view-context="@ViewContext" />
@@ -61,3 +68,35 @@
         </table>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check for success message in session storage
+            const successMessage = sessionStorage.getItem('commentActionSuccess');
+            if (successMessage) {
+                // Display the success alert
+                const successAlert = document.getElementById('successAlert');
+                const successMessageSpan = document.getElementById('successMessage');
+
+                if (successAlert && successMessageSpan) {
+                    successMessageSpan.textContent = successMessage;
+                    successAlert.style.display = 'block';
+                    successAlert.classList.add('show');
+
+                    // Scroll to top to show the alert
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+                    // Auto-dismiss after 5 seconds
+                    setTimeout(function() {
+                        const alert = bootstrap.Alert.getOrCreateInstance(successAlert);
+                        alert.close();
+                    }, 5000);
+                }
+
+                // Clear the message from session storage
+                sessionStorage.removeItem('commentActionSuccess');
+            }
+        });
+    </script>
+}
