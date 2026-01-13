@@ -1,10 +1,11 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using DasBlog.Core.Common.Comments;
 
 namespace DasBlog.Web.Models.AdminViewModels
 {
-	public class SiteViewModel
+	public class SiteViewModel : IValidatableObject
 	{
 		[DisplayName("Title")]
 		[Description("Main title of the blog")]
@@ -212,8 +213,7 @@ namespace DasBlog.Web.Models.AdminViewModels
 		[DisplayName("TinyMCE API Key")]
 		[Description("")]
 		[StringLength(300, MinimumLength = 1, ErrorMessage = "{0} should be between 1 to 300 characters")]
-		[Required(AllowEmptyStrings = false, ErrorMessage = "Enter a value for TinyMCE API Key or enter 'no-api-key'")]
-		public string TinyMCEApiKey { get; set; }		
+		public string TinyMCEApiKey { get; set; }
 
 		[DisplayName("Content directory")]
 		[Description("")]
@@ -406,6 +406,24 @@ namespace DasBlog.Web.Models.AdminViewModels
 		public bool AMPPagesEnabled { get; set; }
 		public string RSSEndPointRewrite { get; set; }
 		public bool CategoryAllEntries { get; set; }
-		public string AllowedHosts { get; set; }
-	}
-}
+				public string AllowedHosts { get; set; }
+
+				public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+				{
+					var results = new List<ValidationResult>();
+
+					// Only validate TinyMCE API Key if TinyMce is selected as the entry edit control
+					if (EntryEditControl == "TinyMce")
+					{
+						if (string.IsNullOrWhiteSpace(TinyMCEApiKey))
+						{
+							results.Add(new ValidationResult(
+								"Enter a value for TinyMCE API Key or enter 'no-api-key'",
+								new[] { nameof(TinyMCEApiKey) }));
+						}
+					}
+
+					return results;
+				}
+			}
+		}
