@@ -91,6 +91,7 @@ namespace DasBlog.Web.Controllers
 			}
 			dasBlogSettings.MetaTags = meta;
 
+			TempData["SuccessMessage"] = "Settings saved successfully!";
 			return Settings();
 		}
 
