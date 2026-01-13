@@ -252,11 +252,11 @@
                             openAccordions.push(item.id);
                         }
                     });
-                    localStorage.setItem('settingsAccordionState', JSON.stringify(openAccordions));
+                    sessionStorage.setItem('settingsAccordionState', JSON.stringify(openAccordions));
                 }
 
                 function restoreAccordionState() {
-                    const savedState = localStorage.getItem('settingsAccordionState');
+                    const savedState = sessionStorage.getItem('settingsAccordionState');
                     if (savedState) {
                         try {
                             const openAccordions = JSON.parse(savedState);
