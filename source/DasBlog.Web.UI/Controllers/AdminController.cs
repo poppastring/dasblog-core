@@ -12,8 +12,11 @@ using DasBlog.Web.Models.BlogViewModels;
 using DasBlog.Web.Settings;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Markdig;
+using NBR = newtelligence.DasBlog.Runtime;
 
 namespace DasBlog.Web.Controllers
 {
@@ -26,10 +29,11 @@ namespace DasBlog.Web.Controllers
 		private readonly IBlogManager blogManager;
 		private readonly IHostApplicationLifetime appLifetime;
 		private readonly ILogger<AdminController> logger;
+		private readonly IMemoryCache memoryCache;
 		private readonly List<PostViewModel> posts = [];	
 
 		public AdminController(IDasBlogSettings dasBlogSettings, IFileSystemBinaryManager fileSystemBinaryManager, IMapper mapper,
-								IBlogManager blogManager, IHostApplicationLifetime appLifetime, ILogger<AdminController> logger) : base(dasBlogSettings)
+								IBlogManager blogManager, IHostApplicationLifetime appLifetime, ILogger<AdminController> logger, IMemoryCache memoryCache) : base(dasBlogSettings)
 		{
 			this.dasBlogSettings = dasBlogSettings;
 			this.fileSystemBinaryManager = fileSystemBinaryManager;
@@ -37,6 +41,7 @@ namespace DasBlog.Web.Controllers
 			this.blogManager = blogManager;
 			this.appLifetime = appLifetime;
 			this.logger = logger;
+			this.memoryCache = memoryCache;
 			this.posts = blogManager.GetAllEntries()
 								.Select(entry => mapper.Map<PostViewModel>(entry)).ToList();
 		}
@@ -151,15 +156,71 @@ namespace DasBlog.Web.Controllers
 			return View("ManageComments", comments.OrderByDescending(d => d.Date).ToList());
 		}
 
-		public IActionResult TestEmail()
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		[Route("/admin/add-admin-comment")]
+		public IActionResult AddAdminComment(AddCommentViewModel addcomment)
 		{
-			if (!blogManager.SendTestEmail())
+			var errors = new List<string>();
+
+			if (dasBlogSettings.SiteConfiguration.AllowMarkdownInComments)
 			{
-				ModelState.AddModelError("", "Unable to save Site configuration file.");
-				logger.LogError(new EventDataItem(EventCodes.Error, null, "Unable to send test email"));
+				var pipeline = new MarkdownPipelineBuilder().UseReferralLinks("nofollow").Build();
+				addcomment.Content = Markdown.ToHtml(addcomment.Content, pipeline);
 			}
 
-			return RedirectToAction("Settings");
+			var commt = mapper.Map<NBR.Comment>(addcomment);
+			commt.AuthorIPAddress = HttpContext.Connection.RemoteIpAddress?.ToString();
+			commt.AuthorUserAgent = HttpContext.Request.Headers["User-Agent"].ToString();
+			commt.EntryId = Guid.NewGuid().ToString();
+			commt.SpamState = NBR.SpamState.NotSpam; // always good from the admin
+			commt.IsPublic = true; // Admin comments are always public
+			commt.CreatedUtc = commt.ModifiedUtc = DateTime.UtcNow;
+
+			var state = blogManager.AddComment(addcomment.TargetEntryId, commt);
+
+			if (state == NBR.CommentSaveState.Failed)
+			{
+				logger.LogError(new EventDataItem(EventCodes.CommentBlocked, null, "Failed to save admin comment: {0}", commt.TargetTitle));
+				errors.Add("Failed to save comment.");
+			}
+
+			if (state == NBR.CommentSaveState.SiteCommentsDisabled)
+			{
+				logger.LogError(new EventDataItem(EventCodes.CommentBlocked, null, "Comments are closed for this post: {0}", commt.TargetTitle));
+				errors.Add("Comments are closed for this post.");
+			}
+
+			if (state == NBR.CommentSaveState.PostCommentsDisabled)
+			{
+				logger.LogError(new EventDataItem(EventCodes.CommentBlocked, null, "Comments are currently disabled: {0}", commt.TargetTitle));
+				errors.Add("Comments are currently disabled.");
+			}
+
+			if (state == NBR.CommentSaveState.NotFound)
+			{
+				logger.LogError(new EventDataItem(EventCodes.CommentBlocked, null, "Invalid Post Id: {0}", commt.TargetTitle));
+				errors.Add("Invalid Post Id.");
+			}
+
+			if (errors.Count > 0)
+			{
+				TempData["ErrorMessage"] = string.Join(" ", errors);
+				return RedirectToAction("ManageComments");
+			}
+
+			logger.LogInformation(new EventDataItem(EventCodes.CommentAdded, null, "Admin comment created on: {0}", commt.TargetTitle));
+			BreakSiteCache();
+
+			TempData["SuccessMessage"] = "Comment added successfully!";
+			return RedirectToAction("ManageComments");
+		}
+
+		private void BreakSiteCache()
+		{
+			memoryCache.Remove(CACHEKEY_RSS);
+			memoryCache.Remove(CACHEKEY_FRONTPAGE);
+			memoryCache.Remove(CACHEKEY_ARCHIVE);
 		}
 	}
 }

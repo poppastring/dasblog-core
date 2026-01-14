@@ -67,6 +67,8 @@ function executeCommentAction() {
 
     oReq.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
+            console.log('Comment action completed successfully');
+
             // Close modal
             const modal = document.getElementById('commentActionModal');
             const bsModal = bootstrap.Modal.getInstance(modal);
@@ -78,10 +80,20 @@ function executeCommentAction() {
             const successMessage = action.httpVerb === 'DELETE' 
                 ? 'Comment deleted successfully!' 
                 : 'Comment approved successfully!';
+
+            console.log('Setting sessionStorage with message:', successMessage);
             sessionStorage.setItem('commentActionSuccess', successMessage);
 
-            // Reload page to show updated comments and success message
-            location.href = window.location.href;
+            // Verify it was set
+            console.log('Verification - sessionStorage value:', sessionStorage.getItem('commentActionSuccess'));
+
+            // Small delay to ensure sessionStorage is committed before reload
+            setTimeout(function() {
+                console.log('Reloading page...');
+                window.location.reload();
+            }, 100);
+        } else if (this.readyState == 4) {
+            console.error('Comment action failed with status:', this.status);
         }
     };
 
