@@ -6,21 +6,21 @@
 @{
     ViewBag.Title = "Site Settings";
     Layout = "../../Themes/dasblog/_Layout.cshtml";
+
+    // Configure modal parameters
+    ViewData["ModalId"] = "confirmSaveModal";
+    ViewData["ModalTitle"] = "Confirm Save";
+    ViewData["ModalMessage"] = "Are you sure you want to save the site settings?";
+    ViewData["ModalConfirmText"] = "Save Changes";
+    ViewData["HiddenButtonId"] = "hiddenSaveButton";
 }
 
 <h1>@ViewData["Title"]</h1>
 <hr />
 @Html.ValidationSummary(false, "", new { @class = "text-danger" })
 
-<!-- Success Alert -->
-@if (TempData["SuccessMessage"] != null)
-{
-    <div class="alert alert-success alert-dismissible fade show" role="alert" id="successAlert">
-        <i class="fa-solid fa-circle-check me-2"></i>
-        <strong>Success!</strong> @TempData["SuccessMessage"]
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-}
+<!-- Success Alert using reusable partial -->
+<partial name="_SuccessAlertPartial" view-data="ViewData" />
 
 <form asp-action="settings" method="post" name="UpdateSettingsForm" id="UpdateSettingsForm">
 
@@ -171,107 +171,25 @@
     <!-- Hidden submit button for actual form submission -->
     <input type="submit" name="submitAction" value="Save" id="hiddenSaveButton" style="display:none;" />
 
-    <!-- Save Confirmation Modal -->
-    <div class="modal fade" id="confirmSaveModal" tabindex="-1" aria-labelledby="confirmSaveModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="confirmSaveModalLabel">Confirm Save</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    Are you sure you want to save the site settings?
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary" id="confirmSaveButton">Save Changes</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
     @section Scripts {
 
         <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"></script>
         <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.16.0/jquery.validate.min.js"></script>
         <script src="https://ajax.aspnetcdn.com/ajax/jquery.validation.unobtrusive/3.2.6/jquery.validate.unobtrusive.min.js"></script>
+        <script src="~/js/dasblog-ui.js"></script>
 
         <script>
             document.addEventListener('DOMContentLoaded', function() {
-                const confirmSaveButton = document.getElementById('confirmSaveButton');
-                const hiddenSaveButton = document.getElementById('hiddenSaveButton');
-                const confirmSaveModal = document.getElementById('confirmSaveModal');
-
-                // Restore accordion state from localStorage
-                restoreAccordionState();
-
-                // Track accordion state changes
+                // Initialize accordion tracking using shared utility
                 const accordionItems = document.querySelectorAll('.accordion-collapse');
-                accordionItems.forEach(function(item) {
-                    item.addEventListener('shown.bs.collapse', function() {
-                        saveAccordionState();
+                DasBlog.UI.initAccordionTracking('settingsAccordionState', accordionItems);
+
+                // Save accordion state before form submission
+                const confirmSaveButton = document.getElementById('confirmSaveModalButton');
+                if (confirmSaveButton) {
+                    confirmSaveButton.addEventListener('click', function() {
+                        DasBlog.UI.saveAccordionState('settingsAccordionState', accordionItems);
                     });
-                    item.addEventListener('hidden.bs.collapse', function() {
-                        saveAccordionState();
-                    });
-                });
-
-                confirmSaveButton.addEventListener('click', function() {
-                    // Save current accordion state before form submission
-                    saveAccordionState();
-
-                    // Close the modal
-                    const modalInstance = bootstrap.Modal.getInstance(confirmSaveModal);
-                    if (modalInstance) {
-                        modalInstance.hide();
-                    }
-
-                    // Click the hidden submit button to trigger normal form submission
-                    setTimeout(function() {
-                        hiddenSaveButton.click();
-                    }, 300);
-                });
-
-                // Auto-dismiss success alert after 5 seconds
-                const successAlert = document.getElementById('successAlert');
-                if (successAlert) {
-                    // Scroll to top to show the alert
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-
-                    setTimeout(function() {
-                        const alert = bootstrap.Alert.getOrCreateInstance(successAlert);
-                        alert.close();
-                    }, 5000);
-                }
-
-                // Functions to save and restore accordion state
-                function saveAccordionState() {
-                    const openAccordions = [];
-                    accordionItems.forEach(function(item) {
-                        if (item.classList.contains('show')) {
-                            openAccordions.push(item.id);
-                        }
-                    });
-                    sessionStorage.setItem('settingsAccordionState', JSON.stringify(openAccordions));
-                }
-
-                function restoreAccordionState() {
-                    const savedState = sessionStorage.getItem('settingsAccordionState');
-                    if (savedState) {
-                        try {
-                            const openAccordions = JSON.parse(savedState);
-                            openAccordions.forEach(function(accordionId) {
-                                const accordionElement = document.getElementById(accordionId);
-                                if (accordionElement) {
-                                    const bsCollapse = new bootstrap.Collapse(accordionElement, {
-                                        show: true
-                                    });
-                                }
-                            });
-                        } catch (e) {
-                            console.error('Error restoring accordion state:', e);
-                        }
-                    }
                 }
             });
         </script>
@@ -377,7 +295,10 @@
     @Html.HiddenFor(@m => m.SiteConfig.RSSEndPointRewrite)
 
 
-    @Html.HiddenFor(@m => m.MetaConfig.FaceBookAdmins)
-    @Html.HiddenFor(@m => m.MetaConfig.FaceBookAppID)
+        @Html.HiddenFor(@m => m.MetaConfig.FaceBookAdmins)
+        @Html.HiddenFor(@m => m.MetaConfig.FaceBookAppID)
 
-</form>
+    </form>
+
+    <!-- Confirmation Modal using reusable partial -->
+    <partial name="_ConfirmationModalPartial" view-data="ViewData" />

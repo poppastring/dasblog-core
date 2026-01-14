@@ -1,0 +1,60 @@
+@*
+    Reusable confirmation modal component
+    Usage: <partial name="_ConfirmationModalPartial" view-data='ViewData' />
+    
+    ViewData required:
+    - ModalId: Unique ID for the modal (default: "confirmModal")
+    - ModalTitle: Title of the modal (default: "Confirm Action")
+    - ModalMessage: Message body (default: "Are you sure you want to proceed?")
+    - ModalConfirmText: Text for confirm button (default: "Confirm")
+    - ModalConfirmClass: CSS class for confirm button (default: "btn-primary")
+    - HiddenButtonId: ID of the hidden submit button to trigger (default: "hiddenSubmitButton")
+*@
+
+@{
+    var modalId = ViewData["ModalId"]?.ToString() ?? "confirmModal";
+    var modalTitle = ViewData["ModalTitle"]?.ToString() ?? "Confirm Action";
+    var modalMessage = ViewData["ModalMessage"]?.ToString() ?? "Are you sure you want to proceed?";
+    var modalConfirmText = ViewData["ModalConfirmText"]?.ToString() ?? "Confirm";
+    var modalConfirmClass = ViewData["ModalConfirmClass"]?.ToString() ?? "btn-primary";
+    var hiddenButtonId = ViewData["HiddenButtonId"]?.ToString() ?? "hiddenSubmitButton";
+}
+
+<div class="modal fade" id="@modalId" tabindex="-1" aria-labelledby="@(modalId)Label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="@(modalId)Label">@modalTitle</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                @modalMessage
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn @modalConfirmClass" id="@(modalId)Button">@modalConfirmText</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    (function() {
+        const confirmButton = document.getElementById('@(modalId)Button');
+        const hiddenButton = document.getElementById('@hiddenButtonId');
+        const modal = document.getElementById('@modalId');
+
+        if (confirmButton && hiddenButton && modal) {
+            confirmButton.addEventListener('click', function() {
+                const modalInstance = bootstrap.Modal.getInstance(modal);
+                if (modalInstance) {
+                    modalInstance.hide();
+                }
+
+                setTimeout(function() {
+                    hiddenButton.click();
+                }, 300);
+            });
+        }
+    })();
+</script>

@@ -12,25 +12,9 @@
 
 <h1>@ViewData["Title"]</h1>
 
-<!-- Success Alert -->
-@if (TempData["SuccessMessage"] != null)
-{
-    <div class="alert alert-success alert-dismissible fade show" role="alert" id="successAlert">
-        <i class="fa-solid fa-circle-check me-2"></i>
-        <strong>Success!</strong> @TempData["SuccessMessage"]
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-}
-
-<!-- Error Alert -->
-@if (TempData["ErrorMessage"] != null)
-{
-    <div class="alert alert-danger alert-dismissible fade show" role="alert" id="errorAlert">
-        <i class="fa-solid fa-circle-exclamation me-2"></i>
-        <strong>Error!</strong> @TempData["ErrorMessage"]
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-}
+<!-- Success/Error Alerts using reusable partials -->
+<partial name="_SuccessAlertPartial" view-data="ViewData" />
+<partial name="_ErrorAlertPartial" view-data="ViewData" />
 
 <!-- Dynamic Success Alert (for session storage) -->
 <div class="alert alert-success alert-dismissible fade" role="alert" id="dynamicSuccessAlert" style="display:none;">
@@ -148,6 +132,7 @@
 </div>
 
 @section Scripts {
+    <script src="~/js/dasblog-ui.js"></script>
     <script>
         let replyFormElement;
 
@@ -232,47 +217,7 @@
             });
 
             // Check for success message in session storage (from approve/delete actions)
-            const successMessage = sessionStorage.getItem('commentActionSuccess');
-            if (successMessage) {
-                const dynamicSuccessAlert = document.getElementById('dynamicSuccessAlert');
-                const dynamicSuccessMessage = document.getElementById('dynamicSuccessMessage');
-
-                if (dynamicSuccessAlert && dynamicSuccessMessage) {
-                    dynamicSuccessMessage.textContent = successMessage;
-                    dynamicSuccessAlert.style.display = 'block';
-                    dynamicSuccessAlert.classList.add('show');
-
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-
-                    setTimeout(function() {
-                        const alert = bootstrap.Alert.getOrCreateInstance(dynamicSuccessAlert);
-                        alert.close();
-                    }, 5000);
-                }
-
-                sessionStorage.removeItem('commentActionSuccess');
-            }
-
-            // Auto-dismiss TempData alerts after 5 seconds
-            const successAlert = document.getElementById('successAlert');
-            if (successAlert) {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-
-                setTimeout(function() {
-                    const alert = bootstrap.Alert.getOrCreateInstance(successAlert);
-                    alert.close();
-                }, 5000);
-            }
-
-            const errorAlert = document.getElementById('errorAlert');
-            if (errorAlert) {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-
-                setTimeout(function() {
-                    const alert = bootstrap.Alert.getOrCreateInstance(errorAlert);
-                    alert.close();
-                }, 5000);
-            }
+            DasBlog.UI.showSessionAlert('commentActionSuccess', 'dynamicSuccessAlert', 'dynamicSuccessMessage');
         });
     </script>
 

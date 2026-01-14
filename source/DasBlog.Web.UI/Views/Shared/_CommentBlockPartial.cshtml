@@ -44,60 +44,21 @@
         }
     </div>
 
+    <script src="~/js/dasblog-ui.js"></script>
     <script>
         (function() {
-            function showCommentActionAlert() {
-                console.log('Checking for comment action success message...');
-                // Check for success message in session storage (from approve/delete actions)
-                const successMessage = sessionStorage.getItem('commentActionSuccess');
-                console.log('Success message from sessionStorage:', successMessage);
-
-                if (successMessage) {
-                    const commentActionSuccessAlert = document.getElementById('commentActionSuccessAlert');
-                    const commentActionSuccessMessage = document.getElementById('commentActionSuccessMessage');
-
-                    console.log('Alert element:', commentActionSuccessAlert);
-                    console.log('Message element:', commentActionSuccessMessage);
-
-                    if (commentActionSuccessAlert && commentActionSuccessMessage) {
-                        commentActionSuccessMessage.textContent = successMessage;
-                        commentActionSuccessAlert.style.display = 'block';
-                        commentActionSuccessAlert.classList.add('show');
-                        console.log('Alert displayed successfully');
-
-                        // Scroll to the alert (it's at the top of the comment section)
-                        setTimeout(function() {
-                            commentActionSuccessAlert.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                        }, 100);
-
-                        // Auto-dismiss after 5 seconds
-                        setTimeout(function() {
-                            if (typeof bootstrap !== 'undefined') {
-                                const alert = bootstrap.Alert.getOrCreateInstance(commentActionSuccessAlert);
-                                alert.close();
-                                console.log('Alert auto-dismissed');
-                            }
-                        }, 5000);
-                    } else {
-                        console.error('Alert elements not found');
-                    }
-
-                    // Clear the message from session storage
-                    sessionStorage.removeItem('commentActionSuccess');
-                    console.log('Session storage cleared');
-                } else {
-                    console.log('No success message found in sessionStorage');
+            // Use shared utility to show alert from sessionStorage
+            function showAlert() {
+                if (typeof DasBlog !== 'undefined' && DasBlog.UI) {
+                    DasBlog.UI.showSessionAlert('commentActionSuccess', 'commentActionSuccessAlert', 'commentActionSuccessMessage');
                 }
             }
 
             // Check if DOM is already loaded
             if (document.readyState === 'loading') {
-                console.log('DOM is loading, adding DOMContentLoaded listener');
-                document.addEventListener('DOMContentLoaded', showCommentActionAlert);
+                document.addEventListener('DOMContentLoaded', showAlert);
             } else {
-                // DOM is already loaded
-                console.log('DOM is already loaded, showing alert immediately');
-                showCommentActionAlert();
+                showAlert();
             }
         })();
     </script>
