@@ -3,20 +3,33 @@
 @{
     ViewBag.Title = "Create";
     Layout = "../../Themes/dasblog/_Layout.cshtml";
+
+    // Configure modal parameters
+    ViewData["ModalId"] = "confirmCreateModal";
+    ViewData["ModalTitle"] = "Confirm Create Post";
+    ViewData["ModalMessage"] = "Are you sure you want to create this blog post?";
+    ViewData["ModalConfirmText"] = "Create Post";
+    ViewData["HiddenButtonId"] = "hiddenCreateButton";
 }
 
 <h1>@ViewData["Title"]</h1>
 <hr />
 
-<form asp-controller="post" asp-action="create" method="post" enctype="multipart/form-data">
+<!-- Success Alert using reusable partial -->
+<partial name="_SuccessAlertPartial" view-data="ViewData" />
+
+<form asp-controller="post" asp-action="create" method="post" enctype="multipart/form-data" id="CreatePostForm">
 
     <partial name="BlogPostFields" model="Model" />
 
     <hr />
     <div class="d-flex flex-wrap">
-        <input class="btn btn-primary me-2" type="submit" name="submit" value="Create Post" id="BlogPostCreateSubmit" />
+        <button type="button" class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#confirmCreateModal">Create Post</button>
         <input class="btn btn-secondary me-2" asp-controller="Home" asp-action="Index" type="submit" name="submit" value="Cancel" />
     </div>
+
+    <!-- Hidden submit button for actual form submission -->
+    <input type="submit" name="submit" value="Create Post" id="hiddenCreateButton" style="display:none;" />
 
     @Html.HiddenFor(m => m.EntryId)
     @Html.HiddenFor(m => m.Author)
@@ -24,6 +37,10 @@
 
 </form>
 
+<!-- Confirmation Modal using reusable partial -->
+<partial name="_ConfirmationModalPartial" view-data="ViewData" />
+
 @section scripts {
     <rich-edit-scripts control-id="mytextarea" />
+    <script src="~/js/dasblog-ui.js"></script>
 }

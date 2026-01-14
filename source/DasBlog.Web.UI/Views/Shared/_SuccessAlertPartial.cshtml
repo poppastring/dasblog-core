@@ -1,0 +1,34 @@
+@* 
+    Reusable success alert component
+    Usage: <partial name="_SuccessAlertPartial" model='new { AlertId = "myAlert", MessageKey = "SuccessMessage" }' />
+*@
+
+@{
+    var alertId = ViewData["AlertId"]?.ToString() ?? "successAlert";
+    var messageKey = ViewData["MessageKey"]?.ToString() ?? "SuccessMessage";
+    var message = TempData[messageKey]?.ToString();
+}
+
+@if (!string.IsNullOrEmpty(message))
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert" id="@alertId">
+        <i class="fa-solid fa-circle-check me-2"></i>
+        <strong>Success!</strong> @message
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+    <script>
+        (function() {
+            const alert = document.getElementById('@alertId');
+            if (alert) {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                setTimeout(function() {
+                    if (typeof bootstrap !== 'undefined') {
+                        const bsAlert = bootstrap.Alert.getOrCreateInstance(alert);
+                        bsAlert.close();
+                    }
+                }, 5000);
+            }
+        })();
+    </script>
+}

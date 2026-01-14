@@ -5,20 +5,43 @@
 @{
     ViewBag.Title = "Edit User";
     Layout = "../../Themes/dasblog/_Layout.cshtml";
+
+    // Configure modal parameters
+    ViewData["ModalId"] = "confirmUpdateModal";
+    ViewData["ModalTitle"] = "Confirm Update";
+    ViewData["ModalMessage"] = "Are you sure you want to update the author profile?";
+    ViewData["ModalConfirmText"] = "Update";
+    ViewData["HiddenButtonId"] = "hiddenSubmitButton";
 }
 
 <h1>@ViewData["Title"]</h1>
 <hr />
 
-<form asp-action="UpdateAuthor" name="editForm" id="editForm" class="row g-3">
+<!-- Success Alert using reusable partial -->
+<partial name="_SuccessAlertPartial" view-data="ViewData" />
+
+<form asp-action="UpdateAuthor" method="post" name="editForm" id="editForm" class="row g-3">
 
     <partial name="AuthorAdminFields" model="Model" />
 
     <hr />
 
     <div class="d-flex flex-wrap">
-        <input type="submit" name="submitAction" value="Submit" class="btn btn-primary me-2" @ViewBag.Clickability />
+        <button type="button" class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#confirmUpdateModal" @ViewBag.Clickability>Submit</button>
         <input asp-controller="Home" asp-action="Index" type="submit" name="submit" value="Cancel" class="btn btn-secondary me-2" />
     </div>
 
+    <!-- Hidden submit button for actual form submission -->
+    <input type="submit" name="submitAction" value="Submit" id="hiddenSubmitButton" style="display:none;" @ViewBag.Clickability />
+
 </form>
+
+<!-- Confirmation Modal using reusable partial -->
+<partial name="_ConfirmationModalPartial" view-data="ViewData" />
+
+@section Scripts {
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.16.0/jquery.validate.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.validation.unobtrusive/3.2.6/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/js/dasblog-ui.js"></script>
+}

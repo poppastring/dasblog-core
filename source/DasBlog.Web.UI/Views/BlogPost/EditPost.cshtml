@@ -4,15 +4,25 @@
 @{
     ViewBag.Title = "Edit";
     Layout = "../../Themes/dasblog/_Layout.cshtml";
+
+    // Configure modal parameters
+    ViewData["ModalId"] = "confirmSaveModal";
+    ViewData["ModalTitle"] = "Confirm Save";
+    ViewData["ModalMessage"] = "Are you sure you want to save changes to this blog post?";
+    ViewData["ModalConfirmText"] = "Save Changes";
+    ViewData["HiddenButtonId"] = "hiddenSaveButton";
 }
 
 <h1>@ViewData["Title"]</h1>
 
-<form asp-controller="post" asp-action="edit" method="post" enctype="multipart/form-data">
+<!-- Success Alert using reusable partial -->
+<partial name="_SuccessAlertPartial" view-data="ViewData" />
+
+<form asp-controller="post" asp-action="edit" method="post" enctype="multipart/form-data" id="EditPostForm">
 
     <div class="row gy-2 gx-3 align-items-md-start mb-2">
         <div class="col-sm-12">
-            <input class="btn btn-outline-primary me-2" type="submit" name="submit" value="Save" id="BlogPostEditSubmit" />
+            <button type="button" class="btn btn-outline-primary me-2" data-bs-toggle="modal" data-bs-target="#confirmSaveModal">Save</button>
             <a class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="@Model.PermaLink">View your post</a>
         </div>
     </div>
@@ -23,10 +33,12 @@
 
     <hr />
     <div class="d-flex flex-wrap">
-        <input class="btn btn-default btn-primary me-2" type="submit" name="submit" value="Save" id="BlogPostEditSubmit" />
+        <button type="button" class="btn btn-default btn-primary me-2" data-bs-toggle="modal" data-bs-target="#confirmSaveModal">Save</button>
         <input class="btn btn-default btn-secondary me-2" asp-controller="Home" asp-action="Index" type="submit" name="submit" value="Cancel" />
     </div>
 
+    <!-- Hidden submit button for actual form submission -->
+    <input type="submit" name="submit" value="Save" id="hiddenSaveButton" style="display:none;" />
 
     @Html.HiddenFor(m => m.EntryId)
     @Html.HiddenFor(m => m.Author)
@@ -34,8 +46,13 @@
 
 </form>
 
+<!-- Confirmation Modal using reusable partial -->
+<partial name="_ConfirmationModalPartial" view-data="ViewData" />
+
 @section Scripts {
     <rich-edit-scripts control-id="mytextarea" />
 
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+
+    <script src="~/js/dasblog-ui.js"></script>
 }

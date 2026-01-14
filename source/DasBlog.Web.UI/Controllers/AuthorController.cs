@@ -93,16 +93,17 @@ namespace DasBlog.Web.Controllers
 				return View("ViewEditAuthor", authorviewmodel);
 			}
 
-			var dasbloguser = mapper.Map<User>(authorviewmodel);
+				var dasbloguser = mapper.Map<User>(authorviewmodel);
 
-			userService.AddOrReplaceUser(dasbloguser, authorviewmodel.OriginalEmail);
-			siteSecurityConfig.Users = userService.GetAllUsers().ToList();
+				userService.AddOrReplaceUser(dasbloguser, authorviewmodel.OriginalEmail);
+				siteSecurityConfig.Users = userService.GetAllUsers().ToList();
 
-			var uvm = mapper.Map<AuthorViewModel>(userService.GetFirstUser());
+				var uvm = mapper.Map<AuthorViewModel>(userService.GetFirstUser());
 
-			logger.LogInformation(new EventDataItem(EventCodes.EditUser, null, "Edit User: {0}", uvm.DisplayName));
+				logger.LogInformation(new EventDataItem(EventCodes.EditUser, null, "Edit User: {0}", uvm.DisplayName));
 
-			return Index();
-		}
+				TempData["SuccessMessage"] = "Author profile updated successfully!";
+				return RedirectToAction("EditAuthor", new { email = authorviewmodel.EmailAddress });
+			}
 	}
 }

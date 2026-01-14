@@ -12,6 +12,17 @@
 
 <h1>@ViewData["Title"]</h1>
 
+<!-- Success/Error Alerts using reusable partials -->
+<partial name="_SuccessAlertPartial" view-data="ViewData" />
+<partial name="_ErrorAlertPartial" view-data="ViewData" />
+
+<!-- Dynamic Success Alert (for session storage) -->
+<div class="alert alert-success alert-dismissible fade" role="alert" id="dynamicSuccessAlert" style="display:none;">
+    <i class="fa-solid fa-circle-check me-2"></i>
+    <strong>Success!</strong> <span id="dynamicSuccessMessage"></span>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+
 <div class="container">
     <div>
         <comment-page-control view-context="@ViewContext" />
@@ -41,7 +52,7 @@
                             </div>
                         </blockquote>
                         <figcaption class="blockquote-footer">
-                            <a href="@dasBlogSettings.GetPermaLinkUrl(comment.BlogPostId)">Reply</a>
+                            <a href="javascript:void(0);" onclick="openReplyModal('@comment.BlogPostId', '@Html.Raw(comment.Title?.Replace("'", "\\'"))')">Reply</a>
                         </figcaption>
                     </td>
                     <td width="20%">
@@ -61,3 +72,154 @@
         </table>
     </div>
 </div>
+
+<!-- Reply Modal -->
+<div class="modal fade" id="replyModal" tabindex="-1" aria-labelledby="replyModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="replyModalLabel">Reply to Comment</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p class="text-muted mb-3">Replying to post: <strong id="replyPostTitle"></strong></p>
+                <form id="replyForm">
+                    <input type="hidden" id="replyTargetEntryId" name="TargetEntryId" />
+                    <div class="mb-3">
+                        <label for="replyName" class="form-label">Name</label>
+                        <input type="text" class="form-control" id="replyName" name="Name" value="@dasBlogSettings.SiteConfiguration.Copyright" readonly />
+                    </div>
+                    <div class="mb-3">
+                        <label for="replyEmail" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="replyEmail" name="Email" value="@dasBlogSettings.SiteConfiguration.Contact" readonly />
+                    </div>
+                    <div class="mb-3">
+                        <label for="replyHomePage" class="form-label">Homepage</label>
+                        <input type="url" class="form-control" id="replyHomePage" name="HomePage" value="@dasBlogSettings.SiteConfiguration.Root" readonly />
+                    </div>
+                    <div class="mb-3">
+                        <label for="replyContent" class="form-label">Comment <span class="text-danger">*</span></label>
+                        <textarea class="form-control" id="replyContent" name="Content" rows="5" maxlength="500" required></textarea>
+                        <div class="form-text"><span id="charCount">0</span>/500 characters</div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="submitReplyButton">Post Reply</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Reply Confirmation Modal -->
+<div class="modal fade" id="confirmReplyModal" tabindex="-1" aria-labelledby="confirmReplyModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmReplyModalLabel">Confirm Reply</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to post this reply?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="confirmReplyButton">Post Reply</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/dasblog-ui.js"></script>
+    <script>
+        let replyFormElement;
+
+        function openReplyModal(postId, postTitle) {
+            document.getElementById('replyTargetEntryId').value = postId;
+            document.getElementById('replyPostTitle').textContent = postTitle;
+            document.getElementById('replyContent').value = '';
+            document.getElementById('charCount').textContent = '0';
+
+            const replyModal = new bootstrap.Modal(document.getElementById('replyModal'));
+            replyModal.show();
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            replyFormElement = document.getElementById('replyForm');
+            const replyContent = document.getElementById('replyContent');
+            const charCount = document.getElementById('charCount');
+            const submitReplyButton = document.getElementById('submitReplyButton');
+            const confirmReplyButton = document.getElementById('confirmReplyButton');
+            const replyModal = document.getElementById('replyModal');
+            const confirmReplyModal = document.getElementById('confirmReplyModal');
+
+            // Character counter
+            replyContent.addEventListener('input', function() {
+                charCount.textContent = this.value.length;
+            });
+
+            // Submit reply button - show confirmation modal
+            submitReplyButton.addEventListener('click', function() {
+                const content = replyContent.value.trim();
+
+                if (!content) {
+                    alert('Please enter a comment.');
+                    return;
+                }
+
+                // Close reply modal and show confirmation modal
+                const bsReplyModal = bootstrap.Modal.getInstance(replyModal);
+                if (bsReplyModal) {
+                    bsReplyModal.hide();
+                }
+
+                setTimeout(function() {
+                    const bsConfirmModal = new bootstrap.Modal(confirmReplyModal);
+                    bsConfirmModal.show();
+                }, 300);
+            });
+
+            // Confirm reply button - submit the form
+            confirmReplyButton.addEventListener('click', function() {
+                const formData = new FormData(replyFormElement);
+                const antiForgeryToken = document.querySelector('input[name="__RequestVerificationToken"]');
+
+                if (antiForgeryToken) {
+                    formData.append('__RequestVerificationToken', antiForgeryToken.value);
+                }
+
+                fetch('/admin/add-admin-comment', {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'RequestVerificationToken': antiForgeryToken ? antiForgeryToken.value : ''
+                    }
+                })
+                .then(response => {
+                    if (response.redirected) {
+                        window.location.href = response.url;
+                    } else {
+                        return response.text();
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while posting the comment.');
+                });
+
+                // Close confirmation modal
+                const bsConfirmModal = bootstrap.Modal.getInstance(confirmReplyModal);
+                if (bsConfirmModal) {
+                    bsConfirmModal.hide();
+                }
+            });
+
+            // Check for success message in session storage (from approve/delete actions)
+            DasBlog.UI.showSessionAlert('commentActionSuccess', 'dynamicSuccessAlert', 'dynamicSuccessMessage');
+        });
+    </script>
+
+    @Html.AntiForgeryToken()
+}

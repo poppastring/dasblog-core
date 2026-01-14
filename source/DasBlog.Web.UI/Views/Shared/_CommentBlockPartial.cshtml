@@ -6,6 +6,14 @@
 @if (dasBlogSettings.SiteConfiguration.EnableComments && Model?.Comments != null)
 {
     <hr />
+
+    <!-- Success Alert for comment actions (approve/delete) -->
+    <div class="alert alert-success alert-dismissible fade" role="alert" id="commentActionSuccessAlert" style="display:none;">
+        <i class="fa-solid fa-circle-check me-2"></i>
+        <strong>Success!</strong> <span id="commentActionSuccessMessage"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
     <h3 class="comment-section-title" id="@DasBlog.Core.Common.Constants.CommentsStartId">Comment Section</h3>
 
     <div class="post-comments">
@@ -35,4 +43,23 @@
             <p>Comments are closed.</p>
         }
     </div>
+
+    <script src="~/js/dasblog-ui.js"></script>
+    <script>
+        (function() {
+            // Use shared utility to show alert from sessionStorage
+            function showAlert() {
+                if (typeof DasBlog !== 'undefined' && DasBlog.UI) {
+                    DasBlog.UI.showSessionAlert('commentActionSuccess', 'commentActionSuccessAlert', 'commentActionSuccessMessage');
+                }
+            }
+
+            // Check if DOM is already loaded
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', showAlert);
+            } else {
+                showAlert();
+            }
+        })();
+    </script>
 }

@@ -6,163 +6,193 @@
 @{
     ViewBag.Title = "Site Settings";
     Layout = "../../Themes/dasblog/_Layout.cshtml";
+
+    // Configure modal parameters
+    ViewData["ModalId"] = "confirmSaveModal";
+    ViewData["ModalTitle"] = "Confirm Save";
+    ViewData["ModalMessage"] = "Are you sure you want to save the site settings?";
+    ViewData["ModalConfirmText"] = "Save Changes";
+    ViewData["HiddenButtonId"] = "hiddenSaveButton";
 }
 
 <h1>@ViewData["Title"]</h1>
 <hr />
 @Html.ValidationSummary(false, "", new { @class = "text-danger" })
 
-<form asp-action="settings" name="UpdateSettingsForm" id="UpdateSettingsForm">
+<!-- Success Alert using reusable partial -->
+<partial name="_SuccessAlertPartial" view-data="ViewData" />
 
-	<div class="accordion" id="accordionExample">
+<form asp-action="settings" method="post" name="UpdateSettingsForm" id="UpdateSettingsForm">
+
+    <div class="accordion" id="accordionExample">
         <div class="accordion-item">
-		    <h2 class="accordion-header">
-		        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                     Main
-		        </button>
-		    </h2>
-		    <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-		        <div class="accordion-body">
+                </button>
+            </h2>
+            <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
                     <partial name="_Admin_General" />
-		        </div>
-		    </div>
-	    </div>
+                </div>
+            </div>
+        </div>
 
-	    <div class="accordion-item">
-	    	<h2 class="accordion-header">
-		        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFrontPage" aria-expanded="false" aria-controls="collapseFrontPage">
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFrontPage" aria-expanded="false" aria-controls="collapseFrontPage">
                     Front Page
-		        </button>
-		    </h2>
-		    <div id="collapseFrontPage" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-		        <div class="accordion-body">
-			        <partial name="_Admin_FrontPage" />
-		        </div>
-		    </div>
-	    </div>
+                </button>
+            </h2>
+            <div id="collapseFrontPage" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <partial name="_Admin_FrontPage" />
+                </div>
+            </div>
+        </div>
 
         <div class="accordion-item">
-	    	<h2 class="accordion-header">
-		        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseRSSFeed" aria-expanded="false" aria-controls="collapseRSSFeed">
-			        RSS Feed
-		        </button>
-		    </h2>
-		    <div id="collapseRSSFeed" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-		        <div class="accordion-body">
-			        <partial name="_Admin_RSSFeed" />
-		        </div>
-		    </div>
-	    </div>
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseRSSFeed" aria-expanded="false" aria-controls="collapseRSSFeed">
+                    RSS Feed
+                </button>
+            </h2>
+            <div id="collapseRSSFeed" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <partial name="_Admin_RSSFeed" />
+                </div>
+            </div>
+        </div>
         <div class="accordion-item">
-	    	<h2 class="accordion-header">
-		        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseComments" aria-expanded="false" aria-controls="collapseComments">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseComments" aria-expanded="false" aria-controls="collapseComments">
                     Comments
-		        </button>
-		    </h2>
-		    <div id="collapseComments" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-		        <div class="accordion-body">
-			        <partial name="_Admin_Comments" />
-		        </div>
-		    </div>
-	    </div>
+                </button>
+            </h2>
+            <div id="collapseComments" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <partial name="_Admin_Comments" />
+                </div>
+            </div>
+        </div>
         <div class="accordion-item">
-	    	<h2 class="accordion-header">
-		        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMetaData" aria-expanded="false" aria-controls="collapseMetaData">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMetaData" aria-expanded="false" aria-controls="collapseMetaData">
                     Meta data
-		        </button>
-		    </h2>
-		    <div id="collapseMetaData" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-		        <div class="accordion-body">
-			        <partial name="_Admin_MetaData" />
-		        </div>
-		    </div>
-	    </div>
+                </button>
+            </h2>
+            <div id="collapseMetaData" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <partial name="_Admin_MetaData" />
+                </div>
+            </div>
+        </div>
         <div class="accordion-item">
-	    	<h2 class="accordion-header">
-		        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSocial" aria-expanded="false" aria-controls="collapseSocial">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSocial" aria-expanded="false" aria-controls="collapseSocial">
                     Social
-		        </button>
-		    </h2>
-		    <div id="collapseSocial" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-		        <div class="accordion-body">
-			        <partial name="_Admin_Social" />
-		        </div>
-		    </div>
-	    </div>
+                </button>
+            </h2>
+            <div id="collapseSocial" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <partial name="_Admin_Social" />
+                </div>
+            </div>
+        </div>
         <div class="accordion-item">
-	    	<h2 class="accordion-header">
-		        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseBloggingEditing" aria-expanded="false" aria-controls="collapseBloggingEditing">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseBloggingEditing" aria-expanded="false" aria-controls="collapseBloggingEditing">
                     Blogging & Editing
-		        </button>
-		    </h2>
-		    <div id="collapseBloggingEditing" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-		        <div class="accordion-body">
-			        <partial name="_Admin_BlogEditing" />
-		        </div>
-		    </div>
-	    </div>
+                </button>
+            </h2>
+            <div id="collapseBloggingEditing" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <partial name="_Admin_BlogEditing" />
+                </div>
+            </div>
+        </div>
         <div class="accordion-item">
-	    	<h2 class="accordion-header">
-		        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEmailNotifications" aria-expanded="false" aria-controls="collapseEmailNotifications">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEmailNotifications" aria-expanded="false" aria-controls="collapseEmailNotifications">
                     Email & Notifications
-		        </button>
-		    </h2>
-		    <div id="collapseEmailNotifications" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-		        <div class="accordion-body">
-			        <partial name="_Admin_EmailNotifications" />
-		        </div>
-		    </div>
-	    </div>
+                </button>
+            </h2>
+            <div id="collapseEmailNotifications" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <partial name="_Admin_EmailNotifications" />
+                </div>
+            </div>
+        </div>
         <div class="accordion-item">
-	    	<h2 class="accordion-header">
-		        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseAppearance" aria-expanded="false" aria-controls="collapseAppearance">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseAppearance" aria-expanded="false" aria-controls="collapseAppearance">
                     Appearance
-		        </button>
-		    </h2>
-		    <div id="collapseAppearance" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-		        <div class="accordion-body">
-			        <partial name="_Admin_Appearance" />
-		        </div>
-		    </div>
-	    </div>
+                </button>
+            </h2>
+            <div id="collapseAppearance" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <partial name="_Admin_Appearance" />
+                </div>
+            </div>
+        </div>
         <div class="accordion-item">
-	    	<h2 class="accordion-header">
-		        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInternal" aria-expanded="false" aria-controls="collapseInternal">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInternal" aria-expanded="false" aria-controls="collapseInternal">
                     Internal
-		        </button>
-		    </h2>
-		    <div id="collapseInternal" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-		        <div class="accordion-body">
-			        <partial name="_Admin_Internal" />
-		        </div>
-		    </div>
-	    </div>
+                </button>
+            </h2>
+            <div id="collapseInternal" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <partial name="_Admin_Internal" />
+                </div>
+            </div>
+        </div>
         <div class="accordion-item">
-	    	<h2 class="accordion-header">
-		        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSecurity" aria-expanded="false" aria-controls="collapseSecurity">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSecurity" aria-expanded="false" aria-controls="collapseSecurity">
                     Security
-		        </button>
-		    </h2>
-		    <div id="collapseSecurity" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-		        <div class="accordion-body">
-			        <partial name="_Admin_Security" />
-		        </div>
-		    </div>
-	    </div>
-	</div>
+                </button>
+            </h2>
+            <div id="collapseSecurity" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <partial name="_Admin_Security" />
+                </div>
+            </div>
+        </div>
+    </div>
 
     <hr />
 
     <div class="d-flex flex-wrap">
-        <input type="submit" name="submitAction" value="Save" class="btn btn-primary me-2" />
+        <button type="button" class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#confirmSaveModal">Save</button>
         <input asp-controller="Home" asp-action="Index" type="submit" name="submit" value="Cancel" class="btn btn-secondary me-2" />
     </div>
+
+    <!-- Hidden submit button for actual form submission -->
+    <input type="submit" name="submitAction" value="Save" id="hiddenSaveButton" style="display:none;" />
 
     @section Scripts {
 
         <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"></script>
         <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.16.0/jquery.validate.min.js"></script>
         <script src="https://ajax.aspnetcdn.com/ajax/jquery.validation.unobtrusive/3.2.6/jquery.validate.unobtrusive.min.js"></script>
+        <script src="~/js/dasblog-ui.js"></script>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                // Initialize accordion tracking using shared utility
+                const accordionItems = document.querySelectorAll('.accordion-collapse');
+                DasBlog.UI.initAccordionTracking('settingsAccordionState', accordionItems);
+
+                // Save accordion state before form submission
+                const confirmSaveButton = document.getElementById('confirmSaveModalButton');
+                if (confirmSaveButton) {
+                    confirmSaveButton.addEventListener('click', function() {
+                        DasBlog.UI.saveAccordionState('settingsAccordionState', accordionItems);
+                    });
+                }
+            });
+        </script>
 
     }
 
@@ -265,7 +295,10 @@
     @Html.HiddenFor(@m => m.SiteConfig.RSSEndPointRewrite)
 
 
-    @Html.HiddenFor(@m => m.MetaConfig.FaceBookAdmins)
-    @Html.HiddenFor(@m => m.MetaConfig.FaceBookAppID)
+        @Html.HiddenFor(@m => m.MetaConfig.FaceBookAdmins)
+        @Html.HiddenFor(@m => m.MetaConfig.FaceBookAppID)
 
-</form>
+    </form>
+
+    <!-- Confirmation Modal using reusable partial -->
+    <partial name="_ConfirmationModalPartial" view-data="ViewData" />

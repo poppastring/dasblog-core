@@ -223,8 +223,10 @@ namespace DasBlog.Web.Controllers
 			{
 				logger.LogError(ex, ex.Message, null);
 				ModelState.AddModelError("", "Failed to edit blog post. Please check Logs for more details.");
+				return LocalRedirect(string.Format("~/post/{0}/edit", post.EntryId));
 			}
 
+			TempData["SuccessMessage"] = "Blog post updated successfully!";
 			return LocalRedirect(string.Format("~/post/{0}/edit", post.EntryId));
 		}
 
@@ -296,6 +298,7 @@ namespace DasBlog.Web.Controllers
 
 			BreakSiteCache();
 
+			TempData["SuccessMessage"] = "Blog post created successfully!";
 			return LocalRedirect(string.Format("~/post/{0}/edit", entry.EntryId));
 		}
 
