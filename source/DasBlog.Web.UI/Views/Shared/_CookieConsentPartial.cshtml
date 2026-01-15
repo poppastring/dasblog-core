@@ -8,18 +8,148 @@
 
 @if (showBanner)
 {
-    <div id="cookieConsent" class="alert alert-info alert-dismissible fade show" role="alert">
-        This website uses cookies to ensure you get the best experience on our website. <a href="http://cookiesandyou.com/">Learn More</a>.
-        <button type="button" class="accept-policy close" data-dismiss="alert" aria-label="Close" data-cookie-string="@cookieString">
-            <span aria-hidden="true">Accept</span>
-        </button>
+<style>
+#cookieConsent {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    max-width: 400px;
+    z-index: 9999;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+    border-left: 4px solid var(--bs-primary);
+    animation: slideIn 0.5s ease-out;
+    display: none;
+}
+    
+#cookieConsent.show {
+    display: block !important;
+}
+    
+    @@keyframes slideIn {
+        from {
+            transform: translateX(450px);
+            opacity: 0;
+        }
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+    
+    @@keyframes fadeOut {
+        from {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        to {
+            opacity: 0;
+            transform: translateX(450px);
+        }
+    }
+    
+    .cookie-consent-closing {
+        animation: fadeOut 0.3s ease-out forwards;
+    }
+    
+    @@media (max-width: 768px) {
+        #cookieConsent {
+            bottom: 0;
+            right: 0;
+            left: 0;
+            max-width: 100%;
+            border-radius: 0;
+            border-left: none;
+            border-top: 4px solid var(--bs-primary);
+        }
+        
+        @@keyframes slideIn {
+            from {
+                transform: translateY(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        @@keyframes fadeOut {
+            from {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            to {
+                opacity: 0;
+                transform: translateY(100%);
+            }
+        }
+    }
+</style>
+
+<div id="cookieConsent" class="alert alert-dark alert-dismissible fade" role="alert" data-cookie-string="@cookieString">
+    <div class="d-flex align-items-start">
+        <i class="fas fa-cookie-bite fa-2x text-info me-3 flex-shrink-0" style="margin-top: 4px;"></i>
+        <div class="flex-grow-1">
+            <h6 class="alert-heading fw-bold mb-2">
+                <i class="fas fa-info-circle me-1 text-info"></i> Welcome!
+            </h6>
+            <p class="mb-2 small">
+                This website uses cookies to ensure you get the best experience. 
+                We use them to remember your preferences and analyze site traffic.
+            </p>
+            <div class="d-flex gap-2 flex-wrap">
+                <button type="button" class="btn btn-primary btn-sm accept-policy">
+                    <i class="fas fa-check me-1"></i> Accept
+                </button>
+                <a href="http://cookiesandyou.com/" target="_blank" rel="noopener noreferrer" class="btn btn-outline-light btn-sm">
+                    <i class="fas fa-external-link-alt me-1"></i> Learn More
+                </a>
+            </div>
+        </div>
+        <button type="button" class="btn-close btn-close-white ms-2 flex-shrink-0" aria-label="Close"></button>
     </div>
-    <script>
-        (function () {
-            var button = document.querySelector("#cookieConsent button[data-cookie-string]");
-            button.addEventListener("click", function (event) {
-                document.cookie = button.dataset.cookieString;
-            }, false);
-        })();
-    </script>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var cookieConsent = document.getElementById('cookieConsent');
+        
+        if (!cookieConsent) return;
+        
+        var acceptButton = cookieConsent.querySelector('.accept-policy');
+        var closeButton = cookieConsent.querySelector('.btn-close');
+        var cookieString = cookieConsent.getAttribute('data-cookie-string');
+        
+        if (!acceptButton || !closeButton) return;
+        
+        function closeBanner() {
+            if (cookieString) {
+                document.cookie = cookieString;
+            }
+            
+            cookieConsent.classList.add('cookie-consent-closing');
+            cookieConsent.classList.remove('show');
+            
+            setTimeout(function() {
+                cookieConsent.style.display = 'none';
+            }, 300);
+        }
+        
+        acceptButton.addEventListener("click", function (event) {
+            event.preventDefault();
+            event.stopPropagation();
+            closeBanner();
+        });
+        
+        closeButton.addEventListener("click", function (event) {
+            event.preventDefault();
+            event.stopPropagation();
+            closeBanner();
+        });
+        
+        setTimeout(function() {
+            cookieConsent.classList.add('show');
+        }, 500);
+    });
+</script>
 }
