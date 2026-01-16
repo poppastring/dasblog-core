@@ -41,7 +41,7 @@
     <div class="col-sm-4">
         <div class="form-floating">            
             @Html.DropDownListFor(n => n.SiteConfig.FrontPageCategory,
-                        new SelectList(new DasBlog.Web.Models.AdminViewModels.CategoryListViewModel().Init(blogManager.GetCategories().Select(p => p.Name).ToList()), "Category", "Category"),
+                        new SelectList(new DasBlog.Web.Models.AdminViewModels.CategoryListViewModel().Init(blogManager.GetCategories().Select(p => p.Name).ToList()), "Category", "Name"),
                         new { @class = "form-select", id = "frontPageCategory" })
 
             @Html.LabelFor(m => @Model.SiteConfig.FrontPageCategory, null, new { @class = "form-label", @for = "frontPageCategory" })
