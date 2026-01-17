@@ -107,7 +107,10 @@ namespace newtelligence.DasBlog.Runtime
         private Queue sendMailInfoQueue;
         private Thread sendMailInfoHandlerThread;
         private ILoggingDataService loggingService;
-        private static readonly HttpClient httpClient = new HttpClient();
+        private static readonly HttpClient httpClient = new HttpClient
+        {
+            Timeout = TimeSpan.FromSeconds(30)
+        };
 
         private CommentFile allComments;
         protected string ContentBaseDirectory
@@ -404,7 +407,7 @@ namespace newtelligence.DasBlog.Runtime
 
                     using (var content = new StringContent(trackbackMsg, Encoding.UTF8, "application/x-www-form-urlencoded"))
                     {
-                        using (var response = httpClient.PostAsync(new Uri(trackbackUrl), content).Result)
+                        using (var response = httpClient.PostAsync(new Uri(trackbackUrl), content).ConfigureAwait(false).GetAwaiter().GetResult())
                         {
                             response.EnsureSuccessStatusCode();
                         }
