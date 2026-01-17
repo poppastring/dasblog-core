@@ -1,4 +1,5 @@
-﻿using DasBlog.Services;
+﻿using DasBlog.Managers.Interfaces;
+using DasBlog.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using System;
@@ -12,29 +13,46 @@ namespace DasBlog.Web.TagHelpers.User
 	{
 		private readonly IDasBlogSettings dasBlogSettings;
 		private readonly IHttpContextAccessor httpContextAccessor;
+		private readonly ISiteSecurityManager securityManager;
 		private const string gravatarLink = "//www.gravatar.com/avatar/{0}?rating={1}&size={2}&default={3}";
 
 		public string Css { get; set; }
 
 		public int? Size { get; set; }
 
-		public UserAvatarTagHelper(IDasBlogSettings dasBlogSettings, IHttpContextAccessor httpContextAccessor)
+		public UserAvatarTagHelper(IDasBlogSettings dasBlogSettings, IHttpContextAccessor httpContextAccessor, ISiteSecurityManager securityManager)
 		{
 			this.dasBlogSettings = dasBlogSettings;
 			this.httpContextAccessor = httpContextAccessor;
+			this.securityManager = securityManager;
 		}
 
 		public override void Process(TagHelperContext context, TagHelperOutput output)
 		{
 			var user = httpContextAccessor.HttpContext.User;
-			
+
 			output.TagName = "img";
 			output.TagMode = TagMode.SelfClosing;
 
 			if (user?.Identity?.IsAuthenticated == true)
 			{
-				// In DasBlog, the username is the email address
-				var email = user.Identity.Name;
+				// Get the username from the authenticated identity
+				var username = user.Identity.Name;
+
+				// Retrieve the user's email from the security configuration
+				var userDetails = securityManager.GetUserByDisplayName(username);
+
+				string email = null;
+				if (userDetails != null && !string.IsNullOrEmpty(userDetails.EmailAddress))
+				{
+					email = userDetails.EmailAddress;
+				}
+				else
+				{
+					// Fallback: In DasBlog, username is typically the email
+					email = username;
+				}
+
 				var hash = GetMd5Hash(email);
 				var avatarSize = Size;
 
@@ -43,7 +61,9 @@ namespace DasBlog.Web.TagHelpers.User
 					dasBlogSettings.SiteConfiguration.CommentsGravatarRating,
 					avatarSize,
 					dasBlogSettings.SiteConfiguration.CommentsGravatarNoImgPath));
-				output.Attributes.SetAttribute("alt", "User avatar");
+
+				var displayName = userDetails?.DisplayName ?? username;
+				output.Attributes.SetAttribute("alt", $"{displayName} avatar");
 			}
 			else
 			{
