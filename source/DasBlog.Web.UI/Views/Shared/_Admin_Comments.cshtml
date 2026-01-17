@@ -86,7 +86,7 @@
     </div>
 </div>
 
-<div class="form-group row mb-3">
+<div class="row mb-3">
     @Html.LabelFor(m => @Model.SiteConfig.ValidCommentTags, null, new { @class = "col-form-label" })    
     <div class="dasblog-col-body col-sm-10">
         @for (var i = 0; i < @Model.SiteConfig.ValidCommentTags[0].Tag.Count; i++)

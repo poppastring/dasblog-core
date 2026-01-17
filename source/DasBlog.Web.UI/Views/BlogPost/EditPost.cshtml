@@ -2,7 +2,7 @@
 @using DasBlog.Core.Common
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Edit Post";
     Layout = "../../Themes/dasblog/_Layout.cshtml";
 
     // Configure modal parameters
@@ -14,6 +14,7 @@
 }
 
 <h1>@ViewData["Title"]</h1>
+<hr />
 
 <!-- Success Alert using reusable partial -->
 <partial name="_SuccessAlertPartial" view-data="ViewData" />
@@ -33,8 +34,8 @@
 
     <hr />
     <div class="d-flex flex-wrap">
-        <button type="button" class="btn btn-default btn-primary me-2" data-bs-toggle="modal" data-bs-target="#confirmSaveModal">Save</button>
-        <input class="btn btn-default btn-secondary me-2" asp-controller="Home" asp-action="Index" type="submit" name="submit" value="Cancel" />
+        <button type="button" class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#confirmSaveModal">Save</button>
+        <input class="btn btn-secondary me-2" asp-controller="Home" asp-action="Index" type="submit" name="submit" value="Cancel" />
     </div>
 
     <!-- Hidden submit button for actual form submission -->

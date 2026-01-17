@@ -36,15 +36,11 @@
         </header>
 
         <div class="nav-scroller py-1 mb-2">
-            <nav class="nav d-flex justify-content-between">
+            <nav class="nav d-flex justify-content-start flex-wrap">
                 <a class="p-2 text-muted" asp-area="" asp-controller="home" asp-action="index">Home</a>
                 <a class="p-2 text-muted" asp-area="" asp-controller="category" asp-action="category">Category</a>
                 <a class="p-2 text-muted" asp-area="" asp-controller="archive" asp-action="archive">Archive</a>
-                <a dasblog-authorized class="p-2 text-muted" asp-area="" asp-controller="post" asp-action="create">Create Post</a>
-                <a dasblog-authorized class="p-2 text-muted" asp-area="" asp-controller="admin" asp-action="settings">Site Admin</a>
-                <a dasblog-authorized class="p-2 text-muted" asp-area="" asp-controller="admin" asp-action="managecomments">Manage Comments</a>
-                <a dasblog-authorized class="p-2 text-muted" asp-area="" asp-controller="author" asp-action="index">Author</a>
-                <a dasblog-authorized class="p-2 text-muted" asp-area="" asp-controller="activity" asp-action="index">Activity</a>
+                <a dasblog-authorized class="p-2 text-muted" asp-area="" asp-controller="admin" asp-action="settings">[Admin Site]</a>
             </nav>
         </div>
     </div>
@@ -56,17 +52,17 @@
         @RenderBody()
 
         <footer>
-            <div class="col-12 text-center">
+            <div class="text-center">
                 <site-copyright />
             </div>
 
-            <div class="container text-center">
+            <div class="text-center">
                 <p class="text-muted">
                     <site-page-control view-context="@ViewContext" />
                 </p>
             </div>
 
-            <div class="col-12 text-center">
+            <div class="text-center">
                 Blog template built for <a href="https://getbootstrap.com/">Bootstrap</a> by <a href="https://twitter.com/mdo">@@mdo</a>.
             </div>
         </footer>
