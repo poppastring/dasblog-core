@@ -43,7 +43,7 @@
         @Html.LabelFor(m => @Model.SiteConfig.EnableSmtpAuthentication, null, new { @class = "col-check-label me-3" })
     </div>
     <div class="col-auto">
-        @Html.CheckBoxFor(m => @Model.SiteConfig.UseSSLForSMTP, new { @class = "form-check-input form-check-input me-1" })
+        @Html.CheckBoxFor(m => @Model.SiteConfig.UseSSLForSMTP, new { @class = "form-check-input me-1" })
         @Html.LabelFor(m => @Model.SiteConfig.UseSSLForSMTP, null, new { @class = "col-check-label me-3" })
     </div>
 </div>
@@ -59,8 +59,8 @@
 
 <div class="row gy-2 gx-3 align-items-md-start">
     <div class="col-sm-4">
-        @Html.CheckBoxFor(m => @Model.SiteConfig.SendCommentsByEmail, new { @class = "form-check-input form-check-input" })
-        @Html.LabelFor(m => @Model.SiteConfig.SendCommentsByEmail, null, new { @class = "col-check-label col-sm-10" })
+        @Html.CheckBoxFor(m => @Model.SiteConfig.SendCommentsByEmail, new { @class = "form-check-input" })
+        @Html.LabelFor(m => @Model.SiteConfig.SendCommentsByEmail, null, new { @class = "col-check-label" })
     </div>
 </div>
 
@@ -68,6 +68,6 @@
 
 <div class="row gy-2 gx-3 align-items-md-start">
     <div class="col-sm-4">
-        <input asp-controller="Admin" asp-action="TestEmail" type="submit" name="submit" value="Send test Email" class="btn-default" />
+        <input asp-controller="Admin" asp-action="TestEmail" type="submit" name="submit" value="Send test Email" class="btn btn-primary" />
     </div>
 </div>
