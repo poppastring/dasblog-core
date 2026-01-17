@@ -25,7 +25,7 @@
         <div class="container-fluid">
             <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
                 <a asp-area="" asp-controller="Home" asp-action="Index" class="d-flex align-items-center mb-2 mb-lg-0 link-body-emphasis text-decoration-none">
-                    <i class="fas fa-blog me-2 fs-4"></i>
+                    <img src="~/images/default/dasblog-orig.jpg" alt="DasBlog Logo" class="me-2" height="32" />
                     <span class="fs-4"><site-title /></span>
                 </a>
 
@@ -33,7 +33,6 @@
                     <li><a asp-area="" asp-controller="home" asp-action="index" class="nav-link px-2 link-secondary">Home</a></li>
                     <li><a asp-area="" asp-controller="category" asp-action="category" class="nav-link px-2 link-body-emphasis">Category</a></li>
                     <li><a asp-area="" asp-controller="archive" asp-action="archive" class="nav-link px-2 link-body-emphasis">Archive</a></li>
-                    <li dasblog-authorized><a asp-area="" asp-controller="post" asp-action="create" class="nav-link px-2 link-body-emphasis">Create Post</a></li>
                 </ul>
 
                 <div class="text-end" dasblog-unauthorized>
@@ -42,9 +41,11 @@
 
                 <div class="dropdown text-end" dasblog-authorized>
                     <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fas fa-user-circle fs-2"></i>
+                        <user-avatar size="32" />
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end text-small">
+                        <li><a class="dropdown-item" asp-area="" asp-controller="post" asp-action="create"><i class="fas fa-plus-circle me-2"></i>Create Post</a></li>
+                        <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" asp-area="" asp-controller="admin" asp-action="settings"><i class="fas fa-cog me-2"></i>Site Admin</a></li>
                         <li><a class="dropdown-item" asp-area="" asp-controller="admin" asp-action="managecomments"><i class="fas fa-comments me-2"></i>Manage Comments</a></li>
                         <li><a class="dropdown-item" asp-area="" asp-controller="author" asp-action="index"><i class="fas fa-user me-2"></i>Author</a></li>
