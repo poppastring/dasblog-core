@@ -23,6 +23,7 @@ using Markdig;
 using DasBlog.Core.Extensions;
 using System.Text.RegularExpressions;
 using DasBlog.Services.Site;
+using Quartz.Util;
 
 namespace DasBlog.Web.Controllers
 {
@@ -668,6 +669,11 @@ namespace DasBlog.Web.Controllers
 
 		private void ValidatePostName(PostViewModel post)
 		{
+			if(post.Title.IsNullOrWhiteSpace())
+			{
+				return;
+			}
+
 			var dt = ValidatePostDate(post);
 			var entry = blogManager.GetBlogPost(post.Title.Replace(" ", string.Empty), dt);
 
