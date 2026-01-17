@@ -5,32 +5,32 @@
 
 <div class="post">
     <div class="row post-title">
-        <div class="col-md-12 mb-6">
+        <div class="col-md-12 mb-4">
             <h2><post-title-link post=@Model /> </h2>
             <small class="text-muted"><post-created-date post="@Model" /></small>
         </div>
     </div>
 
     <div class="row post-body">
-        <div class="col-md-12 mb-6">
+        <div class="col-md-12 mb-4">
             <post-content post="@Model" />
         </div>
     </div>
     <div class="row post-footer">
-        <div class="col-md-12 mb-6">
+        <div class="col-md-12 mb-2">
             Categories: <post-categories-list post="@Model" >, </post-categories-list>
         </div>
-        <div class="col-md-12 mb-6">
+        <div class="col-md-12 mb-2">
             Share on <post-to-twitter post="@Model">Twitter</post-to-twitter>, <post-to-reddit post="@Model">Reddit</post-to-reddit>, <post-to-facebook post="@Model">Facebook</post-to-facebook> or <post-to-linked-in post="@Model">LinkedIn</post-to-linked-in>, <post-to-blue-sky post="@Model">BlueSky</post-to-blue-sky>
         </div>
-        <div dasblog-authorized class="col-md-12 mb-6">
+        <div dasblog-authorized class="col-md-12 mb-2">
             <post-edit-link post="@Model" />
             <span style="display:inline-block; width: 1em;"></span>
             <post-delete-link post="@Model" />
             <span style="display:inline-block; width: 1em;"></span>
             <comment-management-link post="@Model" />
         </div>
-        <div class="col-md-12 mb-6">
+        <div class="col-md-12 mb-2">
             <post-created-date post="@Model" />
         </div>
     </div>

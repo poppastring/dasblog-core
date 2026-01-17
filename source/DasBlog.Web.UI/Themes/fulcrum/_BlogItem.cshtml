@@ -5,28 +5,28 @@
 
 <div class="post">
     <div class="row post-title">
-        <div class="col-md-12 mb-6">
+        <div class="col-md-12 mb-4">
             <h1><post-title-link post=@Model /> </h1>
         </div>
     </div>
 
     <div class="row post-body">
-        <div class="col-md-12 mb-6">
+        <div class="col-md-12 mb-4">
             <post-content post="@Model" />
         </div>
     </div>
     <div class="row post-footer">
-        <div class="col-md-12 mb-6">
+        <div class="col-md-12 mb-2">
             Tagged in: <post-categories-list post="@Model">, </post-categories-list><br />
             <post-comment-link post="@Model" />
         </div>
-        <div class="col-md-12 mb-6">
+        <div class="col-md-12 mb-2">
             <post-created-date post="@Model" />
         </div>
-        <div class="col-md-12 mb-6">
+        <div class="col-md-12 mb-2">
             <post-to-twitter post="@Model">Share on Twitter</post-to-twitter>, <post-to-blue-sky post="@Model">Share BlueSky</post-to-blue-sky>
         </div>
-        <div dasblog-authorized class="col-md-12 mb-6">
+        <div dasblog-authorized class="col-md-12 mb-2">
             <post-edit-link post="@Model" />
             <span style="display:inline-block; width: 1em;"></span>
             <post-delete-link post="@Model" />
