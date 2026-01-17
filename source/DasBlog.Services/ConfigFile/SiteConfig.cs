@@ -52,8 +52,6 @@ namespace DasBlog.Services.ConfigFile
 	public class SiteConfig : ISiteConfig
     {
         private string _root;
-        private string _cdnFrom;
-        private string _cdnTo;
 
 		public SiteConfig() { }
 
