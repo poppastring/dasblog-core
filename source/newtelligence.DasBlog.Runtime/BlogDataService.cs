@@ -44,6 +44,8 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Net;
+using System.Net.Http;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using NodaTime;
@@ -105,6 +107,10 @@ namespace newtelligence.DasBlog.Runtime
         private Queue sendMailInfoQueue;
         private Thread sendMailInfoHandlerThread;
         private ILoggingDataService loggingService;
+        private static readonly HttpClient httpClient = new HttpClient
+        {
+            Timeout = TimeSpan.FromSeconds(30)
+        };
 
         private CommentFile allComments;
         protected string ContentBaseDirectory
@@ -399,18 +405,12 @@ namespace newtelligence.DasBlog.Runtime
 
                     trackbackMsg += "&blog_name=" + WebUtility.UrlEncode(job.info.SourceBlogName);
 
-                    WebRequest request = WebRequest.Create(new Uri(trackbackUrl));
-
-                    request.Method = "POST";
-                    request.ContentType = "application/x-www-form-urlencoded";
-
-                    using (StreamWriter requestWriter = new StreamWriter(request.GetRequestStream()))
+                    using (var content = new StringContent(trackbackMsg, Encoding.UTF8, "application/x-www-form-urlencoded"))
                     {
-                        requestWriter.Write(trackbackMsg);
-                    }
-
-                    using (request.GetResponse())
-                    {
+                        using (var response = httpClient.PostAsync(new Uri(trackbackUrl), content).ConfigureAwait(false).GetAwaiter().GetResult())
+                        {
+                            response.EnsureSuccessStatusCode();
+                        }
                     }
 
                     this.loggingService.AddEvent(
