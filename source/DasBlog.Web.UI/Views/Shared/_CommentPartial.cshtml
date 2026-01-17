@@ -18,22 +18,22 @@
     <div class="modal-body form-horizontal @admincommentstyle">
         <div class="row">
             <div class="col-md-12">
-                <comment-gravatar-image comment="@Model" css="img-thumbnail rounded float-left" />
+                <comment-gravatar-image comment="@Model" css="img-thumbnail rounded float-start" />
 
                 <div class="row">
-                    <div class="col-md-12 mb-6">
+                    <div class="col-md-12 mb-2">
                         <strong><comment-user-home-page-link comment="@Model" /></strong> <i>(<comment-date comment="@Model" date-time-format="MMMM dd, yyyy H:mm" />)</i>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-12 mb-6 font-weight-light">
+                    <div class="col-md-12 mb-2 fw-light">
                         <comment-content comment="@Model" />
                     </div>
                 </div>
             </div>
         </div>
         <div class="row">
-            <div dasblog-authorized class="col-md-12 mb-6">
+            <div dasblog-authorized class="col-md-12 mb-2">
                 <comment-approval-link comment="@Model" />
                 <span style="display:inline-block; width: 1em;"></span>
                 <comment-delete-link comment="@Model" />

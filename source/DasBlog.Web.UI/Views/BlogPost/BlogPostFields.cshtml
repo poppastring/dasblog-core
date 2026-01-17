@@ -1,7 +1,7 @@
 @using DasBlog.Core.Common;
 @model DasBlog.Web.Models.BlogViewModels.PostViewModel
 
-<div class="form-group">
+<div class="mb-3">
     <div class="col-6">
         <div asp-validation-summary="All" class="text-danger"></div>
     </div>
@@ -91,7 +91,7 @@
     <div class="col-sm-6">
         <div class="form-floating">
             <select asp-for="Language" class="form-control" asp-items="Model.Languages"></select>
-           <label asp-for="Language" class="control-label"></label>
+           <label asp-for="Language" class="form-label"></label>
         </div>
     </div>
 </div>

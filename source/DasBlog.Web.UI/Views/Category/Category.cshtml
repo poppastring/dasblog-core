@@ -8,29 +8,46 @@
     ViewData["Title"] = Constants.CategoryPageTitle;
 }
 
+<h1>@ViewData["Title"]</h1>
+<hr />
+
 <div class="container">
     <div class="row">
-        <p>
-            @foreach (var item in Model.Categories)
-            {
-                <span>
-                    <a href="@dasBlogSettings.RelativeToRoot("category#" + WebUtility.UrlEncode(item.Key))">@item.Key (@item.Value.Count())</a>&nbsp; &#9679;
-                </span>
-            }
-        </p>
-    </div>
-    <hr />
-    <div>
-        @foreach (var category in Model.Categories)
-        {
-            <a name="@WebUtility.UrlEncode(category.Key)" href="category/@dasBlogSettings.CompressTitle(category.Key)" ><h4>@category.Key (@category.Value.Count())</h4></a>
-            @foreach (var post in category.Value)
-            {
-                <div>
-                    <a href="@dasBlogSettings.RelativeToRoot(post.BlogId)">@post.BlogTitle</a><br />
-                </div>
-            }
-        }
+        <div class="col-12">
+            <p class="mb-3">
+                @foreach (var item in Model.Categories)
+                {
+                    <span class="me-2">
+                        <a href="@dasBlogSettings.RelativeToRoot("category#" + WebUtility.UrlEncode(item.Key))">@item.Key (@item.Value.Count())</a>
+                        <span class="text-muted">&#9679;</span>
+                    </span>
+                }
+            </p>
+        </div>
     </div>
 
+    <hr />
+
+    <div class="row">
+        <div class="col-12">
+            @foreach (var category in Model.Categories)
+            {
+                <div class="mb-4" id="@WebUtility.UrlEncode(category.Key)">
+                    <h4>
+                        <a href="category/@dasBlogSettings.CompressTitle(category.Key)" class="text-decoration-none">
+                            @category.Key (@category.Value.Count())
+                        </a>
+                    </h4>
+                    <ul class="list-unstyled ms-3">
+                        @foreach (var post in category.Value)
+                        {
+                            <li class="mb-2">
+                                <a href="@dasBlogSettings.RelativeToRoot(post.BlogId)">@post.BlogTitle</a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            }
+        </div>
+    </div>
 </div>
