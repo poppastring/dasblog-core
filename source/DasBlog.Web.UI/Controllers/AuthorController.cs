@@ -47,14 +47,9 @@ namespace DasBlog.Web.Controllers
 		{
 			var uvm = mapper.Map<AuthorViewModel>(userService.FindMatchingUser(email).user);
 
-			new ViewBagConfigurer().ConfigureViewBag(ViewBag, Constants.UsersViewMode);
+			new ViewBagConfigurer().ConfigureViewBag(ViewBag, Constants.UsersEditMode);
 
 			return View("ViewEditAuthor", uvm);
-		}
-
-		public IActionResult EditAuthor(AuthorViewModel authorviewmodel)
-		{
-			return View("ViewEditAuthor", authorviewmodel);
 		}
 
 		[HttpPost]
