@@ -402,8 +402,6 @@ namespace DasBlog.Web
 				await next.Invoke();
 			});
 
-			app.UseLoggingAgent();
-
 			app.UseEndpoints(endpoints =>
 			{
 				endpoints.MapHealthChecks("/healthcheck");

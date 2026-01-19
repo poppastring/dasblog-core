@@ -76,9 +76,11 @@ namespace DasBlog.Web.Controllers
 		[HttpGet]
 		public async Task<IActionResult> Logout()
 		{
+			var userName = HttpContext.User.Identity?.Name ?? "Unknown";
+
 			await signInManager.SignOutAsync();
 
-			logger.LogInformation(new EventDataItem(EventCodes.SecuritySuccess, null, "Logged out successfully"));
+			logger.LogInformation(new EventDataItem(EventCodes.SecuritySuccess, null, "{email} logged out successfully", userName));
 
 			return RedirectToAction("Index", "Home");
 		}
