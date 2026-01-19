@@ -107,6 +107,7 @@ namespace DasBlog.Web.Controllers
 			return AggregatePostView(lpvm);
 		}
 
+		[HttpGet("about")]
 		public IActionResult About()
 		{
 			if (dasBlogSettings.SiteConfiguration.EnableAboutView)
