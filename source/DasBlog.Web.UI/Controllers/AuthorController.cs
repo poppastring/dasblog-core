@@ -33,12 +33,12 @@ namespace DasBlog.Web.Controllers
 		[HttpGet]
 		[Route("")]
 		public IActionResult Index()
-        {
+			{
 			var uvm = mapper.Map<AuthorViewModel>(userService.GetFirstUser());
 
-				new ViewBagConfigurer().ConfigureViewBag(ViewBag, Constants.UsersViewMode);
+			new ViewBagConfigurer().ConfigureViewBag(ViewBag, Constants.UsersViewMode);
 
-				return RedirectToAction(uvm.OriginalEmail, "authors");
+			return RedirectToAction("EditAuthor", new { email = uvm.OriginalEmail });
 		}
 
 		[HttpGet]
@@ -90,17 +90,17 @@ namespace DasBlog.Web.Controllers
 				return View("ViewEditAuthor", authorviewmodel);
 			}
 
-				var dasbloguser = mapper.Map<User>(authorviewmodel);
+			var dasbloguser = mapper.Map<User>(authorviewmodel);
 
-				userService.AddOrReplaceUser(dasbloguser, authorviewmodel.OriginalEmail);
-				siteSecurityConfig.Users = userService.GetAllUsers().ToList();
+			userService.AddOrReplaceUser(dasbloguser, authorviewmodel.OriginalEmail);
+			siteSecurityConfig.Users = userService.GetAllUsers().ToList();
 
-				var uvm = mapper.Map<AuthorViewModel>(userService.GetFirstUser());
+			var uvm = mapper.Map<AuthorViewModel>(userService.GetFirstUser());
 
-				logger.LogInformation(new EventDataItem(EventCodes.EditUser, null, "Edit User: {0}", uvm.DisplayName));
+			logger.LogInformation(new EventDataItem(EventCodes.EditUser, null, "Edit User: {0}", uvm.DisplayName));
 
-				TempData["SuccessMessage"] = "Author profile updated successfully!";
-				return RedirectToAction("EditAuthor", new { email = authorviewmodel.EmailAddress });
-			}
+			TempData["SuccessMessage"] = "Author profile updated successfully!";
+			return RedirectToAction("EditAuthor", new { email = authorviewmodel.EmailAddress });
+		}
 	}
 }
