@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace DasBlog.Web.Controllers
 {
 	[Authorize]
+	[Route("admin/activity")]
 	public class ActivityController : DasBlogController
 	{
 		private readonly IActivityService activityService;
@@ -17,14 +18,14 @@ namespace DasBlog.Web.Controllers
 		}
 
 		[HttpGet]
-		[Route("activity/list")]
+		[Route("list")]
 		public IActionResult Index()
 		{
 			return EventsByDate(DateTime.UtcNow);
 		}
 
 		[HttpGet]
-		[Route("activity")]
+		[Route("")]
 		public IActionResult EventsByQuery([FromQuery]DateTime date)
 		{
 			try
@@ -43,7 +44,7 @@ namespace DasBlog.Web.Controllers
 		}
 
 		[HttpGet]
-		[Route("activity/date/{date:datetime}")]
+		[Route("date/{date:datetime}")]
 		public IActionResult EventsByDate(DateTime date)
 		{
 			try

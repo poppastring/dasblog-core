@@ -30,7 +30,7 @@ namespace DasBlog.Web.TagHelpers.Post
 
 			output.TagName = "a";
 			output.TagMode = TagMode.StartTagAndEndTag;
-			output.Attributes.SetAttribute("href", $"javascript:deleteEntry(\"{dasBlogSettings.GetPermaLinkUrl(BlogPostId + "/delete")}\",\"{BlogTitle}\")");
+			output.Attributes.SetAttribute("href", $"javascript:deleteEntry(\"/admin/post/{BlogPostId}/delete\",\"{BlogTitle}\")");
 			output.Content.SetHtmlContent("Delete this post");
 		}
 

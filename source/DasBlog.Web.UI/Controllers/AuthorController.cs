@@ -14,6 +14,7 @@ using Microsoft.Extensions.Logging;
 namespace DasBlog.Web.Controllers
 {
 	[Authorize]
+	[Route("admin/authors")]
 	public class AuthorController : DasBlogController
 	{
 		private readonly ILogger<AuthorController> logger;
@@ -30,7 +31,7 @@ namespace DasBlog.Web.Controllers
 		}
 
 		[HttpGet]
-		[Route("/authors")]
+		[Route("")]
 		public IActionResult Index()
         {
 			var uvm = mapper.Map<AuthorViewModel>(userService.GetFirstUser());
@@ -41,7 +42,7 @@ namespace DasBlog.Web.Controllers
 		}
 
 		[HttpGet]
-		[Route("/authors/{email}")]
+		[Route("{email}")]
 		public IActionResult EditAuthor(string email)
 		{
 			var uvm = mapper.Map<AuthorViewModel>(userService.FindMatchingUser(email).user);
@@ -58,7 +59,7 @@ namespace DasBlog.Web.Controllers
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		[Route("/authors")]
+		[Route("")]
 		public IActionResult UpdateAuthor(AuthorViewModel authorviewmodel)
 		{
 			authorviewmodel.Active = true;
