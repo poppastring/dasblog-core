@@ -398,7 +398,7 @@ namespace DasBlog.Web
 			app.Use(async (context, next) =>
 			{
 				//being renamed/changed to this soon
-				context.Response.Headers.Add("Permissions-Policy", "geolocation=(),midi=(),sync-xhr=(),microphone=(),camera=(),magnetometer=(),gyroscope=(),fullscreen=(self),payment=()");
+				context.Response.Headers["Permissions-Policy"] = "geolocation=(),midi=(),sync-xhr=(),microphone=(),camera=(),magnetometer=(),gyroscope=(),fullscreen=(self),payment=()";
 				await next.Invoke();
 			});
 
