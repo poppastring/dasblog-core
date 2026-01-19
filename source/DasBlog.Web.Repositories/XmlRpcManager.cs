@@ -137,7 +137,7 @@ namespace DasBlog.Managers
 				{
 					throw ex.InnerException;
 				}
-				throw ex;
+				throw;
 			}
 			return new XmlRpcResponse(retValue);
 		}
