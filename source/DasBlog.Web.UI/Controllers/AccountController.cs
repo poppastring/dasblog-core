@@ -64,7 +64,7 @@ namespace DasBlog.Web.Controllers
 
 					return LocalRedirect(returnUrl ?? Url.Action("Index", "Home"));
 				}
-				logger.LogInformation(new EventDataItem(EventCodes.SecuritySuccess, null, 
+				logger.LogInformation(new EventDataItem(EventCodes.SecurityFailure, null, 
 												"{email} failed to log in", model.Email));
 
 				ModelState.AddModelError(string.Empty, "The username and/or password is incorrect. Please try again.");

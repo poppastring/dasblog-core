@@ -41,38 +41,30 @@ namespace DasBlog.Web.Controllers
 
 		public IActionResult Index()
 		{
-			var stopWatch = new Stopwatch();
-			stopWatch.Start();
-
 			if (!memoryCache.TryGetValue(CACHEKEY_FRONTPAGE, out ListPostsViewModel lpvm))
 			{
-				lpvm = new ListPostsViewModel
-				{
-					Posts = HomePagePosts()
-				};
+			lpvm = new ListPostsViewModel
+			{
+				Posts = HomePagePosts()
+			};
 
-				foreach( var post in lpvm.Posts )
-				{
-					post.Content = embeddingHandler.InjectCategoryLinksAsync(post.Content).GetAwaiter().GetResult();
-					post.Content = embeddingHandler.InjectIconsForBareLinksAsync(post.Content).GetAwaiter().GetResult();
-				}
+			foreach( var post in lpvm.Posts )
+			{
+				post.Content = embeddingHandler.InjectCategoryLinksAsync(post.Content).GetAwaiter().GetResult();
+				post.Content = embeddingHandler.InjectIconsForBareLinksAsync(post.Content).GetAwaiter().GetResult();
+			}
 
-				AddComments(lpvm);
+			AddComments(lpvm);
 
-				if (dasBlogSettings.SiteConfiguration.EnableStartPageCaching)
+			if (dasBlogSettings.SiteConfiguration.EnableStartPageCaching)
 				{
 					memoryCache.Set(CACHEKEY_FRONTPAGE, lpvm, SiteCacheSettings());
 				}
-
-				logger.LogDebug(new EventDataItem(EventCodes.Site, null, $"Blog home page: {lpvm.Posts.Count} posts shown"));
 			}
 
 			ViewData[Constants.ShowPageControl] = true;			
 			ViewData[Constants.PageNumber] = 0;
 			ViewData[Constants.PostCount] = lpvm.Posts.Count;
-
-			stopWatch.Stop();
-			logger.LogInformation(new EventDataItem(EventCodes.Site, null, $"HomeController.Index Time elapsed: {stopWatch.Elapsed.TotalMilliseconds}ms"));
 
 			return AggregatePostView(lpvm);
 		}

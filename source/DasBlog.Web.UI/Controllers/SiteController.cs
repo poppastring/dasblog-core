@@ -32,9 +32,7 @@ namespace DasBlog.Web.Controllers
         [HttpGet("map")]
         public ActionResult Map()
         {
-            var sitemap = siteManager.GetGoogleSiteMap();
-
-			logger.LogInformation(new EventDataItem(EventCodes.Site, null, "Site Map request"));
+			var sitemap = siteManager.GetGoogleSiteMap();
 
 			return Ok(sitemap);
         }
@@ -54,8 +52,6 @@ namespace DasBlog.Web.Controllers
 
 				memoryCache.Set(CACHEKEY_FRONTPAGE, lpvm, SiteCacheSettings());
 			};
-
-			logger.LogInformation(new EventDataItem(EventCodes.Site, null, "Microsummary request"));
 
 			return Ok(lpvm?.Posts.FirstOrDefault()?.Title);
 		}

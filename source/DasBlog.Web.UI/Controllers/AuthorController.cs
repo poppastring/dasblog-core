@@ -35,11 +35,9 @@ namespace DasBlog.Web.Controllers
         {
 			var uvm = mapper.Map<AuthorViewModel>(userService.GetFirstUser());
 
-			new ViewBagConfigurer().ConfigureViewBag(ViewBag, Constants.UsersViewMode);
+				new ViewBagConfigurer().ConfigureViewBag(ViewBag, Constants.UsersViewMode);
 
-			logger.LogInformation(new EventDataItem(EventCodes.ViewUser, null, "View author: {0}", uvm.DisplayName));
-
-			return RedirectToAction(uvm.OriginalEmail, "authors");
+				return RedirectToAction(uvm.OriginalEmail, "authors");
 		}
 
 		[HttpGet]
@@ -48,9 +46,7 @@ namespace DasBlog.Web.Controllers
 		{
 			var uvm = mapper.Map<AuthorViewModel>(userService.FindMatchingUser(email).user);
 
-			new ViewBagConfigurer().ConfigureViewBag(ViewBag, Constants.UsersEditMode);
-
-			logger.LogInformation(new EventDataItem(EventCodes.ViewUser, null, "View author: {0}", uvm.DisplayName));
+			new ViewBagConfigurer().ConfigureViewBag(ViewBag, Constants.UsersViewMode);
 
 			return View("ViewEditAuthor", uvm);
 		}

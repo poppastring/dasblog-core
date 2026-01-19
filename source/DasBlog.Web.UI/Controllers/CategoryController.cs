@@ -35,13 +35,7 @@ namespace DasBlog.Web.Controllers
 		[HttpGet("category")]
 		public IActionResult Category()
 		{
-			var stopWatch = new Stopwatch();
-			stopWatch.Start();
-
 			var viewModel = GetCategoryListFromCategoryManager(string.Empty);
-
-			stopWatch.Stop();
-			logger.LogInformation(new EventDataItem(EventCodes.Site, null, $"CategoryController.Category Time elapsed: {stopWatch.Elapsed.TotalMilliseconds}ms"));
 
 			return View(viewModel);
 		}
@@ -49,13 +43,7 @@ namespace DasBlog.Web.Controllers
 		[HttpGet("category/{cat}")]
 		public IActionResult Category(string cat)
 		{
-			var stopWatch = new Stopwatch();
-			stopWatch.Start();
-
 			var viewModel = GetCategoryListFromCategoryManager(cat.ToLower());
-
-			stopWatch.Stop();
-			logger.LogInformation(new EventDataItem(EventCodes.Site, null, $"CategoryController.Category ({cat}) Time elapsed: {stopWatch.Elapsed.TotalMilliseconds}ms"));
 
 			return View(viewModel);
 		}

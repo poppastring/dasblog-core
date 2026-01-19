@@ -215,14 +215,17 @@ namespace DasBlog.Web.Controllers
 				var sts = blogManager.UpdateEntry(entry);
 				if (sts == NBR.EntrySaveState.Failed)
 				{
+					logger.LogError(new EventDataItem(EventCodes.Error, null, "Failed to edit blog post: {0}", entry.Title));
 					ModelState.AddModelError("", "Failed to edit blog post. Please check Logs for more details.");
 					return LocalRedirect(string.Format("~/post/{0}/edit", post.EntryId));
 				}
 
+				logger.LogInformation(new EventDataItem(EventCodes.EntryChanged, null, "Blog post edited: {0}", entry.Title));
+
 			}
 			catch (Exception ex)
 			{
-				logger.LogError(ex, ex.Message, null);
+				logger.LogError(new EventDataItem(EventCodes.Error, null, "Blog post edit failed: {0}", ex.Message));
 				ModelState.AddModelError("", "Failed to edit blog post. Please check Logs for more details.");
 				return LocalRedirect(string.Format("~/post/{0}/edit", post.EntryId));
 			}
@@ -308,7 +311,12 @@ namespace DasBlog.Web.Controllers
 		{
 			try
 			{
+				var entry = blogManager.GetBlogPostByGuid(postid);
+				string entryTitle = entry?.Title ?? postid.ToString();
+
 				blogManager.DeleteEntry(postid.ToString());
+
+				logger.LogInformation(new EventDataItem(EventCodes.EntryDeleted, null, "Blog post deleted: {0}", entryTitle));
 			}
 			catch (Exception ex)
 			{
@@ -476,8 +484,6 @@ namespace DasBlog.Web.Controllers
 			commt.IsPublic = !dasBlogSettings.SiteConfiguration.CommentsRequireApproval;
 			commt.CreatedUtc = commt.ModifiedUtc = DateTime.Now.ToUniversalTime();
 
-			logger.LogInformation(new EventDataItem(EventCodes.CommentAdded, null, "Comment CONTENT DUMP", commt.Content));
-
 			var state = blogManager.AddComment(addcomment.TargetEntryId, commt);
 
 			if (state == NBR.CommentSaveState.Failed)
@@ -594,8 +600,6 @@ namespace DasBlog.Web.Controllers
 			{
 				lpvm.Posts = entries.Select(entry => mapper.Map<PostViewModel>(entry)).ToList();
 				ViewData[Constants.ShowPageControl] = false;
-
-				logger.LogInformation(new EventDataItem(EventCodes.Search, null, "Search request: '{0}'", searchText));
 
 				return View(BLOG_PAGE, lpvm);
 			}
