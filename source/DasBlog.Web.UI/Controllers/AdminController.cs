@@ -30,10 +30,11 @@ namespace DasBlog.Web.Controllers
 		private readonly IHostApplicationLifetime appLifetime;
 		private readonly ILogger<AdminController> logger;
 		private readonly IMemoryCache memoryCache;
+		private readonly ISiteSecurityManager siteSecurityManager;
 		private readonly List<PostViewModel> posts = [];	
 
 		public AdminController(IDasBlogSettings dasBlogSettings, IFileSystemBinaryManager fileSystemBinaryManager, IMapper mapper,
-								IBlogManager blogManager, IHostApplicationLifetime appLifetime, ILogger<AdminController> logger, IMemoryCache memoryCache) : base(dasBlogSettings)
+								IBlogManager blogManager, IHostApplicationLifetime appLifetime, ILogger<AdminController> logger, IMemoryCache memoryCache, ISiteSecurityManager siteSecurityManager) : base(dasBlogSettings)
 		{
 			this.dasBlogSettings = dasBlogSettings;
 			this.fileSystemBinaryManager = fileSystemBinaryManager;
@@ -42,6 +43,7 @@ namespace DasBlog.Web.Controllers
 			this.appLifetime = appLifetime;
 			this.logger = logger;
 			this.memoryCache = memoryCache;
+			this.siteSecurityManager = siteSecurityManager;
 			this.posts = blogManager.GetAllEntries()
 								.Select(entry => mapper.Map<PostViewModel>(entry)).ToList();
 		}
@@ -125,6 +127,13 @@ namespace DasBlog.Web.Controllers
 				cmt.Title = blogManager.GetBlogPostByGuid(new Guid(cmt.BlogPostId))?.Title;
 			}
 
+			var currentUser = siteSecurityManager.GetUserByDisplayName(User.Identity?.Name);
+
+			// Pass user information to the view
+			ViewData["CurrentUserDisplayName"] = currentUser?.DisplayName;
+			ViewData["CurrentUserEmail"] = currentUser?.EmailAddress;
+			ViewData["CurrentUserHomePage"] = dasBlogSettings.SiteConfiguration.Root;
+
 			ViewData[Constants.CommentPageNumber] = 0;
 			ViewData[Constants.CommentPostCount] = 5;
 			return View(comments.OrderByDescending(d => d.Date).ToList());
@@ -150,6 +159,13 @@ namespace DasBlog.Web.Controllers
 			{
 				cmt.Title = blogManager.GetBlogPostByGuid(new Guid(cmt.BlogPostId))?.Title;
 			}
+
+			var currentUser = siteSecurityManager.GetUserByDisplayName(User.Identity?.Name);
+
+			// Pass user information to the view
+			ViewData["CurrentUserDisplayName"] = currentUser?.DisplayName;
+			ViewData["CurrentUserEmail"] = currentUser?.EmailAddress;
+			ViewData["CurrentUserHomePage"] = dasBlogSettings.SiteConfiguration.Root;
 
 			ViewData[Constants.CommentShowPageControl] = true;
 			ViewData[Constants.CommentPostCount] = 5;

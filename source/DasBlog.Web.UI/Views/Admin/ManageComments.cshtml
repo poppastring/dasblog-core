@@ -87,15 +87,15 @@
                     <input type="hidden" id="replyTargetEntryId" name="TargetEntryId" />
                     <div class="mb-3">
                         <label for="replyName" class="form-label">Name</label>
-                        <input type="text" class="form-control" id="replyName" name="Name" value="@dasBlogSettings.SiteConfiguration.Copyright" readonly />
+                        <input type="text" class="form-control" id="replyName" name="Name" value="@ViewData["CurrentUserDisplayName"]" readonly />
                     </div>
                     <div class="mb-3">
                         <label for="replyEmail" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="replyEmail" name="Email" value="@dasBlogSettings.SiteConfiguration.Contact" readonly />
+                        <input type="email" class="form-control" id="replyEmail" name="Email" value="@ViewData["CurrentUserEmail"]" readonly />
                     </div>
                     <div class="mb-3">
                         <label for="replyHomePage" class="form-label">Homepage</label>
-                        <input type="url" class="form-control" id="replyHomePage" name="HomePage" value="@dasBlogSettings.SiteConfiguration.Root" readonly />
+                        <input type="url" class="form-control" id="replyHomePage" name="HomePage" value="@ViewData["CurrentUserHomePage"]" readonly />
                     </div>
                     <div class="mb-3">
                         <label for="replyContent" class="form-label">Comment <span class="text-danger">*</span></label>
