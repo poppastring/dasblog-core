@@ -35,21 +35,17 @@
                     <li><a asp-area="" asp-controller="archive" asp-action="archive" class="nav-link px-2 link-body-emphasis">Archive</a></li>
                 </ul>
 
-                <div class="text-end" dasblog-unauthorized>
-                    <a asp-controller="account" asp-action="login" class="btn btn-outline-primary me-2">Log in</a>
-                </div>
-
                 <div class="dropdown text-end" dasblog-authorized>
                     <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                         <user-avatar size="32" />
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end text-small">
-                        <li><a class="dropdown-item" href="/admin/post/create"><i class="fas fa-plus-circle me-2"></i>Create Post</a></li>
+                        <li><a class="dropdown-item" asp-area="" asp-controller="blogpost" asp-action="createpost"><i class="fas fa-plus-circle me-2"></i>Create Post</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" asp-area="" asp-controller="admin" asp-action="settings"><i class="fas fa-cog me-2"></i>Site Admin</a></li>
                         <li><a class="dropdown-item" asp-area="" asp-controller="admin" asp-action="managecomments"><i class="fas fa-comments me-2"></i>Manage Comments</a></li>
-                        <li><a class="dropdown-item" href="/admin/authors"><i class="fas fa-user me-2"></i>Author</a></li>
-                        <li><a class="dropdown-item" href="/admin/log"><i class="fas fa-chart-line me-2"></i>Activity</a></li>
+                        <li><a class="dropdown-item" asp-area="" asp-controller="author" asp-action="index"><i class="fas fa-user me-2"></i>Author</a></li>
+                        <li><a class="dropdown-item" asp-area="" asp-controller="activity" asp-action="index"><i class="fas fa-chart-line me-2"></i>Activity</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" asp-controller="account" asp-action="logout"><i class="fas fa-sign-out-alt me-2"></i>Log out</a></li>
                     </ul>
