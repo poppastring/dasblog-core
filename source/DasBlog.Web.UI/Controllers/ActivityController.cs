@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using DasBlog.Core.Exceptions;
 using DasBlog.Services.ActivityLogs;
 using Microsoft.AspNetCore.Authorization;
@@ -21,7 +22,7 @@ namespace DasBlog.Web.Controllers
 		[Route("")]
 		public IActionResult Index()
 		{
-			return EventsByDate(DateTime.UtcNow);
+			return EventsByDate(DateTime.Today);
 		}
 
 		[HttpGet]
@@ -31,6 +32,7 @@ namespace DasBlog.Web.Controllers
 			try
 			{
 				var events = activityService.GetEventsForDay(date);
+
 				ViewBag.Date = date.ToString("yyyy-MM-dd");
 				ViewBag.NextDay = (date + new TimeSpan(1, 0, 0, 0)).ToString("yyyy-MM-dd");
 				ViewBag.PreviousDay = (date - new TimeSpan(1, 0, 0, 0)).ToString("yyyy-MM-dd");
