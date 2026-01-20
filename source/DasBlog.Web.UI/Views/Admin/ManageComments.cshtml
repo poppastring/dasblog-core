@@ -47,7 +47,7 @@
                                 <comment-user-home-page-link comment="@comment"/> - 
                                 <comment-date comment="@comment" css="fw-light text-muted fs-6" date-time-format="MMMM dd, yyyy H:mm" />
                                 <span class="fw-light text-muted fs-6">(@comment.AuthorIPAddress)</span>
-                                <p class="mb-0 fw-bold"><a href="admin/manage-comments/@comment.BlogPostId">@comment.Title</a></p>
+                                <p class="mb-0 fw-bold"><a href="@Url.Action("ManageComments", "Admin", new { id = comment.BlogPostId })">@comment.Title</a></p>
                                 <comment-content css="fw-light" comment="@comment" />
                             </div>
                         </blockquote>
@@ -190,7 +190,7 @@
                     formData.append('__RequestVerificationToken', antiForgeryToken.value);
                 }
 
-                fetch('/admin/add-admin-comment', {
+                fetch('@Url.Action("AddAdminComment", "Admin")', {
                     method: 'POST',
                     body: formData,
                     headers: {

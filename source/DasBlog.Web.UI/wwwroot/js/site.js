@@ -63,7 +63,8 @@ function executeCommentAction() {
     if (!action) return;
 
     const oReq = new XMLHttpRequest();
-    const url = '/admin/post/' + action.postid + '/comments/' + action.commentid;
+    const basePath = document.querySelector('base')?.getAttribute('href') || '/';
+    const url = basePath + 'admin/post/' + action.postid + '/comments/' + action.commentid;
 
     oReq.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
