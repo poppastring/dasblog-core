@@ -44,12 +44,12 @@
                         <user-avatar size="32" />
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end text-small">
-                        <li><a class="dropdown-item" asp-area="" asp-controller="post" asp-action="create"><i class="fas fa-plus-circle me-2"></i>Create Post</a></li>
+                        <li><a class="dropdown-item" href="/admin/post/create"><i class="fas fa-plus-circle me-2"></i>Create Post</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" asp-area="" asp-controller="admin" asp-action="settings"><i class="fas fa-cog me-2"></i>Site Admin</a></li>
                         <li><a class="dropdown-item" asp-area="" asp-controller="admin" asp-action="managecomments"><i class="fas fa-comments me-2"></i>Manage Comments</a></li>
-                        <li><a class="dropdown-item" asp-area="" asp-controller="author" asp-action="index"><i class="fas fa-user me-2"></i>Author</a></li>
-                        <li><a class="dropdown-item" asp-area="" asp-controller="activity" asp-action="index"><i class="fas fa-chart-line me-2"></i>Activity</a></li>
+                        <li><a class="dropdown-item" href="/admin/authors"><i class="fas fa-user me-2"></i>Author</a></li>
+                        <li><a class="dropdown-item" href="/admin/log"><i class="fas fa-chart-line me-2"></i>Activity</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" asp-controller="account" asp-action="logout"><i class="fas fa-sign-out-alt me-2"></i>Log out</a></li>
                     </ul>

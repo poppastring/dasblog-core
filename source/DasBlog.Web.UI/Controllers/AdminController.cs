@@ -90,11 +90,13 @@ namespace DasBlog.Web.Controllers
 			if (!fileSystemBinaryManager.SaveMetaConfig(meta))
 			{
 				ModelState.AddModelError("", "Unable to save Meta configuration file.");
-				logger.LogError(new EventDataItem(EventCodes.Error, null, "Unable to save Site Config file"));
+				logger.LogError(new EventDataItem(EventCodes.Error, null, "Unable to save Meta Config file"));
 				settings.Posts = posts;
 				return View("Settings", settings);
 			}
 			dasBlogSettings.MetaTags = meta;
+
+			logger.LogInformation(new EventDataItem(EventCodes.Site, null, "Site settings updated"));
 
 			TempData["SuccessMessage"] = "Settings saved successfully!";
 			return Settings();

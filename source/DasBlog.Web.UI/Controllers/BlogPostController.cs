@@ -143,7 +143,7 @@ namespace DasBlog.Web.Controllers
 			}
 		}
 
-		[HttpGet("post/{postid:guid}/edit")]
+		[HttpGet("admin/post/{postid:guid}/edit")]
 		public IActionResult EditPost(Guid postid)
 		{
 			PostViewModel pvm = new PostViewModel();
@@ -175,7 +175,7 @@ namespace DasBlog.Web.Controllers
 			return NotFound();
 		}
 
-		[HttpPost("post/edit")]
+		[HttpPost("admin/post/edit")]
 		public IActionResult EditPost(PostViewModel post, string submit)
 		{
 			// languages does not get posted as part of form
@@ -192,15 +192,15 @@ namespace DasBlog.Web.Controllers
 			ValidatePostName(post);
 			if (!ModelState.IsValid)
 			{
-				return LocalRedirect(string.Format("~/post/{0}/edit", post.EntryId));
+				return LocalRedirect(string.Format("~/admin/post/{0}/edit", post.EntryId));
 			}
 
 			if (!string.IsNullOrWhiteSpace(post.NewCategory))
 			{
-				ModelState.AddModelError(nameof(post.NewCategory),
-					$"Please click 'Add' to add the category, \"{post.NewCategory}\" or clear the text before continuing");
-				return LocalRedirect(string.Format("~/post/{0}/edit", post.EntryId));
-			}
+					ModelState.AddModelError(nameof(post.NewCategory),
+						$"Please click 'Add' to add the category, \"{post.NewCategory}\" or clear the text before continuing");
+					return LocalRedirect(string.Format("~/admin/post/{0}/edit", post.EntryId));
+				}
 			try
 			{
 				var entry = mapper.Map<NBR.Entry>(post);
@@ -215,23 +215,26 @@ namespace DasBlog.Web.Controllers
 				var sts = blogManager.UpdateEntry(entry);
 				if (sts == NBR.EntrySaveState.Failed)
 				{
-					ModelState.AddModelError("", "Failed to edit blog post. Please check Logs for more details.");
-					return LocalRedirect(string.Format("~/post/{0}/edit", post.EntryId));
-				}
+						logger.LogError(new EventDataItem(EventCodes.Error, null, "Failed to edit blog post: {0}", entry.Title));
+						ModelState.AddModelError("", "Failed to edit blog post. Please check Logs for more details.");
+						return LocalRedirect(string.Format("~/admin/post/{0}/edit", post.EntryId));
+					}
+
+				logger.LogInformation(new EventDataItem(EventCodes.EntryChanged, null, "Blog post edited: {0}", entry.Title));
 
 			}
 			catch (Exception ex)
 			{
-				logger.LogError(ex, ex.Message, null);
-				ModelState.AddModelError("", "Failed to edit blog post. Please check Logs for more details.");
-				return LocalRedirect(string.Format("~/post/{0}/edit", post.EntryId));
-			}
+					logger.LogError(new EventDataItem(EventCodes.Error, null, "Blog post edit failed: {0}", ex.Message));
+					ModelState.AddModelError("", "Failed to edit blog post. Please check Logs for more details.");
+					return LocalRedirect(string.Format("~/admin/post/{0}/edit", post.EntryId));
+				}
 
 			TempData["SuccessMessage"] = "Blog post updated successfully!";
-			return LocalRedirect(string.Format("~/post/{0}/edit", post.EntryId));
+			return LocalRedirect(string.Format("~/admin/post/{0}/edit", post.EntryId));
 		}
 
-		[HttpGet("post/create")]
+		[HttpGet("admin/post/create")]
 		public IActionResult CreatePost()
 		{
 			var post = modelViewCreator.CreateBlogPostVM();
@@ -239,7 +242,7 @@ namespace DasBlog.Web.Controllers
 			return View(post);
 		}
 
-		[HttpPost("post/create")]
+		[HttpPost("admin/post/create")]
 		public IActionResult CreatePost(PostViewModel post, string submit)
 		{
 			NBR.Entry entry = null;
@@ -297,18 +300,23 @@ namespace DasBlog.Web.Controllers
 				logger.LogInformation(new EventDataItem(EventCodes.EntryAdded, null, "Blog post created: {0}", entry.Title));
 			}
 
-			BreakSiteCache();
+				BreakSiteCache();
 
-			TempData["SuccessMessage"] = "Blog post created successfully!";
-			return LocalRedirect(string.Format("~/post/{0}/edit", entry.EntryId));
-		}
+				TempData["SuccessMessage"] = "Blog post created successfully!";
+				return LocalRedirect(string.Format("~/admin/post/{0}/edit", entry.EntryId));
+			}
 
-		[HttpGet("post/{postid:guid}/delete")]
+		[HttpGet("admin/post/{postid:guid}/delete")]
 		public IActionResult DeletePost(Guid postid)
 		{
 			try
 			{
+				var entry = blogManager.GetBlogPostByGuid(postid);
+				string entryTitle = entry?.Title ?? postid.ToString();
+
 				blogManager.DeleteEntry(postid.ToString());
+
+				logger.LogInformation(new EventDataItem(EventCodes.EntryDeleted, null, "Blog post deleted: {0}", entryTitle));
 			}
 			catch (Exception ex)
 			{
@@ -476,8 +484,6 @@ namespace DasBlog.Web.Controllers
 			commt.IsPublic = !dasBlogSettings.SiteConfiguration.CommentsRequireApproval;
 			commt.CreatedUtc = commt.ModifiedUtc = DateTime.Now.ToUniversalTime();
 
-			logger.LogInformation(new EventDataItem(EventCodes.CommentAdded, null, "Comment CONTENT DUMP", commt.Content));
-
 			var state = blogManager.AddComment(addcomment.TargetEntryId, commt);
 
 			if (state == NBR.CommentSaveState.Failed)
@@ -514,7 +520,7 @@ namespace DasBlog.Web.Controllers
 			return Comment(addcomment.TargetEntryId);
 		}
 
-		[HttpDelete("post/{postid:guid}/comments/{commentid:guid}")]
+		[HttpDelete("admin/post/{postid:guid}/comments/{commentid:guid}")]
 		public IActionResult DeleteComment(Guid postid, Guid commentid)
 		{
 			var state = blogManager.DeleteComment(postid.ToString(), commentid.ToString());
@@ -537,7 +543,7 @@ namespace DasBlog.Web.Controllers
 			return Ok();
 		}
 
-		[HttpPatch("post/{postid:guid}/comments/{commentid:guid}")]
+		[HttpPatch("admin/post/{postid:guid}/comments/{commentid:guid}")]
 		public IActionResult ApproveComment(Guid postid, Guid commentid)
 		{
 			var state = blogManager.ApproveComment(postid.ToString(), commentid.ToString());
@@ -594,8 +600,6 @@ namespace DasBlog.Web.Controllers
 			{
 				lpvm.Posts = entries.Select(entry => mapper.Map<PostViewModel>(entry)).ToList();
 				ViewData[Constants.ShowPageControl] = false;
-
-				logger.LogInformation(new EventDataItem(EventCodes.Search, null, "Search request: '{0}'", searchText));
 
 				return View(BLOG_PAGE, lpvm);
 			}

@@ -27,7 +27,7 @@ namespace DasBlog.Web.TagHelpers.Post
 
 			output.TagName = "a";
 			output.TagMode = TagMode.StartTagAndEndTag;
-			output.Attributes.SetAttribute("href", dasBlogSettings.GetPermaLinkUrl(BlogPostId + "/edit"));
+			output.Attributes.SetAttribute("href", "/admin/post/" + BlogPostId + "/edit");
 			if (!string.IsNullOrEmpty(EditLinkText))
 			{
 				output.Content.SetHtmlContent("Edit this post");

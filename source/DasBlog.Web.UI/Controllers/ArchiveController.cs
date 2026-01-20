@@ -114,9 +114,6 @@ namespace DasBlog.Web.Controllers
 			ViewBag.NextMonth = dateTime.AddMonths(1).Date;
 			ViewBag.CurrentMonth = dateTime.Date;
 
-			var stopWatch = new Stopwatch();
-			stopWatch.Start();
-
 			//unique list of years for the top of archives
 			var daysWithEntries = archiveManager.GetDaysWithEntries();
 			ViewBag.Years = daysWithEntries.Select(i => i.Year).Distinct();
@@ -127,9 +124,6 @@ namespace DasBlog.Web.Controllers
 			else
 				entries = archiveManager.GetEntriesForMonth(dateTime, languageFilter);
 
-
-			stopWatch.Stop();
-			logger.LogInformation(new DasBlog.Services.ActivityLogs.EventDataItem(EventCodes.Site, null, $"ArchiveController (Date: {dateTime.ToLongDateString()}; Year: {wholeYear}) Time elapsed: {stopWatch.Elapsed.TotalMilliseconds}ms"));
 
 			DefaultPage(ARCHIVE);
 			return MonthViewViewModel.Create(dateTime, entries, mapper);

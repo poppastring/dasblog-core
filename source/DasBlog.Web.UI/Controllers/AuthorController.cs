@@ -14,6 +14,7 @@ using Microsoft.Extensions.Logging;
 namespace DasBlog.Web.Controllers
 {
 	[Authorize]
+	[Route("admin/authors")]
 	public class AuthorController : DasBlogController
 	{
 		private readonly ILogger<AuthorController> logger;
@@ -30,39 +31,30 @@ namespace DasBlog.Web.Controllers
 		}
 
 		[HttpGet]
-		[Route("/authors")]
+		[Route("")]
 		public IActionResult Index()
-        {
+			{
 			var uvm = mapper.Map<AuthorViewModel>(userService.GetFirstUser());
 
 			new ViewBagConfigurer().ConfigureViewBag(ViewBag, Constants.UsersViewMode);
 
-			logger.LogInformation(new EventDataItem(EventCodes.ViewUser, null, "View author: {0}", uvm.DisplayName));
-
-			return RedirectToAction(uvm.OriginalEmail, "authors");
+			return RedirectToAction("EditAuthor", new { email = uvm.OriginalEmail });
 		}
 
 		[HttpGet]
-		[Route("/authors/{email}")]
+		[Route("{email}")]
 		public IActionResult EditAuthor(string email)
 		{
 			var uvm = mapper.Map<AuthorViewModel>(userService.FindMatchingUser(email).user);
 
 			new ViewBagConfigurer().ConfigureViewBag(ViewBag, Constants.UsersEditMode);
 
-			logger.LogInformation(new EventDataItem(EventCodes.ViewUser, null, "View author: {0}", uvm.DisplayName));
-
 			return View("ViewEditAuthor", uvm);
-		}
-
-		public IActionResult EditAuthor(AuthorViewModel authorviewmodel)
-		{
-			return View("ViewEditAuthor", authorviewmodel);
 		}
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		[Route("/authors")]
+		[Route("")]
 		public IActionResult UpdateAuthor(AuthorViewModel authorviewmodel)
 		{
 			authorviewmodel.Active = true;
@@ -93,17 +85,17 @@ namespace DasBlog.Web.Controllers
 				return View("ViewEditAuthor", authorviewmodel);
 			}
 
-				var dasbloguser = mapper.Map<User>(authorviewmodel);
+			var dasbloguser = mapper.Map<User>(authorviewmodel);
 
-				userService.AddOrReplaceUser(dasbloguser, authorviewmodel.OriginalEmail);
-				siteSecurityConfig.Users = userService.GetAllUsers().ToList();
+			userService.AddOrReplaceUser(dasbloguser, authorviewmodel.OriginalEmail);
+			siteSecurityConfig.Users = userService.GetAllUsers().ToList();
 
-				var uvm = mapper.Map<AuthorViewModel>(userService.GetFirstUser());
+			var uvm = mapper.Map<AuthorViewModel>(userService.GetFirstUser());
 
-				logger.LogInformation(new EventDataItem(EventCodes.EditUser, null, "Edit User: {0}", uvm.DisplayName));
+			logger.LogInformation(new EventDataItem(EventCodes.EditUser, null, "Edit User: {0}", uvm.DisplayName));
 
-				TempData["SuccessMessage"] = "Author profile updated successfully!";
-				return RedirectToAction("EditAuthor", new { email = authorviewmodel.EmailAddress });
-			}
+			TempData["SuccessMessage"] = "Author profile updated successfully!";
+			return RedirectToAction("EditAuthor", new { email = authorviewmodel.EmailAddress });
+		}
 	}
 }

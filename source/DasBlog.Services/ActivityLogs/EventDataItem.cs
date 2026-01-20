@@ -28,11 +28,11 @@ namespace DasBlog.Services.ActivityLogs
 				System.Diagnostics.Debug.Assert(!userMessage.Contains("\n"));
 								// a broken line will mess up the Activity report - just a token protest
 				var sb = new StringBuilder();
-				sb.Append(Constants.CodeEventFielD);
+				sb.Append("{0}");  // Will be replaced with eventCode
 				sb.Append(Constants.EventFieldSeparator);
 				sb.Append(userMessage);
 				sb.Append(Constants.EventFieldSeparator);
-				sb.Append(Constants.UrlEventFielD);
+				sb.Append("{" + ((@params?.Length ?? 0) + 1) + "}");  // Will be replaced with url (last parameter)
 				return sb.ToString();
 			}
 		}
@@ -40,7 +40,7 @@ namespace DasBlog.Services.ActivityLogs
 		private object[] @params;
 		public object[] Params
 		{
-			get { return (@params ?? new object[0]).Prepend(eventCode).Append(this.url).ToArray(); }
+			get { return (@params ?? new object[0]).Prepend(eventCode.ToString()).Append(this.url ?? "(null)").ToArray(); }
 		}
 
 		/// <summary>

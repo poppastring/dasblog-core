@@ -97,9 +97,14 @@ namespace DasBlog.Web
 
 			Configuration = builder.Build();
 
+			// Ensure absolute paths - explicitly use ContentRootPath for logs
+			var logDirFromConfig = Configuration.GetSection("LogDir").Value ?? "logs";
+			LogFolderPath = Path.IsPathRooted(logDirFromConfig) 
+				? logDirFromConfig 
+				: Path.Combine(env.ContentRootPath, logDirFromConfig);
+
 			BinariesPath = new DirectoryInfo(Path.Combine(env.ContentRootPath, Configuration.GetValue<string>("BinariesDir"))).FullName;
 			ThemeFolderPath = new DirectoryInfo(Path.Combine(env.ContentRootPath, "Themes", Configuration.GetSection("Theme").Value)).FullName;
-			LogFolderPath = new DirectoryInfo(Path.Combine(env.ContentRootPath, Configuration.GetSection("LogDir").Value)).FullName;
 			BinariesUrlRelativePath = "content/binary";
 		}
 
@@ -401,8 +406,6 @@ namespace DasBlog.Web
 				context.Response.Headers["Permissions-Policy"] = "geolocation=(),midi=(),sync-xhr=(),microphone=(),camera=(),magnetometer=(),gyroscope=(),fullscreen=(self),payment=()";
 				await next.Invoke();
 			});
-
-			app.UseLoggingAgent();
 
 			app.UseEndpoints(endpoints =>
 			{
