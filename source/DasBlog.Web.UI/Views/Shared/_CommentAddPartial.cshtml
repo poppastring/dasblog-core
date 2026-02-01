@@ -32,8 +32,8 @@
         <div class="row gy-2 gx-3 align-items-md-start mb-3">
             <div class="col-sm-7">
                 <div class="form-floating">
-                    @Html.TextBoxFor(m => @Model.HomePage, null, new { @class = "form-control", id = "homePage" })
-                    @Html.LabelFor(m => @Model.HomePage, null, new { @class = "form-label", @for = "homePage" })
+                    @Html.TextBoxFor(m => @Model.HomePage, null, new { @class = "form-control", id = "HomePage" })
+                    @Html.LabelFor(m => @Model.HomePage, null, new { @class = "form-label", @for = "HomePage" })
                 </div>
                 @Html.ValidationMessageFor(m => m.HomePage, null, new { @class = "text-danger" })
             </div>
@@ -45,8 +45,8 @@
             <div class="row gy-2 gx-3 align-items-md-start mb-3">
                 <div class="col-sm-3">
                     <div class="form-floating">
-                        @Html.TextBoxFor(m => @Model.CheesyQuestionAnswered, null, new { @class = "form-control", id = "cheesyQuestionAnswered" })
-                        <label for="cheesyQuestionAnswered" class="control-label">@dasBlogSettings.SiteConfiguration.CheesySpamQ</label>
+                        @Html.TextBoxFor(m => @Model.CheesyQuestionAnswered, null, new { @class = "form-control", id = "CheesyQuestionAnswered" })
+                            <label for="CheesyQuestionAnswered" class="control-label">@dasBlogSettings.SiteConfiguration.CheesySpamQ</label>
                     </div>
                     
                 </div>
@@ -56,8 +56,8 @@
         <div class="row gy-2 gx-3 align-items-md-start mb-3">
             <div class="col-sm-12">
                 <div class="form-floating">
-                    @Html.TextAreaFor(m => m.Content, new { @class = "form-control", id = "content", style = "height: 100px" })
-                    @Html.LabelFor(m => @Model.Content, null, new { @class = "form-label", @for = "content" })
+                    @Html.TextAreaFor(m => m.Content, new { @class = "form-control", id = "Content", style = "height: 100px" })
+                    @Html.LabelFor(m => @Model.Content, null, new { @class = "form-label", @for = "Content" })
                 </div>
                 @Html.ValidationMessageFor(m => m.Content, null, new { @class = "text-danger" })
             </div>
@@ -77,7 +77,7 @@
 
         <div class="row gy-2 gx-3 align-items-md-start mb-3">
             <div class="col-sm-2">
-                <button type="submit" id="SaveContentButtonId" class="btn btn-primary">Submit</button>
+                <button type="submit" id="SaveContentButton" class="btn btn-primary">Submit</button>
             </div>
         </div>
     </div>

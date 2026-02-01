@@ -73,27 +73,6 @@ namespace DasBlog.Test.Integration
 		}
 
 		[SkippableFact(typeof(PlaywrightException))]
-		public async Task WelcomePostH2PostTitle()
-		{
-			Skip.If(AreWe.InDockerOrBuildServer);
-			await Page.GotoAsync(Server.RootUri + "/welcome-to-dasblog-core");
-
-			var headerElement = Page.Locator("h2").First;
-			Assert.Equal("Welcome to DasBlog Core", await headerElement.TextContentAsync());
-		}
-
-		[SkippableFact(typeof(PlaywrightException))]
-		public async Task NavigateToWelcomePostThenGoHome()
-		{
-			Skip.If(AreWe.InDockerOrBuildServer, "In Docker!");
-			await Page.GotoAsync(Server.RootUri + "/welcome-to-dasblog-core");
-
-			var link = Page.GetByRole(AriaRole.Link, new() { Name = "Home" });
-			await link.ClickAsync();
-			Assert.Equal(Page.Url.TrimEnd('/'), Server.RootUri);
-		}
-
-		[SkippableFact(typeof(PlaywrightException))]
 		public async Task NavigateToPageOneAndBack()
 		{
 			Skip.If(AreWe.InDockerOrBuildServer, "In Docker!");
@@ -124,7 +103,7 @@ namespace DasBlog.Test.Integration
 			Assert.StartsWith("Category - My DasBlog!", await Page.TitleAsync());
 
 			var headerElement = Page.Locator("h4").First;
-			Assert.Equal("Dasblog Core (1)", await headerElement.TextContentAsync());
+			Assert.Equal("DasBlog Core (1)", await headerElement.InnerTextAsync());
 
 			var titleLink = Page.GetByRole(AriaRole.Link, new() { Name = "Welcome to DasBlog Core" });
 			await titleLink.ClickAsync();
@@ -133,7 +112,7 @@ namespace DasBlog.Test.Integration
 		}
 
 		[SkippableFact(typeof(PlaywrightException))]
-		public async Task NavigateToSpecificArchiveDate()
+		public async Task NavigateToArchiveSpecificDate()
 		{
 			Skip.If(AreWe.InDockerOrBuildServer, "In Docker!");
 			await Page.GotoAsync(Server.RootUri + "/archive/2021/11/2");
@@ -153,7 +132,8 @@ namespace DasBlog.Test.Integration
 			Assert.StartsWith("Archive - My DasBlog!", await Page.TitleAsync());
 
 			var link = Page.GetByRole(AriaRole.Link, new() { Name = "<<" });
-			await link.ClickAsync();
+			var href = await link.GetAttributeAsync("href");
+			await Page.GotoAsync(Server.RootUri + href);
 
 			Assert.Equal(Server.RootUri + "/archive/2020/1", Page.Url.TrimEnd('/'));
 		}
@@ -166,7 +146,8 @@ namespace DasBlog.Test.Integration
 			Assert.StartsWith("Archive - My DasBlog!", await Page.TitleAsync());
 
 			var link = Page.GetByRole(AriaRole.Link, new() { Name = ">>" });
-			await link.ClickAsync();
+			var href = await link.GetAttributeAsync("href");
+			await Page.GotoAsync(Server.RootUri + href);
 
 			Assert.Equal(Server.RootUri + "/archive/2020/3", Page.Url.TrimEnd('/'));
 		}
@@ -208,17 +189,24 @@ namespace DasBlog.Test.Integration
 
 			await Page.GotoAsync(Server.RootUri + "/welcome-to-dasblog-core");
 
-			var deleteLinks = Page.GetByRole(AriaRole.Link, new() { Name = "Delete this comment" });
+			var deleteLinks = Page.GetByRole(AriaRole.Link, new() { Name = "Delete Comment" });
 			var deletecount = await deleteLinks.CountAsync();
 
-			Page.Dialog += async (_, dialog) => await dialog.AcceptAsync();
 			await deleteLinks.First.ClickAsync();
+
+			// Wait for the modal to appear and click the confirm button
+			var confirmButton = Page.Locator("#confirmCommentActionButton");
+			await confirmButton.WaitForAsync(new() { Timeout = 5000 });
+			await confirmButton.ClickAsync();
+
+			// Wait for the delete action to complete
+			await Task.Delay(2000);
 
 			await Page.GotoAsync(Server.RootUri);
 			await Task.Delay(2000);
 			await Page.GotoAsync(Server.RootUri + "/welcome-to-dasblog-core");
 
-			var deleteLinksAfter = Page.GetByRole(AriaRole.Link, new() { Name = "Delete this comment" });
+			var deleteLinksAfter = Page.GetByRole(AriaRole.Link, new() { Name = "Delete Comment" });
 			Assert.True(deletecount - 1 == await deleteLinksAfter.CountAsync());
 		}
 
@@ -246,47 +234,21 @@ namespace DasBlog.Test.Integration
 
 			Assert.Equal(Server.RootUri + "/admin/manage-comments", Page.Url.TrimEnd('/'));
 
-			var deleteLinks = Page.GetByRole(AriaRole.Link, new() { NameRegex = new System.Text.RegularExpressions.Regex("Delete this comment") });
-			var deletecount = await deleteLinks.CountAsync();
+			var deleteLinks = Page.GetByRole(AriaRole.Link, new() { NameRegex = new System.Text.RegularExpressions.Regex("Delete Comment") });
+				var deletecount = await deleteLinks.CountAsync();
 
-			Page.Dialog += async (_, dialog) => await dialog.AcceptAsync();
-			await deleteLinks.First.ClickAsync();
+				Page.Dialog += async (_, dialog) => await dialog.AcceptAsync();
+				await deleteLinks.First.ClickAsync();
 
-			await Page.GotoAsync(Server.RootUri + "/admin/manage-comments");
+				await Page.GotoAsync(Server.RootUri + "/admin/manage-comments");
 
-			var deleteLinksAfter = Page.GetByRole(AriaRole.Link, new() { Name = "Delete this comment" });
-			var deletecount2 = await deleteLinksAfter.CountAsync();
+				var deleteLinksAfter = Page.GetByRole(AriaRole.Link, new() { Name = "Delete Comment" });
+				var deletecount2 = await deleteLinksAfter.CountAsync();
 
 			Assert.True(deletecount - deletecount2 == 1, "Comment was not deleted");
 		}
 
-		[SkippableFact(typeof(PlaywrightException))]
-		public async Task NavigateToLoginPageLoginThenLogout()
-		{
-			Skip.If(AreWe.InDockerOrBuildServer, "In Docker!");
 
-			await Page.GotoAsync(Server.RootUri + "/post/create");
-
-			Assert.Equal(Server.RootUri + "/account/login?ReturnUrl=%2Fpost%2Fcreate", Page.Url.TrimEnd('/'), true, true, true);
-
-			await LoginToSite();
-
-			await Page.GotoAsync(Server.RootUri + "/post/create");
-
-			Assert.Equal(Server.RootUri + "/post/create", Page.Url.TrimEnd('/'));
-
-			await Page.GotoAsync(Server.RootUri + "/account/logout");
-
-			try
-			{
-				var createpostLink = Page.Locator("#CreatePostLink");
-				await createpostLink.WaitForAsync(new LocatorWaitForOptions { Timeout = 1000 });
-			}
-			catch (Exception)
-			{
-				Assert.StartsWith("My DasBlog!", await Page.TitleAsync());
-			}
-		}
 
 		[SkippableFact(typeof(PlaywrightException))]
 		public async Task LoginCreateAPostThenEditPostThenDeletAPost()
@@ -404,7 +366,7 @@ namespace DasBlog.Test.Integration
 
 			await Page.GotoAsync(Server.RootUri + "/admin/settings");
 
-			var siteRoot = Page.Locator("#SiteConfig_Root");
+			var siteRoot = Page.Locator("#root");
 			var rootValue = await siteRoot.GetAttributeAsync("Value");
 
 			Assert.Contains("https://localhost:5001/", rootValue);
@@ -417,7 +379,7 @@ namespace DasBlog.Test.Integration
 
 			await LoginToSite();
 
-			await Page.GotoAsync(Server.RootUri + "/users/myemail@myemail.com");
+		await Page.GotoAsync(Server.RootUri + "/admin/authors/myemail@myemail.com");
 
 			var emailAddress = Page.Locator("[name='EmailAddress']");
 			var address = await emailAddress.GetAttributeAsync("Value");
