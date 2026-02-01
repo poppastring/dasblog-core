@@ -31,6 +31,7 @@ namespace DasBlog.Web.TagHelpers.Comments
 			output.TagMode = TagMode.StartTagAndEndTag;
 			output.Attributes.SetAttribute("href", $"javascript:commentManagement(\"{Comment.BlogPostId}\",\"{Comment.CommentId}\",\"{commenttxt}\",\"DELETE\")");
 			output.Attributes.SetAttribute("class", "dbc-comment-delete-link");
+			output.Attributes.SetAttribute("aria-label", "Delete Comment");
 			
 			var content = await output.GetChildContentAsync();
 
