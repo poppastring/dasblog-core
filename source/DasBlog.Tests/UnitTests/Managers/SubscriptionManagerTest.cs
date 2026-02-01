@@ -71,17 +71,21 @@ namespace DasBlog.Tests.UnitTests.Managers
 		}
 
         [Fact]
-        public void GetAtom_ThrowsNotImplementedException()
+        public void GetAtom_ReturnsAtomRoot()
         {
             var manager = CreateManager();
-            Assert.Throws<NotImplementedException>(() => manager.GetAtom());
+            var result = manager.GetAtom();
+            Assert.NotNull(result);
+            Assert.Equal("Test Blog", result.Title.Text);
         }
 
         [Fact]
-        public void GetAtomCategory_ThrowsNotImplementedException()
+        public void GetAtomCategory_ReturnsAtomRoot()
         {
             var manager = CreateManager();
-            Assert.Throws<NotImplementedException>(() => manager.GetAtomCategory("TestCategory"));
+            var result = manager.GetAtomCategory("A Random Mathematical Quotation");
+            Assert.NotNull(result);
+            Assert.Equal("Test Blog - A Random Mathematical Quotation", result.Title.Text);
         }
 
         [Fact]

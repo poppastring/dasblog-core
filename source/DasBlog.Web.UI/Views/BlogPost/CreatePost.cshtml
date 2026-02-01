@@ -18,7 +18,8 @@
 <!-- Success Alert using reusable partial -->
 <partial name="_SuccessAlertPartial" view-data="ViewData" />
 
-<form asp-controller="post" asp-action="create" method="post" enctype="multipart/form-data" id="CreatePostForm">
+<form action="/admin/post/create" method="post" enctype="multipart/form-data" id="CreatePostForm">
+    @Html.AntiForgeryToken()
 
     <partial name="BlogPostFields" model="Model" />
 
