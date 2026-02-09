@@ -1,0 +1,45 @@
+@model PostViewModel
+@{
+    ViewData["Title"] = @Model.Title;
+}
+
+<article class="flm-article">
+    <div class="flm-article-header mb-4">
+        <div class="flm-article-date mb-2">
+            <span class="flm-date-label">Published on</span>
+            <post-created-date post="@Model" />
+        </div>
+        <h1 class="flm-article-title"><post-title-link post=@Model /></h1>
+    </div>
+
+    <div class="flm-article-body mb-4">
+        <post-content post="@Model" />
+    </div>
+
+    <div class="flm-article-tags mb-4">
+        <post-categories-list post="@Model"><span class="flm-tag">{0}</span> </post-categories-list>
+    </div>
+
+    <div class="flm-article-footer">
+        <div class="mb-3">
+            <post-to-twitter post="@Model">Discuss on Twitter</post-to-twitter>
+            <span class="flm-separator">&middot;</span>
+            <post-to-reddit post="@Model">Reddit</post-to-reddit>
+            <span class="flm-separator">&middot;</span>
+            <post-to-facebook post="@Model">Facebook</post-to-facebook>
+            <span class="flm-separator">&middot;</span>
+            <post-to-linked-in post="@Model">LinkedIn</post-to-linked-in>
+            <span class="flm-separator">&middot;</span>
+            <post-to-blue-sky post="@Model">BlueSky</post-to-blue-sky>
+        </div>
+        <div dasblog-authorized class="mb-3">
+            <post-edit-link post="@Model" />
+            <span style="display:inline-block; width: 1em;"></span>
+            <post-delete-link post="@Model" />
+            <span style="display:inline-block; width: 1em;"></span>
+            <comment-management-link post="@Model" />
+        </div>
+    </div>
+
+    <partial name="_CollapseCommentBlockPartial" model="@Model" />
+</article>
