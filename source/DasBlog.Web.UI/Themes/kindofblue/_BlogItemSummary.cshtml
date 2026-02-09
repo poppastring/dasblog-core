@@ -1,0 +1,19 @@
+@model PostViewModel
+
+<div class="col-md-6 mb-4">
+    <div class="kob-post-card">
+        <div class="kob-post-card-body">
+            <div class="kob-post-card-meta mb-2">
+                <small class="kob-category-text"><post-categories-list post="@Model" /></small>
+            </div>
+            <h3 class="kob-post-card-title">
+                <post-title-link post=@Model />
+            </h3>
+            <div class="kob-post-card-date mb-2">
+                <small><post-created-date post="@Model" /></small>
+            </div>
+            <p class="kob-post-card-excerpt"><post-content post="@Model" strip-html="true" content-length="20" /></p>
+            <post-title-link post=@Model css="kob-read-more">Continue reading →</post-title-link>
+        </div>
+    </div>
+</div>

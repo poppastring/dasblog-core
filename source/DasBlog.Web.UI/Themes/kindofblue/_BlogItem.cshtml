@@ -1,0 +1,42 @@
+@model PostViewModel
+@{
+    ViewData["Title"] = @Model.Title;
+}
+
+<article class="kob-article">
+    <div class="kob-article-header mb-4">
+        <div class="mb-2">
+            <post-categories-list post="@Model"><span class="kob-category-badge">{0}</span> </post-categories-list>
+        </div>
+        <h1 class="kob-article-title"><post-title-link post=@Model /></h1>
+        <div class="kob-article-meta">
+            <span><post-created-date post="@Model" /></span>
+        </div>
+    </div>
+
+    <div class="kob-article-body mb-4">
+        <post-content post="@Model" />
+    </div>
+
+    <div class="kob-article-footer">
+        <div class="mb-3">
+            <span class="kob-share-label">Share</span>
+            <post-to-twitter post="@Model">Twitter</post-to-twitter> &middot;
+            <post-to-reddit post="@Model">Reddit</post-to-reddit> &middot;
+            <post-to-facebook post="@Model">Facebook</post-to-facebook> &middot;
+            <post-to-linked-in post="@Model">LinkedIn</post-to-linked-in> &middot;
+            <post-to-blue-sky post="@Model">BlueSky</post-to-blue-sky>
+        </div>
+        <div dasblog-authorized class="mb-3">
+            <post-edit-link post="@Model" />
+            <span style="display:inline-block; width: 1em;"></span>
+            <post-delete-link post="@Model" />
+            <span style="display:inline-block; width: 1em;"></span>
+            <comment-management-link post="@Model" />
+        </div>
+    </div>
+
+    <partial name="_CollapseCommentBlockPartial" model="@Model" />
+</article>
+
+<hr class="kob-divider" />
