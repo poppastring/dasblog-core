@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -18,43 +18,44 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-dark navbar-expand-lg sticky-top bg-primary">
-        <div class="container-fluid">
-            <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand"><site-title /></a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarJournal" aria-controls="navbarJournal" aria-expanded="false" aria-label="Toggle navigation">
+
+    <nav class="navbar navbar-expand-lg flm-navbar">
+        <div class="container flm-nav-container">
+            <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand flm-brand">
+                <site-title />
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-flamingo" aria-controls="navbar-flamingo" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarJournal">
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item"><a class="nav-link active" asp-area="" asp-controller="home" asp-action="index">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="category" asp-action="category">Category</a></li>
+            <div class="collapse navbar-collapse" id="navbar-flamingo">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="home" asp-action="index">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="category" asp-action="category">Tags</a></li>
                     <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="archive" asp-action="archive">Archive</a></li>
                     <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="feed" asp-action="rss">Subscribe</a></li>
-                    <li class="nav-item" dasblog-authorized><a class="nav-link" asp-area="" asp-controller="admin" asp-action="settings">[Admin Site]</a></li>
-                </ul>
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item" dasblog-unauthorized><a class="nav-link" asp-controller="account" asp-action="login">Log in</a></li>
+                    <li class="nav-item" dasblog-authorized><a class="nav-link" asp-area="" asp-controller="admin" asp-action="settings">[Admin]</a></li>
+                    
                     <li class="nav-item" dasblog-authorized><a class="nav-link" asp-controller="account" asp-action="logout">Log out</a></li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <div class="container body-content">
+    <div class="container flm-container">
 
         <partial name="_CookieConsentPartial" />
 
         @RenderBody()
 
-        <div class="text-center">
+        <div class="text-center mt-4">
             <p class="text-muted">
                 <site-page-control view-context="@ViewContext" />
             </p>
         </div>
 
-        <footer>
+        <footer class="flm-footer">
             <div class="text-center">
-                <p class="text-muted credit"><site-copyright /></p>
+                <p><site-copyright /></p>
             </div>
         </footer>
     </div>

@@ -1,0 +1,19 @@
+@model PostViewModel
+
+<div class="flm-summary-item">
+    <div class="row">
+        <div class="col-md-3 flm-summary-date">
+            <post-created-date post="@Model" />
+        </div>
+        <div class="col-md-9">
+            <h2 class="flm-summary-title">
+                <post-title-link post=@Model />
+            </h2>
+            <div class="flm-summary-tags mb-2">
+                <post-categories-list post="@Model"><span class="flm-tag">{0}</span> </post-categories-list>
+            </div>
+            <p class="flm-summary-excerpt"><post-content post="@Model" strip-html="true" content-length="30" /></p>
+            <post-title-link post=@Model css="flm-read-more">Read more &rarr;</post-title-link>
+        </div>
+    </div>
+</div>

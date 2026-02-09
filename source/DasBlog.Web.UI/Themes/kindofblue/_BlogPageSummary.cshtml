@@ -1,0 +1,12 @@
+@using DasBlog.Web.Models.BlogViewModels;
+@model ListPostsViewModel
+
+<div class="kob-hero text-center mb-5">
+    <h1 class="kob-hero-title"><site-sub-title /></h1>
+    <p class="kob-hero-description"><site-description /></p>
+    <a asp-area="" asp-controller="feed" asp-action="rss" class="btn kob-btn-subscribe">Subscribe</a>
+</div>
+
+<div class="row g-4">
+    <partial name="_BlogItemsSummary" model="Model" />
+</div>

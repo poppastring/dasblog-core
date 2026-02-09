@@ -1,0 +1,15 @@
+@using DasBlog.Web.Models.BlogViewModels;
+@model ListPostsViewModel
+
+<div class="flm-hero mb-5">
+    <h1 class="flm-hero-greeting">Latest</h1>
+    <p class="flm-hero-description"><site-description /></p>
+</div>
+
+<div class="flm-post-list">
+    <partial name="_BlogItemsSummary" model="Model" />
+</div>
+
+<div class="text-center mt-4 mb-3">
+    <a asp-area="" asp-controller="home" asp-action="index" class="flm-all-posts-link">All Posts &rarr;</a>
+</div>
