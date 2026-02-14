@@ -37,7 +37,7 @@ steps:
 - script: 'echo -e "$(Build.BuildNumber)\n$(Build.BuildId)" > .buildinfo.json'
   condition: and(always(), eq(variables['imageName'], 'ubuntu-latest'))
   displayName: "Emit build number"
-  workingDirectory: '$(Build.SourcesDirectory)/source/DasBlog.Web.UI'
+  workingDirectory: '$(Build.SourcesDirectory)/source/DasBlog.Web'
   failOnStderr: true
   
 - task: DotNetCoreCLI@2
