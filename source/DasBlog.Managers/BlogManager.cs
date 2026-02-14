@@ -31,13 +31,11 @@ namespace DasBlog.Managers
 		private readonly IDasBlogSettings dasBlogSettings;
 		private const int COMMENT_PAGE_SIZE = 5;
 
-		public BlogManager( ILogger<BlogManager> logger, IDasBlogSettings dasBlogSettings)
+		public BlogManager( ILogger<BlogManager> logger, IDasBlogSettings dasBlogSettings, IBlogDataService dataService)
 		{
 			this.dasBlogSettings = dasBlogSettings;
 			this.logger = logger;
-
-			var loggingDataService = LoggingDataServiceFactory.GetService(Path.Combine(dasBlogSettings.WebRootDirectory, dasBlogSettings.SiteConfiguration.LogDir));;
-			dataService = BlogDataServiceFactory.GetService(Path.Combine(dasBlogSettings.WebRootDirectory, dasBlogSettings.SiteConfiguration.ContentDir), loggingDataService);
+			this.dataService = dataService;
 		}
 
 		/// <param name="dt">if non-null then the post must be dated on that date</param>

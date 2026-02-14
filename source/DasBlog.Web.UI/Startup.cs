@@ -32,6 +32,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
 using System.IO;
+using newtelligence.DasBlog.Runtime;
 using System.Linq;
 using System.Security.Principal;
 using System.Threading;
@@ -204,6 +205,19 @@ namespace DasBlog.Web
 				.AddScoped<IBlogPostViewModelCreator, BlogPostViewModelCreator>();
 
 			services
+				.AddSingleton<ILoggingDataService>(sp =>
+				{
+					var settings = sp.GetRequiredService<IDasBlogSettings>();
+					return LoggingDataServiceFactory.GetService(
+						Path.Combine(settings.WebRootDirectory, settings.SiteConfiguration.LogDir));
+				})
+				.AddSingleton<IBlogDataService>(sp =>
+				{
+					var settings = sp.GetRequiredService<IDasBlogSettings>();
+					var loggingService = sp.GetRequiredService<ILoggingDataService>();
+					return BlogDataServiceFactory.GetService(
+						Path.Combine(settings.WebRootDirectory, settings.SiteConfiguration.ContentDir), loggingService);
+				})
 				.AddSingleton(hostingEnvironment.ContentRootFileProvider)
 				.AddSingleton<IBlogManager, BlogManager>()
 				.AddSingleton<IArchiveManager, ArchiveManager>()

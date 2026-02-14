@@ -17,7 +17,7 @@ namespace DasBlog.Tests.UnitTests.Managers
     {
         private Mock<IDasBlogSettings> settingsMock;
         private Mock<ISiteConfig> siteConfigMock;
-
+        private Mock<IBlogDataService> dataServiceMock;
         public ActivityPubManagerTest()
         {
             var rootdir = Directory.GetCurrentDirectory();
@@ -35,16 +35,22 @@ namespace DasBlog.Tests.UnitTests.Managers
 			siteConfigMock.SetupGet(c => c.MastodonAccount).Returns("testuser");
             siteConfigMock.SetupGet(c => c.MastodonServerUrl).Returns("https://mastodon.example.com");
             settingsMock.Setup(s => s.SiteConfiguration).Returns(siteConfigMock.Object);
+            dataServiceMock = new Mock<IBlogDataService>();
+
+            dataServiceMock.Setup(d => d.GetEntriesForMonth(It.IsAny<DateTime>(), It.IsAny<DateTimeZone>(), It.IsAny<string>())).Returns(new EntryCollection());
+            var entryForPage = new EntryCollection();
+            entryForPage.Add(new Entry { Title = "Test Entry", EntryId = "test-id" });
+            dataServiceMock.Setup(d => d.GetEntriesForMonth(It.Is<DateTime>(dt => dt.Month == 7), It.IsAny<DateTimeZone>(), It.IsAny<string>())).Returns(entryForPage);
         }
 
         private ActivityPubManager CreateManager()
         {
-            return new ActivityPubManager(settingsMock.Object);
+            return new ActivityPubManager(settingsMock.Object, dataServiceMock.Object);
         }
 
 		private ArchiveManager CreateArchiveManager()
 		{
-			return new ArchiveManager(settingsMock.Object);
+			return new ArchiveManager(settingsMock.Object, dataServiceMock.Object);
 		}
 
 		[Fact]

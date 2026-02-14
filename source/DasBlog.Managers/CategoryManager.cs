@@ -10,12 +10,10 @@ namespace DasBlog.Managers
         private readonly IBlogDataService dataService;
         private readonly IDasBlogSettings dasBlogSettings;
 
-        public CategoryManager(IDasBlogSettings settings)
+        public CategoryManager(IDasBlogSettings settings, IBlogDataService dataService)
         {
             dasBlogSettings = settings;
-
-			var loggingDataService = LoggingDataServiceFactory.GetService(Path.Combine(dasBlogSettings.WebRootDirectory, dasBlogSettings.SiteConfiguration.LogDir)); ;
-			dataService = BlogDataServiceFactory.GetService(Path.Combine(dasBlogSettings.WebRootDirectory, dasBlogSettings.SiteConfiguration.ContentDir), loggingDataService);
+            this.dataService = dataService;
 		}
 
         public EntryCollection GetEntries()

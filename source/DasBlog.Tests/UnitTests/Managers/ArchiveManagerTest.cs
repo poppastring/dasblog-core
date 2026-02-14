@@ -16,6 +16,7 @@ namespace DasBlog.Tests.UnitTests.Managers
     {
         private Mock<IDasBlogSettings> settingsMock;
         private Mock<ISiteConfig> siteConfigMock;
+        private Mock<IBlogDataService> dataServiceMock;
 
         public ArchiveManagerTest()
         {
@@ -33,11 +34,31 @@ namespace DasBlog.Tests.UnitTests.Managers
 			siteConfigMock.SetupGet(c => c.DisplayTimeZoneIndex).Returns(0);
 			siteConfigMock.SetupGet(c => c.AdjustDisplayTimeZone).Returns(false);
 			settingsMock.Setup(s => s.SiteConfiguration).Returns(siteConfigMock.Object);
+            dataServiceMock = new Mock<IBlogDataService>();
+
+            dataServiceMock.Setup(d => d.GetEntriesForMonth(It.IsAny<DateTime>(), It.IsAny<DateTimeZone>(), It.IsAny<string>())).Returns(new EntryCollection());
+            var julyEntries = new EntryCollection();
+            julyEntries.Add(new Entry { Title = "Synchronized Management Capability (SMC)" });
+            for (int i = 0; i < 5; i++)
+                julyEntries.Add(new Entry { Title = "July Entry " + i });
+            dataServiceMock.Setup(d => d.GetEntriesForMonth(It.Is<DateTime>(dt => dt.Month == 7), It.IsAny<DateTimeZone>(), It.IsAny<string>())).Returns(julyEntries);
+            var augEntries = new EntryCollection();
+            for (int i = 0; i < 4; i++)
+                augEntries.Add(new Entry { Title = "Aug Entry " + i });
+            dataServiceMock.Setup(d => d.GetEntriesForMonth(It.Is<DateTime>(dt => dt.Month == 8), It.IsAny<DateTimeZone>(), It.IsAny<string>())).Returns(augEntries);
+
+            dataServiceMock.Setup(d => d.GetDaysWithEntries(It.IsAny<DateTimeZone>())).Returns(new[] { new DateTime(2003, 7, 31), new DateTime(2004, 3, 14) });
+
+            var dayEntries = new EntryCollection();
+            dayEntries.Add(new Entry { Title = "Synchronized Management Capability (SMC)" });
+            for (int i = 0; i < 4; i++)
+                dayEntries.Add(new Entry { Title = "Day Entry " + i });
+            dataServiceMock.Setup(d => d.GetEntriesForDay(It.IsAny<DateTime>(), It.IsAny<DateTimeZone>(), It.IsAny<string>(), It.IsAny<int>(), It.IsAny<int>(), It.IsAny<string>())).Returns(dayEntries);
         }
 
         private ArchiveManager CreateManager()
         {
-            return new ArchiveManager(settingsMock.Object);
+            return new ArchiveManager(settingsMock.Object, dataServiceMock.Object);
         }
 
         [Fact]

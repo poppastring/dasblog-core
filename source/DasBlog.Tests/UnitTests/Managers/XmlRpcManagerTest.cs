@@ -12,6 +12,7 @@ using DasBlog.Core.Exceptions;
 using Moq;
 using Xunit;
 using newtelligence.DasBlog.Runtime;
+using NodaTime;
 using DasBlog.Services.XmlRpc.MoveableType;
 using System.Linq;
 
@@ -23,6 +24,8 @@ namespace DasBlog.Tests.UnitTests.Managers
 		private Mock<ISiteSecurityManager> securityMock;
 		private Mock<IFileSystemBinaryManager> binaryManagerMock;
 		private Mock<ISiteConfig> siteConfigMock;
+		private Mock<IBlogDataService> dataServiceMock;
+		private Mock<ILoggingDataService> loggingServiceMock;
 
 		public XmlRpcManagerTest()
 		{
@@ -40,11 +43,33 @@ namespace DasBlog.Tests.UnitTests.Managers
 			siteConfigMock.SetupGet(c => c.Root).Returns("http://localhost/");
 			siteConfigMock.SetupGet(c => c.Title).Returns("Test Blog");
 			settingsMock.Setup(s => s.SiteConfiguration).Returns(siteConfigMock.Object);
+			dataServiceMock = new Mock<IBlogDataService>();
+			loggingServiceMock = new Mock<ILoggingDataService>();
+
+			var categories = new CategoryCacheEntryCollection();
+			categories.Add(new CategoryCacheEntry { Name = "A Random Mathematical Quotation" });
+			dataServiceMock.Setup(d => d.GetCategories()).Returns(categories);
+
+			var mesurabilityEntry = new Entry
+			{
+				Title = "The Mesurability of the Imeasurable",
+				EntryId = "50d9fa42-a650-459f-85f1-97060ca7e39f",
+				Categories = "A Random Mathematical Quotation"
+			};
+			dataServiceMock.Setup(d => d.GetEntry("50d9fa42-a650-459f-85f1-97060ca7e39f")).Returns(mesurabilityEntry);
+			dataServiceMock.Setup(d => d.GetEntryForEdit("50d9fa42-a650-459f-85f1-97060ca7e39f")).Returns(mesurabilityEntry);
+
+			var recentEntries = new EntryCollection();
+			recentEntries.Add(mesurabilityEntry);
+			dataServiceMock.Setup(d => d.GetEntriesForDay(It.IsAny<DateTime>(), It.IsAny<DateTimeZone>(), It.IsAny<string>(), It.IsAny<int>(), It.IsAny<int>(), It.IsAny<string>())).Returns(recentEntries);
+
+			dataServiceMock.Setup(d => d.GetTrackingsFor(It.IsAny<string>())).Returns(new TrackingCollection());
 		}
 
 		private XmlRpcManager CreateManagerWithDataService()
 		{
-			return new XmlRpcManager(settingsMock.Object, securityMock.Object, binaryManagerMock.Object);
+			return new XmlRpcManager(settingsMock.Object, securityMock.Object, binaryManagerMock.Object,
+				dataServiceMock.Object, loggingServiceMock.Object);
 		}
 
 		[Fact]
