@@ -27,9 +27,7 @@ namespace DasBlog.Managers
 	{
 		private readonly IBlogDataService dataService;
 		private readonly ILogger logger;
-		private static readonly Regex stripTags = new Regex("<[^>]*>", RegexOptions.Compiled | RegexOptions.CultureInvariant);
 		private readonly IDasBlogSettings dasBlogSettings;
-		private const int COMMENT_PAGE_SIZE = 5;
 
 		public BlogManager( ILogger<BlogManager> logger, IDasBlogSettings dasBlogSettings, IBlogDataService dataService)
 		{
@@ -118,74 +116,6 @@ namespace DasBlog.Managers
 		}
 
 		
-		public EntryCollection SearchEntries(string searchString, string acceptLanguageHeader)
-		{
-			var searchWords = GetSearchWords(searchString);
-
-			var entries = dataService.GetEntriesForDay(DateTime.MaxValue.AddDays(-2), 
-											dasBlogSettings.GetConfiguredTimeZone(), 
-											acceptLanguageHeader, int.MaxValue, int.MaxValue, null);
-
-			// no search term provided, return all the results
-			if (searchWords.Count == 0) return entries;
-
-			EntryCollection matchEntries = new EntryCollection();
-
-			foreach (Entry entry in entries)
-			{
-				string entryTitle = entry.Title;
-				string entryDescription = entry.Description;
-				string entryContent = entry.Content;
-
-				foreach (string searchWord in searchWords)
-				{
-					if (entryTitle != null)
-					{
-						if (searchEntryForWord(entryTitle, searchWord))
-						{
-							if (!matchEntries.Contains(entry))
-							{
-								matchEntries.Add(entry);
-							}
-							continue;
-						}
-					}
-					if (entryDescription != null)
-					{
-						if (searchEntryForWord(entryDescription, searchWord))
-						{
-							if (!matchEntries.Contains(entry))
-							{
-								matchEntries.Add(entry);
-							}
-							continue;
-						}
-					}
-					if (entryContent != null)
-					{
-						if (searchEntryForWord(entryContent, searchWord))
-						{
-							if (!matchEntries.Contains(entry))
-							{
-								matchEntries.Add(entry);
-							}
-							continue;
-						}
-					}
-				}
-			}
-
-			// log the search to the event log
-			/*
-						ILoggingDataService logService = requestPage.LoggingService;
-						string referrer = Request.UrlReferrer != null ? Request.UrlReferrer.AbsoluteUri : Request.ServerVariables["REMOTE_ADDR"];	
-						logger.LogInformation(
-							new EventDataItem(EventCodes.Search, String.Format("{0}", searchString), referrer));
-			*/
-
-			return matchEntries;
-		}
-
 		public EntrySaveState CreateEntry(Entry entry)
 		{
 			var rtn = InternalSaveEntry(entry, null, null);
@@ -211,46 +141,6 @@ namespace DasBlog.Managers
 		public EntryCollection GetAllEntries()
 		{
 			return dataService.GetEntries(false);
-		}
-
-		private static StringCollection GetSearchWords(string searchString)
-		{
-			var searchWords = new StringCollection();
-
-			if (string.IsNullOrWhiteSpace(searchString))
-				return searchWords;
-
-			string[] splitString = Regex.Split(searchString, @"(""[^""]*"")", RegexOptions.IgnoreCase |
-				RegexOptions.Compiled);
-
-			for (int index = 0; index < splitString.Length; index++)
-			{
-				if (splitString[index] != "")
-				{
-					if (index == splitString.Length - 1)
-					{
-						foreach (string s in splitString[index].Split(' '))
-						{
-							if (s != "") searchWords.Add(s);
-						}
-					}
-					else
-					{
-						searchWords.Add(splitString[index].Substring(1, splitString[index].Length - 2));
-					}
-				}
-			}
-
-			return searchWords;
-		}
-
-		private bool searchEntryForWord(string sourceText, string searchWord)
-		{
-			// Remove any tags from sourceText.
-			sourceText = stripTags.Replace(sourceText, String.Empty);
-
-			CompareInfo myComp = CultureInfo.InvariantCulture.CompareInfo;
-			return (myComp.IndexOf(sourceText, searchWord, CompareOptions.IgnoreCase) >= 0);
 		}
 
 		private void LogEvent(EventCodes eventCode, Entry entry)
@@ -358,113 +248,6 @@ namespace DasBlog.Managers
 				: null;
 		}
 
-		public CommentSaveState AddComment(string postid, Comment comment)
-		{
-			var saveState = CommentSaveState.Failed;
-			var entry = dataService.GetEntry(postid);
-
-			if (!dasBlogSettings.SiteConfiguration.EnableComments || !entry.AllowComments)
-			{
-				return CommentSaveState.SiteCommentsDisabled;
-			}
-
-			if (entry != null)
-			{
-				var targetComment = DateTime.UtcNow.AddDays(-1 * dasBlogSettings.SiteConfiguration.DaysCommentsAllowed);
-
-				if ((targetComment > entry.CreatedUtc))
-				{
-					return CommentSaveState.PostCommentsDisabled;
-				}
-
-				// FilterHtml html encodes anything we don't like
-				string filteredText = dasBlogSettings.FilterHtml(comment.Content);
-				comment.Content = filteredText;
-
-				if (dasBlogSettings.SiteConfiguration.SendCommentsByEmail)
-				{
-					var actions = ComposeMailForUsers(entry, comment);
-					dataService.AddComment(comment, actions);
-				}
-				else
-				{
-					dataService.AddComment(comment);
-				}
-
-				
-				saveState = CommentSaveState.Added;
-			}
-			else
-			{
-				saveState = CommentSaveState.NotFound;
-			}
-
-			return saveState;
-		}
-
-		public CommentSaveState DeleteComment(string postid, string commentid)
-		{
-			CommentSaveState est = CommentSaveState.Failed;
-
-			Entry entry = dataService.GetEntry(postid);
-
-			if (entry != null && !string.IsNullOrEmpty(commentid))
-			{
-				dataService.DeleteComment(postid, commentid);
-
-				est = CommentSaveState.Deleted;
-			}
-			else
-			{
-				est = CommentSaveState.NotFound;
-			}
-
-			return est;
-		}
-
-		public CommentSaveState ApproveComment(string postid, string commentid)
-		{
-			CommentSaveState est = CommentSaveState.Failed;
-			Entry entry = dataService.GetEntry(postid);
-
-			if (entry != null && !string.IsNullOrEmpty(commentid))
-			{
-				dataService.ApproveComment(postid, commentid);
-
-				est = CommentSaveState.Approved;
-			}
-			else
-			{
-				est = CommentSaveState.NotFound;
-			}
-
-			return est;
-		}
-
-		public CommentCollection GetComments(string postid, bool allComments)
-		{
-			return dataService.GetCommentsFor(postid, allComments);
-		}
-
-		public CommentCollection GetAllComments()
-		{
-			return dataService.GetAllComments();
-		}
-
-		public List<Comment> GetCommentsFrontPage()
-		{
-			var comments = dataService.GetAllComments().OrderByDescending(d => d.CreatedUtc).ToList();
-
-			return comments.Take(COMMENT_PAGE_SIZE).ToList();
-		}
-
-		public List<Comment> GetCommentsForPage(int pageIndex)
-		{
-			var comments = dataService.GetAllComments().OrderByDescending(d => d.CreatedUtc).ToList();
-
-			return comments.Skip((pageIndex) * COMMENT_PAGE_SIZE).Take(COMMENT_PAGE_SIZE).ToList();
-		}
-
 		public CategoryCacheEntryCollection GetCategories()
 		{
 			return dataService.GetCategories();
@@ -479,6 +262,7 @@ namespace DasBlog.Managers
 
 			return dasBlogSettings.SiteConfiguration.SmtpFromEmail?.Trim();
 		}
+
 		public bool SendTestEmail()
 		{
 			var emailMessage = new MailMessage();
@@ -514,67 +298,6 @@ namespace DasBlog.Managers
 			return true;
 		}
 
-		private object[] ComposeMailForUsers(Entry entry, Comment c)
-		{
-			var actions = new List<object>();
-			
-			foreach (var user in dasBlogSettings.SecurityConfiguration.Users)
-			{
-				if (string.IsNullOrWhiteSpace(user.EmailAddress))
-					continue;
-
-				if (user.NotifyOnAllComment || (user.NotifyOnOwnComment && entry.Author.ToUpper() == user.Name.ToUpper()))
-				{
-					var sendMailInfo = ComposeMail(c);
-					sendMailInfo.Message.To.Add(user.EmailAddress);
-					actions.Add(sendMailInfo);
-				}
-			}
-
-			return actions.ToArray();
-		}
-
-		private SendMailInfo ComposeMail(Comment c)
-		{
-			var emailMessage = new MailMessage();
-
-			if (!string.IsNullOrWhiteSpace(dasBlogSettings.SiteConfiguration.NotificationEMailAddress))
-			{
-				emailMessage.To.Add(dasBlogSettings.SiteConfiguration.NotificationEMailAddress);
-			}
-			else
-			{
-				emailMessage.To.Add(dasBlogSettings.SiteConfiguration.Contact);
-			}
-
-			emailMessage.Subject = string.Format("Weblog comment by '{0}' from '{1}' on '{2}'", c.Author, c.AuthorHomepage, c.TargetTitle);
-
-			if (dasBlogSettings.SiteConfiguration.CommentsRequireApproval)
-			{
-				emailMessage.Body = string.Format("{0}\r\nComments page: {1}\r\n\r\nRequires approval.\r\n\r\nCommentor Email: {2}\r\n\r\nIP Address: {3}\r\n\r\nLogin Here: {4}",
-				   WebUtility.HtmlDecode(c.Content),
-				   dasBlogSettings.GetCommentViewUrl(c.TargetEntryId),
-				   c.AuthorEmail,
-				   c.AuthorIPAddress,
-				   dasBlogSettings.RelativeToRoot("account/login"));
-			}
-			else
-			{
-				emailMessage.Body = string.Format("{0}\r\nComments page: {1}\r\n\r\nCommentor Email: {2}\r\n\r\nIP Address: {3}\r\n\r\nLogin Here: {4}",
-				   WebUtility.HtmlDecode(c.Content),
-				   dasBlogSettings.GetCommentViewUrl(c.TargetEntryId),
-				   c.AuthorEmail,
-				   c.AuthorIPAddress,
-				   dasBlogSettings.RelativeToRoot("account/login"));
-			}
-
-			emailMessage.IsBodyHtml = false;
-			emailMessage.BodyEncoding = System.Text.Encoding.UTF8;
-
-			emailMessage.From = new MailAddress(GetFromEmail());
-
-			return dasBlogSettings.GetMailInfo(emailMessage);
-		}
 	}
 }
 

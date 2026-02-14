@@ -220,6 +220,8 @@ namespace DasBlog.Web
 				})
 				.AddSingleton(hostingEnvironment.ContentRootFileProvider)
 				.AddSingleton<IBlogManager, BlogManager>()
+				.AddSingleton<ICommentManager, CommentManager>()
+				.AddSingleton<ISearchManager, SearchManager>()
 				.AddSingleton<IArchiveManager, ArchiveManager>()
 				.AddSingleton<ICategoryManager, CategoryManager>()
 				.AddSingleton<ISiteSecurityManager, SiteSecurityManager>()
