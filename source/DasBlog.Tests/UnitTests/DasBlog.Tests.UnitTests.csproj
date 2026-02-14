@@ -69,7 +69,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\DasBlog.Web.Core\DasBlog.Core.csproj" />
     <ProjectReference Include="..\..\DasBlog.Managers\DasBlog.Managers.csproj" />
-    <ProjectReference Include="..\..\DasBlog.Web.UI\DasBlog.Web.csproj" />
+    <ProjectReference Include="..\..\DasBlog.Web\DasBlog.Web.csproj" />
     <ProjectReference Include="..\..\DasBlog.Services\DasBlog.Services.csproj" />
   </ItemGroup>
   <ItemGroup>

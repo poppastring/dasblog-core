@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35327.3
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DasBlog.Web", "DasBlog.Web.UI\DasBlog.Web.csproj", "{37817A48-6954-4DAF-A931-C540C5687579}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DasBlog.Web", "DasBlog.Web\DasBlog.Web.csproj", "{37817A48-6954-4DAF-A931-C540C5687579}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DasBlog.Managers", "DasBlog.Managers\DasBlog.Managers.csproj", "{1B1D9871-A342-4F37-A2F2-D212A6445611}"
 EndProject

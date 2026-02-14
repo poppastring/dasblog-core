@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DayEntry xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="urn:newtelligence-com:dasblog:runtime:data">
+  <Date>2025-06-20T20:00:00-04:00</Date>
+  <Entries>
+    <Entry>
+      <Content>&lt;p&gt;This is a new paragraph...&lt;/p&gt;</Content>
+      <Created>2025-06-20T21:39:58.775-04:00</Created>
+      <Modified>2025-06-20T21:39:58.775-04:00</Modified>
+      <EntryId>787a5e2d-22c0-459e-9d2a-2482effff2c6</EntryId>
+      <Description />
+      <Title>Welcome to DasBlog Core</Title>
+      <Categories>DasBlog Core</Categories>
+      <Author>Admin Name</Author>
+      <IsPublic>true</IsPublic>
+      <Syndicated>true</Syndicated>
+      <ShowOnFrontPage>true</ShowOnFrontPage>
+      <AllowComments>true</AllowComments>
+      <Attachments />
+      <Crossposts />
+      <Latitude xsi:nil="true" />
+      <Longitude xsi:nil="true" />
+    </Entry>
+  </Entries>
+</DayEntry>

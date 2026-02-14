@@ -39,7 +39,7 @@ framework to route login requests to DasBlog.Web.Identity.DasBlogUserStore.  The
 framework identifies the datastore through some marker interfaces it esposes such as
 IUserPasswordStore
 
-By convention the password for dasblog-core is "admin".  Look at DasBlog.Web.UI/config/siteSecurity.config
+By convention the password for dasblog-core is "admin".  Look at DasBlog.Web/config/siteSecurity.config
 for available users.
 
 The username/password for legacy DasBlog is "admin/admin"
