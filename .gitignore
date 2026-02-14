@@ -202,8 +202,8 @@ FakesAssemblies/
 
 # dasblog-core random working data
 
-source/DasBlog.Web.UI/logs
-source/DasBlog.Web.UI/content
+source/DasBlog.Web/logs
+source/DasBlog.Web/content
 
 
 # Rider iDE
@@ -216,5 +216,5 @@ source/DasBlog.Web.UI/content
 test_results/
 test_results.xml
 source/DasBlog.Tests/FunctionalTests/Properties/launchSettings.json
-source/DasBlog.Web.UI/Properties/ServiceDependencies/*
-source/DasBlog.Web.UI/.config
+source/DasBlog.Web/Properties/ServiceDependencies/*
+source/DasBlog.Web/.config
