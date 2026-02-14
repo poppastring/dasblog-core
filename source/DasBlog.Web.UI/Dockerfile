@@ -9,7 +9,7 @@ COPY ["DasBlog.Web.UI/DasBlog.Web.csproj", "DasBlog.Web.UI/"]
 COPY ["DasBlog.Web.Core/DasBlog.Core.csproj", "DasBlog.Web.Core/"]
 COPY ["newtelligence.DasBlog.Runtime/newtelligence.DasBlog.Runtime.csproj", "newtelligence.DasBlog.Runtime/"]
 COPY ["DasBlog.Services/DasBlog.Services.csproj", "DasBlog.Services/"]
-COPY ["DasBlog.Web.Repositories/DasBlog.Managers.csproj", "DasBlog.Web.Repositories/"]
+COPY ["DasBlog.Managers/DasBlog.Managers.csproj", "DasBlog.Managers/"]
 RUN dotnet restore "DasBlog.Web.UI/DasBlog.Web.csproj"
 COPY . .
 WORKDIR "/src/DasBlog.Web.UI"
