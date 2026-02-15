@@ -3,7 +3,7 @@ using System.Linq.Expressions;
 
 namespace DasBlog.Core.Common
 {
-	public static class Veriifier
+	public static class Verifier
 	{
 		public static void VerifyParam(Expression<Func<bool>> pred)
 		{

@@ -8,7 +8,7 @@ using DasBlog.Services.ConfigFile;
 using HtmlAgilityPack;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
+using System.Text.Json;
 
 namespace DasBlog.Services.Site
 {
@@ -262,7 +262,7 @@ namespace DasBlog.Services.Site
 									{
 										if (result.Content.Headers.GetValues("Content-Type").FirstOrDefault().StartsWith("application/json"))
 										{
-											embedding = JsonConvert.DeserializeObject<OEmbed>(await result.Content.ReadAsStringAsync());
+											embedding = JsonSerializer.Deserialize<OEmbed>(await result.Content.ReadAsStringAsync());
 										}
 										else if (result.Content.Headers.GetValues("Content-Type").FirstOrDefault().StartsWith("text/xml"))
 										{

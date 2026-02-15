@@ -9,7 +9,7 @@
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DasBlog.Web.Core\DasBlog.Core.csproj" />
+    <ProjectReference Include="..\DasBlog.Core\DasBlog.Core.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Coravel" />
@@ -17,7 +17,6 @@
     <PackageReference Include="Kveer.XmlRPC" />
     <PackageReference Include="MailKit" />
     <PackageReference Include="Microsoft.Extensions.Options" />
-    <PackageReference Include="Newtonsoft.Json" />
     <PackageReference Include="Quartz.AspNetCore" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="All" />
   </ItemGroup>

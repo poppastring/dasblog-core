@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DasBlog.Web", "DasBlog.Web\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DasBlog.Managers", "DasBlog.Managers\DasBlog.Managers.csproj", "{1B1D9871-A342-4F37-A2F2-D212A6445611}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DasBlog.Core", "DasBlog.Web.Core\DasBlog.Core.csproj", "{F0DF11A5-78FC-4A74-8BF5-0CA619BAE3E9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DasBlog.Core", "DasBlog.Core\DasBlog.Core.csproj", "{F0DF11A5-78FC-4A74-8BF5-0CA619BAE3E9}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{800E3AC8-FF13-43CE-8C09-6F4A2867D445}"
 	ProjectSection(SolutionItems) = preProject
