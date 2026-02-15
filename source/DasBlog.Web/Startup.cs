@@ -228,7 +228,6 @@ namespace DasBlog.Web
 				.AddSingleton<IXmlRpcManager, XmlRpcManager>()
 				.AddSingleton<ISiteManager, SiteManager>()
 				.AddSingleton<IActivityPubManager, ActivityPubManager>()
-				.AddSingleton<IHttpContextAccessor, HttpContextAccessor>()
 				.AddSingleton<SiteHttpContext>()
 				.AddSingleton<IFileSystemBinaryManager, FileSystemBinaryManager>()
 				.AddSingleton<IUserDataRepo, UserDataRepo>()
@@ -347,13 +346,6 @@ namespace DasBlog.Web
 					"public,max-age=" + durationInSeconds;
 				ctx.Context.Response.Headers["Expires"] = DateTime.UtcNow.AddHours(12).ToString("R");
 			};
-
-			app.UseStaticFiles(new StaticFileOptions()
-			{
-				FileProvider = new PhysicalFileProvider(BinariesPath),
-				RequestPath = string.Format("/{0}", BinariesUrlRelativePath),
-				OnPrepareResponse = cacheControlPrepResponse
-			});
 
 			app.UseStaticFiles(new StaticFileOptions()
 			{
