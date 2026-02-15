@@ -5,6 +5,7 @@ using System.Text;
 using System.Xml.Serialization;
 using DasBlog.Services.ConfigFile;
 using DasBlog.Services.ConfigFile.Interfaces;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace DasBlog.Services.FileManagement.Interfaces
@@ -12,10 +13,12 @@ namespace DasBlog.Services.FileManagement.Interfaces
 	public class SiteConfigFileService : IConfigFileService<SiteConfig>
 	{
 		private readonly ConfigFilePathsDataOption options;
+		private readonly ILogger<SiteConfigFileService> logger;
 
-		public SiteConfigFileService(IOptions<ConfigFilePathsDataOption> optionsAccessor)
+		public SiteConfigFileService(IOptions<ConfigFilePathsDataOption> optionsAccessor, ILogger<SiteConfigFileService> logger)
 		{
 			options = optionsAccessor.Value;
+			this.logger = logger;
 		}
 
 		public bool SaveConfig(SiteConfig config)
@@ -35,8 +38,7 @@ namespace DasBlog.Services.FileManagement.Interfaces
 				}
 				catch (Exception e)
 				{
-					// TODO log
-					Console.WriteLine(e);
+					logger.LogError(e, "Failed to save site configuration to {Path}", options.SiteConfigFilePath);
 					throw;
 				}
 			}
