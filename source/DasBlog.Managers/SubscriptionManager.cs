@@ -20,12 +20,11 @@ namespace DasBlog.Managers
         private readonly ILoggingDataService loggingDataService;
         private readonly IDasBlogSettings dasBlogSettings;
 
-        public SubscriptionManager(IDasBlogSettings settings)
+        public SubscriptionManager(IDasBlogSettings settings, IBlogDataService dataService, ILoggingDataService loggingDataService)
         {
             dasBlogSettings = settings;
-
-			loggingDataService = LoggingDataServiceFactory.GetService(Path.Combine(dasBlogSettings.WebRootDirectory, dasBlogSettings.SiteConfiguration.LogDir));
-			dataService = BlogDataServiceFactory.GetService(Path.Combine(dasBlogSettings.WebRootDirectory, dasBlogSettings.SiteConfiguration.ContentDir), loggingDataService);
+            this.dataService = dataService;
+            this.loggingDataService = loggingDataService;
 		}
 
         public RssRoot GetRss()

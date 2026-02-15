@@ -27,22 +27,6 @@ namespace DasBlog.Managers.Interfaces
 
 		CategoryCacheEntryCollection GetCategories();
 
-		CommentSaveState AddComment(string postid, Comment comment);
-
-		CommentSaveState DeleteComment(string postid, string commentid);
-		
-		CommentSaveState ApproveComment(string postid, string commentid);
-
-		CommentCollection GetComments(string postid, bool allComments);
-
-		CommentCollection GetAllComments();
-
-		List<Comment> GetCommentsFrontPage();
-
-		List<Comment> GetCommentsForPage(int pageIndex);
-
-		EntryCollection SearchEntries(string searchString, string acceptLanguageHeader);
-
 		bool SendTestEmail();
 	}
 }

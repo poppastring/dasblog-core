@@ -22,7 +22,8 @@ namespace DasBlog.Managers
 
 		public FileSystemBinaryManager(IDasBlogSettings dasBlogSettings, IConfigFileService<MetaTags> metaTagFileService,
 										 IConfigFileService<OEmbedProviders> oembedProvidersService,
-										IConfigFileService<SiteConfig> siteConfigFileService, IOptions<ConfigFilePathsDataOption> optionsAccessor)
+										IConfigFileService<SiteConfig> siteConfigFileService, IOptions<ConfigFilePathsDataOption> optionsAccessor,
+										ILoggingDataService loggingDataService)
 		{
 			this.dasBlogSettings = dasBlogSettings;
 			this.metaTagFileService = metaTagFileService;
@@ -41,7 +42,6 @@ namespace DasBlog.Managers
 				physBinaryPathUrl = new Uri(new Uri(SiteHttpContext.AppBaseUrl), options.BinaryUrlRelative);
 			}
 
-			var loggingDataService = LoggingDataServiceFactory.GetService(Path.Combine(dasBlogSettings.WebRootDirectory, dasBlogSettings.SiteConfiguration.LogDir));
 			var cdnManager = CdnManagerFactory.GetService(dasBlogSettings.SiteConfiguration.CdnFrom, dasBlogSettings.SiteConfiguration.CdnTo);
 
 			this.binaryDataService = BinaryDataServiceFactory.GetService(options.BinaryFolder, physBinaryPathUrl, loggingDataService, cdnManager);

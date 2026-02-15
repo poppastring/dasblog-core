@@ -27,6 +27,7 @@ namespace DasBlog.Web.Controllers
 		private readonly IFileSystemBinaryManager fileSystemBinaryManager;
 		private readonly IMapper mapper;
 		private readonly IBlogManager blogManager;
+		private readonly ICommentManager commentManager;
 		private readonly IHostApplicationLifetime appLifetime;
 		private readonly ILogger<AdminController> logger;
 		private readonly IMemoryCache memoryCache;
@@ -34,12 +35,13 @@ namespace DasBlog.Web.Controllers
 		private readonly List<PostViewModel> posts = [];	
 
 		public AdminController(IDasBlogSettings dasBlogSettings, IFileSystemBinaryManager fileSystemBinaryManager, IMapper mapper,
-								IBlogManager blogManager, IHostApplicationLifetime appLifetime, ILogger<AdminController> logger, IMemoryCache memoryCache, ISiteSecurityManager siteSecurityManager) : base(dasBlogSettings)
+								IBlogManager blogManager, ICommentManager commentManager, IHostApplicationLifetime appLifetime, ILogger<AdminController> logger, IMemoryCache memoryCache, ISiteSecurityManager siteSecurityManager) : base(dasBlogSettings)
 		{
 			this.dasBlogSettings = dasBlogSettings;
 			this.fileSystemBinaryManager = fileSystemBinaryManager;
 			this.mapper = mapper;
 			this.blogManager = blogManager;
+			this.commentManager = commentManager;
 			this.appLifetime = appLifetime;
 			this.logger = logger;
 			this.memoryCache = memoryCache;
@@ -113,12 +115,12 @@ namespace DasBlog.Web.Controllers
 
 			if (postid != null)
 			{
-				comments = blogManager.GetComments(postid, true).Select(comment => mapper.Map<CommentAdminViewModel>(comment)).ToList();
+				comments = commentManager.GetComments(postid, true).Select(comment => mapper.Map<CommentAdminViewModel>(comment)).ToList();
 				ViewData[Constants.CommentShowPageControl] = false;
 			}
 			else
 			{
-				comments = blogManager.GetCommentsFrontPage().Select(comment => mapper.Map<CommentAdminViewModel>(comment)).ToList();
+				comments = commentManager.GetCommentsFrontPage().Select(comment => mapper.Map<CommentAdminViewModel>(comment)).ToList();
 				ViewData[Constants.CommentShowPageControl] = true;
 			}
 
@@ -148,11 +150,11 @@ namespace DasBlog.Web.Controllers
 
 			if (page > 0)
 			{
-				comments = blogManager.GetCommentsForPage(page).Select(comment => mapper.Map<CommentAdminViewModel>(comment)).ToList();
+				comments = commentManager.GetCommentsForPage(page).Select(comment => mapper.Map<CommentAdminViewModel>(comment)).ToList();
 			}
 			else
 			{
-				comments = blogManager.GetCommentsFrontPage().Select(comment => mapper.Map<CommentAdminViewModel>(comment)).ToList();
+				comments = commentManager.GetCommentsFrontPage().Select(comment => mapper.Map<CommentAdminViewModel>(comment)).ToList();
 			}
 
 			foreach (var cmt in comments)
@@ -195,7 +197,7 @@ namespace DasBlog.Web.Controllers
 			commt.IsPublic = true; // Admin comments are always public
 			commt.CreatedUtc = commt.ModifiedUtc = DateTime.UtcNow;
 
-			var state = blogManager.AddComment(addcomment.TargetEntryId, commt);
+			var state = commentManager.AddComment(addcomment.TargetEntryId, commt);
 
 			if (state == NBR.CommentSaveState.Failed)
 			{

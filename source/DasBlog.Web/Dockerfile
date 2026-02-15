@@ -5,14 +5,14 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["DasBlog.Web.UI/DasBlog.Web.csproj", "DasBlog.Web.UI/"]
+COPY ["DasBlog.Web/DasBlog.Web.csproj", "DasBlog.Web/"]
 COPY ["DasBlog.Web.Core/DasBlog.Core.csproj", "DasBlog.Web.Core/"]
 COPY ["newtelligence.DasBlog.Runtime/newtelligence.DasBlog.Runtime.csproj", "newtelligence.DasBlog.Runtime/"]
 COPY ["DasBlog.Services/DasBlog.Services.csproj", "DasBlog.Services/"]
-COPY ["DasBlog.Web.Repositories/DasBlog.Managers.csproj", "DasBlog.Web.Repositories/"]
-RUN dotnet restore "DasBlog.Web.UI/DasBlog.Web.csproj"
+COPY ["DasBlog.Managers/DasBlog.Managers.csproj", "DasBlog.Managers/"]
+RUN dotnet restore "DasBlog.Web/DasBlog.Web.csproj"
 COPY . .
-WORKDIR "/src/DasBlog.Web.UI"
+WORKDIR "/src/DasBlog.Web"
 RUN dotnet build "DasBlog.Web.csproj" -c Release -o /app
 
 FROM build AS publish

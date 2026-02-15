@@ -17,7 +17,7 @@
       },
       "ancmHostingModel": "InProcess"
     },
-    "DasBlog.Web.UI": {
+    "DasBlog.Web": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {

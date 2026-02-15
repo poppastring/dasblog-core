@@ -13,12 +13,11 @@ namespace DasBlog.Managers
         private readonly ILoggingDataService loggingDataService;
         private readonly IDasBlogSettings dasBlogSettings;
 
-        public SiteManager(IDasBlogSettings settings)
+        public SiteManager(IDasBlogSettings settings, IBlogDataService dataService, ILoggingDataService loggingDataService)
         {
             dasBlogSettings = settings;
-
-			loggingDataService = LoggingDataServiceFactory.GetService(Path.Combine(dasBlogSettings.WebRootDirectory, dasBlogSettings.SiteConfiguration.LogDir));
-			dataService = BlogDataServiceFactory.GetService(Path.Combine(dasBlogSettings.WebRootDirectory, dasBlogSettings.SiteConfiguration.ContentDir), loggingDataService);
+            this.dataService = dataService;
+            this.loggingDataService = loggingDataService;
 		}
 
         public UrlSet GetGoogleSiteMap()

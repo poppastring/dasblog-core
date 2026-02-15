@@ -41,7 +41,7 @@
     <ProjectReference Include="..\DasBlog.CLI\DasBlog.CLI.csproj" />
     <ProjectReference Include="..\DasBlog.Web.Core\DasBlog.Core.csproj" />
     <ProjectReference Include="..\DasBlog.Services\DasBlog.Services.csproj" />
-    <ProjectReference Include="..\DasBlog.Web.Repositories\DasBlog.Managers.csproj" />
+    <ProjectReference Include="..\DasBlog.Managers\DasBlog.Managers.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Config\*">

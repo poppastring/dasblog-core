@@ -22,16 +22,18 @@ namespace DasBlog.Web.Controllers
 	public class HomeController : DasBlogBaseController
 	{
 		private readonly IBlogManager blogManager;
+		private readonly ICommentManager commentManager;
 		private readonly IDasBlogSettings dasBlogSettings;
 		private readonly IMapper mapper;
 		private readonly ILogger<HomeController> logger;
 		private readonly IMemoryCache memoryCache;
 		private readonly IExternalEmbeddingHandler embeddingHandler;
 
-		public HomeController(IBlogManager blogManager, IDasBlogSettings dasBlogSettings, IMapper mapper, 
+		public HomeController(IBlogManager blogManager, ICommentManager commentManager, IDasBlogSettings dasBlogSettings, IMapper mapper, 
 								ILogger<HomeController> logger, IMemoryCache memoryCache, IExternalEmbeddingHandler embeddingHandler) : base(dasBlogSettings)
 		{
 			this.blogManager = blogManager;
+			this.commentManager = commentManager;
 			this.dasBlogSettings = dasBlogSettings;
 			this.mapper = mapper;
 			this.logger = logger;
@@ -136,7 +138,7 @@ namespace DasBlog.Web.Controllers
 			{
 				var lcvm = new ListCommentsViewModel
 				{
-					Comments = blogManager.GetComments(post.EntryId, false)
+					Comments = commentManager.GetComments(post.EntryId, false)
 									.Select(comment => mapper.Map<CommentViewModel>(comment)).ToList(),
 					PostId = post.EntryId,
 					PostDate = post.CreatedDateTime,

@@ -16,7 +16,8 @@ namespace DasBlog.Tests.UnitTests.Managers
     {
         private Mock<IDasBlogSettings> settingsMock;
         private Mock<ISiteConfig> siteConfigMock;
-
+        private Mock<IBlogDataService> dataServiceMock;
+        private Mock<ILoggingDataService> loggingServiceMock;
         public SiteManagerTest()
         {
 			var rootdir = Directory.GetCurrentDirectory();
@@ -31,11 +32,16 @@ namespace DasBlog.Tests.UnitTests.Managers
 			siteConfigMock.SetupGet(c => c.Root).Returns("http://localhost/");
 			siteConfigMock.SetupGet(c => c.Title).Returns("Test Blog");
 			settingsMock.Setup(s => s.SiteConfiguration).Returns(siteConfigMock.Object);
+			dataServiceMock = new Mock<IBlogDataService>();
+			loggingServiceMock = new Mock<ILoggingDataService>();
+
+			dataServiceMock.Setup(d => d.GetEntries(false)).Returns(new EntryCollection());
+			dataServiceMock.Setup(d => d.GetCategories()).Returns(new CategoryCacheEntryCollection());
 		}
 
         private SiteManager CreateManager()
         {
-            return new SiteManager(settingsMock.Object);
+            return new SiteManager(settingsMock.Object, dataServiceMock.Object, loggingServiceMock.Object);
         }
 
         [Fact]

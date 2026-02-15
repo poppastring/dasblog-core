@@ -64,14 +64,14 @@ namespace DasBlog.Managers
 		private readonly IDasBlogSettings dasBlogSettings;
 		private readonly IFileSystemBinaryManager binaryManager;
 
-		public XmlRpcManager(IDasBlogSettings dasBlogSettings, ISiteSecurityManager siteSecurityManager, IFileSystemBinaryManager binaryManager)
+		public XmlRpcManager(IDasBlogSettings dasBlogSettings, ISiteSecurityManager siteSecurityManager, IFileSystemBinaryManager binaryManager,
+			IBlogDataService dataService, ILoggingDataService loggingDataService)
 		{
 			this.dasBlogSettings = dasBlogSettings;
 			this.siteSecurityManager = siteSecurityManager;
 			this.binaryManager = binaryManager;
-
-			loggingDataService = LoggingDataServiceFactory.GetService(Path.Combine(dasBlogSettings.WebRootDirectory, dasBlogSettings.SiteConfiguration.LogDir));
-			dataService = BlogDataServiceFactory.GetService(Path.Combine(dasBlogSettings.WebRootDirectory, dasBlogSettings.SiteConfiguration.ContentDir), loggingDataService);
+			this.dataService = dataService;
+			this.loggingDataService = loggingDataService;
 		}
 
 		public string Invoke(Stream requestStream)

@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\DasBlog.Web.UI\DasBlog.Web.csproj" />
+    <ProjectReference Include="..\..\DasBlog.Web\DasBlog.Web.csproj" />
   </ItemGroup>
 
 </Project>

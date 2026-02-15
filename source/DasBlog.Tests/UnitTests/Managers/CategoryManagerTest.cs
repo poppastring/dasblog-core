@@ -14,7 +14,7 @@ namespace DasBlog.Tests.UnitTests.Managers
     {
         private Mock<IDasBlogSettings> settingsMock;
         private Mock<ISiteConfig> siteConfigMock;
-
+        private Mock<IBlogDataService> dataServiceMock;
         public CategoryManagerTest()
         {
             var rootdir = Directory.GetCurrentDirectory();
@@ -27,11 +27,27 @@ namespace DasBlog.Tests.UnitTests.Managers
             siteConfigMock.SetupGet(c => c.ContentDir).Returns(Path.Combine(rootdir, "TestContent"));
             siteConfigMock.SetupGet(c => c.TitlePermalinkSpaceReplacement).Returns("-");
             settingsMock.Setup(s => s.SiteConfiguration).Returns(siteConfigMock.Object);
+            dataServiceMock = new Mock<IBlogDataService>();
+
+            var allEntries = new EntryCollection();
+            for (int i = 0; i < 23; i++)
+            {
+                var e = new Entry { Title = "Entry " + i };
+                e.CreatedUtc = new DateTime(2003, 7, 31, 0, 0, 0, DateTimeKind.Utc);
+                allEntries.Add(e);
+            }
+            dataServiceMock.Setup(d => d.GetEntries(false)).Returns(allEntries);
+
+            var catEntries = new EntryCollection();
+            catEntries.Add(new Entry { Title = "The Mesurability of the Imeasurable" });
+            dataServiceMock.Setup(d => d.GetEntriesForCategory("A Random Mathematical Quotation", "")).Returns(catEntries);
+
+            dataServiceMock.Setup(d => d.GetCategoryTitle("a+random+mathematical+quotation")).Returns("A Random Mathematical Quotation");
         }
 
         private CategoryManager CreateManager()
         {
-            return new CategoryManager(settingsMock.Object);
+            return new CategoryManager(settingsMock.Object, dataServiceMock.Object);
         }
 
         [Fact]

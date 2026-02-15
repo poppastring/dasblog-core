@@ -31,6 +31,8 @@ namespace DasBlog.Web.Controllers
 	public class BlogPostController : DasBlogBaseController
 	{
 		private readonly IBlogManager blogManager;
+		private readonly ICommentManager commentManager;
+		private readonly ISearchManager searchManager;
 		private readonly ICategoryManager categoryManager;
 		private readonly IHttpContextAccessor httpContextAccessor;
 		private readonly IDasBlogSettings dasBlogSettings;
@@ -43,12 +45,14 @@ namespace DasBlog.Web.Controllers
 		private readonly IRecaptchaService recaptcha;
 
 		
-		public BlogPostController(IBlogManager blogManager, IHttpContextAccessor httpContextAccessor, IDasBlogSettings dasBlogSettings,
+		public BlogPostController(IBlogManager blogManager, ICommentManager commentManager, ISearchManager searchManager, IHttpContextAccessor httpContextAccessor, IDasBlogSettings dasBlogSettings,
 									IMapper mapper, ICategoryManager categoryManager, IFileSystemBinaryManager binaryManager, ILogger<BlogPostController> logger,
 									IBlogPostViewModelCreator modelViewCreator, IMemoryCache memoryCache, IExternalEmbeddingHandler embeddingHandler, IRecaptchaService recaptcha)
 									: base(dasBlogSettings)
 		{
 			this.blogManager = blogManager;
+			this.commentManager = commentManager;
+			this.searchManager = searchManager;
 			this.categoryManager = categoryManager;
 			this.httpContextAccessor = httpContextAccessor;
 			this.dasBlogSettings = dasBlogSettings;
@@ -78,7 +82,7 @@ namespace DasBlog.Web.Controllers
 
 				var lcvm = new ListCommentsViewModel
 				{
-					Comments = blogManager.GetComments(entry.EntryId, false)
+					Comments = commentManager.GetComments(entry.EntryId, false)
 									.Select(comment => mapper.Map<CommentViewModel>(comment)).ToList(),
 					PostId = entry.EntryId,
 					PostDate = entry.CreatedUtc,
@@ -122,7 +126,7 @@ namespace DasBlog.Web.Controllers
 
 				var lcvm = new ListCommentsViewModel
 				{
-					Comments = blogManager.GetComments(entry.EntryId, false)
+					Comments = commentManager.GetComments(entry.EntryId, false)
 									.Select(comment => mapper.Map<CommentViewModel>(comment)).ToList(),
 					PostId = entry.EntryId,
 					PostDate = entry.CreatedUtc,
@@ -364,7 +368,7 @@ namespace DasBlog.Web.Controllers
 				{
 					var lcvm = new ListCommentsViewModel
 					{
-						Comments = blogManager.GetComments(entry.EntryId, false)
+						Comments = commentManager.GetComments(entry.EntryId, false)
 							.Select(comment => mapper.Map<CommentViewModel>(comment)).ToList(),
 						PostId = entry.EntryId,
 						PostDate = entry.CreatedUtc,
@@ -397,7 +401,7 @@ namespace DasBlog.Web.Controllers
 				{
 					var lcvm = new ListCommentsViewModel
 					{
-						Comments = blogManager.GetComments(entry.EntryId, false)
+						Comments = commentManager.GetComments(entry.EntryId, false)
 							.Select(comment => mapper.Map<CommentViewModel>(comment)).ToList(),
 						PostId = entry.EntryId,
 						PostDate = entry.CreatedUtc,
@@ -484,7 +488,7 @@ namespace DasBlog.Web.Controllers
 			commt.IsPublic = !dasBlogSettings.SiteConfiguration.CommentsRequireApproval;
 			commt.CreatedUtc = commt.ModifiedUtc = DateTime.Now.ToUniversalTime();
 
-			var state = blogManager.AddComment(addcomment.TargetEntryId, commt);
+			var state = commentManager.AddComment(addcomment.TargetEntryId, commt);
 
 			if (state == NBR.CommentSaveState.Failed)
 			{
@@ -523,7 +527,7 @@ namespace DasBlog.Web.Controllers
 		[HttpDelete("admin/post/{postid:guid}/comments/{commentid:guid}")]
 		public IActionResult DeleteComment(Guid postid, Guid commentid)
 		{
-			var state = blogManager.DeleteComment(postid.ToString(), commentid.ToString());
+			var state = commentManager.DeleteComment(postid.ToString(), commentid.ToString());
 
 			if (state == NBR.CommentSaveState.Failed)
 			{
@@ -546,7 +550,7 @@ namespace DasBlog.Web.Controllers
 		[HttpPatch("admin/post/{postid:guid}/comments/{commentid:guid}")]
 		public IActionResult ApproveComment(Guid postid, Guid commentid)
 		{
-			var state = blogManager.ApproveComment(postid.ToString(), commentid.ToString());
+			var state = commentManager.ApproveComment(postid.ToString(), commentid.ToString());
 
 			if (state == NBR.CommentSaveState.Failed)
 			{
@@ -594,7 +598,7 @@ namespace DasBlog.Web.Controllers
 			}
 
 			var lpvm = new ListPostsViewModel();
-			var entries = blogManager.SearchEntries(WebUtility.HtmlEncode(searchText), Request.Headers["Accept-Language"])?.Where(e => e.IsPublic)?.ToList();
+			var entries = searchManager.SearchEntries(WebUtility.HtmlEncode(searchText), Request.Headers["Accept-Language"])?.Where(e => e.IsPublic)?.ToList();
 
 			if (entries != null)
 			{

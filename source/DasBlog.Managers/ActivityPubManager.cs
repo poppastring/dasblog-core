@@ -22,12 +22,10 @@ namespace DasBlog.Managers
 		private const string ACTIVITYSTREAM_PUBLIC = "https://www.w3.org/ns/activitystreams#Public";
 		private const string PAGE_TRUE = "?page=true";
 
-		public ActivityPubManager(IDasBlogSettings settings)
+		public ActivityPubManager(IDasBlogSettings settings, IBlogDataService dataService)
 		{
 			dasBlogSettings = settings;
-
-			var loggingDataService = LoggingDataServiceFactory.GetService(Path.Combine(dasBlogSettings.WebRootDirectory, dasBlogSettings.SiteConfiguration.LogDir));
-			dataService = BlogDataServiceFactory.GetService(Path.Combine(dasBlogSettings.WebRootDirectory, dasBlogSettings.SiteConfiguration.ContentDir), loggingDataService);
+			this.dataService = dataService;
 
 			var userrelative = string.Format("users/{0}/outbox", dasBlogSettings.SiteConfiguration.MastodonAccount);
 			var actorrelative = string.Format("users/{0}", dasBlogSettings.SiteConfiguration.MastodonAccount);

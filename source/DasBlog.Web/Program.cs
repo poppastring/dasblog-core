@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-namespace DasBlog.Web.UI
+namespace DasBlog.Web
 {
 	public static class Program
 	{

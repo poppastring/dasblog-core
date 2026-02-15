@@ -19,6 +19,7 @@ namespace DasBlog.Tests.UnitTests.Managers
         private Mock<IDasBlogSettings> settingsMock;
         private Mock<ISiteConfig> siteConfigMock;
         private Mock<ILogger<BlogManager>> loggerMock;
+        private Mock<IBlogDataService> dataServiceMock;
 
         public BlogManagerTest()
         {
@@ -40,11 +41,41 @@ namespace DasBlog.Tests.UnitTests.Managers
 			settingsMock.Setup(s => s.SiteConfiguration).Returns(siteConfigMock.Object);
 
             loggerMock = new Mock<ILogger<BlogManager>>();
+            dataServiceMock = new Mock<IBlogDataService>();
+
+            var mesurabilityEntry = new Entry
+            {
+                Title = "The Mesurability of the Imeasurable",
+                EntryId = "50d9fa42-a650-459f-85f1-97060ca7e39f",
+                Categories = "A Random Mathematical Quotation"
+            };
+            mesurabilityEntry.CreatedUtc = new DateTime(2004, 3, 27, 7, 26, 24, DateTimeKind.Utc);
+            dataServiceMock.Setup(d => d.GetEntry("TheMesurabilityOfTheImeasurable")).Returns(mesurabilityEntry);
+            dataServiceMock.Setup(d => d.GetEntryForEdit("50d9fa42-a650-459f-85f1-97060ca7e39f")).Returns(mesurabilityEntry);
+
+            var frontPageEntries = new EntryCollection();
+            for (int i = 0; i < 5; i++)
+            {
+                var e = new Entry { Title = "Entry " + i };
+                e.CreatedUtc = new DateTime(2003, 7, 31, i, 0, 0, DateTimeKind.Utc);
+                frontPageEntries.Add(e);
+            }
+            dataServiceMock.Setup(d => d.GetEntriesForDay(It.IsAny<DateTime>(), It.IsAny<DateTimeZone>(), It.IsAny<string>(), It.IsAny<int>(), It.IsAny<int>(), It.IsAny<string>())).Returns(frontPageEntries);
+
+            var allEntries = new EntryCollection();
+            allEntries.Add(mesurabilityEntry);
+            for (int i = 0; i < 22; i++)
+            {
+                var e = new Entry { Title = "Entry " + i };
+                e.CreatedUtc = new DateTime(2003, 7, 31, 0, 0, 0, DateTimeKind.Utc);
+                allEntries.Add(e);
+            }
+            dataServiceMock.Setup(d => d.GetEntries(false)).Returns(allEntries);
         }
 
         private BlogManager CreateManager()
         {
-            return new BlogManager(loggerMock.Object, settingsMock.Object);
+            return new BlogManager(loggerMock.Object, settingsMock.Object, dataServiceMock.Object);
         }
 
         [Fact]

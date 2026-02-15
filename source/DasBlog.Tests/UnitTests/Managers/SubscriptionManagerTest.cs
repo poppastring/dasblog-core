@@ -7,6 +7,7 @@ using DasBlog.Managers.Interfaces;
 using DasBlog.Services.ConfigFile.Interfaces;
 using newtelligence.DasBlog.Runtime;
 using DasBlog.Services;
+using NodaTime;
 
 namespace DasBlog.Tests.UnitTests.Managers
 {
@@ -15,6 +16,8 @@ namespace DasBlog.Tests.UnitTests.Managers
         private Mock<IDasBlogSettings> settingsMock;
         private Mock<ISiteConfig> siteConfigMock;
 		private Mock<IMetaTags> metaTagsMock;
+        private Mock<IBlogDataService> dataServiceMock;
+        private Mock<ILoggingDataService> loggingServiceMock;
 
         public SubscriptionManagerTest()
         {
@@ -37,11 +40,16 @@ namespace DasBlog.Tests.UnitTests.Managers
 			metaTagsMock = new Mock<IMetaTags>();
 			metaTagsMock.SetupAllProperties();
 			settingsMock.Setup(s => s.MetaTags).Returns(metaTagsMock.Object);
+			dataServiceMock = new Mock<IBlogDataService>();
+			loggingServiceMock = new Mock<ILoggingDataService>();
+
+			dataServiceMock.Setup(d => d.GetEntriesForDay(It.IsAny<DateTime>(), It.IsAny<DateTimeZone>(), It.IsAny<string>(), It.IsAny<int>(), It.IsAny<int>(), It.IsAny<string>())).Returns(new EntryCollection());
+			dataServiceMock.Setup(d => d.GetCategories()).Returns(new CategoryCacheEntryCollection());
 		}
 
         private SubscriptionManager CreateManager()
         {
-            return new SubscriptionManager(settingsMock.Object);
+            return new SubscriptionManager(settingsMock.Object, dataServiceMock.Object, loggingServiceMock.Object);
         }
 
         [Fact]
