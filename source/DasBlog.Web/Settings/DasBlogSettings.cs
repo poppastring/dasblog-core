@@ -24,54 +24,48 @@ namespace DasBlog.Web.Settings
 	{
 		private readonly string siteSecurityConfigFilePath;
 		private readonly ConfigFilePathsDataOption filePathDataOptions;
-		
+		private readonly IOptionsMonitor<SiteConfig> siteConfigMonitor;
+		private readonly IOptionsMonitor<MetaTags> metaTagsMonitor;
+		private readonly IOptionsMonitor<OEmbedProviders> embedProvidersMonitor;
+
 		public DasBlogSettings(IWebHostEnvironment env, IOptionsMonitor<SiteConfig> siteConfig, IOptionsMonitor<MetaTags> metaTagsConfig, 
-			                        IOptionsMonitor<OEmbedProviders> embedProvidersConfig, 
+									IOptionsMonitor<OEmbedProviders> embedProvidersConfig, 
 									ISiteSecurityConfig siteSecurityConfig, IOptions<ConfigFilePathsDataOption> optionsAccessor)
 		{
 			WebRootDirectory = env.ContentRootPath;
-			SiteConfiguration = siteConfig.CurrentValue;
-			OEmbedProviders = embedProvidersConfig.CurrentValue;
+			siteConfigMonitor = siteConfig;
+			metaTagsMonitor = metaTagsConfig;
+			embedProvidersMonitor = embedProvidersConfig;
 			SecurityConfiguration = siteSecurityConfig;
-			MetaTags = metaTagsConfig.CurrentValue;
 			filePathDataOptions = optionsAccessor.Value;
-
-			RssUrl = RelativeToRoot("feed/rss");
-			PingBackUrl = RelativeToRoot("feed/pingback");
-			CategoryUrl = RelativeToRoot("category");
-			ArchiveUrl = RelativeToRoot("archive");
-			MicroSummaryUrl = RelativeToRoot("site/microsummary");
-			RsdUrl = RelativeToRoot("feed/rsd");
-			ShortCutIconUrl = RelativeToRoot(string.Format("theme/{0}/favicon.ico", SiteConfiguration.Theme));
-			ThemeCssUrl = RelativeToRoot(string.Format("theme/{0}/custom.css", SiteConfiguration.Theme));
 
 			siteSecurityConfigFilePath = filePathDataOptions.SecurityConfigFilePath;
 		}
 
 		public string WebRootDirectory { get; }
 
-		public string PingBackUrl { get; }
+		public string PingBackUrl => RelativeToRoot("feed/pingback");
 
-		public string RssUrl { get; }
+		public string RssUrl => RelativeToRoot("feed/rss");
 
-		public string CategoryUrl { get; }
+		public string CategoryUrl => RelativeToRoot("category");
 
-		public string ArchiveUrl { get; }
+		public string ArchiveUrl => RelativeToRoot("archive");
 
-		public string MicroSummaryUrl { get; }
+		public string MicroSummaryUrl => RelativeToRoot("site/microsummary");
 
-		public string RsdUrl { get; }
+		public string RsdUrl => RelativeToRoot("feed/rsd");
 
-		public string ShortCutIconUrl { get; }
+		public string ShortCutIconUrl => RelativeToRoot(string.Format("theme/{0}/favicon.ico", SiteConfiguration.Theme));
 
-		public string ThemeCssUrl { get; }
-		
-		public IMetaTags MetaTags { get; set; }
+		public string ThemeCssUrl => RelativeToRoot(string.Format("theme/{0}/custom.css", SiteConfiguration.Theme));
 
-		public ISiteConfig SiteConfiguration { get; set;  }
+		public IMetaTags MetaTags => metaTagsMonitor.CurrentValue;
+
+		public ISiteConfig SiteConfiguration => siteConfigMonitor.CurrentValue;
 
 		public ISiteSecurityConfig SecurityConfiguration { get; }
-		public IOEmbedProviders OEmbedProviders { get;  set; }
+		public IOEmbedProviders OEmbedProviders => embedProvidersMonitor.CurrentValue;
 
 		private static Regex htmlFilterRegex = new Regex("<(?<end>/)?(?<name>\\w+)((\\s+(?<attNameValue>(?<attName>\\w+)(\\s*=\\s*(?:\"(?<attVal>[^\"]*)\"|'(?<attVal>[^']*)'|(?<attVal>[^'\">\\s]+)))?))+\\s*|\\s*)(?<self>/)?>",
 			RegexOptions.CultureInvariant | RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.Compiled);

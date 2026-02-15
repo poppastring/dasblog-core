@@ -89,7 +89,6 @@ namespace DasBlog.Web.Controllers
 				settings.Posts = posts;
 				return View("Settings", settings);
 			}
-			dasBlogSettings.SiteConfiguration = site;
 
 			if (!fileSystemBinaryManager.SaveMetaConfig(meta))
 			{
@@ -98,7 +97,6 @@ namespace DasBlog.Web.Controllers
 				settings.Posts = posts;
 				return View("Settings", settings);
 			}
-			dasBlogSettings.MetaTags = meta;
 
 			logger.LogInformation(new EventDataItem(EventCodes.Site, null, "Site settings updated"));
 

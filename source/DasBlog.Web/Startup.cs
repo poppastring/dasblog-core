@@ -195,7 +195,7 @@ namespace DasBlog.Web
 			services.AddTransient<SiteEmailReport>();
 
 			services
-				.AddTransient<IDasBlogSettings, DasBlogSettings>()
+				.AddSingleton<IDasBlogSettings, DasBlogSettings>()
 				.AddTransient<IUserStore<DasBlogUser>, DasBlogUserStore>()
 				.AddTransient<IRoleStore<DasBlogRole>, DasBlogUserRoleStore>()
 				.AddTransient<IPrincipal>(provider => provider.GetService<IHttpContextAccessor>().HttpContext.User)
