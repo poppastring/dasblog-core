@@ -6,6 +6,7 @@ using System.Xml.Serialization;
 using DasBlog.Services.ConfigFile;
 using DasBlog.Services.ConfigFile.Interfaces;
 using DasBlog.Services.FileManagement.Interfaces;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace DasBlog.Services.FileManagement
@@ -13,10 +14,12 @@ namespace DasBlog.Services.FileManagement
 	public class MetaConfigFileService : IConfigFileService<MetaTags>
 	{
 		private readonly ConfigFilePathsDataOption options;
+		private readonly ILogger<MetaConfigFileService> logger;
 
-		public MetaConfigFileService(IOptions<ConfigFilePathsDataOption> optionsAccessor)
+		public MetaConfigFileService(IOptions<ConfigFilePathsDataOption> optionsAccessor, ILogger<MetaConfigFileService> logger)
 		{
 			options = optionsAccessor.Value;
+			this.logger = logger;
 		}
 
 		public bool SaveConfig(MetaTags config)
@@ -35,8 +38,7 @@ namespace DasBlog.Services.FileManagement
 				}
 				catch (Exception e)
 				{
-					// TODO log
-					Console.WriteLine(e);
+					logger.LogError(e, "Failed to save meta tags configuration to {Path}", options.MetaConfigFilePath);
 					throw;
 				}
 			}

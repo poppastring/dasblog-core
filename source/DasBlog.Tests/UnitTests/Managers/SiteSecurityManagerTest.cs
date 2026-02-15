@@ -105,5 +105,20 @@ namespace DasBlog.Tests.UnitTests.Managers
             Assert.NotNull(user);
             Assert.Equal("test1@example.com", user.EmailAddress);
         }
+
+        [Fact]
+        public void Constructor_WithValidDependencies_ConstructsInstance()
+        {
+            var manager = CreateManager();
+            Assert.NotNull(manager);
+        }
+
+        [Fact]
+        public void GetUser_NonExistingUser_ReturnsNull()
+        {
+            var manager = CreateManager();
+            var user = manager.GetUser("nonexistent@example.com");
+            Assert.Null(user);
+        }
     }
 }
