@@ -1,4 +1,4 @@
-using DasBlog.Managers;
+﻿using DasBlog.Managers;
 using DasBlog.Managers.Interfaces;
 using DasBlog.Services;
 using DasBlog.Services.ActivityLogs;
@@ -63,6 +63,7 @@ namespace DasBlog.Web
 		public static IServiceCollection AddDasBlogServices(this IServiceCollection services, IWebHostEnvironment env)
 		{
 			services
+				.AddSingleton<IDasBlogSettings, DasBlogSettings>()
 				.AddSingleton(env.ContentRootFileProvider)
 				.AddSingleton<SiteHttpContext>()
 				.AddSingleton<IUserDataRepo, UserDataRepo>()
@@ -78,8 +79,7 @@ namespace DasBlog.Web
 				.AddSingleton<IConfigFileService<SiteSecurityConfigData>, SiteSecurityConfigFileService>()
 				.AddSingleton<IExternalEmbeddingHandler, ExternalEmbeddingHandler>();
 
-			services
-				.AddTransient<IDasBlogSettings, DasBlogSettings>()
+			services				
 				.AddTransient<IUserStore<DasBlogUser>, DasBlogUserStore>()
 				.AddTransient<IRoleStore<DasBlogRole>, DasBlogUserRoleStore>()
 				.AddTransient<IPrincipal>(provider => provider.GetService<IHttpContextAccessor>().HttpContext.User)

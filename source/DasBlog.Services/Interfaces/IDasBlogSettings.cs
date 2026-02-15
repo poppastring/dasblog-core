@@ -9,11 +9,11 @@ namespace DasBlog.Services
 {
 	public interface IDasBlogSettings : IUrlResolver, ITimeZoneService, IContentProcessor, IMailProvider, IUserManager
 	{
-		ISiteConfig SiteConfiguration { get; set; }
-		IMetaTags MetaTags { get; set; }
+		ISiteConfig SiteConfiguration { get; }
+		IMetaTags MetaTags { get; }
 		ISiteSecurityConfig SecurityConfiguration { get; }
 
-		IOEmbedProviders OEmbedProviders { get; set; }
+		IOEmbedProviders OEmbedProviders { get; }
 
 		string WebRootDirectory { get; }
 	}
