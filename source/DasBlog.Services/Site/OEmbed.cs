@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Xml.Serialization;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace DasBlog.Services.Site
 {
@@ -8,47 +8,47 @@ namespace DasBlog.Services.Site
 	[XmlRoot("oembed")]
 	public class OEmbed
 	{
-		[JsonProperty("url")]
+		[JsonPropertyName("url")]
 		[XmlElement(ElementName = "url")]
 		public string Url { get; set; }
 
-		[JsonProperty("author_name")]
+		[JsonPropertyName("author_name")]
 		[XmlElement(ElementName = "author_name")]
 		public string AuthorName { get; set; }
 
-		[JsonProperty("author_url")]
+		[JsonPropertyName("author_url")]
 		[XmlElement(ElementName = "author_url")]
 		public string AuthorUrl { get; set; }
 
-		[JsonProperty("html")]
+		[JsonPropertyName("html")]
 		[XmlElement(ElementName = "html")]
 		public string Html { get; set; }
 
-		[JsonProperty("width")]
+		[JsonPropertyName("width")]
 		[XmlElement(ElementName = "width")]
 		public int Width { get; set; }
 
-		[JsonProperty("height")]
+		[JsonPropertyName("height")]
 		[XmlElement(ElementName = "height")]
 		public object Height { get; set; }
 
-		[JsonProperty("type")]
+		[JsonPropertyName("type")]
 		[XmlElement(ElementName = "type")]
 		public string Type { get; set; }
 
-		[JsonProperty("cache_age")]
+		[JsonPropertyName("cache_age")]
 		[XmlElement(ElementName = "cache_age")]
 		public string CacheAge { get; set; }
 
-		[JsonProperty("provider_name")]
+		[JsonPropertyName("provider_name")]
 		[XmlElement(ElementName = "provider_name")]
 		public string ProviderName { get; set; }
 
-		[JsonProperty("provider_url")]
+		[JsonPropertyName("provider_url")]
 		[XmlElement(ElementName = "provider_url")]
 		public string ProviderUrl { get; set; }
 
-		[JsonProperty("version")]
+		[JsonPropertyName("version")]
 		[XmlElement(ElementName = "version")]
 		public string Version { get; set; }
 

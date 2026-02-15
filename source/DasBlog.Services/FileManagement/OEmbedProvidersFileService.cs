@@ -1,9 +1,9 @@
 ﻿using System;
 using System.IO;
+using System.Text.Json;
 using DasBlog.Services.ConfigFile;
 using DasBlog.Services.FileManagement.Interfaces;
 using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
 
 namespace DasBlog.Services.FileManagement
 {
@@ -18,12 +18,11 @@ namespace DasBlog.Services.FileManagement
 
 		public bool SaveConfig(OEmbedProviders config)
 		{
-			var ser = new JsonSerializer();
-			using (var writer = new StreamWriter(options.OEmbedProvidersFilePath))
+			using (var writer = new FileStream(options.OEmbedProvidersFilePath, FileMode.Create))
 			{
 				try
 				{
-					ser.Serialize(writer, config);
+					JsonSerializer.Serialize(writer, config);
 					return true;
 				}
 				catch (Exception e)

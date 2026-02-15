@@ -34,7 +34,6 @@
     <PackageVersion Include="NetEscapades.Extensions.Logging.RollingFile" Version="2.5.0" />
     <PackageVersion Include="NWebsec.AspNetCore.Middleware" Version="3.0.0" />
     <PackageVersion Include="HtmlAgilityPack" Version="1.11.71" />
-    <PackageVersion Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageVersion Include="Quartz.AspNetCore" Version="3.13.1" />
     <PackageVersion Include="Microsoft.Playwright" Version="1.48.0" />
     <PackageVersion Include="Xunit.SkippableFact" Version="1.4.13" />
