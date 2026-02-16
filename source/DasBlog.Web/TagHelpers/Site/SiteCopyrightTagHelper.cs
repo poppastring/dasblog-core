@@ -1,4 +1,4 @@
-﻿using DasBlog.Services;
+﻿using DasBlog.Services.ConfigFile.Interfaces;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using System;
 using System.Threading.Tasks;
@@ -7,11 +7,11 @@ namespace DasBlog.Web.TagHelpers
 {
 	public class SiteCopyrightTagHelper : TagHelper
 	{
-		private readonly IDasBlogSettings dasBlogSettings;
+		private readonly ISiteConfig siteConfig;
 
-		public SiteCopyrightTagHelper(IDasBlogSettings dasBlogSettings)
+		public SiteCopyrightTagHelper(ISiteConfig siteConfig)
 		{
-			this.dasBlogSettings = dasBlogSettings;
+			this.siteConfig = siteConfig;
 		}
 
 		public string Title { get; set; }
@@ -20,7 +20,7 @@ namespace DasBlog.Web.TagHelpers
 		{
 			output.TagName = "";
 			output.TagMode = TagMode.StartTagAndEndTag;
-			output.Content.SetHtmlContent(string.Format("\u00a9 {0} - {1}", DateTime.Now.Year, dasBlogSettings.SiteConfiguration.Copyright));
+			output.Content.SetHtmlContent(string.Format("\u00a9 {0} - {1}", DateTime.Now.Year, siteConfig.Copyright));
 		}
 
 		public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)

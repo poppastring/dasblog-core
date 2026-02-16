@@ -1,5 +1,5 @@
 ﻿using DasBlog.Core.Common;
-using DasBlog.Services;
+using DasBlog.Services.ConfigFile.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Razor.TagHelpers;
@@ -21,11 +21,11 @@ namespace DasBlog.Web.TagHelpers.Layout
 		public string ButtonClass { get; set; } = "btn";
 
 		private readonly IUrlHelper urlHelper;
-		private readonly IDasBlogSettings dasBlogSettings;
+		private readonly ISiteConfig siteConfig;
 
-		public SiteSearchBoxTagHelper(IDasBlogSettings dasBlogSettings, IHttpContextAccessor accessor)
+		public SiteSearchBoxTagHelper(ISiteConfig siteConfig, IHttpContextAccessor accessor)
 		{
-			this.dasBlogSettings = dasBlogSettings;
+			this.siteConfig = siteConfig;
 			urlHelper = accessor.HttpContext?.Items[typeof(IUrlHelper)] as IUrlHelper;
 			if (urlHelper == null)
 			{
@@ -46,7 +46,7 @@ namespace DasBlog.Web.TagHelpers.Layout
 			}
 			else
 			{
-				var baseUri = new Uri(dasBlogSettings.SiteConfiguration.Root);
+				var baseUri = new Uri(siteConfig.Root);
 				var myUri = new Uri(baseUri, urlHelper.RouteUrl(Constants.SearcherRouteName));
 
 				actionUrl = myUri.AbsoluteUri;

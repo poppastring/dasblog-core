@@ -223,9 +223,8 @@ namespace DasBlog.Tests.UnitTests.UI
 		public void SiteDescriptionTagHelper_RendersDescription()
 		{
 			var dasBlogSettingsMock = new DasBlogSettingsMock();
-			var dasBlogSettings = dasBlogSettingsMock.CreateSettings();
-			dasBlogSettings.SiteConfiguration.Description = "Test Description";
-			var sut = new DasBlog.Web.TagHelpers.SiteDescriptionTagHelper(dasBlogSettings);
+			dasBlogSettingsMock.siteConfig.Description = "Test Description";
+			var sut = new DasBlog.Web.TagHelpers.SiteDescriptionTagHelper(dasBlogSettingsMock.siteConfig);
 			var context = new TagHelperContext(new TagHelperAttributeList(), new Dictionary<object, object>(), Guid.NewGuid().ToString("N"));
 			var output = new TagHelperOutput("sitedescription", new TagHelperAttributeList(), (useCachedResult, htmlEncoder) =>
 			{
@@ -242,9 +241,8 @@ namespace DasBlog.Tests.UnitTests.UI
 		public void SiteRootTagHelper_RendersRoot()
 		{
 			var dasBlogSettingsMock = new DasBlogSettingsMock();
-			var dasBlogSettings = dasBlogSettingsMock.CreateSettings();
-			dasBlogSettings.SiteConfiguration.Root = "https://example.com/";
-			var sut = new DasBlog.Web.TagHelpers.SiteRootTagHelper(dasBlogSettings);
+			dasBlogSettingsMock.siteConfig.Root = "https://example.com/";
+			var sut = new DasBlog.Web.TagHelpers.SiteRootTagHelper(dasBlogSettingsMock.siteConfig);
 			var context = new TagHelperContext(new TagHelperAttributeList(), new Dictionary<object, object>(), Guid.NewGuid().ToString("N"));
 			var output = new TagHelperOutput("siteroot", new TagHelperAttributeList(), (useCachedResult, htmlEncoder) =>
 			{
@@ -261,9 +259,8 @@ namespace DasBlog.Tests.UnitTests.UI
 		public void SiteTitleTagHelper_RendersTitle()
 		{
 			var dasBlogSettingsMock = new DasBlogSettingsMock();
-			var dasBlogSettings = dasBlogSettingsMock.CreateSettings();
-			dasBlogSettings.SiteConfiguration.Title = "Test Title";
-			var sut = new DasBlog.Web.TagHelpers.SiteTitleTagHelper(dasBlogSettings);
+			dasBlogSettingsMock.siteConfig.Title = "Test Title";
+			var sut = new DasBlog.Web.TagHelpers.SiteTitleTagHelper(dasBlogSettingsMock.siteConfig);
 			var context = new TagHelperContext(new TagHelperAttributeList(), new Dictionary<object, object>(), Guid.NewGuid().ToString("N"));
 			var output = new TagHelperOutput("sitetitle", new TagHelperAttributeList(), (useCachedResult, htmlEncoder) =>
 			{

@@ -28,6 +28,7 @@ using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using newtelligence.DasBlog.Runtime;
 using reCAPTCHA.AspNetCore;
 using System;
@@ -85,6 +86,7 @@ namespace DasBlog.Web
 				.AddSingleton<IContentProcessor>(sp => sp.GetRequiredService<IDasBlogSettings>())
 				.AddSingleton<IMailProvider>(sp => sp.GetRequiredService<IDasBlogSettings>())
 				.AddSingleton<IUserManager>(sp => sp.GetRequiredService<IDasBlogSettings>())
+				.AddSingleton<ISiteConfig>(sp => sp.GetRequiredService<IOptionsMonitor<SiteConfig>>().CurrentValue)
 				.AddSingleton(env.ContentRootFileProvider)
 				.AddSingleton<SiteHttpContext>()
 				.AddSingleton<IUserDataRepo, UserDataRepo>()

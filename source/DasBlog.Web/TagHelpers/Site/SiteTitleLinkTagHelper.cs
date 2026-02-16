@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using DasBlog.Services;
+using DasBlog.Services.ConfigFile.Interfaces;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 
 namespace DasBlog.Web.TagHelpers.Post
@@ -8,11 +8,11 @@ namespace DasBlog.Web.TagHelpers.Post
 	{
 		public string Css { get; set; }
 
-		private readonly IDasBlogSettings dasBlogSettings;
+		private readonly ISiteConfig siteConfig;
 
-		public SiteTitleLinkTagHelper(IDasBlogSettings dasBlogSettings)
+		public SiteTitleLinkTagHelper(ISiteConfig siteConfig)
 		{
-			this.dasBlogSettings = dasBlogSettings;
+			this.siteConfig = siteConfig;
 		}
 
 		public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
@@ -27,8 +27,8 @@ namespace DasBlog.Web.TagHelpers.Post
 				output.Attributes.SetAttribute("class", Css);
 			}
 
-			output.Attributes.SetAttribute("href", dasBlogSettings.SiteConfiguration.Root);
-			output.Content.SetHtmlContent(dasBlogSettings.SiteConfiguration.Title);
+			output.Attributes.SetAttribute("href", siteConfig.Root);
+			output.Content.SetHtmlContent(siteConfig.Title);
 		}
 
 	}

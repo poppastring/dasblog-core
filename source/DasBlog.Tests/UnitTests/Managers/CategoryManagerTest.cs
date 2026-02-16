@@ -47,7 +47,7 @@ namespace DasBlog.Tests.UnitTests.Managers
 
         private CategoryManager CreateManager()
         {
-            return new CategoryManager(settingsMock.Object, dataServiceMock.Object);
+            return new CategoryManager(siteConfigMock.Object, dataServiceMock.Object);
         }
 
         [Fact]
