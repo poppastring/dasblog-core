@@ -12,12 +12,12 @@ namespace DasBlog.Web.TagHelpers.Post
 
 		public PostViewModel Post { get; set; }
 
-		private readonly IDasBlogSettings dasBlogSettings;
+		private readonly IUrlResolver urlResolver;
 		private const string CATEGORY_ITEM_TEMPLATE = "<a href='{0}' class='dbc-a-category'>{1}</a>";
 
-		public PostCategoriesListTagHelper(IDasBlogSettings dasBlogSettings)
+		public PostCategoriesListTagHelper(IUrlResolver urlResolver)
 		{
-			this.dasBlogSettings = dasBlogSettings;
+			this.urlResolver = urlResolver;
 		}
 
 		public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
@@ -42,7 +42,7 @@ namespace DasBlog.Web.TagHelpers.Post
 
 			foreach (var category in Categories)
 			{
-				categorylist = categorylist + string.Format(CATEGORY_ITEM_TEMPLATE, dasBlogSettings.GetCategoryViewUrl(category.CategoryUrl), category.Category) + format;
+				categorylist = categorylist + string.Format(CATEGORY_ITEM_TEMPLATE, urlResolver.GetCategoryViewUrl(category.CategoryUrl), category.Category) + format;
 			}
 
 			if (!string.IsNullOrWhiteSpace(categorylist))

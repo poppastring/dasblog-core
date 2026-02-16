@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using DasBlog.Services;
+﻿using System.Threading.Tasks;
+using DasBlog.Services.ConfigFile.Interfaces;
 using DasBlog.Web.Models.BlogViewModels;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 
@@ -14,12 +11,12 @@ namespace DasBlog.Web.TagHelpers.Comments
 
 		public string Css { get; set; }
 
-		private readonly IDasBlogSettings dasBlogSettings;
+		private readonly ISiteConfig siteConfig;
 		private const string gravatarLink = "//www.gravatar.com/avatar/{0}?rating={1}&size={2}&default={3}";
 
-		public CommentGravatarImageTagHelper(IDasBlogSettings dasBlogSettings)
+		public CommentGravatarImageTagHelper(ISiteConfig siteConfig)
 		{
-			this.dasBlogSettings = dasBlogSettings;
+			this.siteConfig = siteConfig;
 		}
 
 		public override void Process(TagHelperContext context, TagHelperOutput output)
@@ -27,8 +24,8 @@ namespace DasBlog.Web.TagHelpers.Comments
 			output.TagName = "img";
 			output.TagMode = TagMode.SelfClosing;
 			output.Attributes.SetAttribute("src", string.Format(gravatarLink, Comment.GravatarHashId, 
-					dasBlogSettings.SiteConfiguration.CommentsGravatarRating, dasBlogSettings.SiteConfiguration.CommentsGravatarSize, 
-					dasBlogSettings.SiteConfiguration.CommentsGravatarNoImgPath));
+					siteConfig.CommentsGravatarRating, siteConfig.CommentsGravatarSize, 
+					siteConfig.CommentsGravatarNoImgPath));
 
 			output.Attributes.SetAttribute("alt", "gravatar");
 

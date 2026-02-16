@@ -1,19 +1,19 @@
-﻿using DasBlog.Services;
+﻿using DasBlog.Services.ConfigFile.Interfaces;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 
 namespace DasBlog.Web.TagHelpers.RichEdit
 {
 	public class NicEditBuilder : IRichEditBuilder
 	{
-		private readonly IDasBlogSettings dasBlogSettings;
+		private readonly ISiteConfig siteConfig;
 		private const string NIC_EDIT_SERVICE_URL = "{0}/js/nicedit/nicEdit-latest.js";
 
 		private const string INIT_SCRIPT_TEMPLATE = @"
 		<script type=""text/javascript"">area1 = new nicEditor({{fullPanel : true}}).panelInstance('{0}',{{hasPanel : true}});</script>";
 
-		public NicEditBuilder(IDasBlogSettings dasBlogSettings)
+		public NicEditBuilder(ISiteConfig siteConfig)
 		{
-			this.dasBlogSettings = dasBlogSettings;
+			this.siteConfig = siteConfig;
 		}
 
 		public void ProcessControl(RichEditTagHelper tagHelper, TagHelperContext context, TagHelperOutput output)
@@ -30,7 +30,7 @@ namespace DasBlog.Web.TagHelpers.RichEdit
 		{
 			output.TagName = "script";
 			output.TagMode = TagMode.StartTagAndEndTag;
-			output.Attributes.SetAttribute("src", string.Format(NIC_EDIT_SERVICE_URL, dasBlogSettings.SiteConfiguration.Root));
+			output.Attributes.SetAttribute("src", string.Format(NIC_EDIT_SERVICE_URL, siteConfig.Root));
 			string htmlContent = string.Format(INIT_SCRIPT_TEMPLATE, tagHeelper.ControlId);
 			output.PostElement.SetHtmlContent(htmlContent);
 		}

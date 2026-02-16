@@ -244,12 +244,13 @@ namespace DasBlog.Web
 
 		private static IRichEditBuilder SelectRichEditor(IServiceProvider serviceProvider)
 		{
-			var entryEditControl = serviceProvider.GetService<IDasBlogSettings>().SiteConfiguration.EntryEditControl.ToLower();
+			var siteConfig = serviceProvider.GetRequiredService<ISiteConfig>();
+			var entryEditControl = siteConfig.EntryEditControl.ToLower();
 
 			return entryEditControl switch
 			{
-				Constants.TinyMceEditor => new TinyMceBuilder(serviceProvider.GetService<IDasBlogSettings>()),
-				Constants.NicEditEditor => new NicEditBuilder(serviceProvider.GetService<IDasBlogSettings>()),
+				Constants.TinyMceEditor => new TinyMceBuilder(siteConfig, serviceProvider.GetRequiredService<IUrlResolver>()),
+				Constants.NicEditEditor => new NicEditBuilder(siteConfig),
 				Constants.TextAreaEditor => new TextAreaBuilder(),
 				Constants.FroalaEditor => new FroalaBuilder(),
 				_ => throw new Exception($"Attempt to use unknown rich edit control, {entryEditControl}")

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using DasBlog.Services;
+﻿using System.Threading.Tasks;
 using DasBlog.Web.Models.BlogViewModels;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 
@@ -14,13 +10,7 @@ namespace DasBlog.Web.TagHelpers.Comments
 
 		public bool Admin { get; set; } = false;
 
-		private readonly IDasBlogSettings dasBlogSettings;
 		private const string COMMENTTEXT_MSG = "Are you sure you want to delete the comment from '{0}'?";
-
-		public CommentDeleteLinkTagHelper(IDasBlogSettings dasBlogSettings) 
-		{
-			this.dasBlogSettings = dasBlogSettings;
-		}
 
 		public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
 		{

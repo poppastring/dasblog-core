@@ -9,13 +9,13 @@ namespace DasBlog.Web.TagHelpers.Comments
 	{
 		public PostViewModel Post { get; set; }
 
-		private readonly IDasBlogSettings dasBlogSettings;
+		private readonly IUrlResolver urlResolver;
 
 		private const string COMMENT_MANAGEMENT_URL = "admin/manage-comments/{0}";
 
-		public CommentManagementLinkTagHelper(IDasBlogSettings dasBlogSettings)
+		public CommentManagementLinkTagHelper(IUrlResolver urlResolver)
 		{
-			this.dasBlogSettings = dasBlogSettings;
+			this.urlResolver = urlResolver;
 		}
 
 		public override void Process(TagHelperContext context, TagHelperOutput output)
@@ -25,7 +25,7 @@ namespace DasBlog.Web.TagHelpers.Comments
 
 			output.TagName = "a";
 			output.TagMode = TagMode.StartTagAndEndTag;
-			output.Attributes.SetAttribute("href", dasBlogSettings.RelativeToRoot(url));
+			output.Attributes.SetAttribute("href", urlResolver.RelativeToRoot(url));
 			output.Attributes.SetAttribute("class", "dbc-comment-management-link");
 
 			output.Content.SetHtmlContent(message);

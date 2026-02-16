@@ -10,12 +10,12 @@ namespace DasBlog.Web.TagHelpers.Post
 	{
 		public PostViewModel Post { get; set; }
 
-		private IDasBlogSettings dasBlogSettings;
+		private readonly IContentProcessor contentProcessor;
 		private const string READTIMEMINUTES = "{0} min read";
 
-		public PostReadTimeTagHelper(IDasBlogSettings dasBlogSettings)
+		public PostReadTimeTagHelper(IContentProcessor contentProcessor)
 		{
-			this.dasBlogSettings = dasBlogSettings;
+			this.contentProcessor = contentProcessor;
 		}
 
 		public override void Process(TagHelperContext context, TagHelperOutput output)
@@ -25,7 +25,7 @@ namespace DasBlog.Web.TagHelpers.Post
 
 			var imgMinutes = (double)(numberImages*30)/60;
 			var delimiters = new char[] { ' ', '\r', '\n' };
-			var minute = Math.Round((double)dasBlogSettings.FilterHtml(Post.Content).Split(delimiters, StringSplitOptions.RemoveEmptyEntries).Length / 200) + Math.Round(imgMinutes, MidpointRounding.AwayFromZero);
+			var minute = Math.Round((double)contentProcessor.FilterHtml(Post.Content).Split(delimiters, StringSplitOptions.RemoveEmptyEntries).Length / 200) + Math.Round(imgMinutes, MidpointRounding.AwayFromZero);
 			output.TagName = "span";
 			output.TagMode = TagMode.StartTagAndEndTag;
 			output.Attributes.SetAttribute("class", "dbc-post-readtime");
