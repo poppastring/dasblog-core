@@ -11,7 +11,7 @@ using Microsoft.Extensions.Options;
 
 namespace DasBlog.Test.Integration
 {
-	public class PlaywrightServerFactory<TStartup> : WebApplicationFactory<Startup> where TStartup : class
+	public class PlaywrightServerFactory<TEntryPoint> : WebApplicationFactory<Program> where TEntryPoint : class
 	{
 		IWebHost _host;
 		public string RootUri { get; set; }
@@ -21,22 +21,6 @@ namespace DasBlog.Test.Integration
 			if (AreWe.InDockerOrBuildServer) return;
 
 			ClientOptions.BaseAddress = new Uri("https://localhost");
-		}
-
-		protected override TestServer CreateServer(IWebHostBuilder builder)
-		{
-			_host = builder.Build();
-			_host.Start();
-			RootUri = _host.ServerFeatures.Get<IServerAddressesFeature>().Addresses.LastOrDefault();
-
-			// Update SiteConfig.Root to match the actual server URL
-			var siteConfig = _host.Services.GetService<IOptionsMonitor<SiteConfig>>();
-			if (siteConfig != null && !string.IsNullOrEmpty(RootUri))
-			{
-				siteConfig.CurrentValue.Root = RootUri;
-			}
-
-			return new TestServer(new WebHostBuilder().UseStartup<TStartup>());
 		}
 
 		protected override void Dispose(bool disposing)

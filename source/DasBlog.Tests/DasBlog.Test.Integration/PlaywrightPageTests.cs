@@ -8,15 +8,15 @@ using Xunit;
 namespace DasBlog.Test.Integration
 {
 	[Trait("Category", "SkipWhenLiveUnitTesting")]
-	public class PlaywrightPageTests : IClassFixture<PlaywrightServerFactory<Startup>>, IAsyncLifetime
+	public class PlaywrightPageTests : IClassFixture<PlaywrightServerFactory<DasBlog.Web.Program>>, IAsyncLifetime
 	{
 		public HttpClient Client { get; }
-		public PlaywrightServerFactory<Startup> Server { get; }
+		public PlaywrightServerFactory<DasBlog.Web.Program> Server { get; }
 		private IPlaywright _playwright;
 		private IBrowser _browser;
 		public IPage Page { get; private set; }
 
-		public PlaywrightPageTests(PlaywrightServerFactory<Startup> server)
+		public PlaywrightPageTests(PlaywrightServerFactory<DasBlog.Web.Program> server)
 		{
 			Console.WriteLine("In Docker?" + AreWe.InDockerOrBuildServer);
 			if (AreWe.InDockerOrBuildServer) return;
