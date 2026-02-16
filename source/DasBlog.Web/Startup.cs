@@ -47,24 +47,8 @@ namespace DasBlog.Web
 {
 	public class Startup
 	{
-		private readonly string SiteSecurityConfigPath;
-		private readonly string IISUrlRewriteConfigPath;
-		private readonly string SiteConfigPath;
-		private readonly string MetaConfigPath;
-		private readonly string ThemeFolderPath;
-		private readonly string LogFolderPath;
-		private readonly string BinariesPath;
-		private readonly string BinariesUrlRelativePath;
-		private readonly string OEmbedProvidersPath;
-
-		private readonly string DefaultSiteConfigPath;
-		private readonly string DefaultMetaConfigPath;
-		private readonly string DefaultOEmbedProvidersConfigPath;
-		private readonly string DefaultSiteSecurityConfigPath;
-		private readonly string DefaultIISUrlRewriteConfigPath;
-
 		private readonly IWebHostEnvironment hostingEnvironment;
-		
+		private readonly IDasBlogPathResolver pathResolver;
 
 		public IConfiguration Configuration { get; }
 
@@ -72,41 +56,28 @@ namespace DasBlog.Web
 		{
 			hostingEnvironment = env;
 
-			SiteSecurityConfigPath = Path.Combine("Config", $"siteSecurity.{env.EnvironmentName}.config");
-			DefaultSiteSecurityConfigPath = Path.Combine("Config", "siteSecurity.config");
-			IISUrlRewriteConfigPath = Path.Combine("Config", $"IISUrlRewrite.{env.EnvironmentName}.config");
-			DefaultIISUrlRewriteConfigPath = Path.Combine("Config", "IISUrlRewrite.config");
+			DasBlogPathResolver.EnsureDefaultConfigFiles(env.ContentRootPath, env.EnvironmentName);
 
-			SiteConfigPath = Path.Combine("Config", $"site.{env.EnvironmentName}.config");
-			DefaultSiteConfigPath = Path.Combine("Config", $"site.config");
-			MetaConfigPath = Path.Combine("Config", $"meta.{env.EnvironmentName}.config");
-			DefaultMetaConfigPath = Path.Combine("Config", $"meta.config");
-			OEmbedProvidersPath = DefaultOEmbedProvidersConfigPath = Path.Combine("Config", $"oembed-providers.json");
-
-			ConfigFileInitializationPrep();
+			var defaultSiteConfigPath = Path.Combine("Config", "site.config");
+			var siteConfigPath = Path.Combine("Config", $"site.{env.EnvironmentName}.config");
+			var defaultMetaConfigPath = Path.Combine("Config", "meta.config");
+			var metaConfigPath = Path.Combine("Config", $"meta.{env.EnvironmentName}.config");
+			var oembedProvidersPath = Path.Combine("Config", "oembed-providers.json");
 
 			var builder = new ConfigurationBuilder()
 				.SetBasePath(env.ContentRootPath)
-				.AddXmlFile(DefaultSiteConfigPath, optional: false, reloadOnChange: true)
-				.AddXmlFile(SiteConfigPath, optional: true, reloadOnChange: true)
-				.AddXmlFile(DefaultMetaConfigPath, optional: false, reloadOnChange: true)
-				.AddXmlFile(MetaConfigPath, optional: true, reloadOnChange: true)
+				.AddXmlFile(defaultSiteConfigPath, optional: false, reloadOnChange: true)
+				.AddXmlFile(siteConfigPath, optional: true, reloadOnChange: true)
+				.AddXmlFile(defaultMetaConfigPath, optional: false, reloadOnChange: true)
+				.AddXmlFile(metaConfigPath, optional: true, reloadOnChange: true)
 				.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
 				.AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
-				.AddJsonFile(DefaultOEmbedProvidersConfigPath, optional: true, reloadOnChange: true)
+				.AddJsonFile(oembedProvidersPath, optional: true, reloadOnChange: true)
 				.AddEnvironmentVariables();
 
 			Configuration = builder.Build();
 
-			// Ensure absolute paths - explicitly use ContentRootPath for logs
-			var logDirFromConfig = Configuration.GetSection("LogDir").Value ?? "logs";
-			LogFolderPath = Path.IsPathRooted(logDirFromConfig) 
-				? logDirFromConfig 
-				: Path.Combine(env.ContentRootPath, logDirFromConfig);
-
-			BinariesPath = new DirectoryInfo(Path.Combine(env.ContentRootPath, Configuration.GetValue<string>("BinariesDir"))).FullName;
-			ThemeFolderPath = new DirectoryInfo(Path.Combine(env.ContentRootPath, "Themes", Configuration.GetSection("Theme").Value)).FullName;
-			BinariesUrlRelativePath = "content/binary";
+			pathResolver = new DasBlogPathResolver(env.ContentRootPath, env.EnvironmentName, Configuration);
 		}
 
 		// This method gets called by the runtime. Use this method to add services to the container.
@@ -116,7 +87,7 @@ namespace DasBlog.Web
 
 			services.AddLogging(builder =>
 			{
-				builder.AddFile(opts => opts.LogDirectory = LogFolderPath);
+				builder.AddFile(opts => opts.LogDirectory = pathResolver.LogFolderPath);
 			});
 
 			services.AddOptions();
@@ -129,20 +100,22 @@ namespace DasBlog.Web
 			services.Configure<OEmbedProviders>(Configuration);
 			services.AddSingleton<AppVersionInfo>();
 
+			services.AddSingleton<IDasBlogPathResolver>(pathResolver);
+
 			services.Configure<ConfigFilePathsDataOption>(options =>
 			{
-				options.SiteConfigFilePath = Path.Combine(hostingEnvironment.ContentRootPath, SiteConfigPath);
-				options.MetaConfigFilePath = Path.Combine(hostingEnvironment.ContentRootPath, MetaConfigPath);
-				options.OEmbedProvidersFilePath = Path.Combine(hostingEnvironment.ContentRootPath, OEmbedProvidersPath);
-				options.SecurityConfigFilePath = Path.Combine(hostingEnvironment.ContentRootPath, SiteSecurityConfigPath);
-				options.IISUrlRewriteFilePath = Path.Combine(hostingEnvironment.ContentRootPath, IISUrlRewriteConfigPath);
-				options.ThemesFolder = ThemeFolderPath;
-				options.BinaryFolder = BinariesPath;
-				options.BinaryUrlRelative = string.Format("{0}/", BinariesUrlRelativePath);
+				options.SiteConfigFilePath = pathResolver.SiteConfigFilePath;
+				options.MetaConfigFilePath = pathResolver.MetaConfigFilePath;
+				options.OEmbedProvidersFilePath = pathResolver.OEmbedProvidersFilePath;
+				options.SecurityConfigFilePath = pathResolver.SecurityConfigFilePath;
+				options.IISUrlRewriteFilePath = pathResolver.IISUrlRewriteFilePath;
+				options.ThemesFolder = pathResolver.ThemeFolderPath;
+				options.BinaryFolder = pathResolver.BinariesPath;
+				options.BinaryUrlRelative = $"{pathResolver.BinariesUrlRelativePath}/";
 			});
 
 			services.Configure<ActivityRepoOptions>(options
-			  => options.Path = LogFolderPath);
+			  => options.Path = pathResolver.LogFolderPath);
 
 			//Important if you're using Azure, hosting on Nginx, or behind any reverse proxy
 			services.Configure<ForwardedHeadersOptions>(options =>
@@ -234,7 +207,7 @@ namespace DasBlog.Web
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-		public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IDasBlogSettings dasBlogSettings)
+		public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IDasBlogSettings dasBlogSettings, IDasBlogPathResolver paths)
 		{
 			(var siteOk, var siteError) = RepairSite(app);
 
@@ -267,7 +240,7 @@ namespace DasBlog.Web
 			}
 
 			var options = new RewriteOptions()
-				 .AddIISUrlRewrite(env.ContentRootFileProvider, IISUrlRewriteConfigPath);
+				 .AddIISUrlRewrite(env.ContentRootFileProvider, paths.IISUrlRewriteRelativePath);
 
 			app.UseRewriter(options);
 			app.UseRouting();
@@ -305,15 +278,15 @@ namespace DasBlog.Web
 
 			app.UseStaticFiles(new StaticFileOptions()
 			{
-				FileProvider = new PhysicalFileProvider(BinariesPath),
-				RequestPath = string.Format("/{0}", BinariesUrlRelativePath),
+				FileProvider = new PhysicalFileProvider(paths.BinariesPath),
+				RequestPath = $"/{paths.BinariesUrlRelativePath}",
 				OnPrepareResponse = cacheControlPrepResponse
 			});
 
 
 			app.UseStaticFiles(new StaticFileOptions
 			{
-				FileProvider = new PhysicalFileProvider(Path.Combine(env.ContentRootPath, "content/radioStories")),
+				FileProvider = new PhysicalFileProvider(paths.RadioStoriesFolderPath),
 				RequestPath = "/content/radioStories",
 				OnPrepareResponse = cacheControlPrepResponse
 			});
@@ -463,19 +436,6 @@ namespace DasBlog.Web
 			}
 
 			return richEditBuilder;
-		}
-
-		private void ConfigFileInitializationPrep()
-		{
-			if (!File.Exists(Path.Combine(hostingEnvironment.ContentRootPath, SiteSecurityConfigPath)))
-			{
-				File.Copy(Path.Combine(hostingEnvironment.ContentRootPath, DefaultSiteSecurityConfigPath), Path.Combine(hostingEnvironment.ContentRootPath, SiteSecurityConfigPath));
-			}
-
-			if (!File.Exists(Path.Combine(hostingEnvironment.ContentRootPath, IISUrlRewriteConfigPath)))
-			{
-				File.Copy(Path.Combine(hostingEnvironment.ContentRootPath, DefaultIISUrlRewriteConfigPath), Path.Combine(hostingEnvironment.ContentRootPath, IISUrlRewriteConfigPath));
-			}
 		}
 	}
 }

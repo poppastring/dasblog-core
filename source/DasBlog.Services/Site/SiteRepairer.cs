@@ -1,23 +1,20 @@
 ﻿using System;
 using System.IO;
+using DasBlog.Services.FileManagement;
 
 namespace DasBlog.Services.Site
 {
 	public class SiteRepairer : ISiteRepairer
 	{
-		private readonly string binariesPath = string.Empty;
-		private readonly string themeFolder = string.Empty;
-		private readonly string radioStoriesFolder = string.Empty;
+		private readonly string binariesPath;
+		private readonly string themeFolder;
+		private readonly string radioStoriesFolder;
 
-		public SiteRepairer(IDasBlogSettings dasBlogSettings)
+		public SiteRepairer(IDasBlogPathResolver pathResolver)
 		{
-			binariesPath = new DirectoryInfo(Path.Combine(dasBlogSettings.WebRootDirectory,
-								dasBlogSettings.SiteConfiguration.BinariesDir.TrimStart('~', '/'))).FullName;
-
-			themeFolder = new DirectoryInfo(Path.Combine(dasBlogSettings.WebRootDirectory, "Themes",
-								dasBlogSettings.SiteConfiguration.Theme)).FullName;
-
-			radioStoriesFolder = new DirectoryInfo(Path.Combine(dasBlogSettings.WebRootDirectory, "content/radioStories")).FullName;
+			binariesPath = pathResolver.BinariesPath;
+			themeFolder = pathResolver.ThemeFolderPath;
+			radioStoriesFolder = pathResolver.RadioStoriesFolderPath;
 		}
 
 		public (bool result, string errorMessage) RepairSite()

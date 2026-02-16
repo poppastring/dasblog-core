@@ -13,7 +13,6 @@ using DasBlog.Web.Settings;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using newtelligence.DasBlog.Runtime;
-using System.IO;
 using System.Security.Principal;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -27,16 +26,14 @@ namespace DasBlog.Web
 			services
 				.AddSingleton<ILoggingDataService>(sp =>
 				{
-					var settings = sp.GetRequiredService<IDasBlogSettings>();
-					return LoggingDataServiceFactory.GetService(
-						Path.Combine(settings.WebRootDirectory, settings.SiteConfiguration.LogDir));
+					var paths = sp.GetRequiredService<IDasBlogPathResolver>();
+					return LoggingDataServiceFactory.GetService(paths.LogFolderPath);
 				})
 				.AddSingleton<IBlogDataService>(sp =>
 				{
-					var settings = sp.GetRequiredService<IDasBlogSettings>();
+					var paths = sp.GetRequiredService<IDasBlogPathResolver>();
 					var loggingService = sp.GetRequiredService<ILoggingDataService>();
-					return BlogDataServiceFactory.GetService(
-						Path.Combine(settings.WebRootDirectory, settings.SiteConfiguration.ContentDir), loggingService);
+					return BlogDataServiceFactory.GetService(paths.ContentFolderPath, loggingService);
 				});
 
 			return services;
