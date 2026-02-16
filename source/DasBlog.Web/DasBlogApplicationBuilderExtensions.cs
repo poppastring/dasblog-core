@@ -63,7 +63,6 @@ namespace DasBlog.Web
 		public static IApplicationBuilder UseDasBlogSecurityHeaders(this IApplicationBuilder app, IConfiguration configuration)
 		{
 			app.UseXContentTypeOptions();
-			app.UseXXssProtection(options => options.EnabledWithBlockMode());
 			app.UseXfo(options => options.SameOrigin());
 			app.UseReferrerPolicy(opts => opts.NoReferrerWhenDowngrade());
 
