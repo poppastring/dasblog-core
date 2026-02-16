@@ -19,28 +19,23 @@ namespace DasBlog.Services.Site
 
 		public (bool result, string errorMessage) RepairSite()
 		{
+			string currentFolder = null;
 			try
 			{
-				if (!Directory.Exists(binariesPath))
+				foreach (var folder in new[] { binariesPath, themeFolder, radioStoriesFolder })
 				{
-					Directory.CreateDirectory(binariesPath);
-				}
-
-				if (!Directory.Exists(themeFolder))
-				{
-					Directory.CreateDirectory(themeFolder);
-				}
-
-				if (!Directory.Exists(radioStoriesFolder))
-				{
-					Directory.CreateDirectory(radioStoriesFolder);
+					currentFolder = folder;
+					if (!Directory.Exists(folder))
+					{
+						Directory.CreateDirectory(folder);
+					}
 				}
 
 				return (true, string.Empty);
 			}
 			catch (Exception e)
 			{
-				return (false, $"Failed to start service.  Failed to create {binariesPath}.  Detail: {e.Message}");
+				return (false, $"Failed to start service. Failed to create {currentFolder}. Detail: {e.Message}");
 			}
 		}
 	}
