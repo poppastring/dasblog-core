@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Net.Http;
 using System.Threading.Tasks;
 using DasBlog.Web;
 using Microsoft.Playwright;
@@ -10,7 +9,6 @@ namespace DasBlog.Test.Integration
 	[Trait("Category", "SkipWhenLiveUnitTesting")]
 	public class PlaywrightPageTests : IClassFixture<PlaywrightServerFactory<DasBlog.Web.Program>>, IAsyncLifetime
 	{
-		public HttpClient Client { get; }
 		public PlaywrightServerFactory<DasBlog.Web.Program> Server { get; }
 		private IPlaywright _playwright;
 		private IBrowser _browser;
@@ -21,7 +19,8 @@ namespace DasBlog.Test.Integration
 			Console.WriteLine("In Docker?" + AreWe.InDockerOrBuildServer);
 			if (AreWe.InDockerOrBuildServer) return;
 			Server = server;
-			Client = server.CreateClient();
+           // Trigger host creation (starts real Kestrel server and sets RootUri)
+			Server.EnsureStarted();
 		}
 
 		public async Task InitializeAsync()
