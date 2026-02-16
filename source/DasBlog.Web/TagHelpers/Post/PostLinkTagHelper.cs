@@ -15,24 +15,24 @@ namespace DasBlog.Web.TagHelpers.Post
 
 		public string Css { get; set; }
 
-		private readonly IDasBlogSettings dasBlogSettings;
+		private readonly IUrlResolver urlResolver;
 
-		public PostLinkTagHelper(IDasBlogSettings dasBlogSettings)
-		{
-			this.dasBlogSettings = dasBlogSettings;
-		}
-
-		public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
-		{
-			output.TagMode = TagMode.StartTagAndEndTag;
-			output.TagName = "a";
-
-			if (!string.IsNullOrEmpty(Css))
+			public PostLinkTagHelper(IUrlResolver urlResolver)
 			{
-				output.Attributes.SetAttribute("class", Css);
+				this.urlResolver = urlResolver;
 			}
 
-			output.Attributes.SetAttribute("href", dasBlogSettings.RelativeToRoot(Post.PermaLink));
+			public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
+			{
+				output.TagMode = TagMode.StartTagAndEndTag;
+				output.TagName = "a";
+
+				if (!string.IsNullOrEmpty(Css))
+				{
+					output.Attributes.SetAttribute("class", Css);
+				}
+
+				output.Attributes.SetAttribute("href", urlResolver.RelativeToRoot(Post.PermaLink));
 			await Task.CompletedTask;
 		}
 	}

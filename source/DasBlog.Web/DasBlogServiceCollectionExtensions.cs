@@ -80,6 +80,11 @@ namespace DasBlog.Web
 		{
 			services
 				.AddSingleton<IDasBlogSettings, DasBlogSettings>()
+				.AddSingleton<IUrlResolver>(sp => sp.GetRequiredService<IDasBlogSettings>())
+				.AddSingleton<ITimeZoneService>(sp => sp.GetRequiredService<IDasBlogSettings>())
+				.AddSingleton<IContentProcessor>(sp => sp.GetRequiredService<IDasBlogSettings>())
+				.AddSingleton<IMailProvider>(sp => sp.GetRequiredService<IDasBlogSettings>())
+				.AddSingleton<IUserManager>(sp => sp.GetRequiredService<IDasBlogSettings>())
 				.AddSingleton(env.ContentRootFileProvider)
 				.AddSingleton<SiteHttpContext>()
 				.AddSingleton<IUserDataRepo, UserDataRepo>()

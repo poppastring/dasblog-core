@@ -13,11 +13,11 @@ namespace DasBlog.Web.TagHelpers.Post
 		public string Css { get; set; }
 		public string Style { get; set; }
 
-		private readonly IDasBlogSettings dasBlogSettings;
+		private readonly IUrlResolver urlResolver;
 
-		public PostImageTagHelper(IDasBlogSettings dasBlogSettings)
+		public PostImageTagHelper(IUrlResolver urlResolver)
 		{
-			this.dasBlogSettings = dasBlogSettings;
+			this.urlResolver = urlResolver;
 		}
 
 		public override void Process(TagHelperContext context, TagHelperOutput output)
@@ -29,7 +29,7 @@ namespace DasBlog.Web.TagHelpers.Post
 
 			if (!string.IsNullOrEmpty(imgUrl))
 			{
-				output.Attributes.SetAttribute("src", dasBlogSettings.RelativeToRoot(imgUrl));
+				output.Attributes.SetAttribute("src", urlResolver.RelativeToRoot(imgUrl));
 			}
 			else
 			{
