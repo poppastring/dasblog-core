@@ -10,12 +10,12 @@ namespace DasBlog.Web.TagHelpers.Post
 	public class PostToRedditTagHelper : TagHelper
 	{
 		private const string REDDIT_SHARE_URL = "https://www.reddit.com/submit?url={0}&title={1}";
-		private IDasBlogSettings dasBlogSettings;
+		private readonly IUrlResolver urlResolver;
 		public PostViewModel Post { get; set; }
 
-		public PostToRedditTagHelper(IDasBlogSettings dasBlogSettings)
+		public PostToRedditTagHelper(IUrlResolver urlResolver)
 		{
-			this.dasBlogSettings = dasBlogSettings;
+			this.urlResolver = urlResolver;
 		}
 
 		public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
@@ -24,7 +24,7 @@ namespace DasBlog.Web.TagHelpers.Post
 			output.TagMode = TagMode.StartTagAndEndTag;
 			output.Attributes.SetAttribute("class", "dasblog-a-share-reddit");
 			output.Attributes.SetAttribute("href", string.Format(REDDIT_SHARE_URL,
-								UrlEncoder.Default.Encode(dasBlogSettings.RelativeToRoot(Post.PermaLink)),
+								UrlEncoder.Default.Encode(urlResolver.RelativeToRoot(Post.PermaLink)),
 								UrlEncoder.Default.Encode(Post.Title)
 								));
 

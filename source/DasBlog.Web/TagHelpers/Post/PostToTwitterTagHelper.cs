@@ -12,11 +12,13 @@ namespace DasBlog.Web.TagHelpers
 	public class PostToTwitterTagHelper : TagHelper
 	{
 		private const string TWITTER_SHARE_URL = "https://twitter.com/intent/tweet?url={0}&amp;text={1}&amp;via={2}{3}";
-		private IDasBlogSettings dasBlogSettings;
+		private readonly IUrlResolver urlResolver;
+		private readonly IDasBlogSettings dasBlogSettings;
 		public PostViewModel Post { get; set; }
 
-		public  PostToTwitterTagHelper(IDasBlogSettings dasBlogSettings)
+		public  PostToTwitterTagHelper(IUrlResolver urlResolver, IDasBlogSettings dasBlogSettings)
 		{
+			this.urlResolver = urlResolver;
 			this.dasBlogSettings = dasBlogSettings;
 		}
 
@@ -29,7 +31,7 @@ namespace DasBlog.Web.TagHelpers
 			output.Attributes.SetAttribute("class", "dasblog-a-share-twitter");
 
 			output.Attributes.SetAttribute("href", string.Format(TWITTER_SHARE_URL, 
-								UrlEncoder.Default.Encode(dasBlogSettings.RelativeToRoot(Post.PermaLink)),
+								UrlEncoder.Default.Encode(urlResolver.RelativeToRoot(Post.PermaLink)),
 								UrlEncoder.Default.Encode(Post.Title),
 								UrlEncoder.Default.Encode(author.TrimStart('@')), 
 								RetrieveFormattedCategories(Post.Categories)));

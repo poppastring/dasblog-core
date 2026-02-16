@@ -1,5 +1,4 @@
-﻿using DasBlog.Services;
-using DasBlog.Web.Models.BlogViewModels;
+﻿using DasBlog.Web.Models.BlogViewModels;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using System.Threading.Tasks;
 
@@ -11,14 +10,7 @@ namespace DasBlog.Web.TagHelpers.Comments
 
 		public bool Admin { get; set; } = false;
 
-		private readonly IDasBlogSettings dasBlogSettings;
-
 		private const string COMMENTTEXT_MSG = "Are you sure you want to approve the comment from '{0}'?";
-
-		public CommentApprovalLinkTagHelper(IDasBlogSettings dasBlogSettings)
-		{
-			this.dasBlogSettings = dasBlogSettings;
-		}
 
 		public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
 		{

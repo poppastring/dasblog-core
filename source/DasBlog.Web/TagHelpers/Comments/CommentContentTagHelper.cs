@@ -1,5 +1,4 @@
-﻿using System;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
 using DasBlog.Services;
@@ -14,11 +13,11 @@ namespace DasBlog.Web.TagHelpers.Comments
 
 		public string Css { get; set; } = "dbc-comment-content";
 
-		private readonly IDasBlogSettings dasBlogSettings;
+		private readonly IContentProcessor contentProcessor;
 
-		public CommentContentTagHelper(IDasBlogSettings dasBlogSettings)
+		public CommentContentTagHelper(IContentProcessor contentProcessor)
 		{
-			this.dasBlogSettings = dasBlogSettings;
+			this.contentProcessor = contentProcessor;
 		}
 
 		public override void Process(TagHelperContext context, TagHelperOutput output)
@@ -28,7 +27,7 @@ namespace DasBlog.Web.TagHelpers.Comments
 
 			output.Attributes.SetAttribute("class", Css);
 			Comment ??= new CommentViewModel();
-			Comment.Text = dasBlogSettings.FilterHtml(Comment.Text ?? string.Empty);
+			Comment.Text = contentProcessor.FilterHtml(Comment.Text ?? string.Empty);
 			Comment.Text = Regex.Replace(Comment.Text, "\n", "<br />");
 			output.Content.SetHtmlContent(HttpUtility.HtmlDecode(Comment.Text));
 		}

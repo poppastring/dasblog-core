@@ -1,5 +1,4 @@
-﻿using DasBlog.Services;
-using DasBlog.Web.Models.BlogViewModels;
+﻿using DasBlog.Web.Models.BlogViewModels;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using System.Threading.Tasks;
 
@@ -12,13 +11,6 @@ namespace DasBlog.Web.TagHelpers.Post
 		public string BlogPostId { get; set; }
 
 		public string BlogTitle { get; set; }
-
-		private readonly IDasBlogSettings dasBlogSettings;
-
-		public PostDeleteLinkTagHelper(IDasBlogSettings dasBlogSettings)
-		{
-			this.dasBlogSettings = dasBlogSettings;
-		}
 
 		public override void Process(TagHelperContext context, TagHelperOutput output)
 		{

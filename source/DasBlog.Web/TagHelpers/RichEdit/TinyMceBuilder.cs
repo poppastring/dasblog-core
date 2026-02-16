@@ -1,17 +1,19 @@
 ﻿using DasBlog.Services;
-using DasBlog.Web.Settings;
+using DasBlog.Services.ConfigFile.Interfaces;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 
 namespace DasBlog.Web.TagHelpers.RichEdit
 {
 	public class TinyMceBuilder : IRichEditBuilder
 	{
-		private readonly IDasBlogSettings dasBlogSettings;
+		private readonly ISiteConfig siteConfig;
+		private readonly IUrlResolver urlResolver;
 		private const string TINY_MCE_SERVICE_URL = "https://cdn.tiny.cloud/1/{0}/tinymce/5/tinymce.min.js";
-		
-		public TinyMceBuilder(IDasBlogSettings dasBlogSettings)
+
+		public TinyMceBuilder(ISiteConfig siteConfig, IUrlResolver urlResolver)
 		{
-			this.dasBlogSettings = dasBlogSettings;
+			this.siteConfig = siteConfig;
+			this.urlResolver = urlResolver;
 		}
 		
 		public void ProcessControl(RichEditTagHelper tagHelper, TagHelperContext context, TagHelperOutput output)
@@ -29,7 +31,7 @@ namespace DasBlog.Web.TagHelpers.RichEdit
 		{
 			output.TagName = "script";
 			output.TagMode = TagMode.StartTagAndEndTag;
-			output.Attributes.SetAttribute("src", string.Format(TINY_MCE_SERVICE_URL, dasBlogSettings.SiteConfiguration.TinyMCEApiKey));
+			output.Attributes.SetAttribute("src", string.Format(TINY_MCE_SERVICE_URL, siteConfig.TinyMCEApiKey));
 			output.Attributes.SetAttribute("type", "text/javascript");
 			output.Attributes.SetAttribute("language", "javascript");
 			string initScriptTemplate = @"
@@ -39,7 +41,7 @@ namespace DasBlog.Web.TagHelpers.RichEdit
 						plugins: 'code',
 						relative_urls : false,
 						remove_script_host : true,
-						document_base_url : '" + dasBlogSettings.GetBaseUrl() + @"'
+						document_base_url : '" + urlResolver.GetBaseUrl() + @"'
 					}});
 					</script>";
 		string htmlContent = string.Format(initScriptTemplate, tagHelper.ControlId);

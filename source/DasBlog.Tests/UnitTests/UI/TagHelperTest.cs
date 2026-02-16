@@ -49,10 +49,10 @@ namespace DasBlog.Tests.UnitTests.UI
 
 		public static TheoryData<TagHelper, string, string> DasBlogPostLinkTagHelperData = new TheoryData<TagHelper, string, string>
 		{
-			{new PostEditLinkTagHelper(dasBlogSettings) {BlogPostId = "theBlogPost"}, "theBlogPost", "Edit this post"},
-			{new PostCommentLinkTagHelper(dasBlogSettings) { Post = new PostViewModel { PermaLink = "some-blog-post", EntryId = "0B74C9D3-4D2C-4754-B607-F3847183221C" }}, "/some-blog-post/comments", "Comment on this post [0]" },
-			{new PostCommentLinkTagHelper(dasBlogSettings) { Post = new PostViewModel { PermaLink = "some-blog-post", EntryId = "0B74C9D3-4D2C-4754-B607-F3847183221C" }, LinkText = "Custom text ({0})"}, "/some-blog-post/comments", "Custom text (0)" },
-			{new PostCommentLinkTagHelper(dasBlogSettings) { Post = new PostViewModel { PermaLink = "some-blog-post", EntryId = "0B74C9D3-4D2C-4754-B607-F3847183221C" }, LinkText = "Link text only "}, "/some-blog-post/comments", "Link text only" }
+			{new PostEditLinkTagHelper() {BlogPostId = "theBlogPost"}, "theBlogPost", "Edit this post"},
+			{new PostCommentLinkTagHelper(dasBlogSettings.SiteConfiguration, dasBlogSettings) { Post = new PostViewModel { PermaLink = "some-blog-post", EntryId = "0B74C9D3-4D2C-4754-B607-F3847183221C" }}, "/some-blog-post/comments", "Comment on this post [0]" },
+			{new PostCommentLinkTagHelper(dasBlogSettings.SiteConfiguration, dasBlogSettings) { Post = new PostViewModel { PermaLink = "some-blog-post", EntryId = "0B74C9D3-4D2C-4754-B607-F3847183221C" }, LinkText = "Custom text ({0})"}, "/some-blog-post/comments", "Custom text (0)" },
+			{new PostCommentLinkTagHelper(dasBlogSettings.SiteConfiguration, dasBlogSettings) { Post = new PostViewModel { PermaLink = "some-blog-post", EntryId = "0B74C9D3-4D2C-4754-B607-F3847183221C" }, LinkText = "Link text only "}, "/some-blog-post/comments", "Link text only" }
 		};
 
 		[Fact]
@@ -122,7 +122,7 @@ namespace DasBlog.Tests.UnitTests.UI
 			var dasBlogSettingsMock = new DasBlogSettingsMock();
 			var dasBlogSettings = dasBlogSettingsMock.CreateSettings();
 
-			var helper = new CommentContentTagHelper(dasBlogSettings);
+			var helper = new CommentContentTagHelper((DasBlog.Services.IContentProcessor)dasBlogSettings);
 			var context = new TagHelperContext(new TagHelperAttributeList(), new Dictionary<object, object>(), Guid.NewGuid().ToString("N"));
 			var output = new TagHelperOutput(string.Empty, new TagHelperAttributeList(), (_, _) => Task.FromResult<TagHelperContent>(new DefaultTagHelperContent()));
 
@@ -140,7 +140,7 @@ namespace DasBlog.Tests.UnitTests.UI
 			var dasBlogSettingsMock = new DasBlogSettingsMock();
 			var dasBlogSettings = dasBlogSettingsMock.CreateSettings(); ;
 
-			var helper = new CommentContentTagHelper(dasBlogSettings)
+			var helper = new CommentContentTagHelper((DasBlog.Services.IContentProcessor)dasBlogSettings)
 			{
 				Comment = new CommentViewModel()
 			};
@@ -164,7 +164,7 @@ namespace DasBlog.Tests.UnitTests.UI
 			viewContext.ViewData[DasBlog.Core.Common.Constants.PostCount] = 5;
 			viewContext.ViewData[DasBlog.Core.Common.Constants.PageNumber] = 2;
 
-			var sut = new DasBlog.Web.TagHelpers.Layout.SitePageControlTagHelper(dasBlogSettings)
+			var sut = new DasBlog.Web.TagHelpers.Layout.SitePageControlTagHelper((DasBlog.Services.IUrlResolver)dasBlogSettings)
 			{
 				ViewContext = viewContext
 			};
@@ -197,7 +197,7 @@ namespace DasBlog.Tests.UnitTests.UI
 				new DasBlog.Web.Models.BlogViewModels.CategoryViewModel { Category = "Life", CategoryUrl = "life" }
 			};
 			var post = new DasBlog.Web.Models.BlogViewModels.PostViewModel { Categories = categories };
-			var sut = new DasBlog.Web.TagHelpers.Post.PostCategoriesListTagHelper(dasBlogSettings)
+			var sut = new DasBlog.Web.TagHelpers.Post.PostCategoriesListTagHelper((DasBlog.Services.IUrlResolver)dasBlogSettings)
 			{
 				Post = post
 			};
@@ -223,9 +223,8 @@ namespace DasBlog.Tests.UnitTests.UI
 		public void SiteDescriptionTagHelper_RendersDescription()
 		{
 			var dasBlogSettingsMock = new DasBlogSettingsMock();
-			var dasBlogSettings = dasBlogSettingsMock.CreateSettings();
-			dasBlogSettings.SiteConfiguration.Description = "Test Description";
-			var sut = new DasBlog.Web.TagHelpers.SiteDescriptionTagHelper(dasBlogSettings);
+			dasBlogSettingsMock.siteConfig.Description = "Test Description";
+			var sut = new DasBlog.Web.TagHelpers.SiteDescriptionTagHelper(dasBlogSettingsMock.siteConfig);
 			var context = new TagHelperContext(new TagHelperAttributeList(), new Dictionary<object, object>(), Guid.NewGuid().ToString("N"));
 			var output = new TagHelperOutput("sitedescription", new TagHelperAttributeList(), (useCachedResult, htmlEncoder) =>
 			{
@@ -242,9 +241,8 @@ namespace DasBlog.Tests.UnitTests.UI
 		public void SiteRootTagHelper_RendersRoot()
 		{
 			var dasBlogSettingsMock = new DasBlogSettingsMock();
-			var dasBlogSettings = dasBlogSettingsMock.CreateSettings();
-			dasBlogSettings.SiteConfiguration.Root = "https://example.com/";
-			var sut = new DasBlog.Web.TagHelpers.SiteRootTagHelper(dasBlogSettings);
+			dasBlogSettingsMock.siteConfig.Root = "https://example.com/";
+			var sut = new DasBlog.Web.TagHelpers.SiteRootTagHelper(dasBlogSettingsMock.siteConfig);
 			var context = new TagHelperContext(new TagHelperAttributeList(), new Dictionary<object, object>(), Guid.NewGuid().ToString("N"));
 			var output = new TagHelperOutput("siteroot", new TagHelperAttributeList(), (useCachedResult, htmlEncoder) =>
 			{
@@ -261,9 +259,8 @@ namespace DasBlog.Tests.UnitTests.UI
 		public void SiteTitleTagHelper_RendersTitle()
 		{
 			var dasBlogSettingsMock = new DasBlogSettingsMock();
-			var dasBlogSettings = dasBlogSettingsMock.CreateSettings();
-			dasBlogSettings.SiteConfiguration.Title = "Test Title";
-			var sut = new DasBlog.Web.TagHelpers.SiteTitleTagHelper(dasBlogSettings);
+			dasBlogSettingsMock.siteConfig.Title = "Test Title";
+			var sut = new DasBlog.Web.TagHelpers.SiteTitleTagHelper(dasBlogSettingsMock.siteConfig);
 			var context = new TagHelperContext(new TagHelperAttributeList(), new Dictionary<object, object>(), Guid.NewGuid().ToString("N"));
 			var output = new TagHelperOutput("sitetitle", new TagHelperAttributeList(), (useCachedResult, htmlEncoder) =>
 			{

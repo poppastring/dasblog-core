@@ -10,12 +10,12 @@ namespace DasBlog.Web.TagHelpers
 	public class PostToBlueSkyTagHelper : TagHelper
 	{
 		private const string BLUESKY_SHARE_URL = "https://bsky.app/intent/compose?text={0}";
-		private readonly IDasBlogSettings dasBlogSettings;
+		private readonly IUrlResolver urlResolver;
 		public PostViewModel Post { get; set; }
 
-		public PostToBlueSkyTagHelper(IDasBlogSettings dasBlogSettings)
+		public PostToBlueSkyTagHelper(IUrlResolver urlResolver)
 		{
-			this.dasBlogSettings = dasBlogSettings;
+			this.urlResolver = urlResolver;
 		}
 
 		public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
@@ -23,7 +23,7 @@ namespace DasBlog.Web.TagHelpers
 			output.TagName = "a";
 			output.TagMode = TagMode.StartTagAndEndTag;
 			output.Attributes.SetAttribute("class", "dasblog-a-share-bluesky");
-			string text = $"{Post.Title} {dasBlogSettings.RelativeToRoot(Post.PermaLink)}";
+			string text = $"{Post.Title} {urlResolver.RelativeToRoot(Post.PermaLink)}";
 			output.Attributes.SetAttribute("href", string.Format(BLUESKY_SHARE_URL, UrlEncoder.Default.Encode(text)));
 
 			var content = await output.GetChildContentAsync();

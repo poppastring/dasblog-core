@@ -23,11 +23,11 @@ namespace DasBlog.Web.TagHelpers.Layout
 		[ViewContext]
 		public ViewContext ViewContext { get; set; }
 
-		private IDasBlogSettings dasBlogSettings;
+		private IUrlResolver urlResolver;
 
-		public SitePageControlTagHelper(IDasBlogSettings dasBlogSettings)
+		public SitePageControlTagHelper(IUrlResolver urlResolver)
 		{
-			this.dasBlogSettings = dasBlogSettings;
+			this.urlResolver = urlResolver;
 		}
 
 		public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
@@ -53,7 +53,7 @@ namespace DasBlog.Web.TagHelpers.Layout
 
 			if (PostCount > 0)
 			{
-				pagecontrol = string.Format(PAGEANCHOR, dasBlogSettings.RelativeToRoot(string.Format("page/{0}", PageNumber + 1)), OlderPostsText, "older");
+				pagecontrol = string.Format(PAGEANCHOR, urlResolver.RelativeToRoot(string.Format("page/{0}", PageNumber + 1)), OlderPostsText, "older");
 			}
 			
 			if (separatorRequired)
@@ -63,7 +63,7 @@ namespace DasBlog.Web.TagHelpers.Layout
 
 			if (PageNumber > 0)
 			{
-				pagecontrol += string.Format(PAGEANCHOR, dasBlogSettings.RelativeToRoot(string.Format("page/{0}", PageNumber - 1)), NewerPostsText, "newer");
+				pagecontrol += string.Format(PAGEANCHOR, urlResolver.RelativeToRoot(string.Format("page/{0}", PageNumber - 1)), NewerPostsText, "newer");
 			}
 
 			output.Content.SetHtmlContent(pagecontrol);

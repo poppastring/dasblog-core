@@ -10,12 +10,12 @@ namespace DasBlog.Web.TagHelpers;
 public class PostToLinkedInTagHelper : TagHelper
 {
 	private const string LINKEDIN_SHARE_URL = "https://www.linkedin.com/sharing/share-offsite/?url={0}";
-	private readonly IDasBlogSettings dasBlogSettings;
+	private readonly IUrlResolver urlResolver;
 	public PostViewModel Post { get; set; }
 
-	public PostToLinkedInTagHelper(IDasBlogSettings dasBlogSettings)
+	public PostToLinkedInTagHelper(IUrlResolver urlResolver)
 	{
-		this.dasBlogSettings = dasBlogSettings;
+		this.urlResolver = urlResolver;
 	}
 
 	public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
@@ -24,7 +24,7 @@ public class PostToLinkedInTagHelper : TagHelper
 		output.TagMode = TagMode.StartTagAndEndTag;
 		output.Attributes.SetAttribute("class", "dasblog-a-share-linkedin");
 		output.Attributes.SetAttribute("href", string.Format(LINKEDIN_SHARE_URL, 
-			UrlEncoder.Default.Encode(dasBlogSettings.RelativeToRoot(Post.PermaLink))));
+			UrlEncoder.Default.Encode(urlResolver.RelativeToRoot(Post.PermaLink))));
 
 		var content = await output.GetChildContentAsync();
 

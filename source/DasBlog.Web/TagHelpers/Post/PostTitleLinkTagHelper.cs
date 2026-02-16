@@ -12,11 +12,11 @@ namespace DasBlog.Web.TagHelpers.Post
 
 		public string Css { get; set; }
 
-		private readonly IDasBlogSettings dasBlogSettings;
+		private readonly IUrlResolver urlResolver;
 
-		public PostTitleLinkTagHelper(IDasBlogSettings dasBlogSettings)
+		public PostTitleLinkTagHelper(IUrlResolver urlResolver)
 		{
-			this.dasBlogSettings = dasBlogSettings;
+			this.urlResolver = urlResolver;
 		}
 
 		public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
@@ -37,7 +37,7 @@ namespace DasBlog.Web.TagHelpers.Post
 				title = Post.Title;
 			}
 
-			output.Attributes.SetAttribute("href", dasBlogSettings.RelativeToRoot(Post.PermaLink));
+			output.Attributes.SetAttribute("href", urlResolver.RelativeToRoot(Post.PermaLink));
 			output.Content.SetHtmlContent(title);
 		}
 	}

@@ -1,4 +1,4 @@
-﻿using DasBlog.Services;
+﻿using DasBlog.Services.ConfigFile.Interfaces;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using System.Threading.Tasks;
 
@@ -6,11 +6,11 @@ namespace DasBlog.Web.TagHelpers
 {
 	public class SiteTitleTagHelper : TagHelper
 	{
-		private readonly IDasBlogSettings dasBlogSettings;
+		private readonly ISiteConfig siteConfig;
 
-		public SiteTitleTagHelper(IDasBlogSettings dasBlogSettings)
+		public SiteTitleTagHelper(ISiteConfig siteConfig)
 		{
-			this.dasBlogSettings = dasBlogSettings;
+			this.siteConfig = siteConfig;
 		}
 
 		public string Title { get; set; }
@@ -19,7 +19,7 @@ namespace DasBlog.Web.TagHelpers
 		{
 			output.TagName = "";
 			output.TagMode = TagMode.StartTagAndEndTag;
-			output.Content.SetHtmlContent(dasBlogSettings?.SiteConfiguration?.Title);
+			output.Content.SetHtmlContent(siteConfig?.Title);
 		}
 
 		public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)

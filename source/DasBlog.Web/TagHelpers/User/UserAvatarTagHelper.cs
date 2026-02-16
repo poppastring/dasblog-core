@@ -1,5 +1,5 @@
 ﻿using DasBlog.Managers.Interfaces;
-using DasBlog.Services;
+using DasBlog.Services.ConfigFile.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using System;
@@ -11,7 +11,7 @@ namespace DasBlog.Web.TagHelpers.User
 {
 	public class UserAvatarTagHelper : TagHelper
 	{
-		private readonly IDasBlogSettings dasBlogSettings;
+		private readonly ISiteConfig siteConfig;
 		private readonly IHttpContextAccessor httpContextAccessor;
 		private readonly ISiteSecurityManager securityManager;
 		private const string gravatarLink = "//www.gravatar.com/avatar/{0}?rating={1}&size={2}&default={3}";
@@ -20,9 +20,9 @@ namespace DasBlog.Web.TagHelpers.User
 
 		public int? Size { get; set; }
 
-		public UserAvatarTagHelper(IDasBlogSettings dasBlogSettings, IHttpContextAccessor httpContextAccessor, ISiteSecurityManager securityManager)
+		public UserAvatarTagHelper(ISiteConfig siteConfig, IHttpContextAccessor httpContextAccessor, ISiteSecurityManager securityManager)
 		{
-			this.dasBlogSettings = dasBlogSettings;
+			this.siteConfig = siteConfig;
 			this.httpContextAccessor = httpContextAccessor;
 			this.securityManager = securityManager;
 		}
@@ -58,9 +58,9 @@ namespace DasBlog.Web.TagHelpers.User
 
 				output.Attributes.SetAttribute("src", string.Format(gravatarLink, 
 					hash,
-					dasBlogSettings.SiteConfiguration.CommentsGravatarRating,
+					siteConfig.CommentsGravatarRating,
 					avatarSize,
-					dasBlogSettings.SiteConfiguration.CommentsGravatarNoImgPath));
+					siteConfig.CommentsGravatarNoImgPath));
 
 				var displayName = userDetails?.DisplayName ?? username;
 				output.Attributes.SetAttribute("alt", $"{displayName} avatar");
