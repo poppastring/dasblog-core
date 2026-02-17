@@ -17,7 +17,6 @@ using DasBlog.Web.Mappers;
 using DasBlog.Web.Services;
 using DasBlog.Web.Services.Interfaces;
 using DasBlog.Web.Settings;
-using DasBlog.Web.Routing;
 using DasBlog.Web.TagHelpers.RichEdit;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
@@ -26,7 +25,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Razor;
-using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -240,11 +238,6 @@ namespace DasBlog.Web
 			services
 				.AddControllersWithViews()
 				.AddRazorRuntimeCompilation();
-
-			services.Configure<RouteOptions>(options =>
-			{
-				options.ConstraintMap.Add("uniquePermalink", typeof(TitlePermaLinkUniqueConstraint));
-			});
 
 			return services;
 		}

@@ -12,7 +12,6 @@ using System.IO;
 using System.Security.Principal;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Routing;
 
 namespace DasBlog.Web
 {
@@ -106,22 +105,22 @@ namespace DasBlog.Web
 
 				endpoints.MapControllerRoute(
 					"Unique Original Post Format",
-					"~/{year:int}/{month:int}/{day:int}/{posttitle:uniquePermalink(true)}.aspx",
+					"~/{year:int}/{month:int}/{day:int}/{posttitle}.aspx",
 					new { controller = "BlogPost", action = "Post" });
 
 				endpoints.MapControllerRoute(
 					"Unique New Post Format",
-					"~/{year:int}/{month:int}/{day:int}/{posttitle:uniquePermalink(true)}",
+					"~/{year:int}/{month:int}/{day:int}/{posttitle}",
 					new { controller = "BlogPost", action = "Post" });
 
 				endpoints.MapControllerRoute(
 					"Original Post Format",
-					"~/{posttitle:uniquePermalink(false)}.aspx",
+					"~/{posttitle}.aspx",
 					new { controller = "BlogPost", action = "Post" });
 
 				endpoints.MapControllerRoute(
 					"New Post Format",
-					"~/{posttitle:uniquePermalink(false)}",
+					"~/{posttitle}",
 					new { controller = "BlogPost", action = "Post" });
 
 				endpoints.MapControllerRoute(

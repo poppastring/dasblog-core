@@ -89,6 +89,10 @@ namespace DasBlog.Test.Integration
 			Assert.DoesNotMatch(@"/\d{4}/\d{2}/\d{2}/", href);
 			Assert.EndsWith("/welcome-to-dasblog-core", href);
 
+			// The date-prefixed URL should still resolve even when the setting is off
+			await Page.GotoAsync(Server.RootUri + "/2025/06/21/welcome-to-dasblog-core");
+			Assert.StartsWith("Welcome to DasBlog Core", await Page.TitleAsync());
+
 			// Toggle to unique permalinks (date-prefixed)
 			siteConfig.CurrentValue.EnableTitlePermaLinkUnique = true;
 			memoryCache.Remove("CACHEKEY_FRONTPAGE");
@@ -97,11 +101,15 @@ namespace DasBlog.Test.Integration
 			postLink = Page.GetByRole(AriaRole.Link, new() { Name = "Welcome to DasBlog Core" }).First;
 			href = await postLink.GetAttributeAsync("href");
 
-			// Unique: URL includes yyyy/MM/dd date prefix
+			// Unique: generated link includes yyyy/MM/dd date prefix
 			Assert.Matches(@"/\d{4}/\d{2}/\d{2}/welcome-to-dasblog-core$", href);
 
 			// Navigate to the unique URL and verify it resolves
 			await postLink.ClickAsync();
+			Assert.StartsWith("Welcome to DasBlog Core", await Page.TitleAsync());
+
+			// The title-only URL should still resolve even when unique is enabled
+			await Page.GotoAsync(Server.RootUri + "/welcome-to-dasblog-core");
 			Assert.StartsWith("Welcome to DasBlog Core", await Page.TitleAsync());
 
 			// Reset to default

@@ -62,6 +62,7 @@
    </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties" />
+    <Folder Include="Routing\" />
     <Folder Include="wwwroot\lib\font-awesome\" />
   </ItemGroup>
 
