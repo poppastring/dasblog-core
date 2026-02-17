@@ -4,22 +4,11 @@ using DasBlog.Services.ActivityLogs;
 using EventDataItem = DasBlog.Services.ActivityLogs.EventDataItem;
 using EventCodes = DasBlog.Services.ActivityLogs.EventCodes;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using newtelligence.DasBlog.Runtime;
-using NodaTime;
 using System;
-using System.Collections.Specialized;
-using System.Globalization;
-using System.Text.RegularExpressions;
 using System.Linq;
 using DasBlog.Services;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using DasBlog.Core.Security;
 using System.Net.Mail;
-using System.Net;
-using System.IO;
 
 namespace DasBlog.Managers
 {
@@ -39,6 +28,11 @@ namespace DasBlog.Managers
 		/// <param name="dt">if non-null then the post must be dated on that date</param>
 		public Entry GetBlogPost(string posttitle, DateTime? dt)
 		{
+            if (string.IsNullOrEmpty(posttitle))
+			{
+				return null;
+			}
+
 			if (dt == null)
 			{
 				posttitle = posttitle.Replace(dasBlogSettings.SiteConfiguration.TitlePermalinkSpaceReplacement, string.Empty)

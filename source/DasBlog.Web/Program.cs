@@ -119,7 +119,7 @@ app.UseDasBlogThreadPrincipal();
 app.UseAuthorization();
 
 app.UseDasBlogSecurityHeaders(app.Configuration);
-app.UseDasBlogEndpoints(dasBlogSettings);
+app.UseDasBlogEndpoints();
 
 app.UseHttpContext();
 
