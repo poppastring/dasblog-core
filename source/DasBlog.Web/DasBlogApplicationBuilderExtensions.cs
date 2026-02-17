@@ -63,7 +63,6 @@ namespace DasBlog.Web
 		public static IApplicationBuilder UseDasBlogSecurityHeaders(this IApplicationBuilder app, IConfiguration configuration)
 		{
 			app.UseXContentTypeOptions();
-			app.UseXXssProtection(options => options.EnabledWithBlockMode());
 			app.UseXfo(options => options.SameOrigin());
 			app.UseReferrerPolicy(opts => opts.NoReferrerWhenDowngrade());
 
@@ -129,40 +128,40 @@ namespace DasBlog.Web
 						new { controller = "BlogPost", action = "Post", postitle = "" });
 				}
 
-							endpoints.MapControllerRoute(
-									name: "default", "~/{controller=Home}/{action=Index}/{id?}");
-							});
+						endpoints.MapControllerRoute(
+								name: "default", "~/{controller=Home}/{action=Index}/{id?}");
+			});
 
-							return app;
-						}
+			return app;
+		}
 
-						/// <summary>
-						/// BlogDataService and DayEntry rely on the thread's CurrentPrincipal and its role to determine if users
-						/// should be allowed edit and add posts.
-						/// Unfortunately the asp.net team no longer favour an approach involving the current thread so
-						/// much as I am loath to stick values on globalish type stuff going up and down the stack
-						/// this is a light touch way of including the functionality and actually looks fairly safe.
-						/// Hopefully, in the fullness of time we will beautify the legacy code and this can go.
-						/// </summary>
-						public static IApplicationBuilder UseDasBlogThreadPrincipal(this IApplicationBuilder app)
-						{
-							app.Use(PopulateThreadCurrentPrincipal);
-							return app;
-						}
+		/// <summary>
+		/// BlogDataService and DayEntry rely on the thread's CurrentPrincipal and its role to determine if users
+		/// should be allowed edit and add posts.
+		/// Unfortunately the asp.net team no longer favour an approach involving the current thread so
+		/// much as I am loath to stick values on globalish type stuff going up and down the stack
+		/// this is a light touch way of including the functionality and actually looks fairly safe.
+		/// Hopefully, in the fullness of time we will beautify the legacy code and this can go.
+		/// </summary>
+		public static IApplicationBuilder UseDasBlogThreadPrincipal(this IApplicationBuilder app)
+		{
+			app.Use(PopulateThreadCurrentPrincipal);
+			return app;
+		}
 
-						private static Task PopulateThreadCurrentPrincipal(HttpContext context, Func<Task> next)
-						{
-							IPrincipal existingThreadPrincipal = null;
-							try
-							{
-								existingThreadPrincipal = Thread.CurrentPrincipal;
-								Thread.CurrentPrincipal = context.User;
-								return next();
-							}
-							finally
-							{
-								Thread.CurrentPrincipal = existingThreadPrincipal;
-							}
-						}
-					}
-				}
+		private static Task PopulateThreadCurrentPrincipal(HttpContext context, Func<Task> next)
+		{
+			IPrincipal existingThreadPrincipal = null;
+			try
+			{
+				existingThreadPrincipal = Thread.CurrentPrincipal;
+				Thread.CurrentPrincipal = context.User;
+				return next();
+			}
+			finally
+			{
+				Thread.CurrentPrincipal = existingThreadPrincipal;
+			}
+		}
+	}
+}

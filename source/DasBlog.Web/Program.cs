@@ -116,7 +116,6 @@ app.UseCookiePolicy();
 
 app.UseAuthentication();
 app.UseDasBlogThreadPrincipal();
-app.UseRouting();
 app.UseAuthorization();
 
 app.UseDasBlogSecurityHeaders(app.Configuration);

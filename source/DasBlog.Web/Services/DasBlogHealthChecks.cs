@@ -25,7 +25,7 @@ namespace DasBlog.Web.Services
 		public Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default)
 		{
 			var systemCheck = SystemCheck(); 
-			if (SystemCheck().result)
+			if (systemCheck.result)
 			{
 				return Task.FromResult(
 					HealthCheckResult.Healthy("A healthy result."));
