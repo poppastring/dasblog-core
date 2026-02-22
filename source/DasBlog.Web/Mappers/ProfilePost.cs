@@ -111,6 +111,8 @@ namespace DasBlog.Web.Mappers
 			CreateMap<ValidCommentTagsViewModel, ValidCommentTags>()
 				.ForMember(dest => dest.Tag, opt => opt.MapFrom(src => src.Tag));
 
+			CreateMap<StaticPage, StaticPageViewModel>();
+
 		}
 
 		private IList<CategoryViewModel> ConvertCategory(string category)
