@@ -35,16 +35,16 @@ namespace DasBlog.Managers
 
 			if (dt == null)
 				{
-					posttitle = posttitle.Replace(dasBlogSettings.SiteConfiguration.TitlePermalinkSpaceReplacement, string.Empty)
-										.Replace(" ", string.Empty)
-										.Replace(".aspx", string.Empty);
+					posttitle = posttitle.Replace("-", string.Empty)
+														.Replace(" ", string.Empty)
+														.Replace(".aspx", string.Empty);
 
 				return dataService.GetEntry(posttitle);
 			}
 			else
 				{
 					var entries = dataService.GetEntriesForDay(dt.Value, null, null, 1, 10, null);
-					var normalizedTitle = posttitle.Replace(" ", dasBlogSettings.SiteConfiguration.TitlePermalinkSpaceReplacement);
+					var normalizedTitle = posttitle.Replace(" ", "-");
 
 					return entries.FirstOrDefault(e => dasBlogSettings.GeneratePostUrl(e)
 												.EndsWith(normalizedTitle, StringComparison.OrdinalIgnoreCase));

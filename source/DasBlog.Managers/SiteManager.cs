@@ -83,7 +83,7 @@ namespace DasBlog.Managers
             {
                 if (cce.IsPublic)
                 {
-					var catname = Entry.InternalCompressTitle(cce.Name, dasBlogSettings.SiteConfiguration.TitlePermalinkSpaceReplacement).ToLower();
+					var catname = Entry.InternalCompressTitle(cce.Name, "-").ToLower();
 					var caturl = new Url(dasBlogSettings.GetCategoryViewUrl(catname), DateTime.Now, ChangeFreq.weekly, 0.6M);
                     root.url.Add(caturl);
                 }

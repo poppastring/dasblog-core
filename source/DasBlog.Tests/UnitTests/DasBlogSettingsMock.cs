@@ -42,7 +42,6 @@ namespace DasBlog.Tests.UnitTests
 			{
 				Root = "https://example.com/",
 				Theme = "default",
-				TitlePermalinkSpaceReplacement = "-",
 				UseAspxExtension = false,
 				EnableTitlePermaLinkUnique = false,
 				EnableComments = true,

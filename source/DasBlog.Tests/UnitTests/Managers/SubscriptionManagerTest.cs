@@ -34,7 +34,6 @@ namespace DasBlog.Tests.UnitTests.Managers
 			siteConfigMock.SetupProperty(c => c.EnableBloggerApi, true);
 			siteConfigMock.SetupGet(c => c.Root).Returns("http://localhost/");
 			siteConfigMock.SetupGet(c => c.Title).Returns("Test Blog");
-			siteConfigMock.SetupGet(c => c.TitlePermalinkSpaceReplacement).Returns("-");
 			settingsMock.Setup(s => s.SiteConfiguration).Returns(siteConfigMock.Object);
 
 			metaTagsMock = new Mock<IMetaTags>();

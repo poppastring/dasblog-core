@@ -256,7 +256,7 @@ namespace DasBlog.Web.Settings
 			{
 				titlePermalink = titlePermalink.ToLower();
 
-				titlePermalink = titlePermalink.Replace("+", SiteConfiguration.TitlePermalinkSpaceReplacement);
+				titlePermalink = titlePermalink.Replace("+", "-");
 			}
 			else
 			{
@@ -268,7 +268,7 @@ namespace DasBlog.Web.Settings
 
 		public string CompressTitle(string title)
 		{
-			return Entry.InternalCompressTitle(title, SiteConfiguration.TitlePermalinkSpaceReplacement).ToLower();
+			return Entry.InternalCompressTitle(title, "-").ToLower();
 		}
 
 		public string GeneratePostUrl(Entry entry)

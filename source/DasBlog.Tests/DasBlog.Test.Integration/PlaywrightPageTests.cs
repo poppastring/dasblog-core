@@ -118,61 +118,6 @@ namespace DasBlog.Test.Integration
 		}
 
 		[SkippableFact(typeof(PlaywrightException))]
-		public async Task FrontPagePostLinkReflectsSpaceReplacementSetting()
-		{
-			Skip.If(AreWe.InDockerOrBuildServer);
-
-			var siteConfig = Server.HostServices.GetRequiredService<IOptionsMonitor<SiteConfig>>();
-			var memoryCache = Server.HostServices.GetRequiredService<IMemoryCache>();
-
-			var originalReplacement = siteConfig.CurrentValue.TitlePermalinkSpaceReplacement;
-
-			// Ensure default separator is "-"
-			siteConfig.CurrentValue.TitlePermalinkSpaceReplacement = "-";
-			siteConfig.CurrentValue.EnableTitlePermaLinkUnique = false;
-			memoryCache.Remove("CACHEKEY_FRONTPAGE");
-
-			await Page.GotoAsync(Server.RootUri);
-			var postLink = Page.GetByRole(AriaRole.Link, new() { Name = "Welcome to DasBlog Core" }).First;
-			var href = await postLink.GetAttributeAsync("href");
-
-			Assert.EndsWith("/welcome-to-dasblog-core", href);
-			Assert.DoesNotContain("+", href.Split('/').Last());
-
-			// Toggle to "+" as the title separator
-			siteConfig.CurrentValue.TitlePermalinkSpaceReplacement = "+";
-			memoryCache.Remove("CACHEKEY_FRONTPAGE");
-
-			await Page.GotoAsync(Server.RootUri);
-			postLink = Page.GetByRole(AriaRole.Link, new() { Name = "Welcome to DasBlog Core" }).First;
-			href = await postLink.GetAttributeAsync("href");
-
-			Assert.EndsWith("/welcome+to+dasblog+core", href);
-
-			// Navigate to the "+" URL (non-unique) and verify it resolves
-			await postLink.ClickAsync();
-			Assert.StartsWith("Welcome to DasBlog Core", await Page.TitleAsync());
-
-			// Navigate to the "+" URL (unique / date-prefixed) and verify it resolves
-			siteConfig.CurrentValue.EnableTitlePermaLinkUnique = true;
-			memoryCache.Remove("CACHEKEY_FRONTPAGE");
-
-			await Page.GotoAsync(Server.RootUri);
-			postLink = Page.GetByRole(AriaRole.Link, new() { Name = "Welcome to DasBlog Core" }).First;
-			href = await postLink.GetAttributeAsync("href");
-
-			Assert.Matches(@"/\d{4}/\d{2}/\d{2}/welcome\+to\+dasblog\+core$", href);
-
-			await postLink.ClickAsync();
-			Assert.StartsWith("Welcome to DasBlog Core", await Page.TitleAsync());
-
-			// Reset to original
-			siteConfig.CurrentValue.TitlePermalinkSpaceReplacement = originalReplacement;
-			siteConfig.CurrentValue.EnableTitlePermaLinkUnique = false;
-			memoryCache.Remove("CACHEKEY_FRONTPAGE");
-		}
-
-		[SkippableFact(typeof(PlaywrightException))]
 		public async Task NavigateToPageOneAndBack()
 		{
 			Skip.If(AreWe.InDockerOrBuildServer, "In Docker!");

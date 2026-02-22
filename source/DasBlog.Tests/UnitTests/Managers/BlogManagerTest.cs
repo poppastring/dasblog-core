@@ -32,8 +32,7 @@ namespace DasBlog.Tests.UnitTests.Managers
 			siteConfigMock = new Mock<ISiteConfig>();
             siteConfigMock.SetupAllProperties();
             siteConfigMock.SetupGet(c => c.LogDir).Returns(Path.Combine(rootdir, "logs"));
-            siteConfigMock.SetupGet(c => c.ContentDir).Returns(Path.Combine(rootdir, "TestContent"));
-            siteConfigMock.SetupGet(c => c.TitlePermalinkSpaceReplacement).Returns("-");
+			siteConfigMock.SetupGet(c => c.ContentDir).Returns(Path.Combine(rootdir, "TestContent"));
 			siteConfigMock.SetupGet(c => c.FrontPageEntryCount).Returns(5);
             siteConfigMock.SetupGet(c => c.EntriesPerPage).Returns(5);
             siteConfigMock.SetupGet(c => c.EnableTitlePermaLinkUnique).Returns(false);

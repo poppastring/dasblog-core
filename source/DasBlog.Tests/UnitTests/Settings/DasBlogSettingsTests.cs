@@ -141,35 +141,6 @@ namespace DasBlog.Tests.UnitTests.Settings
         }
 
 		[Fact]
-		public void GetPermaTitle_UsesPlusAsSeparator()
-		{
-			var dasBlogSettings = dasBlogSettingsMock.CreateSettings();
-			dasBlogSettings.SiteConfiguration.TitlePermalinkSpaceReplacement = "+";
-			var result = dasBlogSettings.GetPermaTitle("My+Title");
-			Assert.Equal("my+title", result);
-		}
-
-		[Fact]
-		public void CompressTitle_UsesPlusAsSeparator()
-		{
-			var dasBlogSettings = dasBlogSettingsMock.CreateSettings();
-			dasBlogSettings.SiteConfiguration.TitlePermalinkSpaceReplacement = "+";
-			var result = dasBlogSettings.CompressTitle("My Title");
-			Assert.Equal("my+title", result);
-		}
-
-		[Fact]
-		public void GeneratePostUrl_UsesPlusAsSeparator()
-		{
-			var dasBlogSettings = dasBlogSettingsMock.CreateSettings();
-			dasBlogSettings.SiteConfiguration.TitlePermalinkSpaceReplacement = "+";
-			var entry = new Entry();
-			entry.Title = "My Blog Title Is Awesome!";
-			var result = dasBlogSettings.GeneratePostUrl(entry);
-			Assert.Contains("my+blog+title+is+awesome", result);
-		}
-
-		[Fact]
 		public void GetPermaTitle_AppendsAspxExtension_WhenEnabled()
 		{
 			var dasBlogSettings = dasBlogSettingsMock.CreateSettings();
