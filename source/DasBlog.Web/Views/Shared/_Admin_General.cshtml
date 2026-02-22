@@ -70,8 +70,3 @@
     </div>
     @Html.ValidationMessageFor(m => m.SiteConfig.Theme, null, new { @class = "text-danger" })
 </div>
-
-<div class="col-md-4 form-check-inline">
-    <input name="EnableAboutView" checked="@Model.SiteConfig.EnableAboutView" type="checkbox" class="form-check-input me-1" disabled readonly />
-    <label asp-for="SiteConfig.EnableAboutView" class="form-check-label me-3"></label>
-</div>

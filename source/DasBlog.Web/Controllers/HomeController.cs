@@ -101,17 +101,6 @@ namespace DasBlog.Web.Controllers
 			return AggregatePostView(lpvm);
 		}
 
-		[HttpGet("about")]
-		public IActionResult About()
-		{
-			if (dasBlogSettings.SiteConfiguration.EnableAboutView)
-			{
-				DefaultPage("About");
-				return View();
-			}
-			return NoContent();
-		}
-
 		public IActionResult Error()
 		{
 			try

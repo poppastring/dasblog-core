@@ -101,7 +101,6 @@ namespace DasBlog.Services.ConfigFile.Interfaces
         bool SendPingbacksByEmail { get; set; }
 
         bool SendPostsByEmail { get; set; }
-        bool EnableAboutView { get; set; }
 
         string TinyMCEApiKey { get; set; }
         
