@@ -16,6 +16,7 @@ namespace DasBlog.Test.Integration
 	{
 		private IHost _host;
 		public string RootUri { get; set; }
+		public IServiceProvider HostServices => _host?.Services;
 
 		public PlaywrightServerFactory()
 		{

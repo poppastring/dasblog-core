@@ -186,11 +186,6 @@ namespace DasBlog.Web.Models.AdminViewModels
 		[Description(@"Enable Title PermaLink Unique - Ensures all urls are unique by adding a date to the URL '\somepost' becomes '20191112\some - post'")]
 		public bool EnableTitlePermaLinkUnique { get; set; }
 
-		[DisplayName("Space replacement")]
-		[Description(@"Defaults to '-', however, '+' is the other valid option")]
-		[StringLength(1, MinimumLength = 1, ErrorMessage = "{0} should be 1 characters ('-' or '+'")]
-		public string TitlePermalinkSpaceReplacement { get; set; }
-
 		[DisplayName("Enable Blogger API")]
 		[Description("")]
 		public bool EnableBloggerApi { get; set; }

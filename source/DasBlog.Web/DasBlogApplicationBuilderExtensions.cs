@@ -97,39 +97,34 @@ namespace DasBlog.Web
 			return app;
 		}
 
-		public static IApplicationBuilder UseDasBlogEndpoints(this IApplicationBuilder app, IDasBlogSettings dasBlogSettings)
+		public static IApplicationBuilder UseDasBlogEndpoints(this IApplicationBuilder app)
 		{
 			app.UseEndpoints(endpoints =>
 			{
 				endpoints.MapHealthChecks("/healthcheck");
 
-				if (dasBlogSettings.SiteConfiguration.EnableTitlePermaLinkUnique)
-				{
-					endpoints.MapControllerRoute(
-						"Original Post Format",
-						"~/{year:int}/{month:int}/{day:int}/{posttitle}.aspx",
-						new { controller = "BlogPost", action = "Post", posttitle = "" });
+				endpoints.MapControllerRoute(
+					"Unique Original Post Format",
+					"~/{year:int}/{month:int}/{day:int}/{posttitle}.aspx",
+					new { controller = "BlogPost", action = "Post" });
 
-					endpoints.MapControllerRoute(
-						"New Post Format",
-						"~/{year:int}/{month:int}/{day:int}/{posttitle}",
-						new { controller = "BlogPost", action = "Post", postitle = "" });
-				}
-				else
-				{
-					endpoints.MapControllerRoute(
-						"Original Post Format",
-						"~/{posttitle}.aspx",
-						new { controller = "BlogPost", action = "Post", posttitle = "" });
+				endpoints.MapControllerRoute(
+					"Unique New Post Format",
+					"~/{year:int}/{month:int}/{day:int}/{posttitle}",
+					new { controller = "BlogPost", action = "Post" });
 
-					endpoints.MapControllerRoute(
-						"New Post Format",
-						"~/{posttitle}",
-						new { controller = "BlogPost", action = "Post", postitle = "" });
-				}
+				endpoints.MapControllerRoute(
+					"Original Post Format",
+					"~/{posttitle}.aspx",
+					new { controller = "BlogPost", action = "Post" });
 
-						endpoints.MapControllerRoute(
-								name: "default", "~/{controller=Home}/{action=Index}/{id?}");
+				endpoints.MapControllerRoute(
+					"New Post Format",
+					"~/{posttitle}",
+					new { controller = "BlogPost", action = "Post" });
+
+				endpoints.MapControllerRoute(
+					name: "default", "~/{controller=Home}/{action=Index}/{id?}");
 			});
 
 			return app;

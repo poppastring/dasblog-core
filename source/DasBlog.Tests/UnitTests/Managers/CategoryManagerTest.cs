@@ -25,7 +25,6 @@ namespace DasBlog.Tests.UnitTests.Managers
             siteConfigMock.SetupAllProperties();
             siteConfigMock.SetupGet(c => c.LogDir).Returns(Path.Combine(rootdir, "logs"));
             siteConfigMock.SetupGet(c => c.ContentDir).Returns(Path.Combine(rootdir, "TestContent"));
-            siteConfigMock.SetupGet(c => c.TitlePermalinkSpaceReplacement).Returns("-");
             settingsMock.Setup(s => s.SiteConfiguration).Returns(siteConfigMock.Object);
             dataServiceMock = new Mock<IBlogDataService>();
 

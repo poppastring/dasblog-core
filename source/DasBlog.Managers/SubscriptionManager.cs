@@ -457,7 +457,7 @@ namespace DasBlog.Managers
             if (category != null)
             {
                 int entryCount = dasBlogSettings.SiteConfiguration.RssEntryCount;
-                category = category.Replace(dasBlogSettings.SiteConfiguration.TitlePermalinkSpaceReplacement, " ");
+                category = category.Replace("-", " ");
                 foreach (var catEntry in dataService.GetCategories())
                 {
 					if (string.Compare(catEntry.Name, category, CultureInfo.CurrentCulture, CompareOptions.IgnoreCase | CompareOptions.IgnoreSymbols) == 0)

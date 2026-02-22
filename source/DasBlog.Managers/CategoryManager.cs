@@ -23,13 +23,13 @@ namespace DasBlog.Managers
 
 		public EntryCollection GetEntries(string category, string acceptLanguages)
 		{
-			category = category.Replace(siteConfig.TitlePermalinkSpaceReplacement, "+");
+			category = category.Replace("-", "+");
 			return dataService.GetEntriesForCategory(category, acceptLanguages);
 		}
 
 		public string GetCategoryTitle(string categoryurl)
 		{
-			categoryurl = categoryurl.Replace(siteConfig.TitlePermalinkSpaceReplacement, "+");
+			categoryurl = categoryurl.Replace("-", "+");
 			return dataService.GetCategoryTitle(categoryurl);
 		}
 	}

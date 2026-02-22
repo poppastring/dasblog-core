@@ -4,22 +4,11 @@ using DasBlog.Services.ActivityLogs;
 using EventDataItem = DasBlog.Services.ActivityLogs.EventDataItem;
 using EventCodes = DasBlog.Services.ActivityLogs.EventCodes;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using newtelligence.DasBlog.Runtime;
-using NodaTime;
 using System;
-using System.Collections.Specialized;
-using System.Globalization;
-using System.Text.RegularExpressions;
 using System.Linq;
 using DasBlog.Services;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using DasBlog.Core.Security;
 using System.Net.Mail;
-using System.Net;
-using System.IO;
 
 namespace DasBlog.Managers
 {
@@ -39,20 +28,27 @@ namespace DasBlog.Managers
 		/// <param name="dt">if non-null then the post must be dated on that date</param>
 		public Entry GetBlogPost(string posttitle, DateTime? dt)
 		{
-			if (dt == null)
+            if (string.IsNullOrEmpty(posttitle))
 			{
-				posttitle = posttitle.Replace(dasBlogSettings.SiteConfiguration.TitlePermalinkSpaceReplacement, string.Empty)
-									.Replace(".aspx", string.Empty);
+				return null;
+			}
+
+			if (dt == null)
+				{
+					posttitle = posttitle.Replace("-", string.Empty)
+														.Replace(" ", string.Empty)
+														.Replace(".aspx", string.Empty);
 
 				return dataService.GetEntry(posttitle);
 			}
 			else
-			{
-				var entries = dataService.GetEntriesForDay(dt.Value, null, null, 1, 10, null);
+				{
+					var entries = dataService.GetEntriesForDay(dt.Value, null, null, 1, 10, null);
+					var normalizedTitle = posttitle.Replace(" ", "-");
 
-				return entries.FirstOrDefault(e => dasBlogSettings.GeneratePostUrl(e)
-											.EndsWith(posttitle, StringComparison.OrdinalIgnoreCase));
-			}
+					return entries.FirstOrDefault(e => dasBlogSettings.GeneratePostUrl(e)
+												.EndsWith(normalizedTitle, StringComparison.OrdinalIgnoreCase));
+				}
 		}
 
 		public StaticPage GetStaticPage(string posttitle)
