@@ -675,6 +675,37 @@ namespace DasBlog.Web.Controllers
 			return View(post);
 		}
 
+		[HttpPost]
+		[Route("api/image/upload")]
+		public IActionResult UploadImage(IFormFile files)
+		{
+			if (files == null || files.Length == 0)
+			{
+				return Json(new { success = false, message = "No file provided" });
+			}
+
+			try
+			{
+				string imageUrl;
+				using (var stream = files.OpenReadStream())
+				{
+					imageUrl = binaryManager.SaveFile(stream, Path.GetFileName(files.FileName));
+				}
+
+				if (string.IsNullOrEmpty(imageUrl))
+				{
+					return Json(new { success = false, message = "Failed to save file" });
+				}
+
+				return Json(new { success = true, files = new[] { imageUrl } });
+			}
+			catch (Exception e)
+			{
+				logger.LogError(e, "Image upload failed");
+				return Json(new { success = false, message = $"Upload failed: {e.Message}" });
+			}
+		}
+
 		private void ValidatePostName(PostViewModel post)
 		{
 			if(post.Title.IsNullOrWhiteSpace())

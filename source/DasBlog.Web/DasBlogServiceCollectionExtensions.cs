@@ -245,15 +245,16 @@ namespace DasBlog.Web
 		private static IRichEditBuilder SelectRichEditor(IServiceProvider serviceProvider)
 		{
 			var siteConfig = serviceProvider.GetRequiredService<ISiteConfig>();
+			var urlResolver = serviceProvider.GetRequiredService<IUrlResolver>();
 			var entryEditControl = siteConfig.EntryEditControl.ToLower();
 
 			return entryEditControl switch
 			{
-				Constants.TinyMceEditor => new TinyMceBuilder(siteConfig, serviceProvider.GetRequiredService<IUrlResolver>()),
+				Constants.TinyMceEditor => new TinyMceBuilder(siteConfig, urlResolver),
 				Constants.NicEditEditor => new NicEditBuilder(siteConfig),
-				Constants.TextAreaEditor => new TextAreaBuilder(),
 				Constants.FroalaEditor => new FroalaBuilder(),
-				_ => throw new Exception($"Attempt to use unknown rich edit control, {entryEditControl}")
+				Constants.JoditEditor => new JoditBuilder(urlResolver),
+				_ => new JoditBuilder(urlResolver)
 			};
 		}
 	}

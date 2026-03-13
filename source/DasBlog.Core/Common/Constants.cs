@@ -29,8 +29,8 @@
 		//
 		public const string TinyMceEditor = "tinymce";
 		public const string NicEditEditor = "nicedit";
-		public const string TextAreaEditor = "textarea";
 		public const string FroalaEditor = "froala";
+		public const string JoditEditor = "jodit";
 		public const string EventFieldSeparator = " :: ";
 		public const string UrlEventFielD = "{eventurl_6473}";
 		public const string CodeEventFielD = "{eventurl_6474}";
