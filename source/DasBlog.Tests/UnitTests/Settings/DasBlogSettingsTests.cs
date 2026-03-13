@@ -176,23 +176,23 @@ namespace DasBlog.Tests.UnitTests.Settings
             Assert.Equal("smtp.example.com", info.SmtpServer);
         }
 
-        [Fact]
-        public void GetDisplayTime_AdjustsTimeZone()
-        {
-            var dasBlogSettings = dasBlogSettingsMock.CreateSettings();
-            var now = DateTime.UtcNow;
-            var display = dasBlogSettings.GetDisplayTime(now);
-            Assert.Equal(now.AddHours(dasBlogSettings.SiteConfiguration.DisplayTimeZoneIndex), display);
+		[Fact]
+		public void GetDisplayTime_AdjustsTimeZone()
+		{
+			var dasBlogSettings = dasBlogSettingsMock.CreateSettings();
+			var now = DateTime.UtcNow;
+			var display = dasBlogSettings.GetDisplayTime(now);
+			Assert.Equal(now.AddHours(2), display);
 		}
 
-        [Fact]
-        public void GetCreateTime_AdjustsTimeZone()
-        {
-            var dasBlogSettings = dasBlogSettingsMock.CreateSettings();
-            var now = DateTime.UtcNow;
-            var create = dasBlogSettings.GetCreateTime(now);
-            Assert.Equal(now.AddHours(-dasBlogSettings.SiteConfiguration.DisplayTimeZoneIndex), create);
-        }
+		[Fact]
+		public void GetCreateTime_AdjustsTimeZone()
+		{
+			var dasBlogSettings = dasBlogSettingsMock.CreateSettings();
+			var now = DateTime.UtcNow;
+			var create = dasBlogSettings.GetCreateTime(now);
+			Assert.Equal(now.AddHours(-2), create);
+		}
 
         [Fact]
         public void GetCategoryViewUrlName_ReturnsEmptyString()
@@ -215,7 +215,7 @@ namespace DasBlog.Tests.UnitTests.Settings
         {
             var dasBlogSettings = dasBlogSettingsMock.CreateSettings();
             var tz = dasBlogSettings.GetConfiguredTimeZone();
-            Assert.Equal(NodaTime.Offset.FromHours(dasBlogSettings.SiteConfiguration.DisplayTimeZoneIndex), tz.GetUtcOffset(SystemClock.Instance.GetCurrentInstant()));
+            Assert.Equal(NodaTime.Offset.FromHours(2), tz.GetUtcOffset(SystemClock.Instance.GetCurrentInstant()));
         }
 
         [Fact]

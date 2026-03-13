@@ -8,6 +8,7 @@ using DasBlog.Services;
 using DasBlog.Services.ConfigFile;
 using DasBlog.Services.ConfigFile.Interfaces;
 using DasBlog.Services.FileManagement;
+using DasBlog.Services.Site;
 using DasBlog.Web.Settings;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.FileProviders;
@@ -26,6 +27,7 @@ namespace DasBlog.Tests.UnitTests
 		public readonly Mock<IOptionsMonitor<OEmbedProviders>> oembedMock;
 		public readonly Mock<ISiteSecurityConfig> securityConfigMock;
 		public readonly Mock<IOptions<ConfigFilePathsDataOption>> configFilePathsMock;
+		public readonly Mock<ITimeZoneProvider> timeZoneProviderMock;
 		public readonly SiteConfig siteConfig;
 		public readonly List<User> users;
 
@@ -37,6 +39,7 @@ namespace DasBlog.Tests.UnitTests
 			oembedMock = new Mock<IOptionsMonitor<OEmbedProviders>>();
 			securityConfigMock = new Mock<ISiteSecurityConfig>();
 			configFilePathsMock = new Mock<IOptions<ConfigFilePathsDataOption>>();
+			timeZoneProviderMock = new Mock<ITimeZoneProvider>();
 
 			siteConfig = new SiteConfig
 			{
@@ -64,6 +67,8 @@ namespace DasBlog.Tests.UnitTests
 				new User { DisplayName = "user2", EmailAddress = "user2@example.com", Active = false, Role = Role.Contributor }
 			};
 			securityConfigMock.SetupGet(s => s.Users).Returns(users);
+			timeZoneProviderMock.Setup(t => t.GetConfiguredTimeZone())
+				.Returns(DateTimeZone.ForOffset(Offset.FromHours(2)));
 		}
 
 		public DasBlogSettings CreateSettings()
@@ -79,7 +84,8 @@ namespace DasBlog.Tests.UnitTests
 				metaTagsMock.Object,
 				oembedMock.Object,
 				securityConfigMock.Object,
-				configFilePathsMock.Object
+				configFilePathsMock.Object,
+				timeZoneProviderMock.Object
 			);
 		}
 	}

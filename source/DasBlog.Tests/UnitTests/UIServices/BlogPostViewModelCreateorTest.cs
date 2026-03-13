@@ -38,50 +38,52 @@ namespace DasBlog.Tests.UnitTests.UIServices
 				AdjustDisplayTimeZone = false,
 				DisplayTimeZoneIndex = decimal.Zero
 			};
-			var optAccessor = new OptionsAccessor<TimeZoneProviderOptions>
+			var optAccessor = new OptionsMonitorAccessor<TimeZoneProviderOptions>
 			{
-				Value = opt
+				CurrentValue = opt
 			};
-			timeZoneProvider = new TimeZoneProvider(optAccessor);
-		}
+					timeZoneProvider = new TimeZoneProvider(optAccessor);
+					}
 
-		[Fact]
-		[Trait("Category", "UnitTest")]
-		public void CreatedBlogPost_ShouldShowActive_IsPublicSyndicatedAndAllowComments()
-		{
-			IBlogPostViewModelCreator bpvmc = new BlogPostViewModelCreator(blogManager, mapper, timeZoneProvider);
-			var postViewModel = bpvmc.CreateBlogPostVM();
-			Assert.True(postViewModel.IsPublic && postViewModel.Syndicated && postViewModel.AllowComments);
-		}
-		[Fact]
-		[Trait("Category", "UnitTest")]
-		public void WhenCreated_DefaultBlogPost_IncludesLotsOfLanguages()
-		{
-			IBlogPostViewModelCreator bpvmc = new BlogPostViewModelCreator(blogManager, mapper, timeZoneProvider);
-			var postViewModel = bpvmc.CreateBlogPostVM();
-			Assert.True(postViewModel.Languages.Count() > 50);
-				// 841 entries on Windows 10 UK english Imac Parallels Windows Version 10.0.17134.285]
-		}
-		[Fact]
-		[Trait("Category", "UnitTest")]
-		public void WhenCreated_DefaultBlogPost_IncludesExistingCategories()
-		{
-			IBlogPostViewModelCreator bpvmc = new BlogPostViewModelCreator(blogManager, mapper, timeZoneProvider);
-			var postViewModel = bpvmc.CreateBlogPostVM();
-			Assert.Single(postViewModel.AllCategories);
-		}
-		[Fact]
-		[Trait("Category", "UnitTest")]
-		public void WhenCreated_DefaultBlogPost_UsesTimeZone()
-		{
-			IBlogPostViewModelCreator bpvmc = new BlogPostViewModelCreator(blogManager, mapper, timeZoneProvider);
-			var postViewModel = bpvmc.CreateBlogPostVM();
-			var ts = new TimeSpan(0, 0, 10);
-			Assert.True(postViewModel.CreatedDateTime - ts < DateTime.UtcNow);
-		}
-	}
-	public class OptionsAccessor<T> : IOptions<T> where T : class, new()
-	{
-		public T Value { get; set; }
-	}
-}
+					[Fact]
+					[Trait("Category", "UnitTest")]
+					public void CreatedBlogPost_ShouldShowActive_IsPublicSyndicatedAndAllowComments()
+					{
+						IBlogPostViewModelCreator bpvmc = new BlogPostViewModelCreator(blogManager, mapper, timeZoneProvider);
+						var postViewModel = bpvmc.CreateBlogPostVM();
+						Assert.True(postViewModel.IsPublic && postViewModel.Syndicated && postViewModel.AllowComments);
+					}
+					[Fact]
+					[Trait("Category", "UnitTest")]
+					public void WhenCreated_DefaultBlogPost_IncludesLotsOfLanguages()
+					{
+						IBlogPostViewModelCreator bpvmc = new BlogPostViewModelCreator(blogManager, mapper, timeZoneProvider);
+						var postViewModel = bpvmc.CreateBlogPostVM();
+						Assert.True(postViewModel.Languages.Count() > 50);
+							// 841 entries on Windows 10 UK english Imac Parallels Windows Version 10.0.17134.285]
+					}
+					[Fact]
+					[Trait("Category", "UnitTest")]
+					public void WhenCreated_DefaultBlogPost_IncludesExistingCategories()
+					{
+						IBlogPostViewModelCreator bpvmc = new BlogPostViewModelCreator(blogManager, mapper, timeZoneProvider);
+						var postViewModel = bpvmc.CreateBlogPostVM();
+						Assert.Single(postViewModel.AllCategories);
+					}
+					[Fact]
+					[Trait("Category", "UnitTest")]
+					public void WhenCreated_DefaultBlogPost_UsesTimeZone()
+					{
+						IBlogPostViewModelCreator bpvmc = new BlogPostViewModelCreator(blogManager, mapper, timeZoneProvider);
+						var postViewModel = bpvmc.CreateBlogPostVM();
+						var ts = new TimeSpan(0, 0, 10);
+						Assert.True(postViewModel.CreatedDateTime - ts < DateTime.UtcNow);
+					}
+				}
+				public class OptionsMonitorAccessor<T> : IOptionsMonitor<T> where T : class, new()
+				{
+					public T CurrentValue { get; set; }
+					public T Get(string name) => CurrentValue;
+					public IDisposable OnChange(Action<T, string> listener) => null;
+				}
+			}

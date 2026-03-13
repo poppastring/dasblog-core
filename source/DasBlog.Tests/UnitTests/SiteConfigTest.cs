@@ -37,7 +37,7 @@ namespace DasBlog.Tests.UnitTests
 		public string TinyMCEApiKey { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 		public bool EnableComments { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 		public bool EnableStartPageCaching { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-		public int DisplayTimeZoneIndex { get => 4; set => throw new NotImplementedException(); }
+		public decimal DisplayTimeZoneIndex { get => 4; set => throw new NotImplementedException(); }
 		public bool AdjustDisplayTimeZone { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 		public string ContentDir { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 		public string LogDir { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }

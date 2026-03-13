@@ -5,20 +5,18 @@ namespace DasBlog.Services.Site
 {
 	public class TimeZoneProvider : ITimeZoneProvider
 	{
-		private bool adjustDisplayTimeZone;
-		private decimal displayTimeZoneIndex;
-		public TimeZoneProvider(IOptions<TimeZoneProviderOptions> opt)
+		private readonly IOptionsMonitor<TimeZoneProviderOptions> optionsMonitor;
+		public TimeZoneProvider(IOptionsMonitor<TimeZoneProviderOptions> optionsMonitor)
 		{
-			adjustDisplayTimeZone = opt.Value.AdjustDisplayTimeZone;
-			displayTimeZoneIndex = opt.Value.DisplayTimeZoneIndex;
+			this.optionsMonitor = optionsMonitor;
 		}
 		public DateTimeZone GetConfiguredTimeZone()
 		{
-			// currently Sept 2018 displayTimeZoneIndex is always an int.
-			if (adjustDisplayTimeZone)
+			var options = optionsMonitor.CurrentValue;
+			if (options.AdjustDisplayTimeZone)
 			{
-				return DateTimeZone.ForOffset(Offset.FromHoursAndMinutes((int)displayTimeZoneIndex, 
-						(int)(displayTimeZoneIndex % 1m * 60)));
+				return DateTimeZone.ForOffset(Offset.FromHoursAndMinutes((int)options.DisplayTimeZoneIndex, 
+						(int)(options.DisplayTimeZoneIndex % 1m * 60)));
 			}
 			else
 			{
@@ -31,6 +29,5 @@ namespace DasBlog.Services.Site
 	{
 		public bool AdjustDisplayTimeZone { get; set; }
 		public decimal DisplayTimeZoneIndex { get; set; }
-					// hopefully we will end up allowing half hour increments, etc.
 	}
 }
