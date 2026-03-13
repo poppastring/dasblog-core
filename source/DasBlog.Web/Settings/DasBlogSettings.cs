@@ -13,6 +13,7 @@ using System.Xml.Serialization;
 using DasBlog.Services.ConfigFile.Interfaces;
 using DasBlog.Services.ConfigFile;
 using DasBlog.Services;
+using DasBlog.Services.Site;
 using System.Linq;
 using newtelligence.DasBlog.Runtime;
 using DasBlog.Services.FileManagement;
@@ -27,10 +28,12 @@ namespace DasBlog.Web.Settings
 		private readonly IOptionsMonitor<SiteConfig> siteConfigMonitor;
 		private readonly IOptionsMonitor<MetaTags> metaTagsMonitor;
 		private readonly IOptionsMonitor<OEmbedProviders> embedProvidersMonitor;
+		private readonly ITimeZoneProvider timeZoneProvider;
 
 		public DasBlogSettings(IWebHostEnvironment env, IOptionsMonitor<SiteConfig> siteConfig, IOptionsMonitor<MetaTags> metaTagsConfig, 
 									IOptionsMonitor<OEmbedProviders> embedProvidersConfig, 
-									ISiteSecurityConfig siteSecurityConfig, IOptions<ConfigFilePathsDataOption> optionsAccessor)
+									ISiteSecurityConfig siteSecurityConfig, IOptions<ConfigFilePathsDataOption> optionsAccessor,
+									ITimeZoneProvider timeZoneProvider)
 		{
 			WebRootDirectory = env.ContentRootPath;
 			siteConfigMonitor = siteConfig;
@@ -38,6 +41,7 @@ namespace DasBlog.Web.Settings
 			embedProvidersMonitor = embedProvidersConfig;
 			SecurityConfiguration = siteSecurityConfig;
 			filePathDataOptions = optionsAccessor.Value;
+			this.timeZoneProvider = timeZoneProvider;
 
 			siteSecurityConfigFilePath = filePathDataOptions.SecurityConfigFilePath;
 		}
@@ -166,14 +170,7 @@ namespace DasBlog.Web.Settings
 
 		public DateTimeZone GetConfiguredTimeZone()
 		{
-			if (SiteConfiguration.AdjustDisplayTimeZone)
-			{
-				return DateTimeZone.ForOffset(Offset.FromHours(SiteConfiguration.DisplayTimeZoneIndex));
-			}
-			else
-			{
-				return DateTimeZone.Utc;
-			}
+			return timeZoneProvider.GetConfiguredTimeZone();
 		}
 
 		public DateTime GetContentLookAhead()
@@ -301,21 +298,17 @@ namespace DasBlog.Web.Settings
 
 		public DateTime GetDisplayTime(DateTime datetime)
 		{
-			if (SiteConfiguration.AdjustDisplayTimeZone)
-			{
-				return datetime.AddHours(SiteConfiguration.DisplayTimeZoneIndex);
-			}
-			return datetime;
+			var tz = timeZoneProvider.GetConfiguredTimeZone();
+			var utc = DateTime.SpecifyKind(datetime, DateTimeKind.Utc);
+			var instant = Instant.FromDateTimeUtc(utc);
+			return instant.InZone(tz).ToDateTimeUnspecified();
 		}
 
 		public DateTime GetCreateTime(DateTime datetime)
 		{
-			if (SiteConfiguration.AdjustDisplayTimeZone)
-			{
-				datetime = datetime.AddHours(-1 * SiteConfiguration.DisplayTimeZoneIndex);
-			}
-
-			return datetime;
+			var tz = timeZoneProvider.GetConfiguredTimeZone();
+			var offset = tz.GetUtcOffset(Instant.FromDateTimeUtc(DateTime.UtcNow));
+			return datetime.Add(-offset.ToTimeSpan());
 		}
 	}
 }

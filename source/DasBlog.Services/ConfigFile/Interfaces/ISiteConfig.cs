@@ -108,7 +108,7 @@ namespace DasBlog.Services.ConfigFile.Interfaces
 
 		bool ShowItemSummaryInAggregatedViews { get; set; }
 
-        int DisplayTimeZoneIndex { get; set; }
+        decimal DisplayTimeZoneIndex { get; set; }
 
         bool AdjustDisplayTimeZone { get; set; }
 

@@ -14,7 +14,6 @@ namespace DasBlog.Services.Site
 		}
 		public DateTimeZone GetConfiguredTimeZone()
 		{
-			// currently Sept 2018 displayTimeZoneIndex is always an int.
 			if (adjustDisplayTimeZone)
 			{
 				return DateTimeZone.ForOffset(Offset.FromHoursAndMinutes((int)displayTimeZoneIndex, 

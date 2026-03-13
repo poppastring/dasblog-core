@@ -106,7 +106,7 @@ namespace DasBlog.Services.ConfigFile
 		public bool EnableRewritingBareLinksToEmbeddings { get; set; }
 		public bool EnableRewritingBareLinksToIcons { get; set; }
 
-		public int DisplayTimeZoneIndex { get; set; }
+		public decimal DisplayTimeZoneIndex { get; set; }
         public bool AdjustDisplayTimeZone { get; set; }
         public string ContentDir { get; set; }
         public string LogDir { get; set; }

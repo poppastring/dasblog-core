@@ -231,7 +231,7 @@ namespace DasBlog.Web.Models.AdminViewModels
 
 		[DisplayName("Time zone index")]
 		[Description("")]
-		public int DisplayTimeZoneIndex { get; set; }
+		public decimal DisplayTimeZoneIndex { get; set; }
 
 		[DisplayName("CDN from")]
 		[Description("The part of your Root URL to replace with the CDN URL. (optional)")]
