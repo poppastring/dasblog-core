@@ -192,10 +192,6 @@ namespace DasBlog.Web.Controllers
 			{
 				return HandleNewCategory(post);
 			}
-			if (submit == Constants.UploadImageAction)
-			{
-				return HandleImageUpload(post);
-			}
 
 			ValidatePostName(post);
 			if (!ModelState.IsValid)
@@ -259,11 +255,6 @@ namespace DasBlog.Web.Controllers
 			if (submit == Constants.BlogPostAddCategoryAction)
 			{
 				return HandleNewCategory(post);
-			}
-
-			if (submit == Constants.UploadImageAction)
-			{
-				return HandleImageUpload(post);
 			}
 
 			ValidatePostName(post);
@@ -640,42 +631,6 @@ namespace DasBlog.Web.Controllers
 				ModelState.Remove(nameof(post.NewCategory));    // ensure response refreshes page with view model's value
 			}
 
-			return View(post);
-		}
-
-		private IActionResult HandleImageUpload(PostViewModel post)
-		{
-			ModelState.ClearValidationState("");
-			var fileName = post.Image?.FileName;
-			if (string.IsNullOrEmpty(fileName))
-			{
-				ModelState.AddModelError(nameof(post.Image),
-						$"You must select a file before clicking \"{Constants.UploadImageAction}\" to upload it");
-				return View(post);
-			}
-
-			string fullimageurl = null;
-			try
-			{
-				using (var s = post.Image.OpenReadStream())
-				{
-					fullimageurl = binaryManager.SaveFile(s, Path.GetFileName(fileName));
-				}
-			}
-			catch (Exception e)
-			{
-				ModelState.AddModelError(nameof(post.Image), $"An error occurred while uploading image ({e.Message})");
-				return View(post);
-			}
-
-			if (string.IsNullOrEmpty(fullimageurl))
-			{
-				ModelState.AddModelError(nameof(post.Image), "Failed to upload file - reason unknown");
-				return View(post);
-			}
-
-			post.Content += string.Format("<p><img border=\"0\" src=\"{0}\"></p>", fullimageurl);
-			ModelState.Remove(nameof(post.Content)); // ensure that model change is included in response
 			return View(post);
 		}
 
