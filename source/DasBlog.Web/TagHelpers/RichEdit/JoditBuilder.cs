@@ -57,7 +57,16 @@ namespace DasBlog.Web.TagHelpers.RichEdit
 							ajax: {{
 								url: '{baseUrl}/api/image/list',
 								method: 'GET',
-								withCredentials: true
+								withCredentials: true,
+								process: function(resp) {{
+									return resp;
+								}}
+							}},
+							isSuccess: function(resp) {{
+								return resp.success;
+							}},
+							getMessage: function(resp) {{
+								return resp.message || '';
 							}},
 							uploader: {{
 								url: '{baseUrl}/api/image/upload',

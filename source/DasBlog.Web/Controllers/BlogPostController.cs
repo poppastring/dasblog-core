@@ -733,6 +733,8 @@ namespace DasBlog.Web.Controllers
 						return new
 						{
 							file = info.Name,
+							name = info.Name,
+							type = "image",
 							thumb = info.Name,
 							changed = info.LastWriteTime.ToString("MM/dd/yyyy hh:mm tt"),
 							size = FormatFileSize(info.Length),
@@ -753,6 +755,7 @@ namespace DasBlog.Web.Controllers
 						{
 							new
 							{
+								name = "default",
 								baseurl = baseUrl,
 								path = "",
 								files
