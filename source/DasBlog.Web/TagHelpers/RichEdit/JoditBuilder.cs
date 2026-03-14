@@ -79,7 +79,7 @@ namespace DasBlog.Web.TagHelpers.RichEdit
 							defaultHandlerSuccess: function(data) {{
 								if (data.files && data.files.length) {{
 									for (var i = 0; i < data.files.length; i++) {{
-										this.s.insertImage(data.files[i]);
+										this.s.insertHTML('<figure><img src=""' + data.files[i] + '"" alt="""" /></figure>');
 									}}
 								}}
 							}}
