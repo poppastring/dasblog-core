@@ -53,6 +53,30 @@ namespace DasBlog.Web.TagHelpers.RichEdit
 							'hr', 'eraser', 'source', '|',
 							'undo', 'redo', 'fullsize'
 						],
+						filebrowser: {{
+							ajax: {{
+								url: '{baseUrl}/api/image/list',
+								method: 'GET',
+								withCredentials: true
+							}},
+							uploader: {{
+								url: '{baseUrl}/api/image/upload',
+								format: 'json',
+								filesVariableName: function(i) {{ return 'files'; }},
+								withCredentials: true,
+								isSuccess: function(resp) {{
+									return resp.success;
+								}},
+								process: function(resp) {{
+									return {{
+										files: resp.files || [],
+										baseurl: '',
+										error: resp.success ? 0 : 1,
+										message: resp.message || ''
+									}};
+								}}
+							}}
+						}},
 						uploader: {{
 							url: '{baseUrl}/api/image/upload',
 							format: 'json',
