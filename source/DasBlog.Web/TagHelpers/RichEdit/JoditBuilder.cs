@@ -118,6 +118,11 @@ namespace DasBlog.Web.TagHelpers.RichEdit
 							}}
 						}}
 					}});
+
+					editor.e.on('filebrowser:insertImage', function(url) {{
+						editor.s.insertHTML('<figure><img src=""' + url + '"" alt="""" /></figure>');
+						return false;
+					}});
 				}});
 				</script>";
 
