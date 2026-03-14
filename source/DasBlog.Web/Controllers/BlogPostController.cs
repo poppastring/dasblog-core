@@ -23,6 +23,7 @@ using Markdig;
 using DasBlog.Core.Extensions;
 using System.Text.RegularExpressions;
 using DasBlog.Services.Site;
+using DasBlog.Services.FileManagement;
 using Quartz.Util;
 
 namespace DasBlog.Web.Controllers
@@ -43,11 +44,13 @@ namespace DasBlog.Web.Controllers
 		private readonly IMemoryCache memoryCache;
 		private readonly IExternalEmbeddingHandler embeddingHandler;
 		private readonly IRecaptchaService recaptcha;
+		private readonly IDasBlogPathResolver pathResolver;
 
 		
 		public BlogPostController(IBlogManager blogManager, ICommentManager commentManager, ISearchManager searchManager, IHttpContextAccessor httpContextAccessor, IDasBlogSettings dasBlogSettings,
 									IMapper mapper, ICategoryManager categoryManager, IFileSystemBinaryManager binaryManager, ILogger<BlogPostController> logger,
-									IBlogPostViewModelCreator modelViewCreator, IMemoryCache memoryCache, IExternalEmbeddingHandler embeddingHandler, IRecaptchaService recaptcha)
+									IBlogPostViewModelCreator modelViewCreator, IMemoryCache memoryCache, IExternalEmbeddingHandler embeddingHandler, IRecaptchaService recaptcha,
+									IDasBlogPathResolver pathResolver)
 									: base(dasBlogSettings)
 		{
 			this.blogManager = blogManager;
@@ -63,6 +66,7 @@ namespace DasBlog.Web.Controllers
 			this.memoryCache = memoryCache;
 			this.embeddingHandler = embeddingHandler;
 			this.recaptcha = recaptcha;
+			this.pathResolver = pathResolver;
 		}
 
 		[AllowAnonymous]
@@ -188,10 +192,6 @@ namespace DasBlog.Web.Controllers
 			{
 				return HandleNewCategory(post);
 			}
-			if (submit == Constants.UploadImageAction)
-			{
-				return HandleImageUpload(post);
-			}
 
 			ValidatePostName(post);
 			if (!ModelState.IsValid)
@@ -255,11 +255,6 @@ namespace DasBlog.Web.Controllers
 			if (submit == Constants.BlogPostAddCategoryAction)
 			{
 				return HandleNewCategory(post);
-			}
-
-			if (submit == Constants.UploadImageAction)
-			{
-				return HandleImageUpload(post);
 			}
 
 			ValidatePostName(post);
@@ -639,40 +634,104 @@ namespace DasBlog.Web.Controllers
 			return View(post);
 		}
 
-		private IActionResult HandleImageUpload(PostViewModel post)
+		[HttpPost]
+		[Route("api/image/upload")]
+		public IActionResult UploadImage(IFormFile files)
 		{
-			ModelState.ClearValidationState("");
-			var fileName = post.Image?.FileName;
-			if (string.IsNullOrEmpty(fileName))
+			if (files == null || files.Length == 0)
 			{
-				ModelState.AddModelError(nameof(post.Image),
-						$"You must select a file before clicking \"{Constants.UploadImageAction}\" to upload it");
-				return View(post);
+				return Json(new { success = false, message = "No file provided" });
 			}
 
-			string fullimageurl = null;
 			try
 			{
-				using (var s = post.Image.OpenReadStream())
+				string imageUrl;
+				using (var stream = files.OpenReadStream())
 				{
-					fullimageurl = binaryManager.SaveFile(s, Path.GetFileName(fileName));
+					imageUrl = binaryManager.SaveFile(stream, Path.GetFileName(files.FileName));
 				}
+
+				if (string.IsNullOrEmpty(imageUrl))
+				{
+					return Json(new { success = false, message = "Failed to save file" });
+				}
+
+				return Json(new { success = true, files = new[] { imageUrl } });
 			}
 			catch (Exception e)
 			{
-				ModelState.AddModelError(nameof(post.Image), $"An error occurred while uploading image ({e.Message})");
-				return View(post);
+				logger.LogError(e, "Image upload failed");
+				return Json(new { success = false, message = $"Upload failed: {e.Message}" });
 			}
+		}
 
-			if (string.IsNullOrEmpty(fullimageurl))
+		[HttpGet]
+		[Route("api/image/list")]
+		public IActionResult ListImages()
+		{
+			var imageExtensions = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+				{ ".jpg", ".jpeg", ".png", ".gif", ".webp", ".svg" };
+
+			try
 			{
-				ModelState.AddModelError(nameof(post.Image), "Failed to upload file - reason unknown");
-				return View(post);
-			}
+				var binariesPath = pathResolver.BinariesPath;
+				if (!Directory.Exists(binariesPath))
+				{
+					return Json(new { success = true, data = new { sources = Array.Empty<object>(), code = 220 } });
+				}
 
-			post.Content += string.Format("<p><img border=\"0\" src=\"{0}\"></p>", fullimageurl);
-			ModelState.Remove(nameof(post.Content)); // ensure that model change is included in response
-			return View(post);
+				var files = Directory.GetFiles(binariesPath)
+					.Where(f => imageExtensions.Contains(Path.GetExtension(f)))
+					.Select(f =>
+					{
+						var info = new FileInfo(f);
+						return new
+						{
+							file = info.Name,
+							name = info.Name,
+							type = "image",
+							thumb = info.Name,
+							changed = info.LastWriteTime.ToString("MM/dd/yyyy hh:mm tt"),
+							size = FormatFileSize(info.Length),
+							isImage = true
+						};
+					})
+					.OrderByDescending(f => f.changed)
+					.ToList();
+
+				var baseUrl = $"/{pathResolver.BinariesUrlRelativePath}/";
+
+				return Json(new
+				{
+					success = true,
+					data = new
+					{
+						sources = new[]
+						{
+							new
+							{
+								name = "default",
+								baseurl = baseUrl,
+								path = "",
+								files
+							}
+						},
+						code = 220
+					}
+				});
+			}
+			catch (Exception e)
+			{
+				logger.LogError(e, "Failed to list images");
+				return Json(new { success = false, message = $"Failed to list images: {e.Message}" });
+			}
+		}
+
+		private static string FormatFileSize(long bytes)
+		{
+			if (bytes < 1024) return $"{bytes} B";
+			if (bytes < 1024 * 1024) return $"{bytes / 1024.0:F1} KB";
+			return $"{bytes / (1024.0 * 1024.0):F1} MB";
 		}
 
 		private void ValidatePostName(PostViewModel post)

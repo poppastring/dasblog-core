@@ -12,11 +12,10 @@ namespace DasBlog.Web.Models.AdminViewModels
 		public List<EntryEditControlViewModel> Init()
 		{
 			return new List<EntryEditControlViewModel>() {
+				new EntryEditControlViewModel { Name = "Jodit" },
 				new EntryEditControlViewModel { Name = "Froala" },
 				new EntryEditControlViewModel { Name = "TinyMce" },
-				new EntryEditControlViewModel { Name = "NicEdit" },
-				new EntryEditControlViewModel { Name = "TextArea" }
-
+				new EntryEditControlViewModel { Name = "NicEdit" }
 			};
 		}
 	}

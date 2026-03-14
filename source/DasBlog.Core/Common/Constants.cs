@@ -6,7 +6,6 @@
 		public const string BlogPostCancelAction = "Cancel";
 		public const string BlogPostAddCategoryAction = "Add";
 		public const string BlogPostEditAction = "Edit";
-		public const string UploadImageAction = "Upload Image";
 		public const string UsersCreateMode = "Create";
 		public const string UsersEditMode = "Edit";
 		public const string UsersDeleteMode = "Delete";
@@ -29,8 +28,8 @@
 		//
 		public const string TinyMceEditor = "tinymce";
 		public const string NicEditEditor = "nicedit";
-		public const string TextAreaEditor = "textarea";
 		public const string FroalaEditor = "froala";
+		public const string JoditEditor = "jodit";
 		public const string EventFieldSeparator = " :: ";
 		public const string UrlEventFielD = "{eventurl_6473}";
 		public const string CodeEventFielD = "{eventurl_6474}";
