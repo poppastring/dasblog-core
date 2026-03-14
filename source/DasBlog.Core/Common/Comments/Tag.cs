@@ -13,7 +13,21 @@ namespace DasBlog.Core.Common.Comments
 		public string Name { get; set; }
 
 		[XmlAttribute(AttributeName = "attributes")]
-		public string Attributes { get; set; }
+		public string Attributes
+		{
+			get => string.Join(",", attributes);
+			set
+			{
+				if (string.IsNullOrEmpty(value))
+				{
+					attributes = new string[0];
+				}
+				else
+				{
+					attributes = value.Split(',');
+				}
+			}
+		}
 
 		[XmlAttribute(AttributeName = "allowed")]
 		public bool Allowed { get; set; }
