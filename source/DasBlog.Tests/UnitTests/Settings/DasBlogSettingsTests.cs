@@ -194,6 +194,16 @@ namespace DasBlog.Tests.UnitTests.Settings
 			Assert.Equal(now.AddHours(-2), create);
 		}
 
+		[Fact]
+		public void GetCreateTime_IsInverseOfGetDisplayTime()
+		{
+			var dasBlogSettings = dasBlogSettingsMock.CreateSettings();
+			var utcTime = new DateTime(2024, 7, 15, 14, 30, 0, DateTimeKind.Utc);
+			var displayTime = dasBlogSettings.GetDisplayTime(utcTime);
+			var roundTripped = dasBlogSettings.GetCreateTime(displayTime);
+			Assert.Equal(utcTime, roundTripped);
+		}
+
         [Fact]
         public void GetCategoryViewUrlName_ReturnsEmptyString()
         {

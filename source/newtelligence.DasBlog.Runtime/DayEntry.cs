@@ -283,10 +283,10 @@ namespace newtelligence.DasBlog.Runtime
 		public static bool OccursBetween(DayEntry dayEntry, DateTimeZone timeZone, 
 			DateTime startDateTime, DateTime endDateTime)
 		{
-			//return ((timeZone.ToLocalTime(dayEntry.DateUtc) >= startDateTime)
-			//	&& (timeZone.ToLocalTime(dayEntry.DateUtc) <= endDateTime) );
-			return ((dayEntry.DateUtc >= startDateTime)
-				&& (dayEntry.DateUtc <= endDateTime) );
+			var instant = Instant.FromDateTimeUtc(DateTime.SpecifyKind(dayEntry.DateUtc, DateTimeKind.Utc));
+			var localDate = instant.InZone(timeZone).ToDateTimeUnspecified();
+			return ((localDate >= startDateTime)
+				&& (localDate <= endDateTime) );
 		}
 
 		/// <summary>
@@ -303,9 +303,6 @@ namespace newtelligence.DasBlog.Runtime
 			endOfMonth = endOfMonth.AddMonths(1);
 			endOfMonth = endOfMonth.AddSeconds(-1);
 
-			var localTime = LocalDateTime.FromDateTime(endOfMonth);
-			var offset = timeZone.GetUtcOffset(localTime.InZoneStrictly(timeZone).ToInstant());
-			endOfMonth = endOfMonth.Add(offset.ToTimeSpan());
 			return (OccursBetween(dayEntry, timeZone, startOfMonth, endOfMonth));
 		}
 	}

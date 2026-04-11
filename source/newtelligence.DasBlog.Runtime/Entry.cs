@@ -497,7 +497,8 @@ namespace newtelligence.DasBlog.Runtime
 		/// </returns>
 		public static bool OccursBefore(Entry entry, DateTimeZone timeZone, DateTime dateTime)
 		{
-			var entryCreated = timeZone.AtStrictly(LocalDateTime.FromDateTime(entry.CreatedUtc)).LocalDateTime;
+			var instant = Instant.FromDateTimeUtc(DateTime.SpecifyKind(entry.CreatedUtc, DateTimeKind.Utc));
+			var entryCreated = instant.InZone(timeZone).LocalDateTime;
 			var date = LocalDateTime.FromDateTime(dateTime);
 
 			return (entryCreated <= date);
@@ -506,7 +507,8 @@ namespace newtelligence.DasBlog.Runtime
 		public static bool OccursBetween(Entry entry, DateTimeZone timeZone, 
 												DateTime startDateTime, DateTime endDateTime)
 		{
-			var entryCreated = timeZone.AtStrictly(LocalDateTime.FromDateTime(entry.CreatedUtc)).LocalDateTime;
+			var instant = Instant.FromDateTimeUtc(DateTime.SpecifyKind(entry.CreatedUtc, DateTimeKind.Utc));
+			var entryCreated = instant.InZone(timeZone).LocalDateTime;
 			var strartDate = LocalDateTime.FromDateTime(startDateTime);
 			var endDate = LocalDateTime.FromDateTime(endDateTime);
 

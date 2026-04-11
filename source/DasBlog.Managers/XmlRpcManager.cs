@@ -477,8 +477,6 @@ namespace DasBlog.Managers
 			newPost.IsPublic = publish;
 			newPost.Syndicated = publish;
 
-			newPost.CreatedUtc = newPost.ModifiedUtc = dasBlogSettings.GetCreateTime(newPost.CreatedUtc);
-
 			dataService.SaveEntry(newPost);
 
 			return newPost.EntryId;
@@ -616,8 +614,7 @@ namespace DasBlog.Managers
 
 			var trackbackList = FillEntryFromMetaWeblogPost(newPost, post);
 
-			newPost.CreatedUtc = newPost.ModifiedUtc = dasBlogSettings.GetCreateTime(newPost.CreatedUtc);
-
+			newPost.ModifiedUtc = newPost.CreatedUtc;
 			newPost.IsPublic = publish;
 			newPost.Syndicated = publish;
 
@@ -652,7 +649,7 @@ namespace DasBlog.Managers
 			// so we have to check for that
 			if (post.dateCreated != DateTime.MinValue)
 			{
-				entry.CreatedUtc = post.dateCreated.ToUniversalTime();
+				entry.CreatedUtc = dasBlogSettings.GetCreateTime(post.dateCreated);
 			}
 
 			//Patched to avoid html entities in title
