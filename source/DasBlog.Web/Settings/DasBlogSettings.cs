@@ -307,8 +307,8 @@ namespace DasBlog.Web.Settings
 		public DateTime GetCreateTime(DateTime datetime)
 		{
 			var tz = timeZoneProvider.GetConfiguredTimeZone();
-			var offset = tz.GetUtcOffset(Instant.FromDateTimeUtc(DateTime.UtcNow));
-			return datetime.Add(-offset.ToTimeSpan());
+			var local = LocalDateTime.FromDateTime(datetime);
+			return local.InZoneLeniently(tz).ToDateTimeUtc();
 		}
 	}
 }
