@@ -233,8 +233,22 @@ namespace DasBlog.Tests.UnitTests.Settings
         {
             var dasBlogSettings = dasBlogSettingsMock.CreateSettings();
             var lookahead = dasBlogSettings.GetContentLookAhead();
-            var expected = DateTime.UtcNow.AddDays(dasBlogSettings.SiteConfiguration.ContentLookaheadDays).Date;
+            var tz = dasBlogSettings.GetConfiguredTimeZone();
+            var localNow = SystemClock.Instance.GetCurrentInstant().InZone(tz).ToDateTimeUnspecified();
+            var expected = localNow.AddDays(dasBlogSettings.SiteConfiguration.ContentLookaheadDays).Date;
             Assert.Equal(expected, lookahead.Date);
+        }
+
+        [Fact]
+        public void GetContentLookAhead_UsesLocalTimeNotUtc()
+        {
+            var dasBlogSettings = dasBlogSettingsMock.CreateSettings();
+            var lookahead = dasBlogSettings.GetContentLookAhead();
+            var tz = dasBlogSettings.GetConfiguredTimeZone();
+            var localNow = SystemClock.Instance.GetCurrentInstant().InZone(tz).ToDateTimeUnspecified();
+
+            // Lookahead should be relative to blog-local time, not UTC
+            Assert.True(Math.Abs((lookahead - localNow.AddDays(dasBlogSettings.SiteConfiguration.ContentLookaheadDays)).TotalMinutes) < 1);
         }
 
         [Fact]

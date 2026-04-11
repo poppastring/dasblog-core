@@ -175,7 +175,9 @@ namespace DasBlog.Web.Settings
 
 		public DateTime GetContentLookAhead()
 		{
-			return DateTime.UtcNow.AddDays(SiteConfiguration.ContentLookaheadDays);
+			var tz = timeZoneProvider.GetConfiguredTimeZone();
+			var localNow = SystemClock.Instance.GetCurrentInstant().InZone(tz).ToDateTimeUnspecified();
+			return localNow.AddDays(SiteConfiguration.ContentLookaheadDays);
 		}
 
 		public string FilterHtml(string input)
