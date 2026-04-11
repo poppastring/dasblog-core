@@ -28,8 +28,9 @@ namespace DasBlog.Web.Services
 		{
 			PostViewModel post = new PostViewModel();
 			var tz = timeZoneProvider.GetConfiguredTimeZone();
-			var offset = tz.GetUtcOffset(new Instant());
-			post.CreatedDateTime = DateTime.UtcNow.Add(new TimeSpan(0,0,0,offset.Seconds));
+			var utcNow = DateTime.UtcNow;
+			var instant = Instant.FromDateTimeUtc(DateTime.SpecifyKind(utcNow, DateTimeKind.Utc));
+			post.CreatedDateTime = instant.InZone(tz).ToDateTimeUnspecified();
 			post.IsPublic = true;
 			post.Syndicated = true;
 			post.AllowComments = true;
