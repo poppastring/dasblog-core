@@ -204,20 +204,34 @@ namespace DasBlog.Managers
 
 		private string GetFromEmail()
 		{
-			if (string.IsNullOrWhiteSpace(dasBlogSettings.SiteConfiguration.SmtpFromEmail))
+			var fromEmail = !string.IsNullOrWhiteSpace(dasBlogSettings.SiteConfiguration.SmtpFromEmail)
+				? dasBlogSettings.SiteConfiguration.SmtpFromEmail.Trim()
+				: dasBlogSettings.SiteConfiguration.SmtpUserName?.Trim();
+
+			if (string.IsNullOrWhiteSpace(fromEmail))
 			{
-				return dasBlogSettings.SiteConfiguration.SmtpUserName?.Trim();
+				throw new FormatException("No valid 'From' email address configured. Please set SmtpFromEmail or SmtpUserName in settings.");
 			}
 
-			return dasBlogSettings.SiteConfiguration.SmtpFromEmail?.Trim();
+			return fromEmail;
 		}
 
 		public bool SendTestEmail()
 		{
 			var emailMessage = new MailMessage();
 			emailMessage.From = new MailAddress(GetFromEmail());
-			emailMessage.To.Add(dasBlogSettings.SiteConfiguration.NotificationEMailAddress);
-			emailMessage.To.Add(dasBlogSettings.SiteConfiguration.Contact);
+
+			// Add NotificationEMailAddress if valid
+			if (!string.IsNullOrWhiteSpace(dasBlogSettings.SiteConfiguration.NotificationEMailAddress))
+			{
+				emailMessage.To.Add(dasBlogSettings.SiteConfiguration.NotificationEMailAddress);
+			}
+
+			// Add Contact email if valid
+			if (!string.IsNullOrWhiteSpace(dasBlogSettings.SiteConfiguration.Contact))
+			{
+				emailMessage.To.Add(dasBlogSettings.SiteConfiguration.Contact);
+			}
 
 			foreach (var user in dasBlogSettings.SecurityConfiguration.Users)
 			{
@@ -225,6 +239,12 @@ namespace DasBlog.Managers
 				{
 					emailMessage.To.Add(user.EmailAddress);
 				}
+			}
+
+			// Ensure we have at least one recipient
+			if (emailMessage.To.Count == 0)
+			{
+				throw new FormatException("No valid recipient email addresses configured. Please set NotificationEMailAddress, Contact, or user email addresses in settings.");
 			}
 
 			emailMessage.Subject = string.Format("SMTP email from {0}", dasBlogSettings.SiteConfiguration.Title);

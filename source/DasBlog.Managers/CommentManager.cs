@@ -1,4 +1,4 @@
-using DasBlog.Managers.Interfaces;
+﻿using DasBlog.Managers.Interfaces;
 using DasBlog.Services;
 using Microsoft.Extensions.Logging;
 using newtelligence.DasBlog.Runtime;
@@ -155,11 +155,12 @@ namespace DasBlog.Managers
 		{
 			var emailMessage = new MailMessage();
 
+			// Add NotificationEMailAddress if valid, otherwise fall back to Contact
 			if (!string.IsNullOrWhiteSpace(dasBlogSettings.SiteConfiguration.NotificationEMailAddress))
 			{
 				emailMessage.To.Add(dasBlogSettings.SiteConfiguration.NotificationEMailAddress);
 			}
-			else
+			else if (!string.IsNullOrWhiteSpace(dasBlogSettings.SiteConfiguration.Contact))
 			{
 				emailMessage.To.Add(dasBlogSettings.SiteConfiguration.Contact);
 			}
@@ -195,12 +196,16 @@ namespace DasBlog.Managers
 
 		private string GetFromEmail()
 		{
-			if (string.IsNullOrWhiteSpace(dasBlogSettings.SiteConfiguration.SmtpFromEmail))
+			var fromEmail = !string.IsNullOrWhiteSpace(dasBlogSettings.SiteConfiguration.SmtpFromEmail)
+				? dasBlogSettings.SiteConfiguration.SmtpFromEmail.Trim()
+				: dasBlogSettings.SiteConfiguration.SmtpUserName?.Trim();
+
+			if (string.IsNullOrWhiteSpace(fromEmail))
 			{
-				return dasBlogSettings.SiteConfiguration.SmtpUserName?.Trim();
+				throw new FormatException("No valid 'From' email address configured. Please set SmtpFromEmail or SmtpUserName in settings.");
 			}
 
-			return dasBlogSettings.SiteConfiguration.SmtpFromEmail?.Trim();
+			return fromEmail;
 		}
 	}
 }
