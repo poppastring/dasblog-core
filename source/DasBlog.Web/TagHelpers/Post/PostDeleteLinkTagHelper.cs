@@ -20,9 +20,12 @@ namespace DasBlog.Web.TagHelpers.Post
 				BlogTitle = Post.Title;
 			}
 
+			var escapedTitle = BlogTitle?.Replace("'", "\\'") ?? string.Empty;
+
 			output.TagName = "a";
 			output.TagMode = TagMode.StartTagAndEndTag;
-			output.Attributes.SetAttribute("href", $"javascript:deleteEntry(\"/admin/post/{BlogPostId}/delete\",\"{BlogTitle}\")");
+			output.Attributes.SetAttribute("href", "#");
+			output.Attributes.SetAttribute("onclick", $"deleteEntry('/admin/post/{BlogPostId}/delete','{escapedTitle}'); return false;");
 			output.Content.SetHtmlContent("Delete this post");
 		}
 

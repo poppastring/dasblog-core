@@ -1,5 +1,4 @@
-﻿
-function commentManagement(postid, commentid, commentText, httpVerb) {
+﻿function commentManagement(postid, commentid, commentText, httpVerb) {
     // Store comment details for modal
     window.pendingCommentAction = {
         postid: postid,
@@ -107,7 +106,21 @@ function executeCommentAction() {
 
 function deleteEntry(entryUrl, entryTitle) {
     if (confirm("Are you sure you want to delete this item? \n\n" + entryTitle)) {
-        location.href = entryUrl;
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = entryUrl;
+        
+        const token = document.querySelector('input[name="__RequestVerificationToken"]');
+        if (token) {
+            const tokenInput = document.createElement('input');
+            tokenInput.type = 'hidden';
+            tokenInput.name = '__RequestVerificationToken';
+            tokenInput.value = token.value;
+            form.appendChild(tokenInput);
+        }
+        
+        document.body.appendChild(form);
+        form.submit();
     }
 }
 

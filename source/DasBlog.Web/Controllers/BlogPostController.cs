@@ -184,6 +184,7 @@ namespace DasBlog.Web.Controllers
 		}
 
 		[HttpPost("admin/post/edit")]
+		[ValidateAntiForgeryToken]
 		public IActionResult EditPost(PostViewModel post, string submit)
 		{
 			// languages does not get posted as part of form
@@ -305,7 +306,8 @@ namespace DasBlog.Web.Controllers
 				return LocalRedirect(string.Format("~/admin/post/{0}/edit", entry.EntryId));
 			}
 
-		[HttpGet("admin/post/{postid:guid}/delete")]
+		[HttpPost("admin/post/{postid:guid}/delete")]
+		[ValidateAntiForgeryToken]
 		public IActionResult DeletePost(Guid postid)
 		{
 			try
