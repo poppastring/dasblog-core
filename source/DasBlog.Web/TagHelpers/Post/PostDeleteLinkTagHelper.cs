@@ -20,9 +20,14 @@ namespace DasBlog.Web.TagHelpers.Post
 				BlogTitle = Post.Title;
 			}
 
+			var modalId = $"deleteModal_{BlogPostId?.Replace("-", "")}";
+
 			output.TagName = "a";
 			output.TagMode = TagMode.StartTagAndEndTag;
-			output.Attributes.SetAttribute("href", $"javascript:deleteEntry(\"/admin/post/{BlogPostId}/delete\",\"{BlogTitle}\")");
+			output.Attributes.SetAttribute("href", "#");
+			output.Attributes.SetAttribute("data-bs-toggle", "modal");
+			output.Attributes.SetAttribute("data-bs-target", $"#{modalId}");
+			output.Attributes.SetAttribute("role", "button");
 			output.Content.SetHtmlContent("Delete this post");
 		}
 

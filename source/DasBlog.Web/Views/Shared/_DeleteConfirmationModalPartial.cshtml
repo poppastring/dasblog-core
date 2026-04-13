@@ -1,0 +1,36 @@
+@*
+    Reusable delete confirmation modal component for blog posts
+    Usage: <partial name="_DeleteConfirmationModalPartial" model="Model" />
+
+    Model required: PostViewModel with EntryId and Title
+*@
+
+@model DasBlog.Web.Models.BlogViewModels.PostViewModel
+
+@{
+    var modalId = $"deleteModal_{Model.EntryId.Replace("-", "")}";
+    var formId = $"deleteForm_{Model.EntryId.Replace("-", "")}";
+}
+
+<div class="modal fade" id="@modalId" tabindex="-1" aria-labelledby="@(modalId)Label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="@(modalId)Label">Confirm Delete</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete this post?</p>
+                <p><strong>@Model.Title</strong></p>
+                <p class="text-danger"><small>This action cannot be undone.</small></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <form id="@formId" action="/admin/post/@Model.EntryId/delete" method="post" style="display:inline;">
+                    @Html.AntiForgeryToken()
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

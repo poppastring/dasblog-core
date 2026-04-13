@@ -1,5 +1,4 @@
-﻿
-function commentManagement(postid, commentid, commentText, httpVerb) {
+﻿function commentManagement(postid, commentid, commentText, httpVerb) {
     // Store comment details for modal
     window.pendingCommentAction = {
         postid: postid,
@@ -103,12 +102,6 @@ function executeCommentAction() {
 
     // Clear pending action
     window.pendingCommentAction = null;
-}
-
-function deleteEntry(entryUrl, entryTitle) {
-    if (confirm("Are you sure you want to delete this item? \n\n" + entryTitle)) {
-        location.href = entryUrl;
-    }
 }
 
 function linkToUser(emailAddress, linkAbility) {
