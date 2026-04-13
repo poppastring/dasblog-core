@@ -72,7 +72,7 @@ a:hover {
 /* Container */
 .kob-container {
     max-width: 880px;
-    padding-top: 2rem;
+    padding-top: 1rem;
     padding-bottom: 2rem;
 }
 
@@ -182,7 +182,7 @@ a:hover {
 
 /* Article (full post) */
 .kob-article {
-    padding: 2rem 0;
+    padding: 0.5rem 0 3rem;
 }
 
 .kob-article-header {
