@@ -28,12 +28,12 @@
             <post-to-blue-sky post="@Model">BlueSky</post-to-blue-sky>
         </div>
         <div dasblog-authorized class="mb-3">
-            @Html.AntiForgeryToken()
             <post-edit-link post="@Model" />
             <span style="display:inline-block; width: 1em;"></span>
             <post-delete-link post="@Model" />
             <span style="display:inline-block; width: 1em;"></span>
             <comment-management-link post="@Model" />
+            <partial name="_DeleteConfirmationModalPartial" model="Model" />
         </div>
     </div>
 

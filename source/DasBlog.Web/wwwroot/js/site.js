@@ -104,26 +104,6 @@ function executeCommentAction() {
     window.pendingCommentAction = null;
 }
 
-function deleteEntry(entryUrl, entryTitle) {
-    if (confirm("Are you sure you want to delete this item? \n\n" + entryTitle)) {
-        const form = document.createElement('form');
-        form.method = 'POST';
-        form.action = entryUrl;
-        
-        const token = document.querySelector('input[name="__RequestVerificationToken"]');
-        if (token) {
-            const tokenInput = document.createElement('input');
-            tokenInput.type = 'hidden';
-            tokenInput.name = '__RequestVerificationToken';
-            tokenInput.value = token.value;
-            form.appendChild(tokenInput);
-        }
-        
-        document.body.appendChild(form);
-        form.submit();
-    }
-}
-
 function linkToUser(emailAddress, linkAbility) {
     if (linkAbility === "disabled") {
         alert("You must complete the current operation (create, edit or delete user), before you can select another");
