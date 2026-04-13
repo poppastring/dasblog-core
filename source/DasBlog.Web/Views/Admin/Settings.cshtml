@@ -22,6 +22,16 @@
 <!-- Success Alert using reusable partial -->
 <partial name="_SuccessAlertPartial" view-data="ViewData" />
 
+<!-- Error Alert for test email and other operations -->
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert" id="errorAlert">
+        <i class="fa-solid fa-circle-exclamation me-2"></i>
+        <strong>Error:</strong> @TempData["ErrorMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
 <form asp-action="settings" method="post" name="UpdateSettingsForm" id="UpdateSettingsForm">
 
     <div class="accordion" id="accordionExample">

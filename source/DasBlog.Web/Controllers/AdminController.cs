@@ -80,6 +80,13 @@ namespace DasBlog.Web.Controllers
 
 			site.SpamBlockingService = dasBlogSettings.SiteConfiguration.SpamBlockingService;
 
+			// Preserve existing SMTP password if user didn't enter a new one
+			// (password fields don't populate their values for security reasons)
+			if (string.IsNullOrEmpty(site.SmtpPassword))
+			{
+				site.SmtpPassword = dasBlogSettings.SiteConfiguration.SmtpPassword;
+			}
+
 			if (!fileSystemBinaryManager.SaveSiteConfig(site))
 			{
 				ModelState.AddModelError("", "Unable to save Site configuration file.");
@@ -237,6 +244,36 @@ namespace DasBlog.Web.Controllers
 			memoryCache.Remove(CACHEKEY_RSS);
 			memoryCache.Remove(CACHEKEY_FRONTPAGE);
 			memoryCache.Remove(CACHEKEY_ARCHIVE);
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		[Route("/admin/testemail")]
+		public IActionResult TestEmail()
+		{
+			try
+			{
+				if (blogManager.SendTestEmail())
+				{
+					TempData["SuccessMessage"] = "Test email sent successfully!";
+				}
+				else
+				{
+					TempData["ErrorMessage"] = "Failed to send test email. Please check your SMTP settings and logs.";
+				}
+			}
+			catch (FormatException ex)
+			{
+				logger.LogError(new EventDataItem(EventCodes.SmtpError, null, "Test email failed - invalid email format: {0}", ex.Message));
+				TempData["ErrorMessage"] = "Invalid email address format. Please check SmtpFromEmail, SmtpUserName, NotificationEMailAddress, and Contact settings.";
+			}
+			catch (Exception ex)
+			{
+				logger.LogError(new EventDataItem(EventCodes.SmtpError, null, "Test email failed: {0}", ex.Message));
+				TempData["ErrorMessage"] = $"Failed to send test email: {ex.Message}";
+			}
+
+			return RedirectToAction("Settings");
 		}
 	}
 }
