@@ -18,7 +18,7 @@
 <!-- Success Alert using reusable partial -->
 <partial name="_SuccessAlertPartial" view-data="ViewData" />
 
-<form action="/admin/post/create" method="post" enctype="multipart/form-data" id="CreatePostForm">
+<form action="@Url.Content("~/admin/post/create")" method="post" enctype="multipart/form-data" id="CreatePostForm">
     @Html.AntiForgeryToken()
 
     <partial name="BlogPostFields" model="Model" />

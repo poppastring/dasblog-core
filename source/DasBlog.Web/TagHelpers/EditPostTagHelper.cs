@@ -1,4 +1,5 @@
-﻿using DasBlog.Web.TagHelpers.Post;
+﻿using DasBlog.Services;
+using DasBlog.Web.TagHelpers.Post;
 using System;
 
 namespace DasBlog.Web.TagHelpers
@@ -6,5 +7,8 @@ namespace DasBlog.Web.TagHelpers
 	[Obsolete]
 	public class EditPostTagHelper : PostEditLinkTagHelper
 	{
+		public EditPostTagHelper(IUrlResolver urlResolver) : base(urlResolver)
+		{
+		}
 	}
 }

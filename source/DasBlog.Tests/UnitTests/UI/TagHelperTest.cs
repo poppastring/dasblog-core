@@ -49,7 +49,7 @@ namespace DasBlog.Tests.UnitTests.UI
 
 		public static TheoryData<TagHelper, string, string> DasBlogPostLinkTagHelperData = new TheoryData<TagHelper, string, string>
 		{
-			{new PostEditLinkTagHelper() {BlogPostId = "theBlogPost"}, "theBlogPost", "Edit this post"},
+			{new PostEditLinkTagHelper(dasBlogSettings) {BlogPostId = "theBlogPost"}, "theBlogPost", "Edit this post"},
 			{new PostCommentLinkTagHelper(dasBlogSettings.SiteConfiguration, dasBlogSettings) { Post = new PostViewModel { PermaLink = "some-blog-post", EntryId = "0B74C9D3-4D2C-4754-B607-F3847183221C" }}, "/some-blog-post/comments", "Comment on this post [0]" },
 			{new PostCommentLinkTagHelper(dasBlogSettings.SiteConfiguration, dasBlogSettings) { Post = new PostViewModel { PermaLink = "some-blog-post", EntryId = "0B74C9D3-4D2C-4754-B607-F3847183221C" }, LinkText = "Custom text ({0})"}, "/some-blog-post/comments", "Custom text (0)" },
 			{new PostCommentLinkTagHelper(dasBlogSettings.SiteConfiguration, dasBlogSettings) { Post = new PostViewModel { PermaLink = "some-blog-post", EntryId = "0B74C9D3-4D2C-4754-B607-F3847183221C" }, LinkText = "Link text only "}, "/some-blog-post/comments", "Link text only" }
