@@ -1,4 +1,5 @@
-﻿using DasBlog.Web.Models.BlogViewModels;
+﻿using DasBlog.Services;
+using DasBlog.Web.Models.BlogViewModels;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using System.Threading.Tasks;
 
@@ -10,6 +11,13 @@ namespace DasBlog.Web.TagHelpers.Post
 		public string BlogPostId { get; set; }
 		public string EditLinkText { get; set; } = "Edit this post";
 
+		private readonly IUrlResolver urlResolver;
+
+		public PostEditLinkTagHelper(IUrlResolver urlResolver)
+		{
+			this.urlResolver = urlResolver;
+		}
+
 		public override void Process(TagHelperContext context, TagHelperOutput output)
 		{
 			if (Post != null)
@@ -19,7 +27,7 @@ namespace DasBlog.Web.TagHelpers.Post
 
 			output.TagName = "a";
 			output.TagMode = TagMode.StartTagAndEndTag;
-			output.Attributes.SetAttribute("href", "/admin/post/" + BlogPostId + "/edit");
+			output.Attributes.SetAttribute("href", urlResolver.RelativeToRoot("admin/post/" + BlogPostId + "/edit"));
 			if (!string.IsNullOrEmpty(EditLinkText))
 			{
 				output.Content.SetHtmlContent("Edit this post");
