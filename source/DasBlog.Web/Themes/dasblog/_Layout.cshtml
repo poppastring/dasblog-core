@@ -1,9 +1,23 @@
 ﻿<!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <base href="@Url.Content("~/")" />
+
+    @* Apply persisted color mode as early as possible to avoid a flash of incorrect theme *@
+    <script>
+        (function () {
+            try {
+                var stored = localStorage.getItem('dasblog-theme');
+                var theme = stored;
+                if (!theme || theme === 'auto') {
+                    theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+                }
+                document.documentElement.setAttribute('data-bs-theme', theme);
+            } catch (e) { /* ignore */ }
+        })();
+    </script>
 
     <partial name="_HtmlHeadPartial" />
     <partial name="_HtmlRSSPartial" />
@@ -47,6 +61,28 @@
                         <li><a class="dropdown-item" asp-area="" asp-controller="admin" asp-action="managecomments"><i class="fas fa-comments me-2"></i>Manage Comments</a></li>
                         <li><a class="dropdown-item" asp-area="" asp-controller="author" asp-action="index"><i class="fas fa-user me-2"></i>Author</a></li>
                         <li><a class="dropdown-item" asp-area="" asp-controller="activity" asp-action="index"><i class="fas fa-chart-line me-2"></i>Activity</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <h6 class="dropdown-header">Appearance</h6>
+                        </li>
+                        <li>
+                            <button type="button" class="dropdown-item dasblog-theme-option" data-bs-theme-value="light">
+                                <i class="fas fa-sun me-2"></i>Light
+                                <i class="fas fa-check ms-2 dasblog-theme-check d-none"></i>
+                            </button>
+                        </li>
+                        <li>
+                            <button type="button" class="dropdown-item dasblog-theme-option" data-bs-theme-value="dark">
+                                <i class="fas fa-moon me-2"></i>Dark
+                                <i class="fas fa-check ms-2 dasblog-theme-check d-none"></i>
+                            </button>
+                        </li>
+                        <li>
+                            <button type="button" class="dropdown-item dasblog-theme-option" data-bs-theme-value="auto">
+                                <i class="fas fa-circle-half-stroke me-2"></i>Auto
+                                <i class="fas fa-check ms-2 dasblog-theme-check d-none"></i>
+                            </button>
+                        </li>
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" asp-controller="account" asp-action="logout"><i class="fas fa-sign-out-alt me-2"></i>Log out</a></li>
                     </ul>

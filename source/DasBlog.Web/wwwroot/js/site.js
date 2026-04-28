@@ -119,3 +119,69 @@ function showLastUserError(showError) {
     }
     window.maintenanceForm.submit();
 }
+
+(function () {
+    var STORAGE_KEY = 'dasblog-theme';
+
+    function getStoredTheme() {
+        try { return localStorage.getItem(STORAGE_KEY); } catch (e) { return null; }
+    }
+
+    function setStoredTheme(theme) {
+        try { localStorage.setItem(STORAGE_KEY, theme); } catch (e) { /* ignore */ }
+    }
+
+    function resolveTheme(theme) {
+        if (!theme || theme === 'auto') {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        return theme;
+    }
+
+    function applyTheme(theme) {
+        document.documentElement.setAttribute('data-bs-theme', resolveTheme(theme));
+    }
+
+    function updateActiveIndicator(selected) {
+        var options = document.querySelectorAll('.dasblog-theme-option');
+        options.forEach(function (btn) {
+            var check = btn.querySelector('.dasblog-theme-check');
+            var isActive = btn.getAttribute('data-bs-theme-value') === selected;
+            btn.classList.toggle('active', isActive);
+            if (check) {
+                check.classList.toggle('d-none', !isActive);
+            }
+        });
+    }
+
+    function init() {
+        var current = getStoredTheme() || 'auto';
+        applyTheme(current);
+        updateActiveIndicator(current);
+
+        document.querySelectorAll('.dasblog-theme-option').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                var theme = btn.getAttribute('data-bs-theme-value');
+                setStoredTheme(theme);
+                applyTheme(theme);
+                updateActiveIndicator(theme);
+            });
+        });
+
+        var media = window.matchMedia('(prefers-color-scheme: dark)');
+        if (media.addEventListener) {
+            media.addEventListener('change', function () {
+                var stored = getStoredTheme();
+                if (!stored || stored === 'auto') {
+                    applyTheme('auto');
+                }
+            });
+        }
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
+    }
+})();
