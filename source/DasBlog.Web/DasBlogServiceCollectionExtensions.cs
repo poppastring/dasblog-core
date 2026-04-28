@@ -14,6 +14,7 @@ using DasBlog.Services.Site;
 using DasBlog.Services.Users;
 using DasBlog.Web.Identity;
 using DasBlog.Web.Mappers;
+using DasBlog.Web.ModelBinding;
 using DasBlog.Web.Services;
 using DasBlog.Web.Services.Interfaces;
 using DasBlog.Web.Settings;
@@ -232,7 +233,10 @@ namespace DasBlog.Web
 					mapperConfig.AddProfile(new ProfileActivityPub());
 					mapperConfig.AddProfile(new ProfileStaticPage());
 				}, Array.Empty<Assembly>())
-				.AddMvc()
+				.AddMvc(options =>
+				{
+					options.ModelBinderProviders.Insert(0, new InvariantDoubleModelBinderProvider());
+				})
 				.AddXmlSerializerFormatters();
 
 			services
