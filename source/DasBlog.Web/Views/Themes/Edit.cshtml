@@ -1,0 +1,94 @@
+@using DasBlog.Web.Models.AdminViewModels
+@model ThemeEditViewModel
+
+@{
+    ViewBag.Title = $"Edit Theme - {Model.Theme.Name}";
+    Layout = "../../Themes/dasblog/_Layout.cshtml";
+}
+
+<h1>
+    Theme: @Model.Theme.Name
+    @if (Model.Theme.IsActive)
+    {
+        <span class="badge bg-success align-middle">Active</span>
+    }
+    @if (Model.Theme.IsDefault)
+    {
+        <span class="badge bg-secondary align-middle">Built-in (locked)</span>
+    }
+</h1>
+<hr />
+
+<partial name="_SuccessAlertPartial" view-data="ViewData" />
+<partial name="_ErrorAlertPartial" view-data="ViewData" />
+
+@if (Model.Theme.IsDefault)
+{
+    <div class="alert alert-info">
+        Built-in themes are locked from edits. You can view files here, or create a new theme by copying this one.
+    </div>
+}
+
+<p>
+    <a class="btn btn-secondary" asp-controller="themes" asp-action="index">
+        <i class="fas fa-arrow-left me-1"></i>Back to themes
+    </a>
+    @if (!Model.Theme.IsActive)
+    {
+        <form method="post"
+              asp-controller="themes" asp-action="setactive" asp-route-name="@Model.Theme.Name"
+              class="d-inline">
+            @Html.AntiForgeryToken()
+            <button type="button" class="btn btn-success"
+                    data-bs-toggle="modal" data-bs-target="#setActiveThemeModal">
+                <i class="fas fa-check me-1"></i>Set as active theme
+            </button>
+            <input type="submit" id="hiddenSetActiveButton" style="display:none;" />
+        </form>
+    }
+</p>
+
+@if (!Model.Theme.IsActive)
+{
+    ViewData["ModalId"] = "setActiveThemeModal";
+    ViewData["ModalTitle"] = "Set Active Theme";
+    ViewData["ModalMessage"] = $"Set '{Model.Theme.Name}' as the active site theme?";
+    ViewData["ModalConfirmText"] = "Set as active";
+    ViewData["ModalConfirmClass"] = "btn-success";
+    ViewData["HiddenButtonId"] = "hiddenSetActiveButton";
+    <partial name="_ConfirmationModalPartial" view-data="ViewData" />
+}
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>File</th>
+            <th>Size</th>
+            <th class="text-end">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var file in Model.Files)
+        {
+            <tr>
+                <td><code>@file.RelativePath</code></td>
+                <td>@file.Size bytes</td>
+                <td class="text-end">
+                    @if (file.IsEditable)
+                    {
+                        <a class="btn btn-sm btn-outline-primary"
+                           asp-controller="themes" asp-action="editfile"
+                           asp-route-name="@Model.Theme.Name"
+                           asp-route-path="@file.RelativePath">
+                            @(Model.Theme.IsDefault ? "View" : "Edit")
+                        </a>
+                    }
+                    else
+                    {
+                        <span class="text-muted">Binary / not editable</span>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

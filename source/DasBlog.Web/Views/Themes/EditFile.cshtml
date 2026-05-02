@@ -1,0 +1,63 @@
+@using DasBlog.Web.Models.AdminViewModels
+@model ThemeFileEditViewModel
+
+@{
+    ViewBag.Title = $"Edit {Model.RelativePath}";
+    Layout = "../../Themes/dasblog/_Layout.cshtml";
+}
+
+<h1>
+    @Model.ThemeName / <code>@Model.RelativePath</code>
+</h1>
+<hr />
+
+@Html.ValidationSummary(false, "", new { @class = "text-danger" })
+
+@if (Model.IsReadOnly)
+{
+    <div class="alert alert-info">
+        This file belongs to a built-in theme and is read-only. To customize, create a new theme by copying this one.
+    </div>
+}
+else
+{
+    <div class="alert alert-warning">
+        Editing live theme files takes effect immediately. Changes to <code>.cshtml</code> files can break the running site if Razor syntax is invalid.
+    </div>
+}
+
+<form method="post"
+      asp-controller="themes" asp-action="editfile"
+      asp-route-name="@Model.ThemeName">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="RelativePath" />
+    <input type="hidden" asp-for="ThemeName" />
+
+    <div class="mb-3">
+        @if (Model.IsReadOnly)
+        {
+            <textarea asp-for="Content"
+                      class="form-control font-monospace"
+                      rows="25"
+                      spellcheck="false"
+                      readonly></textarea>
+        }
+        else
+        {
+            <textarea asp-for="Content"
+                      class="form-control font-monospace"
+                      rows="25"
+                      spellcheck="false"></textarea>
+        }
+    </div>
+
+    <div class="d-flex gap-2">
+        @if (!Model.IsReadOnly)
+        {
+            <button type="submit" class="btn btn-primary">Save</button>
+        }
+        <a class="btn btn-secondary"
+           asp-controller="themes" asp-action="edit"
+           asp-route-name="@Model.ThemeName">Back</a>
+    </div>
+</form>

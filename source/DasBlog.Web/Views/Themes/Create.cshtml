@@ -1,0 +1,36 @@
+@using DasBlog.Web.Models.AdminViewModels
+@model CreateThemeViewModel
+
+@{
+    ViewBag.Title = "Create Theme";
+    Layout = "../../Themes/dasblog/_Layout.cshtml";
+}
+
+<h1>Create Theme</h1>
+<hr />
+
+@Html.ValidationSummary(false, "", new { @class = "text-danger" })
+
+<form method="post" asp-controller="themes" asp-action="create">
+    @Html.AntiForgeryToken()
+
+    <div class="mb-3">
+        <label asp-for="Name" class="form-label"></label>
+        <input asp-for="Name" class="form-control" autocomplete="off" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+        <div class="form-text">
+            Letters, numbers, hyphens, and underscores only. This becomes the folder name under <code>Themes/</code>.
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="SourceTheme" class="form-label"></label>
+        <select asp-for="SourceTheme" class="form-select"
+                asp-items="@(new SelectList(Model.AvailableSources, Model.SourceTheme))"></select>
+        <span asp-validation-for="SourceTheme" class="text-danger"></span>
+        <div class="form-text">All files from this theme will be copied to your new theme.</div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Create theme</button>
+    <a class="btn btn-secondary" asp-controller="themes" asp-action="index">Cancel</a>
+</form>

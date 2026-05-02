@@ -101,7 +101,8 @@ namespace DasBlog.Web
 				.AddSingleton<IConfigFileService<OEmbedProviders>, OEmbedProvidersFileService>()
 				.AddSingleton<IConfigFileService<SiteConfig>, SiteConfigFileService>()
 				.AddSingleton<IConfigFileService<SiteSecurityConfigData>, SiteSecurityConfigFileService>()
-				.AddSingleton<IExternalEmbeddingHandler, ExternalEmbeddingHandler>();
+				.AddSingleton<IExternalEmbeddingHandler, ExternalEmbeddingHandler>()
+				.AddSingleton<IThemeManager, ThemeManager>();
 
 			services				
 				.AddTransient<IUserStore<DasBlogUser>, DasBlogUserStore>()

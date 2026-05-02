@@ -69,4 +69,9 @@
         @Html.LabelFor(m => @Model.SiteConfig.Theme, null, new { @class = "form-label", @for = "theme" })
     </div>
     @Html.ValidationMessageFor(m => m.SiteConfig.Theme, null, new { @class = "text-danger" })
+    <div class="form-text mt-1">
+        <a asp-controller="themes" asp-action="index">
+            <i class="fas fa-palette me-1"></i>Manage themes
+        </a>
+    </div>
 </div>
