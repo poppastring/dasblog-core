@@ -4,7 +4,41 @@
 @{
     ViewBag.Title = $"Edit {Model.RelativePath}";
     Layout = "../../Themes/dasblog/_Layout.cshtml";
+
+    string ext = (System.IO.Path.GetExtension(Model.RelativePath) ?? string.Empty).ToLowerInvariant();
+    string cmMode = ext switch
+    {
+        ".css" => "css",
+        ".js" => "javascript",
+        ".json" => "application/json",
+        ".xml" or ".config" or ".xsl" or ".xslt" => "xml",
+        ".htm" or ".html" or ".cshtml" => "htmlmixed",
+        _ => "text/plain"
+    };
+    string[] cmModeAddons = ext switch
+    {
+        ".css" => new[] { "css/css.min.js" },
+        ".js" => new[] { "javascript/javascript.min.js" },
+        ".json" => new[] { "javascript/javascript.min.js" },
+        ".xml" or ".config" or ".xsl" or ".xslt" => new[] { "xml/xml.min.js" },
+        ".htm" or ".html" or ".cshtml" => new[] { "xml/xml.min.js", "javascript/javascript.min.js", "css/css.min.js", "htmlmixed/htmlmixed.min.js" },
+        _ => System.Array.Empty<string>()
+    };
 }
+
+<link rel="stylesheet" href="~/lib/codemirror/5.65.16/codemirror.min.css" />
+<link rel="stylesheet" href="~/lib/codemirror/5.65.16/theme/eclipse.min.css" />
+<link rel="stylesheet" href="~/lib/codemirror/5.65.16/theme/material-darker.min.css" />
+<style>
+    .CodeMirror {
+        height: auto;
+        min-height: 500px;
+        border: 1px solid #ced4da;
+        border-radius: .375rem;
+        font-family: Consolas, "Courier New", monospace;
+        font-size: 0.9rem;
+    }
+</style>
 
 <h1>
     @Model.ThemeName / <code>@Model.RelativePath</code>
@@ -37,6 +71,7 @@ else
         @if (Model.IsReadOnly)
         {
             <textarea asp-for="Content"
+                      id="theme-file-content"
                       class="form-control font-monospace"
                       rows="25"
                       spellcheck="false"
@@ -45,6 +80,7 @@ else
         else
         {
             <textarea asp-for="Content"
+                      id="theme-file-content"
                       class="form-control font-monospace"
                       rows="25"
                       spellcheck="false"></textarea>
@@ -61,3 +97,42 @@ else
            asp-route-name="@Model.ThemeName">Back</a>
     </div>
 </form>
+
+@section Scripts {
+    <script src="~/lib/codemirror/5.65.16/codemirror.min.js"></script>
+    @foreach (var addon in cmModeAddons)
+    {
+        <script src="~/lib/codemirror/5.65.16/mode/@addon"></script>
+    }
+    <script>
+        (function () {
+            var textarea = document.getElementById('theme-file-content');
+            if (!textarea || typeof CodeMirror === 'undefined') { return; }
+
+            function pickTheme() {
+                return document.documentElement.getAttribute('data-bs-theme') === 'dark'
+                    ? 'material-darker'
+                    : 'eclipse';
+            }
+
+            var editor = CodeMirror.fromTextArea(textarea, {
+                mode: '@cmMode',
+                lineNumbers: true,
+                lineWrapping: true,
+                indentUnit: 4,
+                tabSize: 4,
+                theme: pickTheme(),
+                readOnly: @(Model.IsReadOnly ? "true" : "false"),
+                viewportMargin: Infinity
+            });
+
+            var observer = new MutationObserver(function () {
+                editor.setOption('theme', pickTheme());
+            });
+            observer.observe(document.documentElement, {
+                attributes: true,
+                attributeFilter: ['data-bs-theme']
+            });
+        })();
+    </script>
+}
