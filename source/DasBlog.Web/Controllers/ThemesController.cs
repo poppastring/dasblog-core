@@ -124,7 +124,8 @@ namespace DasBlog.Web.Controllers
 					RelativePath = path,
 					Content = themeManager.ReadFile(name, path),
 					IsDefaultTheme = themeManager.IsDefaultTheme(name),
-					IsActiveTheme = themeManager.IsActiveTheme(name)
+					IsActiveTheme = themeManager.IsActiveTheme(name),
+					Backups = themeManager.ListBackups(name, path)
 				};
 				vm.IsReadOnly = vm.IsDefaultTheme;
 				return View("EditFile", vm);
@@ -156,14 +157,34 @@ namespace DasBlog.Web.Controllers
 			{
 				themeManager.WriteFile(name, model.RelativePath, model.Content);
 				logger.LogInformation(new EventDataItem(EventCodes.Site, null, "Theme file '{0}/{1}' updated", name, model.RelativePath));
-				TempData["SuccessMessage"] = $"Saved {model.RelativePath}.";
+				TempData["SuccessMessage"] = $"Saved {model.RelativePath}. The previous version was kept and can be restored.";
 				return RedirectToAction("EditFile", new { name, path = model.RelativePath });
 			}
 			catch (Exception ex)
 			{
+				model.Backups = themeManager.ListBackups(name, model.RelativePath);
 				ModelState.AddModelError(string.Empty, ex.Message);
 				return View("EditFile", model);
 			}
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		[Route("/admin/themes/edit/{name}/revert")]
+		public IActionResult RevertFile(string name, string path, string backupId)
+		{
+			try
+			{
+				themeManager.RevertFile(name, path, backupId);
+				logger.LogInformation(new EventDataItem(EventCodes.Site, null, "Theme file '{0}/{1}' reverted to backup '{2}'", name, path, backupId));
+				TempData["SuccessMessage"] = $"Reverted {path} to a previous version.";
+			}
+			catch (Exception ex)
+			{
+				TempData["ErrorMessage"] = ex.Message;
+			}
+
+			return RedirectToAction("EditFile", new { name, path });
 		}
 
 		[HttpPost]

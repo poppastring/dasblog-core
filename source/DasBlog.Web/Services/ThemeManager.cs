@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -19,6 +20,8 @@ namespace DasBlog.Web.Services
 		bool IsDefaultTheme(string themeName);
 		bool IsActiveTheme(string themeName);
 		bool IsEditableExtension(string relativePath);
+		IReadOnlyList<ThemeBackupInfo> ListBackups(string themeName, string relativePath);
+		void RevertFile(string themeName, string relativePath, string backupId);
 	}
 
 	public sealed class ThemeInfo
@@ -35,6 +38,14 @@ namespace DasBlog.Web.Services
 		public string Name { get; init; }
 		public bool IsEditable { get; init; }
 		public long Size { get; init; }
+		public int BackupCount { get; init; }
+	}
+
+	public sealed class ThemeBackupInfo
+	{
+		// Backup file name (no path). Acts as the opaque id used to revert a specific version.
+		public string Id { get; init; }
+		public DateTime SavedUtc { get; init; }
 	}
 
 	public sealed class ThemeManager : IThemeManager
@@ -56,6 +67,13 @@ namespace DasBlog.Web.Services
 		{
 			".cshtml", ".css", ".js", ".json", ".txt", ".map", ".html", ".htm", ".xml", ".svg"
 		};
+
+		// Sidecar suffix used to mark previous versions of an edited theme file.
+		// Backup file naming: <sourceFileName>.<utcTimestamp>.bak (e.g. _Layout.cshtml.20251112T143055123Z.bak).
+		// Files matching this suffix are excluded from the editor's file list.
+		private const string BackupSuffix = ".bak";
+		private const string BackupTimestampFormat = "yyyyMMdd'T'HHmmssfff'Z'";
+		private const int MaxBackupsPerFile = 3;
 
 		private static readonly Regex ThemeNameRegex = new("^[A-Za-z0-9_-]+$", RegexOptions.Compiled);
 
@@ -138,6 +156,7 @@ namespace DasBlog.Web.Services
 			var files = Directory.GetFiles(themeDir, "*", SearchOption.AllDirectories);
 
 			return files
+				.Where(full => !full.EndsWith(BackupSuffix, StringComparison.OrdinalIgnoreCase))
 				.Select(full =>
 				{
 					var rel = Path.GetRelativePath(themeDir, full).Replace('\\', '/');
@@ -147,7 +166,8 @@ namespace DasBlog.Web.Services
 						RelativePath = rel,
 						Name = info.Name,
 						IsEditable = IsEditableExtension(rel),
-						Size = info.Length
+						Size = info.Length,
+						BackupCount = EnumerateBackupFiles(full).Count()
 					};
 				})
 				.OrderBy(f => f.RelativePath, StringComparer.OrdinalIgnoreCase)
@@ -168,7 +188,92 @@ namespace DasBlog.Web.Services
 			}
 
 			var fullPath = ResolveAndValidateFile(themeName, relativePath);
+
+			// Snapshot the existing file as a timestamped sidecar before overwriting it.
+			// Keep at most MaxBackupsPerFile copies; oldest are pruned.
+			if (File.Exists(fullPath))
+			{
+				var timestamp = DateTime.UtcNow.ToString(BackupTimestampFormat, CultureInfo.InvariantCulture);
+				var backupPath = $"{fullPath}.{timestamp}{BackupSuffix}";
+
+				// Extremely unlikely collision (sub-millisecond); add a counter just in case.
+				var suffix = 1;
+				while (File.Exists(backupPath))
+				{
+					backupPath = $"{fullPath}.{timestamp}_{suffix}{BackupSuffix}";
+					suffix++;
+				}
+
+				File.Copy(fullPath, backupPath, overwrite: false);
+
+				PruneOldBackups(fullPath, MaxBackupsPerFile);
+			}
+
 			File.WriteAllText(fullPath, content ?? string.Empty);
+		}
+
+		public IReadOnlyList<ThemeBackupInfo> ListBackups(string themeName, string relativePath)
+		{
+			try
+			{
+				var fullPath = ResolveAndValidateFile(themeName, relativePath);
+				return EnumerateBackupFiles(fullPath)
+					.OrderByDescending(b => b.SavedUtc)
+					.ToList();
+			}
+			catch
+			{
+				return Array.Empty<ThemeBackupInfo>();
+			}
+		}
+
+		public void RevertFile(string themeName, string relativePath, string backupId)
+		{
+			if (IsDefaultTheme(themeName))
+			{
+				throw new InvalidOperationException($"Theme '{themeName}' is a default theme and cannot be reverted.");
+			}
+
+			if (string.IsNullOrWhiteSpace(backupId))
+			{
+				throw new ArgumentException("A backup id is required.", nameof(backupId));
+			}
+
+			var fullPath = ResolveAndValidateFile(themeName, relativePath);
+			var dir = Path.GetDirectoryName(fullPath) ?? string.Empty;
+			var sourceName = Path.GetFileName(fullPath);
+
+			// Backup ids are sidecar file names only — never paths.
+			if (backupId.IndexOfAny(new[] { '/', '\\' }) >= 0
+				|| !backupId.StartsWith(sourceName + ".", StringComparison.OrdinalIgnoreCase)
+				|| !backupId.EndsWith(BackupSuffix, StringComparison.OrdinalIgnoreCase))
+			{
+				throw new InvalidOperationException("Invalid backup identifier.");
+			}
+
+			var backups = EnumerateBackupFiles(fullPath).ToList();
+			var selected = backups.FirstOrDefault(b =>
+				string.Equals(b.Id, backupId, StringComparison.OrdinalIgnoreCase));
+
+			if (selected == null)
+			{
+				throw new InvalidOperationException($"Backup '{backupId}' was not found.");
+			}
+
+			var selectedPath = Path.Combine(dir, selected.Id);
+
+			// Restore the chosen backup, then drop it plus any newer backups (the user is
+			// effectively rewinding past them, so we never offer roll-forward).
+			File.Copy(selectedPath, fullPath, overwrite: true);
+
+			foreach (var b in backups.Where(b => b.SavedUtc >= selected.SavedUtc))
+			{
+				var p = Path.Combine(dir, b.Id);
+				if (File.Exists(p))
+				{
+					File.Delete(p);
+				}
+			}
 		}
 
 		public void CreateTheme(string newName, string sourceTheme)
@@ -265,6 +370,62 @@ namespace DasBlog.Web.Services
 			}
 
 			return combined;
+		}
+
+		private static IEnumerable<ThemeBackupInfo> EnumerateBackupFiles(string sourceFullPath)
+		{
+			var dir = Path.GetDirectoryName(sourceFullPath);
+			if (string.IsNullOrEmpty(dir) || !Directory.Exists(dir))
+			{
+				yield break;
+			}
+
+			var sourceName = Path.GetFileName(sourceFullPath);
+			var prefix = sourceName + ".";
+
+			foreach (var path in Directory.EnumerateFiles(dir, sourceName + ".*" + BackupSuffix))
+			{
+				var name = Path.GetFileName(path);
+				if (!name.StartsWith(prefix, StringComparison.OrdinalIgnoreCase) ||
+					!name.EndsWith(BackupSuffix, StringComparison.OrdinalIgnoreCase))
+				{
+					continue;
+				}
+
+				var tsPart = name.Substring(prefix.Length, name.Length - prefix.Length - BackupSuffix.Length);
+				// Tolerate the rare collision suffix (e.g. "...Z_2").
+				var underscore = tsPart.IndexOf('_');
+				var tsToParse = underscore > 0 ? tsPart.Substring(0, underscore) : tsPart;
+
+				if (!DateTime.TryParseExact(tsToParse, BackupTimestampFormat, CultureInfo.InvariantCulture,
+					DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal, out var savedUtc))
+				{
+					continue;
+				}
+
+				yield return new ThemeBackupInfo
+				{
+					Id = name,
+					SavedUtc = savedUtc
+				};
+			}
+		}
+
+		private static void PruneOldBackups(string sourceFullPath, int keep)
+		{
+			var dir = Path.GetDirectoryName(sourceFullPath) ?? string.Empty;
+			var all = EnumerateBackupFiles(sourceFullPath)
+				.OrderByDescending(b => b.SavedUtc)
+				.ToList();
+
+			foreach (var b in all.Skip(keep))
+			{
+				var p = Path.Combine(dir, b.Id);
+				if (File.Exists(p))
+				{
+					File.Delete(p);
+				}
+			}
 		}
 
 		private static void CopyDirectory(string sourceDir, string destinationDir)

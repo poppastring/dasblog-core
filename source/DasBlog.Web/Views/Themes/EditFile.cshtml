@@ -1,4 +1,5 @@
 @using DasBlog.Web.Models.AdminViewModels
+@using DasBlog.Web.Services
 @model ThemeFileEditViewModel
 
 @{
@@ -97,6 +98,64 @@ else
            asp-route-name="@Model.ThemeName">Back</a>
     </div>
 </form>
+
+@if (!Model.IsReadOnly && Model.Backups.Count > 0)
+{
+    <div class="card mt-3">
+        <div class="card-header d-flex align-items-center">
+            <i class="fas fa-history me-2"></i>
+            <strong>Previous versions</strong>
+            <span class="badge bg-secondary ms-2">@Model.Backups.Count</span>
+        </div>
+        <ul class="list-group list-group-flush">
+            @for (var i = 0; i < Model.Backups.Count; i++)
+            {
+                var backup = Model.Backups[i];
+                var modalId = $"revertModal_{i}";
+                var hiddenId = $"hiddenRevertButton_{i}";
+                var localTime = backup.SavedUtc.ToLocalTime();
+                <li class="list-group-item d-flex flex-wrap align-items-center justify-content-between">
+                    <div>
+                        <div>
+                            <strong>Saved @localTime.ToString("yyyy-MM-dd HH:mm:ss")</strong>
+                            <span class="text-muted ms-2" title="@backup.SavedUtc.ToString("u")">
+                                (UTC @backup.SavedUtc.ToString("yyyy-MM-dd HH:mm:ss"))
+                            </span>
+                        </div>
+                        @if (i == 0)
+                        {
+                            <small class="text-muted">Most recent backup</small>
+                        }
+                    </div>
+                    <form method="post"
+                          asp-controller="themes" asp-action="revertfile"
+                          asp-route-name="@Model.ThemeName"
+                          class="d-inline">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="path" value="@Model.RelativePath" />
+                        <input type="hidden" name="backupId" value="@backup.Id" />
+                        <button type="button" class="btn btn-sm btn-outline-warning"
+                                data-bs-toggle="modal" data-bs-target="#@modalId">
+                            <i class="fas fa-undo me-1"></i>Revert to this version
+                        </button>
+                        <input type="submit" id="@hiddenId" style="display:none;" />
+                    </form>
+                </li>
+
+                ViewData["ModalId"] = modalId;
+                ViewData["ModalTitle"] = "Revert File";
+                ViewData["ModalMessage"] = $"Revert '{Model.RelativePath}' to the version saved at {localTime:yyyy-MM-dd HH:mm:ss}? Any newer saved versions and unsaved changes will be discarded. This cannot be undone.";
+                ViewData["ModalConfirmText"] = "Revert";
+                ViewData["ModalConfirmClass"] = "btn-warning";
+                ViewData["HiddenButtonId"] = hiddenId;
+                <partial name="_ConfirmationModalPartial" view-data="ViewData" />
+            }
+        </ul>
+        <div class="card-footer text-muted small">
+            Up to 3 previous saves are kept. Reverting to a version discards it and any newer backups (no roll-forward).
+        </div>
+    </div>
+}
 
 @section Scripts {
     <script src="~/lib/codemirror/5.65.16/codemirror.min.js"></script>

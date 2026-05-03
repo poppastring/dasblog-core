@@ -40,5 +40,6 @@ namespace DasBlog.Web.Models.AdminViewModels
 		public bool IsReadOnly { get; set; }
 		public bool IsDefaultTheme { get; set; }
 		public bool IsActiveTheme { get; set; }
+		public IReadOnlyList<ThemeBackupInfo> Backups { get; set; } = new List<ThemeBackupInfo>();
 	}
 }
