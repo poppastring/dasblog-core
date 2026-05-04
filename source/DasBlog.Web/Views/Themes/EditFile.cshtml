@@ -43,6 +43,7 @@
 
 <h1>
     @Model.ThemeName / <code>@Model.RelativePath</code>
+    <span id="dirty-indicator" class="badge bg-warning text-dark ms-2" style="display:none;" title="You have unsaved changes">Unsaved</span>
 </h1>
 <hr />
 
@@ -91,7 +92,7 @@ else
     <div class="d-flex gap-2">
         @if (!Model.IsReadOnly)
         {
-            <button type="submit" class="btn btn-primary">Save</button>
+            <button type="submit" id="theme-file-save" class="btn btn-primary" title="Save (Ctrl+S)">Save</button>
         }
         <a class="btn btn-secondary"
            asp-controller="themes" asp-action="edit"
@@ -182,7 +183,11 @@ else
                 tabSize: 4,
                 theme: pickTheme(),
                 readOnly: @(Model.IsReadOnly ? "true" : "false"),
-                viewportMargin: Infinity
+                viewportMargin: Infinity,
+                extraKeys: {
+                    'Ctrl-S': function (cm) { triggerSave(); },
+                    'Cmd-S': function (cm) { triggerSave(); }
+                }
             });
 
             var observer = new MutationObserver(function () {
@@ -192,6 +197,69 @@ else
                 attributes: true,
                 attributeFilter: ['data-bs-theme']
             });
+
+            var isReadOnly = @(Model.IsReadOnly ? "true" : "false");
+            var dirty = false;
+            var submitting = false;
+            var indicator = document.getElementById('dirty-indicator');
+            var saveBtn = document.getElementById('theme-file-save');
+            var form = textarea.form;
+
+            function setDirty(value) {
+                dirty = value;
+                if (indicator) {
+                    indicator.style.display = value ? '' : 'none';
+                }
+                if (saveBtn) {
+                    if (value) {
+                        saveBtn.classList.remove('btn-primary');
+                        saveBtn.classList.add('btn-warning');
+                    } else {
+                        saveBtn.classList.remove('btn-warning');
+                        saveBtn.classList.add('btn-primary');
+                    }
+                }
+            }
+
+            function triggerSave() {
+                if (isReadOnly || !form) { return; }
+                editor.save();
+                submitting = true;
+                if (typeof form.requestSubmit === 'function') {
+                    form.requestSubmit();
+                } else {
+                    form.submit();
+                }
+            }
+
+            if (!isReadOnly) {
+                editor.on('change', function () {
+                    if (!dirty) { setDirty(true); }
+                });
+
+                document.addEventListener('keydown', function (e) {
+                    var key = e.key && e.key.toLowerCase();
+                    if ((e.ctrlKey || e.metaKey) && key === 's') {
+                        e.preventDefault();
+                        triggerSave();
+                    }
+                });
+
+                if (form) {
+                    form.addEventListener('submit', function () {
+                        submitting = true;
+                        editor.save();
+                    });
+                }
+
+                window.addEventListener('beforeunload', function (e) {
+                    if (dirty && !submitting) {
+                        e.preventDefault();
+                        e.returnValue = '';
+                        return '';
+                    }
+                });
+            }
         })();
     </script>
 }

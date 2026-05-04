@@ -22,6 +22,7 @@ namespace DasBlog.Web.Controllers
 		private readonly IDasBlogSettings dasBlogSettings;
 		private readonly IFileSystemBinaryManager fileSystemBinaryManager;
 		private readonly IThemeManager themeManager;
+		private readonly IThemeContentValidator themeContentValidator;
 		private readonly IMapper mapper;
 		private readonly IOptionsMonitor<SiteConfig> siteConfigMonitor;
 		private readonly ILogger<ThemesController> logger;
@@ -30,6 +31,7 @@ namespace DasBlog.Web.Controllers
 			IDasBlogSettings dasBlogSettings,
 			IFileSystemBinaryManager fileSystemBinaryManager,
 			IThemeManager themeManager,
+			IThemeContentValidator themeContentValidator,
 			IMapper mapper,
 			IOptionsMonitor<SiteConfig> siteConfigMonitor,
 			ILogger<ThemesController> logger) : base(dasBlogSettings)
@@ -37,6 +39,7 @@ namespace DasBlog.Web.Controllers
 			this.dasBlogSettings = dasBlogSettings;
 			this.fileSystemBinaryManager = fileSystemBinaryManager;
 			this.themeManager = themeManager;
+			this.themeContentValidator = themeContentValidator;
 			this.mapper = mapper;
 			this.siteConfigMonitor = siteConfigMonitor;
 			this.logger = logger;
@@ -151,6 +154,21 @@ namespace DasBlog.Web.Controllers
 			{
 				TempData["ErrorMessage"] = "This theme is locked from edits.";
 				return RedirectToAction("Edit", new { name });
+			}
+
+			var validation = themeContentValidator.Validate(model.RelativePath, model.Content);
+			if (!validation.IsValid)
+			{
+				foreach (var err in validation.Errors)
+				{
+					ModelState.AddModelError(string.Empty,
+						$"Line {err.Line}{(err.Column > 0 ? ", col " + err.Column : string.Empty)}: {err.Message}");
+				}
+				logger.LogWarning(new EventDataItem(EventCodes.Site, null,
+					"Theme file '{0}/{1}' rejected by pre-flight validation ({2} error(s)).",
+					name, model.RelativePath, validation.Errors.Count));
+				model.Backups = themeManager.ListBackups(name, model.RelativePath);
+				return View("EditFile", model);
 			}
 
 			try
