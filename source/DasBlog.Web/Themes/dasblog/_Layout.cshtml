@@ -26,8 +26,6 @@
     <partial name="_OpenGraphPartial" />
     <partial name="_BlogPostingSchemaOrgPartial" />
 
-    @* THIS IS THE ADMIN THEME FOR YOUR DASBLOG SITE *** DO NOT REMOVE *** *@
-    @* TO CREATE OR MODIFY YOUR OWN THEME FOLLOW INSTRUCTIONS HERE: https://github.com/poppastring/dasblog-core/wiki/4.-Designing-a-theme *@
     <link rel="stylesheet" href="~/lib/bootstrap/5.3.3/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/lib/font-awesome/6.7.2/css/all.css" />
     <link rel="stylesheet" href="~/css/site.css" />
@@ -58,7 +56,8 @@
                         <li><a class="dropdown-item" asp-area="" asp-controller="blogpost" asp-action="createpost"><i class="fas fa-plus-circle me-2"></i>Create Post</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" asp-area="" asp-controller="admin" asp-action="settings"><i class="fas fa-cog me-2"></i>Site Admin</a></li>
-                        <li><a class="dropdown-item" asp-area="" asp-controller="admin" asp-action="managecomments"><i class="fas fa-comments me-2"></i>Manage Comments</a></li>
+                        <li><a class="dropdown-item" asp-area="" asp-controller="themes" asp-action="index"><i class="fas fa-palette me-2"></i>Themes</a></li>
+                        <li><a class="dropdown-item" asp-area="" asp-controller="admin" asp-action="managecomments"><i class="fas fa-comments me-2"></i>Comments</a></li>
                         <li><a class="dropdown-item" asp-area="" asp-controller="author" asp-action="index"><i class="fas fa-user me-2"></i>Author</a></li>
                         <li><a class="dropdown-item" asp-area="" asp-controller="activity" asp-action="index"><i class="fas fa-chart-line me-2"></i>Activity</a></li>
                         <li><hr class="dropdown-divider"></li>

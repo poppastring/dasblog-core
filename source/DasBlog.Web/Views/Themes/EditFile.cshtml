@@ -1,0 +1,265 @@
+@using DasBlog.Web.Models.AdminViewModels
+@using DasBlog.Web.Services
+@model ThemeFileEditViewModel
+
+@{
+    ViewBag.Title = $"Edit {Model.RelativePath}";
+    Layout = "../../Themes/dasblog/_Layout.cshtml";
+
+    string ext = (System.IO.Path.GetExtension(Model.RelativePath) ?? string.Empty).ToLowerInvariant();
+    string cmMode = ext switch
+    {
+        ".css" => "css",
+        ".js" => "javascript",
+        ".json" => "application/json",
+        ".xml" or ".config" or ".xsl" or ".xslt" => "xml",
+        ".htm" or ".html" or ".cshtml" => "htmlmixed",
+        _ => "text/plain"
+    };
+    string[] cmModeAddons = ext switch
+    {
+        ".css" => new[] { "css/css.min.js" },
+        ".js" => new[] { "javascript/javascript.min.js" },
+        ".json" => new[] { "javascript/javascript.min.js" },
+        ".xml" or ".config" or ".xsl" or ".xslt" => new[] { "xml/xml.min.js" },
+        ".htm" or ".html" or ".cshtml" => new[] { "xml/xml.min.js", "javascript/javascript.min.js", "css/css.min.js", "htmlmixed/htmlmixed.min.js" },
+        _ => System.Array.Empty<string>()
+    };
+}
+
+<link rel="stylesheet" href="~/lib/codemirror/5.65.16/codemirror.min.css" />
+<link rel="stylesheet" href="~/lib/codemirror/5.65.16/theme/eclipse.min.css" />
+<link rel="stylesheet" href="~/lib/codemirror/5.65.16/theme/material-darker.min.css" />
+<style>
+    .CodeMirror {
+        height: auto;
+        min-height: 500px;
+        border: 1px solid #ced4da;
+        border-radius: .375rem;
+        font-family: Consolas, "Courier New", monospace;
+        font-size: 0.9rem;
+    }
+</style>
+
+<h1>
+    @Model.ThemeName / <code>@Model.RelativePath</code>
+    <span id="dirty-indicator" class="badge bg-warning text-dark ms-2" style="display:none;" title="You have unsaved changes">Unsaved</span>
+</h1>
+<hr />
+
+@Html.ValidationSummary(false, "", new { @class = "text-danger" })
+
+@if (Model.IsReadOnly)
+{
+    <div class="alert alert-info">
+        This file belongs to a built-in theme and is read-only. To customize, create a new theme by copying this one.
+    </div>
+}
+else
+{
+    <div class="alert alert-warning">
+        Editing live theme files takes effect immediately. Changes to <code>.cshtml</code> files can break the running site if Razor syntax is invalid.
+    </div>
+}
+
+<form method="post"
+      asp-controller="themes" asp-action="editfile"
+      asp-route-name="@Model.ThemeName">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="RelativePath" />
+    <input type="hidden" asp-for="ThemeName" />
+
+    <div class="mb-3">
+        @if (Model.IsReadOnly)
+        {
+            <textarea asp-for="Content"
+                      id="theme-file-content"
+                      class="form-control font-monospace"
+                      rows="25"
+                      spellcheck="false"
+                      readonly></textarea>
+        }
+        else
+        {
+            <textarea asp-for="Content"
+                      id="theme-file-content"
+                      class="form-control font-monospace"
+                      rows="25"
+                      spellcheck="false"></textarea>
+        }
+    </div>
+
+    <div class="d-flex gap-2">
+        @if (!Model.IsReadOnly)
+        {
+            <button type="submit" id="theme-file-save" class="btn btn-primary" title="Save (Ctrl+S)">Save</button>
+        }
+        <a class="btn btn-secondary"
+           asp-controller="themes" asp-action="edit"
+           asp-route-name="@Model.ThemeName">Back</a>
+    </div>
+</form>
+
+@if (!Model.IsReadOnly && Model.Backups.Count > 0)
+{
+    <div class="card mt-3">
+        <div class="card-header d-flex align-items-center">
+            <i class="fas fa-history me-2"></i>
+            <strong>Previous versions</strong>
+            <span class="badge bg-secondary ms-2">@Model.Backups.Count</span>
+        </div>
+        <ul class="list-group list-group-flush">
+            @for (var i = 0; i < Model.Backups.Count; i++)
+            {
+                var backup = Model.Backups[i];
+                var modalId = $"revertModal_{i}";
+                var hiddenId = $"hiddenRevertButton_{i}";
+                var localTime = backup.SavedUtc.ToLocalTime();
+                <li class="list-group-item d-flex flex-wrap align-items-center justify-content-between">
+                    <div>
+                        <div>
+                            <strong>Saved @localTime.ToString("yyyy-MM-dd HH:mm:ss")</strong>
+                            <span class="text-muted ms-2" title="@backup.SavedUtc.ToString("u")">
+                                (UTC @backup.SavedUtc.ToString("yyyy-MM-dd HH:mm:ss"))
+                            </span>
+                        </div>
+                        @if (i == 0)
+                        {
+                            <small class="text-muted">Most recent backup</small>
+                        }
+                    </div>
+                    <form method="post"
+                          asp-controller="themes" asp-action="revertfile"
+                          asp-route-name="@Model.ThemeName"
+                          class="d-inline">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="path" value="@Model.RelativePath" />
+                        <input type="hidden" name="backupId" value="@backup.Id" />
+                        <button type="button" class="btn btn-sm btn-outline-warning"
+                                data-bs-toggle="modal" data-bs-target="#@modalId">
+                            <i class="fas fa-undo me-1"></i>Revert to this version
+                        </button>
+                        <input type="submit" id="@hiddenId" style="display:none;" />
+                    </form>
+                </li>
+
+                ViewData["ModalId"] = modalId;
+                ViewData["ModalTitle"] = "Revert File";
+                ViewData["ModalMessage"] = $"Revert '{Model.RelativePath}' to the version saved at {localTime:yyyy-MM-dd HH:mm:ss}? Any newer saved versions and unsaved changes will be discarded. This cannot be undone.";
+                ViewData["ModalConfirmText"] = "Revert";
+                ViewData["ModalConfirmClass"] = "btn-warning";
+                ViewData["HiddenButtonId"] = hiddenId;
+                <partial name="_ConfirmationModalPartial" view-data="ViewData" />
+            }
+        </ul>
+        <div class="card-footer text-muted small">
+            Up to 3 previous saves are kept. Reverting to a version discards it and any newer backups (no roll-forward).
+        </div>
+    </div>
+}
+
+@section Scripts {
+    <script src="~/lib/codemirror/5.65.16/codemirror.min.js"></script>
+    @foreach (var addon in cmModeAddons)
+    {
+        <script src="~/lib/codemirror/5.65.16/mode/@addon"></script>
+    }
+    <script>
+        (function () {
+            var textarea = document.getElementById('theme-file-content');
+            if (!textarea || typeof CodeMirror === 'undefined') { return; }
+
+            function pickTheme() {
+                return document.documentElement.getAttribute('data-bs-theme') === 'dark'
+                    ? 'material-darker'
+                    : 'eclipse';
+            }
+
+            var editor = CodeMirror.fromTextArea(textarea, {
+                mode: '@cmMode',
+                lineNumbers: true,
+                lineWrapping: true,
+                indentUnit: 4,
+                tabSize: 4,
+                theme: pickTheme(),
+                readOnly: @(Model.IsReadOnly ? "true" : "false"),
+                viewportMargin: Infinity,
+                extraKeys: {
+                    'Ctrl-S': function (cm) { triggerSave(); },
+                    'Cmd-S': function (cm) { triggerSave(); }
+                }
+            });
+
+            var observer = new MutationObserver(function () {
+                editor.setOption('theme', pickTheme());
+            });
+            observer.observe(document.documentElement, {
+                attributes: true,
+                attributeFilter: ['data-bs-theme']
+            });
+
+            var isReadOnly = @(Model.IsReadOnly ? "true" : "false");
+            var dirty = false;
+            var submitting = false;
+            var indicator = document.getElementById('dirty-indicator');
+            var saveBtn = document.getElementById('theme-file-save');
+            var form = textarea.form;
+
+            function setDirty(value) {
+                dirty = value;
+                if (indicator) {
+                    indicator.style.display = value ? '' : 'none';
+                }
+                if (saveBtn) {
+                    if (value) {
+                        saveBtn.classList.remove('btn-primary');
+                        saveBtn.classList.add('btn-warning');
+                    } else {
+                        saveBtn.classList.remove('btn-warning');
+                        saveBtn.classList.add('btn-primary');
+                    }
+                }
+            }
+
+            function triggerSave() {
+                if (isReadOnly || !form) { return; }
+                editor.save();
+                submitting = true;
+                if (typeof form.requestSubmit === 'function') {
+                    form.requestSubmit();
+                } else {
+                    form.submit();
+                }
+            }
+
+            if (!isReadOnly) {
+                editor.on('change', function () {
+                    if (!dirty) { setDirty(true); }
+                });
+
+                document.addEventListener('keydown', function (e) {
+                    var key = e.key && e.key.toLowerCase();
+                    if ((e.ctrlKey || e.metaKey) && key === 's') {
+                        e.preventDefault();
+                        triggerSave();
+                    }
+                });
+
+                if (form) {
+                    form.addEventListener('submit', function () {
+                        submitting = true;
+                        editor.save();
+                    });
+                }
+
+                window.addEventListener('beforeunload', function (e) {
+                    if (dirty && !submitting) {
+                        e.preventDefault();
+                        e.returnValue = '';
+                        return '';
+                    }
+                });
+            }
+        })();
+    </script>
+}

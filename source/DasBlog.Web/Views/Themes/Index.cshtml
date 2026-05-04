@@ -1,0 +1,109 @@
+@using DasBlog.Web.Models.AdminViewModels
+@using DasBlog.Web.Services
+@model ThemeAdminListViewModel
+
+@{
+    ViewBag.Title = "Themes";
+    Layout = "../../Themes/dasblog/_Layout.cshtml";
+}
+
+<h1>Themes</h1>
+<hr />
+
+<partial name="_SuccessAlertPartial" view-data="ViewData" />
+<partial name="_ErrorAlertPartial" view-data="ViewData" />
+
+<p>
+    <a class="btn btn-primary" asp-controller="themes" asp-action="create">
+        <i class="fas fa-plus me-1"></i>Create new theme
+    </a>
+    <a class="btn btn-secondary" asp-controller="admin" asp-action="settings">
+        <i class="fas fa-cog me-1"></i>Back to settings
+    </a>
+</p>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Status</th>
+            <th class="text-end">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var theme in Model.Themes)
+        {
+            var setActiveModalId = $"setActiveModal_{theme.Name}";
+            var setActiveHiddenId = $"hiddenSetActiveButton_{theme.Name}";
+            var deleteModalId = $"deleteModal_{theme.Name}";
+            var deleteHiddenId = $"hiddenDeleteButton_{theme.Name}";
+            <tr>
+                <td><strong>@theme.Name</strong></td>
+                <td>
+                    @if (theme.IsActive)
+                    {
+                        <span class="badge bg-success">Active</span>
+                    }
+                    @if (theme.IsDefault)
+                    {
+                        <span class="badge bg-secondary">Built-in (locked)</span>
+                    }
+                </td>
+                <td class="text-end">
+                    @if (!theme.IsActive)
+                    {
+                        <form method="post"
+                              asp-controller="themes" asp-action="setactive" asp-route-name="@theme.Name"
+                              class="d-inline">
+                            @Html.AntiForgeryToken()
+                            <button type="button" class="btn btn-sm btn-outline-success"
+                                    data-bs-toggle="modal" data-bs-target="#@setActiveModalId">
+                                <i class="fas fa-check me-1"></i>Set as active
+                            </button>
+                            <input type="submit" id="@setActiveHiddenId" style="display:none;" />
+                        </form>
+                    }
+                    <a class="btn btn-sm btn-outline-primary"
+                       asp-controller="themes" asp-action="edit" asp-route-name="@theme.Name">
+                        @(theme.IsDefault ? "View" : "Edit")
+                    </a>
+                    @if (!theme.IsDefault && !theme.IsActive)
+                    {
+                        <form method="post"
+                              asp-controller="themes" asp-action="delete" asp-route-name="@theme.Name"
+                              class="d-inline">
+                            @Html.AntiForgeryToken()
+                            <button type="button" class="btn btn-sm btn-outline-danger"
+                                    data-bs-toggle="modal" data-bs-target="#@deleteModalId">
+                                Delete
+                            </button>
+                            <input type="submit" id="@deleteHiddenId" style="display:none;" />
+                        </form>
+                    }
+                </td>
+            </tr>
+
+            @if (!theme.IsActive)
+            {
+                ViewData["ModalId"] = setActiveModalId;
+                ViewData["ModalTitle"] = "Set Active Theme";
+                ViewData["ModalMessage"] = $"Set '{theme.Name}' as the active site theme?";
+                ViewData["ModalConfirmText"] = "Set as active";
+                ViewData["ModalConfirmClass"] = "btn-success";
+                ViewData["HiddenButtonId"] = setActiveHiddenId;
+                <partial name="_ConfirmationModalPartial" view-data="ViewData" />
+            }
+
+            @if (!theme.IsDefault && !theme.IsActive)
+            {
+                ViewData["ModalId"] = deleteModalId;
+                ViewData["ModalTitle"] = "Delete Theme";
+                ViewData["ModalMessage"] = $"Delete theme '{theme.Name}'? This cannot be undone.";
+                ViewData["ModalConfirmText"] = "Delete";
+                ViewData["ModalConfirmClass"] = "btn-danger";
+                ViewData["HiddenButtonId"] = deleteHiddenId;
+                <partial name="_ConfirmationModalPartial" view-data="ViewData" />
+            }
+        }
+    </tbody>
+</table>
