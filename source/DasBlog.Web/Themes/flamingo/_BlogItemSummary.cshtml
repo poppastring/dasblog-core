@@ -1,19 +1,22 @@
 @model PostViewModel
 
 <div class="flm-summary-item">
-    <div class="row">
-        <div class="col-md-3 flm-summary-date">
-            <post-created-date post="@Model" />
+    <div class="row g-0">
+        <div class="col-md-3">
+            <post-image post=@Model css="img-fluid rounded-start w-100 h-100" style="object-fit: cover; min-height: 180px;" default-image="/images/default/flamingo.svg?v=2" />
         </div>
         <div class="col-md-9">
-            <h2 class="flm-summary-title">
-                <post-title-link post=@Model />
-            </h2>
-            <div class="flm-summary-tags mb-2">
-                <post-categories-list post="@Model"><span class="flm-tag">{0}</span> </post-categories-list>
+            <div class="p-3">
+                <div class="flm-summary-tags mb-1">
+                    <post-categories-list post="@Model"><span class="flm-tag">{0}</span> </post-categories-list>
+                </div>
+                <h2 class="flm-summary-title">
+                    <post-title-link post=@Model />
+                </h2>
+                <small class="text-muted"><post-created-date post="@Model" /></small>
+                <p class="flm-summary-excerpt mt-2"><post-content post="@Model" strip-html="true" content-length="30" /></p>
+                <post-title-link post=@Model css="flm-read-more">Read more &rarr;</post-title-link>
             </div>
-            <p class="flm-summary-excerpt"><post-content post="@Model" strip-html="true" content-length="30" /></p>
-            <post-title-link post=@Model css="flm-read-more">Read more &rarr;</post-title-link>
         </div>
     </div>
 </div>

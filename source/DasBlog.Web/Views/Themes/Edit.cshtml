@@ -4,6 +4,32 @@
 @{
     ViewBag.Title = $"Edit Theme - {Model.Theme.Name}";
     Layout = "../../Themes/dasblog/_Layout.cshtml";
+
+    // Descriptions for the core theme files
+    var fileDescriptions = new Dictionary<string, string>(System.StringComparer.OrdinalIgnoreCase)
+    {
+        ["_Layout.cshtml"] = "Top-level master page template for the entire site. Controls the HTML shell, head, nav, footer, and script sections.",
+        ["_BlogPage.cshtml"] = "Layout for the blog home page. Renders the list of posts (iterates over _BlogItem partials).",
+        ["_BlogItem.cshtml"] = "Layout for an individual blog post — title, body, date, comments link, and metadata.",
+        ["_BlogPageSummary.cshtml"] = "Alternative home page layout used when 'Home page summary mode' is enabled in admin settings.",
+        ["_BlogItemSummary.cshtml"] = "Summary card for a single post when Home page summary mode is active — typically shows title, date, and excerpt.",
+        ["custom.css"] = "Custom stylesheet loaded after the base CSS. Use this to override colors, fonts, spacing, or drop in a Bootswatch theme."
+    };
+
+    // Define sort priority: core files first in this order, everything else alphabetical after
+    var corePriority = new[] { "_Layout.cshtml", "_BlogPage.cshtml", "_BlogItem.cshtml", "_BlogPageSummary.cshtml", "_BlogItemSummary.cshtml", "custom.css" };
+
+    int SortOrder(DasBlog.Web.Services.ThemeFileInfo f)
+    {
+        var idx = System.Array.FindIndex(corePriority, p => f.RelativePath.Equals(p, System.StringComparison.OrdinalIgnoreCase));
+        return idx >= 0 ? idx : corePriority.Length;
+    }
+
+    var sortedFiles = Model.Files.OrderBy(SortOrder).ThenBy(f => f.RelativePath, System.StringComparer.OrdinalIgnoreCase).ToList();
+
+    // Summary-mode files get a visual indicator
+    var summaryFiles = new HashSet<string>(System.StringComparer.OrdinalIgnoreCase) { "_BlogPageSummary.cshtml", "_BlogItemSummary.cshtml" };
+    bool isSummaryFile(string path) => summaryFiles.Contains(path);
 }
 
 <h1>
@@ -68,10 +94,41 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var file in Model.Files)
+        @foreach (var file in sortedFiles)
         {
+            var hasDescription = fileDescriptions.TryGetValue(file.RelativePath, out var description);
             <tr>
-                <td><code>@file.RelativePath</code></td>
+                <td>
+                    <code>@file.RelativePath</code>
+                    @if (hasDescription)
+                    {
+                        <button type="button"
+                                class="btn btn-sm btn-link p-0 ms-1 align-baseline"
+                                data-bs-toggle="popover"
+                                data-bs-trigger="focus"
+                                data-bs-placement="right"
+                                data-bs-content="@description"
+                                title="@file.RelativePath"
+                                aria-label="Show description for @file.RelativePath">
+                            <i class="fas fa-info-circle text-info" aria-hidden="true"></i>
+                        </button>
+                    }
+                    @if (isSummaryFile(file.RelativePath))
+                    {
+                        if (Model.SummaryModeEnabled)
+                        {
+                            <span class="badge bg-success ms-2" title="Home page summary mode is enabled — this file is active">
+                                <i class="fas fa-check-circle me-1"></i>Active
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-secondary ms-2" title="Home page summary mode is disabled — this file is not currently used">
+                                Inactive
+                            </span>
+                        }
+                    }
+                </td>
                 <td>
                     @file.Size bytes
                     @if (file.BackupCount > 0)
@@ -101,3 +158,14 @@
         }
     </tbody>
 </table>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var popoverTriggers = document.querySelectorAll('[data-bs-toggle="popover"]');
+            popoverTriggers.forEach(function (el) {
+                new bootstrap.Popover(el);
+            });
+        });
+    </script>
+}

@@ -30,6 +30,7 @@ namespace DasBlog.Web.Models.AdminViewModels
 	{
 		public ThemeInfo Theme { get; set; }
 		public IReadOnlyList<ThemeFileInfo> Files { get; set; } = new List<ThemeFileInfo>();
+		public bool SummaryModeEnabled { get; set; }
 	}
 
 	public class ThemeFileEditViewModel

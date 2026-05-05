@@ -76,11 +76,7 @@ a:hover {
     padding-bottom: 2rem;
 }
 
-/* Hero Section */
-.kob-hero {
-    padding: 3rem 0 2rem;
-    border-bottom: 1px solid var(--kob-border);
-}
+/* Hero Section — styled at bottom of file with dark mode overrides */
 
 .kob-hero-title {
     font-size: 2.25rem;
@@ -378,4 +374,22 @@ a:hover {
 .box figure img {
     width: 100%;
     height: 100%;
+}
+
+/* Post card image */
+.kob-post-card .card-img-top {
+    border-radius: 8px 8px 0 0;
+}
+
+.kob-post-card {
+    overflow: hidden;
+}
+
+/* Hero - accent with blue */
+.kob-hero {
+    border-bottom: 1px solid var(--kob-border);
+    background: linear-gradient(180deg, var(--kob-bg-card) 0%, var(--kob-bg) 100%);
+    border-radius: 12px;
+    padding: 3rem 2rem 2rem;
+    margin-bottom: 2rem;
 }
