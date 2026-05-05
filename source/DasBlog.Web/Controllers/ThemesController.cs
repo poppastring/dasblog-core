@@ -104,7 +104,8 @@ namespace DasBlog.Web.Controllers
 				var vm = new ThemeEditViewModel
 				{
 					Theme = themeManager.GetTheme(name),
-					Files = themeManager.ListThemeFiles(name)
+					Files = themeManager.ListThemeFiles(name),
+					SummaryModeEnabled = dasBlogSettings.SiteConfiguration.ShowItemSummaryInAggregatedViews
 				};
 				return View("Edit", vm);
 			}

@@ -26,6 +26,10 @@
     }
 
     var sortedFiles = Model.Files.OrderBy(SortOrder).ThenBy(f => f.RelativePath, System.StringComparer.OrdinalIgnoreCase).ToList();
+
+    // Summary-mode files get a visual indicator
+    var summaryFiles = new HashSet<string>(System.StringComparer.OrdinalIgnoreCase) { "_BlogPageSummary.cshtml", "_BlogItemSummary.cshtml" };
+    bool isSummaryFile(string path) => summaryFiles.Contains(path);
 }
 
 <h1>
@@ -107,6 +111,21 @@
                                 title="@file.RelativePath">
                             <i class="fas fa-info-circle text-info"></i>
                         </button>
+                    }
+                    @if (isSummaryFile(file.RelativePath))
+                    {
+                        if (Model.SummaryModeEnabled)
+                        {
+                            <span class="badge bg-success ms-2" title="Home page summary mode is enabled — this file is active">
+                                <i class="fas fa-check-circle me-1"></i>Active
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-secondary ms-2" title="Home page summary mode is disabled — this file is not currently used">
+                                Inactive
+                            </span>
+                        }
                     }
                 </td>
                 <td>
