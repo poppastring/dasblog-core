@@ -108,8 +108,9 @@
                                 data-bs-trigger="focus"
                                 data-bs-placement="right"
                                 data-bs-content="@description"
-                                title="@file.RelativePath">
-                            <i class="fas fa-info-circle text-info"></i>
+                                title="@file.RelativePath"
+                                aria-label="Show description for @file.RelativePath">
+                            <i class="fas fa-info-circle text-info" aria-hidden="true"></i>
                         </button>
                     }
                     @if (isSummaryFile(file.RelativePath))
