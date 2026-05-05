@@ -81,8 +81,8 @@ namespace DasBlog.Web.Models.AdminViewModels
 		[Range(0, 100, ErrorMessage = "Enter a value between  0 and 100")]
 		public int ContentLookaheadDays { get; set; }
 
-		[DisplayName("Show 'Summary View' on home page")]
-		[Description("This allows you to design a summary view for each blog post on the home page")]
+		[DisplayName("Home page summary mode")]
+		[Description("Uses a compact summary layout for each post on the home page instead of showing full content")]
 		public bool ShowItemSummaryInAggregatedViews { get; set; }
 
 		[DisplayName("RSS day count")]

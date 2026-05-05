@@ -63,6 +63,32 @@
 
         <div class="accordion-item">
             <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMetaData" aria-expanded="false" aria-controls="collapseMetaData">
+                    Meta Data
+                </button>
+            </h2>
+            <div id="collapseMetaData" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <partial name="_Admin_MetaData" />
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSocial" aria-expanded="false" aria-controls="collapseSocial">
+                    Social
+                </button>
+            </h2>
+            <div id="collapseSocial" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <partial name="_Admin_Social" />
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <h2 class="accordion-header">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseRSSFeed" aria-expanded="false" aria-controls="collapseRSSFeed">
                     RSS Feed
                 </button>
@@ -82,30 +108,6 @@
             <div id="collapseComments" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
                 <div class="accordion-body">
                     <partial name="_Admin_Comments" />
-                </div>
-            </div>
-        </div>
-        <div class="accordion-item">
-            <h2 class="accordion-header">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMetaData" aria-expanded="false" aria-controls="collapseMetaData">
-                    Meta data
-                </button>
-            </h2>
-            <div id="collapseMetaData" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                <div class="accordion-body">
-                    <partial name="_Admin_MetaData" />
-                </div>
-            </div>
-        </div>
-        <div class="accordion-item">
-            <h2 class="accordion-header">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSocial" aria-expanded="false" aria-controls="collapseSocial">
-                    Social
-                </button>
-            </h2>
-            <div id="collapseSocial" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                <div class="accordion-body">
-                    <partial name="_Admin_Social" />
                 </div>
             </div>
         </div>
