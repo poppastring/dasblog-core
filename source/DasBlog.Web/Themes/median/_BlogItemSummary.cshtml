@@ -1,19 +1,22 @@
 ﻿@model PostViewModel
 
-<div class="card mb-4 shadow-sm">
-    <div class="card-body">
-        <h3 class="card-title">
-            <post-title-link post=@Model ></post-title-link>
-        </h3>
-        <p class="card-subtitle mb-3 text-muted">
-            <small><post-created-date post="@Model" date-time-format="MMMM dd, yyyy" /></small>
-        </p>
-        <p class="card-text"><post-content post="@Model" strip-html="true" content-length="20" /></p>
-        <p class="lead">
-            <post-title-link post=@Model>Continue reading...</post-title-link>
-        </p>
+<article class="mb-5 pb-4 border-bottom">
+    <div class="row g-0 align-items-center">
+        <div class="col-md-5">
+            <post-image post=@Model css="img-fluid rounded" style="width: 100%; height: 220px; object-fit: cover;" default-image="/images/default/median.svg" />
+        </div>
+        <div class="col-md-7 ps-md-4 pt-3 pt-md-0">
+            <p class="text-muted mb-1">
+                <small><post-created-date post="@Model" date-time-format="MMMM dd, yyyy" /></small>
+            </p>
+            <h3>
+                <post-title-link post=@Model ></post-title-link>
+            </h3>
+            <p class="text-muted"><post-content post="@Model" strip-html="true" content-length="30" /></p>
+            <post-title-link post=@Model css="fw-semibold">Continue reading...</post-title-link>
+        </div>
     </div>
-</div>
+</article>
 
 
 
