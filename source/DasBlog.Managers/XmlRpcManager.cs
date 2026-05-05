@@ -744,7 +744,17 @@ namespace DasBlog.Managers
 
 		private bool VerifyLogin(string username, string password)
 		{
-			var user =siteSecurityManager.GetUser(username);
+			if (string.IsNullOrEmpty(username))
+			{
+				return false;
+			}
+
+			var user = siteSecurityManager.GetUser(username);
+			if (user == null)
+			{
+				return false;
+			}
+
 			return siteSecurityManager.VerifyHashedPassword(user.Password, password);
 		}
 
@@ -759,7 +769,7 @@ namespace DasBlog.Managers
 			if (!VerifyLogin(username, password))
 			{
 				loggingDataService.AddEvent(new EventDataItem(EventCodes.Error, string.Format("Username password invalid: {0}", username), "XmlRpcManager.VerifyAccess"));
-				throw new SecurityException();
+				throw new XmlRpcFaultException(403, "Invalid login credentials.");
 			}
 		}
 	}
