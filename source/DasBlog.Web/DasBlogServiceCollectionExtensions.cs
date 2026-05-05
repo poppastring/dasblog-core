@@ -209,9 +209,9 @@ namespace DasBlog.Web
 			services.AddResponseCaching();
 
 			services.Configure<RazorViewEngineOptions>(rveo =>
-			{
-				rveo.ViewLocationExpanders.Add(new DasBlogLocationExpander(configuration.GetSection("Theme").Value));
-			});
+				{
+					rveo.ViewLocationExpanders.Add(new DasBlogLocationExpander());
+				});
 
 			services.AddSession(options =>
 			{
