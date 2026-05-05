@@ -387,7 +387,6 @@ a:hover {
 
 /* Hero - accent with blue */
 .kob-hero {
-    padding: 3rem 0 2rem;
     border-bottom: 1px solid var(--kob-border);
     background: linear-gradient(180deg, var(--kob-bg-card) 0%, var(--kob-bg) 100%);
     border-radius: 12px;
