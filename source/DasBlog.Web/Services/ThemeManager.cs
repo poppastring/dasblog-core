@@ -57,7 +57,6 @@ namespace DasBlog.Web.Services
 			"darkly",
 			"dasblog",
 			"flamingo",
-			"fulcrum",
 			"kindofblue",
 			"median"
 		};
