@@ -79,10 +79,7 @@ a:hover {
     padding-bottom: 2rem;
 }
 
-/* Hero Section */
-.flm-hero {
-    padding: 2rem 0 1rem;
-}
+/* Hero Section — styled at bottom of file with dark mode overrides */
 
 .flm-hero-greeting {
     font-size: 2.5rem;
@@ -359,3 +356,20 @@ a:hover {
     width: 100%;
     height: 100%;
 }
+
+/* Summary card image row */
+.flm-summary-item .row {
+    background-color: var(--flm-bg);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* Hero accent bar */
+.flm-hero {
+    padding: 2rem 1.5rem 1rem;
+    border-left: 4px solid var(--flm-pink);
+    background-color: var(--flm-bg-alt);
+    border-radius: 0 8px 8px 0;
+}
+
+
