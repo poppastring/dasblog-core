@@ -69,7 +69,7 @@ namespace DasBlog.Web.TagHelpers.Site
 			foreach (var entry in posts)
 			{
 				var title = WebUtility.HtmlEncode(entry.Title ?? string.Empty);
-				var url = urlResolver.GetPermaLinkUrl(entry.EntryId);
+				var url = urlResolver.RelativeToRoot(urlResolver.GeneratePostUrl(entry));
 				var date = entry.CreatedUtc.ToLocalTime().ToString(DateFormat);
 
 				if (!string.IsNullOrWhiteSpace(template))

@@ -816,3 +816,37 @@ table, td, tr, th, thead {
 .alert-info {
     background-color: #7376df;
 }
+
+/* Sidebar widget overrides for recent-posts, category-list, archive-list.
+   The base .sidebar a rule sets inline padding which causes wrapped link
+   text to align back at the sidebar's left edge. Promote anchors inside
+   widgets to block-level so wrapped lines align under the first line. */
+.sidebar .sidebar-widget ul {
+    margin-bottom: 0;
+}
+.sidebar .sidebar-widget li + li {
+    margin-top: .15rem;
+}
+.sidebar .sidebar-widget a {
+    display: block;
+    padding: .15rem 0;
+    text-transform: none;
+    letter-spacing: normal;
+    font-size: .8rem;
+    line-height: 1.3;
+}
+.sidebar .sidebar-widget a:focus,
+.sidebar .sidebar-widget a:hover,
+.sidebar .sidebar-widget a:active {
+    background-color: transparent !important;
+    text-decoration: underline;
+}
+
+/* Median already gives h1/h2 their own border-bottom (see line 54).
+   Pages such as Archive and Category render <h1>...</h1><hr /> from
+   shared views, which produces a duplicate divider on this theme.
+   Suppress the <hr /> when it follows the heading directly. */
+h1 + hr,
+h2 + hr {
+    display: none;
+}
