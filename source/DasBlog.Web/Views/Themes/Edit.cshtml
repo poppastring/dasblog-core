@@ -13,11 +13,25 @@
         ["_BlogItem.cshtml"] = "Layout for an individual blog post — title, body, date, comments link, and metadata.",
         ["_BlogPageSummary.cshtml"] = "Alternative home page layout used when 'Home page summary mode' is enabled in admin settings.",
         ["_BlogItemSummary.cshtml"] = "Summary card for a single post when Home page summary mode is active — typically shows title, date, and excerpt.",
-        ["custom.css"] = "Custom stylesheet loaded after the base CSS. Use this to override colors, fonts, spacing, or drop in a Bootswatch theme."
+        ["custom.css"] = "Custom stylesheet loaded after the base CSS. Use this to override colors, fonts, spacing, or drop in a Bootswatch theme.",
+        ["Archive.cshtml"] = "Monthly calendar archive page (e.g. /archive/2025/11). Lists posts day-by-day for the selected month with prev/next navigation.",
+        ["ArchiveAll.cshtml"] = "The 'Complete Archive' page (/archive/all) that lists every post grouped by month and year.",
+        ["Category.cshtml"] = "The categories landing page (/category) that lists all categories along with the posts in each."
     };
 
     // Define sort priority: core files first in this order, everything else alphabetical after
-    var corePriority = new[] { "_Layout.cshtml", "_BlogPage.cshtml", "_BlogItem.cshtml", "_BlogPageSummary.cshtml", "_BlogItemSummary.cshtml", "custom.css" };
+    var corePriority = new[]
+    {
+        "_Layout.cshtml",
+        "_BlogPage.cshtml",
+        "_BlogItem.cshtml",
+        "_BlogPageSummary.cshtml",
+        "_BlogItemSummary.cshtml",
+        "custom.css",
+        "Archive.cshtml",
+        "ArchiveAll.cshtml",
+        "Category.cshtml"
+    };
 
     int SortOrder(DasBlog.Web.Services.ThemeFileInfo f)
     {
@@ -113,6 +127,13 @@
                             <i class="fas fa-info-circle text-info" aria-hidden="true"></i>
                         </button>
                     }
+                    @if (file.IsMissing)
+                    {
+                        <span class="badge bg-light text-dark border ms-2"
+                              title="This file is not present in the theme. The site default will be used until you customize it.">
+                            <i class="fas fa-file-circle-plus me-1"></i>Not customized
+                        </span>
+                    }
                     @if (isSummaryFile(file.RelativePath))
                     {
                         if (Model.SummaryModeEnabled)
@@ -130,7 +151,15 @@
                     }
                 </td>
                 <td>
-                    @file.Size bytes
+                    @if (file.IsMissing)
+                    {
+                        <span class="text-muted">—</span>
+                    }
+                    else
+                    {
+                        @file.Size
+                        <text> bytes</text>
+                    }
                     @if (file.BackupCount > 0)
                     {
                         <span class="badge bg-warning text-dark ms-2"
@@ -140,7 +169,24 @@
                     }
                 </td>
                 <td class="text-end">
-                    @if (file.IsEditable)
+                    @if (file.IsMissing)
+                    {
+                        if (Model.Theme.IsDefault)
+                        {
+                            <span class="text-muted">Uses site default</span>
+                        }
+                        else
+                        {
+                            <a class="btn btn-sm btn-outline-primary"
+                               asp-controller="themes" asp-action="editfile"
+                               asp-route-name="@Model.Theme.Name"
+                               asp-route-path="@file.RelativePath"
+                               title="Copy the site default into this theme and edit it">
+                                <i class="fas fa-file-circle-plus me-1"></i>Edit
+                            </a>
+                        }
+                    }
+                    else if (file.IsEditable)
                     {
                         <a class="btn btn-sm btn-outline-primary"
                            asp-controller="themes" asp-action="editfile"

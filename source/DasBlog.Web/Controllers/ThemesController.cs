@@ -122,6 +122,21 @@ namespace DasBlog.Web.Controllers
 		{
 			try
 			{
+				// Lazily copy a materializable core file (e.g. Archive.cshtml)
+				// from the site default into the theme folder the first time
+				// the user clicks Edit on it.
+				if (!themeManager.IsDefaultTheme(name)
+					&& themeManager.IsMaterializableCoreFile(path))
+				{
+					if (themeManager.MaterializeCoreFile(name, path))
+					{
+						logger.LogInformation(new EventDataItem(EventCodes.Site, null,
+							"Theme file '{0}/{1}' created from site default", name, path));
+						TempData["SuccessMessage"] =
+							$"Created {path} from the default site version. Edit and save to customize it.";
+					}
+				}
+
 				var vm = new ThemeFileEditViewModel
 				{
 					ThemeName = name,

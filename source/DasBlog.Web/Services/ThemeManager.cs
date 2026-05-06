@@ -20,6 +20,8 @@ namespace DasBlog.Web.Services
 		bool IsDefaultTheme(string themeName);
 		bool IsActiveTheme(string themeName);
 		bool IsEditableExtension(string relativePath);
+		bool IsMaterializableCoreFile(string relativePath);
+		bool MaterializeCoreFile(string themeName, string relativePath);
 		IReadOnlyList<ThemeBackupInfo> ListBackups(string themeName, string relativePath);
 		void RevertFile(string themeName, string relativePath, string backupId);
 	}
@@ -39,6 +41,12 @@ namespace DasBlog.Web.Services
 		public bool IsEditable { get; init; }
 		public long Size { get; init; }
 		public int BackupCount { get; init; }
+
+		// True when the file does not yet exist in the theme folder but is a
+		// known materializable core file (e.g. Archive.cshtml). The editor
+		// surfaces these so the user can copy the site default into the theme
+		// on first edit.
+		public bool IsMissing { get; init; }
 	}
 
 	public sealed class ThemeBackupInfo
@@ -66,6 +74,20 @@ namespace DasBlog.Web.Services
 		{
 			".cshtml", ".css", ".js", ".json", ".txt", ".map", ".html", ".htm", ".xml", ".svg"
 		};
+
+		// Core theme files the editor can populate on demand by copying the
+		// stock site view into the theme folder. The view-location expander
+		// resolves these by name (e.g. /Themes/{theme}/Archive.cshtml), so
+		// dropping a copy here lets the theme override the site default.
+		// Key: file name as it lives in the theme folder.
+		// Value: path to the site default, relative to ContentRoot.
+		private static readonly IReadOnlyDictionary<string, string> MaterializableCoreFiles =
+			new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+			{
+				["Archive.cshtml"] = "Views/Archive/Archive.cshtml",
+				["ArchiveAll.cshtml"] = "Views/Archive/ArchiveAll.cshtml",
+				["Category.cshtml"] = "Views/Category/Category.cshtml"
+			};
 
 		// Sidecar suffix used to mark previous versions of an edited theme file.
 		// Backup file naming: <sourceFileName>.<utcTimestamp>.bak (e.g. _Layout.cshtml.20251112T143055123Z.bak).
@@ -101,6 +123,13 @@ namespace DasBlog.Web.Services
 		{
 			if (string.IsNullOrWhiteSpace(relativePath)) return false;
 			return EditableExtensions.Contains(Path.GetExtension(relativePath));
+		}
+
+		public bool IsMaterializableCoreFile(string relativePath)
+		{
+			if (string.IsNullOrWhiteSpace(relativePath)) return false;
+			var normalized = relativePath.Replace('\\', '/').TrimStart('/');
+			return MaterializableCoreFiles.ContainsKey(normalized);
 		}
 
 		public IReadOnlyList<ThemeInfo> ListThemes()
@@ -154,7 +183,7 @@ namespace DasBlog.Web.Services
 
 			var files = Directory.GetFiles(themeDir, "*", SearchOption.AllDirectories);
 
-			return files
+			var present = files
 				.Where(full => !full.EndsWith(BackupSuffix, StringComparison.OrdinalIgnoreCase))
 				.Select(full =>
 				{
@@ -166,9 +195,35 @@ namespace DasBlog.Web.Services
 						Name = info.Name,
 						IsEditable = IsEditableExtension(rel),
 						Size = info.Length,
-						BackupCount = EnumerateBackupFiles(full).Count()
+						BackupCount = EnumerateBackupFiles(full).Count(),
+						IsMissing = false
 					};
 				})
+				.ToList();
+
+			// Surface materializable core files that haven't been customized
+			// yet so the editor can list them and offer a one-click copy from
+			// the site default.
+			var presentNames = new HashSet<string>(
+				present.Select(p => p.RelativePath),
+				StringComparer.OrdinalIgnoreCase);
+
+			foreach (var core in MaterializableCoreFiles.Keys)
+			{
+				if (presentNames.Contains(core)) continue;
+
+				present.Add(new ThemeFileInfo
+				{
+					RelativePath = core,
+					Name = core,
+					IsEditable = IsEditableExtension(core),
+					Size = 0,
+					BackupCount = 0,
+					IsMissing = true
+				});
+			}
+
+			return present
 				.OrderBy(f => f.RelativePath, StringComparer.OrdinalIgnoreCase)
 				.ToList();
 		}
@@ -209,6 +264,62 @@ namespace DasBlog.Web.Services
 			}
 
 			File.WriteAllText(fullPath, content ?? string.Empty);
+		}
+
+		public bool MaterializeCoreFile(string themeName, string relativePath)
+		{
+			ValidateThemeName(themeName);
+
+			if (IsDefaultTheme(themeName))
+			{
+				throw new InvalidOperationException(
+					$"Theme '{themeName}' is a default theme and cannot be customized.");
+			}
+
+			if (string.IsNullOrWhiteSpace(relativePath))
+			{
+				throw new ArgumentException("File path is required.", nameof(relativePath));
+			}
+
+			var normalized = relativePath.Replace('\\', '/').TrimStart('/');
+			if (!MaterializableCoreFiles.TryGetValue(normalized, out var sourceRelative))
+			{
+				throw new InvalidOperationException(
+					$"'{relativePath}' is not a materializable core theme file.");
+			}
+
+			var fullPath = ResolveAndValidateFile(themeName, normalized);
+
+			// Already customized — nothing to do.
+			if (File.Exists(fullPath))
+			{
+				return false;
+			}
+
+			var contentRoot = dasBlogSettings.WebRootDirectory;
+			var sourceFullPath = Path.GetFullPath(
+				Path.Combine(contentRoot, sourceRelative.Replace('/', Path.DirectorySeparatorChar)));
+			var contentRootFull = Path.GetFullPath(contentRoot) + Path.DirectorySeparatorChar;
+
+			if (!sourceFullPath.StartsWith(contentRootFull, StringComparison.OrdinalIgnoreCase))
+			{
+				throw new InvalidOperationException("Default theme source path is invalid.");
+			}
+
+			if (!File.Exists(sourceFullPath))
+			{
+				throw new FileNotFoundException(
+					$"Default site view '{sourceRelative}' was not found.", sourceFullPath);
+			}
+
+			var destDir = Path.GetDirectoryName(fullPath);
+			if (!string.IsNullOrEmpty(destDir))
+			{
+				Directory.CreateDirectory(destDir);
+			}
+
+			File.Copy(sourceFullPath, fullPath, overwrite: false);
+			return true;
 		}
 
 		public IReadOnlyList<ThemeBackupInfo> ListBackups(string themeName, string relativePath)
