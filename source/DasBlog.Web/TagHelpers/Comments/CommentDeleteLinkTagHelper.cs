@@ -10,6 +10,8 @@ namespace DasBlog.Web.TagHelpers.Comments
 
 		public bool Admin { get; set; } = false;
 
+		public string Css { get; set; }
+
 		private const string COMMENTTEXT_MSG = "Are you sure you want to delete the comment from '{0}'?";
 
 		public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
@@ -20,7 +22,8 @@ namespace DasBlog.Web.TagHelpers.Comments
 			output.TagName = "a";
 			output.TagMode = TagMode.StartTagAndEndTag;
 			output.Attributes.SetAttribute("href", $"javascript:commentManagement(\"{Comment.BlogPostId}\",\"{Comment.CommentId}\",\"{commenttxt}\",\"DELETE\")");
-			output.Attributes.SetAttribute("class", "dbc-comment-delete-link");
+			var cssClass = string.IsNullOrWhiteSpace(Css) ? "dbc-comment-delete-link" : $"dbc-comment-delete-link {Css}";
+			output.Attributes.SetAttribute("class", cssClass);
 			output.Attributes.SetAttribute("aria-label", "Delete Comment");
 			
 			var content = await output.GetChildContentAsync();

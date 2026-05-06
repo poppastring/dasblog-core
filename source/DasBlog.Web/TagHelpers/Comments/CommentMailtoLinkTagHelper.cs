@@ -8,6 +8,8 @@ namespace DasBlog.Web.TagHelpers.Comments
 	{
 		public CommentAdminViewModel Comment { get; set; }
 
+		public string Css { get; set; }
+
 		private const string MAILTOLINK = "mailto:{0}?subject={1}";
 
 		public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
@@ -17,7 +19,8 @@ namespace DasBlog.Web.TagHelpers.Comments
 			output.TagName = "a";
 			output.TagMode = TagMode.StartTagAndEndTag;
 			output.Attributes.SetAttribute("href", maillink);
-			output.Attributes.SetAttribute("class", "dbc-comment-mailto-link");
+			var cssClass = string.IsNullOrWhiteSpace(Css) ? "dbc-comment-mailto-link" : $"dbc-comment-mailto-link {Css}";
+			output.Attributes.SetAttribute("class", cssClass);
 
 			var content = await output.GetChildContentAsync();
 

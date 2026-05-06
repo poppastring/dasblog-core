@@ -140,7 +140,7 @@ namespace DasBlog.Web.Controllers
 			ViewData["CurrentUserHomePage"] = dasBlogSettings.SiteConfiguration.Root;
 
 			ViewData[Constants.CommentPageNumber] = 0;
-			ViewData[Constants.CommentPostCount] = 5;
+			ViewData[Constants.CommentPostCount] = commentManager.GetCommentsForPage(1).Count;
 			return View(comments.OrderByDescending(d => d.Date).ToList());
 		}
 
@@ -173,7 +173,7 @@ namespace DasBlog.Web.Controllers
 			ViewData["CurrentUserHomePage"] = dasBlogSettings.SiteConfiguration.Root;
 
 			ViewData[Constants.CommentShowPageControl] = true;
-			ViewData[Constants.CommentPostCount] = 5;
+			ViewData[Constants.CommentPostCount] = commentManager.GetCommentsForPage(page + 1).Count;
 			ViewData[Constants.CommentPageNumber] = page;
 
 			return View("ManageComments", comments.OrderByDescending(d => d.Date).ToList());

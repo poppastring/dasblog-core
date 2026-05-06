@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using newtelligence.DasBlog.Runtime;
 
 namespace DasBlog.Managers.Interfaces

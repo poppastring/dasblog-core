@@ -133,3 +133,35 @@
 tbody.dbc-admin-comment-table td {
     word-break: break-all;
 }
+
+/* Admin: comment moderation cards */
+.dbc-comment-card {
+    border-left: 4px solid var(--bs-secondary-bg) !important;
+    transition: box-shadow .15s ease-in-out, transform .15s ease-in-out;
+}
+
+.dbc-comment-card:hover {
+    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .12) !important;
+}
+
+.dbc-comment-card--pending {
+    border-left-color: var(--bs-warning) !important;
+}
+
+.dbc-comment-card--approved {
+    border-left-color: var(--bs-success) !important;
+}
+
+.dbc-comment-card--spam {
+    border-left-color: var(--bs-danger) !important;
+}
+
+.dbc-comment-card .dbc-admin-comment-content {
+    word-break: break-word;
+}
+
+.dbc-comment-card .dbc-comment-gravatar {
+    width: 48px;
+    height: 48px;
+    object-fit: cover;
+}
