@@ -32,8 +32,8 @@
                 <a href="#menu-toggle" class="btn btn-default" id="menu-toggle"><em class="fa fa-bars"></em></a>
                 <ul class="nav nav-pills flex-column sidebar-nav">
                     <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="home" asp-action="index"><em class="fa fa-dashboard"></em>Home</a></li>
-                    <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="category" asp-action="category">Category</a></li>
-                    <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="archive" asp-action="archive">Archive</a></li>
+                    <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="category" asp-action="category" asp-route-cat="">Category</a></li>
+                    <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="archive" asp-action="archive" asp-route-year="" asp-route-month="" asp-route-day="">Archive</a></li>
                     <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="feed" asp-action="rss">Subscribe</a></li>
                     <li class="nav-item"><a dasblog-authorized class="nav-link" asp-area="" asp-controller="admin" asp-action="settings">[Site Settings]</a></li>
 
