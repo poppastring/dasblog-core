@@ -12,6 +12,7 @@ namespace DasBlog.Web.TagHelpers.Post
 		public string DefaultImage { get; set; }
 		public string Css { get; set; }
 		public string Style { get; set; }
+		public string Alt { get; set; }
 
 		private readonly IUrlResolver urlResolver;
 
@@ -48,6 +49,24 @@ namespace DasBlog.Web.TagHelpers.Post
 			{
 				output.Attributes.SetAttribute("style", Style);
 			}
+
+			// Always emit an alt attribute for valid HTML / WCAG compliance.
+			// Resolution order: explicit Alt -> Post.ImageAlt -> Post.Title -> empty (decorative).
+			string altText;
+			if (!string.IsNullOrEmpty(Alt))
+			{
+				altText = Alt;
+			}
+			else if (!string.IsNullOrEmpty(Post?.ImageAlt))
+			{
+				altText = Post.ImageAlt;
+			}
+			else
+			{
+				altText = Post?.Title ?? string.Empty;
+			}
+
+			output.Attributes.SetAttribute("alt", altText);
 		}
 
 		public override Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
