@@ -5,21 +5,44 @@
     ViewData["Title"] = Constants.ArchiveAllPageTitle;
 }
 
-<div class="dbc-archive-page">
-    @foreach (var postviewlist in Model.MonthEntries)
-    {
-        var year = int.Parse(postviewlist.Key.ToString().Substring(0, 4));
-        var month = int.Parse(postviewlist.Key.ToString().Substring(4, 2));
-        var currentmonth = new DateTime(year, month, 1);
+<div class="container">
+    <h1>@ViewData["Title"]</h1>
+    <hr />
 
-        <h3>@currentmonth.ToString("Y")</h3>
-        @foreach (var entry in postviewlist.Value)
-        {
-            <div>
-                <post-title-link post="@entry" css="dbc-archive-anchor event" />
-            </div>
-        }
+    @if (!Model.MonthEntries.Any())
+    {
+        <p class="text-muted">No posts have been published yet.</p>
+    }
+    else
+    {
+        <div class="dbc-archive-page">
+            @foreach (var postviewlist in Model.MonthEntries)
+            {
+                var year = postviewlist.Key / 100;
+                var month = postviewlist.Key % 100;
+                var currentmonth = new DateTime(year, month, 1);
+                var anchorId = $"m{postviewlist.Key}";
+                var postCount = postviewlist.Value.Count;
+
+                <section class="card mb-3" id="@anchorId">
+                    <header class="card-header d-flex align-items-center justify-content-between">
+                        <h2 class="h5 mb-0">@currentmonth.ToString("Y")</h2>
+                        <span class="badge bg-secondary"
+                              aria-label="@postCount post@(postCount == 1 ? string.Empty : "s")">
+                            @postCount
+                        </span>
+                    </header>
+                    <ul class="list-group list-group-flush">
+                        @foreach (var entry in postviewlist.Value)
+                        {
+                            <li class="list-group-item">
+                                <post-title-link post="@entry" css="dbc-archive-anchor event" />
+                            </li>
+                        }
+                    </ul>
+                </section>
+            }
+        </div>
     }
 </div>
-
 
