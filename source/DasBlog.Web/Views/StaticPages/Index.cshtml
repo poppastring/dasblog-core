@@ -1,0 +1,117 @@
+@using DasBlog.Web.Models.AdminViewModels
+@using DasBlog.Web.Services
+@model StaticPageListViewModel
+
+@{
+	ViewBag.Title = "Static Pages";
+	Layout = "../../Themes/dasblog/_Layout.cshtml";
+}
+
+<h1>Static Pages</h1>
+<hr />
+
+<partial name="_SuccessAlertPartial" view-data="ViewData" />
+<partial name="_ErrorAlertPartial" view-data="ViewData" />
+
+<div class="alert alert-info">
+	Static pages are simple HTML pages served at <code>/&lt;name&gt;</code> (e.g. <code>/about</code>).
+	They render through the active theme's layout. A blog post that happens to share the same slug will
+	take precedence over the static entry.
+</div>
+
+<p>
+	<a class="btn btn-secondary" asp-controller="admin" asp-action="settings">
+		<i class="fas fa-cog me-1"></i>Back to settings
+	</a>
+</p>
+
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th>Page</th>
+			<th>URL</th>
+			<th>Status</th>
+			<th>Last modified</th>
+			<th class="text-end">Actions</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var entry in Model.Pages)
+		{
+			var deleteModalId = $"deleteModal_{entry.Name}";
+			var deleteHiddenId = $"hiddenDeleteButton_{entry.Name}";
+			<tr>
+				<td><strong>@entry.DisplayTitle</strong></td>
+				<td><code>@entry.PublicUrlPath</code></td>
+				<td>
+					@if (entry.Exists)
+					{
+						<span class="badge bg-success">Published</span>
+						if (entry.BackupCount > 0)
+						{
+							<span class="badge bg-warning text-dark ms-2"
+								  title="@entry.BackupCount previous version(s) available to restore">
+								<i class="fas fa-undo me-1"></i>@entry.BackupCount backup@(entry.BackupCount == 1 ? "" : "s")
+							</span>
+						}
+					}
+					else
+					{
+						<span class="badge bg-secondary">Not yet created</span>
+					}
+				</td>
+				<td>
+					@if (entry.LastModifiedUtc.HasValue)
+					{
+						var local = entry.LastModifiedUtc.Value.ToLocalTime();
+						<span title="@entry.LastModifiedUtc.Value.ToString("u")">
+							@local.ToString("yyyy-MM-dd HH:mm")
+						</span>
+					}
+					else
+					{
+						<span class="text-muted">—</span>
+					}
+				</td>
+				<td class="text-end">
+					@if (entry.Exists)
+					{
+						<a class="btn btn-sm btn-outline-secondary"
+						   href="@entry.PublicUrlPath" target="_blank" rel="noopener"
+						   title="Open the published page in a new tab">
+							<i class="fas fa-external-link-alt me-1"></i>View
+						</a>
+					}
+					<a class="btn btn-sm btn-outline-primary"
+					   asp-controller="staticpages" asp-action="edit" asp-route-name="@entry.Name">
+						@(entry.Exists ? "Edit" : "Create")
+					</a>
+					@if (entry.Exists)
+					{
+						<form method="post"
+							  asp-controller="staticpages" asp-action="delete" asp-route-name="@entry.Name"
+							  class="d-inline">
+							@Html.AntiForgeryToken()
+							<button type="button" class="btn btn-sm btn-outline-danger"
+									data-bs-toggle="modal" data-bs-target="#@deleteModalId">
+								Delete
+							</button>
+							<input type="submit" id="@deleteHiddenId" style="display:none;" />
+						</form>
+					}
+				</td>
+			</tr>
+
+			@if (entry.Exists)
+			{
+				ViewData["ModalId"] = deleteModalId;
+				ViewData["ModalTitle"] = "Delete Page";
+				ViewData["ModalMessage"] = $"Delete '{entry.DisplayTitle}'? The published page and any saved backups will be removed. This cannot be undone.";
+				ViewData["ModalConfirmText"] = "Delete";
+				ViewData["ModalConfirmClass"] = "btn-danger";
+				ViewData["HiddenButtonId"] = deleteHiddenId;
+				<partial name="_ConfirmationModalPartial" view-data="ViewData" />
+			}
+		}
+	</tbody>
+</table>
