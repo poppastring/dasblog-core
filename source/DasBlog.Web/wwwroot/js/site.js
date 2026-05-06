@@ -82,11 +82,7 @@ function executeCommentAction() {
     if (!action) return;
 
     const oReq = new XMLHttpRequest();
-    const basePath = document.querySelector('base')?.getAttribute('href') || '/';
-    let url = basePath + 'admin/post/' + action.postid + '/comments/' + action.commentid;
-    if (action.actionKey === 'UNAPPROVE') {
-        url += '/unapprove';
-    }
+    const url = action.url;
 
     oReq.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {

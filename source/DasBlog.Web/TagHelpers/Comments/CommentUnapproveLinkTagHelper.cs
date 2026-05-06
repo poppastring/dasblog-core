@@ -1,5 +1,8 @@
-﻿using DasBlog.Services;
-using DasBlog.Web.Models.BlogViewModels;
+﻿using DasBlog.Web.Models.BlogViewModels;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Mvc.Routing;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using System.Threading.Tasks;
 
@@ -7,12 +10,16 @@ namespace DasBlog.Web.TagHelpers.Comments
 {
 	public class CommentUnapproveLinkTagHelper : TagHelper
 	{
-		private readonly IDasBlogSettings dasBlogSettings;
+		private readonly IUrlHelperFactory urlHelperFactory;
 
-		public CommentUnapproveLinkTagHelper(IDasBlogSettings dasBlogSettings)
+		public CommentUnapproveLinkTagHelper(IUrlHelperFactory urlHelperFactory)
 		{
-			this.dasBlogSettings = dasBlogSettings;
+			this.urlHelperFactory = urlHelperFactory;
 		}
+
+		[HtmlAttributeNotBound]
+		[ViewContext]
+		public ViewContext ViewContext { get; set; }
 
 		public CommentViewModel Comment { get; set; }
 
@@ -25,7 +32,11 @@ namespace DasBlog.Web.TagHelpers.Comments
 			var commenttxt = string.Format(COMMENTTEXT_MSG, Comment.Name);
 			var message = "Move to Pending";
 
-			var actionUrl = dasBlogSettings.RelativeToRoot($"admin/post/{Comment.BlogPostId}/comments/{Comment.CommentId}/unapprove");
+			var urlHelper = urlHelperFactory.GetUrlHelper(ViewContext);
+			var actionUrl = urlHelper.Action(
+				"UnapproveComment",
+				"BlogPost",
+				new { postid = Comment.BlogPostId, commentid = Comment.CommentId });
 
 			output.TagName = "a";
 			output.TagMode = TagMode.StartTagAndEndTag;
