@@ -1,31 +1,28 @@
-﻿using System.Threading.Tasks;
-using DasBlog.Web.Models.BlogViewModels;
+﻿using DasBlog.Web.Models.BlogViewModels;
 using Microsoft.AspNetCore.Razor.TagHelpers;
+using System.Threading.Tasks;
 
 namespace DasBlog.Web.TagHelpers.Comments
 {
-	public class CommentDeleteLinkTagHelper : TagHelper
+	public class CommentUnapproveLinkTagHelper : TagHelper
 	{
 		public CommentViewModel Comment { get; set; }
 
-		public bool Admin { get; set; } = false;
-
 		public string Css { get; set; }
 
-		private const string COMMENTTEXT_MSG = "Are you sure you want to delete the comment from '{0}'?";
+		private const string COMMENTTEXT_MSG = "Move the comment from '{0}' back to pending review?";
 
 		public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
 		{
 			var commenttxt = string.Format(COMMENTTEXT_MSG, Comment.Name);
-			var message = "Delete Comment";
+			var message = "Move to Pending";
 
 			output.TagName = "a";
 			output.TagMode = TagMode.StartTagAndEndTag;
-			output.Attributes.SetAttribute("href", $"javascript:commentManagement(\"{Comment.BlogPostId}\",\"{Comment.CommentId}\",\"{commenttxt}\",\"DELETE\")");
-			var cssClass = string.IsNullOrWhiteSpace(Css) ? "dbc-comment-delete-link" : $"dbc-comment-delete-link {Css}";
+			output.Attributes.SetAttribute("href", $"javascript:commentManagement(\"{Comment.BlogPostId}\",\"{Comment.CommentId}\",\"{commenttxt}\",\"PATCH\",\"UNAPPROVE\")");
+			var cssClass = string.IsNullOrWhiteSpace(Css) ? "dbc-comment-unapprove-link" : $"dbc-comment-unapprove-link {Css}";
 			output.Attributes.SetAttribute("class", cssClass);
-			output.Attributes.SetAttribute("aria-label", "Delete Comment");
-			
+
 			var content = await output.GetChildContentAsync();
 
 			if (!string.IsNullOrWhiteSpace(content.GetContent()))
@@ -35,6 +32,5 @@ namespace DasBlog.Web.TagHelpers.Comments
 
 			output.Content.SetHtmlContent(message);
 		}
-
 	}
 }

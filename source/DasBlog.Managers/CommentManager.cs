@@ -107,6 +107,25 @@ namespace DasBlog.Managers
 			return est;
 		}
 
+		public CommentSaveState UnapproveComment(string postid, string commentid)
+		{
+			CommentSaveState est = CommentSaveState.Failed;
+			Entry entry = dataService.GetEntry(postid);
+
+			if (entry != null && !string.IsNullOrEmpty(commentid))
+			{
+				dataService.UnapproveComment(postid, commentid);
+
+				est = CommentSaveState.Unapproved;
+			}
+			else
+			{
+				est = CommentSaveState.NotFound;
+			}
+
+			return est;
+		}
+
 		public CommentCollection GetComments(string postid, bool allComments)
 		{
 			return dataService.GetCommentsFor(postid, allComments);

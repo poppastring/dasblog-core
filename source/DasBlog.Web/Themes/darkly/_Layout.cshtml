@@ -1,6 +1,12 @@
 ﻿<!DOCTYPE html>
-<html data-bs-theme="light">
+<html lang="en">
 <head>
+    @* Pin this theme's color mode independent of any admin/user preference written to localStorage *@
+    <script>
+        localStorage.setItem('dasblog-theme', 'light');
+        document.documentElement.setAttribute('data-bs-theme', 'light');
+    </script>
+
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
@@ -27,8 +33,8 @@
             <div class="collapse navbar-collapse" id="navbar-darkly">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item"><a class="nav-link active" asp-area="" asp-controller="home" asp-action="index">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="category" asp-action="category">Category</a></li>
-                    <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="archive" asp-action="archive">Archive</a></li>
+                    <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="category" asp-action="category" asp-route-cat="">Category</a></li>
+                    <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="archive" asp-action="archive" asp-route-year="" asp-route-month="" asp-route-day="">Archive</a></li>
                     <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="feed" asp-action="rss">Subscribe</a></li>
                     <li class="nav-item" dasblog-authorized><a class="nav-link" asp-area="" asp-controller="admin" asp-action="settings">[Site Settings]</a></li>
                 </ul>

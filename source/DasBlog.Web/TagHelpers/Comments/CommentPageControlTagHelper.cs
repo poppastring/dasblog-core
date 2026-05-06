@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Text;
 using System.Threading.Tasks;
 using DasBlog.Core.Common;
 using DasBlog.Services;
@@ -10,63 +10,67 @@ namespace DasBlog.Web.TagHelpers.Comments
 {
 	public class CommentPageControlTagHelper : TagHelper
 	{
-		public string NewerPostsText { get; set; } = "Newer Comments &gt;&gt;";
+		public string NewerPostsText { get; set; } = "Newer";
 
-		public string OlderPostsText { get; set; } = "&lt;&lt; Older Comments";
+		public string OlderPostsText { get; set; } = "Older";
 
-		public bool SeperatorRequired { get; set; } = true;
-
-		private int PostCount { get; set; }
+		private int OlderPageItemCount { get; set; }
 		private int PageNumber { get; set; }
-		private const string PAGEANCHOR = "<span class='dbc-span-page-control-{2}'><a href='{0}'>{1}</a></span>";
 
 		[ViewContext]
 		public ViewContext ViewContext { get; set; }
 
-		private IUrlResolver urlResolver;
+		private readonly IUrlResolver urlResolver;
 
 		public CommentPageControlTagHelper(IUrlResolver urlResolver)
 		{
 			this.urlResolver = urlResolver;
 		}
 
-		public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
+		public override Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
 		{
-			PostCount = (int?)ViewContext.ViewData[Constants.CommentPostCount] ?? 0;
+			OlderPageItemCount = (int?)ViewContext.ViewData[Constants.CommentPostCount] ?? 0;
 			PageNumber = (int?)ViewContext.ViewData[Constants.CommentPageNumber] ?? 0;
 
-			var pagecontrol = string.Empty;
+			var hasNewer = PageNumber > 0;
+			var hasOlder = OlderPageItemCount > 0;
 
-			output.TagName = "span";
+			var newerUrl = urlResolver.RelativeToRoot(PageNumber <= 1
+				? "admin/manage-comments"
+				: $"admin/manage-comments/page/{PageNumber - 1}");
+			var olderUrl = urlResolver.RelativeToRoot($"admin/manage-comments/page/{PageNumber + 1}");
+			var firstUrl = urlResolver.RelativeToRoot("admin/manage-comments");
+
+			var sb = new StringBuilder();
+			sb.Append("<ul class=\"pagination pagination-sm mb-0\">");
+
+			// First page (only show when not already on it)
+			sb.Append(PageNumber > 0
+				? $"<li class=\"page-item\"><a class=\"page-link\" href=\"{firstUrl}\" aria-label=\"First page\" title=\"First page\"><i class=\"fa-solid fa-angles-left\"></i></a></li>"
+				: "<li class=\"page-item disabled\" aria-hidden=\"true\"><span class=\"page-link\"><i class=\"fa-solid fa-angles-left\"></i></span></li>");
+
+			// Newer (Previous)
+			sb.Append(hasNewer
+				? $"<li class=\"page-item\"><a class=\"page-link\" href=\"{newerUrl}\" rel=\"prev\"><i class=\"fa-solid fa-chevron-left me-1\"></i>{NewerPostsText}</a></li>"
+				: $"<li class=\"page-item disabled\" aria-disabled=\"true\"><span class=\"page-link\"><i class=\"fa-solid fa-chevron-left me-1\"></i>{NewerPostsText}</span></li>");
+
+			// Current page indicator
+			sb.Append($"<li class=\"page-item active\" aria-current=\"page\"><span class=\"page-link\">Page {PageNumber + 1}</span></li>");
+
+			// Older (Next)
+			sb.Append(hasOlder
+				? $"<li class=\"page-item\"><a class=\"page-link\" href=\"{olderUrl}\" rel=\"next\">{OlderPostsText}<i class=\"fa-solid fa-chevron-right ms-1\"></i></a></li>"
+				: $"<li class=\"page-item disabled\" aria-disabled=\"true\"><span class=\"page-link\">{OlderPostsText}<i class=\"fa-solid fa-chevron-right ms-1\"></i></span></li>");
+
+			sb.Append("</ul>");
+
+			output.TagName = "nav";
 			output.TagMode = TagMode.StartTagAndEndTag;
-			output.Attributes.SetAttribute("class", "dbc-span-comment-page-control");
+			output.Attributes.SetAttribute("aria-label", "Comment pagination");
+			output.Attributes.SetAttribute("class", "dbc-comment-page-control");
+			output.Content.SetHtmlContent(sb.ToString());
 
-			var content = await output.GetChildContentAsync();
-			var seperator = " | ";
-			
-			if(!string.IsNullOrEmpty(content.GetContent()))
-			{
-				seperator = content.GetContent();
-			}
-
-			var separatorRequired = PostCount > 0 && PageNumber > 0;
-
-			if (PostCount > 0)
-			{
-				pagecontrol = string.Format(PAGEANCHOR, urlResolver.RelativeToRoot(string.Format("admin/manage-comments/page/{0}", PageNumber + 1)), OlderPostsText, "older");
-			}
-			
-			if (separatorRequired)
-			{
-				pagecontrol += seperator;
-			}
-
-			if (PageNumber > 0)
-			{
-				pagecontrol += string.Format(PAGEANCHOR, urlResolver.RelativeToRoot(string.Format("admin/manage-comments/page/{0}", PageNumber - 1)), NewerPostsText, "newer");
-			}
-
-			output.Content.SetHtmlContent(pagecontrol);
+			return Task.CompletedTask;
 		}
 	}
 }

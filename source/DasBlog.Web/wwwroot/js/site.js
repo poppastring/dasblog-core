@@ -1,16 +1,37 @@
-﻿function commentManagement(postid, commentid, commentText, httpVerb) {
+﻿function commentManagement(postid, commentid, commentText, httpVerb, action) {
+    // Resolve the action key. Defaults preserve historical behaviour:
+    //   DELETE -> delete, PATCH -> approve. Pass 'UNAPPROVE' to send a comment back to pending.
+    const actionKey = action
+        || (httpVerb === 'DELETE' ? 'DELETE' : 'APPROVE');
+
     // Store comment details for modal
     window.pendingCommentAction = {
         postid: postid,
         commentid: commentid,
-        httpVerb: httpVerb
+        httpVerb: httpVerb,
+        actionKey: actionKey
     };
 
     // Set modal content based on action type
-    const modalTitle = httpVerb === 'DELETE' ? 'Confirm Delete' : 'Confirm Approve';
+    let modalTitle, modalButton, modalButtonClass;
+    switch (actionKey) {
+        case 'DELETE':
+            modalTitle = 'Confirm Delete';
+            modalButton = 'Delete';
+            modalButtonClass = 'btn-danger';
+            break;
+        case 'UNAPPROVE':
+            modalTitle = 'Move Back to Pending';
+            modalButton = 'Move to Pending';
+            modalButtonClass = 'btn-warning';
+            break;
+        default:
+            modalTitle = 'Confirm Approve';
+            modalButton = 'Approve';
+            modalButtonClass = 'btn-success';
+            break;
+    }
     const modalBody = commentText;
-    const modalButton = httpVerb === 'DELETE' ? 'Delete' : 'Approve';
-    const modalButtonClass = httpVerb === 'DELETE' ? 'btn-danger' : 'btn-success';
 
     // Get or create modal
     let modal = document.getElementById('commentActionModal');
@@ -63,7 +84,10 @@ function executeCommentAction() {
 
     const oReq = new XMLHttpRequest();
     const basePath = document.querySelector('base')?.getAttribute('href') || '/';
-    const url = basePath + 'admin/post/' + action.postid + '/comments/' + action.commentid;
+    let url = basePath + 'admin/post/' + action.postid + '/comments/' + action.commentid;
+    if (action.actionKey === 'UNAPPROVE') {
+        url += '/unapprove';
+    }
 
     oReq.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
@@ -77,9 +101,18 @@ function executeCommentAction() {
             }
 
             // Set success message in session storage
-            const successMessage = action.httpVerb === 'DELETE' 
-                ? 'Comment deleted successfully!' 
-                : 'Comment approved successfully!';
+            let successMessage;
+            switch (action.actionKey) {
+                case 'DELETE':
+                    successMessage = 'Comment deleted successfully!';
+                    break;
+                case 'UNAPPROVE':
+                    successMessage = 'Comment moved back to pending.';
+                    break;
+                default:
+                    successMessage = 'Comment approved successfully!';
+                    break;
+            }
 
             console.log('Setting sessionStorage with message:', successMessage);
             sessionStorage.setItem('commentActionSuccess', successMessage);

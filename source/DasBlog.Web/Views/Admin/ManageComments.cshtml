@@ -1,5 +1,6 @@
 ﻿@using DasBlog.Services;
 @using DasBlog.Core.Common;
+@using DasBlog.Web.Models.BlogViewModels;
 @using System.Net;
 @inject IDasBlogSettings dasBlogSettings
 @model List<CommentAdminViewModel>
@@ -10,66 +11,145 @@
     Layout = "../../Themes/dasblog/_Layout.cshtml";
 }
 
-<h1>@ViewData["Title"]</h1>
+<div class="container py-4">
 
-<!-- Success/Error Alerts using reusable partials -->
-<partial name="_SuccessAlertPartial" view-data="ViewData" />
-<partial name="_ErrorAlertPartial" view-data="ViewData" />
+    <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-3">
+        <div>
+            <h1 class="h3 mb-1">
+                <i class="fa-regular fa-comments me-2 text-secondary"></i>@ViewData["Title"]
+            </h1>
+            <p class="text-muted mb-0">Review, approve, reply to, or remove reader comments.</p>
+        </div>
+        <div class="d-flex align-items-center gap-3 small">
+            <span class="d-inline-flex align-items-center"><span class="badge text-bg-warning me-2">&nbsp;</span>Pending</span>
+            <span class="d-inline-flex align-items-center"><span class="badge text-bg-success me-2">&nbsp;</span>Approved</span>
+            <span class="d-inline-flex align-items-center"><span class="badge text-bg-danger me-2">&nbsp;</span>Spam</span>
+        </div>
+    </div>
 
-<!-- Dynamic Success Alert (for session storage) -->
-<div class="alert alert-success alert-dismissible fade" role="alert" id="dynamicSuccessAlert" style="display:none;">
-    <i class="fa-solid fa-circle-check me-2"></i>
-    <strong>Success!</strong> <span id="dynamicSuccessMessage"></span>
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-</div>
+    @* Success / error alerts *@
+    <partial name="_SuccessAlertPartial" view-data="ViewData" />
+    <partial name="_ErrorAlertPartial" view-data="ViewData" />
 
-<div class="container">
-    <div>
-        <comment-page-control view-context="@ViewContext" />
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">Comment</th>
-                    <th scope="col"></th>
-                    <th scope="col">Audit</th>
-                </tr>
-            </thead>
-            <tbody class="dbc-admin-comment-table">
-                @foreach (var comment in Model)
+    <div class="alert alert-success alert-dismissible fade d-flex align-items-center" role="alert" id="dynamicSuccessAlert" style="display:none;">
+        <i class="fa-solid fa-circle-check me-2"></i>
+        <div><strong>Success!</strong> <span id="dynamicSuccessMessage"></span></div>
+        <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+    @{
+        var commentPageNumber = (int?)ViewData[Constants.CommentPageNumber] ?? 0;
+        var hasComments = Model is not null && Model.Count > 0;
+    }
+
+    @if (!hasComments)
+    {
+        <div class="card border-0 shadow-sm">
+            <div class="card-body text-center py-5 text-muted">
+                <i class="fa-regular fa-comment-dots fa-2x mb-3 d-block"></i>
+                @if (commentPageNumber > 0)
                 {
-                <comment-css comment="@comment">   
-                    <td width="10%">
-                        <comment-gravatar-image comment="@comment" css="img-thumbnail rounded float-left" />
-                    </td>
-                    <td width="70%">
-                        <blockquote>
-                            <div class="mb-0">
-                                <comment-user-home-page-link comment="@comment"/> - 
-                                <comment-date comment="@comment" css="fw-light text-muted fs-6" date-time-format="MMMM dd, yyyy H:mm" />
-                                <span class="fw-light text-muted fs-6">(@comment.AuthorIPAddress)</span>
-                                <p class="mb-0 fw-bold"><a href="@Url.Action("ManageComments", "Admin", new { id = comment.BlogPostId })">@comment.Title</a></p>
-                                <comment-content css="fw-light" comment="@comment" />
-                            </div>
-                        </blockquote>
-                        <figcaption class="blockquote-footer">
-                            <a href="javascript:void(0);" onclick="openReplyModal('@comment.BlogPostId', '@Html.Raw(comment.Title?.Replace("'", "\\'"))')">Reply</a>
-                        </figcaption>
-                    </td>
-                    <td width="20%">
-                        <comment-approval-link comment="@comment" admin="true"> 
-                            <i class="far fa-thumbs-up fa-lg" data-bs-toggle="tooltip" data-bs-placement="top" title="Approve comment"></i>
-                        </comment-approval-link>
-                        <comment-delete-link comment="@comment" admin="true" data-bs-placement="top" title="Delete comment">
-                            <i class="fas fa-trash-alt fa-lg"></i>
-                        </comment-delete-link>
-                        <comment-mailto-link comment="@comment"  data-bs-placement="top" title="Email">
-                            <i class="far fa-envelope fa-lg"></i>
-                        </comment-mailto-link>
-                    </td>
-                </comment-css>
+                    <p class="mb-1">No comments on this page.</p>
+                    <p class="small mb-0">Use the pager below to go back to newer comments.</p>
                 }
-            </tbody>
-        </table>
+                else
+                {
+                    <p class="mb-0">No comments to manage right now.</p>
+                }
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="vstack gap-3">
+            @foreach (var comment in Model)
+            {
+                var statusBadge = comment.SpamState switch
+                {
+                    SpamStateViewModel.NotSpam => ("text-bg-success", "fa-circle-check", "Approved"),
+                    SpamStateViewModel.Spam => ("text-bg-danger", "fa-shield-halved", "Spam"),
+                    _ => ("text-bg-warning", "fa-clock-rotate-left", "Pending")
+                };
+                var safeTitle = Html.Raw(comment.Title?.Replace("'", "\\'") ?? string.Empty);
+
+                <comment-css comment="@comment">
+                    <div class="card-body">
+                        <div class="d-flex flex-wrap align-items-start gap-3">
+                            <comment-gravatar-image comment="@comment" css="rounded-circle border flex-shrink-0" />
+
+                            <div class="flex-grow-1 min-w-0">
+                                <div class="d-flex flex-wrap align-items-center gap-2 mb-1">
+                                    <span class="fw-semibold text-body">
+                                        <comment-user-home-page-link comment="@comment" />
+                                    </span>
+                                    <span class="badge @statusBadge.Item1 d-inline-flex align-items-center">
+                                        <i class="fa-solid @statusBadge.Item2 me-1"></i>@statusBadge.Item3
+                                    </span>
+                                </div>
+
+                                <div class="d-flex flex-wrap align-items-center gap-3 text-muted small mb-2">
+                                    <span title="Posted">
+                                        <i class="fa-regular fa-clock me-1"></i>
+                                        <comment-date comment="@comment" date-time-format="MMM dd, yyyy H:mm" />
+                                    </span>
+                                    @if (!string.IsNullOrWhiteSpace(comment.AuthorIPAddress))
+                                    {
+                                        <span title="Author IP address">
+                                            <i class="fa-solid fa-network-wired me-1"></i>@comment.AuthorIPAddress
+                                        </span>
+                                    }
+                                    <span title="On post">
+                                        <i class="fa-regular fa-file-lines me-1"></i>
+                                        <a class="link-secondary text-decoration-none"
+                                           href="@Url.Action("ManageComments", "Admin", new { id = comment.BlogPostId })">@comment.Title</a>
+                                    </span>
+                                </div>
+
+                                <div class="dbc-admin-comment-content text-body">
+                                    <comment-content css="fw-light mb-0" comment="@comment" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-footer bg-transparent border-top-0 pt-0 pb-3 px-3">
+                        <div class="d-flex flex-wrap justify-content-end gap-2" role="toolbar" aria-label="Comment actions">
+                            @if (comment.SpamState != SpamStateViewModel.NotSpam)
+                            {
+                                <comment-approval-link comment="@comment" admin="true"
+                                                       css="btn btn-sm btn-success">
+                                    <i class="fa-regular fa-thumbs-up me-1"></i>Approve
+                                </comment-approval-link>
+                            }
+                            else
+                            {
+                                <comment-unapprove-link comment="@comment"
+                                                       css="btn btn-sm btn-outline-warning">
+                                    <i class="fa-regular fa-clock me-1"></i>Move to Pending
+                                </comment-unapprove-link>
+                            }
+                            <button type="button"
+                                    class="btn btn-sm btn-outline-primary"
+                                    onclick="openReplyModal('@comment.BlogPostId', '@safeTitle')">
+                                <i class="fa-regular fa-comment-dots me-1"></i>Reply
+                            </button>
+                            <comment-mailto-link comment="@comment"
+                                                 css="btn btn-sm btn-outline-secondary">
+                                <i class="fa-regular fa-envelope me-1"></i>Email
+                            </comment-mailto-link>
+                            <comment-delete-link comment="@comment" admin="true"
+                                                 css="btn btn-sm btn-outline-danger">
+                                <i class="fa-regular fa-trash-can me-1"></i>Delete
+                            </comment-delete-link>
+                        </div>
+                    </div>
+                </comment-css>
+            }
+        </div>
+    }
+
+    <div class="d-flex justify-content-center mt-4">
+        <comment-page-control view-context="@ViewContext" />
     </div>
 </div>
 

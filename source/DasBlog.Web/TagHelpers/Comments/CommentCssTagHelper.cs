@@ -10,23 +10,23 @@ namespace DasBlog.Web.TagHelpers.Comments
 
 		public override void Process(TagHelperContext context, TagHelperOutput output)
 		{
-			string css;
+			string statusClass;
 			switch (Comment.SpamState)
 			{
 				case SpamStateViewModel.Spam:
-					css = "table-danger";
+					statusClass = "dbc-comment-card--spam";
 					break;
 				case SpamStateViewModel.NotSpam:
-					css = "table-success";
+					statusClass = "dbc-comment-card--approved";
 					break;
 				default:
-					css = "table-warning";
+					statusClass = "dbc-comment-card--pending";
 					break;
 			}
 
-			output.TagName = "tr";
+			output.TagName = "div";
 			output.TagMode = TagMode.StartTagAndEndTag;
-			output.Attributes.SetAttribute("class", css);
+			output.Attributes.SetAttribute("class", $"card border-0 shadow-sm dbc-comment-card {statusClass}");
 		}
 
 		public override Task ProcessAsync(TagHelperContext context, TagHelperOutput output)

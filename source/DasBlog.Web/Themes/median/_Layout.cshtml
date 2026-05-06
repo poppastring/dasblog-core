@@ -1,6 +1,12 @@
 ﻿<!DOCTYPE html>
-<html data-bs-theme="light">
+<html lang="en">
 <head>
+    @* Pin this theme's color mode independent of any admin/user preference written to localStorage *@
+    <script>
+        localStorage.setItem('dasblog-theme', 'light');
+        document.documentElement.setAttribute('data-bs-theme', 'light');
+    </script>
+
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
@@ -26,12 +32,24 @@
                 <a href="#menu-toggle" class="btn btn-default" id="menu-toggle"><em class="fa fa-bars"></em></a>
                 <ul class="nav nav-pills flex-column sidebar-nav">
                     <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="home" asp-action="index"><em class="fa fa-dashboard"></em>Home</a></li>
-                    <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="category" asp-action="category">Category</a></li>
-                    <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="archive" asp-action="archive">Archive</a></li>
+                    <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="category" asp-action="category" asp-route-cat="">Category</a></li>
+                    <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="archive" asp-action="archive" asp-route-year="" asp-route-month="" asp-route-day="">Archive</a></li>
                     <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="feed" asp-action="rss">Subscribe</a></li>
                     <li class="nav-item"><a dasblog-authorized class="nav-link" asp-area="" asp-controller="admin" asp-action="settings">[Site Settings]</a></li>
 
                 </ul>
+
+                <div class="sidebar-widget px-3 mt-3">
+                    <h6 class="text-uppercase text-muted small mb-2">Recent Posts</h6>
+                    <recent-posts count="5" css="list-unstyled small mb-3" />
+
+                    <h6 class="text-uppercase text-muted small mb-2">Categories</h6>
+                    <category-list css="list-unstyled small mb-3" />
+
+                    <h6 class="text-uppercase text-muted small mb-2">Archive</h6>
+                    <archive-list css="list-unstyled small mb-3" />
+                </div>
+
                 <a dasblog-unauthorized class="logout-button" asp-controller="account" asp-action="login"><em class="fa fa-power-off"></em>Signin</a>
                 <a dasblog-authorized class="logout-button" asp-controller="account" asp-action="logout"><em class="fa fa-power-off"></em>Signout</a>
             </nav>
@@ -66,9 +84,6 @@
                                     <site-page-control view-context="@ViewContext" />
                                 </p>
                             </div>
-
-                            <!-- Attribution is required for this theme -->
-                            <div class="col-12 mt-1 mb-4">Template theme by <a href="https://www.medialoot.com">Medialoot</a></div>
                         </section>
                     </div>
                 </section>
