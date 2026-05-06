@@ -186,6 +186,13 @@ namespace newtelligence.DasBlog.Runtime
 		void ApproveComment( string entryId, string commentId );
 
 		/// <summary>
+		/// Reverts a previously-approved comment back to the pending (unchecked) moderation state.
+		/// </summary>
+		/// <param name="entryId"></param>
+		/// <param name="commentId"></param>
+		void UnapproveComment( string entryId, string commentId );
+
+		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="entryId"></param>

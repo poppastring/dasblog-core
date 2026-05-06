@@ -1,6 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <DayExtra xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="urn:newtelligence-com:dasblog:runtime:data">
   <Date>2025-06-20T20:00:00-04:00</Date>
-  <Comments />
+  <Comments>
+    <Comment>
+      <Content>This is the first test...</Content>
+      <Created>2026-05-06T17:04:17.4043031-04:00</Created>
+      <Modified>2026-05-06T17:04:17.4043031-04:00</Modified>
+      <EntryId>5b9ca1bb-a7cc-49c6-8c66-cdeb5515b929</EntryId>
+      <TargetEntryId>787a5e2d-22c0-459e-9d2a-2482effff2c6</TargetEntryId>
+      <Author>Mark Downie</Author>
+      <AuthorEmail>mdownie@outlook.com</AuthorEmail>
+      <AuthorIPAddress>::1</AuthorIPAddress>
+      <IsPublic>true</IsPublic>
+      <OpenId>false</OpenId>
+      <SpamState>NotChecked</SpamState>
+      <AuthorUserAgent>Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36 Edg/147.0.0.0</AuthorUserAgent>
+    </Comment>
+    <Comment>
+      <Content>This is not great!</Content>
+      <Created>2026-05-06T17:04:37.3034089-04:00</Created>
+      <Modified>2026-05-06T17:04:37.3034089-04:00</Modified>
+      <EntryId>a890111c-ecd4-4439-a7e2-c8efcfa03a2f</EntryId>
+      <TargetEntryId>787a5e2d-22c0-459e-9d2a-2482effff2c6</TargetEntryId>
+      <Author>poppastring</Author>
+      <AuthorEmail>blog@poppastring.com</AuthorEmail>
+      <AuthorIPAddress>::1</AuthorIPAddress>
+      <IsPublic>false</IsPublic>
+      <OpenId>false</OpenId>
+      <SpamState>NotChecked</SpamState>
+      <AuthorUserAgent>Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36 Edg/147.0.0.0</AuthorUserAgent>
+    </Comment>
+  </Comments>
   <Trackings />
 </DayExtra>

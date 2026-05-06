@@ -14,6 +14,8 @@ namespace newtelligence.DasBlog.Runtime
 
 		Approved,
 
+		Unapproved,
+
 		NotFound,
 
 		Failed,

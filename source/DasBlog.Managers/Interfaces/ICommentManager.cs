@@ -8,6 +8,7 @@ namespace DasBlog.Managers.Interfaces
         CommentSaveState AddComment(string postid, Comment comment);
         CommentSaveState DeleteComment(string postid, string commentid);
         CommentSaveState ApproveComment(string postid, string commentid);
+        CommentSaveState UnapproveComment(string postid, string commentid);
         CommentCollection GetComments(string postid, bool allComments);
         CommentCollection GetAllComments();
         List<Comment> GetCommentsFrontPage();
