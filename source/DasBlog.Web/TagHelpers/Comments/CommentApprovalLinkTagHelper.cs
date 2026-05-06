@@ -1,4 +1,5 @@
-﻿using DasBlog.Web.Models.BlogViewModels;
+﻿using DasBlog.Services;
+using DasBlog.Web.Models.BlogViewModels;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using System.Threading.Tasks;
 
@@ -6,6 +7,13 @@ namespace DasBlog.Web.TagHelpers.Comments
 {
 	public class CommentApprovalLinkTagHelper : TagHelper
 	{
+		private readonly IDasBlogSettings dasBlogSettings;
+
+		public CommentApprovalLinkTagHelper(IDasBlogSettings dasBlogSettings)
+		{
+			this.dasBlogSettings = dasBlogSettings;
+		}
+
 		public CommentViewModel Comment { get; set; }
 
 		public bool Admin { get; set; } = false;
@@ -19,9 +27,11 @@ namespace DasBlog.Web.TagHelpers.Comments
 			var commenttxt = string.Format(COMMENTTEXT_MSG, Comment.Name);
 			var message = "Comment Approved";
 
+			var actionUrl = dasBlogSettings.RelativeToRoot($"admin/post/{Comment.BlogPostId}/comments/{Comment.CommentId}");
+
 			output.TagName = "a";
 			output.TagMode = TagMode.StartTagAndEndTag;
-			output.Attributes.SetAttribute("href", $"javascript:commentManagement(\"{Comment.BlogPostId}\",\"{Comment.CommentId}\",\"{commenttxt}\",\"PATCH\")");
+			output.Attributes.SetAttribute("href", $"javascript:commentManagement(\"{actionUrl}\",\"{commenttxt}\",\"PATCH\")");
 			var cssClass = string.IsNullOrWhiteSpace(Css) ? "dbc-comment-approve-link" : $"dbc-comment-approve-link {Css}";
 			output.Attributes.SetAttribute("class", cssClass);
 

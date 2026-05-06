@@ -26,7 +26,9 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <form id="@formId" action="/admin/post/@Model.EntryId/delete" method="post" style="display:inline;">
+                <form id="@formId"
+                      asp-controller="BlogPost" asp-action="DeletePost" asp-route-postid="@Model.EntryId"
+                      method="post" style="display:inline;">
                     @Html.AntiForgeryToken()
                     <button type="submit" class="btn btn-danger">Delete</button>
                 </form>

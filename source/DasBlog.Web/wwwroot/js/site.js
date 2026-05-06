@@ -1,4 +1,4 @@
-﻿function commentManagement(postid, commentid, commentText, httpVerb, action) {
+﻿function commentManagement(url, commentText, httpVerb, action) {
     // Resolve the action key. Defaults preserve historical behaviour:
     //   DELETE -> delete, PATCH -> approve. Pass 'UNAPPROVE' to send a comment back to pending.
     const actionKey = action
@@ -6,8 +6,7 @@
 
     // Store comment details for modal
     window.pendingCommentAction = {
-        postid: postid,
-        commentid: commentid,
+        url: url,
         httpVerb: httpVerb,
         actionKey: actionKey
     };
