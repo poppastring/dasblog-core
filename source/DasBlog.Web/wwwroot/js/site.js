@@ -1,4 +1,4 @@
-﻿function commentManagement(postid, commentid, commentText, httpVerb, action) {
+﻿function commentManagement(url, commentText, httpVerb, action) {
     // Resolve the action key. Defaults preserve historical behaviour:
     //   DELETE -> delete, PATCH -> approve. Pass 'UNAPPROVE' to send a comment back to pending.
     const actionKey = action
@@ -6,8 +6,7 @@
 
     // Store comment details for modal
     window.pendingCommentAction = {
-        postid: postid,
-        commentid: commentid,
+        url: url,
         httpVerb: httpVerb,
         actionKey: actionKey
     };
@@ -83,11 +82,7 @@ function executeCommentAction() {
     if (!action) return;
 
     const oReq = new XMLHttpRequest();
-    const basePath = document.querySelector('base')?.getAttribute('href') || '/';
-    let url = basePath + 'admin/post/' + action.postid + '/comments/' + action.commentid;
-    if (action.actionKey === 'UNAPPROVE') {
-        url += '/unapprove';
-    }
+    const url = action.url;
 
     oReq.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {

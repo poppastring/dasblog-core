@@ -1,4 +1,8 @@
 ﻿using DasBlog.Web.Models.BlogViewModels;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Mvc.Routing;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using System.Threading.Tasks;
 
@@ -6,6 +10,17 @@ namespace DasBlog.Web.TagHelpers.Comments
 {
 	public class CommentUnapproveLinkTagHelper : TagHelper
 	{
+		private readonly IUrlHelperFactory urlHelperFactory;
+
+		public CommentUnapproveLinkTagHelper(IUrlHelperFactory urlHelperFactory)
+		{
+			this.urlHelperFactory = urlHelperFactory;
+		}
+
+		[HtmlAttributeNotBound]
+		[ViewContext]
+		public ViewContext ViewContext { get; set; }
+
 		public CommentViewModel Comment { get; set; }
 
 		public string Css { get; set; }
@@ -17,9 +32,15 @@ namespace DasBlog.Web.TagHelpers.Comments
 			var commenttxt = string.Format(COMMENTTEXT_MSG, Comment.Name);
 			var message = "Move to Pending";
 
+			var urlHelper = urlHelperFactory.GetUrlHelper(ViewContext);
+			var actionUrl = urlHelper.Action(
+				"UnapproveComment",
+				"BlogPost",
+				new { postid = Comment.BlogPostId, commentid = Comment.CommentId });
+
 			output.TagName = "a";
 			output.TagMode = TagMode.StartTagAndEndTag;
-			output.Attributes.SetAttribute("href", $"javascript:commentManagement(\"{Comment.BlogPostId}\",\"{Comment.CommentId}\",\"{commenttxt}\",\"PATCH\",\"UNAPPROVE\")");
+			output.Attributes.SetAttribute("href", $"javascript:commentManagement(\"{actionUrl}\",\"{commenttxt}\",\"PATCH\",\"UNAPPROVE\")");
 			var cssClass = string.IsNullOrWhiteSpace(Css) ? "dbc-comment-unapprove-link" : $"dbc-comment-unapprove-link {Css}";
 			output.Attributes.SetAttribute("class", cssClass);
 
