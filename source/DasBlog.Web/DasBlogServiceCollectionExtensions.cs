@@ -193,7 +193,7 @@ namespace DasBlog.Web
 				bool.TryParse(configuration.GetSection("CookieConsentEnabled").Value, out var flag);
 
 				options.CheckConsentNeeded = context => flag;
-				options.MinimumSameSitePolicy = SameSiteMode.None;
+					options.MinimumSameSitePolicy = SameSiteMode.Lax;
 			});
 
 			services.AddRecaptcha(options =>
