@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
@@ -79,16 +79,30 @@ namespace DasBlog.Tests.UnitTests.UIServices
 						var postViewModel = bpvmc.CreateBlogPostVM();
 						Assert.Single(postViewModel.AllCategories);
 					}
-					[Fact]
-					[Trait("Category", "UnitTest")]
-					public void WhenCreated_DefaultBlogPost_UsesTimeZone()
-					{
-						IBlogPostViewModelCreator bpvmc = new BlogPostViewModelCreator(blogManager, mapper, timeZoneProvider, dasBlogSettings);
-						var postViewModel = bpvmc.CreateBlogPostVM();
-						var ts = new TimeSpan(0, 0, 10);
-						Assert.True(postViewModel.CreatedDateTime - ts < DateTime.UtcNow);
+						[Fact]
+						[Trait("Category", "UnitTest")]
+						public void WhenCreated_DefaultBlogPost_UsesTimeZone()
+						{
+							IBlogPostViewModelCreator bpvmc = new BlogPostViewModelCreator(blogManager, mapper, timeZoneProvider, dasBlogSettings);
+							var postViewModel = bpvmc.CreateBlogPostVM();
+							var ts = new TimeSpan(0, 0, 10);
+							Assert.True(postViewModel.CreatedDateTime - ts < DateTime.UtcNow);
+						}
+
+						[Fact]
+						[Trait("Category", "UnitTest")]
+						public void CreatedBlogPost_WhenCommentsDisabled_AllowCommentsShouldBeFalse()
+						{
+							var siteConfigMock = new Mock<ISiteConfig>();
+							siteConfigMock.SetupGet(s => s.EnableComments).Returns(false);
+							var disabledSettingsMock = new Mock<IDasBlogSettings>();
+							disabledSettingsMock.SetupGet(s => s.SiteConfiguration).Returns(siteConfigMock.Object);
+
+							IBlogPostViewModelCreator bpvmc = new BlogPostViewModelCreator(blogManager, mapper, timeZoneProvider, disabledSettingsMock.Object);
+							var postViewModel = bpvmc.CreateBlogPostVM();
+							Assert.False(postViewModel.AllowComments);
+						}
 					}
-				}
 				public class OptionsMonitorAccessor<T> : IOptionsMonitor<T> where T : class, new()
 				{
 					public T CurrentValue { get; set; }

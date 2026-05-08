@@ -65,8 +65,8 @@ namespace DasBlog.Test.Integration
 			Skip.If(AreWe.InDockerOrBuildServer);
 			await Page.GotoAsync(Server.RootUri);
 
-			var headerElement = Page.Locator("h2").First;
-			Assert.Equal("Welcome to DasBlog Core", await headerElement.TextContentAsync());
+			var headerElement = Page.Locator(".post-title h2", new() { HasText = "Welcome to DasBlog Core" });
+			Assert.True(await headerElement.CountAsync() > 0, "Expected 'Welcome to DasBlog Core' post title on front page");
 		}
 
 		[SkippableFact(typeof(PlaywrightException))]
@@ -147,8 +147,12 @@ namespace DasBlog.Test.Integration
 			await Page.GotoAsync(Server.RootUri + "/category/dasblog-core");
 			Assert.StartsWith("Category - My DasBlog!", await Page.TitleAsync());
 
-			var headerElement = Page.Locator("h4").First;
-			Assert.Equal("DasBlog Core (1)", await headerElement.InnerTextAsync());
+			// Category page now uses card layout with h2.h5 header and separate badge
+			var headerElement = Page.Locator("section.card h2.h5").First;
+			Assert.Equal("DasBlog Core", (await headerElement.TextContentAsync())?.Trim());
+
+			var badge = Page.Locator("section.card .badge").First;
+			Assert.Equal("1", (await badge.TextContentAsync())?.Trim());
 
 			var titleLink = Page.GetByRole(AriaRole.Link, new() { Name = "Welcome to DasBlog Core" });
 			await titleLink.ClickAsync();
@@ -172,7 +176,7 @@ namespace DasBlog.Test.Integration
 			await Page.GotoAsync(Server.RootUri + "/archive/2020/2");
 			Assert.StartsWith("Archive - My DasBlog!", await Page.TitleAsync());
 
-			var link = Page.GetByRole(AriaRole.Link, new() { Name = "<<" });
+			var link = Page.Locator("a[aria-label^='Previous month']");
 			var href = await link.GetAttributeAsync("href");
 			await Page.GotoAsync(Server.RootUri + href);
 
@@ -186,7 +190,7 @@ namespace DasBlog.Test.Integration
 			await Page.GotoAsync(Server.RootUri + "/archive/2020/2");
 			Assert.StartsWith("Archive - My DasBlog!", await Page.TitleAsync());
 
-			var link = Page.GetByRole(AriaRole.Link, new() { Name = ">>" });
+			var link = Page.Locator("a[aria-label^='Next month']");
 			var href = await link.GetAttributeAsync("href");
 			await Page.GotoAsync(Server.RootUri + href);
 
@@ -307,6 +311,48 @@ namespace DasBlog.Test.Integration
 
 
 		[SkippableFact(typeof(PlaywrightException))]
+		public async Task NavigateToArchiveAllPageCalendarStructure()
+		{
+			Skip.If(AreWe.InDockerOrBuildServer, "In Docker!");
+			await Page.GotoAsync(Server.RootUri + "/archive");
+			Assert.StartsWith("Archive - My DasBlog!", await Page.TitleAsync());
+
+			// Archive page uses a calendar layout
+			var calendar = Page.Locator(".dbc-calendar");
+			Assert.True(await calendar.CountAsync() > 0, "Expected the archive calendar");
+
+			// Calendar has day name headers
+			var dayNames = Page.Locator(".day-names li");
+			Assert.Equal(7, await dayNames.CountAsync());
+
+			// Calendar has day entries
+			var days = Page.Locator(".days li");
+			Assert.True(await days.CountAsync() > 0, "Expected day entries in the calendar");
+		}
+
+		[SkippableFact(typeof(PlaywrightException))]
+		public async Task NavigateToCategoryPageBadgeNavigation()
+		{
+			Skip.If(AreWe.InDockerOrBuildServer, "In Docker!");
+			await Page.GotoAsync(Server.RootUri + "/category");
+			Assert.StartsWith("Category - My DasBlog!", await Page.TitleAsync());
+
+			// Category page has badge-style navigation links at the top
+			var navBadges = Page.Locator("nav[aria-label='Jump to category'] a.badge");
+			Assert.True(await navBadges.CountAsync() > 0, "Expected category navigation badges");
+
+			// Each badge should contain a count sub-badge
+			var firstBadge = navBadges.First;
+			var countBadge = firstBadge.Locator(".badge");
+			var countText = (await countBadge.TextContentAsync())?.Trim();
+			Assert.True(int.TryParse(countText, out var count) && count > 0, "Category badge should show post count");
+
+			// Category sections use card layout
+			var cards = Page.Locator("section.card");
+			Assert.True(await cards.CountAsync() > 0, "Expected category cards");
+		}
+
+		[SkippableFact(typeof(PlaywrightException))]
 		public async Task LoginCreateAPostThenEditPostThenDeletAPost()
 		{
 			Skip.If(AreWe.InDockerOrBuildServer, "In Docker!");
@@ -362,7 +408,8 @@ namespace DasBlog.Test.Integration
 
 			// Get the href attribute and navigate directly to the edit page
 			var editHref = await editpostLink.GetAttributeAsync("href");
-			await Page.GotoAsync(Server.RootUri + editHref);
+			var editUrl = editHref.StartsWith("http", StringComparison.OrdinalIgnoreCase) ? editHref : Server.RootUri + editHref;
+			await Page.GotoAsync(editUrl);
 			await Page.Locator("#BlogTitle").WaitForAsync(new() { Timeout = 5000 }); // Wait for the form to load
 
 			// Add text to the body content
@@ -389,19 +436,14 @@ namespace DasBlog.Test.Integration
 			await Page.GotoAsync(Server.RootUri + "/a-new-post");
 			Assert.StartsWith("A New Post", await Page.TitleAsync());
 
-			// Get the delete link href to extract the delete URL
-			var deletepostLink = Page.GetByRole(AriaRole.Link, new() { Name = "Delete this post" });
-			var href = await deletepostLink.GetAttributeAsync("href");
+			// Click "Delete this post" to open the delete confirmation modal (element has role="button")
+			var deletepostLink = Page.GetByRole(AriaRole.Button, new() { Name = "Delete this post" });
+			await deletepostLink.ClickAsync();
 
-			// Extract the delete URL from the JavaScript call
-			// href format: javascript:deleteEntry("/admin/post/{id}/delete","A New Post")
-			var match = System.Text.RegularExpressions.Regex.Match(href, @"deleteEntry\(""([^""]+)""");
-			if (match.Success)
-			{
-				var deleteUrl = match.Groups[1].Value;
-				// Navigate directly to the delete URL (bypassing the confirm dialog)
-				await Page.GotoAsync(Server.RootUri + deleteUrl);
-			}
+			// Click the "Delete" button in the confirmation modal
+			var deleteButton = Page.Locator(".modal.show .btn-danger");
+			await deleteButton.WaitForAsync(new() { Timeout = 5000 });
+			await deleteButton.ClickAsync();
 
 			await Task.Delay(2000); // Allow delete to persist
 
@@ -457,6 +499,108 @@ namespace DasBlog.Test.Integration
 
 			var tablecolumns = Page.Locator(".dbc-activity-table-column");
 			Assert.True(await tablecolumns.CountAsync() > 0);
+		}
+
+		[SkippableFact(typeof(PlaywrightException))]
+		public async Task ThemeListShowsDefaultThemesAsLocked()
+		{
+			Skip.If(AreWe.InDockerOrBuildServer, "In Docker!");
+
+			await LoginToSite();
+
+			await Page.GotoAsync(Server.RootUri + "/admin/themes");
+
+			// The active theme should be listed in the table
+			var activeBadge = Page.Locator(".badge.bg-success", new() { HasText = "Active" });
+			Assert.True(await activeBadge.CountAsync() > 0, "Expected an Active badge in the theme list");
+
+			// All built-in themes should show a "Built-in (locked)" badge
+			var lockedBadges = Page.Locator(".badge.bg-secondary", new() { HasText = "Built-in (locked)" });
+			Assert.True(await lockedBadges.CountAsync() >= 5, "Expected at least 5 built-in theme badges");
+		}
+
+		[SkippableFact(typeof(PlaywrightException))]
+		public async Task NavigateToThemeEditShowsFileList()
+		{
+			Skip.If(AreWe.InDockerOrBuildServer, "In Docker!");
+
+			await LoginToSite();
+
+			// Navigate to edit the active "darkly" theme
+			await Page.GotoAsync(Server.RootUri + "/admin/themes/edit/darkly");
+
+			var heading = Page.Locator("h1", new() { HasText = "darkly" });
+			Assert.True(await heading.CountAsync() > 0, "Expected darkly in heading");
+
+			// Should list core theme files
+			var layoutFile = Page.Locator("text=_Layout.cshtml");
+			Assert.True(await layoutFile.CountAsync() > 0, "Expected _Layout.cshtml in file list");
+
+			var customCss = Page.Locator("text=custom.css");
+			Assert.True(await customCss.CountAsync() > 0, "Expected custom.css in file list");
+		}
+
+		[SkippableFact(typeof(PlaywrightException))]
+		public async Task DefaultThemeFilesAreReadOnly()
+		{
+			Skip.If(AreWe.InDockerOrBuildServer, "In Docker!");
+
+			await LoginToSite();
+
+			// Navigate to edit a file in a default theme
+			await Page.GotoAsync(Server.RootUri + "/admin/themes/edit/darkly/file?path=_Layout.cshtml");
+
+			// The editor should indicate read-only mode
+			var readonlyIndicator = Page.Locator("text=read-only");
+			var disabledSaveButton = Page.Locator("button[disabled]:has-text('Save')");
+
+			var isReadOnly = await readonlyIndicator.CountAsync() > 0 || await disabledSaveButton.CountAsync() > 0;
+			Assert.True(isReadOnly, "Default theme file editor should be read-only");
+		}
+
+		[SkippableFact(typeof(PlaywrightException))]
+		public async Task CreateThemeThenDeleteTheme()
+		{
+			Skip.If(AreWe.InDockerOrBuildServer, "In Docker!");
+
+			await LoginToSite();
+
+			// Navigate to create theme page
+			await Page.GotoAsync(Server.RootUri + "/admin/themes/create");
+
+			var createHeading = Page.Locator("h1", new() { HasText = "Create Theme" });
+			Assert.True(await createHeading.CountAsync() > 0, "Expected Create Theme heading");
+
+			// Fill in the theme name and select source
+			await Page.Locator("#Name").FillAsync("testtheme");
+			await Page.Locator("button:has-text('Create theme')").ClickAsync();
+
+			// Should redirect to the edit page for the new theme
+			await Page.WaitForURLAsync("**/admin/themes/edit/testtheme", new() { Timeout = 5000 });
+			Assert.Contains("/admin/themes/edit/testtheme", Page.Url);
+
+			// Navigate back to theme list and verify it exists
+			await Page.GotoAsync(Server.RootUri + "/admin/themes");
+			var themeRow = Page.Locator("td strong", new() { HasText = "testtheme" });
+			Assert.True(await themeRow.CountAsync() > 0, "Expected testtheme in the theme list");
+
+			// Delete the theme via the modal confirmation
+			var deleteButton = Page.Locator("[data-bs-target='#deleteModal_testtheme']");
+			await deleteButton.ClickAsync();
+
+			// Confirm deletion in the modal
+			var confirmButton = Page.Locator("#deleteModal_testthemeButton");
+			await confirmButton.WaitForAsync(new() { Timeout = 5000 });
+			await confirmButton.ClickAsync();
+
+			// Wait for page to reload after delete
+			await Page.WaitForLoadStateAsync(Microsoft.Playwright.LoadState.NetworkIdle);
+			await Task.Delay(1000);
+
+			// Reload the theme list and verify theme is gone
+			await Page.GotoAsync(Server.RootUri + "/admin/themes");
+			var deletedRow = Page.Locator("td strong", new() { HasText = "testtheme" });
+			Assert.True(await deletedRow.CountAsync() == 0, "testtheme should be deleted from the theme list");
 		}
 
 		private async Task LoginToSite()
