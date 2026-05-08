@@ -148,6 +148,11 @@ namespace DasBlog.Web.Controllers
 			// metaWebLog
 			// mt
 
+			if (!dasBlogSettings.SiteConfiguration.EnableBloggerApi)
+			{
+				return NotFound();
+			}
+
 			return NoContent();
 		}
 
@@ -155,6 +160,11 @@ namespace DasBlog.Web.Controllers
 		[HttpPost("feed/blogger")]
 		public async Task<IActionResult> BloggerPost()
 		{
+			if (!dasBlogSettings.SiteConfiguration.EnableBloggerApi)
+			{
+				return NotFound();
+			}
+
 			var blogger = string.Empty;
 
 			try

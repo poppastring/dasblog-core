@@ -507,26 +507,29 @@ namespace DasBlog.Managers
             var dasBlogService = new RsdService();
             dasBlogService.HomePageLink = dasBlogSettings.GetBaseUrl();
 
-            var metaWeblog = new RsdApi();
-            metaWeblog.Name = "MetaWeblog";
-            metaWeblog.Preferred = (dasBlogSettings.SiteConfiguration.PreferredBloggingAPI == metaWeblog.Name);
-            metaWeblog.ApiLink = blogapiurl;
-            metaWeblog.BlogID = dasBlogService.HomePageLink;
-            apiCollection.Add(metaWeblog);
+            if (dasBlogSettings.SiteConfiguration.EnableBloggerApi)
+            {
+                var metaWeblog = new RsdApi();
+                metaWeblog.Name = "MetaWeblog";
+                metaWeblog.Preferred = (dasBlogSettings.SiteConfiguration.PreferredBloggingAPI == metaWeblog.Name);
+                metaWeblog.ApiLink = blogapiurl;
+                metaWeblog.BlogID = dasBlogService.HomePageLink;
+                apiCollection.Add(metaWeblog);
 
-            var blogger = new RsdApi();
-            blogger.Name = "Blogger";
-            blogger.Preferred = (dasBlogSettings.SiteConfiguration.PreferredBloggingAPI == blogger.Name);
-            blogger.ApiLink = blogapiurl;
-            blogger.BlogID = dasBlogService.HomePageLink;
-            apiCollection.Add(blogger);
+                var blogger = new RsdApi();
+                blogger.Name = "Blogger";
+                blogger.Preferred = (dasBlogSettings.SiteConfiguration.PreferredBloggingAPI == blogger.Name);
+                blogger.ApiLink = blogapiurl;
+                blogger.BlogID = dasBlogService.HomePageLink;
+                apiCollection.Add(blogger);
 
-            var moveableType = new RsdApi();
-            moveableType.Name = "Moveable Type";
-            moveableType.Preferred = (dasBlogSettings.SiteConfiguration.PreferredBloggingAPI == moveableType.Name);
-            moveableType.ApiLink = blogapiurl;
-            moveableType.BlogID = dasBlogService.HomePageLink;
-            apiCollection.Add(moveableType);
+                var moveableType = new RsdApi();
+                moveableType.Name = "Moveable Type";
+                moveableType.Preferred = (dasBlogSettings.SiteConfiguration.PreferredBloggingAPI == moveableType.Name);
+                moveableType.ApiLink = blogapiurl;
+                moveableType.BlogID = dasBlogService.HomePageLink;
+                apiCollection.Add(moveableType);
+            }
 
             dasBlogService.RsdApiCollection = apiCollection;
             rsd.Services.Add(dasBlogService);

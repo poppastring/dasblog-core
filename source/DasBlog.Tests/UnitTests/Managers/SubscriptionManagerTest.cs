@@ -1,10 +1,12 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using Moq;
 using Xunit;
 using DasBlog.Managers;
 using DasBlog.Managers.Interfaces;
 using DasBlog.Services.ConfigFile.Interfaces;
+using DasBlog.Services.Rss.Rsd;
 using newtelligence.DasBlog.Runtime;
 using DasBlog.Services;
 using NodaTime;
@@ -95,13 +97,44 @@ namespace DasBlog.Tests.UnitTests.Managers
             Assert.Equal("Test Blog - A Random Mathematical Quotation", result.Title.Text);
         }
 
-        [Fact]
-        public void GetRsd_ReturnsRsdRoot()
-        {
-            var manager = CreateManager();
-            var result = manager.GetRsd();
-            Assert.NotNull(result);
+		[Fact]
+		public void GetRsd_ReturnsRsdRoot()
+		{
+			var manager = CreateManager();
+			var result = manager.GetRsd();
+			Assert.NotNull(result);
 			Assert.Equal("https://github.com/poppastring/dasblog-core", result.Services[0].EngineLink);
 		}
-    }
+
+		[Fact]
+		[Trait("Category", "UnitTest")]
+		public void GetRsd_WhenBloggerApiEnabled_AdvertisesPublishingApis()
+		{
+			siteConfigMock.Object.EnableBloggerApi = true;
+			var manager = CreateManager();
+
+			var result = manager.GetRsd();
+
+			Assert.NotNull(result);
+			var apis = result.Services[0].RsdApiCollection.OfType<RsdApi>().ToList();
+			Assert.Equal(3, apis.Count);
+			Assert.Contains(apis, a => a.Name == "MetaWeblog");
+			Assert.Contains(apis, a => a.Name == "Blogger");
+			Assert.Contains(apis, a => a.Name == "Moveable Type");
+		}
+
+		[Fact]
+		[Trait("Category", "UnitTest")]
+		public void GetRsd_WhenBloggerApiDisabled_OmitsPublishingApis()
+		{
+			siteConfigMock.Object.EnableBloggerApi = false;
+			var manager = CreateManager();
+
+			var result = manager.GetRsd();
+
+			Assert.NotNull(result);
+			Assert.Single(result.Services);
+			Assert.Empty(result.Services[0].RsdApiCollection.OfType<RsdApi>());
+		}
+	}
 }
