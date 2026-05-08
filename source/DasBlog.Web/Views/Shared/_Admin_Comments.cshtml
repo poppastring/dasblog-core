@@ -111,8 +111,9 @@
             document.getElementById('recaptchaSiteKey'),
             document.getElementById('recaptchaSecretKey')
         ];
-        // All form fields except EnableComments
-        const allFormFields = Array.from(document.querySelectorAll('input, select, textarea'))
+        // All form fields in the Comments section except EnableComments
+        const commentsSection = document.getElementById('collapseComments');
+        const allFormFields = Array.from(commentsSection.querySelectorAll('input, select, textarea'))
             .filter(el => el !== enableCommentsCheckbox);
 
         function toggleRecaptchaFields() {
