@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@inject AppVersionInfo appInfo
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -106,6 +108,7 @@
         <footer>
             <div class="text-center">
                 <p class="text-muted credit"><site-copyright /></p>
+                <p dasblog-authorized>Powered by Dasblog-Core commit <a href="https://github.com/poppastring/dasblog-core/commit/@appInfo.GitHash" target="_blank">@appInfo.ShortGitHash</a></p>
             </div>
         </footer>
     </div>
