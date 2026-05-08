@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
@@ -11,6 +11,8 @@ using newtelligence.DasBlog.Runtime;
 using Xunit;
 using Moq;
 using DasBlog.Services.Site;
+using DasBlog.Services;
+using DasBlog.Services.ConfigFile.Interfaces;
 
 namespace DasBlog.Tests.UnitTests.UIServices
 {
@@ -23,6 +25,7 @@ namespace DasBlog.Tests.UnitTests.UIServices
 		private readonly IBlogManager blogManager;
 		private readonly IMapper mapper;
 		private ITimeZoneProvider timeZoneProvider;
+		private IDasBlogSettings dasBlogSettings;
 		public BlogPostViewModelCreateorTest()
 		{
 			var blogManagerMock = new Mock<IBlogManager>();
@@ -43,13 +46,19 @@ namespace DasBlog.Tests.UnitTests.UIServices
 				CurrentValue = opt
 			};
 					timeZoneProvider = new TimeZoneProvider(optAccessor);
-					}
+
+					var siteConfigMock = new Mock<ISiteConfig>();
+					siteConfigMock.SetupGet(s => s.EnableComments).Returns(true);
+					var settingsMock = new Mock<IDasBlogSettings>();
+					settingsMock.SetupGet(s => s.SiteConfiguration).Returns(siteConfigMock.Object);
+					dasBlogSettings = settingsMock.Object;
+						}
 
 					[Fact]
 					[Trait("Category", "UnitTest")]
 					public void CreatedBlogPost_ShouldShowActive_IsPublicSyndicatedAndAllowComments()
 					{
-						IBlogPostViewModelCreator bpvmc = new BlogPostViewModelCreator(blogManager, mapper, timeZoneProvider);
+						IBlogPostViewModelCreator bpvmc = new BlogPostViewModelCreator(blogManager, mapper, timeZoneProvider, dasBlogSettings);
 						var postViewModel = bpvmc.CreateBlogPostVM();
 						Assert.True(postViewModel.IsPublic && postViewModel.Syndicated && postViewModel.AllowComments);
 					}
@@ -57,7 +66,7 @@ namespace DasBlog.Tests.UnitTests.UIServices
 					[Trait("Category", "UnitTest")]
 					public void WhenCreated_DefaultBlogPost_IncludesLotsOfLanguages()
 					{
-						IBlogPostViewModelCreator bpvmc = new BlogPostViewModelCreator(blogManager, mapper, timeZoneProvider);
+						IBlogPostViewModelCreator bpvmc = new BlogPostViewModelCreator(blogManager, mapper, timeZoneProvider, dasBlogSettings);
 						var postViewModel = bpvmc.CreateBlogPostVM();
 						Assert.True(postViewModel.Languages.Count() > 50);
 							// 841 entries on Windows 10 UK english Imac Parallels Windows Version 10.0.17134.285]
@@ -66,7 +75,7 @@ namespace DasBlog.Tests.UnitTests.UIServices
 					[Trait("Category", "UnitTest")]
 					public void WhenCreated_DefaultBlogPost_IncludesExistingCategories()
 					{
-						IBlogPostViewModelCreator bpvmc = new BlogPostViewModelCreator(blogManager, mapper, timeZoneProvider);
+						IBlogPostViewModelCreator bpvmc = new BlogPostViewModelCreator(blogManager, mapper, timeZoneProvider, dasBlogSettings);
 						var postViewModel = bpvmc.CreateBlogPostVM();
 						Assert.Single(postViewModel.AllCategories);
 					}
@@ -74,7 +83,7 @@ namespace DasBlog.Tests.UnitTests.UIServices
 					[Trait("Category", "UnitTest")]
 					public void WhenCreated_DefaultBlogPost_UsesTimeZone()
 					{
-						IBlogPostViewModelCreator bpvmc = new BlogPostViewModelCreator(blogManager, mapper, timeZoneProvider);
+						IBlogPostViewModelCreator bpvmc = new BlogPostViewModelCreator(blogManager, mapper, timeZoneProvider, dasBlogSettings);
 						var postViewModel = bpvmc.CreateBlogPostVM();
 						var ts = new TimeSpan(0, 0, 10);
 						Assert.True(postViewModel.CreatedDateTime - ts < DateTime.UtcNow);
