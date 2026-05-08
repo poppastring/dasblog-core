@@ -16,13 +16,15 @@ namespace DasBlog.Web.Services
 		private IBlogManager blogManager;
 		private IMapper mapper;
 		private ITimeZoneProvider timeZoneProvider;
+		private DasBlog.Services.IDasBlogSettings dasBlogSettings;
 
 		public BlogPostViewModelCreator(IBlogManager blogManager, IMapper mapper
-		  ,ITimeZoneProvider timeZoneProvider)
+		  ,ITimeZoneProvider timeZoneProvider, DasBlog.Services.IDasBlogSettings dasBlogSettings)
 		{
 			this.blogManager = blogManager;
 			this.mapper = mapper;
 			this.timeZoneProvider = timeZoneProvider;
+			this.dasBlogSettings = dasBlogSettings;
 		}
 		public PostViewModel CreateBlogPostVM()
 		{
@@ -33,7 +35,8 @@ namespace DasBlog.Web.Services
 			post.CreatedDateTime = instant.InZone(tz).ToDateTimeUnspecified();
 			post.IsPublic = true;
 			post.Syndicated = true;
-			post.AllowComments = true;
+			// Default to the site-wide comments setting; the author can override per post.
+			post.AllowComments = dasBlogSettings.SiteConfiguration.EnableComments;
 			post.Languages = GetAlllanguages();
 			post.AllCategories = mapper.Map<List<CategoryViewModel>>(blogManager.GetCategories());
 			return post;

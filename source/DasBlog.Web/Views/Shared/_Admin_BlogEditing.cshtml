@@ -13,9 +13,20 @@
 <div class="row gy-2 gx-3 align-items-md-start mb-3">
     <div class="col-sm-4">
         <div class="form-floating">
+            @{
+                var preferredApiAttrs = new Dictionary<string, object>
+                {
+                    { "class", "form-select" },
+                    { "id", "preferredBloggingAPI" }
+                };
+                if (!Model.SiteConfig.EnableBloggerApi)
+                {
+                    preferredApiAttrs["disabled"] = "disabled";
+                }
+            }
             @Html.DropDownListFor(n => n.SiteConfig.PreferredBloggingAPI,
                 new SelectList(new BloggerAPIViewModel().Init(), "Name", "Name"),
-                new { @class = "form-select", id = "preferredBloggingAPI" })
+                preferredApiAttrs)
             @Html.LabelFor(m => @Model.SiteConfig.PreferredBloggingAPI, null, new { @class = "form-label", @for = "preferredBloggingAPI" })
         </div>
     </div>

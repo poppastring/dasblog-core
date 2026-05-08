@@ -6,12 +6,14 @@ using DasBlog.Services.Site;
 using DasBlog.Web;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.AspNetCore.Rewrite;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.IO;
+using System.Threading.RateLimiting;
 using System.Threading.Tasks;
 
 DasBlogPathResolver.EnsureDefaultConfigFiles(
@@ -49,6 +51,29 @@ builder.Services.AddDasBlogWebServices(builder.Configuration);
 builder.Services.AddDasBlogDataServices();
 builder.Services.AddDasBlogManagers();
 builder.Services.AddDasBlogServices(env);
+
+builder.Services.AddRateLimiter(options =>
+{
+	options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+
+	options.OnRejected = async (context, token) =>
+	{
+		context.HttpContext.Response.Headers.RetryAfter = "900";
+		await context.HttpContext.Response.WriteAsync(
+			"Too many login attempts from your location. Please try again later.", token);
+	};
+
+	options.AddPolicy("login", httpContext =>
+		RateLimitPartition.GetFixedWindowLimiter(
+			partitionKey: httpContext.Connection.RemoteIpAddress?.ToString() ?? "unknown",
+			factory: _ => new FixedWindowRateLimiterOptions
+			{
+				PermitLimit = 10,
+				Window = TimeSpan.FromMinutes(15),
+				QueueLimit = 0,
+				AutoReplenishment = true
+			}));
+});
 
 var app = builder.Build();
 
@@ -117,6 +142,8 @@ app.UseCookiePolicy();
 app.UseAuthentication();
 app.UseDasBlogThreadPrincipal();
 app.UseAuthorization();
+
+app.UseRateLimiter();
 
 app.UseDasBlogSecurityHeaders(app.Configuration);
 app.UseDasBlogEndpoints();
