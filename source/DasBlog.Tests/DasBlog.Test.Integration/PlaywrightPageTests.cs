@@ -65,8 +65,8 @@ namespace DasBlog.Test.Integration
 			Skip.If(AreWe.InDockerOrBuildServer);
 			await Page.GotoAsync(Server.RootUri);
 
-			var headerElement = Page.Locator("h2").First;
-			Assert.Equal("Welcome to DasBlog Core", await headerElement.TextContentAsync());
+			var headerElement = Page.Locator(".post-title h2", new() { HasText = "Welcome to DasBlog Core" });
+			Assert.True(await headerElement.CountAsync() > 0, "Expected 'Welcome to DasBlog Core' post title on front page");
 		}
 
 		[SkippableFact(typeof(PlaywrightException))]
@@ -147,8 +147,12 @@ namespace DasBlog.Test.Integration
 			await Page.GotoAsync(Server.RootUri + "/category/dasblog-core");
 			Assert.StartsWith("Category - My DasBlog!", await Page.TitleAsync());
 
-			var headerElement = Page.Locator("h4").First;
-			Assert.Equal("DasBlog Core (1)", await headerElement.InnerTextAsync());
+			// Category page now uses card layout with h2.h5 header and separate badge
+			var headerElement = Page.Locator("section.card h2.h5").First;
+			Assert.Equal("DasBlog Core", (await headerElement.TextContentAsync())?.Trim());
+
+			var badge = Page.Locator("section.card .badge").First;
+			Assert.Equal("1", (await badge.TextContentAsync())?.Trim());
 
 			var titleLink = Page.GetByRole(AriaRole.Link, new() { Name = "Welcome to DasBlog Core" });
 			await titleLink.ClickAsync();
@@ -172,7 +176,7 @@ namespace DasBlog.Test.Integration
 			await Page.GotoAsync(Server.RootUri + "/archive/2020/2");
 			Assert.StartsWith("Archive - My DasBlog!", await Page.TitleAsync());
 
-			var link = Page.GetByRole(AriaRole.Link, new() { Name = "<<" });
+			var link = Page.Locator("a[aria-label^='Previous month']");
 			var href = await link.GetAttributeAsync("href");
 			await Page.GotoAsync(Server.RootUri + href);
 
@@ -186,7 +190,7 @@ namespace DasBlog.Test.Integration
 			await Page.GotoAsync(Server.RootUri + "/archive/2020/2");
 			Assert.StartsWith("Archive - My DasBlog!", await Page.TitleAsync());
 
-			var link = Page.GetByRole(AriaRole.Link, new() { Name = ">>" });
+			var link = Page.Locator("a[aria-label^='Next month']");
 			var href = await link.GetAttributeAsync("href");
 			await Page.GotoAsync(Server.RootUri + href);
 
@@ -307,6 +311,48 @@ namespace DasBlog.Test.Integration
 
 
 		[SkippableFact(typeof(PlaywrightException))]
+		public async Task NavigateToArchiveAllPageCalendarStructure()
+		{
+			Skip.If(AreWe.InDockerOrBuildServer, "In Docker!");
+			await Page.GotoAsync(Server.RootUri + "/archive");
+			Assert.StartsWith("Archive - My DasBlog!", await Page.TitleAsync());
+
+			// Archive page uses a calendar layout
+			var calendar = Page.Locator(".dbc-calendar");
+			Assert.True(await calendar.CountAsync() > 0, "Expected the archive calendar");
+
+			// Calendar has day name headers
+			var dayNames = Page.Locator(".day-names li");
+			Assert.Equal(7, await dayNames.CountAsync());
+
+			// Calendar has day entries
+			var days = Page.Locator(".days li");
+			Assert.True(await days.CountAsync() > 0, "Expected day entries in the calendar");
+		}
+
+		[SkippableFact(typeof(PlaywrightException))]
+		public async Task NavigateToCategoryPageBadgeNavigation()
+		{
+			Skip.If(AreWe.InDockerOrBuildServer, "In Docker!");
+			await Page.GotoAsync(Server.RootUri + "/category");
+			Assert.StartsWith("Category - My DasBlog!", await Page.TitleAsync());
+
+			// Category page has badge-style navigation links at the top
+			var navBadges = Page.Locator("nav[aria-label='Jump to category'] a.badge");
+			Assert.True(await navBadges.CountAsync() > 0, "Expected category navigation badges");
+
+			// Each badge should contain a count sub-badge
+			var firstBadge = navBadges.First;
+			var countBadge = firstBadge.Locator(".badge");
+			var countText = (await countBadge.TextContentAsync())?.Trim();
+			Assert.True(int.TryParse(countText, out var count) && count > 0, "Category badge should show post count");
+
+			// Category sections use card layout
+			var cards = Page.Locator("section.card");
+			Assert.True(await cards.CountAsync() > 0, "Expected category cards");
+		}
+
+		[SkippableFact(typeof(PlaywrightException))]
 		public async Task LoginCreateAPostThenEditPostThenDeletAPost()
 		{
 			Skip.If(AreWe.InDockerOrBuildServer, "In Docker!");
@@ -362,7 +408,8 @@ namespace DasBlog.Test.Integration
 
 			// Get the href attribute and navigate directly to the edit page
 			var editHref = await editpostLink.GetAttributeAsync("href");
-			await Page.GotoAsync(Server.RootUri + editHref);
+			var editUrl = editHref.StartsWith("http", StringComparison.OrdinalIgnoreCase) ? editHref : Server.RootUri + editHref;
+			await Page.GotoAsync(editUrl);
 			await Page.Locator("#BlogTitle").WaitForAsync(new() { Timeout = 5000 }); // Wait for the form to load
 
 			// Add text to the body content
@@ -389,19 +436,14 @@ namespace DasBlog.Test.Integration
 			await Page.GotoAsync(Server.RootUri + "/a-new-post");
 			Assert.StartsWith("A New Post", await Page.TitleAsync());
 
-			// Get the delete link href to extract the delete URL
-			var deletepostLink = Page.GetByRole(AriaRole.Link, new() { Name = "Delete this post" });
-			var href = await deletepostLink.GetAttributeAsync("href");
+			// Click "Delete this post" to open the delete confirmation modal (element has role="button")
+			var deletepostLink = Page.GetByRole(AriaRole.Button, new() { Name = "Delete this post" });
+			await deletepostLink.ClickAsync();
 
-			// Extract the delete URL from the JavaScript call
-			// href format: javascript:deleteEntry("/admin/post/{id}/delete","A New Post")
-			var match = System.Text.RegularExpressions.Regex.Match(href, @"deleteEntry\(""([^""]+)""");
-			if (match.Success)
-			{
-				var deleteUrl = match.Groups[1].Value;
-				// Navigate directly to the delete URL (bypassing the confirm dialog)
-				await Page.GotoAsync(Server.RootUri + deleteUrl);
-			}
+			// Click the "Delete" button in the confirmation modal
+			var deleteButton = Page.Locator(".modal.show .btn-danger");
+			await deleteButton.WaitForAsync(new() { Timeout = 5000 });
+			await deleteButton.ClickAsync();
 
 			await Task.Delay(2000); // Allow delete to persist
 
