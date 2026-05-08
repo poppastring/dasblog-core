@@ -502,23 +502,6 @@ namespace DasBlog.Test.Integration
 		}
 
 		[SkippableFact(typeof(PlaywrightException))]
-		public async Task LoginNavigateToThemeList()
-		{
-			Skip.If(AreWe.InDockerOrBuildServer, "In Docker!");
-
-			await LoginToSite();
-
-			await Page.GotoAsync(Server.RootUri + "/admin/themes");
-
-			var heading = Page.Locator("h1", new() { HasText = "Themes" });
-			Assert.True(await heading.CountAsync() > 0, "Expected Themes heading");
-
-			// The active theme should be listed in the table
-			var activeBadge = Page.Locator(".badge.bg-success", new() { HasText = "Active" });
-			Assert.True(await activeBadge.CountAsync() > 0, "Expected an Active badge in the theme list");
-		}
-
-		[SkippableFact(typeof(PlaywrightException))]
 		public async Task ThemeListShowsDefaultThemesAsLocked()
 		{
 			Skip.If(AreWe.InDockerOrBuildServer, "In Docker!");
@@ -526,6 +509,10 @@ namespace DasBlog.Test.Integration
 			await LoginToSite();
 
 			await Page.GotoAsync(Server.RootUri + "/admin/themes");
+
+			// The active theme should be listed in the table
+			var activeBadge = Page.Locator(".badge.bg-success", new() { HasText = "Active" });
+			Assert.True(await activeBadge.CountAsync() > 0, "Expected an Active badge in the theme list");
 
 			// All built-in themes should show a "Built-in (locked)" badge
 			var lockedBadges = Page.Locator(".badge.bg-secondary", new() { HasText = "Built-in (locked)" });
