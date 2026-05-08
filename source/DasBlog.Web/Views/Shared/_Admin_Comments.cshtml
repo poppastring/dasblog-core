@@ -150,5 +150,15 @@
         enableCommentDaysCheckbox.addEventListener('change', function () {
             if (enableCommentsCheckbox.checked) toggleDaysCommentsAllowed();
         });
+
+        // Re-enable disabled fields before form submission so their values are posted.
+        // Disabled inputs are excluded from form submission, which causes server-side
+        // validation to fail (e.g. DaysCommentsAllowed defaults to 0 and fails Range(1,500)).
+        const settingsForm = commentsSection.closest('form');
+        if (settingsForm) {
+            settingsForm.addEventListener('submit', function () {
+                allFormFields.forEach(field => { field.disabled = false; });
+            });
+        }
     });
 </script>
