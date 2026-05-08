@@ -501,6 +501,121 @@ namespace DasBlog.Test.Integration
 			Assert.True(await tablecolumns.CountAsync() > 0);
 		}
 
+		[SkippableFact(typeof(PlaywrightException))]
+		public async Task LoginNavigateToThemeList()
+		{
+			Skip.If(AreWe.InDockerOrBuildServer, "In Docker!");
+
+			await LoginToSite();
+
+			await Page.GotoAsync(Server.RootUri + "/admin/themes");
+
+			var heading = Page.Locator("h1", new() { HasText = "Themes" });
+			Assert.True(await heading.CountAsync() > 0, "Expected Themes heading");
+
+			// The active theme should be listed in the table
+			var activeBadge = Page.Locator(".badge.bg-success", new() { HasText = "Active" });
+			Assert.True(await activeBadge.CountAsync() > 0, "Expected an Active badge in the theme list");
+		}
+
+		[SkippableFact(typeof(PlaywrightException))]
+		public async Task ThemeListShowsDefaultThemesAsLocked()
+		{
+			Skip.If(AreWe.InDockerOrBuildServer, "In Docker!");
+
+			await LoginToSite();
+
+			await Page.GotoAsync(Server.RootUri + "/admin/themes");
+
+			// All built-in themes should show a "Built-in (locked)" badge
+			var lockedBadges = Page.Locator(".badge.bg-secondary", new() { HasText = "Built-in (locked)" });
+			Assert.True(await lockedBadges.CountAsync() >= 5, "Expected at least 5 built-in theme badges");
+		}
+
+		[SkippableFact(typeof(PlaywrightException))]
+		public async Task NavigateToThemeEditShowsFileList()
+		{
+			Skip.If(AreWe.InDockerOrBuildServer, "In Docker!");
+
+			await LoginToSite();
+
+			// Navigate to edit the active "darkly" theme
+			await Page.GotoAsync(Server.RootUri + "/admin/themes/edit/darkly");
+
+			var heading = Page.Locator("h1", new() { HasText = "darkly" });
+			Assert.True(await heading.CountAsync() > 0, "Expected darkly in heading");
+
+			// Should list core theme files
+			var layoutFile = Page.Locator("text=_Layout.cshtml");
+			Assert.True(await layoutFile.CountAsync() > 0, "Expected _Layout.cshtml in file list");
+
+			var customCss = Page.Locator("text=custom.css");
+			Assert.True(await customCss.CountAsync() > 0, "Expected custom.css in file list");
+		}
+
+		[SkippableFact(typeof(PlaywrightException))]
+		public async Task DefaultThemeFilesAreReadOnly()
+		{
+			Skip.If(AreWe.InDockerOrBuildServer, "In Docker!");
+
+			await LoginToSite();
+
+			// Navigate to edit a file in a default theme
+			await Page.GotoAsync(Server.RootUri + "/admin/themes/edit/darkly/file?path=_Layout.cshtml");
+
+			// The editor should indicate read-only mode
+			var readonlyIndicator = Page.Locator("text=read-only");
+			var disabledSaveButton = Page.Locator("button[disabled]:has-text('Save')");
+
+			var isReadOnly = await readonlyIndicator.CountAsync() > 0 || await disabledSaveButton.CountAsync() > 0;
+			Assert.True(isReadOnly, "Default theme file editor should be read-only");
+		}
+
+		[SkippableFact(typeof(PlaywrightException))]
+		public async Task CreateThemeThenDeleteTheme()
+		{
+			Skip.If(AreWe.InDockerOrBuildServer, "In Docker!");
+
+			await LoginToSite();
+
+			// Navigate to create theme page
+			await Page.GotoAsync(Server.RootUri + "/admin/themes/create");
+
+			var createHeading = Page.Locator("h1", new() { HasText = "Create Theme" });
+			Assert.True(await createHeading.CountAsync() > 0, "Expected Create Theme heading");
+
+			// Fill in the theme name and select source
+			await Page.Locator("#Name").FillAsync("testtheme");
+			await Page.Locator("button:has-text('Create theme')").ClickAsync();
+
+			// Should redirect to the edit page for the new theme
+			await Page.WaitForURLAsync("**/admin/themes/edit/testtheme", new() { Timeout = 5000 });
+			Assert.Contains("/admin/themes/edit/testtheme", Page.Url);
+
+			// Navigate back to theme list and verify it exists
+			await Page.GotoAsync(Server.RootUri + "/admin/themes");
+			var themeRow = Page.Locator("td strong", new() { HasText = "testtheme" });
+			Assert.True(await themeRow.CountAsync() > 0, "Expected testtheme in the theme list");
+
+			// Delete the theme via the modal confirmation
+			var deleteButton = Page.Locator("[data-bs-target='#deleteModal_testtheme']");
+			await deleteButton.ClickAsync();
+
+			// Confirm deletion in the modal
+			var confirmButton = Page.Locator("#deleteModal_testthemeButton");
+			await confirmButton.WaitForAsync(new() { Timeout = 5000 });
+			await confirmButton.ClickAsync();
+
+			// Wait for page to reload after delete
+			await Page.WaitForLoadStateAsync(Microsoft.Playwright.LoadState.NetworkIdle);
+			await Task.Delay(1000);
+
+			// Reload the theme list and verify theme is gone
+			await Page.GotoAsync(Server.RootUri + "/admin/themes");
+			var deletedRow = Page.Locator("td strong", new() { HasText = "testtheme" });
+			Assert.True(await deletedRow.CountAsync() == 0, "testtheme should be deleted from the theme list");
+		}
+
 		private async Task LoginToSite()
 		{
 			await Page.GotoAsync(Server.RootUri + "/account/login");
