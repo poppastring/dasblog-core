@@ -103,7 +103,10 @@ namespace AutoMapper
                 services.AddTransient(type.AsType());
             }
 
-            services.AddSingleton<IConfigurationProvider>(sp => new MapperConfiguration(c => ConfigAction(sp, c)));
+            services.AddSingleton<IConfigurationProvider>(sp =>
+            {
+                return new MapperConfiguration(cfg => ConfigAction(sp, cfg), null);
+            });
             return services.AddScoped<IMapper>(sp => new Mapper(sp.GetRequiredService<IConfigurationProvider>(), sp.GetService));
         }
 
