@@ -104,7 +104,8 @@ namespace DasBlog.Web
 				.AddSingleton<IExternalEmbeddingHandler, ExternalEmbeddingHandler>()
 				.AddSingleton<IThemeManager, ThemeManager>()
 				.AddSingleton<IThemeContentValidator, ThemeContentValidator>()
-				.AddSingleton<IStaticPageManager, StaticPageManager>();
+				.AddSingleton<IStaticPageManager, StaticPageManager>()
+				.AddScoped<IDefaultCredentialsCheck, DefaultCredentialsCheck>();
 
 			services				
 				.AddTransient<IUserStore<DasBlogUser>, DasBlogUserStore>()
