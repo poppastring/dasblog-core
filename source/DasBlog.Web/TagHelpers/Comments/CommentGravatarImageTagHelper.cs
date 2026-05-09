@@ -12,7 +12,7 @@ namespace DasBlog.Web.TagHelpers.Comments
 		public string Css { get; set; }
 
 		private readonly ISiteConfig siteConfig;
-		private const string gravatarLink = "//www.gravatar.com/avatar/{0}?rating={1}&size={2}&default={3}";
+		private const string gravatarLink = "https://www.gravatar.com/avatar/{0}?rating={1}&size={2}&default={3}";
 
 		public CommentGravatarImageTagHelper(ISiteConfig siteConfig)
 		{

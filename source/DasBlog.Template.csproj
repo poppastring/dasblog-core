@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <PackageType>Template</PackageType>
+    <PackageVersion>10.1.0</PackageVersion>
+    <PackageId>DasBlog.Template</PackageId>
+    <Title>DasBlog Core Blog Template</Title>
+    <Authors>Mark Downie</Authors>
+    <Description>A dotnet new template for creating a DasBlog Core blog. Run: dotnet new dasblog -n myblog</Description>
+    <PackageTags>dotnet-new;templates;blog;dasblog;aspnet</PackageTags>
+    <PackageProjectUrl>https://github.com/poppastring/dasblog-core</PackageProjectUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryUrl>https://github.com/poppastring/dasblog-core</RepositoryUrl>
+    <TargetFramework>net10.0</TargetFramework>
+    <IncludeContentInPack>true</IncludeContentInPack>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+    <ContentTargetFolders>content</ContentTargetFolders>
+    <NoWarn>$(NoWarn);NU5128;NU5100</NoWarn>
+    <NoDefaultExcludes>true</NoDefaultExcludes>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="template-staging\**" />
+    <Compile Remove="**" />
+  </ItemGroup>
+</Project>

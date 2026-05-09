@@ -141,9 +141,7 @@ namespace newtelligence.DasBlog.Runtime
             this.loggingService = loggingService;
             if (!Directory.Exists(contentBaseDirectory))
             {
-                throw new ArgumentException(
-                    String.Format("Invalid directory {0}", contentBaseDirectory),
-                    "contentLocation");
+                Directory.CreateDirectory(contentBaseDirectory);
             }
             
             data = new DataManager();

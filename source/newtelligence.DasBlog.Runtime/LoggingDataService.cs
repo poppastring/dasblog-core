@@ -73,7 +73,7 @@ namespace newtelligence.DasBlog.Runtime
 			_logDirectory = loggingLocation;
 			if (!Directory.Exists(_logDirectory))
 			{
-				throw new ArgumentException(String.Format("Invalid directory {0}", _logDirectory), "loggingLocation");
+				Directory.CreateDirectory(_logDirectory);
 			}
 		}
 
