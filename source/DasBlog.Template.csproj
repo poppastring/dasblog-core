@@ -9,6 +9,8 @@
     <PackageTags>dotnet-new;templates;blog;dasblog;aspnet</PackageTags>
     <PackageProjectUrl>https://github.com/poppastring/dasblog-core</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageIcon>dasblog-square-icon.jpg</PackageIcon>
+    <PackageReadmeFile>NUGET_README.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/poppastring/dasblog-core</RepositoryUrl>
     <TargetFramework>net10.0</TargetFramework>
     <IncludeContentInPack>true</IncludeContentInPack>
@@ -20,5 +22,7 @@
   <ItemGroup>
     <Content Include="template-staging\**" />
     <Compile Remove="**" />
+    <None Include="..\images\dasblog-square-icon.jpg" Pack="true" PackagePath="" />
+    <None Include="NUGET_README.md" Pack="true" PackagePath="" />
   </ItemGroup>
 </Project>
