@@ -13,9 +13,8 @@
     <Configurations>Debug;Release</Configurations>
     <Platforms>AnyCPU</Platforms>
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
-    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
-    <Version>10.1.0</Version>
+    <Version>10.2.0</Version>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <IncludeSymbols>true</IncludeSymbols>

@@ -1,3 +1,11 @@
+trigger:
+  branches:
+    include:
+      - main
+  tags:
+    include:
+      - 'v*'
+
 strategy:
   matrix:
     linux:
@@ -10,9 +18,13 @@ pool:
 
 variables:
   buildConfiguration: 'Release'
-  version: 10.1
+  isTag: $[startsWith(variables['Build.SourceBranch'], 'refs/tags/v')]
 
 steps:
+- checkout: self
+  fetchDepth: 0
+  fetchTags: true
+
 - task: UseDotNet@2
   displayName: Installing .NET 10
   inputs:
@@ -22,11 +34,25 @@ steps:
 
 - task: PowerShell@2
   displayName: Set Build Number
-  condition: and(succeeded(), eq(variables['Build.SourceBranchName'], 'main'))
   inputs:
     targetType: 'inline'
     script: |
-      Write-Host "##vso[build.updatebuildnumber]${{ variables.version }}.$(Build.BuildId)"
+      $branch = "$(Build.SourceBranch)"
+      if ($branch.StartsWith("refs/tags/v")) {
+        $version = $branch -replace "refs/tags/v", ""
+        Write-Host "##vso[build.updatebuildnumber]$version"
+      } else {
+        # Non-tag builds: major.minor from most recent tag, patch from BuildId
+        $tag = git describe --tags --abbrev=0 --match "v*" 2>$null
+        if ($tag) {
+          $prefix = $tag -replace "^v", ""
+          $parts = $prefix.Split(".")
+          $majorMinor = "$($parts[0]).$($parts[1])"
+        } else {
+          $majorMinor = "0.0"
+        }
+        Write-Host "##vso[build.updatebuildnumber]$majorMinor.$(Build.BuildId)"
+      }
 
 - task: DotNetCoreCLI@2
   displayName: Restoring Packages for Solution
@@ -80,3 +106,46 @@ steps:
   inputs:
     targetPath: '$(Build.ArtifactStagingDirectory)/$(System.TeamProject)_$(Build.BuildNumber).zip'
     artifactName: $(System.TeamProject)_$(Build.BuildNumber)
+
+- task: DotNetCoreCLI@2
+  displayName: Publish to template-staging
+  condition: and(succeeded(), eq(variables['imageName'], 'windows-latest'), eq(variables.isTag, true))
+  inputs:
+    command: publish
+    projects: 'source/DasBlog.Web/DasBlog.Web.csproj'
+    arguments: '--configuration $(BuildConfiguration) --output source/template-staging'
+    zipAfterPublish: false
+    modifyOutputPath: false
+
+- task: DotNetCoreCLI@2
+  displayName: Pack NuGet template
+  condition: and(succeeded(), eq(variables['imageName'], 'windows-latest'), eq(variables.isTag, true))
+  inputs:
+    command: custom
+    custom: pack
+    projects: 'source/DasBlog.Template.csproj'
+    arguments: '-p:PackageVersion=$(Build.BuildNumber) --output $(Build.ArtifactStagingDirectory)/nupkg'
+
+- task: NuGetCommand@2
+  displayName: Push to NuGet.org
+  condition: and(succeeded(), eq(variables['imageName'], 'windows-latest'), eq(variables.isTag, true))
+  inputs:
+    command: push
+    packagesToPush: '$(Build.ArtifactStagingDirectory)/nupkg/*.nupkg'
+    nuGetFeedType: external
+    publishFeedCredentials: 'NuGetOrg'
+
+- task: GitHubRelease@1
+  displayName: Create GitHub Release
+  condition: and(succeeded(), eq(variables['imageName'], 'windows-latest'), eq(variables.isTag, true))
+  inputs:
+    gitHubConnection: 'poppastring'
+    repositoryName: 'poppastring/dasblog-core'
+    action: 'create'
+    target: '$(Build.SourceVersion)'
+    tagSource: 'gitTag'
+    assets: '$(Build.ArtifactStagingDirectory)/$(System.TeamProject)_$(Build.BuildNumber).zip'
+    isDraft: false
+    isPreRelease: false
+    changeLogCompareToRelease: 'lastFullRelease'
+    changeLogType: 'commitBased'

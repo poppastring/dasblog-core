@@ -14,7 +14,7 @@ namespace DasBlog.Web.TagHelpers.User
 		private readonly ISiteConfig siteConfig;
 		private readonly IHttpContextAccessor httpContextAccessor;
 		private readonly ISiteSecurityManager securityManager;
-		private const string gravatarLink = "//www.gravatar.com/avatar/{0}?rating={1}&size={2}&default={3}";
+		private const string gravatarLink = "https://www.gravatar.com/avatar/{0}?rating={1}&size={2}&default={3}";
 
 		public string Css { get; set; }
 
