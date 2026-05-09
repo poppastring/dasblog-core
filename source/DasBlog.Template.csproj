@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <PackageType>Template</PackageType>
-    <PackageVersion>10.1.0</PackageVersion>
+    <PackageVersion>10.2.0</PackageVersion>
     <PackageId>DasBlog.Template</PackageId>
     <Title>DasBlog Core Blog Template</Title>
     <Authors>Mark Downie</Authors>
