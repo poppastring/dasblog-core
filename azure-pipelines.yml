@@ -4,7 +4,7 @@ trigger:
       - main
   tags:
     include:
-      - 'v*'
+      - 'v*.*.0'
 
 strategy:
   matrix:
@@ -144,7 +144,8 @@ steps:
     repositoryName: 'poppastring/dasblog-core'
     action: 'create'
     target: '$(Build.SourceVersion)'
-    tagSource: 'gitTag'
+    tagSource: 'userSpecifiedTag'
+    tag: 'v$(Build.BuildNumber)'
     title: '$(Build.BuildNumber)'
     assets: '$(Build.ArtifactStagingDirectory)/$(System.TeamProject)_$(Build.BuildNumber).zip'
     isDraft: false
