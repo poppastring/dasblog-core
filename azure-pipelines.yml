@@ -136,6 +136,13 @@ steps:
     nuGetFeedType: external
     publishFeedCredentials: 'NuGetOrg'
 
+- task: PublishPipelineArtifact@1
+  displayName: Publish NuGet artifact
+  condition: and(succeeded(), eq(variables['imageName'], 'windows-latest'), eq(variables.isTag, true))
+  inputs:
+    targetPath: '$(Build.ArtifactStagingDirectory)/nupkg'
+    artifactName: nuget
+
 - task: GitHubRelease@1
   displayName: Create GitHub Release
   condition: and(succeeded(), eq(variables['imageName'], 'windows-latest'), eq(variables.isTag, true))
