@@ -40,9 +40,9 @@ steps:
       $branch = "$(Build.SourceBranch)"
       if ($branch.StartsWith("refs/tags/v")) {
         $version = $branch -replace "refs/tags/v", ""
-        Write-Host "##vso[build.updatebuildnumber]$version"
+        $parts = $version.Split(".")
+        $majorMinor = "$($parts[0]).$($parts[1])"
       } else {
-        # Non-tag builds: major.minor from most recent tag, patch from BuildId
         $tag = git describe --tags --abbrev=0 --match "v*" 2>$null
         if ($tag) {
           $prefix = $tag -replace "^v", ""
@@ -51,8 +51,8 @@ steps:
         } else {
           $majorMinor = "0.0"
         }
-        Write-Host "##vso[build.updatebuildnumber]$majorMinor.$(Build.BuildId)"
       }
+      Write-Host "##vso[build.updatebuildnumber]$majorMinor.$(Build.BuildId)"
 
 - task: DotNetCoreCLI@2
   displayName: Restoring Packages for Solution
@@ -145,6 +145,7 @@ steps:
     action: 'create'
     target: '$(Build.SourceVersion)'
     tagSource: 'gitTag'
+    title: '$(Build.BuildNumber)'
     assets: '$(Build.ArtifactStagingDirectory)/$(System.TeamProject)_$(Build.BuildNumber).zip'
     isDraft: false
     isPreRelease: false
