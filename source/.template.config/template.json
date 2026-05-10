@@ -46,7 +46,7 @@
     "adminEmail": {
       "type": "parameter",
       "datatype": "string",
-      "defaultValue": "admin@example.com",
+      "defaultValue": "myemail@myemail.com",
       "replaces": "myemail@myemail.com",
       "description": "Admin email address"
     }
