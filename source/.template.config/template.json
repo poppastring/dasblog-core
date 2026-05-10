@@ -40,14 +40,14 @@
       "type": "parameter",
       "datatype": "string",
       "defaultValue": "http://localhost:5000/",
-      "replaces": "TEMPLATE_BLOG_URL",
+      "replaces": "https://localhost:5001/",
       "description": "The root URL of your blog"
     },
     "adminEmail": {
       "type": "parameter",
       "datatype": "string",
       "defaultValue": "admin@example.com",
-      "replaces": "TEMPLATE_ADMIN_EMAIL",
+      "replaces": "myemail@myemail.com",
       "description": "Admin email address"
     }
   },
