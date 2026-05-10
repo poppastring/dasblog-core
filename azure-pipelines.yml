@@ -103,6 +103,7 @@ steps:
 
 - task: PublishPipelineArtifact@1
   condition: and(succeeded(), eq(variables['imageName'], 'windows-latest'))
+  continueOnError: true
   inputs:
     targetPath: '$(Build.ArtifactStagingDirectory)/$(System.TeamProject)_$(Build.BuildNumber).zip'
     artifactName: $(System.TeamProject)_$(Build.BuildNumber)
