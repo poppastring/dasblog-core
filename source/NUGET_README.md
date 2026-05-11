@@ -29,7 +29,7 @@ Navigate to `https://localhost:5001` and log in with the default credentials:
 |--------|-------------|---------|
 | `--blogTitle` | Your blog title | My DasBlog! |
 | `--blogUrl` | Root URL of your blog | *(empty)* |
-| `--adminEmail` | Admin email address | admin@example.com |
+| `--adminEmail` | Admin email address | myemail@myemail.com |
 
 Example:
 
