@@ -39,7 +39,7 @@
     "blogUrl": {
       "type": "parameter",
       "datatype": "string",
-      "defaultValue": "http://localhost:5000/",
+      "defaultValue": "",
       "replaces": "https://localhost:5001/",
       "description": "The root URL of your blog"
     },
