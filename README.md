@@ -33,7 +33,7 @@ cd myblog
 .\DasBlog.Web.exe
 ```
 
-Navigate to `https://localhost:5001` and log in with the default credentials. **Change them immediately** at `/admin/authors`.
+Navigate to `http://localhost:5000` and log in with the default credentials. **Change them immediately** at `/admin/authors`.
 
 ## Features
 
@@ -47,15 +47,15 @@ Navigate to `https://localhost:5001` and log in with the default credentials. **
 * **CDN support** for serving media from a content delivery network
 * **CLI tools** for [configuration and management](https://github.com/poppastring/dasblog-core/wiki/CLI-Reference)
 
-## Deployment
+## Install
 
 | Option | Description |
 |--------|-------------|
-| [**.NET template**](https://github.com/poppastring/dasblog-core/wiki/1.-Deployment#deploy-with-net-template-nuget) | `dotnet new dasblog` — fastest way to get running |
-| [**Deploy to Azure Button**](https://github.com/poppastring/dasblog-core/wiki/1.-Deployment#deploy-to-azure-button) | One-click Azure deployment |
+| [**.NET template**](https://github.com/poppastring/dasblog-core/wiki/1.-Install#net-template) | `dotnet new dasblog` — fastest way to get running |
+| [**Deploy to Azure Button**](https://github.com/poppastring/dasblog-core/wiki/1.-Install#azure--deploy-button) | One-click Azure deployment |
 | [**Azure App Services**](https://github.com/poppastring/dasblog-core/wiki/Azure-App-Services) | Step-by-step for Linux, Windows, or sub-folder |
-| [**Self-hosted**](https://github.com/poppastring/dasblog-core/wiki/1.-Deployment#deploy-to-your-own-web-host) | Any host that supports .NET 10 |
-| [**Local**](https://github.com/poppastring/dasblog-core/wiki/1.-Deployment#deploy-to-your-local-machine) | Run on your own machine |
+| [**Cloud hosting**](https://github.com/poppastring/dasblog-core/wiki/1.-Install#cloud-hosting) | Any host that supports .NET 10 |
+| [**Local**](https://github.com/poppastring/dasblog-core/wiki/1.-Install#local-install) | Run on your own machine |
 
 ## Documentation
 

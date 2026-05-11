@@ -6,7 +6,7 @@ A: DasBlog Core  is an open source blogging engine based heavily on the  work pr
 
 
 #### Q: Does this replace the original DasBlog?
-A: We think so. The original DasBlog relies on Web Forms and will not be supported on .NET Core platform going forward.
+A: We think so. The original DasBlog relies on Web Forms and will not be supported going forward.
 
 
 #### Q: Does it work on a Mac?  On Linux?
