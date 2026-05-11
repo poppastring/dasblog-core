@@ -10,7 +10,7 @@ A: We think so. The original DasBlog relies on Web Forms and will not be support
 
 
 #### Q: Does it work on a Mac?  On Linux?
-A: Yes! Since .NET Core runs on Mac OS and Linux DasBlog Core runs there also. Any original code that relied on Windows-specific APIs have been removed.
+A: Yes! Since .NET runs on Mac OS and Linux, DasBlog Core runs there also. Any original code that relied on Windows-specific APIs have been removed.
 
 
 #### Q: I found a bug, what should I do?
@@ -26,7 +26,7 @@ A: Yes. Themes are developed using Razor! More details can be found [here](https
 
 
 #### Q: Is there a public Theme gallery?
-A: Not currently, we might start with something simple like a wiki page; but if you’re interested, this would be a great community contribution.
+A: DasBlog Core ships with several built-in themes and includes a [theme editor](https://github.com/poppastring/dasblog-core/wiki/4.-Designing-a-theme#theme-editor) at `/admin/themes` for browsing, switching, and customizing themes directly from the browser.
 
 
 #### Q: I am not developer, how can I support this effort?

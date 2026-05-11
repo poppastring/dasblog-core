@@ -4,10 +4,10 @@
   </a>
 </p>
 <p align="center">
+	<a href="https://github.com/poppastring/dasblog-core/wiki">Wiki</a> |
 	<a href="https://github.com/poppastring/dasblog-core/blob/main/FAQ.md">FAQ</a> |
-	<a href="https://github.com/poppastring/dasblog-core/wiki/1.-Deployment">Deployment</a> |
 	<a href="https://www.poppastring.com/blog/category/dasblog-core">Blog</a> |
-	<a href="https://github.com/poppastring/dasblog-core/blob/main/CONTRIBUTING.md">Contributing to DasBlog</a>
+	<a href="https://github.com/poppastring/dasblog-core/blob/main/CONTRIBUTING.md">Contributing</a>
 	<br /><br />
 	<a href="https://github.com/poppastring/dasblog-core/releases/">
 		<img src="https://img.shields.io/github/v/release/poppastring/dasblog-core.svg" alt="Latest release" />
@@ -21,29 +21,50 @@
 </p>
 
 # DasBlog
-One of the primary goals of this project is to create a new blogging engine that preserves the essence of the original [DasBlog Blogging Engine](https://msdn.microsoft.com/en-us/library/aa480016.aspx), we also get the opportunity to take advantage of the modern cross platform goodness of ASP.NET Core.
 
-## Building 
-If you want to build and contribute code to DasBlog please fork this repo and submit a PR, check out the [contribution docs here](https://github.com/poppastring/dasblog-core/blob/main/CONTRIBUTING.md#developers) for more details.
+A blogging engine built with ASP.NET Core that preserves the essence of the original [DasBlog](https://msdn.microsoft.com/en-us/library/aa480016.aspx) while taking advantage of the modern cross-platform goodness of .NET.
+
+## Quick start
+
+```bash
+dotnet new install DasBlog.Template
+dotnet new dasblog -n myblog
+cd myblog
+.\DasBlog.Web.exe
+```
+
+Navigate to `https://localhost:5001` and log in with the default credentials. **Change them immediately** at `/admin/authors`.
+
+## Features
+
+* **Browser editor** for creating and publishing posts with image uploads, categories, and scheduled publishing
+* **[Open Live Writer](https://openlivewriter.com/)** and MetaWeblog API support for desktop publishing
+* **[Theme management](https://github.com/poppastring/dasblog-core/wiki/4.-Designing-a-theme)** with a built-in editor for creating, customizing, and switching Razor themes
+* **Static pages** for content outside the blog timeline
+* **Comment moderation** with spam filtering
+* **RSS/Atom feeds** and categories
+* **[ActivityPub](https://github.com/poppastring/dasblog-core/wiki/2.-Configure-your-blog#6-activitypub-optional)** for Fediverse discovery
+* **CDN support** for serving media from a content delivery network
+* **CLI tools** for [configuration and management](https://github.com/poppastring/dasblog-core/wiki/CLI-Reference)
 
 ## Deployment
 
-You can deploy anywhere where .NET Core is hosted.
-
-### Easiest Way: Click The Deploy To Azure Button
-
-Click the button below, answer some questions, and be up and running on your DasBlog instance in a few minutes. Once you've deployed, be sure to read the [post-deployment instructions here](https://github.com/poppastring/dasblog-core/wiki/1.-Deployment#2-configure-dasblog-core-settings).
-
-[![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fpoppastring%2Fdasblog-core%2Fmain%2Fdeploy%2Fazuredeploy.json)
-
-### Deploying Manually
-* [Deploying to Azure App Services for Windows](https://github.com/poppastring/dasblog-core/wiki/1.-Deployment#deploy-to-azure-app-services-for-windows)
-* [Deploying to Azure App Services for Linux](https://github.com/poppastring/dasblog-core/wiki/1.-Deployment#deploy-to-azure-app-services-for-linux)
-* [Deploying to a web host](https://github.com/poppastring/dasblog-core/wiki/1.-Deployment#deploy-to-your-own-web-host)
-
-After deploying the app you should immediately [update  the security settings](https://github.com/poppastring/dasblog-core/wiki/2.-Configure-your-blog).   
+| Option | Description |
+|--------|-------------|
+| [**.NET template**](https://github.com/poppastring/dasblog-core/wiki/1.-Deployment#deploy-with-net-template-nuget) | `dotnet new dasblog` — fastest way to get running |
+| [**Deploy to Azure Button**](https://github.com/poppastring/dasblog-core/wiki/1.-Deployment#deploy-to-azure-button) | One-click Azure deployment |
+| [**Azure App Services**](https://github.com/poppastring/dasblog-core/wiki/Azure-App-Services) | Step-by-step for Linux, Windows, or sub-folder |
+| [**Self-hosted**](https://github.com/poppastring/dasblog-core/wiki/1.-Deployment#deploy-to-your-own-web-host) | Any host that supports .NET 10 |
+| [**Local**](https://github.com/poppastring/dasblog-core/wiki/1.-Deployment#deploy-to-your-local-machine) | Run on your own machine |
 
 ## Documentation
-Check out the [wiki](https://github.com/poppastring/dasblog-core/wiki) for additional information on DasBlog fundamentals, architecture and themes.
+
+Check out the [wiki](https://github.com/poppastring/dasblog-core/wiki) for deployment guides, configuration, theme design, and architecture.
+
+Migrating from classic DasBlog? See the [migration guide](https://github.com/poppastring/dasblog-core/wiki/7.-Migrating-from-DasBlog).
+
+## Contributing
+
+We welcome contributions! See [CONTRIBUTING.md](https://github.com/poppastring/dasblog-core/blob/main/CONTRIBUTING.md) for setup instructions and guidelines.
 
 Please [submit an issue](https://github.com/poppastring/dasblog-core/issues) if you encounter any problems.
