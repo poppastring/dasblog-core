@@ -33,7 +33,7 @@ cd myblog
 .\DasBlog.Web.exe
 ```
 
-Navigate to `https://localhost:5001` and log in with the default credentials. **Change them immediately** at `/admin/authors`.
+Navigate to `http://localhost:5000` and log in with the default credentials. **Change them immediately** at `/admin/authors`.
 
 ## Features
 

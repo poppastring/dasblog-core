@@ -16,7 +16,7 @@ cd myblog
 .\DasBlog.Web.exe
 ```
 
-Navigate to `https://localhost:5001` and log in with the default credentials:
+Navigate to `http://localhost:5000` and log in with the default credentials:
 
 - **Email:** myemail@myemail.com
 - **Password:** admin
@@ -28,13 +28,12 @@ Navigate to `https://localhost:5001` and log in with the default credentials:
 | Option | Description | Default |
 |--------|-------------|---------|
 | `--blogTitle` | Your blog title | My DasBlog! |
-| `--blogUrl` | Root URL of your blog | *(empty)* |
 | `--adminEmail` | Admin email address | myemail@myemail.com |
 
 Example:
 
 ```bash
-dotnet new dasblog -n myblog --blogTitle "My Blog" --blogUrl "https://myblog.example.com"
+dotnet new dasblog -n myblog --blogTitle "My Blog"
 ```
 
 ## Next steps
