@@ -40,9 +40,9 @@
             <post-delete-link post="@Model" />
             <span style="display:inline-block; width: 1em;"></span>
             <comment-management-link post="@Model" />
-            <partial name="_DeleteConfirmationModalPartial" model="Model" />
+            <delete-post-modal post="@Model" />
         </div>
     </div>
 
-    <partial name="_CollapseCommentBlockPartial" model="@Model" />
+    <vc:collapse-comment-block post="@Model" />
 </article>
