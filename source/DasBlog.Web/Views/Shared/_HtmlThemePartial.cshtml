@@ -1,5 +1,2 @@
-﻿@using DasBlog.Services;
-@inject IDasBlogSettings dasBlogSettings
-
-<link rel="stylesheet" href="~/css/site.css" />
-<link rel="stylesheet" href="@dasBlogSettings.ThemeCssUrl" />
+﻿@* Backward-compat shim. Prefer using <theme-stylesheets /> directly. *@
+<theme-stylesheets />

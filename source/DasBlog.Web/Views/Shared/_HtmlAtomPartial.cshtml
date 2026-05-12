@@ -1,4 +1,2 @@
-@using DasBlog.Services;
-@inject IDasBlogSettings dasBlogSettings
-
-<link rel="alternate" type="application/atom+xml" title="@dasBlogSettings.SiteConfiguration.Description" href="@dasBlogSettings.RelativeToRoot("feed/atom")" />
+@* Backward-compat shim. Prefer using <site-atom-link /> directly. *@
+<site-atom-link />
