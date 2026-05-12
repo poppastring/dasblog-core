@@ -1,3 +1,7 @@
-@* Backward-compat shim. Prefer using <delete-post-modal post="@Model" /> directly. *@
+@*
+    OBSOLETE: This partial is retained for backward compatibility with existing themes and forks.
+    For new code, prefer the TagHelper directly:  <delete-post-modal post="@Model" />
+    No removal is planned.
+*@
 @model DasBlog.Web.Models.BlogViewModels.PostViewModel
 <delete-post-modal post="@Model" />

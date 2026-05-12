@@ -1,4 +1,8 @@
-@* Backward-compat shim. Prefer using <vc:comment-block comments="@Model" /> directly. *@
+@*
+    OBSOLETE: This partial is retained for backward compatibility with existing themes and forks.
+    For new code, prefer the ViewComponent directly:  <vc:comment-block comments="@Model" />
+    No removal is planned.
+*@
 @using DasBlog.Web.Models.BlogViewModels;
 @model ListCommentsViewModel
 <vc:comment-block comments="@Model" />

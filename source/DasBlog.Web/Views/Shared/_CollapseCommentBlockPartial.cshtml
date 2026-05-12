@@ -1,4 +1,8 @@
-@* Backward-compat shim. Prefer using <vc:collapse-comment-block post="@Model" /> directly. *@
+@*
+    OBSOLETE: This partial is retained for backward compatibility with existing themes and forks.
+    For new code, prefer the ViewComponent directly:  <vc:collapse-comment-block post="@Model" />
+    No removal is planned.
+*@
 @using DasBlog.Web.Models.BlogViewModels;
 @model PostViewModel
 <vc:collapse-comment-block post="@Model" />

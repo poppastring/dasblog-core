@@ -1,4 +1,8 @@
-@* Backward-compat shim. Prefer using <success-alert alert-id="..." message-key="..." /> directly. *@
+@*
+    OBSOLETE: This partial is retained for backward compatibility with existing themes and forks.
+    For new code, prefer the TagHelper directly:  <success-alert alert-id="..." message-key="..." />
+    No removal is planned.
+*@
 @{
     var __successAlertId = ViewData["AlertId"]?.ToString() ?? "successAlert";
     var __successMessageKey = ViewData["MessageKey"]?.ToString() ?? "SuccessMessage";
