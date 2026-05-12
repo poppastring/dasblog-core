@@ -117,6 +117,41 @@ namespace DasBlog.Tests.UnitTests.UI
 
 		[Fact]
 		[Trait("Category", "UnitTest")]
+		public async Task PostToMastodonTagHelper_GeneratedTagHelper_BlogPostRendersAsAnchorTag()
+		{
+			var postTitle = "Hello Mastodon";
+			var postLink = "hello-mastodon";
+			var dasBlogSettingsMock = new DasBlogSettingsMock();
+			var dasBlogSettings = dasBlogSettingsMock.CreateSettings();
+
+			var sut = new PostToMastodonTagHelper(dasBlogSettings) { Post = new PostViewModel { Title = postTitle, PermaLink = postLink, EntryId = "6E5D34A8-2C7B-4F1E-9A88-3D5F2E8C9B11" } };
+
+			var context = new TagHelperContext(new TagHelperAttributeList(), new Dictionary<object, object>(), Guid.NewGuid().ToString("N"));
+			var output = new TagHelperOutput("editpost", new TagHelperAttributeList(), (useCachedResult, htmlEncoder) =>
+			{
+				var tagHelperContent = new DefaultTagHelperContent();
+				tagHelperContent.SetContent(string.Empty);
+				return Task.FromResult<TagHelperContent>(tagHelperContent);
+			});
+
+			await sut.ProcessAsync(context, output);
+
+			Assert.Same("a", output.TagName);
+
+			var href = output.Attributes.FirstOrDefault(a => a.Name == "href")?.Value.ToString();
+			Assert.NotNull(href);
+			Assert.StartsWith("https://mastodonshare.com/", href);
+
+			var urlencodedBaseUrl = UrlEncoder.Default.Encode(dasBlogSettings.GetBaseUrl());
+			Assert.Contains($"={urlencodedBaseUrl}{postLink}", href);
+			Assert.Contains(UrlEncoder.Default.Encode(postTitle), href);
+
+			var cssClass = output.Attributes.FirstOrDefault(a => a.Name == "class")?.Value.ToString();
+			Assert.Equal("dasblog-a-share-mastodon", cssClass);
+		}
+
+		[Fact]
+		[Trait("Category", "UnitTest")]
 		public void CommentContentTagHelper_WhenCommentIsNull_ShouldNotThrow()
 		{
 			var dasBlogSettingsMock = new DasBlogSettingsMock();
