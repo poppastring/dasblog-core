@@ -1,29 +1,8 @@
-﻿@using DasBlog.Core.Common;
+@*
+    OBSOLETE: This partial is retained for backward compatibility with existing themes and forks.
+    For new code, prefer the ViewComponent directly:  <vc:collapse-comment-block post="@Model" />
+    No removal is planned.
+*@
 @using DasBlog.Web.Models.BlogViewModels;
-@using System.Text.RegularExpressions;
-
 @model PostViewModel
-@inject IDasBlogSettings dasBlogSettings
-
-@{
-    var CollapsableControl = (bool)ViewData[Constants.ShowPageControl];
-    var rgx = new Regex("[a-zA-Z0-9]");
-}
-
-@if (CollapsableControl)
-{
-    @if (Model.AllowComments && dasBlogSettings.SiteConfiguration.EnableComments)
-    {
-        <a class="btn btn-primary" role="button" data-bs-toggle="collapse" data-bs-target="#@rgx.Replace(Model.Comments.PostId, "")" aria-expanded="false" aria-controls="@rgx.Replace(Model.Comments.PostId, "")">
-            Add a comment
-        </a>
-    }
-
-    <div class="collapse" id="@rgx.Replace(Model.Comments.PostId, "")">
-        <partial name="_CommentBlockPartial" model="@Model.Comments" />
-    </div>
-}
-else
-{
-    <partial name="_CommentBlockPartial" model="@Model.Comments" />
-}
+<vc:collapse-comment-block post="@Model" />

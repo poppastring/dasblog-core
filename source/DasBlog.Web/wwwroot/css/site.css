@@ -165,3 +165,132 @@ tbody.dbc-admin-comment-table td {
     height: 48px;
     object-fit: cover;
 }
+
+/* ============================================================
+   TagHelper / ViewComponent component hooks
+   ------------------------------------------------------------
+   These class names are emitted by C# TagHelpers and Razor view
+   components. The rules below are the shipped defaults so that
+   markup stays free of inline CSS.
+
+   DO NOT EDIT THESE RULES TO CUSTOMIZE A THEME.
+   site.css is part of the product. To change the look of a
+   theme, override these selectors in that theme's own CSS file
+   (e.g. Themes/<your-theme>/custom.css), which is loaded after
+   site.css and therefore wins by cascade order.
+   ============================================================ */
+
+/* DeletePostModalTagHelper: keep the post-delete <form> inline
+   with the modal's Cancel button. */
+.dbc-delete-post-form {
+    display: inline;
+}
+
+/* CommentBlock view component: success alert is hidden until
+   dasblog-ui.js promotes it (toggles the d-none class). */
+
+/* CookieConsent view component */
+#cookieConsent {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    max-width: 400px;
+    z-index: 9999;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+    border-left: 4px solid var(--bs-primary);
+    animation: dbc-cookie-consent-slide-in 0.5s ease-out;
+    display: none;
+}
+
+#cookieConsent.show {
+    display: block !important;
+}
+
+.dbc-cookie-consent-icon {
+    margin-top: 4px;
+}
+
+.cookie-consent-closing {
+    animation: dbc-cookie-consent-fade-out 0.3s ease-out forwards;
+}
+
+@keyframes dbc-cookie-consent-slide-in {
+    from {
+        transform: translateX(450px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes dbc-cookie-consent-fade-out {
+    from {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateX(450px);
+    }
+}
+
+@media (max-width: 768px) {
+    #cookieConsent {
+        bottom: 0;
+        right: 0;
+        left: 0;
+        max-width: 100%;
+        border-radius: 0;
+        border-left: none;
+        border-top: 4px solid var(--bs-primary);
+    }
+
+    @keyframes dbc-cookie-consent-slide-in {
+        from {
+            transform: translateY(100%);
+            opacity: 0;
+        }
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    @keyframes dbc-cookie-consent-fade-out {
+        from {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        to {
+            opacity: 0;
+            transform: translateY(100%);
+        }
+    }
+}
+
+/* ------------------------------------------------------------
+   TagHelper theme hooks (no default rules)
+   ------------------------------------------------------------
+   These selectors are listed here purely as documentation of
+   the class names emitted by the TagHelpers, so theme authors
+   know what they can target. Add real rules in your theme's
+   own CSS file (e.g. Themes/<your-theme>/custom.css), NOT here.
+   ------------------------------------------------------------ */
+
+/* ArchiveListTagHelper */
+/* .dbc-archive-list-item { } */
+/* .dbc-archive-count { } */
+
+/* CategoryListTagHelper */
+/* .dbc-category-list-item { } */
+/* .dbc-category-count { } */
+
+/* RecentPostsTagHelper */
+/* .dbc-recent-post-item { } */
+/* .dbc-recent-post-date { } */
+
+/* PostAuthorTagHelper */
+/* .dbc-post-author-avatar { } */
+/* .dbc-post-author-link { } */

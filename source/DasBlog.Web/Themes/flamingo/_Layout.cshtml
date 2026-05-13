@@ -10,12 +10,12 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <partial name="_HtmlHeadPartial" />
-    <partial name="_HtmlRSSPartial" />
-    <partial name="_HtmlAtomPartial" />
-    <partial name="_TwitterCardPartial" />
-    <partial name="_OpenGraphPartial" />
-    <partial name="_BlogPostingSchemaOrgPartial" />
+    <site-head-meta />
+    <site-rss-link />
+    <site-atom-link />
+    <twitter-card />
+    <open-graph />
+    <blog-posting-schema />
 
     <link rel="stylesheet" href="~/lib/bootstrap/5.3.3/css/bootstrap.min.css" />
 
@@ -49,7 +49,7 @@
 
     <div class="container flm-container">
 
-        <partial name="_CookieConsentPartial" />
+        <vc:cookie-consent />
 
         @RenderBody()
 

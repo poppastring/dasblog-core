@@ -1,0 +1,28 @@
+@using DasBlog.Web.Models.BlogViewModels;
+@using System.Text.RegularExpressions;
+
+@model DasBlog.Web.ViewComponents.CollapseCommentBlockViewModel
+@inject IDasBlogSettings dasBlogSettings
+
+@{
+	var rgx = new Regex("[a-zA-Z0-9]");
+	var post = Model.Post;
+}
+
+@if (Model.ShowPageControl)
+{
+	@if (post.AllowComments && dasBlogSettings.SiteConfiguration.EnableComments)
+	{
+		<a class="btn btn-primary" role="button" data-bs-toggle="collapse" data-bs-target="#@rgx.Replace(post.Comments.PostId, "")" aria-expanded="false" aria-controls="@rgx.Replace(post.Comments.PostId, "")">
+			Add a comment
+		</a>
+	}
+
+	<div class="collapse" id="@rgx.Replace(post.Comments.PostId, "")">
+		<vc:comment-block comments="@post.Comments" />
+	</div>
+}
+else
+{
+	<vc:comment-block comments="@post.Comments" />
+}

@@ -1,5 +1,6 @@
-﻿@using DasBlog.Services;
-@inject IDasBlogSettings dasBlogSettings
-
-<link rel="alternate" type="application/rss+xml" title="@dasBlogSettings.SiteConfiguration.Description" href="@dasBlogSettings.RssUrl" />
-<link rel="EditURI" type="application/rsd+xml" title="RSD" href="@dasBlogSettings.RsdUrl" />
+﻿@*
+    OBSOLETE: This partial is retained for backward compatibility with existing themes and forks.
+    For new code, prefer the TagHelper directly:  <site-rss-link />
+    No removal is planned.
+*@
+<site-rss-link />

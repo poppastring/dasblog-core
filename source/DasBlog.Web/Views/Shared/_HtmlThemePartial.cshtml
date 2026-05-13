@@ -1,5 +1,6 @@
-﻿@using DasBlog.Services;
-@inject IDasBlogSettings dasBlogSettings
-
-<link rel="stylesheet" href="~/css/site.css" />
-<link rel="stylesheet" href="@dasBlogSettings.ThemeCssUrl" />
+﻿@*
+    OBSOLETE: This partial is retained for backward compatibility with existing themes and forks.
+    For new code, prefer the TagHelper directly:  <theme-stylesheets />
+    No removal is planned.
+*@
+<theme-stylesheets />

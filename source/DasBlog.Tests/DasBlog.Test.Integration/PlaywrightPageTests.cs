@@ -52,11 +52,37 @@ namespace DasBlog.Test.Integration
 		}
 
 		[SkippableFact(typeof(PlaywrightException))]
-		public async Task LoadTheMainPageAndCheckPageTitle()
+		public async Task LoadMainPageAndCheckHeadAndFeeds()
 		{
 			Skip.If(AreWe.InDockerOrBuildServer);
 			await Page.GotoAsync(Server.RootUri);
-			Assert.StartsWith("My DasBlog!", await Page.TitleAsync());
+
+			// <site-head-meta /> — page title
+			var title = await Page.TitleAsync();
+			Assert.True(
+				title?.StartsWith("My DasBlog!", StringComparison.Ordinal) == true,
+				$"Expected <title> to start with 'My DasBlog!' (rendered by <site-head-meta />). Actual: '{title}'");
+
+			// <site-head-meta /> — meta description
+			var descCount = await Page.Locator("head meta[name='description']").CountAsync();
+			Assert.True(descCount > 0,
+				"Expected <meta name='description'> in <head> (rendered by <site-head-meta />). Found 0.");
+
+			// <site-rss-link /> — RSS alternate link
+			var rssCount = await Page.Locator("head link[rel='alternate'][type='application/rss+xml']").CountAsync();
+			Assert.True(rssCount > 0,
+				"Expected <link rel='alternate' type='application/rss+xml'> in <head> (rendered by <site-rss-link />). Found 0.");
+
+			// <site-atom-link /> — Atom alternate link
+			var atomCount = await Page.Locator("head link[rel='alternate'][type='application/atom+xml']").CountAsync();
+			Assert.True(atomCount > 0,
+				"Expected <link rel='alternate' type='application/atom+xml'> in <head> (rendered by <site-atom-link />). Found 0.");
+
+			// <vc:cookie-consent /> — banner element should be in DOM for anonymous user when CookieConsentEnabled=true
+			var cookieBannerCount = await Page.Locator("#cookieConsent").CountAsync();
+			Assert.True(cookieBannerCount > 0,
+				"Expected '#cookieConsent' banner in DOM for anonymous user (rendered by <vc:cookie-consent />). Found 0. " +
+				"Verify CookieConsentEnabled=true in site config.");
 		}
 
 		[SkippableFact(typeof(PlaywrightException))]

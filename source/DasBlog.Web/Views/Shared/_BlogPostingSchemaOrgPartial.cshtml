@@ -1,12 +1,6 @@
-﻿@inject IDasBlogSettings dasBlogSettings
-
-<script type="application/ld+json">
-    {
-    "@@context": "http://schema.org",
-    "@@type": "BlogPosting",
-    "headline": "@ViewData["PageTitle"]",
-    "description": "@ViewData["Description"]",
-    "url": "@ViewData["Canonical"]",
-    "image": "@ViewData["PageImageUrl"]"
-    }
-</script>
+﻿@*
+    OBSOLETE: This partial is retained for backward compatibility with existing themes and forks.
+    For new code, prefer the TagHelper directly:  <blog-posting-schema />
+    No removal is planned.
+*@
+<blog-posting-schema />

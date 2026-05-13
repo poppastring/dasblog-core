@@ -1,65 +1,8 @@
-﻿@using DasBlog.Web.Models.BlogViewModels;
-
+@*
+    OBSOLETE: This partial is retained for backward compatibility with existing themes and forks.
+    For new code, prefer the ViewComponent directly:  <vc:comment-block comments="@Model" />
+    No removal is planned.
+*@
+@using DasBlog.Web.Models.BlogViewModels;
 @model ListCommentsViewModel
-@inject IDasBlogSettings dasBlogSettings
-
-@if (dasBlogSettings.SiteConfiguration.EnableComments && Model?.Comments != null)
-{
-    <hr />
-
-    <!-- Success Alert for comment actions (approve/delete) -->
-    <div class="alert alert-success alert-dismissible fade" role="alert" id="commentActionSuccessAlert" style="display:none;">
-        <i class="fa-solid fa-circle-check me-2"></i>
-        <strong>Success!</strong> <span id="commentActionSuccessMessage"></span>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-
-    <h3 class="comment-section-title" id="@DasBlog.Core.Common.Constants.CommentsStartId">Comment Section</h3>
-
-    <div class="post-comments">
-        <div class="post-comments-list">
-            @if (Model.ShowComments && Model.Comments.Count > 0)
-            {
-                foreach (var comment in Model.Comments)
-                {
-                    <partial name="_CommentPartial" model="comment" />
-                    <hr />
-                }
-            }
-        </div>
-        @if (Model.AllowComments && dasBlogSettings.AreCommentsPermitted(Model.PostDate))
-        {
-            @if(Model.CurrentComment != null)
-            {
-            <partial name="_CommentAddPartial" model="Model.CurrentComment" />
-            }
-            else
-            {
-            <partial name="_CommentAddPartial" model="new AddCommentViewModel() { TargetEntryId = Model.PostId }" />
-            }
-        }
-        else
-        {
-            <p>Comments are closed.</p>
-        }
-    </div>
-
-    <script src="~/js/dasblog-ui.js"></script>
-    <script>
-        (function() {
-            // Use shared utility to show alert from sessionStorage
-            function showAlert() {
-                if (typeof DasBlog !== 'undefined' && DasBlog.UI) {
-                    DasBlog.UI.showSessionAlert('commentActionSuccess', 'commentActionSuccessAlert', 'commentActionSuccessMessage');
-                }
-            }
-
-            // Check if DOM is already loaded
-            if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', showAlert);
-            } else {
-                showAlert();
-            }
-        })();
-    </script>
-}
+<vc:comment-block comments="@Model" />

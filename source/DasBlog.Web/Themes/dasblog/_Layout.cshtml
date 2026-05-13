@@ -21,12 +21,12 @@
         })();
     </script>
 
-    <partial name="_HtmlHeadPartial" />
-    <partial name="_HtmlRSSPartial" />
-    <partial name="_HtmlAtomPartial" />
-    <partial name="_TwitterCardPartial" />
-    <partial name="_OpenGraphPartial" />
-    <partial name="_BlogPostingSchemaOrgPartial" />
+    <site-head-meta />
+    <site-rss-link />
+    <site-atom-link />
+    <twitter-card />
+    <open-graph />
+    <blog-posting-schema />
 
     <link rel="stylesheet" href="~/lib/bootstrap/5.3.3/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/lib/font-awesome/6.7.2/css/all.css" />
@@ -36,7 +36,7 @@
 </head>
 
 <body>
-    <partial name="_DefaultCredentialsWarning" />
+    <default-credentials-warning />
     <header class="p-3 mb-3 border-bottom">
         <div class="container-fluid">
             <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
@@ -96,7 +96,7 @@
 
     <div class="container body-content">
 
-        <partial name="_CookieConsentPartial" />
+        <vc:cookie-consent />
 
         @RenderBody()
 
