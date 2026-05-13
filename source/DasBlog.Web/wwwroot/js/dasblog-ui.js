@@ -23,7 +23,7 @@ DasBlog.UI = (function() {
 
             if (alertElement && messageElement) {
                 messageElement.textContent = message;
-                alertElement.style.display = 'block';
+                alertElement.classList.remove('d-none');
                 alertElement.classList.add('show');
 
                 // Scroll to alert

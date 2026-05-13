@@ -63,7 +63,7 @@ namespace DasBlog.Web.TagHelpers.Layout
 			sb.Append("            </div>\n");
 			sb.Append("            <div class=\"modal-footer\">\n");
 			sb.Append("                <button type=\"button\" class=\"btn btn-secondary\" data-bs-dismiss=\"modal\">Cancel</button>\n");
-			sb.Append("                <form id=\"").Append(formId).Append("\" action=\"").Append(WebUtility.HtmlEncode(action)).Append("\" method=\"post\" style=\"display:inline;\">\n");
+			sb.Append("                <form id=\"").Append(formId).Append("\" action=\"").Append(WebUtility.HtmlEncode(action)).Append("\" method=\"post\" class=\"dbc-delete-post-form\">\n");
 			sb.Append("                    <input name=\"").Append(tokens.FormFieldName).Append("\" type=\"hidden\" value=\"").Append(tokens.RequestToken).Append("\" />\n");
 			sb.Append("                    <button type=\"submit\" class=\"btn btn-danger\">Delete</button>\n");
 			sb.Append("                </form>\n");

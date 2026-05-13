@@ -2,87 +2,9 @@
 
 @if (Model.ShowBanner)
 {
-<style>
-#cookieConsent {
-	position: fixed;
-	bottom: 20px;
-	right: 20px;
-	max-width: 400px;
-	z-index: 9999;
-	box-shadow: 0 8px 24px rgba(0,0,0,0.5);
-	border-left: 4px solid var(--bs-primary);
-	animation: slideIn 0.5s ease-out;
-	display: none;
-}
-
-#cookieConsent.show {
-	display: block !important;
-}
-
-	@@keyframes slideIn {
-		from {
-			transform: translateX(450px);
-			opacity: 0;
-		}
-		to {
-			transform: translateX(0);
-			opacity: 1;
-		}
-	}
-
-	@@keyframes fadeOut {
-		from {
-			opacity: 1;
-			transform: translateX(0);
-		}
-		to {
-			opacity: 0;
-			transform: translateX(450px);
-		}
-	}
-
-	.cookie-consent-closing {
-		animation: fadeOut 0.3s ease-out forwards;
-	}
-
-	@@media (max-width: 768px) {
-		#cookieConsent {
-			bottom: 0;
-			right: 0;
-			left: 0;
-			max-width: 100%;
-			border-radius: 0;
-			border-left: none;
-			border-top: 4px solid var(--bs-primary);
-		}
-
-		@@keyframes slideIn {
-			from {
-				transform: translateY(100%);
-				opacity: 0;
-			}
-			to {
-				transform: translateY(0);
-				opacity: 1;
-			}
-		}
-
-		@@keyframes fadeOut {
-			from {
-				opacity: 1;
-				transform: translateY(0);
-			}
-			to {
-				opacity: 0;
-				transform: translateY(100%);
-			}
-		}
-	}
-</style>
-
 <div id="cookieConsent" class="alert alert-dark alert-dismissible fade" role="alert" data-cookie-string="@Model.CookieString">
 	<div class="d-flex align-items-start">
-		<i class="fas fa-cookie-bite fa-2x text-info me-3 flex-shrink-0" style="margin-top: 4px;"></i>
+		<i class="fas fa-cookie-bite fa-2x text-info me-3 flex-shrink-0 dbc-cookie-consent-icon"></i>
 		<div class="flex-grow-1">
 			<h6 class="alert-heading fw-bold mb-2">
 				<i class="fas fa-info-circle me-1 text-info"></i> Welcome!
