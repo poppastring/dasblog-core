@@ -835,9 +835,11 @@ namespace newtelligence.DasBlog.Runtime
                 currentEntry.AllowComments = entry.AllowComments;
                 currentEntry.Link = entry.Link;
                 currentEntry.ShowOnFrontPage = entry.ShowOnFrontPage;
-                currentEntry.Title = entry.Title;
+				currentEntry.Title = entry.Title;
 				currentEntry.Latitude = entry.Latitude;
 				currentEntry.Longitude = entry.Longitude;
+				currentEntry.ImageUrl = entry.ImageUrl;
+				currentEntry.ImageAlt = entry.ImageAlt;
 
                 currentEntry.Crossposts.Clear();
                 currentEntry.Crossposts.AddRange(entry.Crossposts);

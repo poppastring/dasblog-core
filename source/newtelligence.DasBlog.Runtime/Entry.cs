@@ -302,12 +302,14 @@ namespace newtelligence.DasBlog.Runtime
 				Entry entry2 = entry as Entry;
 				// we will only change the mod date if there has been a change to a few things
 				if (Title != entry2.Title ||
-				    Description != entry2.Description ||
-				    Content != entry2.Content ||
-				    Categories != entry2.Categories ||
-				    Author != entry2.Author ||
-				    Link != entry2.Link ||
-				    Attachments.Count != entry2.Attachments.Count)
+					Description != entry2.Description ||
+					Content != entry2.Content ||
+					Categories != entry2.Categories ||
+					Author != entry2.Author ||
+					Link != entry2.Link ||
+					ImageUrl != entry2.ImageUrl ||
+					ImageAlt != entry2.ImageAlt ||
+					Attachments.Count != entry2.Attachments.Count)
 				{
 					different = true;
 				}

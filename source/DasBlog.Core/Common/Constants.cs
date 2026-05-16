@@ -6,6 +6,7 @@
 		public const string BlogPostCancelAction = "Cancel";
 		public const string BlogPostAddCategoryAction = "Add";
 		public const string BlogPostEditAction = "Edit";
+		public const string BlogPostClearHeroImageAction = "ClearHeroImage";
 		public const string UsersCreateMode = "Create";
 		public const string UsersEditMode = "Edit";
 		public const string UsersDeleteMode = "Delete";

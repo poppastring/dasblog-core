@@ -35,6 +35,8 @@ namespace DasBlog.Web.Mappers
 				.ForMember(dest => dest.PermaLink, opt => opt.MapFrom(src => _dasBlogSettings.GeneratePostUrl(src)))
 				.ForMember(dest => dest.ImageUrl, opt => opt.MapFrom(src => ResolveImageUrl(src)))
 				.ForMember(dest => dest.ImageAlt, opt => opt.MapFrom(src => ResolveImageAlt(src)))
+				.ForMember(dest => dest.HeroImageUrl, opt => opt.MapFrom(src => src.ImageUrl ?? string.Empty))
+				.ForMember(dest => dest.HeroImageAlt, opt => opt.MapFrom(src => src.ImageAlt ?? string.Empty))
 				.ForMember(dest => dest.VideoUrl, opt => opt.MapFrom(src => src.Content.FindFirstYouTubeVideo()))
 				.ForMember(dest => dest.CreatedDateTime, opt => opt.MapFrom(src => _dasBlogSettings.GetDisplayTime(src.CreatedUtc)))
 				.ForMember(dest => dest.ModifiedDateTime, opt => opt.MapFrom(src => _dasBlogSettings.GetDisplayTime(src.ModifiedUtc)));
@@ -50,8 +52,8 @@ namespace DasBlog.Web.Mappers
 				.ForMember(dest => dest.Syndicated, opt => opt.MapFrom(src => src.Syndicated))
 				.ForMember(dest => dest.CreatedUtc, opt => opt.MapFrom(src => src.CreatedDateTime))
 				.ForMember(dest => dest.ModifiedLocalTime, opt => opt.MapFrom(src => src.ModifiedDateTime))
-				.ForMember(dest => dest.ImageUrl, opt => opt.MapFrom(src => string.IsNullOrWhiteSpace(src.ImageUrl) ? null : src.ImageUrl.Trim()))
-				.ForMember(dest => dest.ImageAlt, opt => opt.MapFrom(src => string.IsNullOrWhiteSpace(src.ImageAlt) ? null : src.ImageAlt.Trim()));
+				.ForMember(dest => dest.ImageUrl, opt => opt.MapFrom(src => string.IsNullOrWhiteSpace(src.HeroImageUrl) ? null : src.HeroImageUrl.Trim()))
+				.ForMember(dest => dest.ImageAlt, opt => opt.MapFrom(src => string.IsNullOrWhiteSpace(src.HeroImageAlt) ? null : src.HeroImageAlt.Trim()));
 
 			CreateMap<CategoryCacheEntry, CategoryViewModel>()
 				.ForMember(dest => dest.Category, opt => opt.MapFrom(src => src.DisplayName))

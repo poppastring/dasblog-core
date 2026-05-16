@@ -194,6 +194,12 @@ namespace DasBlog.Web.Controllers
 				return HandleNewCategory(post);
 			}
 
+			if (submit == Constants.BlogPostClearHeroImageAction)
+			{
+				post.HeroImageUrl = string.Empty;
+				post.HeroImageAlt = string.Empty;
+			}
+
 			ValidatePostName(post);
 			if (!ModelState.IsValid)
 			{
@@ -256,6 +262,12 @@ namespace DasBlog.Web.Controllers
 			if (submit == Constants.BlogPostAddCategoryAction)
 			{
 				return HandleNewCategory(post);
+			}
+
+			if (submit == Constants.BlogPostClearHeroImageAction)
+			{
+				post.HeroImageUrl = string.Empty;
+				post.HeroImageAlt = string.Empty;
 			}
 
 			ValidatePostName(post);
