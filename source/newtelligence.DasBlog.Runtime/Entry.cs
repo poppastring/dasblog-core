@@ -69,6 +69,8 @@ namespace newtelligence.DasBlog.Runtime
 		bool _showOnFrontPage = true;
 		bool _syndicated = true;
 		string _title;
+		string _imageUrl;
+		string _imageAlt;
 
 		[XmlAnyAttribute]
 		public XmlAttribute[] anyAttributes;
@@ -238,6 +240,27 @@ namespace newtelligence.DasBlog.Runtime
 		{
 			get { return _longitude; }
 			set { _longitude = value; }
+		}
+
+		/// <summary>
+		/// Explicitly chosen hero/main image URL for this entry. May be a site-relative
+		/// path produced by the binary upload pipeline, or an absolute remote URL.
+		/// When null or empty, callers fall back to in-content detection
+		/// (e.g. <c>&lt;img class="hero-image" ...&gt;</c> or the first image in the content).
+		/// </summary>
+		public string ImageUrl
+		{
+			get { return _imageUrl; }
+			set { _imageUrl = value; }
+		}
+
+		/// <summary>
+		/// Alt text that accompanies <see cref="ImageUrl"/>.
+		/// </summary>
+		public string ImageAlt
+		{
+			get { return _imageAlt; }
+			set { _imageAlt = value; }
 		}
 
 		#region IComparable Members

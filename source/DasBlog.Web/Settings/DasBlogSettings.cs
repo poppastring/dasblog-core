@@ -88,6 +88,22 @@ namespace DasBlog.Web.Settings
 
 		public string RelativeToRoot(string relative)
 		{
+			if (string.IsNullOrWhiteSpace(relative))
+			{
+				return relative;
+			}
+
+			// Already absolute (http(s)://...) or protocol-relative (//...) — leave it alone.
+			// This lets callers safely pass values that may originate as either a
+			// site-relative path or a fully-qualified remote URL (e.g. an explicit
+			// hero image hosted on a CDN).
+			if (relative.StartsWith("http://", StringComparison.OrdinalIgnoreCase)
+				|| relative.StartsWith("https://", StringComparison.OrdinalIgnoreCase)
+				|| relative.StartsWith("//", StringComparison.Ordinal))
+			{
+				return relative;
+			}
+
 			if (!string.IsNullOrWhiteSpace(SiteConfiguration.Root))
 			{
 				return new Uri(new Uri(GetBaseUrl()), relative).AbsoluteUri;
