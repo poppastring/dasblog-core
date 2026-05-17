@@ -77,6 +77,45 @@ namespace DasBlog.Tests.UnitTests.Services
 		[Theory]
 		[MemberData(nameof(DasBlogDataService))]
 		[Trait("Category", "UnitTest")]
+		public void BlogDataService_HeroImageRoundTrip_Successful(IBlogDataService blogdataservice)
+		{
+			var entry = TestEntry.CreateEntry("Test Hero Image Entry", 5, 2);
+			entry.ImageUrl = "https://cdn.example.com/hero.jpg";
+			entry.ImageAlt = "Hero alt text";
+			blogdataservice.SaveEntry(entry, null);
+
+			var saved = blogdataservice.GetEntry(entry.EntryId);
+			Assert.NotNull(saved);
+			Assert.Equal("https://cdn.example.com/hero.jpg", saved.ImageUrl);
+			Assert.Equal("Hero alt text", saved.ImageAlt);
+
+			// Update the hero image fields and verify the change is persisted.
+			var forEdit = blogdataservice.GetEntryForEdit(entry.EntryId);
+			forEdit.ImageUrl = "https://cdn.example.com/hero2.jpg";
+			forEdit.ImageAlt = "Updated alt";
+			var state = blogdataservice.SaveEntry(forEdit, null);
+			Assert.True(state == EntrySaveState.Updated);
+
+			var updated = blogdataservice.GetEntry(entry.EntryId);
+			Assert.Equal("https://cdn.example.com/hero2.jpg", updated.ImageUrl);
+			Assert.Equal("Updated alt", updated.ImageAlt);
+
+			// Clearing hero image fields should also round-trip.
+			var forClear = blogdataservice.GetEntryForEdit(entry.EntryId);
+			forClear.ImageUrl = string.Empty;
+			forClear.ImageAlt = string.Empty;
+			blogdataservice.SaveEntry(forClear, null);
+
+			var cleared = blogdataservice.GetEntry(entry.EntryId);
+			Assert.True(string.IsNullOrEmpty(cleared.ImageUrl));
+			Assert.True(string.IsNullOrEmpty(cleared.ImageAlt));
+
+			blogdataservice.DeleteEntry(entry.EntryId);
+		}
+
+		[Theory]
+		[MemberData(nameof(DasBlogDataService))]
+		[Trait("Category", "UnitTest")]
 		public void BlogDataService_GetPublicEntriesForDayMaxValue_Successful(IBlogDataService blogdataservice)
 		{
 			var entries = blogdataservice.GetEntriesForDay(DateTime.MaxValue.AddDays(-2), DateTimeZone.Utc, string.Empty, int.MaxValue, int.MaxValue, string.Empty);
