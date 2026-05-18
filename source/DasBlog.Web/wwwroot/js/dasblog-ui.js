@@ -193,9 +193,22 @@ DasBlog.UI = (function() {
             btn.className = 'btn p-1 w-100 border h-100 d-flex flex-column align-items-center hero-picker-in-post-item';
             btn.title = label;
             btn.dataset.heroUrl = fullUrl;
-            btn.innerHTML =
-                '<img src="' + fullUrl + '" alt="" class="img-fluid mb-1" style="max-height: 100px; object-fit: contain; pointer-events: none;" />' +
-                '<small class="text-truncate w-100" style="pointer-events: none;">' + label + '</small>';
+
+            const img = document.createElement('img');
+            img.src = fullUrl;
+            img.alt = '';
+            img.className = 'img-fluid mb-1';
+            img.style.maxHeight = '100px';
+            img.style.objectFit = 'contain';
+            img.style.pointerEvents = 'none';
+
+            const text = document.createElement('small');
+            text.className = 'text-truncate w-100';
+            text.style.pointerEvents = 'none';
+            text.textContent = label;
+
+            btn.appendChild(img);
+            btn.appendChild(text);
             col.appendChild(btn);
             grid.appendChild(col);
         }
