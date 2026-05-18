@@ -30,13 +30,7 @@ namespace DasBlog.Web.TagHelpers.Layout
 			output.TagName = null;
 			output.TagMode = TagMode.StartTagAndEndTag;
 
-			var user = ViewContext.HttpContext.User;
-			if (user?.Identity?.IsAuthenticated != true || !user.IsInRole("admin"))
-			{
-				output.SuppressOutput();
-				return;
-			}
-
+			// Authorization is handled by the surrounding dasblog-authorized tag helper.
 			if (!_defaultCredentialsCheck.IsUsingDefaults())
 			{
 				output.SuppressOutput();
