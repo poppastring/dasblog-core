@@ -132,7 +132,6 @@ h1, h2, h3, h4, h5, h6 {
 p {
     margin-top: 0;
     margin-bottom: 1rem;
-    color: #fff;
 }
 
 abbr[title], abbr[data-original-title] {
@@ -11111,4 +11110,35 @@ a.text-dark:hover, a.text-dark:focus {
 
     .list-group-item-action .list-group-item-heading {
         color: #fff
+    }
+
+/* Post content excerpts inside summary cards - ensure readable contrast.
+   The <post-content> tag helper emits a <div class="dbc-post-content"> inside
+   a <p class="card-text">. The browser unwraps the <div> from the <p>, which
+   breaks color inheritance from the p { color: #fff } rule, and the element
+   falls back to Bootstrap's light-mode body color due to data-bs-theme="light"
+   on this theme. Set the color explicitly so it stays legible on .card. */
+.dbc-post-content {
+    color: #fff;
+}
+
+/* Archive month navigation buttons - improve contrast on dark background */
+nav[aria-label="Archive month navigation"] .btn-outline-secondary {
+    color: #fff;
+    border-color: #adb5bd;
+}
+
+    nav[aria-label="Archive month navigation"] .btn-outline-secondary:hover,
+    nav[aria-label="Archive month navigation"] .btn-outline-secondary:focus {
+        color: #fff;
+        background-color: #444;
+        border-color: #fff;
+    }
+
+    nav[aria-label="Archive month navigation"] .btn-outline-secondary.disabled,
+    nav[aria-label="Archive month navigation"] .btn-outline-secondary:disabled {
+        color: #fff;
+        background-color: transparent;
+        border-color: #adb5bd;
+        opacity: 1;
     }
