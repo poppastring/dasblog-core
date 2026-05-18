@@ -40,6 +40,36 @@ namespace DasBlog.Tests.UnitTests.Settings
             Assert.Equal("https://example.com/feed/rss", result);
         }
 
+        [Theory]
+        [InlineData("https://cdn.example.com/images/hero.jpg")]
+        [InlineData("http://cdn.example.com/images/hero.jpg")]
+        [InlineData("HTTPS://CDN.EXAMPLE.COM/images/hero.jpg")]
+        public void RelativeToRoot_ReturnsAbsoluteUrlUnchanged(string absoluteUrl)
+        {
+            var dasBlogSettings = dasBlogSettingsMock.CreateSettings();
+            var result = dasBlogSettings.RelativeToRoot(absoluteUrl);
+            Assert.Equal(absoluteUrl, result);
+        }
+
+        [Fact]
+        public void RelativeToRoot_ReturnsProtocolRelativeUrlUnchanged()
+        {
+            var dasBlogSettings = dasBlogSettingsMock.CreateSettings();
+            var result = dasBlogSettings.RelativeToRoot("//cdn.example.com/images/hero.jpg");
+            Assert.Equal("//cdn.example.com/images/hero.jpg", result);
+        }
+
+        [Theory]
+        [InlineData(null)]
+        [InlineData("")]
+        [InlineData("   ")]
+        public void RelativeToRoot_ReturnsInputUnchanged_WhenNullOrWhitespace(string input)
+        {
+            var dasBlogSettings = dasBlogSettingsMock.CreateSettings();
+            var result = dasBlogSettings.RelativeToRoot(input);
+            Assert.Equal(input, result);
+        }
+
         [Fact]
         public void GetPermaLinkUrl_ReturnsCorrectUrl()
         {

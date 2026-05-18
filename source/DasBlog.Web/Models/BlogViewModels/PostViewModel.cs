@@ -62,5 +62,19 @@ namespace DasBlog.Web.Models.BlogViewModels
 		public List<string> ErrorMessages { get; set; }
 
 		public string ImageAlt { get; set; } = string.Empty;
+
+		/// <summary>
+		/// Explicitly chosen hero image URL persisted on the underlying entry.
+		/// Bound by the editor UI. When empty, the resolved <see cref="ImageUrl"/>
+		/// falls back to in-content hero detection.
+		/// </summary>
+		[Display(Name = "Hero Image URL")]
+		public string HeroImageUrl { get; set; } = string.Empty;
+
+		/// <summary>
+		/// Alt text that accompanies <see cref="HeroImageUrl"/>.
+		/// </summary>
+		[Display(Name = "Hero Image Alt Text")]
+		public string HeroImageAlt { get; set; } = string.Empty;
 	}
 }

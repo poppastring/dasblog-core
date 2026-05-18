@@ -1,4 +1,4 @@
-using DasBlog.Services;
+﻿using DasBlog.Services;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 
 namespace DasBlog.Web.TagHelpers.RichEdit
@@ -123,6 +123,12 @@ namespace DasBlog.Web.TagHelpers.RichEdit
 						editor.s.insertHTML('<figure><img src=""' + url + '"" alt="""" /></figure>');
 						return false;
 					}});
+
+					// Expose the editor so other UI (e.g. the hero image picker)
+					// can reuse Jodit's filebrowser and read the live editor value.
+					window.dasBlogEditor = editor;
+					var ta = document.getElementById('{tagHelper.ControlId}');
+					if (ta) {{ ta.jodit = editor; }}
 				}});
 				</script>";
 

@@ -69,6 +69,8 @@ namespace newtelligence.DasBlog.Runtime
 		bool _showOnFrontPage = true;
 		bool _syndicated = true;
 		string _title;
+		string _imageUrl;
+		string _imageAlt;
 
 		[XmlAnyAttribute]
 		public XmlAttribute[] anyAttributes;
@@ -240,6 +242,27 @@ namespace newtelligence.DasBlog.Runtime
 			set { _longitude = value; }
 		}
 
+		/// <summary>
+		/// Explicitly chosen hero/main image URL for this entry. May be a site-relative
+		/// path produced by the binary upload pipeline, or an absolute remote URL.
+		/// When null or empty, callers fall back to in-content detection
+		/// (e.g. <c>&lt;img class="hero-image" ...&gt;</c> or the first image in the content).
+		/// </summary>
+		public string ImageUrl
+		{
+			get { return _imageUrl; }
+			set { _imageUrl = value; }
+		}
+
+		/// <summary>
+		/// Alt text that accompanies <see cref="ImageUrl"/>.
+		/// </summary>
+		public string ImageAlt
+		{
+			get { return _imageAlt; }
+			set { _imageAlt = value; }
+		}
+
 		#region IComparable Members
 		/// <summary>
 		/// Returns true of all the simple properties are equal.
@@ -279,12 +302,14 @@ namespace newtelligence.DasBlog.Runtime
 				Entry entry2 = entry as Entry;
 				// we will only change the mod date if there has been a change to a few things
 				if (Title != entry2.Title ||
-				    Description != entry2.Description ||
-				    Content != entry2.Content ||
-				    Categories != entry2.Categories ||
-				    Author != entry2.Author ||
-				    Link != entry2.Link ||
-				    Attachments.Count != entry2.Attachments.Count)
+					Description != entry2.Description ||
+					Content != entry2.Content ||
+					Categories != entry2.Categories ||
+					Author != entry2.Author ||
+					Link != entry2.Link ||
+					ImageUrl != entry2.ImageUrl ||
+					ImageAlt != entry2.ImageAlt ||
+					Attachments.Count != entry2.Attachments.Count)
 				{
 					different = true;
 				}

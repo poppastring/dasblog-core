@@ -1,0 +1,47 @@
+@*
+    Hero image picker. Drives #HeroImageUrl / #HeroImageAlt / #HeroImagePreview.
+    Sources:
+      1. Images already in the current post body (parsed from the editor).
+      2. Server-side images, browsed via Jodit's existing filebrowser
+         (which already covers list + upload against /api/image).
+      3. A remote URL pasted directly (CDN, stock, etc.).
+*@
+
+<div class="modal fade" id="heroImagePickerModal" tabindex="-1" aria-labelledby="heroImagePickerLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="heroImagePickerLabel">Choose hero image</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h6 class="mb-1">In this post</h6>
+                <div id="heroPickerInPostStatus" class="text-muted small mb-2"></div>
+                <div id="heroPickerInPostGrid" class="row row-cols-2 row-cols-md-4 row-cols-lg-6 g-2 mb-3"></div>
+
+                <hr />
+
+                <div class="row g-3 align-items-end">
+                    <div class="col-md-4">
+                        <label class="form-label small text-muted mb-1">Server library</label>
+                        <button type="button" id="heroPickerBrowseServer" class="btn btn-outline-primary w-100">
+                            Browse server images…
+                        </button>
+                        <div class="form-text">Opens the same browser used by the editor (lists and uploads).</div>
+                    </div>
+                    <div class="col-md-8">
+                        <label class="form-label small text-muted mb-1" for="heroPickerRemoteUrl">Remote URL</label>
+                        <div class="input-group">
+                            <input id="heroPickerRemoteUrl" type="url" class="form-control" placeholder="https://cdn.example.com/photo.jpg" />
+                            <button type="button" id="heroPickerRemoteApply" class="btn btn-primary">Use URL</button>
+                        </div>
+                        <div class="form-text">Paste a fully-qualified image URL (CDN, stock photo, etc.).</div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>

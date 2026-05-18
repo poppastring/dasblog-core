@@ -67,11 +67,11 @@ namespace DasBlog.Web.Settings
 				ViewData["Author"] = dasBlogSettings.GetUserByEmail(post.Author)?.DisplayName; ;
 				ViewData["PageImageUrl"] = (post.ImageUrl?.Length > 0) ? dasBlogSettings.RelativeToRoot(post.ImageUrl) : dasBlogSettings.MetaTags.TwitterImage;
 				ViewData["PageVideoUrl"] = (post.VideoUrl?.Length > 0) ? dasBlogSettings.RelativeToRoot(post.VideoUrl) : string.Empty;
-                ShowErrors(post);
+				ShowErrors(post);
 			}
 		}
 
-        private void ShowErrors(PostViewModel post)
+		private void ShowErrors(PostViewModel post)
         {
             if(post != null && post.Comments != null && post.Comments.CurrentComment != null && post.ErrorMessages != null && post.ErrorMessages.Count > 0)
             {
