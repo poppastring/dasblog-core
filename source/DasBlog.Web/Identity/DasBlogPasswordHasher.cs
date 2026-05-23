@@ -1,33 +1,41 @@
-﻿using System;
-using System.Security.Cryptography;
-using System.Text;
-using DasBlog.Managers.Interfaces;
+﻿using DasBlog.Managers.Interfaces;
 using Microsoft.AspNetCore.Identity;
 
 namespace DasBlog.Web.Identity
 {
-    public class DasBlogPasswordHasher : PasswordHasher<DasBlogUser>
+	/// <summary>
+	/// Password hasher that produces ASP.NET Identity PBKDF2 v3 hashes for new passwords
+	/// while still verifying legacy MD5 / raw SHA-512 hashes stored in siteSecurity.config.
+	/// When a legacy hash matches, returns <see cref="PasswordVerificationResult.SuccessRehashNeeded"/>
+	/// so that <c>SignInManager</c> upgrades the stored hash on the next successful login.
+	/// </summary>
+	public class DasBlogPasswordHasher : PasswordHasher<DasBlogUser>
 	{
-		private ISiteSecurityManager _siteSecurityManager;
+		private readonly ISiteSecurityManager siteSecurityManager;
 
 		public DasBlogPasswordHasher(ISiteSecurityManager siteSecurityManager)
 		{
-			_siteSecurityManager = siteSecurityManager;
-		}
-
-		public override string HashPassword(DasBlogUser user, string password)
-		{
-			return _siteSecurityManager.HashPassword(password);
+			this.siteSecurityManager = siteSecurityManager;
 		}
 
 		public override PasswordVerificationResult VerifyHashedPassword(DasBlogUser user, string hashedPassword, string providedPassword)
 		{
-			if (_siteSecurityManager.VerifyHashedPassword(hashedPassword, providedPassword))
+			if (string.IsNullOrEmpty(hashedPassword) || providedPassword == null)
 			{
-				return PasswordVerificationResult.Success;
+				return PasswordVerificationResult.Failed;
 			}
 
-			return PasswordVerificationResult.Failed;
+			if (Managers.SiteSecurityManager.IsLegacyHash(hashedPassword, out var algorithm))
+			{
+				using (algorithm)
+				{
+					return siteSecurityManager.VerifyHashedPassword(hashedPassword, providedPassword)
+						? PasswordVerificationResult.SuccessRehashNeeded
+						: PasswordVerificationResult.Failed;
+				}
+			}
+
+			return base.VerifyHashedPassword(user, hashedPassword, providedPassword);
 		}
 	}
 }
