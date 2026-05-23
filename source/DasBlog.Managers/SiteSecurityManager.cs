@@ -66,21 +66,24 @@ namespace DasBlog.Managers
 			// Helper to check if string is hex or '-' only
 			bool IsHexOrDash(string s) =>
 				s.All(c => (c >= '0' && c <= '9') ||
-				           (c >= 'a' && c <= 'f') ||
-				           (c >= 'A' && c <= 'F') ||
-				           c == '-');
+						   (c >= 'a' && c <= 'f') ||
+						   (c >= 'A' && c <= 'F') ||
+						   c == '-');
 
-			if (hashedPassword.Length == Md5HashLength && IsHexOrDash(hashedPassword))
+			if (!IsHexOrDash(hashedPassword))
 			{
-				var hexLength = hashedPassword.Replace("-", "").Length;
-				if (hexLength == 32) // MD5 is 128 bits = 32 hex chars
-				{
-					algorithm = MD5.Create();
-					return true;
-				}
+				return false;
 			}
 
-			if (hashedPassword.Length == Sha512HashLength)
+			var hexLength = hashedPassword.Replace("-", string.Empty).Length;
+
+			if (hashedPassword.Length == Md5HashLength && hexLength == 32) // MD5 is 128 bits = 32 hex chars
+			{
+				algorithm = MD5.Create();
+				return true;
+			}
+
+			if (hashedPassword.Length == Sha512HashLength && hexLength == 128) // SHA-512 is 512 bits = 128 hex chars
 			{
 				algorithm = SHA512.Create();
 				return true;

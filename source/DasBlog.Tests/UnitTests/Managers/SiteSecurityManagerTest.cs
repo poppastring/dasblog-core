@@ -5,6 +5,9 @@ using System.Text;
 using DasBlog.Managers;
 using DasBlog.Services.ConfigFile.Interfaces;
 using DasBlog.Core.Security;
+using DasBlog.Managers.Interfaces;
+using DasBlog.Web.Identity;
+using Microsoft.AspNetCore.Identity;
 using Moq;
 using Xunit;
 using DasBlog.Services;
@@ -161,6 +164,15 @@ namespace DasBlog.Tests.UnitTests.Managers
         }
 
         [Fact]
+        public void IsLegacyHash_FalseForNonHexStringOfSha512Length()
+        {
+            // 191-char string (SHA-512 legacy length) but containing non-hex chars must not be treated as legacy.
+            string fakeSha512Length = new string('Z', 191);
+            Assert.False(SiteSecurityManager.IsLegacyHash(fakeSha512Length, out var algorithm));
+            Assert.Null(algorithm);
+        }
+
+        [Fact]
         public void IsLegacyHash_FalseForIdentityHash()
         {
             var manager = CreateManager();
@@ -242,6 +254,54 @@ namespace DasBlog.Tests.UnitTests.Managers
             var upgradedHash = manager.HashPassword(password);
             Assert.False(SiteSecurityManager.IsLegacyHash(upgradedHash, out _));
             Assert.True(manager.VerifyHashedPassword(upgradedHash, password));
+        }
+
+        [Fact]
+        public void DasBlogPasswordHasher_ReturnsSuccessRehashNeededForLegacyMd5()
+        {
+            var manager = CreateManager();
+            var hasher = new DasBlogPasswordHasher(manager);
+            var legacyHash = ComputeLegacyMd5("password");
+
+            var result = hasher.VerifyHashedPassword(new DasBlogUser(), legacyHash, "password");
+
+            Assert.Equal(PasswordVerificationResult.SuccessRehashNeeded, result);
+        }
+
+        [Fact]
+        public void DasBlogPasswordHasher_ReturnsSuccessRehashNeededForLegacySha512()
+        {
+            var manager = CreateManager();
+            var hasher = new DasBlogPasswordHasher(manager);
+            var legacyHash = ComputeLegacySha512("password");
+
+            var result = hasher.VerifyHashedPassword(new DasBlogUser(), legacyHash, "password");
+
+            Assert.Equal(PasswordVerificationResult.SuccessRehashNeeded, result);
+        }
+
+        [Fact]
+        public void DasBlogPasswordHasher_ReturnsFailedForLegacyHashWithWrongPassword()
+        {
+            var manager = CreateManager();
+            var hasher = new DasBlogPasswordHasher(manager);
+            var legacyHash = ComputeLegacyMd5("password");
+
+            var result = hasher.VerifyHashedPassword(new DasBlogUser(), legacyHash, "wrongpassword");
+
+            Assert.Equal(PasswordVerificationResult.Failed, result);
+        }
+
+        [Fact]
+        public void DasBlogPasswordHasher_ReturnsSuccessForIdentityHash()
+        {
+            var manager = CreateManager();
+            var hasher = new DasBlogPasswordHasher(manager);
+            var identityHash = manager.HashPassword("password");
+
+            var result = hasher.VerifyHashedPassword(new DasBlogUser(), identityHash, "password");
+
+            Assert.Equal(PasswordVerificationResult.Success, result);
         }
     }
 }
