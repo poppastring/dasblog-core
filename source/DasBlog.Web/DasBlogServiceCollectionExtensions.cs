@@ -105,7 +105,8 @@ namespace DasBlog.Web
 				.AddSingleton<IThemeManager, ThemeManager>()
 				.AddSingleton<IThemeContentValidator, ThemeContentValidator>()
 				.AddSingleton<IStaticPageManager, StaticPageManager>()
-				.AddScoped<IDefaultCredentialsCheck, DefaultCredentialsCheck>();
+				.AddScoped<IDefaultCredentialsCheck, DefaultCredentialsCheck>()
+				.AddSingleton<IFirstRunService, FirstRunService>();
 
 			services				
 				.AddTransient<IUserStore<DasBlogUser>, DasBlogUserStore>()
