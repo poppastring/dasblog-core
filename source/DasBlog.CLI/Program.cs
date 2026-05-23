@@ -18,7 +18,6 @@ namespace DasBlog.CLI
 		public const string ASPNETCORE_ENV_NAME = "ASPNETCORE_ENVIRONMENT";
 		public static string ASPNETCORE_ENVIRONMENT = Environment.GetEnvironmentVariable(ASPNETCORE_ENV_NAME);
 		public static string CONFIG_DIRECTORY = Path.Combine(Environment.CurrentDirectory, "Config");
-		public const string ADMINPASSWORD = "19-A2-85-41-44-B6-3A-8F-76-17-A6-F2-25-01-9B-12";
 		public static string SITECONFIG_FILENAME = string.Empty;
 		public static string SITESECURITYCONFIG_FILENAME = string.Empty;
 
@@ -246,26 +245,38 @@ namespace DasBlog.CLI
 
 			app.Command("resetpassword", resetCmd =>
 			{
-				resetCmd.Description = "**WARNING** Resets all user passowrds to 'admin'";
+				resetCmd.Description = "**WARNING** Clears all user passwords. The site will require first-run setup on next start.";
+				var yes = resetCmd.Option("-y|--yes", "Skip the confirmation prompt.", CommandOptionType.NoValue);
 				resetCmd.OnExecute(() =>
 				{
+					if (!yes.HasValue())
+					{
+						Console.Write("This will clear every user's password and force first-run setup on next start. Type 'reset' to confirm: ");
+						var confirmation = Console.ReadLine();
+						if (!string.Equals(confirmation?.Trim(), "reset", StringComparison.Ordinal))
+						{
+							Console.WriteLine("Aborted.");
+							return;
+						}
+					}
+
 					var serviceProvider = service.BuildServiceProvider();
 					var userService = serviceProvider.GetService<IUserService>();
 
 					var users = userService.GetAllUsers().ToList();
 
-					users.ForEach(x => x.Password = ADMINPASSWORD);
+					users.ForEach(x => x.Password = string.Empty);
 
 					var fs = serviceProvider.GetService<IConfigFileService<SiteSecurityConfigData>>();
 					if (fs.SaveConfig(new SiteSecurityConfigData() { Users = users }))
 					{
-						Console.WriteLine("All passwords reset to 'admin'");
+						Console.WriteLine("All passwords cleared. Visit the site to complete first-run setup.");
 					}
 					else
 					{
 						Console.WriteLine($"Reset failed!");
 					}
-					
+
 				});
 
 			});

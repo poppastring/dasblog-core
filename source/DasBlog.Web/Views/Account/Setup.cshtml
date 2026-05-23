@@ -1,0 +1,67 @@
+﻿@model DasBlog.Web.Models.AccountViewModels.SetupViewModel
+
+@{
+    ViewBag.Title = "First-run setup";
+    Layout = "../../Themes/dasblog/_Layout.cshtml";
+}
+
+<h2>@ViewData["Title"]</h2>
+<p class="lead">
+    This blog has no admin credentials configured. Create the initial admin user below
+    to finish setup. You'll be redirected to the login page when you're done.
+</p>
+<hr />
+<form asp-controller="Account" asp-action="Setup" method="post" class="form-horizontal">
+    <div class="row gy-2 gx-3 justify-content-md-center mb-3">
+        <div class="col-sm-4">
+            <div class="form-floating">
+                @Html.TextBoxFor(m => Model.Email, null, new { @class = "form-control", id = "EmailSetup" })
+                @Html.LabelFor(m => Model.Email, null, new { @class = "form-label", @for = "EmailSetup" })
+            </div>
+            @Html.ValidationMessageFor(m => m.Email, null, new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="row gy-2 gx-3 justify-content-md-center mb-3">
+        <div class="col-sm-4">
+            <div class="form-floating">
+                @Html.TextBoxFor(m => Model.DisplayName, null, new { @class = "form-control", id = "DisplayNameSetup" })
+                @Html.LabelFor(m => Model.DisplayName, null, new { @class = "form-label", @for = "DisplayNameSetup" })
+            </div>
+            @Html.ValidationMessageFor(m => m.DisplayName, null, new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="row gy-2 gx-3 justify-content-md-center mb-3">
+        <div class="col-sm-4">
+            <div class="form-floating">
+                @Html.TextBoxFor(m => Model.Password, null, new { @class = "form-control", id = "PasswordSetup", Type = "password" })
+                @Html.LabelFor(m => Model.Password, null, new { @class = "form-label", @for = "PasswordSetup" })
+            </div>
+            @Html.ValidationMessageFor(m => m.Password, null, new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="row gy-2 gx-3 justify-content-md-center mb-3">
+        <div class="col-sm-4">
+            <div class="form-floating">
+                @Html.TextBoxFor(m => Model.ConfirmPassword, null, new { @class = "form-control", id = "ConfirmPasswordSetup", Type = "password" })
+                @Html.LabelFor(m => Model.ConfirmPassword, null, new { @class = "form-label", @for = "ConfirmPasswordSetup" })
+            </div>
+            @Html.ValidationMessageFor(m => m.ConfirmPassword, null, new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="d-flex flex-wrap justify-content-md-center">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    </div>
+
+    <hr />
+    <div class="d-flex flex-wrap justify-content-md-center">
+        <button id="SetupButton" type="submit" class="btn btn-primary me-2">Complete setup</button>
+    </div>
+</form>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

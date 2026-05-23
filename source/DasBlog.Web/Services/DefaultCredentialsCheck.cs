@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using DasBlog.Managers.Interfaces;
 using DasBlog.Services.Users;
 using Microsoft.Extensions.Hosting;
 
@@ -12,16 +13,21 @@ namespace DasBlog.Web.Services
 
 	public class DefaultCredentialsCheck : IDefaultCredentialsCheck
 	{
-		private const string DEFAULT_EMAIL = "myemail@myemail.com";
-		private const string DEFAULT_PASSWORD_HASH = "19-A2-85-41-44-B6-3A-8F-76-17-A6-F2-25-01-9B-12";
+		internal const string DEFAULT_EMAIL = "myemail@myemail.com";
+		internal const string DEFAULT_PASSWORD = "admin";
 
 		private readonly IUserService userService;
 		private readonly IHostEnvironment hostEnvironment;
+		private readonly ISiteSecurityManager siteSecurityManager;
 
-		public DefaultCredentialsCheck(IUserService userService, IHostEnvironment hostEnvironment)
+		public DefaultCredentialsCheck(
+			IUserService userService,
+			IHostEnvironment hostEnvironment,
+			ISiteSecurityManager siteSecurityManager)
 		{
 			this.userService = userService;
 			this.hostEnvironment = hostEnvironment;
+			this.siteSecurityManager = siteSecurityManager;
 		}
 
 		public bool IsUsingDefaults()
@@ -33,9 +39,15 @@ namespace DasBlog.Web.Services
 			}
 
 			var users = userService.GetAllUsers();
+			if (users == null)
+			{
+				return true;
+			}
+
 			return users.Any(u =>
 				string.Equals(u.EmailAddress, DEFAULT_EMAIL, StringComparison.OrdinalIgnoreCase)
-				|| u.Password == DEFAULT_PASSWORD_HASH);
+				|| string.IsNullOrWhiteSpace(u.Password)
+				|| siteSecurityManager.VerifyHashedPassword(u.Password, DEFAULT_PASSWORD));
 		}
 	}
 }

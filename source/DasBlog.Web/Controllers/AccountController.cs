@@ -1,8 +1,13 @@
 ﻿using AutoMapper;
+using DasBlog.Core.Security;
+using DasBlog.Managers.Interfaces;
 using DasBlog.Services;
 using DasBlog.Services.ActivityLogs;
+using DasBlog.Services.ConfigFile.Interfaces;
+using DasBlog.Services.Users;
 using DasBlog.Web.Identity;
 using DasBlog.Web.Models.AccountViewModels;
+using DasBlog.Web.Services;
 using DasBlog.Web.Settings;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
@@ -10,6 +15,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.Extensions.Logging;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace DasBlog.Web.Controllers
@@ -22,16 +28,26 @@ namespace DasBlog.Web.Controllers
 		private readonly IMapper mapper;
 		private readonly SignInManager<DasBlogUser> signInManager;
 		private readonly UserManager<DasBlogUser> userManager;
+		private readonly IFirstRunService firstRunService;
+		private readonly IUserService userService;
+		private readonly ISiteSecurityManager siteSecurityManager;
+		private readonly ISiteSecurityConfig siteSecurityConfig;
 		private const string LOGIN = "Login";
 
 		public AccountController(UserManager<DasBlogUser> userManager, SignInManager<DasBlogUser> signInManager,
-							IMapper mapper, ILogger<AccountController> logger, IDasBlogSettings settings) 
+							IMapper mapper, ILogger<AccountController> logger, IDasBlogSettings settings,
+							IFirstRunService firstRunService, IUserService userService,
+							ISiteSecurityManager siteSecurityManager, ISiteSecurityConfig siteSecurityConfig)
 							: base(settings)
 		{
 			this.signInManager = signInManager;
 			this.userManager = userManager;
 			this.logger = logger;
 			this.mapper = mapper;
+			this.firstRunService = firstRunService;
+			this.userService = userService;
+			this.siteSecurityManager = siteSecurityManager;
+			this.siteSecurityConfig = siteSecurityConfig;
 		}
 
 		[HttpGet]
@@ -115,6 +131,60 @@ namespace DasBlog.Web.Controllers
 			}
 
 			return View(model);
+		}
+
+		[HttpGet]
+		[AllowAnonymous]
+		public IActionResult Setup()
+		{
+			if (!firstRunService.IsSetupRequired())
+			{
+				return NotFound();
+			}
+
+			DefaultPage("Setup");
+			return View(new SetupViewModel());
+		}
+
+		[HttpPost]
+		[AllowAnonymous]
+		[ValidateAntiForgeryToken]
+		public IActionResult Setup(SetupViewModel model)
+		{
+			if (!firstRunService.IsSetupRequired())
+			{
+				return NotFound();
+			}
+
+			if (!ModelState.IsValid)
+			{
+				return View(model);
+			}
+
+			var users = userService.GetAllUsers().ToList();
+			var admin = users.FirstOrDefault(u => u.Role == Role.Admin);
+			var originalEmail = admin?.EmailAddress ?? string.Empty;
+
+			if (admin == null)
+			{
+				admin = new User { Role = Role.Admin, Active = true };
+			}
+
+			admin.EmailAddress = model.Email.Trim();
+			admin.DisplayName = model.DisplayName.Trim();
+			admin.Active = true;
+			admin.Password = siteSecurityManager.HashPassword(model.Password);
+
+			userService.AddOrReplaceUser(admin, originalEmail);
+
+			// Refresh the cached SecurityConfiguration.Users list so the freshly-saved
+			// admin is visible to DasBlogUserStore.FindByNameAsync on the next login.
+			siteSecurityConfig.Users = userService.GetAllUsers().ToList();
+
+			logger.LogInformation(new EventDataItem(EventCodes.SecuritySuccess, null,
+				"First-run setup completed for {email}", admin.EmailAddress));
+
+			return RedirectToAction(nameof(Login));
 		}
 	}
 }

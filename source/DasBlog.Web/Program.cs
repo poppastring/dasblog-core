@@ -4,6 +4,7 @@ using DasBlog.Services.FileManagement;
 using DasBlog.Services.Scheduler;
 using DasBlog.Services.Site;
 using DasBlog.Web;
+using DasBlog.Web.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.RateLimiting;
@@ -138,6 +139,8 @@ if (basePath != "/")
 app.UseForwardedHeaders();
 app.UseDasBlogStaticFiles(env, paths);
 app.UseCookiePolicy();
+
+app.UseFirstRunSetup();
 
 app.UseAuthentication();
 app.UseDasBlogThreadPrincipal();
