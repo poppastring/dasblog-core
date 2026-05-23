@@ -16,19 +16,16 @@ cd myblog
 .\DasBlog.Web.exe
 ```
 
-Navigate to `http://localhost:5000` and log in with the default credentials:
+Navigate to `http://localhost:5000`. The first request redirects to **`/account/setup`**, where you create the admin user (email, display name, and a strong password). Once you submit the form you'll be sent to the login page.
 
-- **Email:** myemail@myemail.com
-- **Password:** admin
-
-**Change these immediately** at `/admin/authors`.
+Your password is stored as a salted PBKDF2 hash; the plaintext is never written to disk. Change credentials at any time from `/admin/authors`.
 
 ## Template options
 
 | Option | Description | Default |
 |--------|-------------|---------|
 | `--blogTitle` | Your blog title | My DasBlog! |
-| `--adminEmail` | Admin email address | myemail@myemail.com |
+| `--adminEmail` | Placeholder admin email written into the initial config. You'll be asked to pick your real email during first-run setup. | myemail@myemail.com |
 
 Example:
 
