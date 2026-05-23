@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using DasBlog.Managers.Interfaces;
 using DasBlog.Services;
 using DasBlog.Services.ActivityLogs;
 using DasBlog.Web.Identity;
@@ -26,12 +25,11 @@ namespace DasBlog.Web.Controllers
 		private const string LOGIN = "Login";
 
 		public AccountController(UserManager<DasBlogUser> userManager, SignInManager<DasBlogUser> signInManager,
-							IMapper mapper, ISiteSecurityManager siteSecurityManager, ILogger<AccountController> logger, IDasBlogSettings settings) 
+							IMapper mapper, ILogger<AccountController> logger, IDasBlogSettings settings) 
 							: base(settings)
 		{
 			this.signInManager = signInManager;
 			this.userManager = userManager;
-			this.userManager.PasswordHasher = new DasBlogPasswordHasher(siteSecurityManager);
 			this.logger = logger;
 			this.mapper = mapper;
 		}
@@ -57,6 +55,10 @@ namespace DasBlog.Web.Controllers
 			ViewData[KEY_RETURNURL] = returnUrl;
 			if (ModelState.IsValid)
 			{
+				// Note: lockoutOnFailure is intentionally false. The login email is publicly
+				// visible (it's the author byline on posts), so per-account lockout would let any
+				// anonymous visitor lock the admin out by deliberately failing logins. Brute-force
+				// is mitigated by the per-IP "login" rate-limit policy applied to this action.
 				var result = await signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
 
 				if (result.Succeeded)

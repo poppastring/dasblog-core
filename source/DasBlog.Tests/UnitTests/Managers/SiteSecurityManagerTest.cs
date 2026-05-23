@@ -5,6 +5,9 @@ using System.Text;
 using DasBlog.Managers;
 using DasBlog.Services.ConfigFile.Interfaces;
 using DasBlog.Core.Security;
+using DasBlog.Managers.Interfaces;
+using DasBlog.Web.Identity;
+using Microsoft.AspNetCore.Identity;
 using Moq;
 using Xunit;
 using DasBlog.Services;
@@ -34,7 +37,7 @@ namespace DasBlog.Tests.UnitTests.Managers
 
         private SiteSecurityManager CreateManager()
         {
-            return new SiteSecurityManager(settingsMock.Object);
+            return new SiteSecurityManager(settingsMock.Object, new PasswordHasher<object>());
         }
 
         [Fact]
@@ -43,22 +46,6 @@ namespace DasBlog.Tests.UnitTests.Managers
             var manager = CreateManager();
             var hash = manager.HashPassword("password");
             Assert.False(string.IsNullOrEmpty(hash));
-        }
-
-        [Fact]
-        public void IsMd5Hash_TrueForMd5Format()
-        {
-            var manager = CreateManager();
-            string md5 = "A1-B2-C3-D4-E5-F6-07-18-29-3A-4B-5C-6D-7E-8F-90";
-            Assert.True(manager.IsMd5Hash(md5));
-        }
-
-        [Fact]
-        public void IsMd5Hash_FalseForNonMd5()
-        {
-            var manager = CreateManager();
-            string notMd5 = "not-an-md5-hash";
-            Assert.False(manager.IsMd5Hash(notMd5));
         }
 
         [Fact]
@@ -119,6 +106,259 @@ namespace DasBlog.Tests.UnitTests.Managers
             var manager = CreateManager();
             var user = manager.GetUser("nonexistent@example.com");
             Assert.Null(user);
+        }
+
+        private static string ComputeLegacyMd5(string password)
+        {
+            using var md5 = MD5.Create();
+            return BitConverter.ToString(md5.ComputeHash(Encoding.Unicode.GetBytes(password)));
+        }
+
+        private static string ComputeLegacySha512(string password)
+        {
+            using var sha = SHA512.Create();
+            return BitConverter.ToString(sha.ComputeHash(Encoding.Unicode.GetBytes(password)));
+        }
+
+        [Fact]
+        public void IsLegacyHash_TrueForMd5FormattedHash()
+        {
+            var hash = ComputeLegacyMd5("password");
+            Assert.True(SiteSecurityManager.IsLegacyHash(hash, out var algorithm));
+            Assert.IsAssignableFrom<MD5>(algorithm);
+            algorithm?.Dispose();
+        }
+
+        [Fact]
+        public void IsLegacyHash_TrueForSha512FormattedHash()
+        {
+            var hash = ComputeLegacySha512("password");
+            Assert.True(SiteSecurityManager.IsLegacyHash(hash, out var algorithm));
+            Assert.IsAssignableFrom<SHA512>(algorithm);
+            algorithm?.Dispose();
+        }
+
+        [Fact]
+        public void IsLegacyHash_FalseForNonHexStringOfMd5Length()
+        {
+            // 47-char string (MD5 legacy length) but containing non-hex chars must not be treated as legacy.
+            string fakeMd5Length = new string('Z', 47);
+            Assert.False(SiteSecurityManager.IsLegacyHash(fakeMd5Length, out var algorithm));
+            Assert.Null(algorithm);
+        }
+
+        [Fact]
+        public void IsLegacyHash_FalseForNonHexStringOfSha512Length()
+        {
+            // 191-char string (SHA-512 legacy length) but containing non-hex chars must not be treated as legacy.
+            string fakeSha512Length = new string('Z', 191);
+            Assert.False(SiteSecurityManager.IsLegacyHash(fakeSha512Length, out var algorithm));
+            Assert.Null(algorithm);
+        }
+
+        [Fact]
+        public void IsLegacyHash_FalseForIdentityHash()
+        {
+            var manager = CreateManager();
+            var identityHash = manager.HashPassword("password");
+            Assert.False(SiteSecurityManager.IsLegacyHash(identityHash, out var algorithm));
+            Assert.Null(algorithm);
+        }
+
+        [Fact]
+        public void IsLegacyHash_FalseForNullOrEmpty()
+        {
+            Assert.False(SiteSecurityManager.IsLegacyHash(null, out var a1));
+            Assert.Null(a1);
+            Assert.False(SiteSecurityManager.IsLegacyHash(string.Empty, out var a2));
+            Assert.Null(a2);
+        }
+
+        [Fact]
+        public void IsLegacyHash_FalseForUndashedHexMd5()
+        {
+            // A bare 32-char hex MD5 (no dashes) is not a legacy dasBlog hash:
+            // dasBlog always stored BitConverter.ToString output, which is dash-separated.
+            string undashed = new string('A', 32);
+            Assert.False(SiteSecurityManager.IsLegacyHash(undashed, out var algorithm));
+            Assert.Null(algorithm);
+        }
+
+        [Fact]
+        public void IsLegacyHash_FalseForUndashedHexSha512()
+        {
+            string undashed = new string('A', 128);
+            Assert.False(SiteSecurityManager.IsLegacyHash(undashed, out var algorithm));
+            Assert.Null(algorithm);
+        }
+
+        [Fact]
+        public void IsLegacyHash_InstanceMethod_DelegatesToStatic()
+        {
+            var manager = CreateManager();
+            var legacyMd5 = ComputeLegacyMd5("password");
+            var legacySha = ComputeLegacySha512("password");
+            var identity = manager.HashPassword("password");
+
+            Assert.True(manager.IsLegacyHash(legacyMd5));
+            Assert.True(manager.IsLegacyHash(legacySha));
+            Assert.False(manager.IsLegacyHash(identity));
+            Assert.False(manager.IsLegacyHash(null));
+            Assert.False(manager.IsLegacyHash(string.Empty));
+        }
+
+        [Fact]
+        public void IsLegacyHash_TrueForLowerCaseHexMd5()
+        {
+            var hash = ComputeLegacyMd5("password").ToLowerInvariant();
+            Assert.True(SiteSecurityManager.IsLegacyHash(hash, out var algorithm));
+            Assert.IsAssignableFrom<MD5>(algorithm);
+            algorithm?.Dispose();
+        }
+
+        [Fact]
+        public void IsLegacyHash_TrueForLowerCaseHexSha512()
+        {
+            var hash = ComputeLegacySha512("password").ToLowerInvariant();
+            Assert.True(SiteSecurityManager.IsLegacyHash(hash, out var algorithm));
+            Assert.IsAssignableFrom<SHA512>(algorithm);
+            algorithm?.Dispose();
+        }
+
+        [Fact]
+        public void VerifyHashedPassword_FalseForNullHashedPassword()
+        {
+            var manager = CreateManager();
+            Assert.False(manager.VerifyHashedPassword(null, "password"));
+        }
+
+        [Fact]
+        public void VerifyHashedPassword_FalseForEmptyHashedPassword()
+        {
+            var manager = CreateManager();
+            Assert.False(manager.VerifyHashedPassword(string.Empty, "password"));
+        }
+
+        [Fact]
+        public void VerifyHashedPassword_FalseForNullProvidedPassword()
+        {
+            var manager = CreateManager();
+            var hash = manager.HashPassword("password");
+            Assert.False(manager.VerifyHashedPassword(hash, null));
+        }
+
+        [Fact]
+        public void VerifyHashedPassword_TrueForLegacyMd5Hash()
+        {
+            var manager = CreateManager();
+            var legacy = ComputeLegacyMd5("password");
+            Assert.True(manager.VerifyHashedPassword(legacy, "password"));
+        }
+
+        [Fact]
+        public void VerifyHashedPassword_FalseForLegacyMd5WithWrongPassword()
+        {
+            var manager = CreateManager();
+            var legacy = ComputeLegacyMd5("password");
+            Assert.False(manager.VerifyHashedPassword(legacy, "wrongpassword"));
+        }
+
+        [Fact]
+        public void VerifyHashedPassword_TrueForLegacySha512Hash()
+        {
+            var manager = CreateManager();
+            var legacy = ComputeLegacySha512("password");
+            Assert.True(manager.VerifyHashedPassword(legacy, "password"));
+        }
+
+        [Fact]
+        public void VerifyHashedPassword_FalseForLegacySha512WithWrongPassword()
+        {
+            var manager = CreateManager();
+            var legacy = ComputeLegacySha512("password");
+            Assert.False(manager.VerifyHashedPassword(legacy, "wrongpassword"));
+        }
+
+        [Fact]
+        public void VerifyHashedPassword_MigrationFromLegacyMd5ToIdentityHash()
+        {
+            var manager = CreateManager();
+            const string password = "password";
+
+            // Old stored hash verifies successfully.
+            var legacyHash = ComputeLegacyMd5(password);
+            Assert.True(manager.VerifyHashedPassword(legacyHash, password));
+
+            // Simulate upgrade: replace the stored hash with a new Identity hash.
+            var upgradedHash = manager.HashPassword(password);
+            Assert.NotEqual(legacyHash, upgradedHash);
+            Assert.False(SiteSecurityManager.IsLegacyHash(upgradedHash, out _));
+
+            // New hash still verifies the same password, and rejects wrong ones.
+            Assert.True(manager.VerifyHashedPassword(upgradedHash, password));
+            Assert.False(manager.VerifyHashedPassword(upgradedHash, "wrongpassword"));
+        }
+
+        [Fact]
+        public void VerifyHashedPassword_MigrationFromLegacySha512ToIdentityHash()
+        {
+            var manager = CreateManager();
+            const string password = "password";
+
+            var legacyHash = ComputeLegacySha512(password);
+            Assert.True(manager.VerifyHashedPassword(legacyHash, password));
+
+            var upgradedHash = manager.HashPassword(password);
+            Assert.False(SiteSecurityManager.IsLegacyHash(upgradedHash, out _));
+            Assert.True(manager.VerifyHashedPassword(upgradedHash, password));
+        }
+
+        [Fact]
+        public void DasBlogPasswordHasher_ReturnsSuccessRehashNeededForLegacyMd5()
+        {
+            var manager = CreateManager();
+            var hasher = new DasBlogPasswordHasher(manager);
+            var legacyHash = ComputeLegacyMd5("password");
+
+            var result = hasher.VerifyHashedPassword(new DasBlogUser(), legacyHash, "password");
+
+            Assert.Equal(PasswordVerificationResult.SuccessRehashNeeded, result);
+        }
+
+        [Fact]
+        public void DasBlogPasswordHasher_ReturnsSuccessRehashNeededForLegacySha512()
+        {
+            var manager = CreateManager();
+            var hasher = new DasBlogPasswordHasher(manager);
+            var legacyHash = ComputeLegacySha512("password");
+
+            var result = hasher.VerifyHashedPassword(new DasBlogUser(), legacyHash, "password");
+
+            Assert.Equal(PasswordVerificationResult.SuccessRehashNeeded, result);
+        }
+
+        [Fact]
+        public void DasBlogPasswordHasher_ReturnsFailedForLegacyHashWithWrongPassword()
+        {
+            var manager = CreateManager();
+            var hasher = new DasBlogPasswordHasher(manager);
+            var legacyHash = ComputeLegacyMd5("password");
+
+            var result = hasher.VerifyHashedPassword(new DasBlogUser(), legacyHash, "wrongpassword");
+
+            Assert.Equal(PasswordVerificationResult.Failed, result);
+        }
+
+        [Fact]
+        public void DasBlogPasswordHasher_ReturnsSuccessForIdentityHash()
+        {
+            var manager = CreateManager();
+            var hasher = new DasBlogPasswordHasher(manager);
+            var identityHash = manager.HashPassword("password");
+
+            var result = hasher.VerifyHashedPassword(new DasBlogUser(), identityHash, "password");
+
+            Assert.Equal(PasswordVerificationResult.Success, result);
         }
     }
 }

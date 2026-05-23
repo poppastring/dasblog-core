@@ -1,12 +1,15 @@
 ﻿using AutoMapper;
 using DasBlog.Core.Security;
 using DasBlog.Services;
+using DasBlog.Services.Users;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 
 namespace DasBlog.Web.Identity
 {
@@ -14,11 +17,15 @@ namespace DasBlog.Web.Identity
 	{
 		private readonly IDasBlogSettings dasBlogSettings;
 		private readonly IMapper mapper;
+		private readonly IUserService userService;
+		private readonly ILogger<DasBlogUserStore> _logger;
 
-		public DasBlogUserStore(IDasBlogSettings dasBlogSettings, IMapper mapper)
+		public DasBlogUserStore(IDasBlogSettings dasBlogSettings, IMapper mapper, IUserService userService, ILogger<DasBlogUserStore> logger)
 		{
 			this.dasBlogSettings = dasBlogSettings;
 			this.mapper = mapper;
+			this.userService = userService;
+			_logger = logger;
 		}
 
 		#region IUserStore
@@ -75,13 +82,52 @@ namespace DasBlog.Web.Identity
 			}
 			catch (Exception e)
 			{
-				return Task.FromResult(IdentityResult.Failed(new IdentityError { Description = e.Message }));
+				// Log the exception details server-side
+				_logger?.LogError(e, "An error occurred in DasBlogUserStore operation.");
+
+				// Return a generic error message to the caller
+				return Task.FromResult(IdentityResult.Failed(new IdentityError { Description = "An unexpected error occurred. Please try again later." }));
 			}
 
 			return Task.FromResult(IdentityResult.Success);
 		}
 
-		public Task<IdentityResult> UpdateAsync(DasBlogUser user, CancellationToken cancellationToken) => throw new NotImplementedException();
+		public Task<IdentityResult> UpdateAsync(DasBlogUser user, CancellationToken cancellationToken)
+		{
+			cancellationToken.ThrowIfCancellationRequested();
+			if (user == null)
+			{
+				throw new ArgumentNullException(nameof(user));
+			}
+
+			try
+			{
+				var users = userService.GetAllUsers().ToList();
+				var index = users.FindIndex(u => !string.IsNullOrEmpty(u.EmailAddress)
+					&& u.EmailAddress.Equals(user.Email, StringComparison.OrdinalIgnoreCase));
+
+				if (index < 0)
+				{
+					return Task.FromResult(IdentityResult.Failed(new IdentityError { Description = "User not found." }));
+				}
+
+				users[index].Password = user.PasswordHash;
+				userService.SaveUsers(users);
+
+				// Keep the cached SecurityConfiguration.Users list in sync so subsequent reads see the new hash.
+				dasBlogSettings.SecurityConfiguration.Users = users;
+			}
+			catch (Exception e)
+			{
+				// Log the exception details server-side
+				_logger?.LogError(e, "An error occurred in DasBlogUserStore operation.");
+
+				// Return a generic error message to the caller
+				return Task.FromResult(IdentityResult.Failed(new IdentityError { Description = "An unexpected error occurred. Please try again later." }));
+			}
+
+			return Task.FromResult(IdentityResult.Success);
+		}
 
 		public Task<IdentityResult> DeleteAsync(DasBlogUser user, CancellationToken cancellationToken) => throw new NotImplementedException();
 

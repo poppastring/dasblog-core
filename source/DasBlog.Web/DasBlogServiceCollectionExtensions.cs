@@ -169,6 +169,9 @@ namespace DasBlog.Web
 				.AddIdentity<DasBlogUser, DasBlogRole>()
 				.AddDefaultTokenProviders();
 
+			services.AddSingleton<IPasswordHasher<object>, PasswordHasher<object>>();
+			services.AddScoped<IPasswordHasher<DasBlogUser>, DasBlogPasswordHasher>();
+
 			services.Configure<IdentityOptions>(configuration.GetSection("IdentityOptions"));
 
 			services.ConfigureApplicationCookie(options =>
