@@ -33,7 +33,7 @@ cd myblog
 .\DasBlog.Web.exe
 ```
 
-Navigate to `http://localhost:5000` and log in with the default credentials. **Change them immediately** at `/admin/authors`.
+Navigate to `http://localhost:5000`. The first request redirects you to `/admin/setup` to create your admin user — pick an email, display name, and a strong password, then you'll be sent to the login page.
 
 ## Features
 
