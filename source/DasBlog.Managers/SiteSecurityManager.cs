@@ -14,18 +14,29 @@ namespace DasBlog.Managers
 		private const int Md5HashLength = 47;
 		private const int Sha512HashLength = 191;
 
-		private static readonly PasswordHasher<object> identityHasher = new PasswordHasher<object>();
-
 		private readonly IDasBlogSettings dasBlogSettings;
+		private readonly IPasswordHasher<object> identityHasher;
 
-		public SiteSecurityManager(IDasBlogSettings dasBlogSettings)
+		public SiteSecurityManager(IDasBlogSettings dasBlogSettings, IPasswordHasher<object> identityHasher)
 		{
 			this.dasBlogSettings = dasBlogSettings;
+			this.identityHasher = identityHasher;
 		}
 
 		public string HashPassword(string password)
 		{
 			return identityHasher.HashPassword(null, password);
+		}
+
+		public bool IsLegacyHash(string hashedPassword)
+		{
+			if (!IsLegacyHash(hashedPassword, out var algorithm))
+			{
+				return false;
+			}
+
+			algorithm?.Dispose();
+			return true;
 		}
 
 		public bool VerifyHashedPassword(string hashedPassword, string providedPassword)

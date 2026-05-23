@@ -37,7 +37,7 @@ namespace DasBlog.Tests.UnitTests.Managers
 
         private SiteSecurityManager CreateManager()
         {
-            return new SiteSecurityManager(settingsMock.Object);
+            return new SiteSecurityManager(settingsMock.Object, new PasswordHasher<object>());
         }
 
         [Fact]
@@ -172,6 +172,39 @@ namespace DasBlog.Tests.UnitTests.Managers
             Assert.Null(a1);
             Assert.False(SiteSecurityManager.IsLegacyHash(string.Empty, out var a2));
             Assert.Null(a2);
+        }
+
+        [Fact]
+        public void IsLegacyHash_FalseForUndashedHexMd5()
+        {
+            // A bare 32-char hex MD5 (no dashes) is not a legacy dasBlog hash:
+            // dasBlog always stored BitConverter.ToString output, which is dash-separated.
+            string undashed = new string('A', 32);
+            Assert.False(SiteSecurityManager.IsLegacyHash(undashed, out var algorithm));
+            Assert.Null(algorithm);
+        }
+
+        [Fact]
+        public void IsLegacyHash_FalseForUndashedHexSha512()
+        {
+            string undashed = new string('A', 128);
+            Assert.False(SiteSecurityManager.IsLegacyHash(undashed, out var algorithm));
+            Assert.Null(algorithm);
+        }
+
+        [Fact]
+        public void IsLegacyHash_InstanceMethod_DelegatesToStatic()
+        {
+            var manager = CreateManager();
+            var legacyMd5 = ComputeLegacyMd5("password");
+            var legacySha = ComputeLegacySha512("password");
+            var identity = manager.HashPassword("password");
+
+            Assert.True(manager.IsLegacyHash(legacyMd5));
+            Assert.True(manager.IsLegacyHash(legacySha));
+            Assert.False(manager.IsLegacyHash(identity));
+            Assert.False(manager.IsLegacyHash(null));
+            Assert.False(manager.IsLegacyHash(string.Empty));
         }
 
         [Fact]

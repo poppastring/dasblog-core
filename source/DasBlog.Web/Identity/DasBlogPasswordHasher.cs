@@ -25,7 +25,7 @@ namespace DasBlog.Web.Identity
 				return PasswordVerificationResult.Failed;
 			}
 
-			if (!Managers.SiteSecurityManager.IsLegacyHash(hashedPassword, out _))
+			if (!siteSecurityManager.IsLegacyHash(hashedPassword))
 			{
 				return base.VerifyHashedPassword(user, hashedPassword, providedPassword);
 			}

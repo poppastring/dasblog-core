@@ -10,6 +10,8 @@ namespace DasBlog.Managers.Interfaces
 	{
 		string HashPassword(string password);
 
+		bool IsLegacyHash(string hashedPassword);
+
 		bool VerifyHashedPassword(string hashedPassword, string providedPassword);
 
 		User GetUser(string userName);
