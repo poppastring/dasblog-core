@@ -28,13 +28,6 @@ namespace DasBlog.Managers
 			return identityHasher.HashPassword(null, password);
 		}
 
-		public bool IsMd5Hash(string hash)
-		{
-			return !string.IsNullOrEmpty(hash)
-				&& hash.Length == Md5HashLength
-				&& hash.Replace("-", string.Empty).Length == 32;
-		}
-
 		public bool VerifyHashedPassword(string hashedPassword, string providedPassword)
 		{
 			if (string.IsNullOrEmpty(hashedPassword) || providedPassword == null)

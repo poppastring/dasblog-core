@@ -10,8 +10,6 @@ namespace DasBlog.Managers.Interfaces
 	{
 		string HashPassword(string password);
 
-		bool IsMd5Hash(string hash);
-
 		bool VerifyHashedPassword(string hashedPassword, string providedPassword);
 
 		User GetUser(string userName);

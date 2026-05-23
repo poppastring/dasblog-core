@@ -49,22 +49,6 @@ namespace DasBlog.Tests.UnitTests.Managers
         }
 
         [Fact]
-        public void IsMd5Hash_TrueForMd5Format()
-        {
-            var manager = CreateManager();
-            string md5 = "A1-B2-C3-D4-E5-F6-07-18-29-3A-4B-5C-6D-7E-8F-90";
-            Assert.True(manager.IsMd5Hash(md5));
-        }
-
-        [Fact]
-        public void IsMd5Hash_FalseForNonMd5()
-        {
-            var manager = CreateManager();
-            string notMd5 = "not-an-md5-hash";
-            Assert.False(manager.IsMd5Hash(notMd5));
-        }
-
-        [Fact]
         public void VerifyHashedPassword_TrueForCorrectPassword()
         {
             var manager = CreateManager();
@@ -188,6 +172,46 @@ namespace DasBlog.Tests.UnitTests.Managers
             Assert.Null(a1);
             Assert.False(SiteSecurityManager.IsLegacyHash(string.Empty, out var a2));
             Assert.Null(a2);
+        }
+
+        [Fact]
+        public void IsLegacyHash_TrueForLowerCaseHexMd5()
+        {
+            var hash = ComputeLegacyMd5("password").ToLowerInvariant();
+            Assert.True(SiteSecurityManager.IsLegacyHash(hash, out var algorithm));
+            Assert.IsAssignableFrom<MD5>(algorithm);
+            algorithm?.Dispose();
+        }
+
+        [Fact]
+        public void IsLegacyHash_TrueForLowerCaseHexSha512()
+        {
+            var hash = ComputeLegacySha512("password").ToLowerInvariant();
+            Assert.True(SiteSecurityManager.IsLegacyHash(hash, out var algorithm));
+            Assert.IsAssignableFrom<SHA512>(algorithm);
+            algorithm?.Dispose();
+        }
+
+        [Fact]
+        public void VerifyHashedPassword_FalseForNullHashedPassword()
+        {
+            var manager = CreateManager();
+            Assert.False(manager.VerifyHashedPassword(null, "password"));
+        }
+
+        [Fact]
+        public void VerifyHashedPassword_FalseForEmptyHashedPassword()
+        {
+            var manager = CreateManager();
+            Assert.False(manager.VerifyHashedPassword(string.Empty, "password"));
+        }
+
+        [Fact]
+        public void VerifyHashedPassword_FalseForNullProvidedPassword()
+        {
+            var manager = CreateManager();
+            var hash = manager.HashPassword("password");
+            Assert.False(manager.VerifyHashedPassword(hash, null));
         }
 
         [Fact]

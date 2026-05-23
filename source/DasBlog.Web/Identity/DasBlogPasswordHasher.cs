@@ -25,17 +25,14 @@ namespace DasBlog.Web.Identity
 				return PasswordVerificationResult.Failed;
 			}
 
-			if (Managers.SiteSecurityManager.IsLegacyHash(hashedPassword, out var algorithm))
+			if (!Managers.SiteSecurityManager.IsLegacyHash(hashedPassword, out _))
 			{
-				using (algorithm)
-				{
-					return siteSecurityManager.VerifyHashedPassword(hashedPassword, providedPassword)
-						? PasswordVerificationResult.SuccessRehashNeeded
-						: PasswordVerificationResult.Failed;
-				}
+				return base.VerifyHashedPassword(user, hashedPassword, providedPassword);
 			}
 
-			return base.VerifyHashedPassword(user, hashedPassword, providedPassword);
+			return siteSecurityManager.VerifyHashedPassword(hashedPassword, providedPassword)
+				? PasswordVerificationResult.SuccessRehashNeeded
+				: PasswordVerificationResult.Failed;
 		}
 	}
 }
