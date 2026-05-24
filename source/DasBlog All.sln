@@ -1,4 +1,4 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35327.3
@@ -12,7 +12,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{800E3AC8-FF13-43CE-8C09-6F4A2867D445}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
-		ContributorFAQ.md = ContributorFAQ.md
 		CrossPlatform.md = CrossPlatform.md
 		Directory.Packages.props = Directory.Packages.props
 	EndProjectSection
