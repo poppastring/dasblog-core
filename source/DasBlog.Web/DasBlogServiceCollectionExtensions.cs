@@ -232,6 +232,12 @@ namespace DasBlog.Web
 			services.AddScoped<IRichEditBuilder>(SelectRichEditor)
 				.AddScoped<IBlogPostViewModelCreator, BlogPostViewModelCreator>();
 
+			services.AddRouting(options =>
+			{
+				options.LowercaseUrls = true;
+				options.LowercaseQueryStrings = true;
+			});
+
 			services
 				.AddAutoMapper((serviceProvider, mapperConfig) =>
 				{
