@@ -193,6 +193,13 @@ namespace newtelligence.DasBlog.Runtime
 		void UnapproveComment( string entryId, string commentId );
 
 		/// <summary>
+		/// Marks a comment as spam: held for moderation (not public) and tagged with <see cref="SpamState.Spam"/>.
+		/// </summary>
+		/// <param name="entryId"></param>
+		/// <param name="commentId"></param>
+		void MarkCommentAsSpam( string entryId, string commentId );
+
+		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="entryId"></param>

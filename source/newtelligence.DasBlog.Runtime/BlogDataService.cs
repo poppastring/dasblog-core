@@ -1288,6 +1288,27 @@ namespace newtelligence.DasBlog.Runtime
             }
         }
 
+        void IBlogDataService.MarkCommentAsSpam(string entryId, string commentId)
+        {
+            DateTime date = GetDateForEntry(entryId);
+            if (date == DateTime.MinValue)
+                return;
+
+            DayExtra extra = data.GetDayExtra(date);
+
+            Comment c = extra.Comments[commentId];
+            if (c != null)
+            {
+                c.IsPublic = false;
+                c.SpamState = SpamState.Spam;
+                extra.Save(data);
+                data.IncrementExtraChange();
+
+                // update the all comments file
+                allComments.UpdateComment(c);
+            }
+        }
+
         /// <summary>
         /// 
         /// </summary>

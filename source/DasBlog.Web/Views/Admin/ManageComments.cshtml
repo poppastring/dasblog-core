@@ -128,6 +128,13 @@
                                     <i class="fa-regular fa-clock me-1"></i>Move to Pending
                                 </comment-unapprove-link>
                             }
+                            @if (comment.SpamState != SpamStateViewModel.Spam)
+                            {
+                                <comment-mark-as-spam-link comment="@comment"
+                                                          css="btn btn-sm btn-outline-danger">
+                                    <i class="fa-solid fa-shield-halved me-1"></i>Mark as Spam
+                                </comment-mark-as-spam-link>
+                            }
                             <button type="button"
                                     class="btn btn-sm btn-outline-primary"
                                     onclick="openReplyModal('@comment.BlogPostId', '@safeTitle')">

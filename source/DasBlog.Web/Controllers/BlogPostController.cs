@@ -600,6 +600,28 @@ namespace DasBlog.Web.Controllers
 			return Ok();
 		}
 
+		[HttpPatch("admin/post/{postid:guid}/comments/{commentid:guid}/spam")]
+		public IActionResult MarkCommentAsSpam(Guid postid, Guid commentid)
+		{
+			var state = commentManager.MarkCommentAsSpam(postid.ToString(), commentid.ToString());
+
+			if (state == NBR.CommentSaveState.Failed)
+			{
+				return StatusCode(500);
+			}
+
+			if (state == NBR.CommentSaveState.NotFound)
+			{
+				return NotFound();
+			}
+
+			logger.LogInformation(new EventDataItem(EventCodes.CommentChanged, null, "Comment marked as spam on: {0}", postid.ToString()));
+
+			BreakSiteCache();
+
+			return Ok();
+		}
+
 		[AllowAnonymous]
 		[HttpGet("post/category/{category}")]
 		public IActionResult GetCategory(string category)

@@ -17,13 +17,10 @@ namespace Subtext.Akismet
 		private static readonly HttpClient sharedHttpClient = new HttpClient();
 		private static readonly string version = typeof(AkismetClient).Assembly.GetName().Version.ToString();
 		private static readonly Uri verifyUrl = new Uri("https://rest.akismet.com/1.1/verify-key");
-		private const string checkUrlFormat = "https://{0}.rest.akismet.com/1.1/comment-check";
-		private const string submitSpamUrlFormat = "https://{0}.rest.akismet.com/1.1/submit-spam";
-		private const string submitHamUrlFormat = "https://{0}.rest.akismet.com/1.1/submit-ham";
+		private static readonly Uri checkUrl = new Uri("https://rest.akismet.com/1.1/comment-check");
+		private static readonly Uri submitSpamUrl = new Uri("https://rest.akismet.com/1.1/submit-spam");
+		private static readonly Uri submitHamUrl = new Uri("https://rest.akismet.com/1.1/submit-ham");
 
-		private Uri submitSpamUrl;
-		private Uri submitHamUrl;
-		private Uri checkUrl;
 		private string apiKey;
 		private string userAgent;
 		private int timeout = 5000;
@@ -44,15 +41,6 @@ namespace Subtext.Akismet
 
 			this.apiKey = apiKey;
 			this.blogUrl = blogUrl;
-
-			SetServiceUrls();
-		}
-
-		private void SetServiceUrls()
-		{
-			this.submitHamUrl = new Uri(string.Format(submitHamUrlFormat, this.apiKey));
-			this.submitSpamUrl = new Uri(string.Format(submitSpamUrlFormat, this.apiKey));
-			this.checkUrl = new Uri(string.Format(checkUrlFormat, this.apiKey));
 		}
 
 		/// <summary>
@@ -61,11 +49,7 @@ namespace Subtext.Akismet
 		public string ApiKey
 		{
 			get { return this.apiKey ?? string.Empty; }
-			set
-			{
-				this.apiKey = value ?? string.Empty;
-				SetServiceUrls();
-			}
+			set { this.apiKey = value ?? string.Empty; }
 		}
 
 		/// <summary>
@@ -110,7 +94,8 @@ namespace Subtext.Akismet
 		/// </summary>
 		public bool VerifyApiKey()
 		{
-			string parameters = "key=" + WebUtility.UrlEncode(this.ApiKey) + "&blog=" + WebUtility.UrlEncode(this.BlogUrl.ToString());
+			string parameters = "api_key=" + WebUtility.UrlEncode(this.ApiKey)
+								+ "&blog=" + WebUtility.UrlEncode(this.BlogUrl.ToString());
 			string result = PostRequest(verifyUrl, parameters);
 
 			if (string.IsNullOrEmpty(result))
@@ -124,7 +109,7 @@ namespace Subtext.Akismet
 		/// </summary>
 		public bool CheckCommentForSpam(IComment comment)
 		{
-			string result = SubmitComment(comment, this.checkUrl);
+			string result = SubmitComment(comment, checkUrl);
 
 			if (string.IsNullOrEmpty(result))
 				throw new InvalidResponseException("Akismet returned an empty response");
@@ -140,7 +125,7 @@ namespace Subtext.Akismet
 		/// </summary>
 		public void SubmitSpam(IComment comment)
 		{
-			SubmitComment(comment, this.submitSpamUrl);
+			SubmitComment(comment, submitSpamUrl);
 		}
 
 		/// <summary>
@@ -148,18 +133,21 @@ namespace Subtext.Akismet
 		/// </summary>
 		public void SubmitHam(IComment comment)
 		{
-			SubmitComment(comment, this.submitHamUrl);
+			SubmitComment(comment, submitHamUrl);
 		}
 
 		private string SubmitComment(IComment comment, Uri url)
 		{
 			var parameters = new StringBuilder();
-			parameters.Append("blog=").Append(WebUtility.UrlEncode(this.blogUrl.ToString()));
+			parameters.Append("api_key=").Append(WebUtility.UrlEncode(this.ApiKey));
+			parameters.Append("&blog=").Append(WebUtility.UrlEncode(this.blogUrl.ToString()));
+			parameters.Append("&blog_charset=UTF-8");
 			parameters.Append("&user_ip=").Append(comment.IpAddress);
 			parameters.Append("&user_agent=").Append(WebUtility.UrlEncode(comment.UserAgent));
+			parameters.Append("&comment_date_gmt=").Append(WebUtility.UrlEncode(DateTime.UtcNow.ToString("o", CultureInfo.InvariantCulture)));
 
 			if (!string.IsNullOrEmpty(comment.Referer))
-				parameters.Append("&referer=").Append(WebUtility.UrlEncode(comment.Referer));
+				parameters.Append("&referrer=").Append(WebUtility.UrlEncode(comment.Referer));
 
 			if (comment.Permalink != null)
 				parameters.Append("&permalink=").Append(WebUtility.UrlEncode(comment.Permalink.ToString()));
