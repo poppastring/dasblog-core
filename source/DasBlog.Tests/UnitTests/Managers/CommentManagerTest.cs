@@ -99,5 +99,200 @@ namespace DasBlog.Tests.UnitTests.Managers
             var result = manager.ApproveComment("post1", "comment1");
             Assert.Equal(CommentSaveState.Approved, result);
         }
+
+        // --- Spam blocking integration ---
+
+        private void ConfigureCommentsEnabled(int daysAllowed = 30)
+        {
+            siteConfigMock.Object.EnableComments = true;
+            siteConfigMock.Object.DaysCommentsAllowed = daysAllowed;
+            siteConfigMock.Object.SendCommentsByEmail = false;
+        }
+
+        private static Entry CreateEntry()
+        {
+            return new Entry
+            {
+                Title = "Test Entry",
+                AllowComments = true,
+                CreatedUtc = DateTime.UtcNow
+            };
+        }
+
+        private static Comment CreateIncomingComment(SpamState state = SpamState.NotChecked)
+        {
+            return new Comment
+            {
+                Author = "Visitor",
+                Content = "Hello",
+                TargetTitle = "Test Entry",
+                SpamState = state,
+                IsPublic = true
+            };
+        }
+
+        [Fact]
+        public void AddComment_SpamServiceEnabledAndIsSpam_HoldsForModeration()
+        {
+            ConfigureCommentsEnabled();
+            var entry = CreateEntry();
+            dataServiceMock.Setup(d => d.GetEntry("post1")).Returns(entry);
+            settingsMock.Setup(s => s.FilterHtml(It.IsAny<string>())).Returns<string>(s => s);
+            spamBlockingServiceMock.SetupGet(s => s.IsEnabled).Returns(true);
+            spamBlockingServiceMock.Setup(s => s.IsSpam(It.IsAny<IFeedback>())).Returns(true);
+
+            var incoming = CreateIncomingComment();
+            var manager = CreateManager();
+
+            var result = manager.AddComment("post1", incoming);
+
+            Assert.Equal(CommentSaveState.Added, result);
+            Assert.Equal(SpamState.Spam, incoming.SpamState);
+            Assert.False(incoming.IsPublic);
+            dataServiceMock.Verify(d => d.AddComment(incoming), Times.Once);
+        }
+
+        [Fact]
+        public void AddComment_AdminAuthoredComment_SkipsSpamCheck()
+        {
+            ConfigureCommentsEnabled();
+            var entry = CreateEntry();
+            dataServiceMock.Setup(d => d.GetEntry("post1")).Returns(entry);
+            settingsMock.Setup(s => s.FilterHtml(It.IsAny<string>())).Returns<string>(s => s);
+            spamBlockingServiceMock.SetupGet(s => s.IsEnabled).Returns(true);
+
+            var incoming = CreateIncomingComment(SpamState.NotSpam);
+            var manager = CreateManager();
+
+            manager.AddComment("post1", incoming);
+
+            spamBlockingServiceMock.Verify(s => s.IsSpam(It.IsAny<IFeedback>()), Times.Never);
+            Assert.Equal(SpamState.NotSpam, incoming.SpamState);
+        }
+
+        [Fact]
+        public void AddComment_SpamServiceDisabled_DoesNotCallIsSpam()
+        {
+            ConfigureCommentsEnabled();
+            var entry = CreateEntry();
+            dataServiceMock.Setup(d => d.GetEntry("post1")).Returns(entry);
+            settingsMock.Setup(s => s.FilterHtml(It.IsAny<string>())).Returns<string>(s => s);
+            spamBlockingServiceMock.SetupGet(s => s.IsEnabled).Returns(false);
+
+            var incoming = CreateIncomingComment();
+            var manager = CreateManager();
+
+            manager.AddComment("post1", incoming);
+
+            spamBlockingServiceMock.Verify(s => s.IsSpam(It.IsAny<IFeedback>()), Times.Never);
+            Assert.Equal(SpamState.NotChecked, incoming.SpamState);
+        }
+
+        [Fact]
+        public void DeleteComment_SpamCommentAndServiceEnabled_ReportsSpam()
+        {
+            var entry = new Entry { Title = "Test Entry" };
+            dataServiceMock.Setup(d => d.GetEntry("post1")).Returns(entry);
+            var existing = new Comment { SpamState = SpamState.Spam };
+            dataServiceMock.Setup(d => d.GetCommentById("post1", "comment1")).Returns(existing);
+            spamBlockingServiceMock.SetupGet(s => s.IsEnabled).Returns(true);
+
+            var manager = CreateManager();
+            var result = manager.DeleteComment("post1", "comment1");
+
+            Assert.Equal(CommentSaveState.Deleted, result);
+            spamBlockingServiceMock.Verify(s => s.ReportSpam(existing), Times.Once);
+            dataServiceMock.Verify(d => d.DeleteComment("post1", "comment1"), Times.Once);
+        }
+
+        [Fact]
+        public void DeleteComment_NonSpamComment_DoesNotReportSpam()
+        {
+            var entry = new Entry { Title = "Test Entry" };
+            dataServiceMock.Setup(d => d.GetEntry("post1")).Returns(entry);
+            var existing = new Comment { SpamState = SpamState.NotSpam };
+            dataServiceMock.Setup(d => d.GetCommentById("post1", "comment1")).Returns(existing);
+            spamBlockingServiceMock.SetupGet(s => s.IsEnabled).Returns(true);
+
+            var manager = CreateManager();
+            manager.DeleteComment("post1", "comment1");
+
+            spamBlockingServiceMock.Verify(s => s.ReportSpam(It.IsAny<IFeedback>()), Times.Never);
+        }
+
+        [Fact]
+        public void ApproveComment_PreviouslyFlaggedSpam_ReportsNotSpam()
+        {
+            var entry = new Entry { Title = "Test Entry" };
+            dataServiceMock.Setup(d => d.GetEntry("post1")).Returns(entry);
+            var existing = new Comment { SpamState = SpamState.Spam };
+            dataServiceMock.Setup(d => d.GetCommentById("post1", "comment1")).Returns(existing);
+            spamBlockingServiceMock.SetupGet(s => s.IsEnabled).Returns(true);
+
+            var manager = CreateManager();
+            var result = manager.ApproveComment("post1", "comment1");
+
+            Assert.Equal(CommentSaveState.Approved, result);
+            spamBlockingServiceMock.Verify(s => s.ReportNotSpam(existing), Times.Once);
+        }
+
+        [Fact]
+        public void ApproveComment_NotPreviouslyFlaggedSpam_DoesNotReportNotSpam()
+        {
+            var entry = new Entry { Title = "Test Entry" };
+            dataServiceMock.Setup(d => d.GetEntry("post1")).Returns(entry);
+            var existing = new Comment { SpamState = SpamState.NotChecked };
+            dataServiceMock.Setup(d => d.GetCommentById("post1", "comment1")).Returns(existing);
+            spamBlockingServiceMock.SetupGet(s => s.IsEnabled).Returns(true);
+
+            var manager = CreateManager();
+            manager.ApproveComment("post1", "comment1");
+
+            spamBlockingServiceMock.Verify(s => s.ReportNotSpam(It.IsAny<IFeedback>()), Times.Never);
+        }
+
+        [Fact]
+        public void MarkCommentAsSpam_ServiceEnabled_ReportsSpamAndMarksLocally()
+        {
+            var entry = new Entry { Title = "Test Entry" };
+            dataServiceMock.Setup(d => d.GetEntry("post1")).Returns(entry);
+            var existing = new Comment { SpamState = SpamState.NotChecked };
+            dataServiceMock.Setup(d => d.GetCommentById("post1", "comment1")).Returns(existing);
+            spamBlockingServiceMock.SetupGet(s => s.IsEnabled).Returns(true);
+
+            var manager = CreateManager();
+            var result = manager.MarkCommentAsSpam("post1", "comment1");
+
+            Assert.Equal(CommentSaveState.Unapproved, result);
+            spamBlockingServiceMock.Verify(s => s.ReportSpam(existing), Times.Once);
+            dataServiceMock.Verify(d => d.MarkCommentAsSpam("post1", "comment1"), Times.Once);
+        }
+
+        [Fact]
+        public void MarkCommentAsSpam_ServiceDisabled_StillMarksLocally()
+        {
+            var entry = new Entry { Title = "Test Entry" };
+            dataServiceMock.Setup(d => d.GetEntry("post1")).Returns(entry);
+            spamBlockingServiceMock.SetupGet(s => s.IsEnabled).Returns(false);
+
+            var manager = CreateManager();
+            var result = manager.MarkCommentAsSpam("post1", "comment1");
+
+            Assert.Equal(CommentSaveState.Unapproved, result);
+            spamBlockingServiceMock.Verify(s => s.ReportSpam(It.IsAny<IFeedback>()), Times.Never);
+            dataServiceMock.Verify(d => d.MarkCommentAsSpam("post1", "comment1"), Times.Once);
+        }
+
+        [Fact]
+        public void MarkCommentAsSpam_InvalidEntry_ReturnsNotFound()
+        {
+            dataServiceMock.Setup(d => d.GetEntry("nonexistent")).Returns((Entry)null);
+
+            var manager = CreateManager();
+            var result = manager.MarkCommentAsSpam("nonexistent", "comment1");
+
+            Assert.Equal(CommentSaveState.NotFound, result);
+            dataServiceMock.Verify(d => d.MarkCommentAsSpam(It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+        }
     }
 }
