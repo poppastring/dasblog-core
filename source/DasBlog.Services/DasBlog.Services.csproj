@@ -10,6 +10,7 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\DasBlog.Core\DasBlog.Core.csproj" />
+    <ProjectReference Include="..\Subtext.Akismet\Subtext.Akismet.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Coravel" />

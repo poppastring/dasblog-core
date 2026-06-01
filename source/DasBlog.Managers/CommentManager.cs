@@ -15,13 +15,15 @@ namespace DasBlog.Managers
 		private readonly IBlogDataService dataService;
 		private readonly ILogger logger;
 		private readonly IDasBlogSettings dasBlogSettings;
+		private readonly ISpamBlockingService spamBlockingService;
 		private const int COMMENT_PAGE_SIZE = 5;
 
-		public CommentManager(ILogger<CommentManager> logger, IDasBlogSettings dasBlogSettings, IBlogDataService dataService)
+		public CommentManager(ILogger<CommentManager> logger, IDasBlogSettings dasBlogSettings, IBlogDataService dataService, ISpamBlockingService spamBlockingService)
 		{
 			this.logger = logger;
 			this.dasBlogSettings = dasBlogSettings;
 			this.dataService = dataService;
+			this.spamBlockingService = spamBlockingService;
 		}
 
 		public CommentSaveState AddComment(string postid, Comment comment)
@@ -46,6 +48,19 @@ namespace DasBlog.Managers
 				// FilterHtml html encodes anything we don't like
 				string filteredText = dasBlogSettings.FilterHtml(comment.Content);
 				comment.Content = filteredText;
+
+				// Akismet spam check (only when EnableSpamModeration is on and a key is configured).
+				// Admin-authored comments arrive with SpamState = NotSpam and are skipped.
+				if (dasBlogSettings.SiteConfiguration.EnableSpamModeration
+					&& comment.SpamState != SpamState.NotSpam
+					&& spamBlockingService != null
+					&& spamBlockingService.IsSpam(comment))
+				{
+					comment.SpamState = SpamState.Spam;
+					comment.IsPublic = false;
+					logger.LogInformation("Comment from '{Author}' on '{Target}' flagged as spam by Akismet; held for moderation.",
+						comment.Author, comment.TargetTitle);
+				}
 
 				if (dasBlogSettings.SiteConfiguration.SendCommentsByEmail)
 				{
@@ -76,6 +91,24 @@ namespace DasBlog.Managers
 
 			if (entry != null && !string.IsNullOrEmpty(commentid))
 			{
+				// If we're deleting a comment that was flagged as spam, report it to Akismet
+				// as confirmed spam to improve future detection.
+				if (dasBlogSettings.SiteConfiguration.EnableSpamModeration && spamBlockingService != null)
+				{
+					try
+					{
+						var existing = dataService.GetCommentById(postid, commentid);
+						if (existing != null && existing.SpamState == SpamState.Spam)
+						{
+							spamBlockingService.ReportSpam(existing);
+						}
+					}
+					catch (Exception ex)
+					{
+						logger.LogWarning(ex, "Failed to report spam to Akismet for comment {CommentId}.", commentid);
+					}
+				}
+
 				dataService.DeleteComment(postid, commentid);
 
 				est = CommentSaveState.Deleted;
@@ -95,6 +128,24 @@ namespace DasBlog.Managers
 
 			if (entry != null && !string.IsNullOrEmpty(commentid))
 			{
+				// If we're approving a comment Akismet flagged as spam, treat it as a
+				// false positive and submit it back as ham.
+				if (dasBlogSettings.SiteConfiguration.EnableSpamModeration && spamBlockingService != null)
+				{
+					try
+					{
+						var existing = dataService.GetCommentById(postid, commentid);
+						if (existing != null && existing.SpamState == SpamState.Spam)
+						{
+							spamBlockingService.ReportNotSpam(existing);
+						}
+					}
+					catch (Exception ex)
+					{
+						logger.LogWarning(ex, "Failed to report ham to Akismet for comment {CommentId}.", commentid);
+					}
+				}
+
 				dataService.ApproveComment(postid, commentid);
 
 				est = CommentSaveState.Approved;

@@ -15,6 +15,7 @@ namespace DasBlog.Tests.UnitTests.Managers
         private Mock<ISiteConfig> siteConfigMock;
         private Mock<ILogger<CommentManager>> loggerMock;
         private Mock<IBlogDataService> dataServiceMock;
+        private Mock<ISpamBlockingService> spamBlockingServiceMock;
 
         public CommentManagerTest()
         {
@@ -25,11 +26,12 @@ namespace DasBlog.Tests.UnitTests.Managers
 
             loggerMock = new Mock<ILogger<CommentManager>>();
             dataServiceMock = new Mock<IBlogDataService>();
+            spamBlockingServiceMock = new Mock<ISpamBlockingService>();
         }
 
         private CommentManager CreateManager()
         {
-            return new CommentManager(loggerMock.Object, settingsMock.Object, dataServiceMock.Object);
+            return new CommentManager(loggerMock.Object, settingsMock.Object, dataServiceMock.Object, spamBlockingServiceMock.Object);
         }
 
         [Fact]

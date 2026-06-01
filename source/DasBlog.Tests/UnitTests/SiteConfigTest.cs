@@ -75,6 +75,7 @@ namespace DasBlog.Tests.UnitTests
 		public bool CommentsAllowHtml { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 		public ISpamBlockingService SpamBlockingService { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 		public bool EnableSpamModeration { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+		public string AkismetAPIKey { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 		public int EntriesPerPage { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 		public bool EnableDailyReportEmail { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 		public bool UseSSLForSMTP { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }

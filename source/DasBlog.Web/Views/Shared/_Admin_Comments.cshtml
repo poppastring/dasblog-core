@@ -86,6 +86,22 @@
     </div>
 </div>
 
+<div class="row gy-2 gx-3 mt-4 mb-3">
+    <div class="col-12">
+        <div class="form-check">
+            @Html.CheckBoxFor(m => @Model.SiteConfig.EnableSpamModeration, new { @class = "form-check-input", id = "enableSpamModeration" })
+            @Html.LabelFor(m => @Model.SiteConfig.EnableSpamModeration, null, new { @class = "form-check-label" })
+        </div>
+    </div>
+    <div class="col-12">
+        <div class="form-floating">
+            @Html.TextBoxFor(m => @Model.SiteConfig.AkismetAPIKey, null, new { @class = "form-control", id = "akismetAPIKey", autocomplete = "off" })
+            @Html.LabelFor(m => @Model.SiteConfig.AkismetAPIKey, null, new { @class = "form-label", @for = "akismetAPIKey" })
+        </div>
+        @Html.ValidationMessageFor(m => m.SiteConfig.AkismetAPIKey, null, new { @class = "text-danger" })
+    </div>
+</div>
+
 <div class="row mb-3">
     @Html.LabelFor(m => @Model.SiteConfig.ValidCommentTags, null, new { @class = "col-form-label" })    
     <div class="dasblog-col-body col-sm-10">
@@ -106,6 +122,8 @@
         const enableCaptchaCheckbox = document.querySelector('[id$="EnableCaptcha"]');
         const enableCommentDaysCheckbox = document.querySelector('[id$="EnableCommentDays"]');
         const daysCommentsAllowedTextbox = document.getElementById('daysCommentsAllowed');
+        const enableSpamModerationCheckbox = document.getElementById('enableSpamModeration');
+        const akismetApiKeyTextbox = document.getElementById('akismetAPIKey');
         const recaptchaFields = [
             document.getElementById('recaptchaMinimumScore'),
             document.getElementById('recaptchaSiteKey'),
@@ -128,6 +146,12 @@
             daysCommentsAllowedTextbox.disabled = !isEnabled;
         }
 
+        function toggleAkismetApiKey() {
+            if (!enableSpamModerationCheckbox || !akismetApiKeyTextbox) return;
+            const isEnabled = enableSpamModerationCheckbox.checked && enableCommentsCheckbox.checked;
+            akismetApiKeyTextbox.disabled = !isEnabled;
+        }
+
         function toggleAllFields() {
             const enabled = enableCommentsCheckbox.checked;
             allFormFields.forEach(field => {
@@ -137,6 +161,7 @@
             if (enabled) {
                 toggleRecaptchaFields();
                 toggleDaysCommentsAllowed();
+                toggleAkismetApiKey();
             }
         }
 
@@ -150,6 +175,11 @@
         enableCommentDaysCheckbox.addEventListener('change', function () {
             if (enableCommentsCheckbox.checked) toggleDaysCommentsAllowed();
         });
+        if (enableSpamModerationCheckbox) {
+            enableSpamModerationCheckbox.addEventListener('change', function () {
+                if (enableCommentsCheckbox.checked) toggleAkismetApiKey();
+            });
+        }
 
         // Re-enable disabled fields before form submission so their values are posted.
         // Disabled inputs are excluded from form submission, which causes server-side
