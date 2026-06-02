@@ -1,4 +1,7 @@
 
+using System.Threading;
+using System.Threading.Tasks;
+
 namespace newtelligence.DasBlog.Runtime
 {
 	public interface ISpamBlockingService
@@ -9,8 +12,18 @@ namespace newtelligence.DasBlog.Runtime
 		/// </summary>
 		bool IsEnabled { get; }
 
-		bool IsSpam(IFeedback feedback);
+		Task<bool> IsSpamAsync(IFeedback feedback, CancellationToken cancellationToken = default);
+
+		/// <summary>
+		/// Fire-and-forget. Reports a confirmed-spam comment to the upstream service.
+		/// Returns immediately; failures are logged but never propagated.
+		/// </summary>
 		void ReportSpam(IFeedback feedback);
+
+		/// <summary>
+		/// Fire-and-forget. Reports a false-positive (ham) to the upstream service.
+		/// Returns immediately; failures are logged but never propagated.
+		/// </summary>
 		void ReportNotSpam(IFeedback feedback);
 	}
 }

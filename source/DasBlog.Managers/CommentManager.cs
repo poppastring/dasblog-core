@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace DasBlog.Managers
 {
@@ -26,7 +28,7 @@ namespace DasBlog.Managers
 			this.spamBlockingService = spamBlockingService;
 		}
 
-		public CommentSaveState AddComment(string postid, Comment comment)
+		public async Task<CommentSaveState> AddCommentAsync(string postid, Comment comment, CancellationToken cancellationToken = default)
 		{
 			var saveState = CommentSaveState.Failed;
 			var entry = dataService.GetEntry(postid);
@@ -55,7 +57,7 @@ namespace DasBlog.Managers
 				if (comment.SpamState != SpamState.NotSpam
 					&& spamBlockingService != null
 					&& spamBlockingService.IsEnabled
-					&& spamBlockingService.IsSpam(comment))
+					&& await spamBlockingService.IsSpamAsync(comment, cancellationToken).ConfigureAwait(false))
 				{
 					comment.SpamState = SpamState.Spam;
 					comment.IsPublic = false;

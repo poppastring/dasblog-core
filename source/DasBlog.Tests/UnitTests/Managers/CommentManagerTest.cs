@@ -1,4 +1,6 @@
 using System;
+using System.Threading;
+using System.Threading.Tasks;
 using Moq;
 using Xunit;
 using DasBlog.Managers;
@@ -132,19 +134,19 @@ namespace DasBlog.Tests.UnitTests.Managers
         }
 
         [Fact]
-        public void AddComment_SpamServiceEnabledAndIsSpam_HoldsForModeration()
+        public async Task AddComment_SpamServiceEnabledAndIsSpam_HoldsForModeration()
         {
             ConfigureCommentsEnabled();
             var entry = CreateEntry();
             dataServiceMock.Setup(d => d.GetEntry("post1")).Returns(entry);
             settingsMock.Setup(s => s.FilterHtml(It.IsAny<string>())).Returns<string>(s => s);
             spamBlockingServiceMock.SetupGet(s => s.IsEnabled).Returns(true);
-            spamBlockingServiceMock.Setup(s => s.IsSpam(It.IsAny<IFeedback>())).Returns(true);
+            spamBlockingServiceMock.Setup(s => s.IsSpamAsync(It.IsAny<IFeedback>(), It.IsAny<CancellationToken>())).ReturnsAsync(true);
 
             var incoming = CreateIncomingComment();
             var manager = CreateManager();
 
-            var result = manager.AddComment("post1", incoming);
+            var result = await manager.AddCommentAsync("post1", incoming);
 
             Assert.Equal(CommentSaveState.Added, result);
             Assert.Equal(SpamState.Spam, incoming.SpamState);
@@ -153,7 +155,7 @@ namespace DasBlog.Tests.UnitTests.Managers
         }
 
         [Fact]
-        public void AddComment_AdminAuthoredComment_SkipsSpamCheck()
+        public async Task AddComment_AdminAuthoredComment_SkipsSpamCheck()
         {
             ConfigureCommentsEnabled();
             var entry = CreateEntry();
@@ -164,14 +166,14 @@ namespace DasBlog.Tests.UnitTests.Managers
             var incoming = CreateIncomingComment(SpamState.NotSpam);
             var manager = CreateManager();
 
-            manager.AddComment("post1", incoming);
+            await manager.AddCommentAsync("post1", incoming);
 
-            spamBlockingServiceMock.Verify(s => s.IsSpam(It.IsAny<IFeedback>()), Times.Never);
+            spamBlockingServiceMock.Verify(s => s.IsSpamAsync(It.IsAny<IFeedback>(), It.IsAny<CancellationToken>()), Times.Never);
             Assert.Equal(SpamState.NotSpam, incoming.SpamState);
         }
 
         [Fact]
-        public void AddComment_SpamServiceDisabled_DoesNotCallIsSpam()
+        public async Task AddComment_SpamServiceDisabled_DoesNotCallIsSpam()
         {
             ConfigureCommentsEnabled();
             var entry = CreateEntry();
@@ -182,9 +184,9 @@ namespace DasBlog.Tests.UnitTests.Managers
             var incoming = CreateIncomingComment();
             var manager = CreateManager();
 
-            manager.AddComment("post1", incoming);
+            await manager.AddCommentAsync("post1", incoming);
 
-            spamBlockingServiceMock.Verify(s => s.IsSpam(It.IsAny<IFeedback>()), Times.Never);
+            spamBlockingServiceMock.Verify(s => s.IsSpamAsync(It.IsAny<IFeedback>(), It.IsAny<CancellationToken>()), Times.Never);
             Assert.Equal(SpamState.NotChecked, incoming.SpamState);
         }
 

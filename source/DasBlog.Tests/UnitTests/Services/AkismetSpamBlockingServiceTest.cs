@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using DasBlog.Services;
 using DasBlog.Services.ConfigFile.Interfaces;
 using Microsoft.Extensions.Logging.Abstractions;
@@ -54,14 +55,14 @@ namespace DasBlog.Tests.UnitTests.Services
 		}
 
 		[Fact]
-		public void IsSpam_Disabled_ReturnsFalseWithoutNetworkCall()
+		public async Task IsSpamAsync_Disabled_ReturnsFalseWithoutNetworkCall()
 		{
-			// When disabled, IsSpam must short-circuit before any AkismetClient is created.
+			// When disabled, IsSpamAsync must short-circuit before any AkismetClient is created.
 			// Reaching the network would either throw or hang in a unit-test environment.
 			Configure(moderationEnabled: false, apiKey: null);
 			var feedback = new Mock<IFeedback>().Object;
 
-			Assert.False(CreateService().IsSpam(feedback));
+			Assert.False(await CreateService().IsSpamAsync(feedback));
 		}
 
 		[Fact]

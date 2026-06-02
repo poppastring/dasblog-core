@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Reflection;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace Subtext.Akismet
 {
@@ -92,11 +93,11 @@ namespace Subtext.Akismet
 		/// <summary>
 		/// Verifies the API key. You really only need to call this once, perhaps at startup.
 		/// </summary>
-		public bool VerifyApiKey()
+		public async Task<bool> VerifyApiKeyAsync(CancellationToken cancellationToken = default)
 		{
 			string parameters = "api_key=" + WebUtility.UrlEncode(this.ApiKey)
 								+ "&blog=" + WebUtility.UrlEncode(this.BlogUrl.ToString());
-			string result = PostRequest(verifyUrl, parameters);
+			string result = await PostRequestAsync(verifyUrl, parameters, cancellationToken).ConfigureAwait(false);
 
 			if (string.IsNullOrEmpty(result))
 				throw new InvalidResponseException("Akismet returned an empty response");
@@ -107,9 +108,9 @@ namespace Subtext.Akismet
 		/// <summary>
 		/// Checks the comment and returns true if it is spam, otherwise false.
 		/// </summary>
-		public bool CheckCommentForSpam(IComment comment)
+		public async Task<bool> CheckCommentForSpamAsync(IComment comment, CancellationToken cancellationToken = default)
 		{
-			string result = SubmitComment(comment, checkUrl);
+			string result = await SubmitCommentAsync(comment, checkUrl, cancellationToken).ConfigureAwait(false);
 
 			if (string.IsNullOrEmpty(result))
 				throw new InvalidResponseException("Akismet returned an empty response");
@@ -123,20 +124,20 @@ namespace Subtext.Akismet
 		/// <summary>
 		/// Submits a comment to Akismet that should have been flagged as SPAM, but was not.
 		/// </summary>
-		public void SubmitSpam(IComment comment)
+		public Task SubmitSpamAsync(IComment comment, CancellationToken cancellationToken = default)
 		{
-			SubmitComment(comment, submitSpamUrl);
+			return SubmitCommentAsync(comment, submitSpamUrl, cancellationToken);
 		}
 
 		/// <summary>
 		/// Submits a comment to Akismet that should not have been flagged as SPAM (a false positive).
 		/// </summary>
-		public void SubmitHam(IComment comment)
+		public Task SubmitHamAsync(IComment comment, CancellationToken cancellationToken = default)
 		{
-			SubmitComment(comment, submitHamUrl);
+			return SubmitCommentAsync(comment, submitHamUrl, cancellationToken);
 		}
 
-		private string SubmitComment(IComment comment, Uri url)
+		private async Task<string> SubmitCommentAsync(IComment comment, Uri url, CancellationToken cancellationToken)
 		{
 			var parameters = new StringBuilder();
 			parameters.Append("api_key=").Append(WebUtility.UrlEncode(this.ApiKey));
@@ -175,17 +176,20 @@ namespace Subtext.Akismet
 				}
 			}
 
-			return PostRequest(url, parameters.ToString()).ToLower(CultureInfo.InvariantCulture);
+			var response = await PostRequestAsync(url, parameters.ToString(), cancellationToken).ConfigureAwait(false);
+			return response.ToLower(CultureInfo.InvariantCulture);
 		}
 
-		private string PostRequest(Uri url, string formParameters)
+		private async Task<string> PostRequestAsync(Uri url, string formParameters, CancellationToken cancellationToken)
 		{
 			using var request = new HttpRequestMessage(HttpMethod.Post, url);
 			request.Headers.TryAddWithoutValidation("User-Agent", this.UserAgent);
 			request.Content = new StringContent(formParameters ?? string.Empty, Encoding.UTF8, "application/x-www-form-urlencoded");
 
-			using var cts = new CancellationTokenSource(TimeSpan.FromMilliseconds(this.timeout));
-			using var response = sharedHttpClient.SendAsync(request, cts.Token).GetAwaiter().GetResult();
+			using var cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+			cts.CancelAfter(TimeSpan.FromMilliseconds(this.timeout));
+
+			using var response = await sharedHttpClient.SendAsync(request, cts.Token).ConfigureAwait(false);
 
 			if (!response.IsSuccessStatusCode)
 			{
@@ -194,7 +198,7 @@ namespace Subtext.Akismet
 					response.StatusCode);
 			}
 
-			return response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+			return await response.Content.ReadAsStringAsync(cts.Token).ConfigureAwait(false);
 		}
 	}
 }

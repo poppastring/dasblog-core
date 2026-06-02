@@ -1,5 +1,7 @@
 using System;
 using System.Net;
+using System.Threading;
+using System.Threading.Tasks;
 using DasBlog.Services.ConfigFile.Interfaces;
 using Microsoft.Extensions.Logging;
 using newtelligence.DasBlog.Runtime;
@@ -26,7 +28,7 @@ namespace DasBlog.Services
 		public bool IsEnabled =>
 			siteConfig.EnableSpamModeration && !string.IsNullOrWhiteSpace(siteConfig.AkismetAPIKey);
 
-		public bool IsSpam(IFeedback feedback)
+		public async Task<bool> IsSpamAsync(IFeedback feedback, CancellationToken cancellationToken = default)
 		{
 			if (!IsEnabled || feedback == null)
 			{
@@ -36,7 +38,7 @@ namespace DasBlog.Services
 			try
 			{
 				var client = CreateClient();
-				return client.CheckCommentForSpam(BuildComment(feedback));
+				return await client.CheckCommentForSpamAsync(BuildComment(feedback), cancellationToken).ConfigureAwait(false);
 			}
 			catch (Exception ex)
 			{
@@ -52,14 +54,8 @@ namespace DasBlog.Services
 				return;
 			}
 
-			try
-			{
-				CreateClient().SubmitSpam(BuildComment(feedback));
-			}
-			catch (Exception ex)
-			{
-				logger.LogError(ex, "Akismet SubmitSpam failed.");
-			}
+			// Fire-and-forget: the admin doesn't need to wait for Akismet to acknowledge.
+			_ = ReportSpamCoreAsync(feedback);
 		}
 
 		public void ReportNotSpam(IFeedback feedback)
@@ -69,13 +65,30 @@ namespace DasBlog.Services
 				return;
 			}
 
+			_ = ReportNotSpamCoreAsync(feedback);
+		}
+
+		private async Task ReportSpamCoreAsync(IFeedback feedback)
+		{
 			try
 			{
-				CreateClient().SubmitHam(BuildComment(feedback));
+				await CreateClient().SubmitSpamAsync(BuildComment(feedback)).ConfigureAwait(false);
 			}
 			catch (Exception ex)
 			{
-				logger.LogError(ex, "Akismet SubmitHam failed.");
+				logger.LogWarning(ex, "Akismet SubmitSpam failed (fire-and-forget).");
+			}
+		}
+
+		private async Task ReportNotSpamCoreAsync(IFeedback feedback)
+		{
+			try
+			{
+				await CreateClient().SubmitHamAsync(BuildComment(feedback)).ConfigureAwait(false);
+			}
+			catch (Exception ex)
+			{
+				logger.LogWarning(ex, "Akismet SubmitHam failed (fire-and-forget).");
 			}
 		}
 
