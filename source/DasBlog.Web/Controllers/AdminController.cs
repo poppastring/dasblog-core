@@ -1,6 +1,7 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using AutoMapper;
 using DasBlog.Core.Common;
 using DasBlog.Managers.Interfaces;
@@ -182,7 +183,7 @@ namespace DasBlog.Web.Controllers
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		[Route("/admin/add-admin-comment")]
-		public IActionResult AddAdminComment(AddCommentViewModel addcomment)
+		public async Task<IActionResult> AddAdminComment(AddCommentViewModel addcomment)
 		{
 			var errors = new List<string>();
 
@@ -200,7 +201,7 @@ namespace DasBlog.Web.Controllers
 			commt.IsPublic = true; // Admin comments are always public
 			commt.CreatedUtc = commt.ModifiedUtc = DateTime.UtcNow;
 
-			var state = commentManager.AddComment(addcomment.TargetEntryId, commt);
+			var state = await commentManager.AddCommentAsync(addcomment.TargetEntryId, commt);
 
 			if (state == NBR.CommentSaveState.Failed)
 			{

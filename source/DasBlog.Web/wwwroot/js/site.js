@@ -24,6 +24,11 @@
             modalButton = 'Move to Pending';
             modalButtonClass = 'btn-warning';
             break;
+        case 'SPAM':
+            modalTitle = 'Mark as Spam';
+            modalButton = 'Mark as Spam';
+            modalButtonClass = 'btn-danger';
+            break;
         default:
             modalTitle = 'Confirm Approve';
             modalButton = 'Approve';
@@ -103,6 +108,9 @@ function executeCommentAction() {
                     break;
                 case 'UNAPPROVE':
                     successMessage = 'Comment moved back to pending.';
+                    break;
+                case 'SPAM':
+                    successMessage = 'Comment marked as spam.';
                     break;
                 default:
                     successMessage = 'Comment approved successfully!';

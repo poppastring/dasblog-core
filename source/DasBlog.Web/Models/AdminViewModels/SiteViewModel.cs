@@ -329,7 +329,15 @@ namespace DasBlog.Web.Models.AdminViewModels
 		public string CommentsGravatarRating { get; set; }
 		public bool CommentsAllowHtml { get; set; }
 
+		[DisplayName("Enable Spam Moderation")]
+		[Description("When enabled, comments are checked against the Akismet service and any flagged as spam are held for moderation. Requires an Akismet API key.")]
 		public bool EnableSpamModeration { get; set; }
+
+		[DisplayName("Akismet API Key")]
+		[Description("Your Akismet.com API key. Required if 'Enable Spam Moderation' is on. When configured, comments classified as spam by Akismet are held for moderation.")]
+		[StringLength(100, ErrorMessage = "{0} should be between 1 to 100 characters")]
+		public string AkismetAPIKey { get; set; }
+
 		public bool EnableDailyReportEmail { get; set; }
 		public bool EnableGeoRss { get; set; }
 		public double DefaultLatitude { get; set; }

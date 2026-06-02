@@ -186,6 +186,8 @@ namespace DasBlog.Services.ConfigFile.Interfaces
 
 		bool EnableSpamModeration { get; set; }
 
+		string AkismetAPIKey { get; set; }
+
         int EntriesPerPage { get; set; }
 
         bool EnableDailyReportEmail { get; set; }

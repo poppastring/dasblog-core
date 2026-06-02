@@ -22,6 +22,8 @@ using reCAPTCHA.AspNetCore;
 using Markdig;
 using DasBlog.Core.Extensions;
 using System.Text.RegularExpressions;
+using System.Threading;
+using System.Threading.Tasks;
 using DasBlog.Services.Site;
 using DasBlog.Services.FileManagement;
 using Quartz.Util;
@@ -439,7 +441,7 @@ namespace DasBlog.Web.Controllers
 
 		[AllowAnonymous]
 		[HttpPost("post/comments")]
-		public IActionResult AddComment(AddCommentViewModel addcomment)
+		public async Task<IActionResult> AddComment(AddCommentViewModel addcomment, CancellationToken cancellationToken)
 		{
 			List<string> errors = new List<string>();
 
@@ -497,7 +499,7 @@ namespace DasBlog.Web.Controllers
 			commt.IsPublic = !dasBlogSettings.SiteConfiguration.CommentsRequireApproval;
 			commt.CreatedUtc = commt.ModifiedUtc = DateTime.Now.ToUniversalTime();
 
-			var state = commentManager.AddComment(addcomment.TargetEntryId, commt);
+			var state = await commentManager.AddCommentAsync(addcomment.TargetEntryId, commt, cancellationToken);
 
 			if (state == NBR.CommentSaveState.Failed)
 			{
@@ -594,6 +596,28 @@ namespace DasBlog.Web.Controllers
 			}
 
 			logger.LogInformation(new EventDataItem(EventCodes.CommentChanged, null, "Comment moved back to pending on: {0}", postid.ToString()));
+
+			BreakSiteCache();
+
+			return Ok();
+		}
+
+		[HttpPatch("admin/post/{postid:guid}/comments/{commentid:guid}/spam")]
+		public IActionResult MarkCommentAsSpam(Guid postid, Guid commentid)
+		{
+			var state = commentManager.MarkCommentAsSpam(postid.ToString(), commentid.ToString());
+
+			if (state == NBR.CommentSaveState.Failed)
+			{
+				return StatusCode(500);
+			}
+
+			if (state == NBR.CommentSaveState.NotFound)
+			{
+				return NotFound();
+			}
+
+			logger.LogInformation(new EventDataItem(EventCodes.CommentChanged, null, "Comment marked as spam on: {0}", postid.ToString()));
 
 			BreakSiteCache();
 

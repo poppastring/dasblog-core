@@ -146,6 +146,7 @@ namespace DasBlog.Services.ConfigFile
 		[XmlIgnore]
 		public ISpamBlockingService SpamBlockingService { get; set; }
         public bool EnableSpamModeration { get; set; }
+        public string AkismetAPIKey { get; set; }
         public int EntriesPerPage { get; set; }
         public bool EnableDailyReportEmail { get; set; }
         public bool UseSSLForSMTP { get; set; }

@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace DasBlog.Managers
 {
@@ -15,16 +17,18 @@ namespace DasBlog.Managers
 		private readonly IBlogDataService dataService;
 		private readonly ILogger logger;
 		private readonly IDasBlogSettings dasBlogSettings;
+		private readonly ISpamBlockingService spamBlockingService;
 		private const int COMMENT_PAGE_SIZE = 5;
 
-		public CommentManager(ILogger<CommentManager> logger, IDasBlogSettings dasBlogSettings, IBlogDataService dataService)
+		public CommentManager(ILogger<CommentManager> logger, IDasBlogSettings dasBlogSettings, IBlogDataService dataService, ISpamBlockingService spamBlockingService)
 		{
 			this.logger = logger;
 			this.dasBlogSettings = dasBlogSettings;
 			this.dataService = dataService;
+			this.spamBlockingService = spamBlockingService;
 		}
 
-		public CommentSaveState AddComment(string postid, Comment comment)
+		public async Task<CommentSaveState> AddCommentAsync(string postid, Comment comment, CancellationToken cancellationToken = default)
 		{
 			var saveState = CommentSaveState.Failed;
 			var entry = dataService.GetEntry(postid);
@@ -46,6 +50,20 @@ namespace DasBlog.Managers
 				// FilterHtml html encodes anything we don't like
 				string filteredText = dasBlogSettings.FilterHtml(comment.Content);
 				comment.Content = filteredText;
+
+				// Akismet spam check. The service is a no-op when not configured, so this is
+				// safe regardless of admin settings; admin-authored comments arrive with
+				// SpamState = NotSpam and are skipped.
+				if (comment.SpamState != SpamState.NotSpam
+					&& spamBlockingService != null
+					&& spamBlockingService.IsEnabled
+					&& await spamBlockingService.IsSpamAsync(comment, cancellationToken).ConfigureAwait(false))
+				{
+					comment.SpamState = SpamState.Spam;
+					comment.IsPublic = false;
+					logger.LogInformation("Comment from '{Author}' on '{Target}' flagged as spam by Akismet; held for moderation.",
+						comment.Author, comment.TargetTitle);
+				}
 
 				if (dasBlogSettings.SiteConfiguration.SendCommentsByEmail)
 				{
@@ -76,6 +94,24 @@ namespace DasBlog.Managers
 
 			if (entry != null && !string.IsNullOrEmpty(commentid))
 			{
+				// If we're deleting a comment that was flagged as spam, report it to the
+				// spam service as confirmed spam. The service is a no-op when not configured.
+				if (spamBlockingService != null && spamBlockingService.IsEnabled)
+				{
+					try
+					{
+						var existing = dataService.GetCommentById(postid, commentid);
+						if (existing != null && existing.SpamState == SpamState.Spam)
+						{
+							spamBlockingService.ReportSpam(existing);
+						}
+					}
+					catch (Exception ex)
+					{
+						logger.LogWarning(ex, "Failed to report spam for comment {CommentId}.", commentid);
+					}
+				}
+
 				dataService.DeleteComment(postid, commentid);
 
 				est = CommentSaveState.Deleted;
@@ -95,6 +131,24 @@ namespace DasBlog.Managers
 
 			if (entry != null && !string.IsNullOrEmpty(commentid))
 			{
+				// If we're approving a comment previously flagged as spam, treat it as a
+				// false positive and submit it back as ham. No-op when service isn't configured.
+				if (spamBlockingService != null && spamBlockingService.IsEnabled)
+				{
+					try
+					{
+						var existing = dataService.GetCommentById(postid, commentid);
+						if (existing != null && existing.SpamState == SpamState.Spam)
+						{
+							spamBlockingService.ReportNotSpam(existing);
+						}
+					}
+					catch (Exception ex)
+					{
+						logger.LogWarning(ex, "Failed to report ham for comment {CommentId}.", commentid);
+					}
+				}
+
 				dataService.ApproveComment(postid, commentid);
 
 				est = CommentSaveState.Approved;
@@ -115,6 +169,43 @@ namespace DasBlog.Managers
 			if (entry != null && !string.IsNullOrEmpty(commentid))
 			{
 				dataService.UnapproveComment(postid, commentid);
+
+				est = CommentSaveState.Unapproved;
+			}
+			else
+			{
+				est = CommentSaveState.NotFound;
+			}
+
+			return est;
+		}
+
+		public CommentSaveState MarkCommentAsSpam(string postid, string commentid)
+		{
+			CommentSaveState est = CommentSaveState.Failed;
+			Entry entry = dataService.GetEntry(postid);
+
+			if (entry != null && !string.IsNullOrEmpty(commentid))
+			{
+				// Report to the spam service first so it learns from the admin's decision.
+				// No-op when the service isn't configured.
+				if (spamBlockingService != null && spamBlockingService.IsEnabled)
+				{
+					try
+					{
+						var existing = dataService.GetCommentById(postid, commentid);
+						if (existing != null && existing.SpamState != SpamState.Spam)
+						{
+							spamBlockingService.ReportSpam(existing);
+						}
+					}
+					catch (Exception ex)
+					{
+						logger.LogWarning(ex, "Failed to report spam for comment {CommentId}.", commentid);
+					}
+				}
+
+				dataService.MarkCommentAsSpam(postid, commentid);
 
 				est = CommentSaveState.Unapproved;
 			}
