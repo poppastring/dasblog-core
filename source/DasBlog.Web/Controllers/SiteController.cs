@@ -52,7 +52,7 @@ namespace DasBlog.Web.Controllers
 		{
 			var scheme = Request.Scheme;
 			var host = Request.Host.ToUriComponent();
-			var pathBase = Request.PathBase.HasValue ? Request.PathBase.ToUriComponent() : string.Empty;
+			var pathBase = Request.PathBase.HasValue ? Request.PathBase.ToUriComponent().TrimEnd('/') : string.Empty;
 			var sitemapUrl = $"{scheme}://{host}{pathBase}/sitemap.xml";
 
 			var sb = new StringBuilder();
