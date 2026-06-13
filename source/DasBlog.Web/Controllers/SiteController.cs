@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Text;
 using AutoMapper;
 using DasBlog.Managers.Interfaces;
 using DasBlog.Services.ActivityLogs;
@@ -29,13 +30,39 @@ namespace DasBlog.Web.Controllers
 
 		[Produces("text/xml")]
 		[Route("")]
-        [HttpGet("map")]
-        public ActionResult Map()
-        {
+		[HttpGet("map")]
+		public ActionResult Map()
+		{
 			var sitemap = siteManager.GetGoogleSiteMap();
 
 			return Ok(sitemap);
-        }
+		}
+
+		[Produces("application/xml")]
+		[HttpGet("/sitemap.xml")]
+		public ActionResult SitemapXml()
+		{
+			var sitemap = siteManager.GetGoogleSiteMap();
+
+			return Ok(sitemap);
+		}
+
+		[HttpGet("/robots.txt")]
+		public ActionResult RobotsTxt()
+		{
+			var scheme = Request.Scheme;
+			var host = Request.Host.ToUriComponent();
+			var pathBase = Request.PathBase.HasValue ? Request.PathBase.ToUriComponent() : string.Empty;
+			var sitemapUrl = $"{scheme}://{host}{pathBase}/sitemap.xml";
+
+			var sb = new StringBuilder();
+			sb.Append("User-agent: *\n");
+			sb.Append("Disallow: ").Append(pathBase).Append("/account/login\n");
+			sb.Append('\n');
+			sb.Append("Sitemap: ").Append(sitemapUrl).Append('\n');
+
+			return Content(sb.ToString(), "text/plain", Encoding.UTF8);
+		}
 
 		[Produces("text/plain")]
 		[HttpGet("microsummary")]

@@ -64,9 +64,13 @@ namespace DasBlog.Web.Settings
 				ViewData["PermaLink"] = dasBlogSettings.RelativeToRoot(post.PermaLink);
 				ViewData["Keywords"] = string.Join(",", post.Categories.Select(x => x.Category).ToArray());
 				ViewData["Canonical"] = dasBlogSettings.RelativeToRoot(post.PermaLink);
-				ViewData["Author"] = dasBlogSettings.GetUserByEmail(post.Author)?.DisplayName; ;
+				ViewData["Author"] = dasBlogSettings.GetUserByEmail(post.Author)?.DisplayName;
+				ViewData["AuthorUrl"] = dasBlogSettings.GetBaseUrl();
 				ViewData["PageImageUrl"] = (post.ImageUrl?.Length > 0) ? dasBlogSettings.RelativeToRoot(post.ImageUrl) : dasBlogSettings.MetaTags.TwitterImage;
 				ViewData["PageVideoUrl"] = (post.VideoUrl?.Length > 0) ? dasBlogSettings.RelativeToRoot(post.VideoUrl) : string.Empty;
+				ViewData["DatePublished"] = post.CreatedDateTime.ToUniversalTime().ToString("o");
+				ViewData["DateModified"] = post.ModifiedDateTime.ToUniversalTime().ToString("o");
+				ViewData["OgType"] = "article";
 				ShowErrors(post);
 			}
 		}
