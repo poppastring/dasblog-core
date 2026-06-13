@@ -39,7 +39,7 @@ namespace DasBlog.Web.Controllers
 		}
 
 		[Produces("application/xml")]
-		[HttpGet("/sitemap.xml")]
+		[Route("/sitemap.xml")]
 		public ActionResult SitemapXml()
 		{
 			var sitemap = siteManager.GetGoogleSiteMap();
@@ -47,7 +47,7 @@ namespace DasBlog.Web.Controllers
 			return Ok(sitemap);
 		}
 
-		[HttpGet("/robots.txt")]
+		[Route("/robots.txt")]
 		public ActionResult RobotsTxt()
 		{
 			var scheme = Request.Scheme;
@@ -56,10 +56,10 @@ namespace DasBlog.Web.Controllers
 			var sitemapUrl = $"{scheme}://{host}{pathBase}/sitemap.xml";
 
 			var sb = new StringBuilder();
-			sb.Append("User-agent: *\n");
-			sb.Append("Disallow: ").Append(pathBase).Append("/account/login\n");
-			sb.Append('\n');
-			sb.Append("Sitemap: ").Append(sitemapUrl).Append('\n');
+			sb.Append("User-agent: *\r\n");
+			sb.Append("Disallow: ").Append(pathBase).Append("/account/login\r\n");
+			sb.Append("\r\n");
+			sb.Append("Sitemap: ").Append(sitemapUrl).Append("\r\n");
 
 			return Content(sb.ToString(), "text/plain", Encoding.UTF8);
 		}

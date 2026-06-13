@@ -103,6 +103,8 @@ namespace DasBlog.Web
 			{
 				endpoints.MapHealthChecks("/healthcheck");
 
+				endpoints.MapControllers();
+
 				endpoints.MapControllerRoute(
 					"Unique Original Post Format",
 					"~/{year:int}/{month:int}/{day:int}/{posttitle}.aspx",
