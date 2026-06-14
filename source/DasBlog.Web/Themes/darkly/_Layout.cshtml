@@ -1,7 +1,9 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    @* Pin this theme's color mode independent of any admin/user preference written to localStorage *@
+    @* Pin this theme's color mode independent of any admin/user preference written to localStorage.
+       Bootswatch Darkly is itself a dark palette, so the 'light' token is its native key
+       (matches `:root, [data-bs-theme=light]` in Bootswatch v5). *@
     <script>
         localStorage.setItem('dasblog-theme', 'light');
         document.documentElement.setAttribute('data-bs-theme', 'light');
@@ -17,14 +19,20 @@
     <open-graph />
     <blog-posting-schema />
 
-    <link rel="stylesheet" href="~/lib/bootstrap/5.3.3/css/bootstrap.min.css" />
+    @* Darkly is a Bootswatch 5.3.8 swatch (https://bootswatch.com/darkly/).
+       The full Bootstrap + Darkly palette ships from ~/lib/bootswatch/5.3.8/darkly/,
+       and the small DasBlog-specific overrides come from ~/Themes/darkly/custom.css
+       loaded by _HtmlThemePartial. *@
+
+    <link rel="stylesheet" href="~/lib/bootswatch/5.3.8/darkly/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/font-awesome/6.7.2/css/all.css" />
 
     <partial name="_HtmlThemePartial" />
 
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
         <div class="container-fluid">
             <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand"><site-title /></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-darkly" aria-controls="navbar-darkly" aria-expanded="false" aria-label="Toggle navigation">

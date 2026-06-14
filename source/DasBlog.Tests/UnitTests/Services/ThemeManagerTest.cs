@@ -20,7 +20,7 @@ namespace DasBlog.Tests.UnitTests.Services
 			Directory.CreateDirectory(tempRoot);
 
 			// Create theme directories matching the built-in defaults
-			foreach (var theme in new[] { "darkly", "dasblog", "flamingo", "kindofblue", "median" })
+			foreach (var theme in new[] { "darkly", "dasblog", "flamingo", "flatly", "kindofblue", "median" })
 			{
 				var themeDir = Path.Combine(tempRoot, "Themes", theme);
 				Directory.CreateDirectory(themeDir);
@@ -48,6 +48,7 @@ namespace DasBlog.Tests.UnitTests.Services
 		[InlineData("darkly", true)]
 		[InlineData("dasblog", true)]
 		[InlineData("flamingo", true)]
+		[InlineData("flatly", true)]
 		[InlineData("kindofblue", true)]
 		[InlineData("median", true)]
 		[InlineData("mytheme", false)]
@@ -103,7 +104,7 @@ namespace DasBlog.Tests.UnitTests.Services
 		{
 			var manager = CreateManager();
 			var themes = manager.ListThemes();
-			Assert.Equal(5, themes.Count);
+			Assert.Equal(6, themes.Count);
 			Assert.Contains(themes, t => t.Name == "darkly" && t.IsActive && t.IsDefault);
 			Assert.Contains(themes, t => t.Name == "dasblog" && !t.IsActive && t.IsDefault);
 		}

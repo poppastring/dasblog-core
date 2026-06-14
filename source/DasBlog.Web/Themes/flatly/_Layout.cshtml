@@ -1,7 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    @* Pin this theme's color mode independent of any admin/user preference written to localStorage *@
+    @* Pin this theme's color mode independent of any admin/user preference written to localStorage.
+       Flatly is the light counterpart to Darkly, both built on Bootswatch swatches that key
+       their palette under `:root, [data-bs-theme=light]`. *@
     <script>
         localStorage.setItem('dasblog-theme', 'light');
         document.documentElement.setAttribute('data-bs-theme', 'light');
@@ -17,7 +19,12 @@
     <open-graph />
     <blog-posting-schema />
 
-    <link rel="stylesheet" href="~/lib/bootstrap/5.3.3/css/bootstrap.min.css" />
+    @* Flatly is a Bootswatch 5.3.8 Flatly swatch (https://bootswatch.com/flatly/).
+       The full Bootstrap + Flatly palette ships from ~/lib/bootswatch/5.3.8/flatly/,
+       and the small DasBlog-specific overrides come from ~/Themes/flatly/custom.css
+       loaded by _HtmlThemePartial. *@
+
+    <link rel="stylesheet" href="~/lib/bootswatch/5.3.8/flatly/bootstrap.min.css" />
     <link rel="stylesheet" href="~/lib/font-awesome/6.7.2/css/all.css" />
 
     <partial name="_HtmlThemePartial" />
@@ -25,44 +32,43 @@
 </head>
 
 <body>
-
-    <nav class="navbar navbar-expand-lg kob-navbar">
-        <div class="container">
-            <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand kob-brand">
-                <site-title />
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-kindofblue" aria-controls="navbar-kindofblue" aria-expanded="false" aria-label="Toggle navigation">
+    <nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
+        <div class="container-fluid">
+            <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand"><site-title /></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-flatly" aria-controls="navbar-flatly" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbar-kindofblue">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="home" asp-action="index">Home</a></li>
+            <div class="collapse navbar-collapse" id="navbar-flatly">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item"><a class="nav-link active" asp-area="" asp-controller="home" asp-action="index">Home</a></li>
                     <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="category" asp-action="category" asp-route-cat="">Category</a></li>
                     <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="archive" asp-action="archive" asp-route-year="" asp-route-month="" asp-route-day="">Archive</a></li>
                     <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="feed" asp-action="rss">Subscribe</a></li>
                     <li class="nav-item" dasblog-authorized><a class="nav-link" asp-area="" asp-controller="admin" asp-action="settings">[Site Settings]</a></li>
-                    
+                </ul>
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item" dasblog-unauthorized><a class="nav-link" asp-controller="account" asp-action="login">Log in</a></li>
                     <li class="nav-item" dasblog-authorized><a class="nav-link" asp-controller="account" asp-action="logout">Log out</a></li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <div class="container kob-container">
+    <div class="container body-content">
 
         <vc:cookie-consent />
 
         @RenderBody()
 
-        <div class="text-center mt-4">
+        <div class="text-center">
             <p class="text-muted">
                 <site-page-control view-context="@ViewContext" />
             </p>
         </div>
 
-        <footer class="kob-footer">
+        <footer>
             <div class="text-center">
-                <p class="text-muted"><site-copyright /></p>
+                <p class="text-muted credit"><site-copyright /></p>
             </div>
         </footer>
     </div>
