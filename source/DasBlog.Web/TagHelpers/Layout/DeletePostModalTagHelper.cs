@@ -49,7 +49,7 @@ namespace DasBlog.Web.TagHelpers.Layout
 				values: new { postid = Post.EntryId }) ?? string.Empty;
 
 			var sb = new StringBuilder();
-			sb.Append("<div class=\"modal fade\" id=\"").Append(modalId).Append("\" tabindex=\"-1\" aria-labelledby=\"").Append(modalId).Append("Label\" aria-hidden=\"true\">\n");
+			sb.Append("<div class=\"modal fade\" id=\"").Append(modalId).Append("\" tabindex=\"-1\" aria-labelledby=\"").Append(modalId).Append("Label\">\n");
 			sb.Append("    <div class=\"modal-dialog\">\n");
 			sb.Append("        <div class=\"modal-content\">\n");
 			sb.Append("            <div class=\"modal-header\">\n");
