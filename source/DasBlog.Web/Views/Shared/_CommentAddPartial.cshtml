@@ -15,14 +15,14 @@
         <div class="row gy-2 gx-3 align-items-md-start mb-3">
             <div class="col-sm-3">
                 <div class="form-floating">
-                    @Html.TextBoxFor(m => @Model.Name, null, new { @class = "form-control", id = "Name" })
+                    @Html.TextBoxFor(m => @Model.Name, null, new { @class = "form-control", id = "Name", autocomplete = "name" })
                     @Html.LabelFor(m => @Model.Name, null, new { @class = "form-label", @for = "Name" })
                 </div>
                 @Html.ValidationMessageFor(m => m.Name, null, new { @class = "text-danger" })
             </div>
             <div class="col-sm-4">
                 <div class="form-floating">
-                    @Html.TextBoxFor(m => @Model.Email, null, new { @class = "form-control", id = "Email" })
+                    @Html.TextBoxFor(m => @Model.Email, null, new { @class = "form-control", id = "Email", autocomplete = "email" })
                     @Html.LabelFor(m => @Model.Email, null, new { @class = "form-label", @for = "Email" })
                 </div>
                 @Html.ValidationMessageFor(m => m.Email, null, new { @class = "text-danger" })
@@ -32,7 +32,7 @@
         <div class="row gy-2 gx-3 align-items-md-start mb-3">
             <div class="col-sm-7">
                 <div class="form-floating">
-                    @Html.TextBoxFor(m => @Model.HomePage, null, new { @class = "form-control", id = "HomePage" })
+                    @Html.TextBoxFor(m => @Model.HomePage, null, new { @class = "form-control", id = "HomePage", autocomplete = "url" })
                     @Html.LabelFor(m => @Model.HomePage, null, new { @class = "form-label", @for = "HomePage" })
                 </div>
                 @Html.ValidationMessageFor(m => m.HomePage, null, new { @class = "text-danger" })
@@ -45,7 +45,7 @@
             <div class="row gy-2 gx-3 align-items-md-start mb-3">
                 <div class="col-sm-3">
                     <div class="form-floating">
-                        @Html.TextBoxFor(m => @Model.CheesyQuestionAnswered, null, new { @class = "form-control", id = "CheesyQuestionAnswered" })
+                        @Html.TextBoxFor(m => @Model.CheesyQuestionAnswered, null, new { @class = "form-control", id = "CheesyQuestionAnswered", autocomplete = "off" })
                             <label for="CheesyQuestionAnswered" class="control-label">@dasBlogSettings.SiteConfiguration.CheesySpamQ</label>
                     </div>
                     

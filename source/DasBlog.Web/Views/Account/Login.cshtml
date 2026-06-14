@@ -16,7 +16,7 @@
     <div class="row gy-2 gx-3 justify-content-md-center mb-3">
         <div class="col-sm-4">
             <div class="form-floating">
-                @Html.TextBoxFor(m => @Model.Email, null, new { @class = "form-control", id = "EmailLogin" })
+                @Html.TextBoxFor(m => @Model.Email, null, new { @class = "form-control", id = "EmailLogin", autocomplete = "username" })
                 @Html.LabelFor(m => @Model.Email, null, new { @class = "form-label", @for = "EmailLogin" })
             </div>
             @Html.ValidationMessageFor(m => m.Email, null, new { @class = "text-danger" })
@@ -26,7 +26,7 @@
     <div class="row gy-2 gx-3 justify-content-md-center mb-3">
         <div class="col-sm-4">
             <div class="form-floating">
-                @Html.TextBoxFor(m => @Model.Password, null, new { @class = "form-control", id = "PasswordLogin", Type="password" })
+                @Html.TextBoxFor(m => @Model.Password, null, new { @class = "form-control", id = "PasswordLogin", Type="password", autocomplete = "current-password" })
                 @Html.LabelFor(m => @Model.Password, null, new { @class = "form-label", @for = "PasswordLogin" })
             </div>
             @Html.ValidationMessageFor(m => m.Password, null, new { @class = "text-danger" })
