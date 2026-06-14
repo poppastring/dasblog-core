@@ -247,8 +247,12 @@ code {
       padding-left: 0;
       padding-right: 0;
       cursor: pointer; }
-    .sidebar .site-title a:hover {
+  .sidebar .site-title a:hover {
       background: none !important; }
+.site-title a,
+.site-title a:hover,
+.site-title a:focus {
+  text-decoration: none; }
   .sidebar .nav {
     margin-bottom: 20px; }
   .sidebar .nav-item {
@@ -449,6 +453,54 @@ input.form-control {
   background-color: #ffffff;
   border-color: #dfdfdf;
   color: #444444; }
+
+/* Page-level <h1> titles (e.g. Category, Archive) — render in median's
+   purple accent for consistency with the link/button color. Scoped to
+   main .container > h1 so individual blog-post titles (rendered inside
+   cards/partials) keep their default color. */
+main .container > h1 {
+  color: #7376df; }
+
+/* Archive month-nav current-month is a disabled .btn-outline-secondary.
+   Force its text + border to purple so the current month reads as a title. */
+.btn-outline-secondary.disabled,
+.btn-outline-secondary:disabled {
+  color: #7376df !important;
+  border-color: #7376df !important;
+  opacity: 1; }
+
+/* Archive prev/next chevrons (outline-secondary buttons) — purple. */
+.btn-outline-secondary {
+  --bs-btn-color: #7376df;
+  --bs-btn-border-color: #7376df;
+  --bs-btn-hover-color: #ffffff;
+  --bs-btn-hover-bg: #7376df;
+  --bs-btn-hover-border-color: #7376df;
+  --bs-btn-active-color: #ffffff;
+  --bs-btn-active-bg: #6365d2;
+  --bs-btn-active-border-color: #6365d2;
+  color: #7376df; }
+
+.btn-outline-secondary > i,
+.btn-outline-secondary > .fa,
+.btn-outline-secondary > .fas {
+  color: inherit; }
+
+/* Archive calendar icon (fa-calendar) — paint purple to match the pager. */
+.dbc-calendar .text-secondary {
+  color: #7376df !important; }
+
+/* Category/tag badges (.badge.bg-secondary) — the gray Bootstrap secondary
+   on light text is hard to read. Repaint to median's purple with white text
+   so they read clearly and match the rest of the theme. */
+.badge.bg-secondary {
+  background-color: #7376df !important;
+  color: #ffffff !important; }
+
+a.badge.bg-secondary:hover,
+a.badge.bg-secondary:focus {
+  background-color: #6365d2 !important;
+  color: #ffffff !important; }
 
 /*Tables*/
 .page-item.active .page-link {

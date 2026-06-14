@@ -30,6 +30,66 @@ a:hover {
     color: var(--flm-pink-dark);
 }
 
+/* Map Bootstrap's .btn-primary / .btn-outline-primary / .bg-primary / .text-primary
+   etc. to the flamingo pink so any stock-Bootstrap components in shared admin
+   views or comment forms pick up the theme accent instead of BS5's default blue. */
+.btn-primary {
+    --bs-btn-bg: var(--flm-pink);
+    --bs-btn-border-color: var(--flm-pink);
+    --bs-btn-hover-bg: var(--flm-pink-dark);
+    --bs-btn-hover-border-color: var(--flm-pink-dark);
+    --bs-btn-active-bg: var(--flm-pink-dark);
+    --bs-btn-active-border-color: var(--flm-pink-dark);
+    --bs-btn-disabled-bg: var(--flm-pink);
+    --bs-btn-disabled-border-color: var(--flm-pink);
+}
+
+.btn-outline-primary {
+    --bs-btn-color: var(--flm-pink);
+    --bs-btn-border-color: var(--flm-pink);
+    --bs-btn-hover-bg: var(--flm-pink);
+    --bs-btn-hover-border-color: var(--flm-pink);
+    --bs-btn-active-bg: var(--flm-pink-dark);
+    --bs-btn-active-border-color: var(--flm-pink-dark);
+    --bs-btn-disabled-color: var(--flm-pink);
+    --bs-btn-disabled-border-color: var(--flm-pink);
+}
+
+.bg-primary {
+    background-color: var(--flm-pink) !important;
+}
+
+.text-primary {
+    color: var(--flm-pink) !important;
+}
+
+.link-primary {
+    color: var(--flm-pink) !important;
+}
+
+.link-primary:hover, .link-primary:focus {
+    color: var(--flm-pink-dark) !important;
+}
+
+/* Archive month navigation: <, June 2026, > render as .btn-outline-secondary
+   and the calendar icon uses .text-secondary. Map both to the flamingo accent
+   so the controls are visible and on-brand. */
+.btn-outline-secondary {
+    --bs-btn-color: var(--flm-pink);
+    --bs-btn-border-color: var(--flm-pink);
+    --bs-btn-hover-bg: var(--flm-pink);
+    --bs-btn-hover-border-color: var(--flm-pink);
+    --bs-btn-hover-color: #ffffff;
+    --bs-btn-active-bg: var(--flm-pink-dark);
+    --bs-btn-active-border-color: var(--flm-pink-dark);
+    --bs-btn-disabled-color: var(--flm-pink);
+    --bs-btn-disabled-border-color: var(--flm-pink);
+}
+
+.dbc-calendar .text-secondary {
+    color: var(--flm-pink) !important;
+}
+
 /* Navbar */
 .flm-navbar {
     background-color: var(--flm-bg);
