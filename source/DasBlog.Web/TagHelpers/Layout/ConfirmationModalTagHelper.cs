@@ -27,7 +27,7 @@ namespace DasBlog.Web.TagHelpers.Layout
 			var hiddenButtonId = string.IsNullOrEmpty(HiddenButtonId) ? "hiddenSubmitButton" : HiddenButtonId;
 
 			var sb = new StringBuilder();
-			sb.Append("<div class=\"modal fade\" id=\"").Append(WebUtility.HtmlEncode(modalId)).Append("\" tabindex=\"-1\" aria-labelledby=\"").Append(WebUtility.HtmlEncode(modalId)).Append("Label\" aria-hidden=\"true\">\n");
+			sb.Append("<div class=\"modal fade\" id=\"").Append(WebUtility.HtmlEncode(modalId)).Append("\" tabindex=\"-1\" aria-labelledby=\"").Append(WebUtility.HtmlEncode(modalId)).Append("Label\">\n");
 			sb.Append("    <div class=\"modal-dialog\">\n");
 			sb.Append("        <div class=\"modal-content\">\n");
 			sb.Append("            <div class=\"modal-header\">\n");

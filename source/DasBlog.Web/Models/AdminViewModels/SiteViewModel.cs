@@ -295,7 +295,7 @@ namespace DasBlog.Web.Models.AdminViewModels
 
 		[DisplayName("Default Sources (separated by semi colon")]
 		[Description("")]
-		[StringLength(50, MinimumLength = 1, ErrorMessage = "{0} should be between 1 to 50 characters")]
+		[StringLength(600, MinimumLength = 1, ErrorMessage = "{0} should be between 1 to 600 characters")]
 		public string DefaultSources { get; set; }
 
 		[DisplayName("Mastodon Server")]

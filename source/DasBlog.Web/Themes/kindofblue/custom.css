@@ -31,6 +31,66 @@ a:hover {
     color: var(--kob-blue-dark);
 }
 
+/* Map Bootstrap's .btn-primary / .btn-outline-primary / .bg-primary / .text-primary
+   etc. to the kindofblue accent so any stock-Bootstrap components in shared admin
+   views or comment forms pick up the theme color instead of BS5's default blue. */
+.btn-primary {
+    --bs-btn-bg: var(--kob-blue);
+    --bs-btn-border-color: var(--kob-blue);
+    --bs-btn-hover-bg: var(--kob-blue-dark);
+    --bs-btn-hover-border-color: var(--kob-blue-dark);
+    --bs-btn-active-bg: var(--kob-blue-dark);
+    --bs-btn-active-border-color: var(--kob-blue-dark);
+    --bs-btn-disabled-bg: var(--kob-blue);
+    --bs-btn-disabled-border-color: var(--kob-blue);
+}
+
+.btn-outline-primary {
+    --bs-btn-color: var(--kob-blue);
+    --bs-btn-border-color: var(--kob-blue);
+    --bs-btn-hover-bg: var(--kob-blue);
+    --bs-btn-hover-border-color: var(--kob-blue);
+    --bs-btn-active-bg: var(--kob-blue-dark);
+    --bs-btn-active-border-color: var(--kob-blue-dark);
+    --bs-btn-disabled-color: var(--kob-blue);
+    --bs-btn-disabled-border-color: var(--kob-blue);
+}
+
+.bg-primary {
+    background-color: var(--kob-blue) !important;
+}
+
+.text-primary {
+    color: var(--kob-blue) !important;
+}
+
+.link-primary {
+    color: var(--kob-blue) !important;
+}
+
+.link-primary:hover, .link-primary:focus {
+    color: var(--kob-blue-dark) !important;
+}
+
+/* Archive month navigation: <, June 2026, > render as .btn-outline-secondary
+   and the calendar icon uses .text-secondary. Map both to the kindofblue accent
+   so the controls are visible and on-brand. */
+.btn-outline-secondary {
+    --bs-btn-color: var(--kob-blue);
+    --bs-btn-border-color: var(--kob-blue);
+    --bs-btn-hover-bg: var(--kob-blue);
+    --bs-btn-hover-border-color: var(--kob-blue);
+    --bs-btn-hover-color: var(--kob-bg);
+    --bs-btn-active-bg: var(--kob-blue-dark);
+    --bs-btn-active-border-color: var(--kob-blue-dark);
+    --bs-btn-disabled-color: var(--kob-blue);
+    --bs-btn-disabled-border-color: var(--kob-blue);
+}
+
+.dbc-calendar .text-secondary {
+    color: var(--kob-blue) !important;
+}
+
 /* Navbar */
 .kob-navbar {
     background-color: var(--kob-bg);

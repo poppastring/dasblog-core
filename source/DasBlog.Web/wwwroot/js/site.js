@@ -42,7 +42,7 @@
     if (!modal) {
         // Create modal if it doesn't exist
         const modalHtml = `
-            <div class="modal fade" id="commentActionModal" tabindex="-1" aria-labelledby="commentActionModalLabel" aria-hidden="true">
+            <div class="modal fade" id="commentActionModal" tabindex="-1" aria-labelledby="commentActionModalLabel">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">

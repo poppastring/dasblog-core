@@ -18,6 +18,7 @@
     <blog-posting-schema />
 
     <link rel="stylesheet" href="~/lib/bootstrap/5.3.3/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/font-awesome/6.7.2/css/all.css" />
 
     <partial name="_HtmlThemePartial" />
 
@@ -29,7 +30,7 @@
         <div class="row">
             <nav class="sidebar col-xs-12 col-sm-4 col-lg-3 col-xl-2 bg-faded sidebar-style-1">
 
-                <a href="#menu-toggle" class="btn btn-default" id="menu-toggle"><em class="fa fa-bars"></em></a>
+                <a href="#menu-toggle" class="btn btn-secondary" id="menu-toggle"><em class="fa fa-bars"></em></a>
                 <ul class="nav nav-pills flex-column sidebar-nav">
                     <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="home" asp-action="index"><em class="fa fa-dashboard"></em>Home</a></li>
                     <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="category" asp-action="category" asp-route-cat="">Category</a></li>
@@ -57,7 +58,7 @@
             <main class="col-xs-12 col-sm-8 offset-sm-4 col-lg-9 offset-lg-3 col-xl-10 offset-xl-2 pt-3 ps-4">
                 <header class="page-header row justify-center">
                     <div class="col-md-6 col-lg-8">
-                        <h1 class="site-title"> <site-title-link css="fa fa-rocket" />  </h1>
+                        <h1 class="site-title"> <site-title-link />  </h1>
                     </div>
                     <div class="dropdown user-dropdown col-md-6 col-lg-4 text-center text-md-right">
 
