@@ -1,6 +1,6 @@
-/* DasBlog darkly theme local overrides — layered on top of Bootswatch 5.3.8 Darkly,
+/* DasBlog darkly theme local overrides — layered on top of Bootswatch 5.3.3 Darkly,
    which is linked separately from _Layout.cshtml as
-   ~/lib/bootswatch/5.3.8/darkly/bootstrap.min.css. */
+   ~/lib/bootswatch/5.3.3/darkly/bootstrap.min.css. */
 body {
     /*    padding-top: 50px; */
     padding-bottom: 20px;

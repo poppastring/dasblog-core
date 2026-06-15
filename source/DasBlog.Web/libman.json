@@ -4,13 +4,22 @@
   "libraries": [
     {
       "provider": "cdnjs",
-      "library": "twitter-bootstrap@3.3.7",
-      "destination": "wwwroot/lib/bootstrap/dist"
+      "library": "twitter-bootstrap@5.3.3",
+      "destination": "wwwroot/lib/bootstrap/5.3.3/"
     },
     {
       "provider": "cdnjs",
-      "library": "jquery@2.2.0",
-      "destination": "wwwroot/lib/jquery/dist/"
+      "library": "bootswatch@5.3.3",
+      "destination": "wwwroot/lib/bootswatch/5.3.3/",
+      "files": [
+        "darkly/bootstrap.min.css",
+        "flatly/bootstrap.min.css"
+      ]
+    },
+    {
+      "provider": "cdnjs",
+      "library": "jquery@3.5.1",
+      "destination": "wwwroot/lib/jquery/3.5.1/"
     },
     {
       "provider": "cdnjs",
@@ -19,7 +28,7 @@
     },
     {
       "provider": "cdnjs",
-      "library": "jquery-validate@1.14.0",
+      "library": "jquery-validate@1.19.5",
       "destination": "wwwroot/lib/jquery-validation/dist/",
       "files": [
         "jquery.validate.min.js",
@@ -27,6 +36,11 @@
         "additional-methods.min.js",
         "additional-methods.js"
       ]
+    },
+    {
+      "provider": "cdnjs",
+      "library": "font-awesome@6.7.2",
+      "destination": "wwwroot/lib/font-awesome/6.7.2/"
     }
   ]
 }

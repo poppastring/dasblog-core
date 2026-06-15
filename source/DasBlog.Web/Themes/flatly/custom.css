@@ -1,6 +1,6 @@
-﻿/* DasBlog flatly theme local overrides — layered on top of Bootswatch 5.3.8 Flatly,
+/* DasBlog flatly theme local overrides — layered on top of Bootswatch 5.3.3 Flatly,
    which is linked separately from _Layout.cshtml as
-   ~/lib/bootswatch/5.3.8/flatly/bootstrap.min.css.
+   ~/lib/bootswatch/5.3.3/flatly/bootstrap.min.css.
 
    Bootswatch Flatly's stock link/accent color is green (#18bc9c). We prefer
    Flatly's blue palette — navy primary (#2c3e50) for headings and a brighter
