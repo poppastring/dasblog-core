@@ -152,12 +152,12 @@ code {
   border-color: #7376df;
   color: #ffffff; }
 
-.btn-secondary, .btn-default {
+.btn-secondary {
   background-color: #ffffff;
   color: #444444;
   border-color: #dfdfdf; }
 
-.btn-secondary:hover, .btn-secondary:focus, .btn-secondary:active, .btn-default:hover, .btn-default:focus, .btn-default:active {
+.btn-secondary:hover, .btn-secondary:focus, .btn-secondary:active {
   color: #444444 !important;
   background-color: #f7f7f7 !important;
   border-color: #dfdfdf !important; }
