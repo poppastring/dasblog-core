@@ -55,20 +55,3 @@
         @Html.ValidationMessageFor(m => m.MetaConfig.TwitterImage, null, new { @class = "text-danger" })
     </div>
 </div>
-
-<div class="row gy-2 gx-3 align-items-md-start mb-3">
-    <div class="col-sm-4">
-        <div class="form-floating">
-            @Html.TextBoxFor(m => @Model.MetaConfig.AnalyticsTrackingId, null, new { @class = "form-control", id = "analyticsTrackingId" })
-            @Html.LabelFor(m => @Model.MetaConfig.AnalyticsTrackingId, null, new { @class = "form-label", @for = "analyticsTrackingId" })
-        </div>
-        @Html.ValidationMessageFor(m => m.MetaConfig.AnalyticsTrackingId, null, new { @class = "text-danger" })
-    </div>
-    <div class="col-sm-4">
-        <div class="form-floating">
-            @Html.TextBoxFor(m => @Model.MetaConfig.AnalyticsProvider, null, new { @class = "form-control", id = "analyticsProvider" })
-            @Html.LabelFor(m => @Model.MetaConfig.AnalyticsProvider, null, new { @class = "form-label", @for = "analyticsProvider" })
-        </div>
-        @Html.ValidationMessageFor(m => m.MetaConfig.AnalyticsProvider, null, new { @class = "text-danger" })
-    </div>
-</div>

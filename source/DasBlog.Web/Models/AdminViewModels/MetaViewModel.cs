@@ -43,12 +43,5 @@ namespace DasBlog.Web.Models.AdminViewModels
 		[Description("")]
 		public string FaceBookAppID { get; set; }
 
-		[DisplayName("Analytics Tracking ID")]
-		[Description("Tracking identifier used in the RSS feed analytics extension.")]
-		public string AnalyticsTrackingId { get; set; }
-
-		[DisplayName("Analytics Provider")]
-		[Description("Analytics engine name written into the RSS feed analytics extension.")]
-		public string AnalyticsProvider { get; set; }
-	}
-}
+			}
+		}

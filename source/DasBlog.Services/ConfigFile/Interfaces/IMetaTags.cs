@@ -15,7 +15,5 @@ namespace DasBlog.Services.ConfigFile.Interfaces
 		string TwitterImage { get; set; }
 		string FaceBookAdmins { get; set; }
 		string FaceBookAppID { get; set; }
-		string AnalyticsTrackingId { get; set; }
-		string AnalyticsProvider { get; set; }
 	}
 }

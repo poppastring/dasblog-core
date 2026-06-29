@@ -33,18 +33,5 @@ namespace DasBlog.Services.ConfigFile
 
 		[XmlElement("FaceBookAppID")]
 		public string FaceBookAppID  { get; set; }
-
-		[XmlElement("AnalyticsTrackingId")]
-		public string AnalyticsTrackingId { get; set; }
-
-		[XmlElement("AnalyticsProvider")]
-		public string AnalyticsProvider { get; set; }
-
-		[XmlIgnore]
-		public string GoogleAnalyticsID
-		{
-			get => AnalyticsTrackingId;
-			set => AnalyticsTrackingId = value;
-		}
 	}
 }
