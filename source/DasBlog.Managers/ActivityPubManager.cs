@@ -14,6 +14,7 @@ namespace DasBlog.Managers
 	{
 		private readonly IBlogDataService dataService;
 		private readonly IDasBlogSettings dasBlogSettings;
+		private readonly IMastodonSettingsResolver mastodonSettingsResolver;
 		private readonly string outBox;
 		private readonly string actor;
 		private readonly string carbonCopy;
@@ -22,14 +23,16 @@ namespace DasBlog.Managers
 		private const string ACTIVITYSTREAM_PUBLIC = "https://www.w3.org/ns/activitystreams#Public";
 		private const string PAGE_TRUE = "?page=true";
 
-		public ActivityPubManager(IDasBlogSettings settings, IBlogDataService dataService)
+		public ActivityPubManager(IDasBlogSettings settings, IBlogDataService dataService, IMastodonSettingsResolver mastodonSettingsResolver)
 		{
 			dasBlogSettings = settings;
 			this.dataService = dataService;
+			this.mastodonSettingsResolver = mastodonSettingsResolver;
 
-			var userrelative = string.Format("users/{0}/outbox", dasBlogSettings.SiteConfiguration.MastodonAccount);
-			var actorrelative = string.Format("users/{0}", dasBlogSettings.SiteConfiguration.MastodonAccount);
-			var ccrelative = string.Format("users/{0}/followers", dasBlogSettings.SiteConfiguration.MastodonAccount);
+			var mastodonAccount = this.mastodonSettingsResolver.GetMastodonAccount();
+			var userrelative = string.Format("users/{0}/outbox", mastodonAccount);
+			var actorrelative = string.Format("users/{0}", mastodonAccount);
+			var ccrelative = string.Format("users/{0}/followers", mastodonAccount);
 			outBox = new Uri(new Uri(dasBlogSettings.SiteConfiguration.Root), userrelative).AbsoluteUri;
 			actor = new Uri(new Uri(dasBlogSettings.SiteConfiguration.Root), actorrelative).AbsoluteUri;
 			carbonCopy = new Uri(new Uri(dasBlogSettings.SiteConfiguration.Root), ccrelative).AbsoluteUri;
@@ -51,9 +54,10 @@ namespace DasBlog.Managers
 
 		public UserPage GetUserPage(IList<Entry> page)
 		{
+			var mastodonAccount = mastodonSettingsResolver.GetMastodonAccount();
 			var ordereditems = page.Select(o => new OrderedItem
 				{
-					Id = string.Format(statusActivity, dasBlogSettings.SiteConfiguration.MastodonAccount, o.EntryId),
+					Id = string.Format(statusActivity, mastodonAccount, o.EntryId),
 					Type = "Create",
 					Actor = actor,
 					Published = DateTime.UtcNow,
@@ -78,20 +82,20 @@ namespace DasBlog.Managers
 
 		public WebFinger WebFinger(string resource)
 		{
-			string mastodonUrl = dasBlogSettings.SiteConfiguration.MastodonServerUrl;
-			string mastodonAccount = dasBlogSettings.SiteConfiguration.MastodonAccount;
+			string mastodonUrl = mastodonSettingsResolver.GetMastodonServerUrl();
+			string mastodonAccount = mastodonSettingsResolver.GetMastodonAccount();
 
-			if (string.IsNullOrEmpty(mastodonUrl) || string.IsNullOrEmpty(mastodonAccount))
+			if (string.IsNullOrWhiteSpace(resource) || string.IsNullOrWhiteSpace(mastodonUrl) || string.IsNullOrWhiteSpace(mastodonAccount))
 			{
 				return null;
 			}
 
-			if (resource.StartsWith("@"))
+			if (resource.StartsWith("@", StringComparison.Ordinal))
 			{
 				resource = resource.Remove(0, 1);
 			}
 
-			if (mastodonAccount.StartsWith("@"))
+			if (mastodonAccount.StartsWith("@", StringComparison.Ordinal))
 			{
 				mastodonAccount = mastodonAccount.Remove(0, 1);
 			}
@@ -106,8 +110,8 @@ namespace DasBlog.Managers
 			string accountUrl = new Uri(mastotonSiteUri, $"@{mastodonAccount}").AbsoluteUri;
 			string authurl = new Uri(mastotonSiteUri, "authorize_interaction").AbsoluteUri + "?uri={uri}";
 
-			if (string.IsNullOrWhiteSpace(dasBlogSettings.SiteConfiguration.MastodonServerUrl) ||
-				string.IsNullOrWhiteSpace(dasBlogSettings.SiteConfiguration.MastodonAccount))
+			if (string.IsNullOrWhiteSpace(mastodonUrl) ||
+				string.IsNullOrWhiteSpace(mastodonAccount))
 			{
 				return null;
 			}

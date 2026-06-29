@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -25,6 +25,7 @@ namespace DasBlog.Web.Controllers
 	public class AdminController : DasBlogBaseController
 	{
 		private readonly IDasBlogSettings dasBlogSettings;
+		private readonly IMastodonSettingsResolver mastodonSettingsResolver;
 		private readonly IFileSystemBinaryManager fileSystemBinaryManager;
 		private readonly IMapper mapper;
 		private readonly IBlogManager blogManager;
@@ -35,10 +36,11 @@ namespace DasBlog.Web.Controllers
 		private readonly ISiteSecurityManager siteSecurityManager;
 		private readonly List<PostViewModel> posts = [];	
 
-		public AdminController(IDasBlogSettings dasBlogSettings, IFileSystemBinaryManager fileSystemBinaryManager, IMapper mapper,
+		public AdminController(IDasBlogSettings dasBlogSettings, IMastodonSettingsResolver mastodonSettingsResolver, IFileSystemBinaryManager fileSystemBinaryManager, IMapper mapper,
 								IBlogManager blogManager, ICommentManager commentManager, IHostApplicationLifetime appLifetime, ILogger<AdminController> logger, IMemoryCache memoryCache, ISiteSecurityManager siteSecurityManager) : base(dasBlogSettings)
 		{
 			this.dasBlogSettings = dasBlogSettings;
+			this.mastodonSettingsResolver = mastodonSettingsResolver;
 			this.fileSystemBinaryManager = fileSystemBinaryManager;
 			this.mapper = mapper;
 			this.blogManager = blogManager;
@@ -60,6 +62,16 @@ namespace DasBlog.Web.Controllers
 			dbsvm.MetaConfig = mapper.Map<MetaViewModel>(dasBlogSettings.MetaTags);
 			dbsvm.SiteConfig = mapper.Map<SiteViewModel>(dasBlogSettings.SiteConfiguration);
 			dbsvm.Posts = posts;
+
+			if (string.IsNullOrWhiteSpace(dbsvm.MetaConfig.MastodonServerUrl))
+			{
+				dbsvm.MetaConfig.MastodonServerUrl = mastodonSettingsResolver.GetMastodonServerUrl();
+			}
+
+			if (string.IsNullOrWhiteSpace(dbsvm.MetaConfig.MastodonAccount))
+			{
+				dbsvm.MetaConfig.MastodonAccount = mastodonSettingsResolver.GetMastodonAccount();
+			}
 
 			return View(dbsvm);
 		}
@@ -87,6 +99,19 @@ namespace DasBlog.Web.Controllers
 			{
 				site.SmtpPassword = dasBlogSettings.SiteConfiguration.SmtpPassword;
 			}
+
+			// Mastodon settings are canonical in meta.config.
+			// Persist explicit blanks when values are empty instead of backfilling.
+			meta.MastodonServerUrl = string.IsNullOrWhiteSpace(meta.MastodonServerUrl)
+				? string.Empty
+				: meta.MastodonServerUrl.Trim();
+
+			meta.MastodonAccount = string.IsNullOrWhiteSpace(meta.MastodonAccount)
+				? string.Empty
+				: meta.MastodonAccount.Trim();
+
+			site.MastodonServerUrl = null;
+			site.MastodonAccount = null;
 
 			if (!fileSystemBinaryManager.SaveSiteConfig(site))
 			{

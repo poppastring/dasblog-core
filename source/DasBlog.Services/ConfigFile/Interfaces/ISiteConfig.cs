@@ -124,14 +124,6 @@ namespace DasBlog.Services.ConfigFile.Interfaces
 
         string SmtpServer { get; set; }
 
-        bool EnableCaptcha { get; set; }
-
-        string RecaptchaSiteKey { get; set; }
-
-        string RecaptchaSecretKey { get; set; } 
-
-        double RecaptchaMinimumScore { get; set; }
-
         string ChannelImageUrl { get; set; }
 
         bool EnableTitlePermaLink { get; set; }

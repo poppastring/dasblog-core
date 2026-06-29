@@ -35,16 +35,14 @@ namespace DasBlog.Web.Models.AdminViewModels
 		[StringLength(300, MinimumLength = 1, ErrorMessage = "{0} should be between 1 to 300 characters")]
 		public string TwitterImage { get; set; }
 
-		[DisplayName("Facebook Admin")]
+		[DisplayName("Mastodon Server")]
 		[Description("")]
-		public string FaceBookAdmins { get; set; }
+		[DataType(DataType.Url, ErrorMessage = "Invalid URL format")]
+		public string MastodonServerUrl { get; set; }
 
-		[DisplayName("Facebook App Id")]
+		[DisplayName("Mastodon Account (@username)")]
 		[Description("")]
-		public string FaceBookAppID { get; set; }
-
-		[DisplayName("Google Analytics ID")]
-		[Description("Used in the RSS Feed")]
-		public string GoogleAnalyticsID {get; set;}
+		[RegularExpression("(@)((?:[A-Za-z0-9-_]*))")]
+		public string MastodonAccount { get; set; }
 	}
 }

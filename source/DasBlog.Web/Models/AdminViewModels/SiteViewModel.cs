@@ -148,24 +148,6 @@ namespace DasBlog.Web.Models.AdminViewModels
 		[StringLength(300, MinimumLength = 1, ErrorMessage = "{0} should be between 1 to 300 characters")]
 		public string CheesySpamA { get; set; }
 
-		[DisplayName("Enable Captcha")]
-		[Description("Let's You Decide if you want to use Google's reCAPTCHA to prevent Bots from spamming the comments on your posts.")]
-        public bool EnableCaptcha { get; set; }
-
-       	[DisplayName("reCAPTCHA Minimum Score")]
-		[Description("Minimum Score for the reCAPTCHA to be considered pass. For example if you are asked to identify an image at least 50% of the images must be identified if score if 0.5")]
-		[Range(0.0, 1.0, ErrorMessage = "Values should be between 0 and 1")]
-        public double RecaptchaMinimumScore { get; set; }
-        
-       	[DisplayName("reCAPTCHA Site Key")]
-		[Description("reCAPTCHA site key based from Google reCAPTCHA Admin Site.")]
-		[StringLength(300, MinimumLength = 1, ErrorMessage = "{0} should be between 1 to 300 characters")]
-        public string RecaptchaSiteKey { get; set; }
-        
-       	[DisplayName("Google reCAPTCHA Secret Key")]
-		[Description("reCAPTCHA secret key based on Google reCAPTCHA Admin Site.")]
-		[StringLength(300, MinimumLength = 1, ErrorMessage = "{0} should be between 1 to 300 characters")]
-        public string RecaptchaSecretKey { get; set; }
 
 		[DisplayName("Style Sources (seperate by semi colon)")]
 		[Description("")]

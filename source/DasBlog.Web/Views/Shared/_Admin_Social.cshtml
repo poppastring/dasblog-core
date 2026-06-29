@@ -6,17 +6,17 @@
 <div class="row gy-2 gx-3 align-items-md-start mb-3">
     <div class="col-sm-4">
         <div class="form-floating">
-            @Html.TextBoxFor(m => @Model.SiteConfig.MastodonServerUrl, null, new { @class = "form-control", id = "mastodonServerUrl" })
-            @Html.LabelFor(m => @Model.SiteConfig.MastodonServerUrl, null, new { @class = "form-label", @for = "mastodonServerUrl" })
+            @Html.TextBoxFor(m => @Model.MetaConfig.MastodonServerUrl, null, new { @class = "form-control", id = "mastodonServerUrl" })
+            @Html.LabelFor(m => @Model.MetaConfig.MastodonServerUrl, null, new { @class = "form-label", @for = "mastodonServerUrl" })
         </div>
-        @Html.ValidationMessageFor(m => m.SiteConfig.MastodonServerUrl, null, new { @class = "text-danger" })
+        @Html.ValidationMessageFor(m => m.MetaConfig.MastodonServerUrl, null, new { @class = "text-danger" })
     </div>
     <div class="col-sm-4">
         <div class="form-floating">
-            @Html.TextBoxFor(m => @Model.SiteConfig.MastodonAccount, null, new { @class = "form-control", id = "mastodonAccount" })
-            @Html.LabelFor(m => @Model.SiteConfig.MastodonAccount, null, new { @class = "form-label", @for = "mastodonAccount" })
+            @Html.TextBoxFor(m => @Model.MetaConfig.MastodonAccount, null, new { @class = "form-control", id = "mastodonAccount" })
+            @Html.LabelFor(m => @Model.MetaConfig.MastodonAccount, null, new { @class = "form-label", @for = "mastodonAccount" })
         </div>
-        @Html.ValidationMessageFor(m => m.SiteConfig.MastodonAccount, null, new { @class = "text-danger" })
+        @Html.ValidationMessageFor(m => m.MetaConfig.MastodonAccount, null, new { @class = "text-danger" })
     </div> 
 </div>
 
@@ -53,15 +53,5 @@
         @Html.LabelFor(m => @Model.MetaConfig.TwitterImage, null, new { @class = "form-label", @for = "twitterImage"})
         </div>
         @Html.ValidationMessageFor(m => m.MetaConfig.TwitterImage, null, new { @class = "text-danger" })
-    </div>
-</div>
-
-<div class="row gy-2 gx-3 align-items-md-start mb-3">
-    <div class="col-sm-4">
-        <div class="form-floating">
-            @Html.TextBoxFor(m => @Model.MetaConfig.GoogleAnalyticsID, null, new { @class = "form-control", id = "googleAnalyticsID" })
-            @Html.LabelFor(m => @Model.MetaConfig.GoogleAnalyticsID, null, new { @class = "form-label", @for = "googleAnalyticsID" })
-        </div>
-        @Html.ValidationMessageFor(m => m.MetaConfig.GoogleAnalyticsID, null, new { @class = "text-danger" })
     </div>
 </div>

@@ -29,6 +29,13 @@ A: Yes. Themes are developed using Razor! More details can be found [here](https
 A: DasBlog Core ships with several built-in themes and includes a [theme editor](https://github.com/poppastring/dasblog-core/wiki/4.-Designing-a-theme#theme-editor) at `/admin/themes` for browsing, switching, and customizing themes directly from the browser.
 
 
+#### Q: What changed with Google analytics and captcha settings?
+A: DasBlog Core now treats this as a breaking change and no longer supports Google-specific analytics or captcha keys.
+
+For existing blogs:
+1. Remove `GoogleAnalyticsID`, `AnalyticsTrackingId`, `AnalyticsProvider`, `EnableCaptcha`, `RecaptchaSiteKey`, `RecaptchaSecretKey`, `RecaptchaMinimumScore`, `CaptchaSiteKey`, `CaptchaSecretKey`, and `CaptchaMinimumScore` from your config files.
+2. For spam protection, use Akismet moderation (`EnableSpamModeration` + `AkismetAPIKey`) and/or spam question validation (`CheesySpamQ` + `CheesySpamA`).
+
 #### Q: I am not developer, how can I support this effort?
 A: Here are a few ways you can support the DasBlog Core effort:
  * Use the product

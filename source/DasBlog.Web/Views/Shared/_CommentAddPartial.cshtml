@@ -1,11 +1,7 @@
 ﻿@using DasBlog.Core.Common;
 @using DasBlog.Services;
-@using Microsoft.Extensions.Options;
-@using reCAPTCHA.AspNetCore;
-@using reCAPTCHA.AspNetCore.Versions;
 @model DasBlog.Web.Models.BlogViewModels.AddCommentViewModel
 @inject IDasBlogSettings dasBlogSettings
-@inject IOptions<RecaptchaSettings> RecaptchaSettings
 
 
 <form asp-controller="post" asp-action="comments" method="post">
@@ -63,17 +59,6 @@
             </div>
         </div>
 
-        @if(dasBlogSettings.SiteConfiguration.EnableCaptcha)
-        {
-            <div class="row gy-2 gx-3 align-items-md-start mb-3">
-                <div class="col-sm-3">
-                    <div class="form-floating">
-                        @(Html.Recaptcha<RecaptchaV2Checkbox>(RecaptchaSettings?.Value))
-                    </div>
-
-                </div>
-            </div>
-        }
 
         <div class="row gy-2 gx-3 align-items-md-start mb-3">
             <div class="col-sm-2">

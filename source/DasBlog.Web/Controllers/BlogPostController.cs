@@ -18,7 +18,6 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
-using reCAPTCHA.AspNetCore;
 using Markdig;
 using DasBlog.Core.Extensions;
 using System.Text.RegularExpressions;
@@ -45,13 +44,12 @@ namespace DasBlog.Web.Controllers
 		private readonly IBlogPostViewModelCreator modelViewCreator;
 		private readonly IMemoryCache memoryCache;
 		private readonly IExternalEmbeddingHandler embeddingHandler;
-		private readonly IRecaptchaService recaptcha;
 		private readonly IDasBlogPathResolver pathResolver;
 
 		
 		public BlogPostController(IBlogManager blogManager, ICommentManager commentManager, ISearchManager searchManager, IHttpContextAccessor httpContextAccessor, IDasBlogSettings dasBlogSettings,
 									IMapper mapper, ICategoryManager categoryManager, IFileSystemBinaryManager binaryManager, ILogger<BlogPostController> logger,
-									IBlogPostViewModelCreator modelViewCreator, IMemoryCache memoryCache, IExternalEmbeddingHandler embeddingHandler, IRecaptchaService recaptcha,
+									IBlogPostViewModelCreator modelViewCreator, IMemoryCache memoryCache, IExternalEmbeddingHandler embeddingHandler,
 									IDasBlogPathResolver pathResolver)
 									: base(dasBlogSettings)
 		{
@@ -67,7 +65,6 @@ namespace DasBlog.Web.Controllers
 			this.modelViewCreator = modelViewCreator;
 			this.memoryCache = memoryCache;
 			this.embeddingHandler = embeddingHandler;
-			this.recaptcha = recaptcha;
 			this.pathResolver = pathResolver;
 		}
 
@@ -475,17 +472,6 @@ namespace DasBlog.Web.Controllers
 				}
 			}
 
-			if (dasBlogSettings.SiteConfiguration.EnableCaptcha)
-			{
-				var recaptchaTask = recaptcha.Validate(Request);
-				recaptchaTask.Wait();
-				var recaptchaResult = recaptchaTask.Result;
-				if ((!recaptchaResult.success || recaptchaResult.score != 0) &&
-					  recaptchaResult.score < dasBlogSettings.SiteConfiguration.RecaptchaMinimumScore)
-				{
-					errors.Add("Unfinished Captcha. Please finish the captcha by clicking 'I'm not a robot' and try again.");
-				}
-			}
 
 			if (errors.Count > 0)
 			{

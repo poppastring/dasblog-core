@@ -45,10 +45,6 @@ namespace DasBlog.Tests.UnitTests
 		public string ProfilesDir { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 		public string BinariesDirRelative { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 		public string SmtpServer { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-		public bool EnableCaptcha { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-		public string RecaptchaSiteKey { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-		public string RecaptchaSecretKey { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-		public double RecaptchaMinimumScore { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 		public string ChannelImageUrl { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 		public bool EnableTitlePermaLink { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 		public bool EnableTitlePermaLinkUnique { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }

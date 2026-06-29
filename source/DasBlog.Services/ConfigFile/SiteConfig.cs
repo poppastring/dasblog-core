@@ -114,10 +114,6 @@ namespace DasBlog.Services.ConfigFile
         public string ProfilesDir { get; set; }
         public string BinariesDirRelative { get; set; }
         public string SmtpServer { get; set; }
-        public bool EnableCaptcha { get; set; }
-        public string RecaptchaSiteKey { get; set; }
-        public string RecaptchaSecretKey { get; set; } 
-        public double RecaptchaMinimumScore {get; set; }
         public string ChannelImageUrl { get; set; }
         public bool EnableTitlePermaLink { get; set; }
         public bool EnableTitlePermaLinkUnique { get; set; }
