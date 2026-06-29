@@ -100,20 +100,18 @@ namespace DasBlog.Web.Controllers
 				site.SmtpPassword = dasBlogSettings.SiteConfiguration.SmtpPassword;
 			}
 
-			// Mastodon settings are canonical in meta.config. If the posted meta values are empty,
-			// resolve from current config one last time, then clear the legacy site.config values.
-			if (string.IsNullOrWhiteSpace(meta.MastodonServerUrl))
-			{
-				meta.MastodonServerUrl = mastodonSettingsResolver.GetMastodonServerUrl();
-			}
+			// Mastodon settings are canonical in meta.config.
+			// Persist explicit blanks when values are empty instead of backfilling.
+			meta.MastodonServerUrl = string.IsNullOrWhiteSpace(meta.MastodonServerUrl)
+				? string.Empty
+				: meta.MastodonServerUrl.Trim();
 
-			if (string.IsNullOrWhiteSpace(meta.MastodonAccount))
-			{
-				meta.MastodonAccount = mastodonSettingsResolver.GetMastodonAccount();
-			}
+			meta.MastodonAccount = string.IsNullOrWhiteSpace(meta.MastodonAccount)
+				? string.Empty
+				: meta.MastodonAccount.Trim();
 
-			site.MastodonServerUrl = string.Empty;
-			site.MastodonAccount = string.Empty;
+			site.MastodonServerUrl = null;
+			site.MastodonAccount = null;
 
 			if (!fileSystemBinaryManager.SaveSiteConfig(site))
 			{
