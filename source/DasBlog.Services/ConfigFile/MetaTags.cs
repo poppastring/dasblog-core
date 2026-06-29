@@ -27,11 +27,5 @@ namespace DasBlog.Services.ConfigFile
 
 		[XmlElement("TwitterImage")]
 		public string TwitterImage  { get; set; }
-
-		[XmlElement("FaceBookAdmins")]
-		public string FaceBookAdmins { get; set; }
-
-		[XmlElement("FaceBookAppID")]
-		public string FaceBookAppID  { get; set; }
 	}
 }

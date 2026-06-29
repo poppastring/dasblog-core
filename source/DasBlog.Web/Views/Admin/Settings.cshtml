@@ -238,11 +238,7 @@
     @Html.HiddenFor(@m => m.SiteConfig.EnableDefaultLatLongForNonGeoCodedPosts)
     @Html.HiddenFor(@m => m.SiteConfig.HtmlTidyContent)
 
-
-        @Html.HiddenFor(@m => m.MetaConfig.FaceBookAdmins)
-        @Html.HiddenFor(@m => m.MetaConfig.FaceBookAppID)
-
-    </form>
+        </form>
 
     <!-- Confirmation Modal using reusable partial -->
     <partial name="_ConfirmationModalPartial" view-data="ViewData" />

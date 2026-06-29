@@ -35,13 +35,5 @@ namespace DasBlog.Web.Models.AdminViewModels
 		[StringLength(300, MinimumLength = 1, ErrorMessage = "{0} should be between 1 to 300 characters")]
 		public string TwitterImage { get; set; }
 
-		[DisplayName("Facebook Admin")]
-		[Description("")]
-		public string FaceBookAdmins { get; set; }
-
-		[DisplayName("Facebook App Id")]
-		[Description("")]
-		public string FaceBookAppID { get; set; }
-
 			}
 		}
