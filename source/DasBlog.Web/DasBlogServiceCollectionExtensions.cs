@@ -31,7 +31,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using newtelligence.DasBlog.Runtime;
-using reCAPTCHA.AspNetCore;
 using System;
 using System.Linq;
 using System.Reflection;
@@ -202,11 +201,6 @@ namespace DasBlog.Web
 					options.MinimumSameSitePolicy = SameSiteMode.Lax;
 			});
 
-			services.AddRecaptcha(options =>
-			{
-				options.SiteKey = configuration.GetSection("RecaptchaSiteKey").Value;
-				options.SecretKey = configuration.GetSection("RecaptchaSecretKey").Value;
-			});
 
 			return services;
 		}

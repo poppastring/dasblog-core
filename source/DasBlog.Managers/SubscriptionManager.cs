@@ -272,11 +272,13 @@ namespace DasBlog.Managers
 
 			var wfanalytics = xdoc.CreateElement("webfeeds", "analytics", "http://webfeeds.org/rss/1.0");
 			var attribId = xdoc.CreateAttribute("id");
-			attribId.Value = dasBlogSettings.MetaTags.GoogleAnalyticsID;
+			attribId.Value = dasBlogSettings.MetaTags.AnalyticsTrackingId;
 			wfanalytics.Attributes.Append(attribId);
 
 			var attribEngine = xdoc.CreateAttribute("engine");
-			attribEngine.Value = "GoogleAnalytics";
+			attribEngine.Value = string.IsNullOrWhiteSpace(dasBlogSettings.MetaTags.AnalyticsProvider)
+				? "Analytics"
+				: dasBlogSettings.MetaTags.AnalyticsProvider;
 			wfanalytics.Attributes.Append(attribEngine);
 
 			rootElements.Add(wfanalytics);

@@ -31,7 +31,6 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" />
     <PackageReference Include="NetEscapades.Extensions.Logging.RollingFile" />
     <PackageReference Include="NWebsec.AspNetCore.Middleware" />
-    <PackageReference Include="reCAPTCHA.AspNetCore" />
     <PackageReference Include="Quartz.AspNetCore" />
     <PackageReference Include="NuGet.Protocol" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="All" />
