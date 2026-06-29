@@ -15,13 +15,15 @@ namespace DasBlog.Web.Controllers
 	public class ActivityPubController : DasBlogBaseController
 	{
 		private readonly IDasBlogSettings dasBlogSettings;
+		private readonly IMastodonSettingsResolver mastodonSettingsResolver;
 		private readonly IActivityPubManager activityPubManager;
 		private readonly IBlogManager blogManager;
 		private readonly IMapper mapper;
 
-		public ActivityPubController(IActivityPubManager activityPubManager, IBlogManager blogManager, IDasBlogSettings dasBlogSettings, IMapper mapper) : base(dasBlogSettings)
+		public ActivityPubController(IActivityPubManager activityPubManager, IBlogManager blogManager, IDasBlogSettings dasBlogSettings, IMastodonSettingsResolver mastodonSettingsResolver, IMapper mapper) : base(dasBlogSettings)
 		{
 			this.dasBlogSettings = dasBlogSettings;
+			this.mastodonSettingsResolver = mastodonSettingsResolver;
 			this.activityPubManager = activityPubManager;
 			this.blogManager = blogManager;
 			this.mapper = mapper;
@@ -30,7 +32,12 @@ namespace DasBlog.Web.Controllers
 		[HttpGet(".well-known/webfinger")]
 		public ActionResult WebFinger(string resource)
 		{
-			if (resource.StartsWith("acct:"))
+			if (string.IsNullOrWhiteSpace(resource))
+			{
+				return NoContent();
+			}
+
+			if (resource.StartsWith("acct:", StringComparison.OrdinalIgnoreCase))
 			{
 				resource = resource.Remove(0, 5);
 			}
@@ -52,8 +59,13 @@ namespace DasBlog.Web.Controllers
 		[Route("users/{user}")]
 		public IActionResult Actor(string user)
 		{
-			var mastodonAccount = dasBlogSettings.SiteConfiguration.MastodonAccount;
-			if (mastodonAccount.StartsWith("@"))
+			var mastodonAccount = mastodonSettingsResolver.GetMastodonAccount();
+			if (string.IsNullOrWhiteSpace(mastodonAccount))
+			{
+				return NotFound();
+			}
+
+			if (mastodonAccount.StartsWith("@", StringComparison.Ordinal))
 			{
 				mastodonAccount = mastodonAccount.Remove(0, 1);
 			}
@@ -90,8 +102,13 @@ namespace DasBlog.Web.Controllers
 		[Route("users/{user}/outbox")]
 		public IActionResult GetUser(string user, bool page)
 		{
-			string mastodonAccount = dasBlogSettings.SiteConfiguration.MastodonAccount;
-			if (mastodonAccount.StartsWith("@"))
+			string mastodonAccount = mastodonSettingsResolver.GetMastodonAccount();
+			if (string.IsNullOrWhiteSpace(mastodonAccount))
+			{
+				return NotFound();
+			}
+
+			if (mastodonAccount.StartsWith("@", StringComparison.Ordinal))
 			{
 				mastodonAccount = mastodonAccount.Remove(0, 1);
 			}

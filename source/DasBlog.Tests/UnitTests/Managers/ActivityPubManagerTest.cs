@@ -16,6 +16,7 @@ namespace DasBlog.Tests.UnitTests.Managers
     public class ActivityPubManagerTest
     {
         private Mock<IDasBlogSettings> settingsMock;
+        private Mock<IMastodonSettingsResolver> mastodonSettingsResolverMock;
         private Mock<ISiteConfig> siteConfigMock;
         private Mock<IBlogDataService> dataServiceMock;
         public ActivityPubManagerTest()
@@ -33,9 +34,12 @@ namespace DasBlog.Tests.UnitTests.Managers
 			siteConfigMock.SetupGet(c => c.DisplayTimeZoneIndex).Returns(0);
 			siteConfigMock.SetupGet(c => c.AdjustDisplayTimeZone).Returns(false);
 			siteConfigMock.SetupGet(c => c.MastodonAccount).Returns("testuser");
-            siteConfigMock.SetupGet(c => c.MastodonServerUrl).Returns("https://mastodon.example.com");
-            settingsMock.Setup(s => s.SiteConfiguration).Returns(siteConfigMock.Object);
-            dataServiceMock = new Mock<IBlogDataService>();
+			siteConfigMock.SetupGet(c => c.MastodonServerUrl).Returns("https://mastodon.example.com");
+			settingsMock.Setup(s => s.SiteConfiguration).Returns(siteConfigMock.Object);
+			mastodonSettingsResolverMock = new Mock<IMastodonSettingsResolver>();
+			mastodonSettingsResolverMock.Setup(s => s.GetMastodonAccount()).Returns("testuser");
+			mastodonSettingsResolverMock.Setup(s => s.GetMastodonServerUrl()).Returns("https://mastodon.example.com");
+			dataServiceMock = new Mock<IBlogDataService>();
 
             dataServiceMock.Setup(d => d.GetEntriesForMonth(It.IsAny<DateTime>(), It.IsAny<DateTimeZone>(), It.IsAny<string>())).Returns(new EntryCollection());
             var entryForPage = new EntryCollection();
@@ -45,7 +49,7 @@ namespace DasBlog.Tests.UnitTests.Managers
 
         private ActivityPubManager CreateManager()
         {
-            return new ActivityPubManager(settingsMock.Object, dataServiceMock.Object);
+            return new ActivityPubManager(settingsMock.Object, dataServiceMock.Object, mastodonSettingsResolverMock.Object);
         }
 
 		private ArchiveManager CreateArchiveManager()

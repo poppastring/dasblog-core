@@ -35,5 +35,14 @@ namespace DasBlog.Web.Models.AdminViewModels
 		[StringLength(300, MinimumLength = 1, ErrorMessage = "{0} should be between 1 to 300 characters")]
 		public string TwitterImage { get; set; }
 
-			}
-		}
+		[DisplayName("Mastodon Server")]
+		[Description("")]
+		[DataType(DataType.Url, ErrorMessage = "Invalid URL format")]
+		public string MastodonServerUrl { get; set; }
+
+		[DisplayName("Mastodon Account (@username)")]
+		[Description("")]
+		[RegularExpression("(@)((?:[A-Za-z0-9-_]*))")]
+		public string MastodonAccount { get; set; }
+	}
+}
