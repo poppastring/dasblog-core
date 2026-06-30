@@ -1,6 +1,9 @@
 @*
-    OBSOLETE: This partial is retained for backward compatibility with existing themes and forks.
-    For new code, prefer the TagHelper directly:  <delete-post-modal post="@Model" />
+    OBSOLETE: <post-delete-link post="@Model" /> now renders its own
+    confirmation modal, so neither this partial nor the <delete-post-modal>
+    tag helper is required in new themes. This partial is retained for
+    backward compatibility with existing themes and forks; it is a no-op
+    when the link has already emitted the modal for the same post.
     No removal is planned.
 *@
 @model DasBlog.Web.Models.BlogViewModels.PostViewModel
