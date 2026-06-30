@@ -26,20 +26,61 @@ namespace DasBlog.Web.TagHelpers.Site
 			output.TagMode = TagMode.StartTagAndEndTag;
 
 			var data = ViewContext.ViewData;
-			var title = data["PageTitle"]?.ToString() ?? string.Empty;
-			var description = data["Description"]?.ToString() ?? string.Empty;
-			var image = data["PageImageUrl"]?.ToString() ?? string.Empty;
+			var title = data["PageTitle"]?.ToString()?.Trim();
+			var description = data["Description"]?.ToString()?.Trim();
+			var pageImage = data["PageImageUrl"]?.ToString()?.Trim();
 
 			var tags = dasBlogSettings.MetaTags;
+			var twitterCard = NormalizeTwitterCard(tags?.TwitterCard);
+			var twitterSite = NormalizeTwitterHandle(tags?.TwitterSite);
+			var twitterCreator = NormalizeTwitterHandle(tags?.TwitterCreator);
+			var twitterImage = string.IsNullOrWhiteSpace(pageImage) ? tags?.TwitterImage?.Trim() : pageImage;
+
 			var sb = new StringBuilder();
-			sb.Append("<meta name=\"twitter:card\" content=\"").Append(WebUtility.HtmlEncode(tags?.TwitterCard ?? string.Empty)).Append("\" />\n");
-			sb.Append("<meta name=\"twitter:site\" content=\"").Append(WebUtility.HtmlEncode(tags?.TwitterSite ?? string.Empty)).Append("\" />\n");
-			sb.Append("<meta name=\"twitter:creator\" content=\"").Append(WebUtility.HtmlEncode(tags?.TwitterCreator ?? string.Empty)).Append("\" />\n");
-			sb.Append("<meta name=\"twitter:title\" content=\"").Append(WebUtility.HtmlEncode(title)).Append("\" />\n");
-			sb.Append("<meta name=\"twitter:description\" content=\"").Append(WebUtility.HtmlEncode(description)).Append("\" />\n");
-			sb.Append("<meta name=\"twitter:image\" content=\"").Append(WebUtility.HtmlEncode(image)).Append("\" />");
+			AppendMetaTag(sb, "twitter:card", twitterCard);
+			AppendMetaTag(sb, "twitter:site", twitterSite);
+			AppendMetaTag(sb, "twitter:creator", twitterCreator);
+			AppendMetaTag(sb, "twitter:title", title);
+			AppendMetaTag(sb, "twitter:description", description);
+			AppendMetaTag(sb, "twitter:image", twitterImage);
 
 			output.Content.SetHtmlContent(sb.ToString());
+		}
+
+		private static string NormalizeTwitterCard(string twitterCard)
+		{
+			if (string.Equals(twitterCard, "summary_large_image", System.StringComparison.OrdinalIgnoreCase))
+			{
+				return "summary_large_image";
+			}
+
+			return "summary";
+		}
+
+		private static string NormalizeTwitterHandle(string twitterHandle)
+		{
+			if (string.IsNullOrWhiteSpace(twitterHandle))
+			{
+				return null;
+			}
+
+			twitterHandle = twitterHandle.Trim();
+			return twitterHandle.StartsWith("@", System.StringComparison.Ordinal) ? twitterHandle : $"@{twitterHandle}";
+		}
+
+		private static void AppendMetaTag(StringBuilder sb, string tagName, string value)
+		{
+			if (string.IsNullOrWhiteSpace(value))
+			{
+				return;
+			}
+
+			if (sb.Length > 0)
+			{
+				sb.Append('\n');
+			}
+
+			sb.Append("<meta name=\"").Append(tagName).Append("\" content=\"").Append(WebUtility.HtmlEncode(value)).Append("\" />");
 		}
 	}
 }

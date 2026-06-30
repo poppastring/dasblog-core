@@ -15,24 +15,26 @@ namespace DasBlog.Web.Models.AdminViewModels
 		[StringLength(300, MinimumLength = 0, ErrorMessage = "{0} should be between 1 to 300 characters")]
 		public string MetaKeywords { get; set; }
 
-		[DisplayName("Twitter card type")]
-		[Description("Must be set to a value of 'summary'")]
-		[StringLength(300, MinimumLength = 0, ErrorMessage = "{0} should be between 1 to 300 characters")]
+		[DisplayName("X (Twitter) card type")]
+		[Description("Allowed values: summary, summary_large_image.")]
+		[RegularExpression("^(summary|summary_large_image)$", ErrorMessage = "X (Twitter) card type must be 'summary' or 'summary_large_image'.")]
 		public string TwitterCard { get; set; }
 
-		[DisplayName("Twitter site (@username)")]
-		[Description("The Twitter @username the card should be attributed to.")]
-		[StringLength(300, MinimumLength = 0, ErrorMessage = "{0} should be between 1 to 300 characters")]
+		[DisplayName("X (Twitter) site (@username)")]
+		[Description("The X (Twitter) @username this card should be attributed to.")]
+		[RegularExpression("^$|^@?[A-Za-z0-9_]{1,15}$", ErrorMessage = "X (Twitter) handle must be 1-15 letters, numbers, or underscores, optionally prefixed with @.")]
+		[StringLength(16, MinimumLength = 0, ErrorMessage = "{0} should be between 1 to 16 characters")]
 		public string TwitterSite { get; set; }
 
-		[DisplayName("Twitter creator (@username)")]
-		[Description("Used when creators (contributors) differ from the twitter name associated with the site")]
-		[StringLength(300, MinimumLength = 1, ErrorMessage = "{0} should be between 1 to 300 characters")]
+		[DisplayName("X (Twitter) creator (@username)")]
+		[Description("Used when creators (contributors) differ from the X (Twitter) account associated with the site.")]
+		[RegularExpression("^$|^@?[A-Za-z0-9_]{1,15}$", ErrorMessage = "X (Twitter) handle must be 1-15 letters, numbers, or underscores, optionally prefixed with @.")]
+		[StringLength(16, MinimumLength = 0, ErrorMessage = "{0} should be between 1 to 16 characters")]
 		public string TwitterCreator { get; set; }
 
-		[DisplayName("Twitter image")]
-		[Description("The Twitter share button will use this image if no image exists in the blog post")]
-		[StringLength(300, MinimumLength = 1, ErrorMessage = "{0} should be between 1 to 300 characters")]
+		[DisplayName("X (Twitter) image")]
+		[Description("Used for X (Twitter) card previews when the blog post does not provide a page image.")]
+		[StringLength(300, MinimumLength = 0, ErrorMessage = "{0} should be between 1 to 300 characters")]
 		public string TwitterImage { get; set; }
 
 		[DisplayName("Mastodon Server")]
