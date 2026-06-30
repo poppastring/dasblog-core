@@ -110,6 +110,11 @@ namespace DasBlog.Web.Controllers
 				? string.Empty
 				: meta.MastodonAccount.Trim();
 
+			meta.TwitterCard = NormalizeTwitterCard(meta.TwitterCard);
+			meta.TwitterSite = NormalizeTwitterHandle(meta.TwitterSite);
+			meta.TwitterCreator = NormalizeTwitterHandle(meta.TwitterCreator);
+			meta.TwitterImage = string.IsNullOrWhiteSpace(meta.TwitterImage) ? string.Empty : meta.TwitterImage.Trim();
+
 			site.MastodonServerUrl = null;
 			site.MastodonAccount = null;
 
@@ -263,6 +268,27 @@ namespace DasBlog.Web.Controllers
 
 			TempData["SuccessMessage"] = "Comment added successfully!";
 			return RedirectToAction("ManageComments");
+		}
+
+		private static string NormalizeTwitterCard(string twitterCard)
+		{
+			if (string.Equals(twitterCard, "summary_large_image", StringComparison.OrdinalIgnoreCase))
+			{
+				return "summary_large_image";
+			}
+
+			return "summary";
+		}
+
+		private static string NormalizeTwitterHandle(string twitterHandle)
+		{
+			if (string.IsNullOrWhiteSpace(twitterHandle))
+			{
+				return string.Empty;
+			}
+
+			twitterHandle = twitterHandle.Trim();
+			return twitterHandle.StartsWith("@", StringComparison.Ordinal) ? twitterHandle : $"@{twitterHandle}";
 		}
 
 		private void BreakSiteCache()

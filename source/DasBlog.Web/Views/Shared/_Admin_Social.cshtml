@@ -41,7 +41,7 @@
     <div class="col-sm-4">
         <div class="form-floating">
             @Html.DropDownListFor(n => n.MetaConfig.TwitterCard,
-                new SelectList(new TwitterCardViewModel().Init(), "Id", "Name"),
+                new SelectList(new TwitterCardViewModel().Init(), "Id", "Name", Model.MetaConfig.TwitterCard),
                 new { @class = "form-select col-3", id = "twitterCard" })
             @Html.LabelFor(m => @Model.MetaConfig.TwitterCard, null, new { @class = "form-label", @for = "twitterCard" })
         </div>
