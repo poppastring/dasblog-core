@@ -53,5 +53,22 @@ namespace DasBlog.Tests.UnitTests.Services
 			Assert.Contains("world", result);
 			Assert.Contains("link", result);
 		}
+
+		[Fact]
+		[Trait("Category", "UnitTest")]
+		public void Sanitize_ActivityLogHtml_RemovesMaliciousContent()
+		{
+			var sanitizer = new StaticPageContentSanitizer();
+			var html = "<span><strong>Audit:</strong> Login from <a href=\"https://example.com\">example</a></span><script>alert('xss')</script><img src=\"x\" onerror=\"alert('xss')\" />";
+
+			var result = sanitizer.Sanitize(html);
+
+			Assert.Contains("Audit:", result);
+			Assert.Contains("<span", result, System.StringComparison.OrdinalIgnoreCase);
+			Assert.Contains("<strong", result, System.StringComparison.OrdinalIgnoreCase);
+			Assert.Contains("<a", result, System.StringComparison.OrdinalIgnoreCase);
+			Assert.DoesNotContain("<script", result, System.StringComparison.OrdinalIgnoreCase);
+			Assert.DoesNotContain("onerror", result, System.StringComparison.OrdinalIgnoreCase);
+		}
 	}
 }
