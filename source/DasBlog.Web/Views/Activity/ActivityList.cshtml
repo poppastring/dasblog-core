@@ -1,7 +1,9 @@
 ﻿@using DasBlog.Services.ActivityLogs
 @using DasBlog.Core.Common;
+@using DasBlog.Web.Services.Interfaces
 
 @model System.Collections.Generic.List<EventDataDisplayItem>
+@inject IStaticPageContentSanitizer HtmlSanitizer
 
 @{
     ViewBag.Title = "Activity Report";
@@ -87,7 +89,7 @@
                                 @eddi.EventCode
                             </td>
                             <td class="dbc-activity-table-column">
-                                @Html.Raw(eddi.HtmlMessage)
+                                @Html.Raw(HtmlSanitizer.Sanitize(eddi.HtmlMessage))
                             </td>
                         </tr>
                     }
