@@ -62,6 +62,7 @@ namespace DasBlog.Web.Controllers
 			dbsvm.MetaConfig = mapper.Map<MetaViewModel>(dasBlogSettings.MetaTags);
 			dbsvm.SiteConfig = mapper.Map<SiteViewModel>(dasBlogSettings.SiteConfiguration);
 			dbsvm.Posts = posts;
+			dbsvm.Categories = blogManager.GetCategories().Select(p => p.Name).ToList();
 
 			if (string.IsNullOrWhiteSpace(dbsvm.MetaConfig.MastodonServerUrl))
 			{
@@ -85,6 +86,7 @@ namespace DasBlog.Web.Controllers
 			if (ModelState.ErrorCount > 0)
 			{
 				settings.Posts = posts;
+				settings.Categories = blogManager.GetCategories().Select(p => p.Name).ToList();
 				return View("Settings", settings);
 			}
 
