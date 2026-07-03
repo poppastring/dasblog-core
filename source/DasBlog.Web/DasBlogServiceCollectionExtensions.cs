@@ -107,6 +107,7 @@ namespace DasBlog.Web
 				.AddSingleton<IStaticPageManager, StaticPageManager>()
 				.AddScoped<IDefaultCredentialsCheck, DefaultCredentialsCheck>()
 				.AddSingleton<IFirstRunService, FirstRunService>()
+				.AddSingleton<IStaticPageContentSanitizer, StaticPageContentSanitizer>()
 				.AddSingleton<ISpamBlockingService, AkismetSpamBlockingService>();
 
 			services				

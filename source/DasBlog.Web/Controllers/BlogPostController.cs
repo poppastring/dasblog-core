@@ -46,12 +46,21 @@ namespace DasBlog.Web.Controllers
 		private readonly IExternalEmbeddingHandler embeddingHandler;
 		private readonly IDasBlogPathResolver pathResolver;
 
-		
-		public BlogPostController(IBlogManager blogManager, ICommentManager commentManager, ISearchManager searchManager, IHttpContextAccessor httpContextAccessor, IDasBlogSettings dasBlogSettings,
-									IMapper mapper, ICategoryManager categoryManager, IFileSystemBinaryManager binaryManager, ILogger<BlogPostController> logger,
-									IBlogPostViewModelCreator modelViewCreator, IMemoryCache memoryCache, IExternalEmbeddingHandler embeddingHandler,
-									IDasBlogPathResolver pathResolver)
-									: base(dasBlogSettings)
+		public BlogPostController(
+			IBlogManager blogManager,
+			ICommentManager commentManager,
+			ISearchManager searchManager,
+			IHttpContextAccessor httpContextAccessor,
+			IDasBlogSettings dasBlogSettings,
+			IMapper mapper,
+			ICategoryManager categoryManager,
+			IFileSystemBinaryManager binaryManager,
+			ILogger<BlogPostController> logger,
+			IBlogPostViewModelCreator modelViewCreator,
+			IMemoryCache memoryCache,
+			IExternalEmbeddingHandler embeddingHandler,
+			IDasBlogPathResolver pathResolver)
+			: base(dasBlogSettings)
 		{
 			this.blogManager = blogManager;
 			this.commentManager = commentManager;
