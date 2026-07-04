@@ -27,9 +27,22 @@ namespace DasBlog.Web.TagHelpers.Comments
 
 			output.Attributes.SetAttribute("class", Css);
 			Comment ??= new CommentViewModel();
-			Comment.Text = contentProcessor.FilterHtml(Comment.Text ?? string.Empty);
-			Comment.Text = Regex.Replace(Comment.Text, "\n", "<br />");
-			output.Content.SetHtmlContent(HttpUtility.HtmlDecode(Comment.Text));
+			var sanitizedComment = contentProcessor.FilterHtml(Comment.Text ?? string.Empty);
+			if (!ContainsHtmlTag(sanitizedComment))
+			{
+				sanitizedComment = Regex.Replace(sanitizedComment, "\n", "<br />");
+			}
+			output.Content.SetHtmlContent(HttpUtility.HtmlDecode(sanitizedComment));
+		}
+
+		private static bool ContainsHtmlTag(string content)
+		{
+			if (string.IsNullOrWhiteSpace(content))
+			{
+				return false;
+			}
+
+			return Regex.IsMatch(content, @"<\/?[a-zA-Z][^>]*>");
 		}
 
 		public override Task ProcessAsync(TagHelperContext context, TagHelperOutput output)

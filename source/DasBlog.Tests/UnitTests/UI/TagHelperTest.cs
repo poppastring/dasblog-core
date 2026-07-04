@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using DasBlog.Core.Common.Comments;
 using DasBlog.Web.Models.BlogViewModels;
 using DasBlog.Web.Settings;
 using DasBlog.Web.TagHelpers;
@@ -187,6 +188,61 @@ namespace DasBlog.Tests.UnitTests.UI
 			Assert.Same("div", output.TagName);
 			Assert.Equal("dbc-comment-content", output.Attributes[0].Value.ToString());
 			Assert.Equal("", output.Content.GetContent().Trim());
+		}
+
+		[Fact]
+		[Trait("Category", "UnitTest")]
+		public void CommentContentTagHelper_WhenCommentContainsHtml_DoesNotInjectLineBreakTags()
+		{
+			var dasBlogSettings = new DasBlogSettingsMock().CreateSettings();
+			dasBlogSettings.SiteConfiguration.ValidCommentTags = new[]
+			{
+				new ValidCommentTags
+				{
+					Tag = new List<Tag>
+					{
+						new Tag { Name = "p", Allowed = true }
+					}
+				}
+			};
+			var helper = new CommentContentTagHelper((DasBlog.Services.IContentProcessor)dasBlogSettings)
+			{
+				Comment = new CommentViewModel
+				{
+					Text = "<p>One</p>\n<p>Two</p>"
+				}
+			};
+
+			var context = new TagHelperContext(new TagHelperAttributeList(), new Dictionary<object, object>(), Guid.NewGuid().ToString("N"));
+			var output = new TagHelperOutput(string.Empty, new TagHelperAttributeList(), (_, _) => Task.FromResult<TagHelperContent>(new DefaultTagHelperContent()));
+
+			helper.Process(context, output);
+
+			var rendered = output.Content.GetContent();
+			Assert.DoesNotContain("<br />", rendered, StringComparison.OrdinalIgnoreCase);
+			Assert.Contains("<p>One</p>", rendered, StringComparison.OrdinalIgnoreCase);
+			Assert.Contains("<p>Two</p>", rendered, StringComparison.OrdinalIgnoreCase);
+		}
+
+		[Fact]
+		[Trait("Category", "UnitTest")]
+		public void CommentContentTagHelper_WhenCommentIsPlainText_ReplacesLineBreaksWithBrTags()
+		{
+			var dasBlogSettings = new DasBlogSettingsMock().CreateSettings();
+			var helper = new CommentContentTagHelper((DasBlog.Services.IContentProcessor)dasBlogSettings)
+			{
+				Comment = new CommentViewModel
+				{
+					Text = "One\nTwo"
+				}
+			};
+
+			var context = new TagHelperContext(new TagHelperAttributeList(), new Dictionary<object, object>(), Guid.NewGuid().ToString("N"));
+			var output = new TagHelperOutput(string.Empty, new TagHelperAttributeList(), (_, _) => Task.FromResult<TagHelperContent>(new DefaultTagHelperContent()));
+
+			helper.Process(context, output);
+
+			Assert.Contains("One<br />Two", output.Content.GetContent(), StringComparison.OrdinalIgnoreCase);
 		}
 
 		[Fact]

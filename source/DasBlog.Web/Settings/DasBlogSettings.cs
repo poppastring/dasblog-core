@@ -1,23 +1,22 @@
 ﻿using DasBlog.Core.Common;
 using DasBlog.Core.Common.Comments;
 using DasBlog.Core.Security;
+using DasBlog.Services;
+using DasBlog.Services.ConfigFile;
+using DasBlog.Services.ConfigFile.Interfaces;
+using DasBlog.Services.FileManagement;
+using DasBlog.Services.Site;
+using Ganss.Xss;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Options;
+using newtelligence.DasBlog.Runtime;
 using NodaTime;
 using System;
+using System.Collections.Generic;
 using System.IO;
-using System.Net;
-using System.Text.RegularExpressions;
-using System.Text;
-using System.Xml.Serialization;
-using DasBlog.Services.ConfigFile.Interfaces;
-using DasBlog.Services.ConfigFile;
-using DasBlog.Services;
-using DasBlog.Services.Site;
 using System.Linq;
-using newtelligence.DasBlog.Runtime;
-using DasBlog.Services.FileManagement;
 using System.Net.Mail;
+using System.Xml.Serialization;
 
 namespace DasBlog.Web.Settings
 {
@@ -70,9 +69,6 @@ namespace DasBlog.Web.Settings
 
 		public ISiteSecurityConfig SecurityConfiguration { get; }
 		public IOEmbedProviders OEmbedProviders => embedProvidersMonitor.CurrentValue;
-
-		private static Regex htmlFilterRegex = new Regex("<(?<end>/)?(?<name>\\w+)((\\s+(?<attNameValue>(?<attName>\\w+)(\\s*=\\s*(?:\"(?<attVal>[^\"]*)\"|'(?<attVal>[^']*)'|(?<attVal>[^'\">\\s]+)))?))+\\s*|\\s*)(?<self>/)?>",
-			RegexOptions.CultureInvariant | RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.Compiled);
 
 		public string GetBaseUrl()
 		{
@@ -203,50 +199,69 @@ namespace DasBlog.Web.Settings
 				return string.Empty;
 			}
 
-			if (SiteConfiguration.ValidCommentTags == null || SiteConfiguration.ValidCommentTags[0].Tag.Count(s => s.Allowed == true) == 0)
+			var sanitizer = CreateCommentSanitizer();
+			if (sanitizer == null)
 			{
-				return WebUtility.HtmlEncode(input);
+				return System.Net.WebUtility.HtmlEncode(input);
 			}
 
-			// check for matches
-			var matches = htmlFilterRegex.Matches(input);
+			return sanitizer.Sanitize(input);
+		}
 
-			// no matches, normal encoding
-			if (matches.Count == 0)
+		private HtmlSanitizer CreateCommentSanitizer()
+		{
+			if (SiteConfiguration.ValidCommentTags == null || SiteConfiguration.ValidCommentTags.Length == 0)
 			{
-				return WebUtility.HtmlEncode(input);
+				return null;
 			}
 
-			var sb = new StringBuilder();
+			var configuredTags = SiteConfiguration.ValidCommentTags[0]?.Tag
+				?.Where(tag => tag?.Allowed == true && !string.IsNullOrWhiteSpace(tag.Name))
+				.ToList();
 
-
-			var collection = new MatchedTagCollection(SiteConfiguration.ValidCommentTags);
-			collection.Init(matches);
-
-			int inputIndex = 0;
-
-			foreach (MatchedTag tag in collection)
+			if (configuredTags == null || configuredTags.Count == 0)
 			{
-				// add the normal text between the current index and the index of the current tag
-				if (inputIndex < tag.Index)
+				return null;
+			}
+
+			var sanitizer = new HtmlSanitizer();
+			sanitizer.KeepChildNodes = true;
+			sanitizer.AllowedTags.Clear();
+			sanitizer.AllowedAttributes.Clear();
+			sanitizer.AllowedSchemes.Clear();
+			sanitizer.AllowedSchemes.Add("http");
+			sanitizer.AllowedSchemes.Add("https");
+			sanitizer.AllowedSchemes.Add("mailto");
+			sanitizer.UriAttributes.Add("cite");
+
+			foreach (var tag in configuredTags)
+			{
+				sanitizer.AllowedTags.Add(tag.Name.Trim().ToLowerInvariant());
+
+				foreach (var attribute in SplitAttributes(tag.Attributes))
 				{
-					sb.Append(WebUtility.HtmlEncode(input.Substring(inputIndex, tag.Index - inputIndex)));
+					sanitizer.AllowedAttributes.Add(attribute);
 				}
-
-				// add the filtered value
-				sb.Append(tag.FilteredValue);
-
-				// move the current index past the tag
-				inputIndex = tag.Index + tag.Length;
 			}
 
-			// add remainder
-			if (inputIndex < input.Length)
+			return sanitizer;
+		}
+
+		private static IEnumerable<string> SplitAttributes(string attributes)
+		{
+			if (string.IsNullOrWhiteSpace(attributes))
 			{
-				sb.Append(WebUtility.HtmlEncode(input.Substring(inputIndex)));
+				yield break;
 			}
 
-			return sb.ToString();
+			foreach (var attribute in attributes.Split(',', StringSplitOptions.RemoveEmptyEntries))
+			{
+				var trimmed = attribute.Trim().ToLowerInvariant();
+				if (!string.IsNullOrWhiteSpace(trimmed))
+				{
+					yield return trimmed;
+				}
+			}
 		}
 
 		public bool AreCommentsPermitted(DateTime blogpostdate)

@@ -8,6 +8,7 @@ using DasBlog.Services.ConfigFile;
 using DasBlog.Services.ConfigFile.Interfaces;
 using DasBlog.Core.Security;
 using System.Collections.Generic;
+using DasBlog.Core.Common.Comments;
 using DasBlog.Services.FileManagement;
 using System.Net.Mail;
 using newtelligence.DasBlog.Runtime;
@@ -281,18 +282,70 @@ namespace DasBlog.Tests.UnitTests.Settings
             Assert.True(Math.Abs((lookahead - localNow.AddDays(dasBlogSettings.SiteConfiguration.ContentLookaheadDays)).TotalMinutes) < 1);
         }
 
-        [Fact]
-        public void FilterHtml_EncodesIfNoValidTags()
-        {
-            var dasBlogSettings = dasBlogSettingsMock.CreateSettings();
+		[Fact]
+		public void FilterHtml_EncodesIfNoValidTags()
+		{
+			var dasBlogSettings = dasBlogSettingsMock.CreateSettings();
 			dasBlogSettings.SiteConfiguration.ValidCommentTags = null; // Simulate no valid tags
-            var input = "<b>hello</b> & <script>alert('x')</script>";
-            var result = dasBlogSettings.FilterHtml(input);
-            Assert.Contains("&lt;b&gt;hello&lt;/b&gt;", result);
-        }
+			var input = "<b>hello</b> & <script>alert('x')</script>";
+			var result = dasBlogSettings.FilterHtml(input);
+			Assert.Contains("&lt;b&gt;hello&lt;/b&gt;", result);
+		}
 
-        [Fact]
-        public void IsAdmin_ReturnsTrueForAdminHash()
+		[Fact]
+		public void FilterHtml_RespectsConfiguredCommentAllowlist()
+		{
+			var dasBlogSettings = dasBlogSettingsMock.CreateSettings();
+			dasBlogSettings.SiteConfiguration.ValidCommentTags = new[]
+			{
+				new ValidCommentTags
+				{
+					Tag = new List<Tag>
+					{
+						new Tag { Name = "p", Allowed = true },
+						new Tag { Name = "strong", Allowed = true },
+						new Tag { Name = "a", Allowed = true, Attributes = "href,title" }
+					}
+				}
+			};
+
+			var input = "<p>Hello <strong>world</strong> <a href=\"https://example.com\" title=\"Example\">link</a><script>alert('x')</script><img src=\"x\" onerror=\"alert('x')\" /></p>";
+			var result = dasBlogSettings.FilterHtml(input);
+
+			Assert.Contains("<p", result, StringComparison.OrdinalIgnoreCase);
+			Assert.Contains("<strong", result, StringComparison.OrdinalIgnoreCase);
+			Assert.Contains("<a", result, StringComparison.OrdinalIgnoreCase);
+			Assert.Contains("https://example.com", result, StringComparison.OrdinalIgnoreCase);
+			Assert.DoesNotContain("<script", result, StringComparison.OrdinalIgnoreCase);
+			Assert.DoesNotContain("<img", result, StringComparison.OrdinalIgnoreCase);
+			Assert.DoesNotContain("onerror", result, StringComparison.OrdinalIgnoreCase);
+		}
+
+		[Fact]
+		public void FilterHtml_DisallowedWrapperTag_PreservesInnerText()
+		{
+			var dasBlogSettings = dasBlogSettingsMock.CreateSettings();
+			dasBlogSettings.SiteConfiguration.ValidCommentTags = new[]
+			{
+				new ValidCommentTags
+				{
+					Tag = new List<Tag>
+					{
+						new Tag { Name = "p", Allowed = true }
+					}
+				}
+			};
+
+			var input = "<h2>The title</h2><p>Body</p>";
+			var result = dasBlogSettings.FilterHtml(input);
+
+			Assert.DoesNotContain("<h2", result, StringComparison.OrdinalIgnoreCase);
+			Assert.Contains("The title", result, StringComparison.Ordinal);
+			Assert.Contains("<p>Body</p>", result, StringComparison.OrdinalIgnoreCase);
+		}
+
+		[Fact]
+		public void IsAdmin_ReturnsTrueForAdminHash()
         {
             var dasBlogSettings = dasBlogSettingsMock.CreateSettings();
             var admin = dasBlogSettings.SecurityConfiguration.Users[0];
