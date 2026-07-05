@@ -15,6 +15,7 @@
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
     <ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
     <Version>10.2.0</Version>
+    <PackageReleaseNotes>Platform and security: Upgraded to .NET 10, added Akismet spam protection with async checks/reporting and admin Mark as Spam, tightened CSP script/style sources, improved SEO metadata/sitemap/robots support, and added SEO plus spam unit tests. UI and UX: aligned Bootstrap to 5.3.3, improved blog layout/theme mapping, fixed site.css path resolution, improved modal accessibility, added autocomplete for login/comment forms, enabled lowercase URLs/query strings, and fixed sitemap/robots routing and pathBase handling. Security hardening: added HTML sanitization for static pages and activity log output, and tightened comment HTML allowlist filtering to reduce XSS exposure. Breaking/config changes: removed Google Analytics and CAPTCHA/reCAPTCHA support, removed FaceBookAdmins and FaceBookAppID meta fields, and migrated Mastodon settings to meta.config with resolver support. Additional fixes: improved X (Twitter) card metadata output, refactored delete modal rendering, and fixed category population in settings.</PackageReleaseNotes>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <IncludeSymbols>true</IncludeSymbols>
