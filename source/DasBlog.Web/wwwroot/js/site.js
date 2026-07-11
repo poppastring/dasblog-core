@@ -183,12 +183,13 @@ function showLastUserError(showError) {
                 return;
             }
 
-            var postsContainer = document.querySelector('[data-dbc-posts-container]');
+            event.preventDefault();
+
+            var postsContainer = document.querySelector('[data-dbc-posts-container]') || document.getElementById('contents');
             if (!postsContainer) {
+                window.location.href = loadMoreLink.getAttribute('href');
                 return;
             }
-
-            event.preventDefault();
 
             if (loadMoreLink.getAttribute('aria-busy') === 'true') {
                 return;
