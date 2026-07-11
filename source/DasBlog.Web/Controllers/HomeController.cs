@@ -67,6 +67,7 @@ namespace DasBlog.Web.Controllers
 			ViewData[Constants.ShowPageControl] = true;			
 			ViewData[Constants.PageNumber] = 0;
 			ViewData[Constants.PostCount] = lpvm.Posts.Count;
+			ViewData[Constants.EnableProgressiveFrontPageLoading] = dasBlogSettings.SiteConfiguration.EnableProgressiveFrontPageLoading;
 
 			return AggregatePostView(lpvm);
 		}
@@ -85,11 +86,7 @@ namespace DasBlog.Web.Controllers
 				return Index();
 			}
 
-			var lpvm = new ListPostsViewModel
-			{
-				Posts = blogManager.GetEntriesForPage(index, Request.Headers["Accept-Language"])
-								.Select(entry => mapper.Map<PostViewModel>(entry)).ToList()
-			};
+			var lpvm = PagePosts(index);
 
 			AddComments(lpvm);
 
@@ -99,6 +96,26 @@ namespace DasBlog.Web.Controllers
 			ViewData[Constants.PostCount] = lpvm.Posts.Count;
 
 			return AggregatePostView(lpvm);
+		}
+
+		[HttpGet("page/{index:int}/posts")]
+		public IActionResult PagePostsPartial(int index)
+		{
+			if (index < 1)
+			{
+				return BadRequest();
+			}
+
+			var lpvm = PagePosts(index);
+
+			if (lpvm.Posts.Count == 0)
+			{
+				return NoContent();
+			}
+
+			AddComments(lpvm);
+
+			return PartialView(dasBlogSettings.SiteConfiguration.ShowItemSummaryInAggregatedViews ? "_BlogItemsSummary" : "_BlogItems", lpvm);
 		}
 
 		public IActionResult Error()
@@ -138,6 +155,15 @@ namespace DasBlog.Web.Controllers
 			}
 
 			return listPostsViewModel;
+		}
+
+		private ListPostsViewModel PagePosts(int index)
+		{
+			return new ListPostsViewModel
+			{
+				Posts = blogManager.GetEntriesForPage(index, Request.Headers["Accept-Language"])
+								.Select(entry => mapper.Map<PostViewModel>(entry)).ToList()
+			};
 		}
 
 		private IList<PostViewModel> HomePagePosts()

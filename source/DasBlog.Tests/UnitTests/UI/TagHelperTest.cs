@@ -278,6 +278,38 @@ namespace DasBlog.Tests.UnitTests.UI
 
 		[Fact]
 		[Trait("Category", "UnitTest")]
+		public async Task SitePageControlTagHelper_RendersLoadMoreForProgressiveFrontPage()
+		{
+			var dasBlogSettingsMock = new DasBlogSettingsMock();
+			var dasBlogSettings = dasBlogSettingsMock.CreateSettings();
+			var viewContext = new Microsoft.AspNetCore.Mvc.Rendering.ViewContext();
+			viewContext.ViewData[DasBlog.Core.Common.Constants.PostCount] = 5;
+			viewContext.ViewData[DasBlog.Core.Common.Constants.PageNumber] = 0;
+			viewContext.ViewData[DasBlog.Core.Common.Constants.EnableProgressiveFrontPageLoading] = true;
+
+			var sut = new DasBlog.Web.TagHelpers.Layout.SitePageControlTagHelper((DasBlog.Services.IUrlResolver)dasBlogSettings)
+			{
+				ViewContext = viewContext
+			};
+
+			var context = new TagHelperContext(new TagHelperAttributeList(), new Dictionary<object, object>(), Guid.NewGuid().ToString("N"));
+			var output = new TagHelperOutput("sitepagecontrol", new TagHelperAttributeList(), (useCachedResult, htmlEncoder) =>
+			{
+				var tagHelperContent = new DefaultTagHelperContent();
+				tagHelperContent.SetContent(string.Empty);
+				return Task.FromResult<TagHelperContent>(tagHelperContent);
+			});
+
+			await sut.ProcessAsync(context, output);
+
+			var content = output.Content.GetContent();
+			Assert.Contains("Load more posts", content);
+			Assert.Contains("data-dbc-load-more-posts='true'", content);
+			Assert.Contains("page/1/posts", content);
+		}
+
+		[Fact]
+		[Trait("Category", "UnitTest")]
 		public async Task PostCategoriesListTagHelper_RendersCategories()
 		{
 			var dasBlogSettingsMock = new DasBlogSettingsMock();

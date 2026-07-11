@@ -20,6 +20,7 @@
 		public const string ShowPageControl = "show-page-control";
 		public const string PageNumber = "page-number";
 		public const string PostCount = "post-count";
+		public const string EnableProgressiveFrontPageLoading = "enable-progressive-front-page-loading";
 		public const string ArchivePageTitle = "Archive";
 		public const string ArchiveAllPageTitle = "Complete Archive";
 		public const string CommentShowPageControl = "comment-show-page-control";

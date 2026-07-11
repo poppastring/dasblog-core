@@ -102,6 +102,7 @@ namespace DasBlog.Services.ConfigFile
         public bool AllowMarkdownInComments {get; set;}
         public bool ShowCommentCount { get; set; }
         public bool EnableStartPageCaching { get; set; }
+        public bool EnableProgressiveFrontPageLoading { get; set; }
 		public bool EnableRewritingHashtagsToCategoryLinks { get; set; }
 		public bool EnableRewritingBareLinksToEmbeddings { get; set; }
 		public bool EnableRewritingBareLinksToIcons { get; set; }
