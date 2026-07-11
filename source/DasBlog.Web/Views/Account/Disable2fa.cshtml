@@ -1,0 +1,15 @@
+@{
+    ViewBag.Title = "Disable two-factor authentication";
+    Layout = "../../Themes/dasblog/_Layout.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+<hr />
+<div class="alert alert-warning" role="alert">
+    Disabling two-factor authentication clears the authenticator secret and all recovery codes for this account.
+</div>
+
+<form asp-controller="Account" asp-action="Disable2faConfirmed" method="post">
+    <button type="submit" class="btn btn-danger me-2">Disable 2FA</button>
+    <a asp-controller="Account" asp-action="EnableAuthenticator" class="btn btn-secondary">Cancel</a>
+</form>

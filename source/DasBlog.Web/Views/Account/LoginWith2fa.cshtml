@@ -1,0 +1,44 @@
+@model DasBlog.Web.Models.AccountViewModels.LoginWith2faViewModel
+
+@{
+    ViewBag.Title = "Two-factor authentication";
+    Layout = "../../Themes/dasblog/_Layout.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+<hr />
+<p>Enter the 6-digit code from your authenticator app.</p>
+
+<form asp-controller="Account" asp-action="LoginWith2fa" method="post" class="form-horizontal">
+    @Html.HiddenFor(m => m.RememberMe)
+    @Html.HiddenFor(m => m.ReturnUrl)
+
+    <div class="row gy-2 gx-3 justify-content-md-center mb-3">
+        <div class="col-sm-4">
+            <div class="form-floating">
+                @Html.TextBoxFor(m => m.TwoFactorCode, null, new { @class = "form-control", id = "TwoFactorCode", autocomplete = "one-time-code", inputmode = "numeric" })
+                @Html.LabelFor(m => m.TwoFactorCode, null, new { @class = "form-label", @for = "TwoFactorCode" })
+            </div>
+            @Html.ValidationMessageFor(m => m.TwoFactorCode, null, new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="d-flex flex-wrap justify-content-md-center mb-3">
+        @Html.CheckBoxFor(m => m.RememberMachine, new { @class = "form-check-input me-1" })
+        @Html.LabelFor(m => m.RememberMachine, null, new { @class = "form-check-label me-3" })
+    </div>
+
+    <div class="d-flex flex-wrap justify-content-md-center">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    </div>
+
+    <hr />
+    <div class="d-flex flex-wrap justify-content-md-center">
+        <button type="submit" class="btn btn-primary me-2">Verify</button>
+        <a asp-controller="Account" asp-action="LoginWithRecoveryCode" asp-route-returnUrl="@Model.ReturnUrl" class="btn btn-link">Use a recovery code</a>
+    </div>
+</form>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

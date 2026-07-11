@@ -175,11 +175,20 @@ namespace DasBlog.Web
 			services.AddSingleton<IPasswordHasher<object>, PasswordHasher<object>>();
 			services.AddScoped<IPasswordHasher<DasBlogUser>, DasBlogPasswordHasher>();
 
-			services.Configure<IdentityOptions>(configuration.GetSection("IdentityOptions"));
+			services.Configure<IdentityOptions>(options =>
+			{
+				configuration.GetSection("IdentityOptions").Bind(options);
+				options.Tokens.AuthenticatorTokenProvider = TokenOptions.DefaultAuthenticatorProvider;
+			});
 
 			services.ConfigureApplicationCookie(options =>
 			{
 				options.ExpireTimeSpan = TimeSpan.FromSeconds(10000);
+			});
+
+			services.Configure<CookieAuthenticationOptions>(IdentityConstants.TwoFactorRememberMeScheme, options =>
+			{
+				options.ExpireTimeSpan = TimeSpan.FromDays(30);
 			});
 
 			services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)

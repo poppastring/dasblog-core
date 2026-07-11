@@ -38,6 +38,7 @@
 #endregion
 
 using System;
+using System.Linq;
 using System.Xml.Serialization;
 
 namespace DasBlog.Core.Security
@@ -81,9 +82,17 @@ namespace DasBlog.Core.Security
 		[XmlElement("Password")]
 		public string Password { get; set; }
 
+		[XmlElement("TwoFactor")]
+		public TwoFactorSettings TwoFactor { get; set; } = new TwoFactorSettings();
+
 		public string XmlPassword { get; set; }
 
 		public UserToken ToToken() => new UserToken(Name, Role.ToString());
+
+		public bool ShouldSerializeTwoFactor()
+		{
+			return TwoFactor != null && (TwoFactor.Enabled || !string.IsNullOrEmpty(TwoFactor.AuthenticatorSecret) || TwoFactor.RecoveryCodes?.Any() == true);
+		}
 
 		public bool Equals(User other)
 		{

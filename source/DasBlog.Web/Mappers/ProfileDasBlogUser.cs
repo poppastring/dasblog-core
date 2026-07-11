@@ -5,6 +5,8 @@ using DasBlog.Web.Identity;
 using System.Text.RegularExpressions;
 using DasBlog.Managers.Interfaces;
 using DasBlog.Web.Models;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace DasBlog.Web.Mappers
 {
@@ -27,6 +29,12 @@ namespace DasBlog.Web.Mappers
 				.ForMember(dest => dest.EmailAddress, opt => opt.MapFrom(src => src.Email))
 				.ForMember(dest => dest.DisplayName, opt => opt.MapFrom(src => src.DisplayName))
 				.ForMember(dest => dest.Password, opt => opt.MapFrom(src => src.PasswordHash))
+				.ForMember(dest => dest.TwoFactor, opt => opt.MapFrom(src => new TwoFactorSettings
+				{
+					Enabled = src.TwoFactorEnabled,
+					AuthenticatorSecret = src.AuthenticatorSecret,
+					RecoveryCodes = src.RecoveryCodes == null ? new List<RecoveryCode>() : src.RecoveryCodes.ToList()
+				}))
 				.ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.DisplayName));
 
 			CreateMap<User, DasBlogUser>()
@@ -34,6 +42,9 @@ namespace DasBlog.Web.Mappers
 				.ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.EmailAddress))
 				.ForMember(dest => dest.DisplayName, opt => opt.MapFrom(src => src.DisplayName))
 				.ForMember(dest => dest.PasswordHash, opt => opt.MapFrom(src => src.Password))
+				.ForMember(dest => dest.TwoFactorEnabled, opt => opt.MapFrom(src => src.TwoFactor != null && src.TwoFactor.Enabled))
+				.ForMember(dest => dest.AuthenticatorSecret, opt => opt.MapFrom(src => src.TwoFactor == null ? null : src.TwoFactor.AuthenticatorSecret))
+				.ForMember(dest => dest.RecoveryCodes, opt => opt.MapFrom(src => src.TwoFactor == null || src.TwoFactor.RecoveryCodes == null ? new List<RecoveryCode>() : src.TwoFactor.RecoveryCodes.ToList()))
 				.ForMember(dest => dest.SecurityStamp, opt => opt.MapFrom(src => src.Name));
 			
 			CreateMap<AuthorViewModel, User>()
