@@ -75,6 +75,10 @@ namespace DasBlog.Web.Models.AdminViewModels
 		[Description("Uses standard web based caching on the server side (will increase memory usage).")]
 		public bool EnableStartPageCaching { get; set; }
 
+		[DisplayName("Enable progressive front page loading")]
+		[Description("Adds a Load more posts button to the front page so older posts can be appended without leaving the page.")]
+		public bool EnableProgressiveFrontPageLoading { get; set; }
+
 		[DisplayName("Days to look ahead for content")]
 		[Description("Looks for future posts for this number of days into the future")]
 		[Required(AllowEmptyStrings = false, ErrorMessage = "Enter a value for Content Look ahead Days")]

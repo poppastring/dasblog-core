@@ -106,6 +106,8 @@ namespace DasBlog.Services.ConfigFile.Interfaces
 
 		bool EnableStartPageCaching { get; set; }
 
+        bool EnableProgressiveFrontPageLoading { get; set; }
+
 		bool ShowItemSummaryInAggregatedViews { get; set; }
 
         decimal DisplayTimeZoneIndex { get; set; }

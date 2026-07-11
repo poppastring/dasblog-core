@@ -157,6 +157,94 @@ function showLastUserError(showError) {
 }
 
 (function () {
+    function setNextPage(loadMoreLink) {
+        var nextPage = parseInt(loadMoreLink.getAttribute('data-dbc-next-page'), 10) + 1;
+        var partialUrl = loadMoreLink.getAttribute('data-dbc-load-more-url');
+        var pageUrl = loadMoreLink.getAttribute('href');
+
+        loadMoreLink.setAttribute('data-dbc-next-page', nextPage);
+        loadMoreLink.setAttribute('data-dbc-load-more-url', partialUrl.replace(/page\/\d+\/posts$/, 'page/' + nextPage + '/posts'));
+        loadMoreLink.setAttribute('href', pageUrl.replace(/page\/\d+$/, 'page/' + nextPage));
+    }
+
+    function hideLoadMore(loadMoreLink) {
+        var wrapper = loadMoreLink.closest('.dbc-span-page-control-load-more');
+        if (wrapper) {
+            wrapper.remove();
+        } else {
+            loadMoreLink.remove();
+        }
+    }
+
+    function init() {
+        document.addEventListener('click', function (event) {
+            var loadMoreLink = event.target.closest('[data-dbc-load-more-posts="true"]');
+            if (!loadMoreLink) {
+                return;
+            }
+
+            event.preventDefault();
+
+            var postsContainer = document.querySelector('[data-dbc-posts-container]') || document.getElementById('contents');
+            if (!postsContainer) {
+                window.location.href = loadMoreLink.getAttribute('href');
+                return;
+            }
+
+            if (loadMoreLink.getAttribute('aria-busy') === 'true') {
+                return;
+            }
+
+            var originalText = loadMoreLink.textContent;
+            loadMoreLink.setAttribute('aria-busy', 'true');
+            loadMoreLink.classList.add('disabled');
+            loadMoreLink.textContent = 'Loading...';
+
+            fetch(loadMoreLink.getAttribute('data-dbc-load-more-url'), {
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+                .then(function (response) {
+                    if (response.status === 204) {
+                        hideLoadMore(loadMoreLink);
+                        return null;
+                    }
+
+                    if (!response.ok) {
+                        window.location.href = loadMoreLink.getAttribute('href');
+                        return null;
+                    }
+
+                    return response.text();
+                })
+                .then(function (html) {
+                    if (!html) {
+                        return;
+                    }
+
+                    postsContainer.insertAdjacentHTML('beforeend', html);
+                    setNextPage(loadMoreLink);
+                })
+                .catch(function () {
+                    window.location.href = loadMoreLink.getAttribute('href');
+                })
+                .finally(function () {
+                    loadMoreLink.removeAttribute('aria-busy');
+                    loadMoreLink.classList.remove('disabled');
+                    loadMoreLink.textContent = originalText;
+                });
+        });
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
+    }
+})();
+
+(function () {
     var STORAGE_KEY = 'dasblog-theme';
 
     function getStoredTheme() {
