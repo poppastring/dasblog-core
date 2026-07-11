@@ -34,6 +34,7 @@
     <PackageReference Include="NWebsec.AspNetCore.Middleware" />
     <PackageReference Include="HtmlSanitizer" />
     <PackageReference Include="Quartz.AspNetCore" />
+    <PackageReference Include="QRCoder" />
     <PackageReference Include="NuGet.Protocol" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="All" />
   </ItemGroup>

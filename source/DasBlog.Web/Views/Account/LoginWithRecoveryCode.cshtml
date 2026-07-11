@@ -1,0 +1,38 @@
+@model DasBlog.Web.Models.AccountViewModels.LoginWithRecoveryCodeViewModel
+
+@{
+    ViewBag.Title = "Recovery code";
+    Layout = "../../Themes/dasblog/_Layout.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+<hr />
+<p>Enter one of your saved recovery codes. Each recovery code can only be used once.</p>
+
+<form asp-controller="Account" asp-action="LoginWithRecoveryCode" method="post" class="form-horizontal">
+    @Html.HiddenFor(m => m.ReturnUrl)
+
+    <div class="row gy-2 gx-3 justify-content-md-center mb-3">
+        <div class="col-sm-4">
+            <div class="form-floating">
+                @Html.TextBoxFor(m => m.RecoveryCode, null, new { @class = "form-control", id = "RecoveryCode", autocomplete = "one-time-code" })
+                @Html.LabelFor(m => m.RecoveryCode, null, new { @class = "form-label", @for = "RecoveryCode" })
+            </div>
+            @Html.ValidationMessageFor(m => m.RecoveryCode, null, new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="d-flex flex-wrap justify-content-md-center">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    </div>
+
+    <hr />
+    <div class="d-flex flex-wrap justify-content-md-center">
+        <button type="submit" class="btn btn-primary me-2">Log in</button>
+        <a asp-controller="Account" asp-action="LoginWith2fa" asp-route-returnUrl="@Model.ReturnUrl" class="btn btn-link">Use an authenticator code</a>
+    </div>
+</form>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

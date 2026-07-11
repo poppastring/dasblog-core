@@ -1,0 +1,23 @@
+@model DasBlog.Web.Models.AccountViewModels.RecoveryCodesViewModel
+
+@{
+    ViewBag.Title = "Recovery codes";
+    Layout = "../../Themes/dasblog/_Layout.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+<hr />
+<div class="alert alert-warning" role="alert">
+    Save these recovery codes now. They are shown only once, and each code can only be used one time.
+</div>
+
+<div class="row gy-2 gx-3 mb-3">
+    @foreach (var code in Model.RecoveryCodes)
+    {
+        <div class="col-sm-3">
+            <code>@code</code>
+        </div>
+    }
+</div>
+
+<a asp-controller="Account" asp-action="EnableAuthenticator" class="btn btn-primary">Done</a>

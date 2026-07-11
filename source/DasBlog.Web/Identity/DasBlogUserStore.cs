@@ -6,15 +6,18 @@ using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Security.Claims;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 
 namespace DasBlog.Web.Identity
 {
-	public class DasBlogUserStore : IUserStore<DasBlogUser>, IUserPasswordStore<DasBlogUser>, IUserEmailStore<DasBlogUser>, IUserClaimStore<DasBlogUser>
+	public class DasBlogUserStore : IUserStore<DasBlogUser>, IUserPasswordStore<DasBlogUser>, IUserEmailStore<DasBlogUser>, IUserClaimStore<DasBlogUser>, IUserAuthenticatorKeyStore<DasBlogUser>, IUserTwoFactorStore<DasBlogUser>, IUserTwoFactorRecoveryCodeStore<DasBlogUser>
 	{
+		private const string RecoveryCodeHashPrefix = "SHA256:";
 		private readonly IDasBlogSettings dasBlogSettings;
 		private readonly IMapper mapper;
 		private readonly IUserService userService;
@@ -102,20 +105,10 @@ namespace DasBlog.Web.Identity
 
 			try
 			{
-				var users = userService.GetAllUsers().ToList();
-				var index = users.FindIndex(u => !string.IsNullOrEmpty(u.EmailAddress)
-					&& u.EmailAddress.Equals(user.Email, StringComparison.OrdinalIgnoreCase));
-
-				if (index < 0)
+				if (!SaveUser(user, includePassword: true))
 				{
 					return Task.FromResult(IdentityResult.Failed(new IdentityError { Description = "User not found." }));
 				}
-
-				users[index].Password = user.PasswordHash;
-				userService.SaveUsers(users);
-
-				// Keep the cached SecurityConfiguration.Users list in sync so subsequent reads see the new hash.
-				dasBlogSettings.SecurityConfiguration.Users = users;
 			}
 			catch (Exception e)
 			{
@@ -294,6 +287,190 @@ namespace DasBlog.Web.Identity
 			throw new NotImplementedException();
 		}
 
+		#endregion IUserPasswordStore
+
+		#region IUserAuthenticatorKeyStore
+
+		public Task SetAuthenticatorKeyAsync(DasBlogUser user, string key, CancellationToken cancellationToken)
+		{
+			cancellationToken.ThrowIfCancellationRequested();
+			if (user == null)
+			{
+				throw new ArgumentNullException(nameof(user));
+			}
+
+			user.AuthenticatorSecret = key;
+			SaveUser(user, includePassword: false);
+			return Task.CompletedTask;
+		}
+
+		public Task<string> GetAuthenticatorKeyAsync(DasBlogUser user, CancellationToken cancellationToken)
+		{
+			cancellationToken.ThrowIfCancellationRequested();
+			if (user == null)
+			{
+				throw new ArgumentNullException(nameof(user));
+			}
+
+			return Task.FromResult(user.AuthenticatorSecret);
+		}
+
+		#endregion IUserAuthenticatorKeyStore
+
+		#region IUserTwoFactorStore
+
+		public Task SetTwoFactorEnabledAsync(DasBlogUser user, bool enabled, CancellationToken cancellationToken)
+		{
+			cancellationToken.ThrowIfCancellationRequested();
+			if (user == null)
+			{
+				throw new ArgumentNullException(nameof(user));
+			}
+
+			user.TwoFactorEnabled = enabled;
+			if (!enabled)
+			{
+				user.AuthenticatorSecret = null;
+				user.RecoveryCodes = new List<RecoveryCode>();
+			}
+
+			SaveUser(user, includePassword: false);
+			return Task.CompletedTask;
+		}
+
+		public Task<bool> GetTwoFactorEnabledAsync(DasBlogUser user, CancellationToken cancellationToken)
+		{
+			cancellationToken.ThrowIfCancellationRequested();
+			if (user == null)
+			{
+				throw new ArgumentNullException(nameof(user));
+			}
+
+			return Task.FromResult(user.TwoFactorEnabled);
+		}
+
+		#endregion IUserTwoFactorStore
+
+		#region IUserTwoFactorRecoveryCodeStore
+
+		public Task ReplaceCodesAsync(DasBlogUser user, IEnumerable<string> recoveryCodes, CancellationToken cancellationToken)
+		{
+			cancellationToken.ThrowIfCancellationRequested();
+			if (user == null)
+			{
+				throw new ArgumentNullException(nameof(user));
+			}
+
+			user.RecoveryCodes = recoveryCodes
+				.Select(code => new RecoveryCode { Hash = HashRecoveryCode(code), Used = false })
+				.ToList();
+
+			SaveUser(user, includePassword: false);
+			return Task.CompletedTask;
+		}
+
+		public Task<bool> RedeemCodeAsync(DasBlogUser user, string code, CancellationToken cancellationToken)
+		{
+			cancellationToken.ThrowIfCancellationRequested();
+			if (user == null)
+			{
+				throw new ArgumentNullException(nameof(user));
+			}
+
+			var matchingCode = user.RecoveryCodes?.FirstOrDefault(recoveryCode => !recoveryCode.Used && RecoveryCodeMatches(recoveryCode.Hash, code));
+			if (matchingCode == null)
+			{
+				return Task.FromResult(false);
+			}
+
+			matchingCode.Used = true;
+			SaveUser(user, includePassword: false);
+			return Task.FromResult(true);
+		}
+
+		public Task<int> CountCodesAsync(DasBlogUser user, CancellationToken cancellationToken)
+		{
+			cancellationToken.ThrowIfCancellationRequested();
+			if (user == null)
+			{
+				throw new ArgumentNullException(nameof(user));
+			}
+
+			return Task.FromResult(user.RecoveryCodes?.Count(code => !code.Used) ?? 0);
+		}
+
+		#endregion IUserTwoFactorRecoveryCodeStore
+
+		private bool SaveUser(DasBlogUser user, bool includePassword)
+		{
+			var users = userService.GetAllUsers().ToList();
+			var index = users.FindIndex(u => UserMatches(u, user));
+
+			if (index < 0)
+			{
+				return false;
+			}
+
+			ApplyIdentityState(users[index], user, includePassword);
+			userService.SaveUsers(users);
+
+			// Keep the cached SecurityConfiguration.Users list in sync so subsequent reads see changes.
+			dasBlogSettings.SecurityConfiguration.Users = users;
+			return true;
+		}
+
+		private static bool UserMatches(User persistedUser, DasBlogUser identityUser)
+		{
+			return (!string.IsNullOrEmpty(persistedUser.EmailAddress) && !string.IsNullOrEmpty(identityUser.Email)
+					&& persistedUser.EmailAddress.Equals(identityUser.Email, StringComparison.OrdinalIgnoreCase))
+				|| (!string.IsNullOrEmpty(persistedUser.Name) && !string.IsNullOrEmpty(identityUser.UserName)
+					&& persistedUser.Name.Equals(identityUser.UserName, StringComparison.OrdinalIgnoreCase));
+		}
+
+		private static void ApplyIdentityState(User persistedUser, DasBlogUser identityUser, bool includePassword)
+		{
+			if (!string.IsNullOrEmpty(identityUser.Email))
+			{
+				persistedUser.EmailAddress = identityUser.Email;
+			}
+
+			if (!string.IsNullOrEmpty(identityUser.DisplayName))
+			{
+				persistedUser.DisplayName = identityUser.DisplayName;
+			}
+
+			if (includePassword && !string.IsNullOrEmpty(identityUser.PasswordHash))
+			{
+				persistedUser.Password = identityUser.PasswordHash;
+			}
+
+			persistedUser.TwoFactor = new TwoFactorSettings
+			{
+				Enabled = identityUser.TwoFactorEnabled,
+				AuthenticatorSecret = identityUser.AuthenticatorSecret,
+				RecoveryCodes = identityUser.RecoveryCodes?.ToList() ?? new List<RecoveryCode>()
+			};
+		}
+
+		private static string HashRecoveryCode(string code)
+		{
+			var bytes = SHA256.HashData(Encoding.UTF8.GetBytes(code ?? string.Empty));
+			return RecoveryCodeHashPrefix + Convert.ToBase64String(bytes);
+		}
+
+		private static bool RecoveryCodeMatches(string storedHash, string code)
+		{
+			if (string.IsNullOrEmpty(storedHash))
+			{
+				return false;
+			}
+
+			var candidateHash = HashRecoveryCode(code);
+			var storedBytes = Encoding.UTF8.GetBytes(storedHash);
+			var candidateBytes = Encoding.UTF8.GetBytes(candidateHash);
+			return storedBytes.Length == candidateBytes.Length && CryptographicOperations.FixedTimeEquals(storedBytes, candidateBytes);
+		}
+
 		#region IDisposable Support
 
 		private bool disposedValue = false; // To detect redundant calls
@@ -330,7 +507,5 @@ namespace DasBlog.Web.Identity
 		}
 
 		#endregion IDisposable Support
-
-		#endregion IUserPasswordStore
 	}
 }

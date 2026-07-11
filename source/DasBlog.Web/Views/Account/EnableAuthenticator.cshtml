@@ -1,0 +1,59 @@
+@model DasBlog.Web.Models.AccountViewModels.EnableAuthenticatorViewModel
+
+@{
+    ViewBag.Title = "Authenticator app";
+    Layout = "../../Themes/dasblog/_Layout.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+<hr />
+<success-alert alert-id="twoFactorSuccess" message-key="SuccessMessage" />
+
+@if (Model.IsTwoFactorEnabled)
+{
+    <div class="alert alert-success" role="alert">
+        Two-factor authentication is enabled for this account.
+    </div>
+    <div class="d-flex flex-wrap mb-4">
+        <a asp-controller="Account" asp-action="ResetRecoveryCodes" class="btn btn-warning me-2">Reset recovery codes</a>
+        <a asp-controller="Account" asp-action="Disable2fa" class="btn btn-danger">Disable 2FA</a>
+    </div>
+}
+else
+{
+    <p>Scan this QR code with an authenticator app, or enter the setup key manually. Then enter the 6-digit verification code to finish enrollment.</p>
+
+    <div class="row gy-2 gx-3 align-items-md-start mb-3">
+        <div class="col-sm-4 text-center">
+            @Html.Raw(Model.QrCodeSvg)
+        </div>
+        <div class="col-sm-8">
+            <p><strong>Setup key:</strong></p>
+            <code>@Model.SharedKey</code>
+        </div>
+    </div>
+
+    <form asp-controller="Account" asp-action="EnableAuthenticator" method="post" class="form-horizontal">
+        <div class="row gy-2 gx-3 align-items-md-start mb-3">
+            <div class="col-sm-4">
+                <div class="form-floating">
+                    @Html.TextBoxFor(m => m.Code, null, new { @class = "form-control", id = "Code", autocomplete = "one-time-code", inputmode = "numeric" })
+                    @Html.LabelFor(m => m.Code, null, new { @class = "form-label", @for = "Code" })
+                </div>
+                @Html.ValidationMessageFor(m => m.Code, null, new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="d-flex flex-wrap">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        </div>
+
+        <hr />
+        <button type="submit" class="btn btn-primary me-2">Verify and enable</button>
+        <a href="~/admin/settings" class="btn btn-secondary">Cancel</a>
+    </form>
+}
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

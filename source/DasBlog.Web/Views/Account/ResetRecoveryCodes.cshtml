@@ -1,0 +1,15 @@
+@{
+    ViewBag.Title = "Reset recovery codes";
+    Layout = "../../Themes/dasblog/_Layout.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+<hr />
+<div class="alert alert-warning" role="alert">
+    Resetting recovery codes invalidates all previous recovery codes for this account.
+</div>
+
+<form asp-controller="Account" asp-action="ResetRecoveryCodesConfirmed" method="post">
+    <button type="submit" class="btn btn-warning me-2">Reset recovery codes</button>
+    <a asp-controller="Account" asp-action="EnableAuthenticator" class="btn btn-secondary">Cancel</a>
+</form>
