@@ -10,17 +10,17 @@ using Microsoft.Extensions.Logging;
 
 namespace DasBlog.Web.Controllers
 {
-    [Route("site")]
-    public class SiteController : DasBlogController
-    {
-        private readonly ISiteManager siteManager;
+	[Route("site")]
+	public class SiteController : DasBlogController
+	{
+		private readonly ISiteManager siteManager;
 		private readonly IBlogManager blogManager;
 		private readonly IMemoryCache memoryCache;
 		private readonly IMapper mapper;
 		private readonly ILogger<SiteController> logger;
 
 		public SiteController(ISiteManager siteManager, IBlogManager blogManager, IMemoryCache memoryCache, IMapper mapper, ILogger<SiteController> logger)
-        {
+		{
 			this.siteManager = siteManager;
 			this.blogManager = blogManager;
 			this.memoryCache = memoryCache;

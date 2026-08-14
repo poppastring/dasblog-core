@@ -17,9 +17,10 @@ namespace DasBlog.Tests.UnitTests.Services
 			var resolverMock = new Mock<IAtprotoSettingsResolver>();
 			resolverMock.Setup(x => x.IsEnabled()).Returns(false);
 
+			var settingsMock = new Mock<IDasBlogSettings>();
 			var loggerMock = new Mock<ILogger<AtprotoPublisher>>();
 
-			var publisher = new AtprotoPublisher(resolverMock.Object, loggerMock.Object);
+			var publisher = new AtprotoPublisher(resolverMock.Object, settingsMock.Object, loggerMock.Object);
 
 			var result = await publisher.EnsurePublicationAsync();
 
@@ -33,9 +34,10 @@ namespace DasBlog.Tests.UnitTests.Services
 			resolverMock.Setup(x => x.IsEnabled()).Returns(true);
 			resolverMock.Setup(x => x.GetHandle()).Returns(string.Empty);
 
+			var settingsMock = new Mock<IDasBlogSettings>();
 			var loggerMock = new Mock<ILogger<AtprotoPublisher>>();
 
-			var publisher = new AtprotoPublisher(resolverMock.Object, loggerMock.Object);
+			var publisher = new AtprotoPublisher(resolverMock.Object, settingsMock.Object, loggerMock.Object);
 
 			var result = await publisher.EnsurePublicationAsync();
 
@@ -51,9 +53,10 @@ namespace DasBlog.Tests.UnitTests.Services
 			resolverMock.Setup(x => x.GetPdsUrl()).Returns("https://bsky.social");
 			resolverMock.Setup(x => x.GetPublicationRkey()).Returns("site");
 
+			var settingsMock = new Mock<IDasBlogSettings>();
 			var loggerMock = new Mock<ILogger<AtprotoPublisher>>();
 
-			var publisher = new AtprotoPublisher(resolverMock.Object, loggerMock.Object);
+			var publisher = new AtprotoPublisher(resolverMock.Object, settingsMock.Object, loggerMock.Object);
 
 			var result = await publisher.EnsurePublicationAsync();
 

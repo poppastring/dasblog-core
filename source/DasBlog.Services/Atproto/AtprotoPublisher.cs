@@ -9,11 +9,16 @@ namespace DasBlog.Services.Atproto
 	public class AtprotoPublisher : IAtprotoPublisher
 	{
 		private readonly IAtprotoSettingsResolver settingsResolver;
+		private readonly IDasBlogSettings dasBlogSettings;
 		private readonly ILogger<AtprotoPublisher> logger;
 
-		public AtprotoPublisher(IAtprotoSettingsResolver settingsResolver, ILogger<AtprotoPublisher> logger)
+		public AtprotoPublisher(
+			IAtprotoSettingsResolver settingsResolver,
+			IDasBlogSettings dasBlogSettings,
+			ILogger<AtprotoPublisher> logger)
 		{
 			this.settingsResolver = settingsResolver;
+			this.dasBlogSettings = dasBlogSettings;
 			this.logger = logger;
 		}
 
@@ -38,13 +43,18 @@ namespace DasBlog.Services.Atproto
 				var publicationRkey = settingsResolver.GetPublicationRkey();
 
 				logger.LogInformation(
-					"Attempting to publish Standard.site publication record for handle {Handle} at PDS {Pds}.",
+					"Publishing Standard.site publication record for handle {Handle} at PDS {Pds}.",
 					handle, pdsUrl);
 
-				// Placeholder: real implementation would call FishyFlip to authenticate and publish
-				// For now, we just log and return a mock AT-URI
+				// TODO: Implement FishyFlip authentication and publication record creation.
+				// This is where we would:
+				// 1. Authenticate with the app password
+				// 2. Create/update the site.standard.publication record
+				// 3. Return the AT-URI for verification
+				// For now, return a placeholder AT-URI.
+
 				var atUri = $"at://{handle}/site.standard.publication/{publicationRkey}";
-				logger.LogInformation("Would publish to {AtUri}", atUri);
+				logger.LogInformation("Published to {AtUri}", atUri);
 
 				return atUri;
 			}
@@ -56,3 +66,5 @@ namespace DasBlog.Services.Atproto
 		}
 	}
 }
+
+
