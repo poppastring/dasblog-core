@@ -1,5 +1,7 @@
 @using DasBlog.Web.Models.BlogViewModels;
 @model ListPostsViewModel
 
-<partial name="_BlogItems" model="Model" />
+<div data-dbc-posts-container>
+    <partial name="_BlogItems" model="Model" />
+</div>
 

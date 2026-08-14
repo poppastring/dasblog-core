@@ -61,6 +61,9 @@
     @Html.CheckBoxFor(m => @Model.SiteConfig.EnableStartPageCaching, new { @class = "form-check-input me-1" })
     @Html.LabelFor(m => @Model.SiteConfig.EnableStartPageCaching, null, new { @class = "form-check-label me-3" })
 
+    @Html.CheckBoxFor(m => @Model.SiteConfig.EnableProgressiveFrontPageLoading, new { @class = "form-check-input me-1" })
+    @Html.LabelFor(m => @Model.SiteConfig.EnableProgressiveFrontPageLoading, null, new { @class = "form-check-label me-3" })
+
     @Html.CheckBoxFor(m => @Model.SiteConfig.ShowItemSummaryInAggregatedViews, new { @class = "form-check-input me-1" })
     @Html.LabelFor(m => @Model.SiteConfig.ShowItemSummaryInAggregatedViews, null, new { @class = "form-check-label me-3" })
 </div>

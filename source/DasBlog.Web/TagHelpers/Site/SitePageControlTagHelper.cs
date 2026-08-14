@@ -19,6 +19,9 @@ namespace DasBlog.Web.TagHelpers.Layout
 		private int PostCount { get; set; }
 		private int PageNumber { get; set; }
 		private const string PAGEANCHOR = "<span class='dbc-span-page-control-{2}'><a href='{0}'>{1}</a></span>";
+		private const string LOADMOREANCHOR = "<span class='dbc-span-page-control-load-more'><a href='{0}' class='btn btn-secondary dbc-load-more-posts' data-dbc-load-more-posts='true' data-dbc-load-more-url='{1}' data-dbc-next-page='{2}'>{3}</a></span>";
+
+		public string LoadMorePostsText { get; set; } = "Load more posts";
 
 		[ViewContext]
 		public ViewContext ViewContext { get; set; }
@@ -34,6 +37,7 @@ namespace DasBlog.Web.TagHelpers.Layout
 		{
 			PostCount = (int?)ViewContext.ViewData[Constants.PostCount] ?? 0;
 			PageNumber = (int?)ViewContext.ViewData[Constants.PageNumber] ?? 0;
+			var progressiveFrontPageLoading = (bool?)ViewContext.ViewData[Constants.EnableProgressiveFrontPageLoading] ?? false;
 
 			var pagecontrol = string.Empty;
 
@@ -47,6 +51,19 @@ namespace DasBlog.Web.TagHelpers.Layout
 			if(!string.IsNullOrEmpty(content.GetContent()))
 			{
 				seperator = content.GetContent();
+			}
+
+			if (progressiveFrontPageLoading && PostCount > 0 && PageNumber == 0)
+			{
+				var nextPage = PageNumber + 1;
+				pagecontrol = string.Format(LOADMOREANCHOR,
+					urlResolver.RelativeToRoot(string.Format("page/{0}", nextPage)),
+					urlResolver.RelativeToRoot(string.Format("page/{0}/posts", nextPage)),
+					nextPage,
+					LoadMorePostsText);
+
+				output.Content.SetHtmlContent(pagecontrol);
+				return;
 			}
 
 			var separatorRequired = PostCount > 0 && PageNumber > 0;
