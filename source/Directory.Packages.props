@@ -38,7 +38,6 @@
     <PackageVersion Include="Quartz.AspNetCore" Version="3.13.1" />
     <PackageVersion Include="Microsoft.Playwright" Version="1.48.0" />
     <PackageVersion Include="Xunit.SkippableFact" Version="1.4.13" />
-    <PackageVersion Include="FishyFlip" Version="4.3.0" />
 
     </ItemGroup>
 </Project>

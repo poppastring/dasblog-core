@@ -1,5 +1,4 @@
-﻿using FishyFlip;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -41,6 +40,12 @@ namespace DasBlog.Services.Atproto
 			{
 				var pdsUrl = settingsResolver.GetPdsUrl();
 				var publicationRkey = settingsResolver.GetPublicationRkey();
+				var appPassword = settingsResolver.GetAppPassword();
+				if (string.IsNullOrWhiteSpace(appPassword))
+				{
+					logger.LogWarning("ATProto is enabled but no app password is configured.");
+					return null;
+				}
 
 				logger.LogInformation(
 					"Publishing Standard.site publication record for handle {Handle} at PDS {Pds}.",

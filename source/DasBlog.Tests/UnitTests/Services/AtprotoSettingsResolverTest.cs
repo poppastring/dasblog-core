@@ -2,7 +2,9 @@
 using DasBlog.Services.Atproto;
 using DasBlog.Services.ConfigFile;
 using DasBlog.Web.Services;
+using Microsoft.Extensions.Configuration;
 using Moq;
+using System.Collections.Generic;
 using Xunit;
 
 namespace DasBlog.Tests.UnitTests.Services
@@ -16,7 +18,7 @@ namespace DasBlog.Tests.UnitTests.Services
 			var settingsMock = new Mock<IDasBlogSettings>();
 			settingsMock.Setup(x => x.MetaTags).Returns(metaTags);
 
-			var resolver = new AtprotoSettingsResolver(settingsMock.Object);
+			var resolver = CreateResolver(settingsMock.Object);
 
 			Assert.False(resolver.IsEnabled());
 		}
@@ -28,7 +30,7 @@ namespace DasBlog.Tests.UnitTests.Services
 			var settingsMock = new Mock<IDasBlogSettings>();
 			settingsMock.Setup(x => x.MetaTags).Returns(metaTags);
 
-			var resolver = new AtprotoSettingsResolver(settingsMock.Object);
+			var resolver = CreateResolver(settingsMock.Object);
 
 			Assert.True(resolver.IsEnabled());
 		}
@@ -40,7 +42,7 @@ namespace DasBlog.Tests.UnitTests.Services
 			var settingsMock = new Mock<IDasBlogSettings>();
 			settingsMock.Setup(x => x.MetaTags).Returns(metaTags);
 
-			var resolver = new AtprotoSettingsResolver(settingsMock.Object);
+			var resolver = CreateResolver(settingsMock.Object);
 
 			Assert.Equal(string.Empty, resolver.GetHandle());
 		}
@@ -52,7 +54,7 @@ namespace DasBlog.Tests.UnitTests.Services
 			var settingsMock = new Mock<IDasBlogSettings>();
 			settingsMock.Setup(x => x.MetaTags).Returns(metaTags);
 
-			var resolver = new AtprotoSettingsResolver(settingsMock.Object);
+			var resolver = CreateResolver(settingsMock.Object);
 
 			Assert.Equal("user.bsky.social", resolver.GetHandle());
 		}
@@ -64,7 +66,7 @@ namespace DasBlog.Tests.UnitTests.Services
 			var settingsMock = new Mock<IDasBlogSettings>();
 			settingsMock.Setup(x => x.MetaTags).Returns(metaTags);
 
-			var resolver = new AtprotoSettingsResolver(settingsMock.Object);
+			var resolver = CreateResolver(settingsMock.Object);
 
 			Assert.Equal("https://bsky.social", resolver.GetPdsUrl());
 		}
@@ -76,7 +78,7 @@ namespace DasBlog.Tests.UnitTests.Services
 			var settingsMock = new Mock<IDasBlogSettings>();
 			settingsMock.Setup(x => x.MetaTags).Returns(metaTags);
 
-			var resolver = new AtprotoSettingsResolver(settingsMock.Object);
+			var resolver = CreateResolver(settingsMock.Object);
 
 			Assert.Equal("https://pds.example.com", resolver.GetPdsUrl());
 		}
@@ -88,7 +90,7 @@ namespace DasBlog.Tests.UnitTests.Services
 			var settingsMock = new Mock<IDasBlogSettings>();
 			settingsMock.Setup(x => x.MetaTags).Returns(metaTags);
 
-			var resolver = new AtprotoSettingsResolver(settingsMock.Object);
+			var resolver = CreateResolver(settingsMock.Object);
 
 			Assert.Equal("site", resolver.GetPublicationRkey());
 		}
@@ -100,9 +102,36 @@ namespace DasBlog.Tests.UnitTests.Services
 			var settingsMock = new Mock<IDasBlogSettings>();
 			settingsMock.Setup(x => x.MetaTags).Returns(metaTags);
 
-			var resolver = new AtprotoSettingsResolver(settingsMock.Object);
+			var resolver = CreateResolver(settingsMock.Object);
 
 			Assert.Equal("myblog", resolver.GetPublicationRkey());
+		}
+
+		[Fact]
+		public void GetAppPassword_ReturnsConfiguredSecret()
+		{
+			var settingsMock = new Mock<IDasBlogSettings>();
+			var configuration = new ConfigurationBuilder()
+				.AddInMemoryCollection(new Dictionary<string, string> { ["Atproto:AppPassword"] = "app-password" })
+				.Build();
+
+			var resolver = new AtprotoSettingsResolver(settingsMock.Object, configuration);
+
+			Assert.Equal("app-password", resolver.GetAppPassword());
+		}
+
+		[Fact]
+		public void GetAppPassword_MissingSecret_ReturnsEmpty()
+		{
+			var settingsMock = new Mock<IDasBlogSettings>();
+			var resolver = CreateResolver(settingsMock.Object);
+
+			Assert.Equal(string.Empty, resolver.GetAppPassword());
+		}
+
+		private static AtprotoSettingsResolver CreateResolver(IDasBlogSettings settings)
+		{
+			return new AtprotoSettingsResolver(settings, new ConfigurationBuilder().Build());
 		}
 	}
 }

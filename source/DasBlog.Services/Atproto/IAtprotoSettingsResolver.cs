@@ -6,5 +6,6 @@
 		string GetHandle();
 		string GetPdsUrl();
 		string GetPublicationRkey();
+		string GetAppPassword();
 	}
 }

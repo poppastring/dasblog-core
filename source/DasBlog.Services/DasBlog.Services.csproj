@@ -19,7 +19,6 @@
     <PackageReference Include="MailKit" />
     <PackageReference Include="Microsoft.Extensions.Options" />
     <PackageReference Include="Quartz.AspNetCore" />
-    <PackageReference Include="FishyFlip" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="All" />
   </ItemGroup>
   <ItemGroup>

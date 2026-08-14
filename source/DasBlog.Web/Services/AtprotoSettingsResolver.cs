@@ -1,6 +1,6 @@
 ﻿using DasBlog.Services;
 using DasBlog.Services.Atproto;
-using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Configuration;
 
 namespace DasBlog.Web.Services
 {
@@ -11,10 +11,12 @@ namespace DasBlog.Web.Services
 	public sealed class AtprotoSettingsResolver : IAtprotoSettingsResolver
 	{
 		private readonly IDasBlogSettings dasBlogSettings;
+		private readonly IConfiguration configuration;
 
-		public AtprotoSettingsResolver(IDasBlogSettings dasBlogSettings)
+		public AtprotoSettingsResolver(IDasBlogSettings dasBlogSettings, IConfiguration configuration)
 		{
 			this.dasBlogSettings = dasBlogSettings;
+			this.configuration = configuration;
 		}
 
 		public bool IsEnabled()
@@ -45,6 +47,11 @@ namespace DasBlog.Web.Services
 			}
 
 			return "site";
+		}
+
+		public string GetAppPassword()
+		{
+			return configuration["Atproto:AppPassword"] ?? string.Empty;
 		}
 	}
 }
