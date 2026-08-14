@@ -124,7 +124,7 @@ steps:
   inputs:
     command: custom
     custom: pack
-    projects: 'source/DasBlog.Template.csproj'
+    projects: 'source/Templates/DasBlog.Template/DasBlog.Template.csproj'
     arguments: '-p:PackageVersion=$(Build.BuildNumber) --output $(Build.ArtifactStagingDirectory)/nupkg'
 
 - task: NuGetCommand@2

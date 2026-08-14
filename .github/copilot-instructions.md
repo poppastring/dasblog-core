@@ -35,7 +35,7 @@ Projects under `source/`:
 | `Subtext.Akismet` | Spam-filtering integration |
 | `NetEscapades.Extensions.Logging.RollingFile` | Vendored rolling-file logger |
 | `DasBlog.CLI` | Command-line config/management tool |
-| `DasBlog.Template.csproj` + `.template.config` / `template-staging` | `dotnet new dasblog` template packaging |
+| `Templates/DasBlog.Template/DasBlog.Template.csproj` + `.template.config` / `template-staging` | `dotnet new dasblog` template packaging |
 | `DasBlog.Tests/UnitTests` | xUnit unit tests |
 | `DasBlog.Tests/DasBlog.Test.Integration` | Integration tests |
 
