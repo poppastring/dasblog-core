@@ -5,6 +5,7 @@ using DasBlog.Managers;
 using DasBlog.Managers.Interfaces;
 using DasBlog.Services;
 using DasBlog.Services.ActivityLogs;
+using DasBlog.Services.Atproto;
 using DasBlog.Services.ConfigFile;
 using DasBlog.Services.ConfigFile.Interfaces;
 using DasBlog.Services.FileManagement;
@@ -78,11 +79,12 @@ namespace DasBlog.Web
 		}
 
 		public static IServiceCollection AddDasBlogServices(this IServiceCollection services, IWebHostEnvironment env)
-		{
-			services
-				.AddSingleton<IDasBlogSettings, DasBlogSettings>()
-				.AddSingleton<IMastodonSettingsResolver, MastodonSettingsResolver>()
-				.AddSingleton<IUrlResolver>(sp => sp.GetRequiredService<IDasBlogSettings>())
+			{
+				services
+					.AddSingleton<IDasBlogSettings, DasBlogSettings>()
+					.AddSingleton<IMastodonSettingsResolver, MastodonSettingsResolver>()
+					.AddSingleton<IAtprotoSettingsResolver, AtprotoSettingsResolver>()
+					.AddSingleton<IUrlResolver>(sp => sp.GetRequiredService<IDasBlogSettings>())
 				.AddSingleton<ITimeZoneService>(sp => sp.GetRequiredService<IDasBlogSettings>())
 				.AddSingleton<IContentProcessor>(sp => sp.GetRequiredService<IDasBlogSettings>())
 				.AddSingleton<IMailProvider>(sp => sp.GetRequiredService<IDasBlogSettings>())

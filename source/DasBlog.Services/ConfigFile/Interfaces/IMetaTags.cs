@@ -15,5 +15,9 @@ namespace DasBlog.Services.ConfigFile.Interfaces
 		string TwitterImage { get; set; }
 		string MastodonServerUrl { get; set; }
 		string MastodonAccount { get; set; }
+		bool AtprotoEnabled { get; set; }
+		string AtprotoHandle { get; set; }
+		string AtprotoPdsUrl { get; set; }
+		string AtprotoPublicationRkey { get; set; }
 	}
 }

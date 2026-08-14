@@ -33,5 +33,17 @@ namespace DasBlog.Services.ConfigFile
 
 		[XmlElement("MastodonAccount")]
 		public string MastodonAccount { get; set; }
+
+		[XmlElement("AtprotoEnabled")]
+		public bool AtprotoEnabled { get; set; }
+
+		[XmlElement("AtprotoHandle")]
+		public string AtprotoHandle { get; set; }
+
+		[XmlElement("AtprotoPdsUrl")]
+		public string AtprotoPdsUrl { get; set; }
+
+		[XmlElement("AtprotoPublicationRkey")]
+		public string AtprotoPublicationRkey { get; set; }
 	}
 }
