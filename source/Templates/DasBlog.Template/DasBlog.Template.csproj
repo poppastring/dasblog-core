@@ -20,10 +20,10 @@
     <NoDefaultExcludes>true</NoDefaultExcludes>
   </PropertyGroup>
   <ItemGroup>
-    <Content Include="template-staging\**" />
+    <Content Include="..\..\template-staging\**" />
     <Content Include=".template.config\**" />
     <Compile Remove="**" />
-    <None Include="..\images\dasblog-square-icon.jpg" Pack="true" PackagePath="" />
-    <None Include="NUGET_README.md" Pack="true" PackagePath="" />
+    <None Include="..\..\..\images\dasblog-square-icon.jpg" Pack="true" PackagePath="" />
+    <None Include="..\..\NUGET_README.md" Pack="true" PackagePath="" />
   </ItemGroup>
 </Project>
