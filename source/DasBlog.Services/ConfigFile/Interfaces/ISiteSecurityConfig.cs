@@ -50,5 +50,7 @@ namespace DasBlog.Services.ConfigFile.Interfaces
 		[XmlElement(ElementName = "Users" )]
 		[XmlArrayItem(DataType = "string", ElementName = "User")]
 		List<User> Users { get; set; }
+
+		string AtprotoAppPassword { get; set; }
 	}
 }

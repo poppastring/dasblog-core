@@ -12,11 +12,16 @@ namespace DasBlog.Web.Services
 	{
 		private readonly IDasBlogSettings dasBlogSettings;
 		private readonly IConfiguration configuration;
+		private readonly IAtprotoCredentialStore credentialStore;
 
-		public AtprotoSettingsResolver(IDasBlogSettings dasBlogSettings, IConfiguration configuration)
+		public AtprotoSettingsResolver(
+			IDasBlogSettings dasBlogSettings,
+			IConfiguration configuration,
+			IAtprotoCredentialStore credentialStore)
 		{
 			this.dasBlogSettings = dasBlogSettings;
 			this.configuration = configuration;
+			this.credentialStore = credentialStore;
 		}
 
 		public bool IsEnabled()
@@ -51,7 +56,13 @@ namespace DasBlog.Web.Services
 
 		public string GetAppPassword()
 		{
-			return configuration["Atproto:AppPassword"] ?? string.Empty;
+			var configuredPassword = configuration["Atproto:AppPassword"];
+			if (!string.IsNullOrWhiteSpace(configuredPassword))
+			{
+				return configuredPassword;
+			}
+
+			return credentialStore.GetAppPassword() ?? string.Empty;
 		}
 	}
 }

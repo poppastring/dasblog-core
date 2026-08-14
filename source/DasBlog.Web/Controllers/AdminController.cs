@@ -7,6 +7,7 @@ using DasBlog.Core.Common;
 using DasBlog.Managers.Interfaces;
 using DasBlog.Services;
 using DasBlog.Services.ActivityLogs;
+using DasBlog.Services.Atproto;
 using DasBlog.Services.ConfigFile;
 using DasBlog.Web.Models.AdminViewModels;
 using DasBlog.Web.Models.BlogViewModels;
@@ -34,10 +35,11 @@ namespace DasBlog.Web.Controllers
 		private readonly ILogger<AdminController> logger;
 		private readonly IMemoryCache memoryCache;
 		private readonly ISiteSecurityManager siteSecurityManager;
-		private readonly List<PostViewModel> posts = [];	
+		private readonly IAtprotoCredentialStore atprotoCredentialStore;
+		private readonly List<PostViewModel> posts = [];
 
 		public AdminController(IDasBlogSettings dasBlogSettings, IMastodonSettingsResolver mastodonSettingsResolver, IFileSystemBinaryManager fileSystemBinaryManager, IMapper mapper,
-								IBlogManager blogManager, ICommentManager commentManager, IHostApplicationLifetime appLifetime, ILogger<AdminController> logger, IMemoryCache memoryCache, ISiteSecurityManager siteSecurityManager) : base(dasBlogSettings)
+								IBlogManager blogManager, ICommentManager commentManager, IHostApplicationLifetime appLifetime, ILogger<AdminController> logger, IMemoryCache memoryCache, ISiteSecurityManager siteSecurityManager, IAtprotoCredentialStore atprotoCredentialStore) : base(dasBlogSettings)
 		{
 			this.dasBlogSettings = dasBlogSettings;
 			this.mastodonSettingsResolver = mastodonSettingsResolver;
@@ -49,6 +51,7 @@ namespace DasBlog.Web.Controllers
 			this.logger = logger;
 			this.memoryCache = memoryCache;
 			this.siteSecurityManager = siteSecurityManager;
+			this.atprotoCredentialStore = atprotoCredentialStore;
 			this.posts = blogManager.GetAllEntries()
 								.Select(entry => mapper.Map<PostViewModel>(entry)).ToList();
 		}
@@ -61,6 +64,7 @@ namespace DasBlog.Web.Controllers
 			var dbsvm = new DasBlogSettingsViewModel();
 			dbsvm.MetaConfig = mapper.Map<MetaViewModel>(dasBlogSettings.MetaTags);
 			dbsvm.SiteConfig = mapper.Map<SiteViewModel>(dasBlogSettings.SiteConfiguration);
+			dbsvm.AtprotoAppPassword = string.Empty;
 			dbsvm.Posts = posts;
 			dbsvm.Categories = blogManager.GetCategories().Select(p => p.Name).ToList();
 
@@ -134,6 +138,11 @@ namespace DasBlog.Web.Controllers
 				logger.LogError(new EventDataItem(EventCodes.Error, null, "Unable to save Meta Config file"));
 				settings.Posts = posts;
 				return View("Settings", settings);
+			}
+
+			if (!string.IsNullOrWhiteSpace(settings.AtprotoAppPassword))
+			{
+				atprotoCredentialStore.SaveAppPassword(settings.AtprotoAppPassword);
 			}
 
 			logger.LogInformation(new EventDataItem(EventCodes.Site, null, "Site settings updated"));

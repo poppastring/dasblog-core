@@ -83,6 +83,7 @@ namespace DasBlog.Web
 				services
 					.AddSingleton<IDasBlogSettings, DasBlogSettings>()
 					.AddSingleton<IMastodonSettingsResolver, MastodonSettingsResolver>()
+					.AddSingleton<IAtprotoCredentialStore, AtprotoCredentialStore>()
 					.AddSingleton<IAtprotoSettingsResolver, AtprotoSettingsResolver>()
 					.AddSingleton<IAtprotoPublisher, AtprotoPublisher>()
 					.AddSingleton<IUrlResolver>(sp => sp.GetRequiredService<IDasBlogSettings>())
@@ -103,7 +104,9 @@ namespace DasBlog.Web
 				.AddSingleton<IConfigFileService<MetaTags>, MetaConfigFileService>()
 				.AddSingleton<IConfigFileService<OEmbedProviders>, OEmbedProvidersFileService>()
 				.AddSingleton<IConfigFileService<SiteConfig>, SiteConfigFileService>()
-				.AddSingleton<IConfigFileService<SiteSecurityConfigData>, SiteSecurityConfigFileService>()
+				.AddSingleton<SiteSecurityConfigFileService>()
+				.AddSingleton<IConfigFileService<SiteSecurityConfigData>>(sp => sp.GetRequiredService<SiteSecurityConfigFileService>())
+				.AddSingleton<ISiteSecurityConfigFileService>(sp => sp.GetRequiredService<SiteSecurityConfigFileService>())
 				.AddSingleton<IExternalEmbeddingHandler, ExternalEmbeddingHandler>()
 				.AddSingleton<IThemeManager, ThemeManager>()
 				.AddSingleton<IThemeContentValidator, ThemeContentValidator>()
@@ -171,6 +174,7 @@ namespace DasBlog.Web
 
 		public static IServiceCollection AddDasBlogSecurity(this IServiceCollection services, IConfiguration configuration)
 		{
+			var dataProtectionBuilder = services.AddDataProtection();
 			services
 				.AddIdentity<DasBlogUser, DasBlogRole>()
 				.AddDefaultTokenProviders();

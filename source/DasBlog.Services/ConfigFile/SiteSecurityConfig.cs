@@ -63,5 +63,7 @@ namespace DasBlog.Services.ConfigFile
 		}
 
 		public List<User> Users { get; set; } = new List<User>();
+
+		public string AtprotoAppPassword { get; set; }
 	}
 }

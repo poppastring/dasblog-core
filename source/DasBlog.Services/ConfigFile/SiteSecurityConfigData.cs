@@ -15,5 +15,8 @@ namespace DasBlog.Services.ConfigFile
 		}
 
 		public List<User> Users { get; set; } = new List<User>();
+
+		[XmlElement("AtprotoAppPassword")]
+		public string AtprotoAppPassword { get; set; }
 	}
 }

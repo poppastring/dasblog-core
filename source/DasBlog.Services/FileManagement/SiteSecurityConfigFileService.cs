@@ -10,7 +10,7 @@ using Microsoft.Extensions.Options;
 
 namespace DasBlog.Services.FileManagement.Interfaces
 {
-	public class SiteSecurityConfigFileService : IConfigFileService<SiteSecurityConfigData>
+	public class SiteSecurityConfigFileService : IConfigFileService<SiteSecurityConfigData>, ISiteSecurityConfigFileService
 	{
 		private readonly ConfigFilePathsDataOption options;
 		private readonly ILogger<SiteSecurityConfigFileService> logger;
@@ -19,6 +19,13 @@ namespace DasBlog.Services.FileManagement.Interfaces
 		{
 			options = optionsAccessor.Value;
 			this.logger = logger;
+		}
+
+		public SiteSecurityConfigData LoadConfig()
+		{
+			var serializer = new XmlSerializer(typeof(SiteSecurityConfigData));
+			using var reader = new StreamReader(options.SecurityConfigFilePath);
+			return (SiteSecurityConfigData)serializer.Deserialize(reader);
 		}
 
 		public bool SaveConfig(SiteSecurityConfigData config)

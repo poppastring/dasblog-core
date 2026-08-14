@@ -115,7 +115,7 @@ namespace DasBlog.Tests.UnitTests.Services
 				.AddInMemoryCollection(new Dictionary<string, string> { ["Atproto:AppPassword"] = "app-password" })
 				.Build();
 
-			var resolver = new AtprotoSettingsResolver(settingsMock.Object, configuration);
+			var resolver = CreateResolver(settingsMock.Object, configuration);
 
 			Assert.Equal("app-password", resolver.GetAppPassword());
 		}
@@ -129,9 +129,12 @@ namespace DasBlog.Tests.UnitTests.Services
 			Assert.Equal(string.Empty, resolver.GetAppPassword());
 		}
 
-		private static AtprotoSettingsResolver CreateResolver(IDasBlogSettings settings)
+		private static AtprotoSettingsResolver CreateResolver(IDasBlogSettings settings, IConfiguration configuration = null)
 		{
-			return new AtprotoSettingsResolver(settings, new ConfigurationBuilder().Build());
+			return new AtprotoSettingsResolver(
+				settings,
+				configuration ?? new ConfigurationBuilder().Build(),
+				new Mock<IAtprotoCredentialStore>().Object);
 		}
 	}
 }

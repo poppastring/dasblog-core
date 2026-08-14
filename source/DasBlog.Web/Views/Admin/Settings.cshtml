@@ -76,6 +76,21 @@
 
         <div class="accordion-item">
             <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseAtproto" aria-expanded="false" aria-controls="collapseAtproto">
+                    Bluesky / ATProto
+                </button>
+            </h2>
+            <div id="collapseAtproto" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <label asp-for="AtprotoAppPassword" class="form-label">App password</label>
+                    <input asp-for="AtprotoAppPassword" type="password" class="form-control" autocomplete="new-password" />
+                    <div class="form-text">Leave blank to keep the existing encrypted password. This value is never displayed after saving.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <h2 class="accordion-header">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSocial" aria-expanded="false" aria-controls="collapseSocial">
                     Social
                 </button>
