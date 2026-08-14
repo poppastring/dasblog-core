@@ -84,6 +84,7 @@ namespace DasBlog.Web
 					.AddSingleton<IDasBlogSettings, DasBlogSettings>()
 					.AddSingleton<IMastodonSettingsResolver, MastodonSettingsResolver>()
 					.AddSingleton<IAtprotoSettingsResolver, AtprotoSettingsResolver>()
+					.AddSingleton<IAtprotoPublisher, AtprotoPublisher>()
 					.AddSingleton<IUrlResolver>(sp => sp.GetRequiredService<IDasBlogSettings>())
 				.AddSingleton<ITimeZoneService>(sp => sp.GetRequiredService<IDasBlogSettings>())
 				.AddSingleton<IContentProcessor>(sp => sp.GetRequiredService<IDasBlogSettings>())
