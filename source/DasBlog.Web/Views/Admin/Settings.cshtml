@@ -114,15 +114,15 @@
                     }
                     <p class="form-text">Save settings before publishing. These actions use the saved ATProto configuration and do not save the values currently entered above.</p>
                     <div class="d-flex flex-wrap gap-2 mb-3">
-                        <button type="submit" class="btn btn-outline-primary" asp-controller="AtProto" asp-action="Publish" formmethod="post">Publish or update record</button>
+                        <button type="submit" class="btn btn-outline-primary" formmethod="post" formaction="@Url.Action("PublishAtprotoPublication", "Admin")">Publish or update record</button>
                     </div>
 
                     <div class="border border-danger rounded p-3">
                         <p class="text-danger mb-2"><strong>Danger zone</strong></p>
                         <p class="form-text">Delete the remote record before removing its app password.</p>
                         <div class="d-flex flex-wrap gap-2">
-                            <button type="submit" class="btn btn-outline-danger" asp-controller="AtProto" asp-action="DeletePublication" formmethod="post">Delete remote record</button>
-                            <button type="submit" class="btn btn-outline-danger" asp-controller="AtProto" asp-action="RemovePassword" formmethod="post">Remove saved app password</button>
+                            <button type="submit" class="btn btn-outline-danger" formmethod="post" formaction="@Url.Action("DeleteAtprotoPublication", "Admin")">Delete remote record</button>
+                            <button type="submit" class="btn btn-outline-danger" formmethod="post" formaction="@Url.Action("RemoveAtprotoAppPassword", "Admin")">Remove saved app password</button>
                         </div>
                     </div>
                 </div>
