@@ -46,5 +46,18 @@ namespace DasBlog.Web.Models.AdminViewModels
 		[Description("")]
 		[RegularExpression("(@)((?:[A-Za-z0-9-_]*))")]
 		public string MastodonAccount { get; set; }
+
+		[DisplayName("Enable ATProto publishing")]
+		public bool AtprotoEnabled { get; set; }
+
+		[DisplayName("Bluesky handle")]
+		public string AtprotoHandle { get; set; }
+
+		[DisplayName("ATProto PDS URL")]
+		[DataType(DataType.Url, ErrorMessage = "Invalid URL format")]
+		public string AtprotoPdsUrl { get; set; }
+
+		[DisplayName("Publication record key")]
+		public string AtprotoPublicationRkey { get; set; }
 	}
 }

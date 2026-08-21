@@ -36,10 +36,11 @@ namespace DasBlog.Web.Controllers
 		private readonly IMemoryCache memoryCache;
 		private readonly ISiteSecurityManager siteSecurityManager;
 		private readonly IAtprotoCredentialStore atprotoCredentialStore;
+		private readonly IAtprotoPublisher atprotoPublisher;
 		private readonly List<PostViewModel> posts = [];
 
 		public AdminController(IDasBlogSettings dasBlogSettings, IMastodonSettingsResolver mastodonSettingsResolver, IFileSystemBinaryManager fileSystemBinaryManager, IMapper mapper,
-								IBlogManager blogManager, ICommentManager commentManager, IHostApplicationLifetime appLifetime, ILogger<AdminController> logger, IMemoryCache memoryCache, ISiteSecurityManager siteSecurityManager, IAtprotoCredentialStore atprotoCredentialStore) : base(dasBlogSettings)
+								IBlogManager blogManager, ICommentManager commentManager, IHostApplicationLifetime appLifetime, ILogger<AdminController> logger, IMemoryCache memoryCache, ISiteSecurityManager siteSecurityManager, IAtprotoCredentialStore atprotoCredentialStore, IAtprotoPublisher atprotoPublisher) : base(dasBlogSettings)
 		{
 			this.dasBlogSettings = dasBlogSettings;
 			this.mastodonSettingsResolver = mastodonSettingsResolver;
@@ -52,6 +53,7 @@ namespace DasBlog.Web.Controllers
 			this.memoryCache = memoryCache;
 			this.siteSecurityManager = siteSecurityManager;
 			this.atprotoCredentialStore = atprotoCredentialStore;
+			this.atprotoPublisher = atprotoPublisher;
 			this.posts = blogManager.GetAllEntries()
 								.Select(entry => mapper.Map<PostViewModel>(entry)).ToList();
 		}
@@ -120,6 +122,10 @@ namespace DasBlog.Web.Controllers
 			meta.TwitterSite = NormalizeTwitterHandle(meta.TwitterSite);
 			meta.TwitterCreator = NormalizeTwitterHandle(meta.TwitterCreator);
 			meta.TwitterImage = string.IsNullOrWhiteSpace(meta.TwitterImage) ? string.Empty : meta.TwitterImage.Trim();
+			meta.AtprotoHandle = string.IsNullOrWhiteSpace(meta.AtprotoHandle) ? string.Empty : meta.AtprotoHandle.Trim();
+			meta.AtprotoPdsUrl = string.IsNullOrWhiteSpace(meta.AtprotoPdsUrl) ? "https://bsky.social" : meta.AtprotoPdsUrl.Trim();
+			meta.AtprotoPublicationRkey = string.IsNullOrWhiteSpace(meta.AtprotoPublicationRkey) ? "site" : meta.AtprotoPublicationRkey.Trim();
+			meta.AtprotoPublicationUri = dasBlogSettings.MetaTags?.AtprotoPublicationUri ?? string.Empty;
 
 			site.MastodonServerUrl = null;
 			site.MastodonAccount = null;
@@ -149,6 +155,63 @@ namespace DasBlog.Web.Controllers
 
 			TempData["SuccessMessage"] = "Settings saved successfully!";
 			return Settings();
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		[Route("/admin/atproto/publish")]
+		public async Task<IActionResult> PublishAtprotoPublication()
+		{
+			var publicationUri = await atprotoPublisher.PublishPublicationAsync();
+			if (string.IsNullOrWhiteSpace(publicationUri))
+			{
+				TempData["ErrorMessage"] = "ATProto publishing requires an enabled configuration, handle, and app password.";
+				return RedirectToAction(nameof(Settings));
+			}
+
+			SaveAtprotoPublicationUri(publicationUri);
+			TempData["SuccessMessage"] = "ATProto publication record published successfully.";
+			return RedirectToAction(nameof(Settings));
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		[Route("/admin/atproto/delete-publication")]
+		public async Task<IActionResult> DeleteAtprotoPublication()
+		{
+			if (!await atprotoPublisher.DeletePublicationAsync())
+			{
+				TempData["ErrorMessage"] = "ATProto deletion requires an enabled configuration, handle, and app password.";
+				return RedirectToAction(nameof(Settings));
+			}
+
+			SaveAtprotoPublicationUri(string.Empty);
+			TempData["SuccessMessage"] = "ATProto publication record deleted successfully.";
+			return RedirectToAction(nameof(Settings));
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		[Route("/admin/atproto/remove-password")]
+		public IActionResult RemoveAtprotoAppPassword()
+		{
+			atprotoCredentialStore.SaveAppPassword(string.Empty);
+			TempData["SuccessMessage"] = "Saved ATProto app password removed successfully.";
+			return RedirectToAction(nameof(Settings));
+		}
+
+		private void SaveAtprotoPublicationUri(string publicationUri)
+		{
+			if (dasBlogSettings.MetaTags is not MetaTags meta)
+			{
+				throw new InvalidOperationException("The active meta configuration cannot store an ATProto publication URI.");
+			}
+
+			meta.AtprotoPublicationUri = publicationUri;
+			if (!fileSystemBinaryManager.SaveMetaConfig(meta))
+			{
+				throw new InvalidOperationException("Unable to save the ATProto publication URI.");
+			}
 		}
 
 		[HttpGet]

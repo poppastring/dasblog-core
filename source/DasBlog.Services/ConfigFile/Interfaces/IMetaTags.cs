@@ -19,5 +19,6 @@ namespace DasBlog.Services.ConfigFile.Interfaces
 		string AtprotoHandle { get; set; }
 		string AtprotoPdsUrl { get; set; }
 		string AtprotoPublicationRkey { get; set; }
+		string AtprotoPublicationUri { get; set; }
 	}
 }

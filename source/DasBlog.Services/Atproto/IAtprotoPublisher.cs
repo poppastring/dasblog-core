@@ -5,6 +5,8 @@ namespace DasBlog.Services.Atproto
 {
 	public interface IAtprotoPublisher
 	{
-		Task<string> EnsurePublicationAsync(CancellationToken cancellationToken = default);
+		Task<string> PublishPublicationAsync(CancellationToken cancellationToken = default);
+		Task<bool> DeletePublicationAsync(CancellationToken cancellationToken = default);
+		string GetPublicationUri();
 	}
 }

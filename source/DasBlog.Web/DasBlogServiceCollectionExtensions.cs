@@ -84,6 +84,7 @@ namespace DasBlog.Web
 					.AddSingleton<IDasBlogSettings, DasBlogSettings>()
 					.AddSingleton<IMastodonSettingsResolver, MastodonSettingsResolver>()
 					.AddSingleton<IAtprotoCredentialStore, AtprotoCredentialStore>()
+					.AddSingleton<IAtprotoRepositoryClient, AtprotoRepositoryClient>()
 					.AddSingleton<IAtprotoSettingsResolver, AtprotoSettingsResolver>()
 					.AddSingleton<IAtprotoPublisher, AtprotoPublisher>()
 					.AddSingleton<IUrlResolver>(sp => sp.GetRequiredService<IDasBlogSettings>())
@@ -216,6 +217,7 @@ namespace DasBlog.Web
 
 		public static IServiceCollection AddDasBlogWebServices(this IServiceCollection services, IConfiguration configuration)
 		{
+			services.AddHttpClient();
 			services.AddResponseCaching();
 
 			services.Configure<RazorViewEngineOptions>(rveo =>

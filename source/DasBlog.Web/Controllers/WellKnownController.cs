@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 namespace DasBlog.Web.Controllers
 {
-	[ApiController]
 	[Produces("text/plain")]
 	public class WellKnownController : ControllerBase
 	{
@@ -20,17 +19,22 @@ namespace DasBlog.Web.Controllers
 		}
 
 		[HttpGet("/.well-known/site.standard.publication")]
-		public async Task<ActionResult> AtprotoPublication()
+		public ActionResult AtprotoPublication()
 		{
-			var publicationUri = await atprotoPublisher.EnsurePublicationAsync();
+			var publicationUri = atprotoPublisher.GetPublicationUri();
 
 			if (string.IsNullOrWhiteSpace(publicationUri))
 			{
-				logger.LogWarning("ATProto publication URI not available.");
-				return NotFound();
+				logger.LogDebug("ATProto publication URI not available.");
+				return new StatusCodeResult(404);
 			}
 
-			return Content(publicationUri, "text/plain", Encoding.UTF8);
+			return new ContentResult
+			{
+				Content = publicationUri,
+				ContentType = "text/plain; charset=utf-8",
+				StatusCode = 200
+			};
 		}
 	}
 }

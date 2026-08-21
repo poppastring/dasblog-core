@@ -54,6 +54,11 @@ namespace DasBlog.Web.Services
 			return "site";
 		}
 
+		public string GetPublicationUri()
+		{
+			return dasBlogSettings.MetaTags?.AtprotoPublicationUri ?? string.Empty;
+		}
+
 		public string GetAppPassword()
 		{
 			var configuredPassword = configuration["Atproto:AppPassword"];

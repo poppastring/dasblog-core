@@ -45,5 +45,8 @@ namespace DasBlog.Services.ConfigFile
 
 		[XmlElement("AtprotoPublicationRkey")]
 		public string AtprotoPublicationRkey { get; set; }
+
+		[XmlElement("AtprotoPublicationUri")]
+		public string AtprotoPublicationUri { get; set; }
 	}
 }
