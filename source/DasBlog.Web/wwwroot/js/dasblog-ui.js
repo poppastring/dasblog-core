@@ -355,7 +355,6 @@ DasBlog.UI = (function() {
         });
     }
 
-    // Auto-init the hero picker when present on the page.
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', initHeroImagePicker);
     } else {
