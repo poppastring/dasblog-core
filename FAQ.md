@@ -29,6 +29,22 @@ A: Yes. Themes are developed using Razor! More details can be found [here](https
 A: DasBlog Core ships with several built-in themes and includes a [theme editor](https://github.com/poppastring/dasblog-core/wiki/4.-Designing-a-theme#theme-editor) at `/admin/themes` for browsing, switching, and customizing themes directly from the browser.
 
 
+#### Q: How do I modify an existing theme safely?
+A: Copy the theme under a new name and keep the active production theme unchanged while you work. The [theme design guide](https://github.com/poppastring/dasblog-core/wiki/4.-Designing-a-theme) covers greenfield creation and brownfield modification.
+
+
+#### Q: How do I test a theme locally without changing my live site?
+A: Use a source checkout or an isolated copy of the published site with environment-specific Preview configuration, a loopback root URL, and the new theme selected only in Preview. Do not replace production configuration merely to make local testing convenient.
+
+
+#### Q: Why did a content change not appear in my theme preview?
+A: DasBlog caches XML content. Restart the preview after changing a `.dayentry.xml` file. Theme CSS and other linked assets may update without restarting.
+
+
+#### Q: Which files do I deploy after changing a theme?
+A: Deploy the complete custom theme folder and any content files or content assets changed separately during the work. Activate the new theme only after those files are present on the site.
+
+
 #### Q: What changed with Google analytics and captcha settings?
 A: DasBlog Core now treats this as a breaking change and no longer supports Google-specific analytics or captcha keys.
 

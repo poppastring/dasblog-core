@@ -1,12 +1,12 @@
 ---
 name: dasblog-theme-authoring
-description: Creates, modernizes, visually compares, and diagnoses DasBlog Core themes. Use for theme folders, Razor theme templates, legacy theme migration, theme assets, fonts, responsive design, and rendering differences.
+description: Creates, modifies, modernizes, visually compares, and diagnoses DasBlog Core themes. Use for greenfield themes, deployed or source themes, Razor templates, legacy migration, local previews, theme assets, responsive design, and deployment preparation.
 ---
 
 # DasBlog theme authoring
 
-Use this workflow when creating, importing, modernizing, or troubleshooting a
-DasBlog Core theme.
+Use this workflow when creating, modifying, importing, modernizing, or
+troubleshooting a DasBlog Core theme.
 
 ## Authoritative references
 
@@ -19,13 +19,60 @@ DasBlog Core theme.
    descriptions.
 5. Treat current source code as authoritative if documentation differs.
 
-## Theme contract
+## Choose the workflow
 
-Themes belong under:
+Determine the starting point before editing:
+
+| Mode | Starting point | Goal |
+|---|---|---|
+| Greenfield | A current built-in theme or new design requirements | Create a new theme using the current DasBlog theme contract |
+| Brownfield | An existing source theme, published installation, or legacy site | Preserve identity and behavior while modifying or modernizing the theme |
+
+For either mode, keep the original theme intact. Work under a new theme name
+unless the user explicitly requests in-place maintenance.
+
+### Greenfield
+
+1. Gather the visual identity, layout, typography, content, accessibility, and
+   responsive requirements.
+2. Select the closest current built-in theme as a technical baseline.
+3. Copy all required theme templates into a new, clearly named theme folder.
+4. Replace site-specific branding and assets without removing required DasBlog
+   components or authenticated controls.
+5. Create representative content for testing without putting sample content in
+   reusable theme templates.
+6. Validate every rendering path before packaging the theme.
+
+### Brownfield
+
+1. Identify whether the starting point is source code or a published
+   installation, and identify the active production theme.
+2. Inventory theme files, content files, assets, fonts, external dependencies,
+   established routes, and production configuration.
+3. Copy the active theme to a new name.
+4. Make coherent, incremental changes.
+5. Track theme changes separately from content and configuration changes.
+6. Preserve published routes, titles, metadata, and production settings unless
+   a requested change requires otherwise.
+
+## Source and published locations
+
+In a source checkout, themes belong under:
 
 ```text
 source/DasBlog.Web/Themes/<theme-name>/
 ```
+
+In a published installation, the equivalent runtime location is:
+
+```text
+Themes/<theme-name>/
+```
+
+Do not assume a published site has the source repository layout. Inspect the
+installation before choosing paths or build commands.
+
+## Theme contract
 
 Use the primary templates according to their intended roles:
 
@@ -92,7 +139,7 @@ JavaScript files are not loaded automatically. Reference them explicitly from
 Use `/theme/<theme-name>/...` for public theme asset URLs. Do not confuse that
 URL with the repository path `Themes/<theme-name>/`.
 
-## Legacy theme modernization
+## Brownfield and legacy modernization
 
 When importing an older theme:
 
@@ -127,6 +174,43 @@ A blank third-party iframe does not necessarily indicate a theme defect. Verify
 the iframe markup, source URL, provider catalog availability, content security
 policy, and browser behavior.
 
+## Isolated local preview
+
+Do not change production configuration merely to preview a theme.
+
+For a source checkout, use an appropriate local environment configuration and
+run `source/DasBlog.Web`. For a published installation, prefer an isolated copy:
+
+1. Copy the published installation to a temporary preview location.
+2. Create environment-specific Preview configuration from the production
+   configuration.
+3. Set only the Preview root URL and active theme as needed.
+4. Set `ASPNETCORE_ENVIRONMENT=Preview` and bind to a loopback URL.
+5. Copy or link the working theme into the preview.
+6. Copy changed content files into the preview when content is not shared.
+7. Confirm that production configuration and the original theme are unchanged.
+
+DasBlog caches XML content. Restart the preview after changing content XML.
+Theme CSS and other linked assets may update without a restart.
+
+## Content and links
+
+Theme work can expose site-specific content changes. Keep their ownership clear:
+
+- Razor, CSS, fonts, JavaScript, and theme images belong in the theme folder.
+- Post and static-page content belongs in the configured `content` directory.
+- Post content assets normally belong under `content/binary`.
+- DasBlog content files can store HTML as encoded text inside `.dayentry.xml`.
+  Preserve the encoding and parse every changed XML file before previewing or
+  deploying it.
+- Use root-relative URLs such as `/contact-us` for internal site links so they
+  work under production and local hosts.
+- Keep URLs absolute when the protocol and host are part of the contract,
+  including external services, email links, canonical redirects, production
+  roots, and social metadata images.
+- Content changes can require separate deployment even when they were made to
+  support a visual redesign.
+
 ## Implementation rules
 
 - Build the affected web project before editing when practical.
@@ -141,6 +225,9 @@ policy, and browser behavior.
 - Ensure individual posts retain their visible title unless the requested
   design explicitly says otherwise.
 - Use `_BlogItemSummary.cshtml` for distinct home-page or listing presentation.
+- Preserve the original visual identity in brownfield work unless the user
+  explicitly approves a new direction.
+- Do not mix unrelated content rewrites into a reusable theme.
 
 ## Validation
 
@@ -162,7 +249,16 @@ After editing:
    - Theme fonts and images
    - Post-content images
    - External embeds
+   - Internal links under the local preview host
+   - XML parsing for every changed content file
 
 3. If matching an existing site, compare screenshots at the same viewport.
-4. Check whether the theme change requires a wiki update.
-5. Do not commit, push, publish, or submit changes unless explicitly requested.
+4. Confirm that production configuration and the original theme remain
+   unchanged.
+5. Produce a deployment manifest that separates:
+   - The complete new or changed theme folder
+   - Changed content files and content assets
+   - Intentional configuration changes
+   - The theme activation step
+6. Check whether the theme change requires a wiki update.
+7. Do not commit, push, publish, or submit changes unless explicitly requested.
