@@ -120,3 +120,15 @@ a.badge.bg-secondary:focus {
 .dbc-calendar .text-secondary {
     color: #00bc8c !important;
 }
+
+.dbc-add-comment-toggle,
+.dbc-comment-submit {
+    --bs-btn-bg: #00bc8c;
+    --bs-btn-border-color: #00bc8c;
+    --bs-btn-hover-bg: #00a379;
+    --bs-btn-hover-border-color: #009670;
+    --bs-btn-active-bg: #008966;
+    --bs-btn-active-border-color: #007c5c;
+    --bs-btn-disabled-bg: #00bc8c;
+    --bs-btn-disabled-border-color: #00bc8c;
+}

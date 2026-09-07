@@ -13,7 +13,7 @@
 {
 	@if (post.AllowComments && dasBlogSettings.SiteConfiguration.EnableComments)
 	{
-		<a class="btn btn-primary" role="button" data-bs-toggle="collapse" data-bs-target="#@rgx.Replace(post.Comments.PostId, "")" aria-expanded="false" aria-controls="@rgx.Replace(post.Comments.PostId, "")">
+		<a class="btn btn-primary dbc-add-comment-toggle" role="button" data-bs-toggle="collapse" data-bs-target="#@rgx.Replace(post.Comments.PostId, "")" aria-expanded="false" aria-controls="@rgx.Replace(post.Comments.PostId, "")">
 			Add a comment
 		</a>
 	}
