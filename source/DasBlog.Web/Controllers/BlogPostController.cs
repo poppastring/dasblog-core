@@ -754,7 +754,7 @@ namespace DasBlog.Web.Controllers
 					.OrderByDescending(f => f.changed)
 					.ToList();
 
-				var baseUrl = $"/{pathResolver.BinariesUrlRelativePath}/";
+				var baseUrl = Url.Content($"~/{pathResolver.BinariesUrlRelativePath}/");
 
 				return Json(new
 				{
