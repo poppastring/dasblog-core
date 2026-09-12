@@ -3,9 +3,14 @@ using System.Xml.Serialization;
 
 namespace DasBlog.Core.Services.GoogleSiteMap
 {
+	internal static class SitemapSchema
+	{
+		internal const string Namespace = "http://www.sitemaps.org/schemas/sitemap/0.9";
+	}
+
 	/// <remarks/>
-	[System.Xml.Serialization.XmlTypeAttribute("urlset", Namespace = "http://www.google.com/schemas/sitemap/0.84")]
-	[System.Xml.Serialization.XmlRootAttribute("urlset", Namespace = "http://www.google.com/schemas/sitemap/0.84", IsNullable = false)]
+	[System.Xml.Serialization.XmlTypeAttribute("urlset", Namespace = SitemapSchema.Namespace)]
+	[System.Xml.Serialization.XmlRootAttribute("urlset", Namespace = SitemapSchema.Namespace, IsNullable = false)]
 	public class UrlSet
 	{
 
@@ -17,8 +22,8 @@ namespace DasBlog.Core.Services.GoogleSiteMap
 	}
 
 	/// <remarks/>
-	[System.Xml.Serialization.XmlTypeAttribute("url", Namespace = "http://www.google.com/schemas/sitemap/0.84")]
-	[System.Xml.Serialization.XmlRootAttribute("url", Namespace = "http://www.google.com/schemas/sitemap/0.84", IsNullable = false)]
+	[System.Xml.Serialization.XmlTypeAttribute("url", Namespace = SitemapSchema.Namespace)]
+	[System.Xml.Serialization.XmlRootAttribute("url", Namespace = SitemapSchema.Namespace, IsNullable = false)]
 	public class Url
 	{
 		public Url() { }
@@ -70,8 +75,8 @@ namespace DasBlog.Core.Services.GoogleSiteMap
 	}
 
 	/// <remarks/>
-	[System.Xml.Serialization.XmlTypeAttribute("changefreq", Namespace = "http://www.google.com/schemas/sitemap/0.84")]
-	[System.Xml.Serialization.XmlRootAttribute("changefreq", Namespace = "http://www.google.com/schemas/sitemap/0.84", IsNullable = false)]
+	[System.Xml.Serialization.XmlTypeAttribute("changefreq", Namespace = SitemapSchema.Namespace)]
+	[System.Xml.Serialization.XmlRootAttribute("changefreq", Namespace = SitemapSchema.Namespace, IsNullable = false)]
 	public enum ChangeFreq
 	{
 
