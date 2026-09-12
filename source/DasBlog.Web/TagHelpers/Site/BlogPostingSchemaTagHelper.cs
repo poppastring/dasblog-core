@@ -21,18 +21,25 @@ namespace DasBlog.Web.TagHelpers.Site
 
 		public override void Process(TagHelperContext context, TagHelperOutput output)
 		{
+			var data = ViewContext.ViewData;
+			var datePublished = data["DatePublished"]?.ToString();
+			var canonical = data["Canonical"]?.ToString();
+			if (string.IsNullOrEmpty(datePublished) || string.IsNullOrEmpty(canonical))
+			{
+				output.SuppressOutput();
+				return;
+			}
+
 			output.TagName = "script";
 			output.TagMode = TagMode.StartTagAndEndTag;
 			output.Attributes.SetAttribute("type", "application/ld+json");
 
-			var data = ViewContext.ViewData;
-			var schemaContext = "http://schema.org";
+			var schemaContext = "https://schema.org";
 			var schemaType = "BlogPosting";
 			var headline = data["PageTitle"]?.ToString();
 			var description = data["Description"]?.ToString();
 			var url = data["Canonical"]?.ToString();
 			var image = data["PageImageUrl"]?.ToString();
-			var datePublished = data["DatePublished"]?.ToString();
 			var dateModified = data["DateModified"]?.ToString();
 			if (string.IsNullOrEmpty(dateModified))
 			{
@@ -40,7 +47,8 @@ namespace DasBlog.Web.TagHelpers.Site
 			}
 			var authorName = data["Author"]?.ToString();
 			var authorUrl = data["AuthorUrl"]?.ToString();
-			var canonical = data["Canonical"]?.ToString();
+			var publisherName = data["PublisherName"]?.ToString();
+			var publisherUrl = data["PublisherUrl"]?.ToString();
 
 			// Build the JSON manually to preserve the @context / @type keys.
 			var sb = new StringBuilder();
@@ -65,6 +73,21 @@ namespace DasBlog.Web.TagHelpers.Site
 				if (!string.IsNullOrEmpty(authorUrl))
 				{
 					sb.Append(",\"url\":").Append(JsonSerializer.Serialize(authorUrl, JsonOptions));
+				}
+				sb.Append('}');
+			}
+
+			if (!string.IsNullOrEmpty(publisherName) || !string.IsNullOrEmpty(publisherUrl))
+			{
+				sb.Append(",\"publisher\":{");
+				sb.Append("\"@type\":\"Organization\"");
+				if (!string.IsNullOrEmpty(publisherName))
+				{
+					sb.Append(",\"name\":").Append(JsonSerializer.Serialize(publisherName, JsonOptions));
+				}
+				if (!string.IsNullOrEmpty(publisherUrl))
+				{
+					sb.Append(",\"url\":").Append(JsonSerializer.Serialize(publisherUrl, JsonOptions));
 				}
 				sb.Append('}');
 			}

@@ -64,7 +64,7 @@ namespace DasBlog.Web.Settings
 				ViewData["PermaLink"] = dasBlogSettings.RelativeToRoot(post.PermaLink);
 				ViewData["Keywords"] = string.Join(",", post.Categories.Select(x => x.Category).ToArray());
 				ViewData["Canonical"] = dasBlogSettings.RelativeToRoot(post.PermaLink);
-				ViewData["Author"] = dasBlogSettings.GetUserByEmail(post.Author)?.DisplayName;
+				ViewData["Author"] = dasBlogSettings.GetUserByEmail(post.Author)?.DisplayName ?? dasBlogSettings.SiteConfiguration.Copyright;
 				ViewData["AuthorUrl"] = dasBlogSettings.GetBaseUrl();
 				ViewData["PageImageUrl"] = (post.ImageUrl?.Length > 0) ? dasBlogSettings.RelativeToRoot(post.ImageUrl) : dasBlogSettings.MetaTags.TwitterImage;
 				ViewData["PageVideoUrl"] = (post.VideoUrl?.Length > 0) ? dasBlogSettings.RelativeToRoot(post.VideoUrl) : string.Empty;
@@ -103,6 +103,8 @@ namespace DasBlog.Web.Settings
 				ViewData["Author"] = dasBlogSettings.SiteConfiguration.Copyright;
 				ViewData["PageImageUrl"] = dasBlogSettings.MetaTags.TwitterImage;
 				ViewData["PageVideoUrl"] = string.Empty;
+				ViewData["PublisherName"] = dasBlogSettings.SiteConfiguration.Title;
+				ViewData["PublisherUrl"] = dasBlogSettings.GetBaseUrl();
 			}
 			else
 			{
@@ -114,6 +116,8 @@ namespace DasBlog.Web.Settings
 				ViewData["Author"] = dasBlogSettings.SiteConfiguration.Copyright;
 				ViewData["PageImageUrl"] = dasBlogSettings.MetaTags.TwitterImage;
 				ViewData["PageVideoUrl"] = string.Empty;
+				ViewData["PublisherName"] = dasBlogSettings.SiteConfiguration.Title;
+				ViewData["PublisherUrl"] = dasBlogSettings.GetBaseUrl();
 			}
 		}
 	}
