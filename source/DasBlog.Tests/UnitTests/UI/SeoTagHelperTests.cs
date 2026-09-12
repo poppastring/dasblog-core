@@ -113,37 +113,55 @@ namespace DasBlog.Tests.UnitTests.UI
 
 		private static JsonElement ProcessSchema(ViewContext viewContext)
 		{
-			var sut = new BlogPostingSchemaTagHelper { ViewContext = viewContext };
-			var (ctx, output) = MakeContext("blog-posting-schema");
-			sut.Process(ctx, output);
+			var output = ProcessSchemaOutput(viewContext);
 			using var doc = JsonDocument.Parse(output.Content.GetContent());
 			return doc.RootElement.Clone();
 		}
 
+		private static TagHelperOutput ProcessSchemaOutput(ViewContext viewContext)
+		{
+			var sut = new BlogPostingSchemaTagHelper { ViewContext = viewContext };
+			var (ctx, output) = MakeContext("blog-posting-schema");
+			sut.Process(ctx, output);
+			return output;
+		}
+
+		private static ViewContext MakePostViewContext()
+		{
+			var viewContext = MakeViewContext();
+			viewContext.ViewData["Canonical"] = "https://example.com/post/hello";
+			viewContext.ViewData["DatePublished"] = "2026-06-12T10:00:00Z";
+			return viewContext;
+		}
+
 		[Fact]
 		[Trait("Category", "UnitTest")]
-		public void BlogPostingSchema_MinimalData_OmitsEmptyFieldsAndAuthorAndMainEntity()
+		public void BlogPostingSchema_MissingPostMetadata_SuppressesOutput()
 		{
-			var json = ProcessSchema(MakeViewContext());
+			var output = ProcessSchemaOutput(MakeViewContext());
 
-			Assert.Equal("http://schema.org", json.GetProperty("@context").GetString());
+			Assert.Null(output.TagName);
+			Assert.Empty(output.Content.GetContent());
+		}
+
+		[Fact]
+		[Trait("Category", "UnitTest")]
+		public void BlogPostingSchema_PostMetadataPresent_EmitsRequiredBaseSchema()
+		{
+			var json = ProcessSchema(MakePostViewContext());
+
+			Assert.Equal("https://schema.org", json.GetProperty("@context").GetString());
 			Assert.Equal("BlogPosting", json.GetProperty("@type").GetString());
-			Assert.False(json.TryGetProperty("headline", out _));
-			Assert.False(json.TryGetProperty("description", out _));
-			Assert.False(json.TryGetProperty("url", out _));
-			Assert.False(json.TryGetProperty("image", out _));
-			Assert.False(json.TryGetProperty("datePublished", out _));
-			Assert.False(json.TryGetProperty("dateModified", out _));
-			Assert.False(json.TryGetProperty("author", out _));
-			Assert.False(json.TryGetProperty("mainEntityOfPage", out _));
+			Assert.Equal("https://example.com/post/hello", json.GetProperty("url").GetString());
+			Assert.Equal("2026-06-12T10:00:00Z", json.GetProperty("datePublished").GetString());
+			Assert.Equal("2026-06-12T10:00:00Z", json.GetProperty("dateModified").GetString());
 		}
 
 		[Fact]
 		[Trait("Category", "UnitTest")]
 		public void BlogPostingSchema_DateModifiedMissing_FallsBackToDatePublished()
 		{
-			var viewContext = MakeViewContext();
-			viewContext.ViewData["DatePublished"] = "2026-06-12T10:00:00Z";
+			var viewContext = MakePostViewContext();
 			var json = ProcessSchema(viewContext);
 
 			Assert.Equal("2026-06-12T10:00:00Z", json.GetProperty("datePublished").GetString());
@@ -154,8 +172,7 @@ namespace DasBlog.Tests.UnitTests.UI
 		[Trait("Category", "UnitTest")]
 		public void BlogPostingSchema_ExplicitDateModified_OverridesFallback()
 		{
-			var viewContext = MakeViewContext();
-			viewContext.ViewData["DatePublished"] = "2026-06-12T10:00:00Z";
+			var viewContext = MakePostViewContext();
 			viewContext.ViewData["DateModified"] = "2026-06-13T12:00:00Z";
 			var json = ProcessSchema(viewContext);
 
@@ -166,7 +183,7 @@ namespace DasBlog.Tests.UnitTests.UI
 		[Trait("Category", "UnitTest")]
 		public void BlogPostingSchema_AuthorNameOnly_EmitsPersonWithoutUrl()
 		{
-			var viewContext = MakeViewContext();
+			var viewContext = MakePostViewContext();
 			viewContext.ViewData["Author"] = "Test Author";
 			var json = ProcessSchema(viewContext);
 
@@ -180,7 +197,7 @@ namespace DasBlog.Tests.UnitTests.UI
 		[Trait("Category", "UnitTest")]
 		public void BlogPostingSchema_AuthorNameAndUrl_EmitsBoth()
 		{
-			var viewContext = MakeViewContext();
+			var viewContext = MakePostViewContext();
 			viewContext.ViewData["Author"] = "Test Author";
 			viewContext.ViewData["AuthorUrl"] = "https://example.com/";
 			var json = ProcessSchema(viewContext);
@@ -194,7 +211,7 @@ namespace DasBlog.Tests.UnitTests.UI
 		[Trait("Category", "UnitTest")]
 		public void BlogPostingSchema_AuthorAbsent_OmitsAuthorField()
 		{
-			var viewContext = MakeViewContext();
+			var viewContext = MakePostViewContext();
 			viewContext.ViewData["Author"] = string.Empty;
 			viewContext.ViewData["AuthorUrl"] = string.Empty;
 			var json = ProcessSchema(viewContext);
@@ -204,10 +221,24 @@ namespace DasBlog.Tests.UnitTests.UI
 
 		[Fact]
 		[Trait("Category", "UnitTest")]
+		public void BlogPostingSchema_PublisherNameAndUrl_EmitsOrganization()
+		{
+			var viewContext = MakePostViewContext();
+			viewContext.ViewData["PublisherName"] = "PoppaString";
+			viewContext.ViewData["PublisherUrl"] = "https://www.poppastring.com/blog/";
+			var json = ProcessSchema(viewContext);
+
+			var publisher = json.GetProperty("publisher");
+			Assert.Equal("Organization", publisher.GetProperty("@type").GetString());
+			Assert.Equal("PoppaString", publisher.GetProperty("name").GetString());
+			Assert.Equal("https://www.poppastring.com/blog/", publisher.GetProperty("url").GetString());
+		}
+
+		[Fact]
+		[Trait("Category", "UnitTest")]
 		public void BlogPostingSchema_CanonicalPresent_EmitsMainEntityOfPage()
 		{
-			var viewContext = MakeViewContext();
-			viewContext.ViewData["Canonical"] = "https://example.com/post/hello";
+			var viewContext = MakePostViewContext();
 			var json = ProcessSchema(viewContext);
 
 			var main = json.GetProperty("mainEntityOfPage");
@@ -220,20 +251,21 @@ namespace DasBlog.Tests.UnitTests.UI
 		[Trait("Category", "UnitTest")]
 		public void BlogPostingSchema_FullPayload_ProducesValidJson()
 		{
-			var viewContext = MakeViewContext();
+			var viewContext = MakePostViewContext();
 			viewContext.ViewData["PageTitle"] = "Hello \"world\"";
 			viewContext.ViewData["Description"] = "A post";
-			viewContext.ViewData["Canonical"] = "https://example.com/post/hello";
 			viewContext.ViewData["PageImageUrl"] = "https://example.com/img.png";
-			viewContext.ViewData["DatePublished"] = "2026-06-12T10:00:00Z";
 			viewContext.ViewData["Author"] = "Test Author";
 			viewContext.ViewData["AuthorUrl"] = "https://example.com/";
+			viewContext.ViewData["PublisherName"] = "Example Blog";
+			viewContext.ViewData["PublisherUrl"] = "https://example.com/";
 
 			var json = ProcessSchema(viewContext);
 
 			Assert.Equal("Hello \"world\"", json.GetProperty("headline").GetString());
 			Assert.Equal("https://example.com/img.png", json.GetProperty("image").GetString());
 			Assert.Equal("Test Author", json.GetProperty("author").GetProperty("name").GetString());
+			Assert.Equal("Example Blog", json.GetProperty("publisher").GetProperty("name").GetString());
 		}
 	}
 }
