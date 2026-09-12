@@ -4,6 +4,7 @@ using DasBlog.Services;
 using newtelligence.DasBlog.Runtime;
 using System;
 using System.IO;
+using System.Linq;
 
 namespace DasBlog.Managers
 {
@@ -24,57 +25,64 @@ namespace DasBlog.Managers
         {
             var root = new UrlSet();
             root.url = new UrlCollection();
+			var now = DateTime.UtcNow;
+			var publicEntries = dataService.GetEntries(false)
+				.Cast<Entry>()
+				.Where(entry => entry.IsPublic)
+				.ToList();
+			var latestModified = publicEntries
+				.Select(GetLastModified)
+				.DefaultIfEmpty(now)
+				.Max();
 
             //Default first...
-            var basePage = new Url(dasBlogSettings.GetBaseUrl(), DateTime.Now, ChangeFreq.daily, 1.0M);
+            var basePage = new Url(dasBlogSettings.GetBaseUrl(), latestModified, ChangeFreq.daily, 1.0M);
             root.url.Add(basePage);
 
-            var archivePage = new Url(dasBlogSettings.RelativeToRoot("archive"), DateTime.Now, ChangeFreq.daily, 1.0M);
+            var archivePage = new Url(dasBlogSettings.RelativeToRoot("archive"), latestModified, ChangeFreq.daily, 1.0M);
             root.url.Add(archivePage);
 
-			var categorpage = new Url(dasBlogSettings.RelativeToRoot("category"), DateTime.Now, ChangeFreq.daily, 1.0M);
+			var categorpage = new Url(dasBlogSettings.RelativeToRoot("category"), latestModified, ChangeFreq.daily, 1.0M);
 			root.url.Add(categorpage);
 
 			//All Pages
-			var entryCache = dataService.GetEntries(false);
-            foreach (var e in entryCache)
+            foreach (var e in publicEntries)
             {
-                if (e.IsPublic)
-                {
-                    //Start with a RARE change freq...newer posts are more likely to change more often.
-                    // The older a post, the less likely it is to change...
-                    var freq = ChangeFreq.daily;
+				var lastModified = GetLastModified(e);
 
-                    //new stuff?
-                    if (e.CreatedLocalTime < DateTime.Now.AddMonths(-9))
-                    {
-                        freq = ChangeFreq.yearly;
-                    }
-                    else if (e.CreatedLocalTime < DateTime.Now.AddDays(-30))
-                    {
-                        freq = ChangeFreq.monthly;
-                    }
-                    else if (e.CreatedLocalTime < DateTime.Now.AddDays(-7))
-                    {
-                        freq = ChangeFreq.weekly;
-                    }
-                    if (e.CreatedLocalTime > DateTime.Now.AddDays(-2))
-                    {
-                        freq = ChangeFreq.hourly;
-                    }
+				//Start with a RARE change freq...newer posts are more likely to change more often.
+				// The older a post, the less likely it is to change...
+				var freq = ChangeFreq.daily;
 
-                    //Add comments pages, since comments have indexable content...
-                    // Only add comments if we aren't showing comments on permalink pages already
-                    if (dasBlogSettings.SiteConfiguration.ShowCommentsWhenViewingEntry == false)
-                    {
-                        var commentPage = new Url(dasBlogSettings.GetCommentViewUrl(e.CompressedTitle), e.CreatedLocalTime, freq, 0.7M);
-                        root.url.Add(commentPage);
-                    }
+				//new stuff?
+				if (e.CreatedUtc < now.AddMonths(-9))
+				{
+					freq = ChangeFreq.yearly;
+				}
+				else if (e.CreatedUtc < now.AddDays(-30))
+				{
+					freq = ChangeFreq.monthly;
+				}
+				else if (e.CreatedUtc < now.AddDays(-7))
+				{
+					freq = ChangeFreq.weekly;
+				}
+				if (e.CreatedUtc > now.AddDays(-2))
+				{
+					freq = ChangeFreq.hourly;
+				}
 
-                    //then add permalinks
-                    var permaPage = new Url(dasBlogSettings.RelativeToRoot(dasBlogSettings.GeneratePostUrl(e)), e.CreatedLocalTime, freq, 0.9M);
-                    root.url.Add(permaPage);
-                }
+				//Add comments pages, since comments have indexable content...
+				// Only add comments if we aren't showing comments on permalink pages already
+				if (dasBlogSettings.SiteConfiguration.ShowCommentsWhenViewingEntry == false)
+				{
+					var commentPage = new Url(dasBlogSettings.GetCommentViewUrl(e.CompressedTitle), lastModified, freq, 0.7M);
+					root.url.Add(commentPage);
+				}
+
+				//then add permalinks
+				var permaPage = new Url(dasBlogSettings.RelativeToRoot(dasBlogSettings.GeneratePostUrl(e)), lastModified, freq, 0.9M);
+				root.url.Add(permaPage);
             }
 
             //All Categories
@@ -84,13 +92,25 @@ namespace DasBlog.Managers
                 if (cce.IsPublic)
                 {
 					var catname = Entry.InternalCompressTitle(cce.Name, "-").ToLower();
-					var caturl = new Url(dasBlogSettings.GetCategoryViewUrl(catname), DateTime.Now, ChangeFreq.weekly, 0.6M);
+					var categoryModified = publicEntries
+						.Where(entry => entry.GetSplitCategories().Any(category =>
+							string.Equals(category, cce.Name, StringComparison.OrdinalIgnoreCase)))
+						.Select(GetLastModified)
+						.DefaultIfEmpty(latestModified)
+						.Max();
+					var caturl = new Url(dasBlogSettings.GetCategoryViewUrl(catname), categoryModified, ChangeFreq.weekly, 0.6M);
                     root.url.Add(caturl);
                 }
             }
 
             return root;
         }
+
+		private static DateTime GetLastModified(Entry entry)
+		{
+			return entry.ModifiedUtc == DateTime.MinValue
+				? entry.CreatedUtc
+				: entry.ModifiedUtc;
+		}
     }
 }
-

@@ -18,6 +18,7 @@ namespace DasBlog.Web.Settings
 		protected const string BLOG_PAGESUMMARY = "_BlogPageSummary";
 		protected const string BLOG_EMAIL_COMMENT_SUBJECT = "Weblog comment by {0} from {1} on {2}";
 		protected const string BLOG_EMAIL_COMMENT_TEMPLATE_BODY = "@Model.Comment \r\n\r\n Comment Page @Model.CommentUrl \r\n Login and approve/delete the comment.";
+		private const int META_DESCRIPTION_LENGTH = 160;
 		protected readonly JsonSerializerOptions jsonSerializerOptions;
 
 		protected DasBlogBaseController(IDasBlogSettings settings)
@@ -55,11 +56,11 @@ namespace DasBlog.Web.Settings
 				ViewData["ModifiedTime"] = post.ModifiedDateTime.ToString("R");
 				if (string.IsNullOrEmpty(post.Description))
 				{
-					ViewData["Description"] = post.Content.StripHTMLFromText().CutLongString(80);
+					ViewData["Description"] = post.Content.StripHTMLFromText().CutLongString(META_DESCRIPTION_LENGTH);
 				}
 				else
 				{
-					ViewData["Description"] = post.Description.StripHTMLFromText().CutLongString(80);
+					ViewData["Description"] = post.Description.StripHTMLFromText().CutLongString(META_DESCRIPTION_LENGTH);
 				}
 				ViewData["PermaLink"] = dasBlogSettings.RelativeToRoot(post.PermaLink);
 				ViewData["Keywords"] = string.Join(",", post.Categories.Select(x => x.Category).ToArray());
@@ -95,11 +96,15 @@ namespace DasBlog.Web.Settings
 			ViewData["TwitterCard"] = dasBlogSettings.MetaTags.TwitterCard;
 			if (pageTitle.Length > 0)
 			{
+				var requestPath = ControllerContext?.HttpContext?.Request.Path.ToUriComponent().TrimStart('/');
+
 				ViewData["PageTitle"] = string.Format("{0} - {1}", pageTitle, dasBlogSettings.SiteConfiguration.Title);
 				ViewData["SiteTitle"] = dasBlogSettings.SiteConfiguration.Title;
 				ViewData["Description"] = string.Format("{0} - {1}", pageTitle, dasBlogSettings.MetaTags.MetaDescription);
 				ViewData["Keywords"] = string.Empty;
-				ViewData["Canonical"] = string.Empty;
+				ViewData["Canonical"] = string.IsNullOrEmpty(requestPath)
+					? dasBlogSettings.SiteConfiguration.Root
+					: dasBlogSettings.RelativeToRoot(requestPath);
 				ViewData["Author"] = dasBlogSettings.SiteConfiguration.Copyright;
 				ViewData["PageImageUrl"] = dasBlogSettings.MetaTags.TwitterImage;
 				ViewData["PageVideoUrl"] = string.Empty;
