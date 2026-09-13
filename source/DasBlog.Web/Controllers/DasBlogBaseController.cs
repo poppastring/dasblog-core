@@ -5,6 +5,7 @@ using DasBlog.Services;
 using DasBlog.Web.Controllers;
 using DasBlog.Web.Models.BlogViewModels;
 using Microsoft.AspNetCore.Mvc;
+using System.Globalization;
 using System.Linq;
 using System.Text.Encodings.Web;
 using System.Text.Json;
@@ -74,6 +75,14 @@ namespace DasBlog.Web.Settings
 				ViewData["OgType"] = "article";
 				ShowErrors(post);
 			}
+		}
+
+		protected void StaticPage(StaticPageViewModel page)
+		{
+			var pageTitle = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(page.Name.Replace('-', ' ').Replace('_', ' '));
+			DefaultPage(pageTitle);
+			ViewData["Description"] = page.Name;
+			ViewData["SchemaType"] = "WebPage";
 		}
 
 		private void ShowErrors(PostViewModel post)

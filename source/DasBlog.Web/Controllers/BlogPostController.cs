@@ -119,6 +119,7 @@ namespace DasBlog.Web.Controllers
 				if(sp != null)	
 				{
 					var spvm = mapper.Map<StaticPageViewModel>(sp);
+					StaticPage(spvm);
 					return View("LoadStaticPage", spvm);
 
 				}

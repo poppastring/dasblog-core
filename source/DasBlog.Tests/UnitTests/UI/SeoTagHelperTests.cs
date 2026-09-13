@@ -159,6 +159,27 @@ namespace DasBlog.Tests.UnitTests.UI
 
 		[Fact]
 		[Trait("Category", "UnitTest")]
+		public void BlogPostingSchema_WebPageMetadata_EmitsWebPageSchemaWithoutPostFields()
+		{
+			var viewContext = MakeViewContext();
+			viewContext.ViewData["SchemaType"] = "WebPage";
+			viewContext.ViewData["Canonical"] = "https://example.com/about";
+			viewContext.ViewData["PageTitle"] = "About - Example Blog";
+			viewContext.ViewData["Description"] = "About this site";
+
+			var json = ProcessSchema(viewContext);
+
+			Assert.Equal("WebPage", json.GetProperty("@type").GetString());
+			Assert.Equal("About - Example Blog", json.GetProperty("name").GetString());
+			Assert.Equal("About this site", json.GetProperty("description").GetString());
+			Assert.Equal("https://example.com/about", json.GetProperty("url").GetString());
+			Assert.False(json.TryGetProperty("headline", out _));
+			Assert.False(json.TryGetProperty("datePublished", out _));
+			Assert.False(json.TryGetProperty("mainEntityOfPage", out _));
+		}
+
+		[Fact]
+		[Trait("Category", "UnitTest")]
 		public void BlogPostingSchema_DateModifiedMissing_FallsBackToDatePublished()
 		{
 			var viewContext = MakePostViewContext();

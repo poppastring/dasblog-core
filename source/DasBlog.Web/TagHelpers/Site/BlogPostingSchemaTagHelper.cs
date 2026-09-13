@@ -22,9 +22,12 @@ namespace DasBlog.Web.TagHelpers.Site
 		public override void Process(TagHelperContext context, TagHelperOutput output)
 		{
 			var data = ViewContext.ViewData;
+			var schemaType = string.Equals(data["SchemaType"]?.ToString(), "WebPage", System.StringComparison.Ordinal)
+				? "WebPage"
+				: "BlogPosting";
 			var datePublished = data["DatePublished"]?.ToString();
 			var canonical = data["Canonical"]?.ToString();
-			if (string.IsNullOrEmpty(datePublished) || string.IsNullOrEmpty(canonical))
+			if (string.IsNullOrEmpty(canonical) || (schemaType == "BlogPosting" && string.IsNullOrEmpty(datePublished)))
 			{
 				output.SuppressOutput();
 				return;
@@ -35,8 +38,7 @@ namespace DasBlog.Web.TagHelpers.Site
 			output.Attributes.SetAttribute("type", "application/ld+json");
 
 			var schemaContext = "https://schema.org";
-			var schemaType = "BlogPosting";
-			var headline = data["PageTitle"]?.ToString();
+			var title = data["PageTitle"]?.ToString();
 			var description = data["Description"]?.ToString();
 			var url = data["Canonical"]?.ToString();
 			var image = data["PageImageUrl"]?.ToString();
@@ -55,26 +57,30 @@ namespace DasBlog.Web.TagHelpers.Site
 			sb.Append('{');
 			sb.Append("\"@context\":").Append(JsonSerializer.Serialize(schemaContext, JsonOptions));
 			sb.Append(",\"@type\":").Append(JsonSerializer.Serialize(schemaType, JsonOptions));
-			AppendStringIfPresent(sb, "headline", headline);
+			AppendStringIfPresent(sb, schemaType == "WebPage" ? "name" : "headline", title);
 			AppendStringIfPresent(sb, "description", description);
 			AppendStringIfPresent(sb, "url", url);
 			AppendStringIfPresent(sb, "image", image);
-			AppendStringIfPresent(sb, "datePublished", datePublished);
-			AppendStringIfPresent(sb, "dateModified", dateModified);
 
-			if (!string.IsNullOrEmpty(authorName) || !string.IsNullOrEmpty(authorUrl))
+			if (schemaType == "BlogPosting")
 			{
-				sb.Append(",\"author\":{");
-				sb.Append("\"@type\":\"Person\"");
-				if (!string.IsNullOrEmpty(authorName))
+				AppendStringIfPresent(sb, "datePublished", datePublished);
+				AppendStringIfPresent(sb, "dateModified", dateModified);
+
+				if (!string.IsNullOrEmpty(authorName) || !string.IsNullOrEmpty(authorUrl))
 				{
-					sb.Append(",\"name\":").Append(JsonSerializer.Serialize(authorName, JsonOptions));
+					sb.Append(",\"author\":{");
+					sb.Append("\"@type\":\"Person\"");
+					if (!string.IsNullOrEmpty(authorName))
+					{
+						sb.Append(",\"name\":").Append(JsonSerializer.Serialize(authorName, JsonOptions));
+					}
+					if (!string.IsNullOrEmpty(authorUrl))
+					{
+						sb.Append(",\"url\":").Append(JsonSerializer.Serialize(authorUrl, JsonOptions));
+					}
+					sb.Append('}');
 				}
-				if (!string.IsNullOrEmpty(authorUrl))
-				{
-					sb.Append(",\"url\":").Append(JsonSerializer.Serialize(authorUrl, JsonOptions));
-				}
-				sb.Append('}');
 			}
 
 			if (!string.IsNullOrEmpty(publisherName) || !string.IsNullOrEmpty(publisherUrl))
@@ -92,7 +98,7 @@ namespace DasBlog.Web.TagHelpers.Site
 				sb.Append('}');
 			}
 
-			if (!string.IsNullOrEmpty(canonical))
+			if (schemaType == "BlogPosting")
 			{
 				sb.Append(",\"mainEntityOfPage\":{");
 				sb.Append("\"@type\":\"WebPage\"");

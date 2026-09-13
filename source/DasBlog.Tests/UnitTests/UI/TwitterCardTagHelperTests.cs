@@ -97,5 +97,16 @@ namespace DasBlog.Tests.UnitTests.UI
 			Assert.Contains("<meta name=\"twitter:title\" content=\"Post title\" />", html);
 			Assert.Contains("<meta name=\"twitter:description\" content=\"Post description\" />", html);
 		}
+
+		[Fact]
+		[Trait("Category", "UnitTest")]
+		public void Process_CanonicalPresent_EmitsTwitterUrl()
+		{
+			var html = ProcessTwitterCardTagHelper(
+				new MetaTags(),
+				vc => vc.ViewData["Canonical"] = "https://example.com/about");
+
+			Assert.Contains("<meta name=\"twitter:url\" content=\"https://example.com/about\" />", html);
+		}
 	}
 }
