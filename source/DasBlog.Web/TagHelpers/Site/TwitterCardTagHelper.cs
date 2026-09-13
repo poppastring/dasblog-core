@@ -29,6 +29,7 @@ namespace DasBlog.Web.TagHelpers.Site
 			var title = data["PageTitle"]?.ToString()?.Trim();
 			var description = data["Description"]?.ToString()?.Trim();
 			var pageImage = data["PageImageUrl"]?.ToString()?.Trim();
+			var canonical = data["Canonical"]?.ToString()?.Trim();
 
 			var tags = dasBlogSettings.MetaTags;
 			var twitterCard = NormalizeTwitterCard(tags?.TwitterCard);
@@ -43,6 +44,7 @@ namespace DasBlog.Web.TagHelpers.Site
 			AppendMetaTag(sb, "twitter:title", title);
 			AppendMetaTag(sb, "twitter:description", description);
 			AppendMetaTag(sb, "twitter:image", twitterImage);
+			AppendMetaTag(sb, "twitter:url", canonical);
 
 			output.Content.SetHtmlContent(sb.ToString());
 		}
