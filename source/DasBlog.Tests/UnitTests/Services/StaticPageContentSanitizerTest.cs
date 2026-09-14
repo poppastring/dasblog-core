@@ -56,6 +56,19 @@ namespace DasBlog.Tests.UnitTests.Services
 
 		[Fact]
 		[Trait("Category", "UnitTest")]
+		public void Sanitize_StyledLink_PreservesCssClasses()
+		{
+			var sanitizer = new StaticPageContentSanitizer();
+			var html = "<a class=\"btn btn-primary\" href=\"/\">Go</a>";
+
+			var result = sanitizer.Sanitize(html);
+
+			Assert.Contains("class=\"btn btn-primary\"", result);
+			Assert.Contains("href=\"/\"", result);
+		}
+
+		[Fact]
+		[Trait("Category", "UnitTest")]
 		public void Sanitize_ActivityLogHtml_RemovesMaliciousContent()
 		{
 			var sanitizer = new StaticPageContentSanitizer();

@@ -121,6 +121,22 @@ a.badge.bg-secondary:focus {
     color: #00bc8c !important;
 }
 
+/* Shared primary buttons should follow Darkly's green accent instead of Bootswatch's default blue. */
+.btn-primary {
+    --bs-btn-color: #fff;
+    --bs-btn-bg: #00bc8c;
+    --bs-btn-border-color: #00bc8c;
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: #00a379;
+    --bs-btn-hover-border-color: #009670;
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: #008966;
+    --bs-btn-active-border-color: #007c5c;
+    --bs-btn-disabled-color: #fff;
+    --bs-btn-disabled-bg: #00bc8c;
+    --bs-btn-disabled-border-color: #00bc8c;
+}
+
 .dbc-add-comment-toggle,
 .dbc-comment-submit {
     --bs-btn-bg: #00bc8c;

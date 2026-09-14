@@ -10,6 +10,7 @@ namespace DasBlog.Web.Services
 		public StaticPageContentSanitizer()
 		{
 			sanitizer = new HtmlSanitizer();
+			sanitizer.AllowedAttributes.Add("class");
 			sanitizer.AllowedSchemes.Clear();
 			sanitizer.AllowedSchemes.Add("http");
 			sanitizer.AllowedSchemes.Add("https");
