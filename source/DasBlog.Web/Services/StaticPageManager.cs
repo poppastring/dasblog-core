@@ -46,7 +46,8 @@ namespace DasBlog.Web.Services
 		private static readonly IReadOnlyDictionary<string, string> AllowedPagesCatalog =
 			new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
 			{
-				["about"] = "About"
+				["about"] = "About",
+				["404"] = "Page not found"
 			};
 
 		// Sidecar suffix used to mark previous versions of an edited page.

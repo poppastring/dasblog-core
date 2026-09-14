@@ -127,6 +127,8 @@ namespace DasBlog.Web
 
 				endpoints.MapControllerRoute(
 					name: "default", "~/{controller=Home}/{action=Index}/{id?}");
+
+				endpoints.MapFallbackToController("NotFoundPage", "BlogPost");
 			});
 
 			return app;

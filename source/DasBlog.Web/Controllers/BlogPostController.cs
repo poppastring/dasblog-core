@@ -114,17 +114,46 @@ namespace DasBlog.Web.Controllers
 			}
 			else
 			{
-				// Post was not found. Let's see if it's a static page before we route user to home page.
 				var sp = blogManager.GetStaticPage(posttitle);
-				if(sp != null)	
+				if (sp != null)
 				{
 					var spvm = mapper.Map<StaticPageViewModel>(sp);
 					StaticPage(spvm);
 					return View("LoadStaticPage", spvm);
-
 				}
-				return RedirectToAction("index", "home");
+
+				return HandleMissingPublicRoute();
 			}
+		}
+
+		[AllowAnonymous]
+		public IActionResult NotFoundPage()
+		{
+			return HandleMissingPublicRoute();
+		}
+
+		private IActionResult HandleMissingPublicRoute()
+		{
+			// A missing public route should resolve to a real 404 rather than silently
+			// redirecting users to the site home page. If the blog defines a custom
+			// 404 static page, render it while preserving the HTTP 404 status.
+			var notFoundPage = blogManager.GetStaticPage("404");
+			if (notFoundPage != null)
+			{
+				var notFoundVm = mapper.Map<StaticPageViewModel>(notFoundPage);
+				StaticPage(notFoundVm);
+				if (HttpContext != null)
+				{
+					HttpContext.Response.StatusCode = StatusCodes.Status404NotFound;
+				}
+				return View("LoadStaticPage", notFoundVm);
+			}
+
+			if (HttpContext != null)
+			{
+				HttpContext.Response.StatusCode = StatusCodes.Status404NotFound;
+			}
+			return View("NotFound");
 		}
 
 		[AllowAnonymous]

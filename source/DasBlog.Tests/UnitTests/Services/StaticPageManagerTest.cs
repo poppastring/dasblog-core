@@ -39,16 +39,17 @@ namespace DasBlog.Tests.UnitTests.Services
 		// ---------- Allowlist ----------
 
 		[Fact]
-		public void AllowedPageNames_ContainsAboutOnly()
+		public void AllowedPageNames_ContainsAboutAndCustom404()
 		{
-			Assert.Equal(new[] { "about" }, manager.AllowedPageNames.ToArray());
+			Assert.Equal(new[] { "404", "about" }, manager.AllowedPageNames.ToArray());
 		}
 
 		[Fact]
-		public void IsAllowed_TrueForAbout_FalseForOthers()
+		public void IsAllowed_TrueForAboutAndCustom404_FalseForOthers()
 		{
 			Assert.True(manager.IsAllowed("about"));
 			Assert.True(manager.IsAllowed("About")); // case-insensitive
+			Assert.True(manager.IsAllowed("404"));
 			Assert.False(manager.IsAllowed("contact"));
 			Assert.False(manager.IsAllowed(""));
 			Assert.False(manager.IsAllowed(null));
@@ -71,15 +72,22 @@ namespace DasBlog.Tests.UnitTests.Services
 		// ---------- Listing & GetPage ----------
 
 		[Fact]
-		public void ListPages_AlwaysIncludesAbout_WhenFileMissing()
+		public void ListPages_IncludesAboutAndCustom404_WhenFilesMissing()
 		{
 			var pages = manager.ListPages();
-			var about = Assert.Single(pages);
+			Assert.Equal(2, pages.Count);
+
+			var about = pages.Single(p => p.Name == "about");
 			Assert.Equal("about", about.Name);
 			Assert.False(about.Exists);
 			Assert.Null(about.LastModifiedUtc);
 			Assert.Equal(0, about.BackupCount);
 			Assert.Equal("/about", about.PublicUrlPath);
+
+			var notFound = pages.Single(p => p.Name == "404");
+			Assert.Equal("404", notFound.Name);
+			Assert.False(notFound.Exists);
+			Assert.Equal("/404", notFound.PublicUrlPath);
 		}
 
 		[Fact]
