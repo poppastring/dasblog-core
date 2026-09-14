@@ -42,7 +42,7 @@ Navigate to `http://localhost:5000`. The first request redirects you to `/admin/
 * **[Theme management](https://github.com/poppastring/dasblog-core/wiki/4.-Designing-a-theme)** with a built-in editor for creating, customizing, and switching Razor themes
 * **Static pages** for content outside the blog timeline
 * **Comment moderation** with spam filtering
-* **RSS/Atom feeds** and categories
+* **RSS/Atom feeds** and categories, with item author metadata sourced from the resolved post author display name when available
 * **[ActivityPub](https://github.com/poppastring/dasblog-core/wiki/2.-Configure-your-blog#6-activitypub-optional)** for Fediverse discovery
 * **CDN support** for serving media from a content delivery network
 * **CLI tools** for [configuration and management](https://github.com/poppastring/dasblog-core/wiki/CLI-Reference)
