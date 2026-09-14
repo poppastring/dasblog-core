@@ -126,13 +126,14 @@ namespace DasBlog.Managers
 
                 // Set author
                 User user = dasBlogSettings.GetUserByEmail(entry.Author);
-                if (user != null)
+                string creatorName = ResolveEntryCreatorName(entry);
+                if (user != null && !string.IsNullOrWhiteSpace(user.DisplayName))
                 {
                     atomEntry.Author = new AtomPerson(user.DisplayName, entry.Author);
                 }
-                else
+                else if (!string.IsNullOrWhiteSpace(creatorName))
                 {
-                    atomEntry.Author = new AtomPerson(entry.Author);
+                    atomEntry.Author = new AtomPerson(creatorName);
                 }
 
                 // Set categories
@@ -289,7 +290,15 @@ namespace DasBlog.Managers
                 item.Guid.IsPermaLink = false;
                 item.Guid.Text = dasBlogSettings.GetPermaLinkUrl(entry.EntryId);
                 item.Link = dasBlogSettings.RelativeToRoot(dasBlogSettings.GeneratePostUrl(entry));
-                User user = dasBlogSettings.GetUserByEmail(entry.Author);
+                string creatorName = ResolveEntryCreatorName(entry);
+                if (!string.IsNullOrWhiteSpace(entry.Author))
+                {
+                    item.Author = entry.Author;
+                }
+                else if (!string.IsNullOrWhiteSpace(creatorName))
+                {
+                    item.Author = creatorName;
+                }
 
                 XmlElement trackbackPing = doc2.CreateElement("trackback", "ping", "http://madskills.com/public/xml/rss/module/trackback/");
                 trackbackPing.InnerText = dasBlogSettings.GetTrackbackUrl(entry.EntryId);
@@ -304,11 +313,11 @@ namespace DasBlog.Managers
                 anyElements.Add(pingbackTarget);
 
 				XmlElement dcCreator = doc2.CreateElement("dc", "creator", "http://purl.org/dc/elements/1.1/");
-                if (user != null)
-                {
-                    dcCreator.InnerText = user.DisplayName;
-                }
-                anyElements.Add(dcCreator);
+				if (!string.IsNullOrWhiteSpace(creatorName))
+				{
+					dcCreator.InnerText = creatorName;
+				}
+				anyElements.Add(dcCreator);
 
                 // Add GeoRSS if it exists.
                 if (dasBlogSettings.SiteConfiguration.EnableGeoRss)
@@ -437,6 +446,60 @@ namespace DasBlog.Managers
             }
             
             return documentRoot;
+        }
+
+        private string ResolveEntryCreatorName(Entry entry)
+        {
+            if (entry == null)
+            {
+                return string.Empty;
+            }
+
+            var rawAuthor = entry.Author?.Trim();
+            if (!string.IsNullOrWhiteSpace(rawAuthor))
+            {
+                // Prefer the raw author when it already looks like a display name.
+                // This matches DasBlog's multi-author model and preserves a post's
+                // authored-by metadata even when the original value is not an email.
+                if (!LooksLikeEmail(rawAuthor))
+                {
+                    return rawAuthor;
+                }
+
+                var userByDisplayName = dasBlogSettings.GetUser(rawAuthor);
+                if (userByDisplayName != null && !string.IsNullOrWhiteSpace(userByDisplayName.DisplayName))
+                {
+                    return userByDisplayName.DisplayName.Trim();
+                }
+            }
+
+            User user = dasBlogSettings.GetUserByEmail(entry.Author);
+            if (user != null && !string.IsNullOrWhiteSpace(user.DisplayName))
+            {
+                return user.DisplayName.Trim();
+            }
+
+            if (!string.IsNullOrWhiteSpace(rawAuthor))
+            {
+                return rawAuthor;
+            }
+
+            if (!string.IsNullOrWhiteSpace(dasBlogSettings.SiteConfiguration.Copyright))
+            {
+                return dasBlogSettings.SiteConfiguration.Copyright.Trim();
+            }
+
+            return string.Empty;
+        }
+
+        private static bool LooksLikeEmail(string value)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                return false;
+            }
+
+            return value.Contains('@') && value.Contains('.');
         }
 
         protected EntryCollection BuildEntries(string category, int maxDayCount, int maxEntryCount)
