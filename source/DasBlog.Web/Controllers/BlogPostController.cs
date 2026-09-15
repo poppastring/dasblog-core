@@ -127,6 +127,7 @@ namespace DasBlog.Web.Controllers
 		}
 
 		[AllowAnonymous]
+		[NoIndex]
 		public IActionResult NotFoundPage()
 		{
 			return HandleMissingPublicRoute();

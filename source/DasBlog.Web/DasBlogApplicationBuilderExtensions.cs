@@ -97,6 +97,26 @@ namespace DasBlog.Web
 			return app;
 		}
 
+		public static IApplicationBuilder UseDasBlogNoIndexPolicy(this IApplicationBuilder app)
+		{
+			app.Use(async (context, next) =>
+			{
+				if (context.GetEndpoint()?.Metadata.GetMetadata<Controllers.NoIndexAttribute>() != null)
+				{
+					context.Response.Headers["X-Robots-Tag"] = "noindex, nofollow";
+				}
+
+				await next.Invoke();
+
+				if (context.Response.StatusCode >= StatusCodes.Status400BadRequest)
+				{
+					context.Response.Headers["X-Robots-Tag"] = "noindex, nofollow";
+				}
+			});
+
+			return app;
+		}
+
 		public static IApplicationBuilder UseDasBlogEndpoints(this IApplicationBuilder app)
 		{
 			app.UseEndpoints(endpoints =>

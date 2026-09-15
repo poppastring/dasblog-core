@@ -21,6 +21,7 @@ using System.Threading.Tasks;
 namespace DasBlog.Web.Controllers
 {
 	[Authorize]
+	[NoIndex]
 	public class AccountController : DasBlogBaseController
 	{
 		private const string KEY_RETURNURL = "ReturnUrl";
