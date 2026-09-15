@@ -31,18 +31,6 @@ namespace DasBlog.Services.ConfigFile
 		[XmlElement("PublisherType")]
 		public string PublisherType { get; set; }
 
-		[XmlElement("PublisherName")]
-		public string PublisherName { get; set; }
-
-		[XmlElement("PublisherUrl")]
-		public string PublisherUrl { get; set; }
-
-		[XmlElement("PublisherImageUrl")]
-		public string PublisherImageUrl { get; set; }
-
-		[XmlElement("PublisherSameAs")]
-		public string PublisherSameAs { get; set; }
-
 		[XmlElement("MastodonServerUrl")]
 		public string MastodonServerUrl { get; set; }
 
