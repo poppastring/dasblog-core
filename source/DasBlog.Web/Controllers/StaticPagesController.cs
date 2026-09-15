@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 namespace DasBlog.Web.Controllers
 {
 	[Authorize]
+	[NoIndex]
 	public class StaticPagesController : DasBlogBaseController
 	{
 		private readonly IStaticPageManager staticPageManager;

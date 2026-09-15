@@ -149,6 +149,7 @@ app.UseAuthorization();
 app.UseRateLimiter();
 
 app.UseDasBlogSecurityHeaders(app.Configuration);
+app.UseDasBlogNoIndexPolicy();
 app.UseDasBlogEndpoints();
 
 app.UseHttpContext();

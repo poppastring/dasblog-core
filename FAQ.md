@@ -45,6 +45,10 @@ A: DasBlog caches XML content. Restart the preview after changing a `.dayentry.x
 A: Deploy the complete custom theme folder and any content files or content assets changed separately during the work. Activate the new theme only after those files are present on the site.
 
 
+#### Q: How does DasBlog control search engine indexing?
+A: `robots.txt` controls crawling and references the sitemap, but it does not guarantee that a discovered URL is removed from search results. Administrative, account, setup, and error routes therefore also send `X-Robots-Tag: noindex, nofollow`. Public posts, the homepage, static pages, categories, and archives remain indexable.
+
+
 #### Q: What changed with Google analytics and captcha settings?
 A: DasBlog Core now treats this as a breaking change and no longer supports Google-specific analytics or captcha keys.
 

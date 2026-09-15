@@ -14,6 +14,7 @@ using Microsoft.Extensions.Logging;
 namespace DasBlog.Web.Controllers
 {
 	[Authorize]
+	[NoIndex]
 	[Route("admin/authors")]
 	public class AuthorController : DasBlogController
 	{

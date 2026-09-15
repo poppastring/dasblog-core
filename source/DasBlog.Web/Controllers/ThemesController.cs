@@ -17,6 +17,7 @@ using Microsoft.Extensions.Options;
 namespace DasBlog.Web.Controllers
 {
 	[Authorize]
+	[NoIndex]
 	public class ThemesController : DasBlogBaseController
 	{
 		private readonly IDasBlogSettings dasBlogSettings;

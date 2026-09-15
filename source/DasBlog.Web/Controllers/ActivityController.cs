@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace DasBlog.Web.Controllers
 {
 	[Authorize]
+	[NoIndex]
 	[Route("admin/log")]
 	public class ActivityController : DasBlogController
 	{

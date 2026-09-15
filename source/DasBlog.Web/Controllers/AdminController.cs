@@ -22,6 +22,7 @@ using NBR = newtelligence.DasBlog.Runtime;
 namespace DasBlog.Web.Controllers
 {
 	[Authorize]
+	[NoIndex]
 	public class AdminController : DasBlogBaseController
 	{
 		private readonly IDasBlogSettings dasBlogSettings;

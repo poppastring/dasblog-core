@@ -124,6 +124,41 @@ namespace DasBlog.Test.Integration
 		}
 
 		[SkippableFact(typeof(PlaywrightException))]
+		public async Task NonContentRoutes_EmitNoIndexHeader()
+		{
+			Skip.If(AreWe.InDockerOrBuildServer);
+
+			var response = await Page.GotoAsync(Server.RootUri + "/account/login");
+
+			Assert.NotNull(response);
+			Assert.True(response.Headers.TryGetValue("x-robots-tag", out var robotsTag));
+			Assert.Equal("noindex, nofollow", robotsTag);
+		}
+
+		[SkippableFact(typeof(PlaywrightException))]
+		public async Task PublicHomePage_DoesNotEmitNoIndexHeader()
+		{
+			Skip.If(AreWe.InDockerOrBuildServer);
+
+			var response = await Page.GotoAsync(Server.RootUri + "/");
+
+			Assert.NotNull(response);
+			Assert.False(response.Headers.ContainsKey("x-robots-tag"));
+		}
+
+		[SkippableFact(typeof(PlaywrightException))]
+		public async Task RobotsTxt_ReferencesSitemap()
+		{
+			Skip.If(AreWe.InDockerOrBuildServer);
+
+			var response = await Page.GotoAsync(Server.RootUri + "/robots.txt");
+			var content = await response.TextAsync();
+
+			Assert.Contains("Disallow: /account/login", content);
+			Assert.Contains("Sitemap: ", content);
+		}
+
+		[SkippableFact(typeof(PlaywrightException))]
 		public async Task AdminPage_DefaultCredentialsWarning_IsSuppressedInDevelopment()
 		{
 			Skip.If(AreWe.InDockerOrBuildServer);

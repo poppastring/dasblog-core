@@ -118,6 +118,7 @@ namespace DasBlog.Web.Controllers
 			return PartialView(dasBlogSettings.SiteConfiguration.ShowItemSummaryInAggregatedViews ? "_BlogItemsSummary" : "_BlogItems", lpvm);
 		}
 
+		[NoIndex]
 		public IActionResult Error()
 		{
 			try
