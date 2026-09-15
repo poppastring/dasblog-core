@@ -40,12 +40,14 @@ namespace DasBlog.Web.Controllers
 		}
 
 		[HttpGet("")]
+		[RequireBlogFeatures]
 		public IActionResult Archive()
 		{
 			return Archive(DateTime.Now.Year, DateTime.Now.Month);
 		}
 
 		[HttpGet("{year}")]
+		[RequireBlogFeatures]
 		public IActionResult Archive(int year)
 		{
 			var dateTime = new DateTime(year, 1, 1);
@@ -54,6 +56,7 @@ namespace DasBlog.Web.Controllers
 		}
 
 		[HttpGet("{year}/{month}")]
+		[RequireBlogFeatures]
 		public IActionResult Archive(int year, int month)
 		{
 			var dateTime = new DateTime(year, month, 1);
@@ -62,6 +65,7 @@ namespace DasBlog.Web.Controllers
 		}
 
 		[HttpGet("{year}/{month}/{day}")]
+		[RequireBlogFeatures]
 		public IActionResult Archive(int year, int month, int day)
 		{
 			var dateTime = new DateTime(year, month, day);
@@ -70,6 +74,7 @@ namespace DasBlog.Web.Controllers
 		}
 
 		[HttpGet("all")]
+		[RequireBlogFeatures]
 		public IActionResult ArchiveAll()
 		{
 			var entries = new EntryCollection();

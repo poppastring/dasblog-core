@@ -28,6 +28,9 @@ namespace DasBlog.Services.ConfigFile
 		[XmlElement("TwitterImage")]
 		public string TwitterImage  { get; set; }
 
+		[XmlElement("PublisherType")]
+		public string PublisherType { get; set; }
+
 		[XmlElement("MastodonServerUrl")]
 		public string MastodonServerUrl { get; set; }
 

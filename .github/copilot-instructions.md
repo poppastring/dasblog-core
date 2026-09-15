@@ -49,9 +49,13 @@ Projects under `source/`:
 - Prefer constructor injection; services are registered in
   `DasBlogServiceCollectionExtensions` and the pipeline is wired in
   `DasBlogApplicationBuilderExtensions` / `Program.cs`.
-- Configuration lives in `source/DasBlog.Web/Config/` (site config, metaconfig,
-  themes). Treat the XML schemas as a public contract — additive changes only
-  unless a migration is included.
+- Configuration lives in `source/DasBlog.Web/Config/` and is split by purpose:
+  `site.config`/`SiteConfig` is for site behavior and operational settings;
+  `meta.config`/`MetaTags` is for metadata, SEO, social cards, and structured-data
+  identity. Put publisher identity and other schema/SEO settings in metadata, not
+  site behavior configuration. Treat the XML schemas as a public contract —
+  additive changes only unless a migration is included. Metadata publisher type
+  currently supports `Person` and `Organization`, defaulting to `Person`.
 - Logging goes through the rolling-file logger; do not introduce a new logging
   framework.
 - Keep controllers thin; put logic in `DasBlog.Managers` or `DasBlog.Services`.

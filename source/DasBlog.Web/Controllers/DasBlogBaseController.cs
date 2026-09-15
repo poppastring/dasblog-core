@@ -117,6 +117,7 @@ namespace DasBlog.Web.Settings
 				ViewData["Author"] = dasBlogSettings.SiteConfiguration.Copyright;
 				ViewData["PageImageUrl"] = dasBlogSettings.MetaTags.TwitterImage;
 				ViewData["PageVideoUrl"] = string.Empty;
+				ViewData["PublisherType"] = dasBlogSettings.MetaTags.PublisherType;
 				ViewData["PublisherName"] = dasBlogSettings.SiteConfiguration.Title;
 				ViewData["PublisherUrl"] = dasBlogSettings.GetBaseUrl();
 			}
@@ -130,6 +131,7 @@ namespace DasBlog.Web.Settings
 				ViewData["Author"] = dasBlogSettings.SiteConfiguration.Copyright;
 				ViewData["PageImageUrl"] = dasBlogSettings.MetaTags.TwitterImage;
 				ViewData["PageVideoUrl"] = string.Empty;
+				ViewData["PublisherType"] = dasBlogSettings.MetaTags.PublisherType;
 				ViewData["PublisherName"] = dasBlogSettings.SiteConfiguration.Title;
 				ViewData["PublisherUrl"] = dasBlogSettings.GetBaseUrl();
 			}

@@ -1,10 +1,30 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace DasBlog.Web.Models.AdminViewModels
 {
-	public class MetaViewModel
+	public class MetaViewModel : IValidatableObject
 	{
+		public const string DefaultPublisherType = "Person";
+
+		public static readonly IReadOnlyList<string> PublisherTypes = new[]
+		{
+			"Person",
+			"Organization"
+		};
+
+		public static string NormalizePublisherType(string publisherType)
+		{
+			if (string.IsNullOrWhiteSpace(publisherType))
+			{
+				return DefaultPublisherType;
+			}
+
+			return PublisherTypes.FirstOrDefault(type => string.Equals(type, publisherType.Trim(), System.StringComparison.OrdinalIgnoreCase)) ?? DefaultPublisherType;
+		}
+
 		[DisplayName("Site meta data")]
 		[Description("The text in these tags is not displayed, but parsable and tells the browsers specific information about the page.")]
 		[StringLength(300, MinimumLength = 0, ErrorMessage = "{0} should be between 1 to 300 characters")]
@@ -37,6 +57,10 @@ namespace DasBlog.Web.Models.AdminViewModels
 		[StringLength(300, MinimumLength = 0, ErrorMessage = "{0} should be between 1 to 300 characters")]
 		public string TwitterImage { get; set; }
 
+		[DisplayName("Structured data publisher type")]
+		[Description("Schema.org type used for the site's publisher. Name, URL, image, and profile links come from existing site metadata.")]
+		public string PublisherType { get; set; }
+
 		[DisplayName("Mastodon Server")]
 		[Description("")]
 		[DataType(DataType.Url, ErrorMessage = "Invalid URL format")]
@@ -46,5 +70,14 @@ namespace DasBlog.Web.Models.AdminViewModels
 		[Description("")]
 		[RegularExpression("(@)((?:[A-Za-z0-9-_]*))")]
 		public string MastodonAccount { get; set; }
+
+		public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+		{
+			if (!string.IsNullOrWhiteSpace(PublisherType)
+				&& !PublisherTypes.Any(type => string.Equals(type, PublisherType, System.StringComparison.OrdinalIgnoreCase)))
+			{
+				yield return new ValidationResult("Publisher type must be a supported schema.org publisher type.", new[] { nameof(PublisherType) });
+			}
+		}
 	}
 }

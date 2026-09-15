@@ -1,6 +1,8 @@
 ﻿using System.Text;
 using System.Text.Encodings.Web;
 using System.Text.Json;
+using DasBlog.Services;
+using DasBlog.Web.Models.AdminViewModels;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
@@ -16,11 +18,24 @@ namespace DasBlog.Web.TagHelpers.Site
 			WriteIndented = false
 		};
 
+		private readonly IDasBlogSettings dasBlogSettings;
+
+		public BlogPostingSchemaTagHelper(IDasBlogSettings dasBlogSettings = null)
+		{
+			this.dasBlogSettings = dasBlogSettings;
+		}
+
 		[ViewContext]
 		public ViewContext ViewContext { get; set; }
 
 		public override void Process(TagHelperContext context, TagHelperOutput output)
 		{
+			if (dasBlogSettings != null && !dasBlogSettings.SiteConfiguration.EnableBlogFeatures)
+			{
+				output.SuppressOutput();
+				return;
+			}
+
 			var data = ViewContext.ViewData;
 			var schemaType = string.Equals(data["SchemaType"]?.ToString(), "WebPage", System.StringComparison.Ordinal)
 				? "WebPage"
@@ -49,6 +64,7 @@ namespace DasBlog.Web.TagHelpers.Site
 			}
 			var authorName = data["Author"]?.ToString();
 			var authorUrl = data["AuthorUrl"]?.ToString();
+			var publisherType = MetaViewModel.NormalizePublisherType(data["PublisherType"]?.ToString());
 			var publisherName = data["PublisherName"]?.ToString();
 			var publisherUrl = data["PublisherUrl"]?.ToString();
 
@@ -86,7 +102,7 @@ namespace DasBlog.Web.TagHelpers.Site
 			if (!string.IsNullOrEmpty(publisherName) || !string.IsNullOrEmpty(publisherUrl))
 			{
 				sb.Append(",\"publisher\":{");
-				sb.Append("\"@type\":\"Organization\"");
+				sb.Append("\"@type\":").Append(JsonSerializer.Serialize(publisherType, JsonOptions));
 				if (!string.IsNullOrEmpty(publisherName))
 				{
 					sb.Append(",\"name\":").Append(JsonSerializer.Serialize(publisherName, JsonOptions));
