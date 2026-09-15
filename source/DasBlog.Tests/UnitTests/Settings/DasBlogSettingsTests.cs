@@ -85,6 +85,8 @@ namespace DasBlog.Tests.UnitTests.Settings
             var dasBlogSettings = dasBlogSettingsMock.CreateSettings();
             var result = dasBlogSettings.GetCommentViewUrl("E455F4B8-C51B-4DE9-9481-D770AD5B0BB4");
             Assert.Contains("https://example.com/E455F4B8-C51B-4DE9-9481-D770AD5B0BB4", result);
+            Assert.EndsWith("#comments-start", result);
+            Assert.DoesNotContain("/comments", result, StringComparison.OrdinalIgnoreCase);
         }
 
         [Fact]

@@ -90,6 +90,102 @@ namespace DasBlog.Tests.UnitTests.Controllers
 			Assert.Equal(StatusCodes.Status404NotFound, controller.Response.StatusCode);
 		}
 
+		[Fact]
+		public void Comment_LegacyRoute_RedirectsToCanonicalPostCommentsAnchor()
+		{
+			var blogManager = new Mock<IBlogManager>();
+			var entry = new Entry
+			{
+				EntryId = Guid.NewGuid().ToString(),
+				Title = "Hello world",
+				AllowComments = true,
+				IsPublic = true
+			};
+			blogManager.Setup(x => x.GetBlogPost("hello-world", null)).Returns(entry);
+
+			var controller = CreateController(blogManager.Object);
+			var result = controller.Comment("hello-world", null, null, null);
+
+			var redirect = Assert.IsType<RedirectResult>(result);
+			Assert.True(redirect.Permanent);
+			Assert.Equal("https://example.com/hello-world#comments-start", redirect.Url);
+		}
+
+		[Fact]
+		public void Index_WhenCommentsEnabledAndLegacySettingIsTrue_ShowsCommentsOnAggregatedPosts()
+		{
+			var entry = new Entry
+			{
+				EntryId = Guid.NewGuid().ToString(),
+				Title = "Hello world",
+				AllowComments = true,
+				IsPublic = true,
+				CreatedUtc = DateTime.UtcNow,
+				ModifiedUtc = DateTime.UtcNow,
+				Content = "Test post"
+			};
+
+			var blogManager = new Mock<IBlogManager>();
+			blogManager.Setup(x => x.GetFrontPagePosts(It.IsAny<string>())).Returns(new EntryCollection { entry });
+
+			var commentManager = new Mock<ICommentManager>();
+			commentManager.Setup(x => x.GetComments(entry.EntryId, false)).Returns(new CommentCollection
+			{
+				new Comment { EntryId = entry.EntryId, TargetTitle = entry.Title, Author = "Tester", Content = "Looks good" }
+			});
+
+			var siteConfig = new Mock<ISiteConfig>();
+			siteConfig.SetupGet(x => x.EnableComments).Returns(true);
+			siteConfig.SetupGet(x => x.ShowCommentsWhenViewingEntry).Returns(true);
+			siteConfig.SetupGet(x => x.ShowItemSummaryInAggregatedViews).Returns(false);
+			siteConfig.SetupGet(x => x.Title).Returns("Example Blog");
+			siteConfig.SetupGet(x => x.Copyright).Returns("Example Author");
+			siteConfig.SetupGet(x => x.Root).Returns("https://example.com/");
+			siteConfig.SetupGet(x => x.PostPinnedToHomePage).Returns(string.Empty);
+
+			var settings = new Mock<IDasBlogSettings>();
+			settings.SetupGet(x => x.SiteConfiguration).Returns(siteConfig.Object);
+			settings.SetupGet(x => x.MetaTags).Returns(new Mock<IMetaTags>().Object);
+			settings.Setup(x => x.GetBaseUrl()).Returns("https://example.com/");
+			settings.Setup(x => x.RelativeToRoot(It.IsAny<string>())).Returns((string path) => "https://example.com/" + path.TrimStart('/'));
+			settings.Setup(x => x.GetCommentViewUrl(It.IsAny<string>())).Returns((string path) => "https://example.com/" + path.TrimStart('/').TrimEnd('/') + "#comments-start");
+
+			var mapper = new Mock<IMapper>();
+			mapper.Setup(m => m.Map<PostViewModel>(It.IsAny<Entry>())).Returns((Entry e) => new PostViewModel
+			{
+				EntryId = e.EntryId,
+				Title = e.Title,
+				AllowComments = e.AllowComments,
+				CreatedDateTime = e.CreatedUtc,
+				ModifiedDateTime = e.ModifiedUtc,
+				PermaLink = e.Title,
+				Content = e.Content,
+				Comments = new ListCommentsViewModel()
+			});
+			mapper.Setup(m => m.Map<CommentViewModel>(It.IsAny<Comment>())).Returns((Comment c) => new CommentViewModel
+			{
+				Name = c.Author,
+				Text = c.Content
+			});
+
+			var controller = new HomeController(
+				blogManager.Object,
+				commentManager.Object,
+				settings.Object,
+				mapper.Object,
+				Mock.Of<ILogger<HomeController>>(),
+				new MemoryCache(new MemoryCacheOptions()),
+				Mock.Of<IExternalEmbeddingHandler>());
+			controller.ControllerContext = new ControllerContext { HttpContext = new DefaultHttpContext() };
+
+			var result = controller.Index();
+
+			var viewResult = Assert.IsType<ViewResult>(result);
+			var model = Assert.IsType<ListPostsViewModel>(viewResult.Model);
+			Assert.True(model.Posts[0].Comments.ShowComments);
+			Assert.Single(model.Posts[0].Comments.Comments);
+		}
+
 		private static BlogPostController CreateController(IBlogManager blogManager)
 		{
 			var settings = new Mock<IDasBlogSettings>();
@@ -108,6 +204,10 @@ namespace DasBlog.Tests.UnitTests.Controllers
 			settings.SetupGet(value => value.MetaTags).Returns(metaTags.Object);
 			settings.Setup(value => value.RelativeToRoot(It.IsAny<string>()))
 				.Returns((string path) => "https://example.com/" + path.TrimStart('/'));
+			settings.Setup(value => value.GeneratePostUrl(It.IsAny<Entry>()))
+				.Returns((Entry entry) => string.Join("-", entry.Title.Split(' ', StringSplitOptions.RemoveEmptyEntries)).ToLowerInvariant());
+			settings.Setup(value => value.GetCommentViewUrl(It.IsAny<string>()))
+				.Returns((string url) => "https://example.com/" + url.TrimStart('/').TrimEnd('/') + "#comments-start");
 
 			var mapper = new Mock<IMapper>();
 			mapper.Setup(m => m.Map<StaticPageViewModel>(It.IsAny<StaticPage>()))

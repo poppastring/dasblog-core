@@ -116,9 +116,27 @@ namespace DasBlog.Web.Settings
         }
 
 		public string GetCommentViewUrl(string entryId)
-        {
-            return RelativeToRoot(entryId) + $"/comments#{Constants.CommentsStartId}";
-        }
+		{
+			var canonicalEntryId = entryId?.Trim();
+			if (string.IsNullOrWhiteSpace(canonicalEntryId))
+			{
+				return string.Empty;
+			}
+
+			var hashIndex = canonicalEntryId.IndexOf('#');
+			if (hashIndex >= 0)
+			{
+				canonicalEntryId = canonicalEntryId.Substring(0, hashIndex);
+			}
+
+			var commentRouteIndex = canonicalEntryId.IndexOf("/comments", StringComparison.OrdinalIgnoreCase);
+			if (commentRouteIndex >= 0)
+			{
+				canonicalEntryId = canonicalEntryId.Substring(0, commentRouteIndex);
+			}
+
+			return RelativeToRoot(canonicalEntryId) + $"#{Constants.CommentsStartId}";
+		}
 
         public string GetTrackbackUrl(string entryId)
         {

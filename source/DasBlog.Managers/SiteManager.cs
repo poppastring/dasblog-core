@@ -72,13 +72,8 @@ namespace DasBlog.Managers
 					freq = ChangeFreq.hourly;
 				}
 
-				//Add comments pages, since comments have indexable content...
-				// Only add comments if we aren't showing comments on permalink pages already
-				if (dasBlogSettings.SiteConfiguration.ShowCommentsWhenViewingEntry == false)
-				{
-					var commentPage = new Url(dasBlogSettings.GetCommentViewUrl(e.CompressedTitle), lastModified, freq, 0.7M);
-					root.url.Add(commentPage);
-				}
+				// Comments are intentionally not indexed as a separate public route.
+				// The canonical post URL is the single public entry page for that discussion.
 
 				//then add permalinks
 				var permaPage = new Url(dasBlogSettings.RelativeToRoot(dasBlogSettings.GeneratePostUrl(e)), lastModified, freq, 0.9M);

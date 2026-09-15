@@ -129,6 +129,7 @@ namespace DasBlog.Services.ConfigFile
         public bool EnableCommentDays { get; set; }
         public string EntryEditControl { get; set; }
         public bool LogBlockedReferrals { get; set; }
+
         public bool ShowCommentsWhenViewingEntry { get; set; }
         public int ContentLookaheadDays { get; set; }
         public int SmtpPort { get; set; }

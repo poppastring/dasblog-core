@@ -149,6 +149,7 @@ namespace DasBlog.Web.Controllers
 					PostId = post.EntryId,
 					PostDate = post.CreatedDateTime,
 					CommentUrl = dasBlogSettings.GetCommentViewUrl(post.PermaLink),
+					ShowComments = dasBlogSettings.SiteConfiguration.EnableComments && dasBlogSettings.SiteConfiguration.ShowCommentsWhenViewingEntry,
 					AllowComments = post.AllowComments
 				};
 				post.Comments = lcvm;

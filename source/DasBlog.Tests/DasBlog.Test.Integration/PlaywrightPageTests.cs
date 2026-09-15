@@ -251,7 +251,7 @@ namespace DasBlog.Test.Integration
 			var saveButton = Page.Locator("#SaveContentButton");
 			await saveButton.ClickAsync();
 
-			Assert.Equal(Server.RootUri + "/welcome-to-dasblog-core/comments#comments-start", Page.Url.TrimEnd('/'));
+			Assert.Equal(Server.RootUri + "/welcome-to-dasblog-core#comments-start", Page.Url.TrimEnd('/'));
 
 			var commentElement = Page.Locator(".dbc-comment-user-homepage-name");
 			Assert.Equal(commentname, await commentElement.First.TextContentAsync());

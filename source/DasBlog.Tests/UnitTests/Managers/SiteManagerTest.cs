@@ -100,6 +100,30 @@ namespace DasBlog.Tests.UnitTests.Managers
 		}
 
 		[Fact]
+		public void GetGoogleSiteMap_DoesNotIncludeLegacyCommentPageUrls()
+		{
+			var entry = new Entry
+			{
+				EntryId = "entry-1",
+				Title = "SEO Post",
+				Categories = "SEO",
+				IsPublic = true,
+				CreatedUtc = new DateTime(2026, 8, 1, 12, 0, 0, DateTimeKind.Utc),
+				ModifiedUtc = new DateTime(2026, 9, 10, 12, 0, 0, DateTimeKind.Utc)
+			};
+			dataServiceMock.Setup(d => d.GetEntries(false)).Returns(new EntryCollection { entry });
+			dataServiceMock.Setup(d => d.GetCategories()).Returns(new CategoryCacheEntryCollection());
+#pragma warning disable CS0618
+			siteConfigMock.SetupGet(c => c.ShowCommentsWhenViewingEntry).Returns(false);
+#pragma warning restore CS0618
+
+			var result = CreateManager().GetGoogleSiteMap();
+			var urls = result.url.Cast<Url>().ToList();
+
+			Assert.DoesNotContain(urls, url => url.loc.Contains("/comments", StringComparison.OrdinalIgnoreCase));
+		}
+
+		[Fact]
 		public void UrlSet_Serialized_UsesStandardSitemapNamespace()
 		{
 			var serializer = new XmlSerializer(typeof(UrlSet));

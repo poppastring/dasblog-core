@@ -99,7 +99,7 @@ namespace DasBlog.Web.Controllers
 					PostId = entry.EntryId,
 					PostDate = entry.CreatedUtc,
 					CommentUrl = dasBlogSettings.GetCommentViewUrl(posttitle),
-					ShowComments = dasBlogSettings.SiteConfiguration.ShowCommentsWhenViewingEntry,
+					ShowComments = dasBlogSettings.SiteConfiguration.EnableComments,
 					AllowComments = entry.AllowComments
 				};
 				pvm.Comments = lcvm;
@@ -173,7 +173,7 @@ namespace DasBlog.Web.Controllers
 					PostId = entry.EntryId,
 					PostDate = entry.CreatedUtc,
 					CommentUrl = dasBlogSettings.GetCommentViewUrl(entry.Title),
-					ShowComments = dasBlogSettings.SiteConfiguration.ShowCommentsWhenViewingEntry,
+					ShowComments = dasBlogSettings.SiteConfiguration.EnableComments,
 					AllowComments = entry.AllowComments
 				};
 				pvm.Comments = lcvm;
@@ -387,7 +387,6 @@ namespace DasBlog.Web.Controllers
 		[HttpGet("post/{posttitle}/comments/{commentid:guid}")]
 		public IActionResult Comment(string posttitle, string day, string month, string year)
 		{
-			ListPostsViewModel lpvm = null;
 			NBR.Entry entry = null;
 			var postguid = Guid.Empty;
 
@@ -406,29 +405,10 @@ namespace DasBlog.Web.Controllers
 
 			if (entry != null)
 			{
-				lpvm = new ListPostsViewModel
-				{
-					Posts = new List<PostViewModel> { mapper.Map<PostViewModel>(entry) }
-				};
-
-				if (dasBlogSettings.SiteConfiguration.EnableComments)
-				{
-					var lcvm = new ListCommentsViewModel
-					{
-						Comments = commentManager.GetComments(entry.EntryId, false)
-							.Select(comment => mapper.Map<CommentViewModel>(comment)).ToList(),
-						PostId = entry.EntryId,
-						PostDate = entry.CreatedUtc,
-						CommentUrl = dasBlogSettings.GetCommentViewUrl(posttitle),
-						ShowComments = true,
-						AllowComments = entry.AllowComments
-					};
-
-					lpvm.Posts.First().Comments = lcvm;
-				}
+				return RedirectPermanent(dasBlogSettings.GetCommentViewUrl(dasBlogSettings.GeneratePostUrl(entry)));
 			}
 
-			return SinglePostView(lpvm);
+			return NotFound();
 		}
 
 		public IActionResult CommentError(AddCommentViewModel comment, List<string> errors)
@@ -557,7 +537,17 @@ namespace DasBlog.Web.Controllers
 
 			logger.LogInformation(new EventDataItem(EventCodes.CommentAdded, null, "Comment created on: {0}", commt.TargetTitle));
 			BreakSiteCache();
-			return Comment(addcomment.TargetEntryId);
+
+			if (Guid.TryParse(addcomment.TargetEntryId, out var targetGuid))
+			{
+				var targetEntry = blogManager.GetBlogPostByGuid(targetGuid);
+				if (targetEntry != null)
+				{
+					return RedirectPermanent(dasBlogSettings.GetCommentViewUrl(dasBlogSettings.GeneratePostUrl(targetEntry)));
+				}
+			}
+
+			return RedirectToAction(nameof(Post), new { posttitle = addcomment.TargetEntryId });
 		}
 
 		[HttpDelete("admin/post/{postid:guid}/comments/{commentid:guid}")]
