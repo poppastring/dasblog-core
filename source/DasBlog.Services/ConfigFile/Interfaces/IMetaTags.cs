@@ -13,6 +13,7 @@ namespace DasBlog.Services.ConfigFile.Interfaces
 		string TwitterSite { get; set; }
 		string TwitterCreator { get; set; }
 		string TwitterImage { get; set; }
+		string PublisherType { get; set; }
 		string MastodonServerUrl { get; set; }
 		string MastodonAccount { get; set; }
 	}

@@ -1,11 +1,16 @@
 ﻿﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
+using DasBlog.Services;
+using DasBlog.Services.ConfigFile;
 using DasBlog.Web.TagHelpers.Site;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
+using Moq;
 using Xunit;
 
 namespace DasBlog.Tests.UnitTests.UI
@@ -242,9 +247,10 @@ namespace DasBlog.Tests.UnitTests.UI
 
 		[Fact]
 		[Trait("Category", "UnitTest")]
-		public void BlogPostingSchema_PublisherNameAndUrl_EmitsOrganization()
+		public void BlogPostingSchema_PublisherMetadata_EmitsConfiguredPublisherType()
 		{
 			var viewContext = MakePostViewContext();
+			viewContext.ViewData["PublisherType"] = "Organization";
 			viewContext.ViewData["PublisherName"] = "PoppaString";
 			viewContext.ViewData["PublisherUrl"] = "https://www.poppastring.com/blog/";
 			var json = ProcessSchema(viewContext);
@@ -278,6 +284,7 @@ namespace DasBlog.Tests.UnitTests.UI
 			viewContext.ViewData["PageImageUrl"] = "https://example.com/img.png";
 			viewContext.ViewData["Author"] = "Test Author";
 			viewContext.ViewData["AuthorUrl"] = "https://example.com/";
+			viewContext.ViewData["PublisherType"] = "Person";
 			viewContext.ViewData["PublisherName"] = "Example Blog";
 			viewContext.ViewData["PublisherUrl"] = "https://example.com/";
 
@@ -286,7 +293,50 @@ namespace DasBlog.Tests.UnitTests.UI
 			Assert.Equal("Hello \"world\"", json.GetProperty("headline").GetString());
 			Assert.Equal("https://example.com/img.png", json.GetProperty("image").GetString());
 			Assert.Equal("Test Author", json.GetProperty("author").GetProperty("name").GetString());
+			Assert.Equal("Person", json.GetProperty("publisher").GetProperty("@type").GetString());
 			Assert.Equal("Example Blog", json.GetProperty("publisher").GetProperty("name").GetString());
+		}
+
+		[Fact]
+		[Trait("Category", "UnitTest")]
+		public void SiteIdentitySchema_HomePage_EmitsPublisherFromExistingMetadata()
+		{
+			var settings = new Mock<IDasBlogSettings>();
+			settings.SetupGet(s => s.SiteConfiguration).Returns(new SiteConfig
+			{
+				Title = "Example Blog",
+				Root = "https://example.com/"
+			});
+			settings.SetupGet(s => s.MetaTags).Returns(new MetaTags
+			{
+				PublisherType = "Organization",
+				TwitterImage = "/images/site.png",
+				TwitterSite = "@exampleblog",
+				MastodonServerUrl = "https://mastodon.social",
+				MastodonAccount = "@exampleblog"
+			});
+			settings.Setup(s => s.GetBaseUrl()).Returns("https://example.com/");
+			settings.Setup(s => s.RelativeToRoot(It.IsAny<string>()))
+				.Returns<string>(value => value.StartsWith("http", StringComparison.OrdinalIgnoreCase)
+					? value
+					: "https://example.com/" + value.TrimStart('/'));
+
+			var httpContextAccessor = new HttpContextAccessor { HttpContext = new DefaultHttpContext() };
+			httpContextAccessor.HttpContext.Request.Path = "/";
+			var sut = new SiteIdentitySchemaTagHelper(settings.Object, httpContextAccessor);
+			var (ctx, output) = MakeContext("site-identity-schema");
+
+			sut.Process(ctx, output);
+
+			using var doc = JsonDocument.Parse(output.Content.GetContent());
+			var publisher = doc.RootElement.GetProperty("publisher");
+			Assert.Equal("Organization", publisher.GetProperty("@type").GetString());
+			Assert.Equal("Example Blog", publisher.GetProperty("name").GetString());
+			Assert.Equal("https://example.com/", publisher.GetProperty("url").GetString());
+			Assert.Equal("https://example.com/images/site.png", publisher.GetProperty("image").GetString());
+			var sameAs = publisher.GetProperty("sameAs").EnumerateArray().Select(item => item.GetString()).ToArray();
+			Assert.Contains("https://x.com/exampleblog", sameAs);
+			Assert.Contains("https://mastodon.social/@exampleblog", sameAs);
 		}
 	}
 }

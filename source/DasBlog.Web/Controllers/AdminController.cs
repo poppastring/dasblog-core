@@ -91,6 +91,8 @@ namespace DasBlog.Web.Controllers
 				return View("Settings", settings);
 			}
 
+			settings.SiteConfig.EnableComments = settings.SiteConfig.EnableBlogFeatures;
+
 			var site = mapper.Map<SiteConfig>(settings.SiteConfig);
 			var meta = mapper.Map<MetaTags>(settings.MetaConfig);
 
@@ -117,6 +119,7 @@ namespace DasBlog.Web.Controllers
 			meta.TwitterSite = NormalizeTwitterHandle(meta.TwitterSite);
 			meta.TwitterCreator = NormalizeTwitterHandle(meta.TwitterCreator);
 			meta.TwitterImage = string.IsNullOrWhiteSpace(meta.TwitterImage) ? string.Empty : meta.TwitterImage.Trim();
+			meta.PublisherType = MetaViewModel.NormalizePublisherType(meta.PublisherType);
 
 			site.MastodonServerUrl = null;
 			site.MastodonAccount = null;

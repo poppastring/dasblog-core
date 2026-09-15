@@ -35,9 +35,10 @@ namespace DasBlog.Web.Controllers
 		}
 
 		[Produces("text/xml")]
-        [HttpGet("feed/rss"), HttpHead("feed/rss")]
-        public IActionResult Rss()
-        {
+		[HttpGet("feed/rss"), HttpHead("feed/rss")]
+		[RequireBlogFeatures]
+		public IActionResult Rss()
+		{
 			if (!memoryCache.TryGetValue(CACHEKEY_RSS, out RssRoot rss))
 			{
 				rss = subscriptionManager.GetRss();
@@ -50,8 +51,9 @@ namespace DasBlog.Web.Controllers
 
 		[Produces("text/xml")]
 		[HttpGet("feed/rss/{category}"), HttpHead("feed/rss/{category}")]
-        public IActionResult RssByCategory(string category)
-        {
+		[RequireBlogFeatures]
+		public IActionResult RssByCategory(string category)
+		{
 			if (!memoryCache.TryGetValue(CACHEKEY_RSS + "_" + category, out RssRoot rss))
 			{
 				rss = subscriptionManager.GetRssCategory(category);
@@ -71,6 +73,7 @@ namespace DasBlog.Web.Controllers
 			}
 
 			[HttpGet("feed/atom"), HttpHead("feed/atom")]
+			[RequireBlogFeatures]
 			public IActionResult Atom()
 			{
 				if (!memoryCache.TryGetValue(CACHEKEY_ATOM, out AtomRoot atom))
@@ -84,6 +87,7 @@ namespace DasBlog.Web.Controllers
 			}
 
 			[HttpGet("feed/atom/{category}"), HttpHead("feed/atom/{category}")]
+			[RequireBlogFeatures]
 			public IActionResult AtomByCategory(string category)
 			{
 				if (!memoryCache.TryGetValue(CACHEKEY_ATOM + "_" + category, out AtomRoot atom))
@@ -129,9 +133,10 @@ namespace DasBlog.Web.Controllers
 
 			[Produces("text/xml")]
 			[HttpGet("feed/rsd")]
-        public ActionResult Rsd()
-        {
-            RsdRoot rsd = null;
+			[RequireBlogFeatures]
+		public ActionResult Rsd()
+		{
+			RsdRoot rsd = null;
 
             rsd = subscriptionManager.GetRsd();
 
@@ -186,18 +191,21 @@ namespace DasBlog.Web.Controllers
 		}
 
 		[HttpGet("feed/pingback")]
+		[RequireBlogFeatures]
 		public ActionResult PingBack()
 		{
 			return Ok();
 		}
 
 		[HttpGet("feed/rss/comments/{entryid}"), HttpHead("feed/rss/comments/{entryid}")]
+		[RequireBlogFeatures]
 		public ActionResult RssComments(string entryid)
 		{
 			return Ok();
 		}
 
 		[HttpGet("feed/trackback/{entryid}")]
+		[RequireBlogFeatures]
 		public ActionResult TrackBack(string entryid)
 		{
 			return Ok();

@@ -101,25 +101,17 @@
         </div>
         <div class="accordion-item">
             <h2 class="accordion-header">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseComments" aria-expanded="false" aria-controls="collapseComments">
-                    Comments
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseBloggingComments" aria-expanded="false" aria-controls="collapseBloggingComments">
+                    Blogging, Editing & Comments
                 </button>
             </h2>
-            <div id="collapseComments" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                <div class="accordion-body">
-                    <partial name="_Admin_Comments" />
-                </div>
-            </div>
-        </div>
-        <div class="accordion-item">
-            <h2 class="accordion-header">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseBloggingEditing" aria-expanded="false" aria-controls="collapseBloggingEditing">
-                    Blogging & Editing
-                </button>
-            </h2>
-            <div id="collapseBloggingEditing" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+            <div id="collapseBloggingComments" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
                 <div class="accordion-body">
                     <partial name="_Admin_BlogEditing" />
+                    <hr />
+                    <div id="commentsSettings">
+                        <partial name="_Admin_Comments" />
+                    </div>
                 </div>
             </div>
         </div>

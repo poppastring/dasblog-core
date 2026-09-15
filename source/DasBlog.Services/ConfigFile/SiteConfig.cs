@@ -98,6 +98,7 @@ namespace DasBlog.Services.ConfigFile
         public bool SendCommentsByEmail { get; set; }
         public string TinyMCEApiKey { get; set; }
         public bool EnableBloggerApi { get; set; }
+        public bool EnableBlogFeatures { get; set; }
         public bool EnableComments { get; set; }
         public bool AllowMarkdownInComments {get; set;}
         public bool ShowCommentCount { get; set; }

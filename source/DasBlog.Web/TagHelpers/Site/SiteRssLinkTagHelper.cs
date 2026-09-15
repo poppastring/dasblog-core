@@ -15,6 +15,12 @@ namespace DasBlog.Web.TagHelpers.Site
 
 		public override void Process(TagHelperContext context, TagHelperOutput output)
 		{
+			if (!dasBlogSettings.SiteConfiguration.EnableBlogFeatures)
+			{
+				output.SuppressOutput();
+				return;
+			}
+
 			// Emit two <link> tags; suppress the wrapping element.
 			output.TagName = null;
 			output.TagMode = TagMode.StartTagAndEndTag;

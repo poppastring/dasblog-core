@@ -33,6 +33,7 @@ namespace DasBlog.Web.Controllers
 		}
 
 		[HttpGet("category")]
+		[RequireBlogFeatures]
 		public IActionResult Category()
 		{
 			var viewModel = GetCategoryListFromCategoryManager(string.Empty);
@@ -41,6 +42,7 @@ namespace DasBlog.Web.Controllers
 		}
 
 		[HttpGet("category/{cat}")]
+		[RequireBlogFeatures]
 		public IActionResult Category(string cat)
 		{
 			var viewModel = GetCategoryListFromCategoryManager(cat.ToLower());

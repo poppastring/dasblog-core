@@ -15,6 +15,12 @@ namespace DasBlog.Web.TagHelpers.Site
 
 		public override void Process(TagHelperContext context, TagHelperOutput output)
 		{
+			if (!dasBlogSettings.SiteConfiguration.EnableBlogFeatures)
+			{
+				output.SuppressOutput();
+				return;
+			}
+
 			output.TagName = "link";
 			output.TagMode = TagMode.SelfClosing;
 			output.Attributes.SetAttribute("rel", "alternate");

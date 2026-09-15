@@ -22,3 +22,15 @@
         @Html.ValidationMessageFor(m => m.MetaConfig.MetaKeywords, null, new { @class = "text-danger" })
     </div>
 </div>
+
+<h3>Structured data publisher</h3>
+<p class="text-muted">Name and URL come from the site title and root URL. Image and profile links come from existing X (Twitter) and Mastodon metadata.</p>
+<div class="row gy-2 gx-3 align-items-md-start mb-3">
+    <div class="col-sm-4">
+        <div class="form-floating">
+            @Html.DropDownListFor(m => m.MetaConfig.PublisherType, new SelectList(MetaViewModel.PublisherTypes), new { @class = "form-select", id = "publisherType" })
+            @Html.LabelFor(m => @Model.MetaConfig.PublisherType, null, new { @class = "form-label", @for = "publisherType" })
+        </div>
+        @Html.ValidationMessageFor(m => m.MetaConfig.PublisherType, null, new { @class = "text-danger" })
+    </div>
+</div>

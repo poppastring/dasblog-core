@@ -101,17 +101,19 @@ namespace DasBlog.Web
 		{
 			app.Use(async (context, next) =>
 			{
-				if (context.GetEndpoint()?.Metadata.GetMetadata<Controllers.NoIndexAttribute>() != null)
+				var noIndexEndpoint = context.GetEndpoint()?.Metadata.GetMetadata<Controllers.NoIndexAttribute>() != null;
+
+				context.Response.OnStarting(() =>
 				{
-					context.Response.Headers["X-Robots-Tag"] = "noindex, nofollow";
-				}
+					if (noIndexEndpoint || context.Response.StatusCode >= StatusCodes.Status400BadRequest)
+					{
+						context.Response.Headers["X-Robots-Tag"] = "noindex, nofollow";
+					}
+
+					return Task.CompletedTask;
+				});
 
 				await next.Invoke();
-
-				if (context.Response.StatusCode >= StatusCodes.Status400BadRequest)
-				{
-					context.Response.Headers["X-Robots-Tag"] = "noindex, nofollow";
-				}
 			});
 
 			return app;

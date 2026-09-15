@@ -5,6 +5,10 @@
 
 <div class="d-flex flex-wrap mb-3">
     <div class="col-auto">
+        @Html.CheckBoxFor(m => @Model.SiteConfig.EnableBlogFeatures, new { @class = "form-check-input me-1" })
+        @Html.LabelFor(m => @Model.SiteConfig.EnableBlogFeatures, null, new { @class = "form-check-label me-3" })
+    </div>
+    <div class="col-auto">
         @Html.CheckBoxFor(m => @Model.SiteConfig.EnableComments, new { @class = "form-check-input me-1" })
         @Html.LabelFor(m => @Model.SiteConfig.EnableComments, null, new { @class = "form-check-label me-3" })
     </div>
@@ -95,10 +99,18 @@
         const daysCommentsAllowedTextbox = document.getElementById('daysCommentsAllowed');
         const enableSpamModerationCheckbox = document.getElementById('enableSpamModeration');
         const akismetApiKeyTextbox = document.getElementById('akismetAPIKey');
-        // All form fields in the Comments section except EnableComments
-        const commentsSection = document.getElementById('collapseComments');
+        // Keep the two top-level feature switches enabled so they post independently.
+        const enableBlogFeaturesCheckbox = document.querySelector('[id$="EnableBlogFeatures"]');
+        const commentsSection = document.getElementById('commentsSettings');
         const allFormFields = Array.from(commentsSection.querySelectorAll('input, select, textarea'))
-            .filter(el => el !== enableCommentsCheckbox);
+            .filter(el => el !== enableCommentsCheckbox && el !== enableBlogFeaturesCheckbox);
+
+        function toggleBlogFeatures() {
+            const blogFeaturesEnabled = enableBlogFeaturesCheckbox.checked;
+            enableCommentsCheckbox.checked = blogFeaturesEnabled;
+            enableCommentsCheckbox.disabled = !blogFeaturesEnabled;
+            toggleAllFields();
+        }
 
         function toggleDaysCommentsAllowed() {
             const isEnabled = enableCommentDaysCheckbox.checked && enableCommentsCheckbox.checked;
@@ -124,8 +136,9 @@
         }
 
         // Initialize on page load
-        toggleAllFields();
+        toggleBlogFeatures();
         // Listen for changes
+        enableBlogFeaturesCheckbox.addEventListener('change', toggleBlogFeatures);
         enableCommentsCheckbox.addEventListener('change', toggleAllFields);
         enableCommentDaysCheckbox.addEventListener('change', function () {
             if (enableCommentsCheckbox.checked) toggleDaysCommentsAllowed();

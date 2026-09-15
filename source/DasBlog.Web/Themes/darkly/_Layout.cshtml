@@ -18,6 +18,7 @@
     <twitter-card />
     <open-graph />
     <blog-posting-schema />
+    <site-identity-schema />
 
     @* Darkly is a Bootswatch 5.3.3 swatch (https://bootswatch.com/darkly/).
        The full Bootstrap + Darkly palette ships from ~/lib/bootswatch/5.3.3/darkly/,
@@ -41,9 +42,9 @@
             <div class="collapse navbar-collapse" id="navbar-darkly">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item"><a class="nav-link active" asp-area="" asp-controller="home" asp-action="index">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="category" asp-action="category" asp-route-cat="">Category</a></li>
-                    <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="archive" asp-action="archive" asp-route-year="" asp-route-month="" asp-route-day="">Archive</a></li>
-                    <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="feed" asp-action="rss">Subscribe</a></li>
+                    <li blogfeature class="nav-item"><a class="nav-link" asp-area="" asp-controller="category" asp-action="category" asp-route-cat="">Category</a></li>
+                    <li blogfeature class="nav-item"><a class="nav-link" asp-area="" asp-controller="archive" asp-action="archive" asp-route-year="" asp-route-month="" asp-route-day="">Archive</a></li>
+                    <li blogfeature class="nav-item"><a class="nav-link" asp-area="" asp-controller="feed" asp-action="rss">Subscribe</a></li>
                     <li class="nav-item" dasblog-authorized><a class="nav-link" asp-area="" asp-controller="admin" asp-action="settings">[Site Settings]</a></li>
                 </ul>
                 <ul class="navbar-nav ms-auto">

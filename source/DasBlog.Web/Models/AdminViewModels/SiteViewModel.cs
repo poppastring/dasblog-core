@@ -120,6 +120,10 @@ namespace DasBlog.Web.Models.AdminViewModels
 		[Description("Allows you to include blog content in RSS feeds")]
 		public bool AlwaysIncludeContentInRSS { get; set; }
 
+		[DisplayName("Enable blog features")]
+		[Description("Show archive, category, comments, and feed features. Leave enabled for normal blog behavior.")]
+		public bool EnableBlogFeatures { get; set; }
+
 		[DisplayName("Enable comments")]
 		[Description("Allow comments on your blog posts")]
 		public bool EnableComments { get; set; }

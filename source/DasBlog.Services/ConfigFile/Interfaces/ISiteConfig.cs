@@ -98,6 +98,8 @@ namespace DasBlog.Services.ConfigFile.Interfaces
         
         bool EnableBloggerApi { get; set; }
 
+        bool EnableBlogFeatures { get; set; }
+
         bool EnableComments { get; set; }
 
 		bool AllowMarkdownInComments {get; set;}
