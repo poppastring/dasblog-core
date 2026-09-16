@@ -83,6 +83,7 @@ namespace DasBlog.Web.Settings
 			DefaultPage(pageTitle);
 			ViewData["Description"] = page.Name;
 			ViewData["SchemaType"] = "WebPage";
+			ViewData["OgType"] = "article";
 		}
 
 		private void ShowErrors(PostViewModel post)
@@ -103,6 +104,7 @@ namespace DasBlog.Web.Settings
 			ViewData["TwitterImage"] = dasBlogSettings.MetaTags.TwitterImage;
 			ViewData["TwitterSite"] = dasBlogSettings.MetaTags.TwitterSite;
 			ViewData["TwitterCard"] = dasBlogSettings.MetaTags.TwitterCard;
+			ViewData["OgType"] = dasBlogSettings.SiteConfiguration.EnableBlogFeatures ? "website" : "article";
 			if (pageTitle.Length > 0)
 			{
 				var requestPath = ControllerContext?.HttpContext?.Request.Path.ToUriComponent().TrimStart('/');

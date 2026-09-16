@@ -90,6 +90,8 @@ else
 	app.UseExceptionHandler("/home/error");
 }
 
+app.UseStatusCodePagesWithReExecute("/BlogPost/NotFoundPage");
+
 if (env.IsStaging() || env.IsProduction())
 {
 	app.UseHsts(options => options.MaxAge(days: 30));
