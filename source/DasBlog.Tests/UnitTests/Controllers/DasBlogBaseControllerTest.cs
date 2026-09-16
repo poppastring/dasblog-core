@@ -35,6 +35,7 @@ namespace DasBlog.Tests.UnitTests.Controllers
 			controller.SetDefaultPage("Archive");
 
 			Assert.Equal("https://example.com/blog/archive/2026/9", controller.ViewData["Canonical"]);
+			Assert.Equal("article", controller.ViewData["OgType"]);
 		}
 
 		[Fact]
@@ -46,6 +47,7 @@ namespace DasBlog.Tests.UnitTests.Controllers
 			siteConfig.SetupGet(config => config.Root).Returns("https://example.com/blog/");
 			siteConfig.SetupGet(config => config.Title).Returns("Example Blog");
 			siteConfig.SetupGet(config => config.Copyright).Returns("Example Author");
+			siteConfig.SetupGet(config => config.EnableBlogFeatures).Returns(true);
 			metaTags.SetupGet(tags => tags.MetaDescription).Returns("Site description");
 			settings.SetupGet(value => value.SiteConfiguration).Returns(siteConfig.Object);
 			settings.SetupGet(value => value.MetaTags).Returns(metaTags.Object);
@@ -70,6 +72,7 @@ namespace DasBlog.Tests.UnitTests.Controllers
 			Assert.Equal("about", controller.ViewData["Description"]);
 			Assert.Equal("https://example.com/blog/about", controller.ViewData["Canonical"]);
 			Assert.Equal("WebPage", controller.ViewData["SchemaType"]);
+			Assert.Equal("article", controller.ViewData["OgType"]);
 		}
 
 		private sealed class TestController : DasBlogBaseController
