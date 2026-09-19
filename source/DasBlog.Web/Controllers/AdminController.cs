@@ -62,6 +62,7 @@ namespace DasBlog.Web.Controllers
 			var dbsvm = new DasBlogSettingsViewModel();
 			dbsvm.MetaConfig = mapper.Map<MetaViewModel>(dasBlogSettings.MetaTags);
 			dbsvm.SiteConfig = mapper.Map<SiteViewModel>(dasBlogSettings.SiteConfiguration);
+			dbsvm.SiteConfig.NormalizeValidCommentTags();
 			dbsvm.Posts = posts;
 			dbsvm.Categories = blogManager.GetCategories().Select(p => p.Name).ToList();
 
@@ -83,6 +84,8 @@ namespace DasBlog.Web.Controllers
 		[Route("/admin/settings")]
 		public IActionResult Settings(DasBlogSettingsViewModel settings)
 		{
+			settings.SiteConfig.NormalizeValidCommentTags();
+
 			//save settings and reload...
 			if (ModelState.ErrorCount > 0)
 			{

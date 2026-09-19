@@ -80,14 +80,15 @@
 
 <div class="row mb-3">
     @Html.LabelFor(m => @Model.SiteConfig.ValidCommentTags, null, new { @class = "col-form-label" })    
-    <div class="dasblog-col-body col-sm-10">
+    <div class="dasblog-col-body col-sm-10 d-flex flex-wrap gap-3">
         @for (var i = 0; i < @Model.SiteConfig.ValidCommentTags[0].Tag.Count; i++)
         {
-            <input type="checkbox" asp-for="@Model.SiteConfig.ValidCommentTags[0].Tag[i].Allowed" />
-            <input type="hidden" asp-for="@Model.SiteConfig.ValidCommentTags[0].Tag[i].Attributes" />
-            <label asp-for="@Model.SiteConfig.ValidCommentTags[0].Tag[i].Allowed">@Model.SiteConfig.ValidCommentTags[0].Tag[i].Name</label>
-            <input type="hidden" asp-for="@Model.SiteConfig.ValidCommentTags[0].Tag[i].Name" />
-            <span style="display: inline-block; width: 1em;"></span>
+            <div class="form-check mb-0">
+                <input type="checkbox" class="form-check-input" asp-for="@Model.SiteConfig.ValidCommentTags[0].Tag[i].Allowed" />
+                <label class="form-check-label" asp-for="@Model.SiteConfig.ValidCommentTags[0].Tag[i].Allowed">@Model.SiteConfig.ValidCommentTags[0].Tag[i].Name</label>
+                <input type="hidden" asp-for="@Model.SiteConfig.ValidCommentTags[0].Tag[i].Attributes" />
+                <input type="hidden" asp-for="@Model.SiteConfig.ValidCommentTags[0].Tag[i].Name" />
+            </div>
         }
     </div>
 </div>

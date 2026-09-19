@@ -49,9 +49,10 @@
     </div>
     <div class="col-sm-8">
         <div class="form-floating">
-        @Html.TextBoxFor(m => @Model.MetaConfig.TwitterImage, null, new { @class = "form-control", id = "twitterImage" })
-        @Html.LabelFor(m => @Model.MetaConfig.TwitterImage, null, new { @class = "form-label", @for = "twitterImage"})
+        @Html.TextBoxFor(m => @Model.MetaConfig.TwitterImage, null, new { @class = "form-control", id = "twitterImage", aria_describedby = "twitterImageHelp" })
+        @Html.LabelFor(m => @Model.MetaConfig.TwitterImage, null, new { @class = "form-label", @for = "twitterImage" })
         </div>
+        <div id="twitterImageHelp" class="form-text">The fallback image used for social previews, including Open Graph and X/Twitter cards, and structured site identity when a page or post does not provide its own image.</div>
         @Html.ValidationMessageFor(m => m.MetaConfig.TwitterImage, null, new { @class = "text-danger" })
     </div>
 </div>

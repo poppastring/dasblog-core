@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using DasBlog.Web.Models.AdminViewModels;
@@ -58,6 +59,18 @@ namespace DasBlog.Tests.UnitTests.Web
 			var errors = ValidateModel(model);
 
 			Assert.Empty(errors);
+		}
+
+		[Fact]
+		[Trait("Category", "UnitTest")]
+		public void TwitterImage_MetadataDescribesDefaultSiteImage()
+		{
+			var property = TypeDescriptor.GetProperties(typeof(MetaViewModel))[nameof(MetaViewModel.TwitterImage)];
+
+			Assert.Equal("Default site image", property.DisplayName);
+			Assert.Equal(
+				"The fallback image used for social previews, including Open Graph and X/Twitter cards, and structured site identity when a page or post does not provide its own image.",
+				property.Description);
 		}
 	}
 }

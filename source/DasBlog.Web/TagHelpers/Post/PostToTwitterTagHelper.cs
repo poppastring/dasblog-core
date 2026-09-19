@@ -11,7 +11,7 @@ namespace DasBlog.Web.TagHelpers
 {
 	public class PostToTwitterTagHelper : TagHelper
 	{
-		private const string TWITTER_SHARE_URL = "https://twitter.com/intent/tweet?url={0}&amp;text={1}&amp;via={2}{3}";
+		private const string TWITTER_SHARE_URL = "https://twitter.com/intent/tweet?url={0}&text={1}{2}{3}";
 		private readonly IUrlResolver urlResolver;
 		private readonly IDasBlogSettings dasBlogSettings;
 		public PostViewModel Post { get; set; }
@@ -24,7 +24,10 @@ namespace DasBlog.Web.TagHelpers
 
 		public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
 		{
-			string author = dasBlogSettings.MetaTags.TwitterSite == string.Empty ? Post.Author : dasBlogSettings.MetaTags.TwitterSite;
+			string author = dasBlogSettings.MetaTags.TwitterSite;
+			string twitterReference = string.IsNullOrWhiteSpace(author)
+				? string.Empty
+				: $"&via={UrlEncoder.Default.Encode(author.TrimStart('@'))}";
 			string categorylist = string.Empty;
 			output.TagName = "a";
 			output.TagMode = TagMode.StartTagAndEndTag;
@@ -33,7 +36,7 @@ namespace DasBlog.Web.TagHelpers
 			output.Attributes.SetAttribute("href", string.Format(TWITTER_SHARE_URL, 
 								UrlEncoder.Default.Encode(urlResolver.RelativeToRoot(Post.PermaLink)),
 								UrlEncoder.Default.Encode(Post.Title),
-								UrlEncoder.Default.Encode(author.TrimStart('@')), 
+								twitterReference,
 								RetrieveFormattedCategories(Post.Categories)));
 
 			var content = await output.GetChildContentAsync();

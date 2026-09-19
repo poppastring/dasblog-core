@@ -52,8 +52,8 @@ namespace DasBlog.Web.Models.AdminViewModels
 		[StringLength(16, MinimumLength = 0, ErrorMessage = "{0} should be between 1 to 16 characters")]
 		public string TwitterCreator { get; set; }
 
-		[DisplayName("X (Twitter) image")]
-		[Description("Used for X (Twitter) card previews when the blog post does not provide a page image.")]
+		[DisplayName("Default site image")]
+		[Description("The fallback image used for social previews, including Open Graph and X/Twitter cards, and structured site identity when a page or post does not provide its own image.")]
 		[StringLength(300, MinimumLength = 0, ErrorMessage = "{0} should be between 1 to 300 characters")]
 		public string TwitterImage { get; set; }
 

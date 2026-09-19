@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using DasBlog.Core.Common.Comments;
 
 namespace DasBlog.Web.Models.AdminViewModels
@@ -270,6 +271,28 @@ namespace DasBlog.Web.Models.AdminViewModels
 		[DisplayName("Valid HTML Tags for comments")]
 		[Description("")]
 		public ValidCommentTagsViewModel [] ValidCommentTags { get;  set; }
+
+		public void NormalizeValidCommentTags()
+		{
+			if (ValidCommentTags == null)
+			{
+				return;
+			}
+
+			foreach (var validCommentTags in ValidCommentTags.Where(tags => tags != null))
+			{
+				validCommentTags.Tag = (validCommentTags.Tag ?? new List<TagViewModel>())
+					.Where(tag => tag != null && !string.IsNullOrWhiteSpace(tag.Name))
+					.Select(tag =>
+					{
+						tag.Name = tag.Name.Trim();
+						return tag;
+					})
+					.GroupBy(tag => tag.Name, System.StringComparer.OrdinalIgnoreCase)
+					.Select(group => group.First())
+					.ToList();
+			}
+		}
 
 		[DisplayName("Show comment count")]
 		[Description("")]
