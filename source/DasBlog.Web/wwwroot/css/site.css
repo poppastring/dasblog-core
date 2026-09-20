@@ -166,6 +166,120 @@ tbody.dbc-admin-comment-table td {
     object-fit: cover;
 }
 
+/* Admin: sticky form actions */
+.dbc-admin-actions {
+    position: sticky;
+    bottom: 0;
+    z-index: 10;
+    margin-right: -.75rem;
+    margin-left: -.75rem;
+    padding: 1rem .75rem;
+    border-top: 1px solid var(--bs-border-color);
+    background: rgba(var(--bs-body-bg-rgb), .94);
+    backdrop-filter: blur(8px);
+}
+
+/* Admin: site settings workspace */
+.dbc-settings-heading {
+    max-width: 48rem;
+}
+
+.dbc-settings-group-title {
+    margin: 2rem 0 .625rem;
+    color: var(--bs-secondary-color);
+    font-size: .75rem;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
+
+.dbc-settings-accordion > .dbc-settings-group-title:first-child {
+    margin-top: 0;
+}
+
+.dbc-settings-accordion .accordion-item {
+    margin-bottom: .5rem;
+    overflow: hidden;
+    border: var(--bs-accordion-border-width) solid var(--bs-accordion-border-color);
+    border-radius: .5rem;
+}
+
+.dbc-settings-accordion .accordion-button {
+    gap: 1rem;
+    padding: 1rem 1.25rem;
+}
+
+.dbc-settings-accordion .accordion-button > .fa-solid {
+    width: 1.25rem;
+    color: var(--bs-primary);
+    font-size: 1rem;
+    text-align: center;
+}
+
+.dbc-settings-section-label,
+.dbc-settings-section-title,
+.dbc-settings-section-description {
+    display: block;
+}
+
+.dbc-settings-section-title {
+    font-weight: 600;
+}
+
+.dbc-settings-section-description {
+    margin-top: .125rem;
+    color: var(--bs-secondary-color);
+    font-size: .8125rem;
+    font-weight: 400;
+}
+
+.dbc-settings-accordion .accordion-button:not(.collapsed) .dbc-settings-section-description {
+    color: inherit;
+    opacity: .75;
+}
+
+.dbc-settings-accordion .accordion-body {
+    padding: 1.5rem;
+}
+
+.dbc-settings-subsection-title {
+    margin-bottom: 1rem;
+    color: var(--bs-emphasis-color);
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.dbc-settings-accordion .accordion-item.dbc-settings-section-error {
+    border-color: var(--bs-danger);
+}
+
+.dbc-settings-accordion .dbc-settings-section-error .accordion-button::after {
+    filter: none;
+}
+
+@media screen and (max-width: 575px) {
+    .dbc-settings-accordion .accordion-button,
+    .dbc-settings-accordion .accordion-body {
+        padding: 1rem;
+    }
+
+    .dbc-settings-section-description {
+        font-size: .75rem;
+    }
+
+    .dbc-admin-actions {
+        align-items: stretch !important;
+    }
+
+    .dbc-admin-actions > .dbc-admin-actions-buttons {
+        width: 100%;
+    }
+
+    .dbc-admin-actions > .dbc-admin-actions-buttons .btn {
+        flex: 1;
+    }
+}
+
 /* ============================================================
    TagHelper / ViewComponent component hooks
    ------------------------------------------------------------

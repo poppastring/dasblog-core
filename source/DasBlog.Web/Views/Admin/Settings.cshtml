@@ -15,8 +15,10 @@
     ViewData["HiddenButtonId"] = "hiddenSaveButton";
 }
 
-<h1>@ViewData["Title"]</h1>
-<hr />
+<div class="dbc-settings-heading mb-4">
+    <h1 class="mb-1">@ViewData["Title"]</h1>
+    <p class="text-body-secondary mb-0">Manage site identity, publishing, integrations, and advanced behavior.</p>
+</div>
 @Html.ValidationSummary(false, "", new { @class = "text-danger" })
 
 <!-- Success Alert using reusable partial -->
@@ -34,14 +36,19 @@
 
 <form asp-action="settings" method="post" name="UpdateSettingsForm" id="UpdateSettingsForm">
 
-    <div class="accordion" id="accordionExample">
+    <div class="accordion dbc-settings-accordion" id="settingsAccordion">
+        <h2 class="dbc-settings-group-title">Essentials</h2>
         <div class="accordion-item">
             <h2 class="accordion-header">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                    Main
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseGeneral" aria-expanded="true" aria-controls="collapseGeneral">
+                    <i class="fa-solid fa-sliders me-3" aria-hidden="true"></i>
+                    <span class="dbc-settings-section-label d-block">
+                        <span class="dbc-settings-section-title d-block fw-semibold">General</span>
+                        <span class="dbc-settings-section-description d-block small text-body-secondary mt-1">Site identity, contact details, and active theme</span>
+                    </span>
                 </button>
             </h2>
-            <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+            <div id="collapseGeneral" class="accordion-collapse collapse show" data-bs-parent="#settingsAccordion">
                 <div class="accordion-body">
                     <partial name="_Admin_General" />
                 </div>
@@ -51,10 +58,14 @@
         <div class="accordion-item">
             <h2 class="accordion-header">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFrontPage" aria-expanded="false" aria-controls="collapseFrontPage">
-                    Front Page
+                    <i class="fa-solid fa-house me-3" aria-hidden="true"></i>
+                    <span class="dbc-settings-section-label d-block">
+                        <span class="dbc-settings-section-title d-block fw-semibold">Front Page</span>
+                        <span class="dbc-settings-section-description d-block small text-body-secondary mt-1">Homepage content and presentation</span>
+                    </span>
                 </button>
             </h2>
-            <div id="collapseFrontPage" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+            <div id="collapseFrontPage" class="accordion-collapse collapse" data-bs-parent="#settingsAccordion">
                 <div class="accordion-body">
                     <partial name="_Admin_FrontPage" />
                 </div>
@@ -63,11 +74,33 @@
 
         <div class="accordion-item">
             <h2 class="accordion-header">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMetaData" aria-expanded="false" aria-controls="collapseMetaData">
-                    Meta Data
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseAppearance" aria-expanded="false" aria-controls="collapseAppearance">
+                    <i class="fa-solid fa-palette me-3" aria-hidden="true"></i>
+                    <span class="dbc-settings-section-label d-block">
+                        <span class="dbc-settings-section-title d-block fw-semibold">Appearance</span>
+                        <span class="dbc-settings-section-description d-block small text-body-secondary mt-1">Display and formatting preferences</span>
+                    </span>
                 </button>
             </h2>
-            <div id="collapseMetaData" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+            <div id="collapseAppearance" class="accordion-collapse collapse" data-bs-parent="#settingsAccordion">
+                <div class="accordion-body">
+                    <partial name="_Admin_Appearance" />
+                </div>
+            </div>
+        </div>
+
+        <h2 class="dbc-settings-group-title">Publishing &amp; discovery</h2>
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMetaData" aria-expanded="false" aria-controls="collapseMetaData">
+                    <i class="fa-solid fa-tags me-3" aria-hidden="true"></i>
+                    <span class="dbc-settings-section-label d-block">
+                        <span class="dbc-settings-section-title d-block fw-semibold">Metadata</span>
+                        <span class="dbc-settings-section-description d-block small text-body-secondary mt-1">Search metadata and structured publisher identity</span>
+                    </span>
+                </button>
+            </h2>
+            <div id="collapseMetaData" class="accordion-collapse collapse" data-bs-parent="#settingsAccordion">
                 <div class="accordion-body">
                     <partial name="_Admin_MetaData" />
                 </div>
@@ -77,10 +110,14 @@
         <div class="accordion-item">
             <h2 class="accordion-header">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSocial" aria-expanded="false" aria-controls="collapseSocial">
-                    Social
+                    <i class="fa-solid fa-share-nodes me-3" aria-hidden="true"></i>
+                    <span class="dbc-settings-section-label d-block">
+                        <span class="dbc-settings-section-title d-block fw-semibold">Social</span>
+                        <span class="dbc-settings-section-description d-block small text-body-secondary mt-1">Social profiles and preview images</span>
+                    </span>
                 </button>
             </h2>
-            <div id="collapseSocial" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+            <div id="collapseSocial" class="accordion-collapse collapse" data-bs-parent="#settingsAccordion">
                 <div class="accordion-body">
                     <partial name="_Admin_Social" />
                 </div>
@@ -90,86 +127,113 @@
         <div class="accordion-item">
             <h2 class="accordion-header">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseRSSFeed" aria-expanded="false" aria-controls="collapseRSSFeed">
-                    RSS Feed
+                    <i class="fa-solid fa-rss me-3" aria-hidden="true"></i>
+                    <span class="dbc-settings-section-label d-block">
+                        <span class="dbc-settings-section-title d-block fw-semibold">RSS Feed</span>
+                        <span class="dbc-settings-section-description d-block small text-body-secondary mt-1">Feed content, limits, and update behavior</span>
+                    </span>
                 </button>
             </h2>
-            <div id="collapseRSSFeed" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+            <div id="collapseRSSFeed" class="accordion-collapse collapse" data-bs-parent="#settingsAccordion">
                 <div class="accordion-body">
                     <partial name="_Admin_RSSFeed" />
                 </div>
             </div>
         </div>
+
+        <h2 class="dbc-settings-group-title">Interaction</h2>
         <div class="accordion-item">
             <h2 class="accordion-header">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseBloggingComments" aria-expanded="false" aria-controls="collapseBloggingComments">
-                    Blogging, Editing & Comments
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseBlogEditing" aria-expanded="false" aria-controls="collapseBlogEditing">
+                    <i class="fa-solid fa-pen-to-square me-3" aria-hidden="true"></i>
+                    <span class="dbc-settings-section-label d-block">
+                        <span class="dbc-settings-section-title d-block fw-semibold">Blogging &amp; Editing</span>
+                        <span class="dbc-settings-section-description d-block small text-body-secondary mt-1">Editor and publishing behavior</span>
+                    </span>
                 </button>
             </h2>
-            <div id="collapseBloggingComments" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+            <div id="collapseBlogEditing" class="accordion-collapse collapse" data-bs-parent="#settingsAccordion">
                 <div class="accordion-body">
                     <partial name="_Admin_BlogEditing" />
-                    <hr />
-                    <div id="commentsSettings">
-                        <partial name="_Admin_Comments" />
-                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseComments" aria-expanded="false" aria-controls="collapseComments">
+                    <i class="fa-solid fa-comments me-3" aria-hidden="true"></i>
+                    <span class="dbc-settings-section-label d-block">
+                        <span class="dbc-settings-section-title d-block fw-semibold">Comments</span>
+                        <span class="dbc-settings-section-description d-block small text-body-secondary mt-1">Availability, moderation, spam, and allowed markup</span>
+                    </span>
+                </button>
+            </h2>
+            <div id="collapseComments" class="accordion-collapse collapse" data-bs-parent="#settingsAccordion">
+                <div class="accordion-body" id="commentsSettings">
+                    <partial name="_Admin_Comments" />
                 </div>
             </div>
         </div>
         <div class="accordion-item">
             <h2 class="accordion-header">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEmailNotifications" aria-expanded="false" aria-controls="collapseEmailNotifications">
-                    Email & Notifications
+                    <i class="fa-solid fa-envelope me-3" aria-hidden="true"></i>
+                    <span class="dbc-settings-section-label d-block">
+                        <span class="dbc-settings-section-title d-block fw-semibold">Email &amp; Notifications</span>
+                        <span class="dbc-settings-section-description d-block small text-body-secondary mt-1">SMTP delivery and comment notifications</span>
+                    </span>
                 </button>
             </h2>
-            <div id="collapseEmailNotifications" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+            <div id="collapseEmailNotifications" class="accordion-collapse collapse" data-bs-parent="#settingsAccordion">
                 <div class="accordion-body">
                     <partial name="_Admin_EmailNotifications" />
                 </div>
             </div>
         </div>
+
+        <h2 class="dbc-settings-group-title">Advanced</h2>
         <div class="accordion-item">
             <h2 class="accordion-header">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseAppearance" aria-expanded="false" aria-controls="collapseAppearance">
-                    Appearance
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSecurity" aria-expanded="false" aria-controls="collapseSecurity">
+                    <i class="fa-solid fa-shield-halved me-3" aria-hidden="true"></i>
+                    <span class="dbc-settings-section-label d-block">
+                        <span class="dbc-settings-section-title d-block fw-semibold">Security</span>
+                        <span class="dbc-settings-section-description d-block small text-body-secondary mt-1">Cross-origin and content security policies</span>
+                    </span>
                 </button>
             </h2>
-            <div id="collapseAppearance" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+            <div id="collapseSecurity" class="accordion-collapse collapse" data-bs-parent="#settingsAccordion">
                 <div class="accordion-body">
-                    <partial name="_Admin_Appearance" />
+                    <partial name="_Admin_Security" />
                 </div>
             </div>
         </div>
         <div class="accordion-item">
             <h2 class="accordion-header">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInternal" aria-expanded="false" aria-controls="collapseInternal">
-                    Internal
+                    <i class="fa-solid fa-server me-3" aria-hidden="true"></i>
+                    <span class="dbc-settings-section-label d-block">
+                        <span class="dbc-settings-section-title d-block fw-semibold">Storage &amp; Runtime</span>
+                        <span class="dbc-settings-section-description d-block small text-body-secondary mt-1">Directories, time zone, and content delivery</span>
+                    </span>
                 </button>
             </h2>
-            <div id="collapseInternal" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+            <div id="collapseInternal" class="accordion-collapse collapse" data-bs-parent="#settingsAccordion">
                 <div class="accordion-body">
                     <partial name="_Admin_Internal" />
                 </div>
             </div>
         </div>
-        <div class="accordion-item">
-            <h2 class="accordion-header">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSecurity" aria-expanded="false" aria-controls="collapseSecurity">
-                    Security
-                </button>
-            </h2>
-            <div id="collapseSecurity" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                <div class="accordion-body">
-                    <partial name="_Admin_Security" />
-                </div>
-            </div>
-        </div>
     </div>
 
-    <hr />
-
-    <div class="d-flex flex-wrap">
-        <button type="button" class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#confirmSaveModal">Save</button>
-        <input asp-controller="Home" asp-action="Index" type="submit" name="submit" value="Cancel" class="btn btn-secondary me-2" />
+    <div class="dbc-admin-actions d-flex flex-wrap align-items-center justify-content-between gap-3 mt-4">
+        <span class="dbc-settings-dirty-status text-body-secondary" role="status" aria-live="polite">No unsaved changes</span>
+        <div class="dbc-admin-actions-buttons d-flex gap-2 ms-auto">
+            <a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confirmSaveModal" id="settingsSaveButton" disabled>
+                <i class="fa-solid fa-floppy-disk me-2" aria-hidden="true"></i>Save changes
+            </button>
+        </div>
     </div>
 
     <!-- Hidden submit button for actual form submission -->
@@ -177,24 +241,71 @@
 
     @section Scripts {
 
-        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"></script>
-        <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.16.0/jquery.validate.min.js"></script>
-        <script src="https://ajax.aspnetcdn.com/ajax/jquery.validation.unobtrusive/3.2.6/jquery.validate.unobtrusive.min.js"></script>
+        <script src="~/lib/jquery-validate/1.19.5/jquery.validate.min.js"></script>
+        <script src="~/lib/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>
         <script src="~/js/dasblog-ui.js"></script>
 
         <script>
             document.addEventListener('DOMContentLoaded', function() {
-                // Initialize accordion tracking using shared utility
-                const accordionItems = document.querySelectorAll('.accordion-collapse');
-                DasBlog.UI.initAccordionTracking('settingsAccordionState', accordionItems);
+                const settingsForm = document.getElementById('UpdateSettingsForm');
+                const saveButton = document.getElementById('settingsSaveButton');
+                const dirtyStatus = document.querySelector('.dbc-settings-dirty-status');
+                const accordionItems = document.querySelectorAll('#settingsAccordion .accordion-collapse');
+                const accordionStorageKey = 'settingsAccordionState';
+                if (sessionStorage.getItem(accordionStorageKey) !== null) {
+                    accordionItems.forEach(function(item) {
+                        item.classList.remove('show');
+                        const trigger = document.querySelector(`[data-bs-target="#${item.id}"]`);
+                        trigger.classList.add('collapsed');
+                        trigger.setAttribute('aria-expanded', 'false');
+                    });
+                }
+                DasBlog.UI.initAccordionTracking(accordionStorageKey, accordionItems);
 
-                // Save accordion state before form submission
+                function setDirtyState(isDirty) {
+                    saveButton.disabled = !isDirty;
+                    dirtyStatus.textContent = isDirty ? 'Unsaved changes' : 'No unsaved changes';
+                    dirtyStatus.classList.remove('text-danger');
+                    dirtyStatus.classList.toggle('text-primary', isDirty);
+                    dirtyStatus.classList.toggle('text-body-secondary', !isDirty);
+                }
+
+                settingsForm.addEventListener('input', function() {
+                    setDirtyState(true);
+                });
+                settingsForm.addEventListener('change', function() {
+                    setDirtyState(true);
+                });
+
+                const invalidFields = settingsForm.querySelectorAll('.input-validation-error');
+                const errorPanels = new Set();
+                invalidFields.forEach(function(field) {
+                    const panel = field.closest('.accordion-collapse');
+                    if (panel) {
+                        errorPanels.add(panel);
+                        panel.closest('.accordion-item').classList.add('dbc-settings-section-error');
+                    }
+                });
+
+                if (errorPanels.size > 0) {
+                    const firstErrorPanel = errorPanels.values().next().value;
+                    bootstrap.Collapse.getOrCreateInstance(firstErrorPanel, { toggle: false }).show();
+                    setDirtyState(true);
+                    dirtyStatus.textContent = 'Review validation errors';
+                    dirtyStatus.classList.remove('text-primary');
+                    dirtyStatus.classList.add('text-danger');
+                }
+
                 const confirmSaveButton = document.getElementById('confirmSaveModalButton');
                 if (confirmSaveButton) {
                     confirmSaveButton.addEventListener('click', function() {
-                        DasBlog.UI.saveAccordionState('settingsAccordionState', accordionItems);
+                        DasBlog.UI.saveAccordionState(accordionStorageKey, accordionItems);
                     });
                 }
+
+                settingsForm.addEventListener('submit', function() {
+                    DasBlog.UI.saveAccordionState(accordionStorageKey, accordionItems);
+                });
             });
         </script>
 

@@ -53,10 +53,7 @@
 				  spellcheck="false"></textarea>
 	</div>
 
-	<div class="d-flex gap-2">
-		<button type="submit" id="static-page-save" class="btn btn-primary" title="Save (Ctrl+S)">Save</button>
-		<a class="btn btn-secondary"
-		   asp-controller="staticpages" asp-action="index">Back</a>
+	<div class="dbc-admin-actions d-flex flex-wrap align-items-center justify-content-between gap-3 mt-4">
 		@if (Model.Exists)
 		{
 			<a class="btn btn-outline-secondary"
@@ -64,6 +61,13 @@
 				<i class="fas fa-external-link-alt me-1"></i>View
 			</a>
 		}
+		<div class="dbc-admin-actions-buttons d-flex gap-2 ms-auto">
+			<a class="btn btn-outline-secondary"
+			   asp-controller="staticpages" asp-action="index">Back</a>
+			<button type="submit" id="static-page-save" class="btn btn-primary" title="Save (Ctrl+S)">
+				<i class="fa-solid fa-floppy-disk me-2" aria-hidden="true"></i>Save changes
+			</button>
+		</div>
 	</div>
 </form>
 

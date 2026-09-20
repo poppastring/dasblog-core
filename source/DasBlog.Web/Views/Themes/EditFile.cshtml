@@ -89,15 +89,25 @@ else
         }
     </div>
 
-    <div class="d-flex gap-2">
-        @if (!Model.IsReadOnly)
-        {
-            <button type="submit" id="theme-file-save" class="btn btn-primary" title="Save (Ctrl+S)">Save</button>
-        }
-        <a class="btn btn-secondary"
+    @if (Model.IsReadOnly)
+    {
+        <a class="btn btn-outline-secondary"
            asp-controller="themes" asp-action="edit"
            asp-route-name="@Model.ThemeName">Back</a>
-    </div>
+    }
+    else
+    {
+        <div class="dbc-admin-actions d-flex flex-wrap align-items-center justify-content-end gap-3 mt-4">
+            <div class="dbc-admin-actions-buttons d-flex gap-2 ms-auto">
+                <a class="btn btn-outline-secondary"
+                   asp-controller="themes" asp-action="edit"
+                   asp-route-name="@Model.ThemeName">Back</a>
+                <button type="submit" id="theme-file-save" class="btn btn-primary" title="Save (Ctrl+S)">
+                    <i class="fa-solid fa-floppy-disk me-2" aria-hidden="true"></i>Save changes
+                </button>
+            </div>
+        </div>
+    }
 </form>
 
 @if (!Model.IsReadOnly && Model.Backups.Count > 0)

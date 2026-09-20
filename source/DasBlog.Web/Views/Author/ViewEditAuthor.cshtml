@@ -24,11 +24,13 @@
 
     <partial name="AuthorAdminFields" model="Model" />
 
-    <hr />
-
-    <div class="d-flex flex-wrap">
-        <button type="button" class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#confirmUpdateModal" @ViewBag.Clickability>Submit</button>
-        <input asp-controller="Home" asp-action="Index" type="submit" name="submit" value="Cancel" class="btn btn-secondary me-2" />
+    <div class="dbc-admin-actions col-12 d-flex flex-wrap align-items-center justify-content-end gap-3 mt-4">
+        <div class="dbc-admin-actions-buttons d-flex gap-2 ms-auto">
+            <a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confirmUpdateModal" @ViewBag.Clickability>
+                <i class="fa-solid fa-floppy-disk me-2" aria-hidden="true"></i>Update author
+            </button>
+        </div>
     </div>
 
     <!-- Hidden submit button for actual form submission -->

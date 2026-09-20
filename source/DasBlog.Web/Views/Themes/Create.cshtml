@@ -31,6 +31,12 @@
         <div class="form-text">All files from this theme will be copied to your new theme.</div>
     </div>
 
-    <button type="submit" class="btn btn-primary">Create theme</button>
-    <a class="btn btn-secondary" asp-controller="themes" asp-action="index">Cancel</a>
+    <div class="dbc-admin-actions d-flex flex-wrap align-items-center justify-content-end gap-3 mt-4">
+        <div class="dbc-admin-actions-buttons d-flex gap-2 ms-auto">
+            <a class="btn btn-outline-secondary" asp-controller="themes" asp-action="index">Cancel</a>
+            <button type="submit" class="btn btn-primary">
+                <i class="fa-solid fa-plus me-2" aria-hidden="true"></i>Create theme
+            </button>
+        </div>
+    </div>
 </form>
