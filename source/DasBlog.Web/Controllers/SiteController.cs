@@ -2,6 +2,7 @@
 using System.Text;
 using AutoMapper;
 using DasBlog.Managers.Interfaces;
+using DasBlog.Services;
 using DasBlog.Services.ActivityLogs;
 using DasBlog.Web.Models.BlogViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -15,14 +16,16 @@ namespace DasBlog.Web.Controllers
     {
         private readonly ISiteManager siteManager;
 		private readonly IBlogManager blogManager;
+		private readonly IDasBlogSettings dasBlogSettings;
 		private readonly IMemoryCache memoryCache;
 		private readonly IMapper mapper;
 		private readonly ILogger<SiteController> logger;
 
-		public SiteController(ISiteManager siteManager, IBlogManager blogManager, IMemoryCache memoryCache, IMapper mapper, ILogger<SiteController> logger)
+		public SiteController(ISiteManager siteManager, IBlogManager blogManager, IDasBlogSettings dasBlogSettings, IMemoryCache memoryCache, IMapper mapper, ILogger<SiteController> logger)
         {
 			this.siteManager = siteManager;
 			this.blogManager = blogManager;
+			this.dasBlogSettings = dasBlogSettings;
 			this.memoryCache = memoryCache;
 			this.mapper = mapper;
 			this.logger = logger;
@@ -53,7 +56,10 @@ namespace DasBlog.Web.Controllers
 			var scheme = Request.Scheme;
 			var host = Request.Host.ToUriComponent();
 			var pathBase = Request.PathBase.HasValue ? Request.PathBase.ToUriComponent().TrimEnd('/') : string.Empty;
-			var sitemapUrl = $"{scheme}://{host}{pathBase}/sitemap.xml";
+			var siteRoot = dasBlogSettings.SiteConfiguration.Root;
+			var sitemapUrl = string.IsNullOrWhiteSpace(siteRoot)
+				? $"{scheme}://{host}{pathBase}/sitemap.xml"
+				: $"{siteRoot.TrimEnd('/')}/sitemap.xml";
 
 			var sb = new StringBuilder();
 			sb.Append("User-agent: *\r\n");
