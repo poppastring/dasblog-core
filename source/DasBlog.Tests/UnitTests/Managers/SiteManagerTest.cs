@@ -31,6 +31,7 @@ namespace DasBlog.Tests.UnitTests.Managers
 			siteConfigMock.SetupGet(c => c.LogDir).Returns(Path.Combine(rootdir, "logs"));
 			siteConfigMock.SetupGet(c => c.ContentDir).Returns(Path.Combine(rootdir, "TestContent"));
 			siteConfigMock.SetupProperty(c => c.EnableBloggerApi, true);
+			siteConfigMock.SetupProperty(c => c.EnableBlogFeatures, true);
 			siteConfigMock.SetupGet(c => c.Root).Returns("http://localhost/");
 			siteConfigMock.SetupGet(c => c.Title).Returns("Test Blog");
 			settingsMock.Setup(s => s.SiteConfiguration).Returns(siteConfigMock.Object);
@@ -41,6 +42,8 @@ namespace DasBlog.Tests.UnitTests.Managers
 				.Returns("seo-post");
 			settingsMock.Setup(s => s.GetCategoryViewUrl(It.IsAny<string>()))
 				.Returns((string category) => $"http://localhost/category/{category}");
+			settingsMock.Setup(s => s.GetCommentViewUrl(It.IsAny<string>()))
+				.Returns((string title) => $"http://localhost/{title}/comments#comments-start");
 			dataServiceMock = new Mock<IBlogDataService>();
 			loggingServiceMock = new Mock<ILoggingDataService>();
 
@@ -97,6 +100,60 @@ namespace DasBlog.Tests.UnitTests.Managers
 			Assert.Equal("2026-09-10", urls.Single(url => url.loc == "http://localhost/category").lastmodString);
 			Assert.Equal("2026-09-10", urls.Single(url => url.loc == "http://localhost/seo-post").lastmodString);
 			Assert.Equal("2026-09-10", urls.Single(url => url.loc == "http://localhost/category/seo").lastmodString);
+		}
+
+		[Theory]
+		[InlineData(false, false, true)]
+		[InlineData(false, true, true)]
+		[InlineData(true, false, false)]
+		public void GetGoogleSiteMap_CommentsConfiguration_NeverIncludesCommentUrls(
+			bool enableComments,
+			bool showCommentsWhenViewingEntry,
+			bool allowComments)
+		{
+			siteConfigMock.Object.EnableComments = enableComments;
+			siteConfigMock.Object.ShowCommentsWhenViewingEntry = showCommentsWhenViewingEntry;
+			var entry = new Entry
+			{
+				Title = "SEO Post",
+				IsPublic = true,
+				AllowComments = allowComments,
+				CreatedUtc = new DateTime(2026, 8, 1, 12, 0, 0, DateTimeKind.Utc)
+			};
+			dataServiceMock.Setup(d => d.GetEntries(false)).Returns(new EntryCollection { entry });
+
+			var urls = CreateManager().GetGoogleSiteMap().url.Cast<Url>().Select(url => url.loc).ToList();
+
+			Assert.Contains("http://localhost/seo-post", urls);
+			Assert.DoesNotContain(urls, url => url.Contains("/comments", StringComparison.OrdinalIgnoreCase));
+		}
+
+		[Theory]
+		[InlineData(true)]
+		[InlineData(false)]
+		public void GetGoogleSiteMap_BlogFeatures_ControlsArchiveAndCategoryUrls(bool enableBlogFeatures)
+		{
+			siteConfigMock.Object.EnableBlogFeatures = enableBlogFeatures;
+			var entry = new Entry
+			{
+				Title = "SEO Post",
+				Categories = "SEO",
+				IsPublic = true,
+				CreatedUtc = new DateTime(2026, 8, 1, 12, 0, 0, DateTimeKind.Utc)
+			};
+			dataServiceMock.Setup(d => d.GetEntries(false)).Returns(new EntryCollection { entry });
+			dataServiceMock.Setup(d => d.GetCategories()).Returns(new CategoryCacheEntryCollection
+			{
+				new CategoryCacheEntry { Name = "SEO", IsPublic = true }
+			});
+
+			var urls = CreateManager().GetGoogleSiteMap().url.Cast<Url>().Select(url => url.loc).ToList();
+
+			Assert.Contains("http://localhost/", urls);
+			Assert.Contains("http://localhost/seo-post", urls);
+			Assert.Equal(enableBlogFeatures, urls.Contains("http://localhost/archive"));
+			Assert.Equal(enableBlogFeatures, urls.Contains("http://localhost/category"));
+			Assert.Equal(enableBlogFeatures, urls.Contains("http://localhost/category/seo"));
 		}
 
 		[Fact]
