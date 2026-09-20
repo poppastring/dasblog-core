@@ -3,6 +3,7 @@
 @inject IDasBlogSettings dasBlogSettings
 @model DasBlogSettingsViewModel
 
+<h3 class="dbc-settings-subsection-title">SMTP server</h3>
 <div class="row gy-2 gx-3 align-items-md-start mb-3">
     <div class="alert alert-info mt-2 mb-3" role="alert">
         <i class="fa-solid fa-circle-info me-2"></i>
@@ -10,14 +11,14 @@
         Set SMTP Server to <code>smtp.sendgrid.net</code>, port <code>587</code>, username to <code>apikey</code>, and password to your API key.
     </div>
 
-    <div class="col-sm-4">
+    <div class="col-md-6">
         <div class="form-floating">
             @Html.TextBoxFor(m => @Model.SiteConfig.SmtpServer, null, new { @class = "form-control", id = "smtpServer" })
             @Html.LabelFor(m => @Model.SiteConfig.SmtpServer, null, new { @class = "form-label", @for = "smtpServer" })
         </div>
         @Html.ValidationMessageFor(m => m.SiteConfig.SmtpServer, null, new { @class = "text-danger" })
     </div>
-    <div class="col-sm-4">
+    <div class="col-md-3">
         <div class="form-floating">
             @Html.TextBoxFor(m => @Model.SiteConfig.SmtpPort, null, new { @class = "form-control", id = "smtpPort" })
             @Html.LabelFor(m => @Model.SiteConfig.SmtpPort, null, new { @class = "form-label", @for = "smtpPort" })
@@ -27,14 +28,14 @@
 </div>
 
 <div class="row gy-2 gx-3 align-items-md-start mb-3">
-    <div class="col-sm-4">
+    <div class="col-md-6">
         <div class="form-floating">
             @Html.TextBoxFor(m => @Model.SiteConfig.SmtpUserName, null, new { @class = "form-control", id = "smtpUserName" })
             @Html.LabelFor(m => @Model.SiteConfig.SmtpUserName, null, new { @class = "form-label", @for = "smtpUserName" })
         </div>
         @Html.ValidationMessageFor(m => m.SiteConfig.SmtpUserName, null, new { @class = "text-danger" })
     </div>
-    <div class="col-sm-4">
+    <div class="col-md-6">
         <div class="form-floating">
             @Html.PasswordFor(m => @Model.SiteConfig.SmtpPassword, new { @class = "form-control", id = "smtpPassword" })
             @Html.LabelFor(m => @Model.SiteConfig.SmtpPassword, null, new { @class = "form-label", @for = "smtpPassword" })
@@ -43,18 +44,18 @@
     </div>
 </div>
 
-<div class="d-flex flex-wrap">
-    <div class="col-auto">
+<div class="d-flex flex-wrap gap-4 mb-3">
+    <div class="form-check form-switch">
         @Html.CheckBoxFor(m => @Model.SiteConfig.EnableSmtpAuthentication, new { @class = "form-check-input me-1" })
-        @Html.LabelFor(m => @Model.SiteConfig.EnableSmtpAuthentication, null, new { @class = "col-check-label me-3" })
+        @Html.LabelFor(m => @Model.SiteConfig.EnableSmtpAuthentication, null, new { @class = "form-check-label" })
     </div>
-    <div class="col-auto">
+    <div class="form-check form-switch">
         @Html.CheckBoxFor(m => @Model.SiteConfig.UseSSLForSMTP, new { @class = "form-check-input me-1" })
-        @Html.LabelFor(m => @Model.SiteConfig.UseSSLForSMTP, null, new { @class = "col-check-label me-3" })
+        @Html.LabelFor(m => @Model.SiteConfig.UseSSLForSMTP, null, new { @class = "form-check-label" })
     </div>
 </div>
 <div class="row gy-2 gx-3 align-items-md-start mb-3">
-    <div class="col-sm-4">
+    <div class="col-md-6">
         <div class="form-floating">
             @Html.TextBoxFor(m => @Model.SiteConfig.SmtpFromEmail, null, new { @class = "form-control", id = "smtpFromEmail" })
             @Html.LabelFor(m => @Model.SiteConfig.SmtpFromEmail, null, new { @class = "form-label", @for = "smtpFromEmail" })
@@ -63,17 +64,17 @@
     </div>
 </div>
 
+<h3 class="dbc-settings-subsection-title mt-4">Notifications</h3>
 <div class="row gy-2 gx-3 align-items-md-start">
-    <div class="col-sm-4">
+    <div class="col-md-6 form-check form-switch ms-2">
         @Html.CheckBoxFor(m => @Model.SiteConfig.SendCommentsByEmail, new { @class = "form-check-input" })
-        @Html.LabelFor(m => @Model.SiteConfig.SendCommentsByEmail, null, new { @class = "col-check-label" })
+        @Html.LabelFor(m => @Model.SiteConfig.SendCommentsByEmail, null, new { @class = "form-check-label" })
     </div>
 </div>
 
-<hr />
-
-<div class="row gy-2 gx-3 align-items-md-start">
-    <div class="col-sm-4">
-        <input asp-controller="Admin" asp-action="TestEmail" type="submit" name="submit" value="Send test Email" class="btn btn-primary" />
+<div class="border-top mt-4 pt-3">
+    <div class="d-flex flex-wrap align-items-center justify-content-between gap-2">
+        <span class="text-body-secondary">Verify these settings by sending a message to the configured address.</span>
+        <input asp-controller="Admin" asp-action="TestEmail" type="submit" name="submit" value="Send test email" class="btn btn-outline-primary" />
     </div>
 </div>

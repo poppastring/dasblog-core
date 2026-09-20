@@ -1,0 +1,68 @@
+﻿@using DasBlog.Services;
+@using DasBlog.Core.Common;
+@using System.Net;
+@inject IDasBlogSettings dasBlogSettings
+@model DasBlog.Web.Models.BlogViewModels.CategoryListViewModel
+
+@{
+    ViewData["Title"] = Constants.CategoryPageTitle;
+}
+
+<div class="container">
+    <h1>@ViewData["Title"]</h1>
+    <hr />
+
+    @if (!Model.Categories.Any())
+    {
+        <p class="text-muted">No categories have been used yet.</p>
+    }
+    else
+    {
+        <nav class="mb-4" aria-label="Jump to category">
+            <div class="d-flex flex-wrap gap-2">
+                @foreach (var item in Model.Categories)
+                {
+                    var anchor = WebUtility.UrlEncode(item.Key);
+                    var count = item.Value.Count();
+                    <a class="badge bg-secondary text-decoration-none"
+                       href="@dasBlogSettings.RelativeToRoot("category#" + anchor)"
+                       aria-label="Jump to @item.Key, @count post@(count == 1 ? string.Empty : "s")">
+                        @item.Key <span class="badge bg-light text-dark ms-1">@count</span>
+                    </a>
+                }
+            </div>
+        </nav>
+
+        @foreach (var category in Model.Categories)
+        {
+            var anchorId = WebUtility.UrlEncode(category.Key);
+            var count = category.Value.Count();
+
+            <section class="card mb-3" id="@anchorId">
+                <header class="card-header d-flex align-items-center justify-content-between">
+                    <h2 class="h5 mb-0">
+                        <a href="category/@dasBlogSettings.CompressTitle(category.Key)"
+                           class="text-decoration-none"
+                           aria-label="View all posts in @category.Key">
+                            @category.Key
+                        </a>
+                    </h2>
+                    <span class="badge bg-secondary"
+                          aria-label="@count post@(count == 1 ? string.Empty : "s")">
+                        @count
+                    </span>
+                </header>
+                <ul class="list-group list-group-flush">
+                    @foreach (var post in category.Value)
+                    {
+                        <li class="list-group-item">
+                            <a href="@dasBlogSettings.RelativeToRoot(post.BlogId)" class="text-decoration-none">
+                                @post.BlogTitle
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </section>
+        }
+    }
+</div>

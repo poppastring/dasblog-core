@@ -3,25 +3,26 @@
 @inject IDasBlogSettings dasBlogSettings
 @model DasBlogSettingsViewModel
 
-<div class="d-flex flex-wrap mb-3">
-    <div class="col-auto">
+<h3 class="dbc-settings-subsection-title">Availability</h3>
+<div class="row g-3 mb-4">
+    <div class="col-md-4 form-check form-switch ps-5">
         @Html.CheckBoxFor(m => @Model.SiteConfig.EnableBlogFeatures, new { @class = "form-check-input me-1" })
-        @Html.LabelFor(m => @Model.SiteConfig.EnableBlogFeatures, null, new { @class = "form-check-label me-3" })
+        @Html.LabelFor(m => @Model.SiteConfig.EnableBlogFeatures, null, new { @class = "form-check-label" })
     </div>
-    <div class="col-auto">
+    <div class="col-md-4 form-check form-switch ps-5">
         @Html.CheckBoxFor(m => @Model.SiteConfig.EnableComments, new { @class = "form-check-input me-1" })
-        @Html.LabelFor(m => @Model.SiteConfig.EnableComments, null, new { @class = "form-check-label me-3" })
+        @Html.LabelFor(m => @Model.SiteConfig.EnableComments, null, new { @class = "form-check-label" })
     </div>
-    <div class="col-auto">
+    <div class="col-md-4 form-check form-switch ps-5">
         @Html.CheckBoxFor(m => @Model.SiteConfig.ShowCommentsWhenViewingEntry, new { @class = "form-check-input me-1" })
-        @Html.LabelFor(m => @Model.SiteConfig.ShowCommentsWhenViewingEntry, null, new { @class = "form-check-label me-3" })
+        @Html.LabelFor(m => @Model.SiteConfig.ShowCommentsWhenViewingEntry, null, new { @class = "form-check-label" })
     </div>
 </div>
 
 <div class="col-md-4">
     <div class="form-check">
         @Html.CheckBoxFor(m => @Model.SiteConfig.EnableCommentDays, new { @class = "form-check-input" })
-        @Html.LabelFor(m => @Model.SiteConfig.EnableCommentDays, null, new { @class = "col-check-label" })
+        @Html.LabelFor(m => @Model.SiteConfig.EnableCommentDays, null, new { @class = "form-check-label" })
     </div>
 </div>
 
@@ -33,6 +34,7 @@
     @Html.ValidationMessageFor(m => m.SiteConfig.DaysCommentsAllowed, null, new { @class = "text-danger" })
 </div>
 
+<h3 class="dbc-settings-subsection-title mt-4">Comment challenge</h3>
 <div class="row gy-2 gx-3 align-items-md-start mb-3">
     <div class="col-sm-5">
         <div class="form-floating">
@@ -50,19 +52,20 @@
     </div>
 </div>
 
-<div class="col-md-4 mb-3">
+<h3 class="dbc-settings-subsection-title mt-4">Moderation</h3>
+<div class="col-md-6 mb-3">
     <div class="form-check">
         @Html.CheckBoxFor(m => @Model.SiteConfig.AllowMarkdownInComments, new { @class = "form-check-input" })
-        @Html.LabelFor(m => @Model.SiteConfig.AllowMarkdownInComments, null, new { @class = "col-check-label" })
+        @Html.LabelFor(m => @Model.SiteConfig.AllowMarkdownInComments, null, new { @class = "form-check-label" })
     </div>
     <div class="form-check">
         @Html.CheckBoxFor(m => @Model.SiteConfig.CommentsRequireApproval, new { @class = "form-check-input" })
-        @Html.LabelFor(m => @Model.SiteConfig.CommentsRequireApproval, null, new { @class = "col-check-label col-sm-10" })
+        @Html.LabelFor(m => @Model.SiteConfig.CommentsRequireApproval, null, new { @class = "form-check-label" })
     </div>
 </div>
 
-
-<div class="row gy-2 gx-3 mt-4 mb-3">
+<h3 class="dbc-settings-subsection-title mt-4">Spam protection</h3>
+<div class="row gy-2 gx-3 mb-4">
     <div class="col-12">
         <div class="form-check">
             @Html.CheckBoxFor(m => @Model.SiteConfig.EnableSpamModeration, new { @class = "form-check-input", id = "enableSpamModeration" })
@@ -78,6 +81,7 @@
     </div>
 </div>
 
+<h3 class="dbc-settings-subsection-title">Allowed markup</h3>
 <div class="row mb-3">
     @Html.LabelFor(m => @Model.SiteConfig.ValidCommentTags, null, new { @class = "col-form-label" })    
     <div class="dasblog-col-body col-sm-10 d-flex flex-wrap gap-3">

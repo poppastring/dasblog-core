@@ -22,21 +22,18 @@
 <form action="@Url.Content("~/admin/post/edit")" method="post" enctype="multipart/form-data" id="EditPostForm">
     @Html.AntiForgeryToken()
 
-    <div class="row gy-2 gx-3 align-items-md-start mb-2">
-        <div class="col-sm-12">
-            <button type="button" class="btn btn-outline-primary me-2" data-bs-toggle="modal" data-bs-target="#confirmSaveModal">Save</button>
-            <a class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="@Model.PermaLink">View your post</a>
-        </div>
-    </div>
-
-    <hr />
-
     <partial name="BlogPostFields" model="Model" />
 
-    <hr />
-    <div class="d-flex flex-wrap">
-        <button type="button" class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#confirmSaveModal">Save</button>
-        <input class="btn btn-secondary me-2" asp-controller="Home" asp-action="Index" type="submit" name="submit" value="Cancel" />
+    <div class="dbc-admin-actions d-flex flex-wrap align-items-center justify-content-between gap-3 mt-4">
+        <a class="btn btn-outline-secondary" href="@Model.PermaLink">
+            <i class="fa-solid fa-arrow-up-right-from-square me-2" aria-hidden="true"></i>View post
+        </a>
+        <div class="dbc-admin-actions-buttons d-flex gap-2 ms-auto">
+            <a class="btn btn-outline-secondary" asp-controller="Home" asp-action="Index">Cancel</a>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confirmSaveModal">
+                <i class="fa-solid fa-floppy-disk me-2" aria-hidden="true"></i>Save changes
+            </button>
+        </div>
     </div>
 
     <!-- Hidden submit button for actual form submission -->
