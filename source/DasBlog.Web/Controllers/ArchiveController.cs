@@ -46,29 +46,35 @@ namespace DasBlog.Web.Controllers
 			return Archive(DateTime.Now.Year, DateTime.Now.Month);
 		}
 
-		[HttpGet("{year}")]
+		[HttpGet("{year:int:min(1):max(9999)}")]
 		[RequireBlogFeatures]
 		public IActionResult Archive(int year)
 		{
-			var dateTime = new DateTime(year, 1, 1);
+			if (!TryCreateDate(year, 1, 1, out var dateTime))
+				return NotFound();
+
 			var months = GetMonthsViewModel(dateTime, true);
 			return View(months);
 		}
 
-		[HttpGet("{year}/{month}")]
+		[HttpGet("{year:int:min(1):max(9999)}/{month:int:min(1):max(12)}")]
 		[RequireBlogFeatures]
 		public IActionResult Archive(int year, int month)
 		{
-			var dateTime = new DateTime(year, month, 1);
+			if (!TryCreateDate(year, month, 1, out var dateTime))
+				return NotFound();
+
 			var months = GetMonthsViewModel(dateTime);
 			return View(months);
 		}
 
-		[HttpGet("{year}/{month}/{day}")]
+		[HttpGet("{year:int:min(1):max(9999)}/{month:int:min(1):max(12)}/{day:int:min(1):max(31)}")]
 		[RequireBlogFeatures]
 		public IActionResult Archive(int year, int month, int day)
 		{
-			var dateTime = new DateTime(year, month, day);
+			if (!TryCreateDate(year, month, day, out var dateTime))
+				return NotFound();
+
 			var months = GetMonthsViewModel(dateTime);
 			return View(months);
 		}
@@ -77,23 +83,23 @@ namespace DasBlog.Web.Controllers
 		[RequireBlogFeatures]
 		public IActionResult ArchiveAll()
 		{
-			var entries = new EntryCollection();
-			var languageFilter = httpContextAccessor.HttpContext.Request.Headers["Accept-Language"];
-			var listofyears = archiveManager.GetDaysWithEntries().Select(i => i.Year).Distinct();
-
-			foreach (var year in listofyears)
-			{
-				entries.AddRange(
-				archiveManager.GetEntriesForYear(new DateTime(year, 1, 1), languageFilter).OrderByDescending(x => x.CreatedUtc));
-			}
-
 			if (!memoryCache.TryGetValue(CACHEKEY_ARCHIVE, out ArchiveListViewModel alvm))
 			{
+				var entries = new EntryCollection();
+				var languageFilter = httpContextAccessor.HttpContext.Request.Headers["Accept-Language"];
+				var listofyears = archiveManager.GetDaysWithEntries().Select(i => i.Year).Distinct();
+
+				foreach (var year in listofyears)
+				{
+					entries.AddRange(
+						archiveManager.GetEntriesForYear(new DateTime(year, 1, 1), languageFilter).OrderByDescending(x => x.CreatedUtc));
+				}
+
 				alvm = new ArchiveListViewModel();
 
-				foreach (var i in entries.ToList().Select(entry => mapper.Map<PostViewModel>(entry)).ToList())
+				foreach (var i in entries.Select(entry => mapper.Map<PostViewModel>(entry)))
 				{
-					var index = int.Parse(string.Format("{0}{1}", i.CreatedDateTime.Year, string.Format("{0:00}", i.CreatedDateTime.Month)));
+					var index = i.CreatedDateTime.Year * 100 + i.CreatedDateTime.Month;
 
 					if (alvm.MonthEntries.ContainsKey(index))
 					{
@@ -109,6 +115,18 @@ namespace DasBlog.Web.Controllers
 			}
 
 			return View(alvm);
+		}
+
+		private static bool TryCreateDate(int year, int month, int day, out DateTime dateTime)
+		{
+			if (year is < 1 or > 9999 || month is < 1 or > 12 || day < 1 || day > DateTime.DaysInMonth(year, month))
+			{
+				dateTime = default;
+				return false;
+			}
+
+			dateTime = new DateTime(year, month, day);
+			return true;
 		}
 
 		private List<MonthViewViewModel> GetMonthsViewModel(DateTime dateTime, bool wholeYear = false)
