@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using DasBlog.Core.Common;
 using DasBlog.Managers.Interfaces;
 using DasBlog.Services;
 using System.Linq;
@@ -77,6 +78,8 @@ namespace DasBlog.Web.Controllers
 		[RequireBlogFeatures]
 		public IActionResult ArchiveAll()
 		{
+			DefaultPage(Constants.ArchiveAllPageTitle);
+
 			var entries = new EntryCollection();
 			var languageFilter = httpContextAccessor.HttpContext.Request.Headers["Accept-Language"];
 			var listofyears = archiveManager.GetDaysWithEntries().Select(i => i.Year).Distinct();
