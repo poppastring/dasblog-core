@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using DasBlog.Core.Common;
 using DasBlog.Managers.Interfaces;
 using DasBlog.Services;
 using System.Linq;
@@ -83,6 +84,8 @@ namespace DasBlog.Web.Controllers
 		[RequireBlogFeatures]
 		public IActionResult ArchiveAll()
 		{
+			DefaultPage(Constants.ArchiveAllPageTitle);
+
 			if (!memoryCache.TryGetValue(CACHEKEY_ARCHIVE, out ArchiveListViewModel alvm))
 			{
 				var entries = new EntryCollection();
