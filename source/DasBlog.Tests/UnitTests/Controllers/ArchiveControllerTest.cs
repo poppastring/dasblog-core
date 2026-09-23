@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using DasBlog.Managers.Interfaces;
 using DasBlog.Services;
+using DasBlog.Services.ConfigFile;
 using DasBlog.Web.Controllers;
 using DasBlog.Web.Models.BlogViewModels;
 using Microsoft.AspNetCore.Http;
@@ -50,6 +51,7 @@ namespace DasBlog.Tests.UnitTests.Controllers
 
 			var viewResult = Assert.IsType<ViewResult>(result);
 			Assert.Same(cachedModel, viewResult.Model);
+			Assert.Equal("Complete Archive - My DasBlog!", controller.ViewData["PageTitle"]);
 			archiveManager.Verify(manager => manager.GetDaysWithEntries(), Times.Never);
 			archiveManager.Verify(manager => manager.GetEntriesForYear(It.IsAny<System.DateTime>(), It.IsAny<string>()), Times.Never);
 		}
@@ -57,13 +59,22 @@ namespace DasBlog.Tests.UnitTests.Controllers
 		private static ArchiveController CreateController(IArchiveManager archiveManager, IMemoryCache memoryCache)
 		{
 			var httpContext = new DefaultHttpContext();
+			var settings = new Mock<IDasBlogSettings>();
+			settings.SetupGet(x => x.SiteConfiguration).Returns(new SiteConfig
+			{
+				Copyright = "DasBlog",
+				EnableBlogFeatures = true,
+				Root = "http://localhost/",
+				Title = "My DasBlog!"
+			});
+			settings.SetupGet(x => x.MetaTags).Returns(new MetaTags());
 
 			return new ArchiveController(
 				archiveManager,
 				new HttpContextAccessor { HttpContext = httpContext },
 				Mock.Of<IMapper>(),
 				Mock.Of<ILogger<ArchiveController>>(),
-				Mock.Of<IDasBlogSettings>(),
+				settings.Object,
 				memoryCache)
 			{
 				ControllerContext = new ControllerContext

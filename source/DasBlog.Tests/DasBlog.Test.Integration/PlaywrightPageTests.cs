@@ -357,6 +357,31 @@ namespace DasBlog.Test.Integration
 		}
 
 		[SkippableFact(typeof(PlaywrightException))]
+		public async Task ArchiveAllShowsPostManagementLinksOnlyWhenAuthenticated()
+		{
+			Skip.If(AreWe.InDockerOrBuildServer, "In Docker!");
+			await Page.GotoAsync(Server.RootUri + "/archive/all");
+
+			Assert.StartsWith("Complete Archive - My DasBlog!", await Page.TitleAsync());
+			Assert.Equal(0, await Page.GetByRole(AriaRole.Link, new() { Name = "Edit this post" }).CountAsync());
+			Assert.Equal(0, await Page.GetByRole(AriaRole.Button, new() { Name = "Delete this post" }).CountAsync());
+			await Page.GotoAsync(Server.RootUri + "/account/login");
+			Assert.Equal(0, await Page.Locator("a.dropdown-item", new() { HasText = "Manage Posts" }).CountAsync());
+
+			await LoginToSite();
+			await Page.GotoAsync(Server.RootUri + "/archive/all");
+
+			Assert.True(await Page.GetByRole(AriaRole.Link, new() { Name = "Edit this post" }).CountAsync() > 0);
+			Assert.True(await Page.GetByRole(AriaRole.Button, new() { Name = "Delete this post" }).CountAsync() > 0);
+
+			await Page.GotoAsync(Server.RootUri + "/admin/settings");
+			await Page.Locator("a.dropdown-toggle").ClickAsync();
+			var managePostsLink = Page.GetByRole(AriaRole.Link, new() { Name = "Manage Posts" });
+			Assert.Equal(1, await managePostsLink.CountAsync());
+			Assert.Equal("/archive/all", await managePostsLink.GetAttributeAsync("href"));
+		}
+
+		[SkippableFact(typeof(PlaywrightException))]
 		public async Task NavigateToCategoryPageBadgeNavigation()
 		{
 			Skip.If(AreWe.InDockerOrBuildServer, "In Docker!");

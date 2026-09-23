@@ -35,8 +35,12 @@
                     <ul class="list-group list-group-flush">
                         @foreach (var entry in postviewlist.Value)
                         {
-                            <li class="list-group-item">
+                            <li class="list-group-item d-flex flex-wrap align-items-center justify-content-between gap-2">
                                 <post-title-link post="@entry" css="dbc-archive-anchor event" />
+                                <div dasblog-authorized class="d-flex gap-3">
+                                    <post-edit-link post="@entry" />
+                                    <post-delete-link post="@entry" />
+                                </div>
                             </li>
                         }
                     </ul>
