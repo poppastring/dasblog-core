@@ -71,6 +71,7 @@ namespace DasBlog.Tests.UnitTests.Controllers
 
 			return new ArchiveController(
 				archiveManager,
+				Mock.Of<ICommentManager>(),
 				new HttpContextAccessor { HttpContext = httpContext },
 				Mock.Of<IMapper>(),
 				Mock.Of<ILogger<ArchiveController>>(),

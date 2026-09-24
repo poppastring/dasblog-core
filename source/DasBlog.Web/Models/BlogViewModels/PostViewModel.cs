@@ -35,6 +35,8 @@ namespace DasBlog.Web.Models.BlogViewModels
 		[Display(Name = "Allow Comments")]
 		public bool AllowComments { get; set; }
 
+		public int CommentCount { get; set; }
+
 		[Display(Name = "Is Public")]
 		public bool IsPublic { get; set; }
 

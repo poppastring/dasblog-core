@@ -62,7 +62,8 @@ namespace DasBlog.Tests.UnitTests.UI
 		{
 			var sut = new CommentManagementLinkTagHelper(dasBlogSettings)
 			{
-				Post = new PostViewModel { EntryId = "0B74C9D3-4D2C-4754-B607-F3847183221C" }
+				Post = new PostViewModel { EntryId = "0B74C9D3-4D2C-4754-B607-F3847183221C" },
+				CommentCount = 3
 			};
 			var context = new TagHelperContext(new TagHelperAttributeList(), new Dictionary<object, object>(), Guid.NewGuid().ToString("N"));
 			var output = new TagHelperOutput("comment-management-link", new TagHelperAttributeList(), (_, _) =>
@@ -71,7 +72,7 @@ namespace DasBlog.Tests.UnitTests.UI
 			sut.Process(context, output);
 
 			Assert.Equal("btn btn-sm btn-outline-secondary dbc-comment-management-link", output.Attributes["class"].Value);
-			Assert.Equal("<i class=\"fa-regular fa-comments me-1\" aria-hidden=\"true\"></i>Manage Post Comments", output.Content.GetContent());
+			Assert.Equal("<i class=\"fa-regular fa-comments me-1\" aria-hidden=\"true\"></i>Manage Post Comments [3]", output.Content.GetContent());
 		}
 
 		[Fact]
