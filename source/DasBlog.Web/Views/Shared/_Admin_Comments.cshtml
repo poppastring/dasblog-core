@@ -20,7 +20,7 @@
 </div>
 
 <div class="col-md-4">
-    <div class="form-check">
+    <div class="form-check form-switch">
         @Html.CheckBoxFor(m => @Model.SiteConfig.EnableCommentDays, new { @class = "form-check-input" })
         @Html.LabelFor(m => @Model.SiteConfig.EnableCommentDays, null, new { @class = "form-check-label" })
     </div>
@@ -54,11 +54,11 @@
 
 <h3 class="dbc-settings-subsection-title mt-4">Moderation</h3>
 <div class="col-md-6 mb-3">
-    <div class="form-check">
+    <div class="form-check form-switch">
         @Html.CheckBoxFor(m => @Model.SiteConfig.AllowMarkdownInComments, new { @class = "form-check-input" })
         @Html.LabelFor(m => @Model.SiteConfig.AllowMarkdownInComments, null, new { @class = "form-check-label" })
     </div>
-    <div class="form-check">
+    <div class="form-check form-switch">
         @Html.CheckBoxFor(m => @Model.SiteConfig.CommentsRequireApproval, new { @class = "form-check-input" })
         @Html.LabelFor(m => @Model.SiteConfig.CommentsRequireApproval, null, new { @class = "form-check-label" })
     </div>
@@ -67,7 +67,7 @@
 <h3 class="dbc-settings-subsection-title mt-4">Spam protection</h3>
 <div class="row gy-2 gx-3 mb-4">
     <div class="col-12">
-        <div class="form-check">
+        <div class="form-check form-switch">
             @Html.CheckBoxFor(m => @Model.SiteConfig.EnableSpamModeration, new { @class = "form-check-input", id = "enableSpamModeration" })
             @Html.LabelFor(m => @Model.SiteConfig.EnableSpamModeration, null, new { @class = "form-check-label" })
         </div>

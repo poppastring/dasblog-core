@@ -57,24 +57,27 @@
         }
     }
 
-    <input asp-for="@Model.NewCategory" type="text" id="BlogNewCategoryName" class="me-2"/>
-    <input value="Add" class="btn btn-outline-secondary" type="submit" name="submit" id="NewCategorySubmit"/>
+    <label asp-for="@Model.NewCategory" class="visually-hidden"></label>
+    <input asp-for="@Model.NewCategory" type="text" id="BlogNewCategoryName" class="form-control w-auto me-2" placeholder="New category" />
+    <button value="Add" class="btn btn-outline-secondary" type="submit" name="submit" id="NewCategorySubmit">
+        <i class="fa-solid fa-plus me-1" aria-hidden="true"></i>Add category
+    </button>
     
     <span asp-validation-for="@Model.NewCategory" class="text-danger"></span>
 </div>
 
-<div class="d-flex flex-wrap mb-3">
-    <div class="col-auto">
-        @Html.CheckBoxFor(m => @Model.AllowComments, new { @class = "form-check-input me-1" })
-        @Html.LabelFor(m => @Model.AllowComments, null, new { @class = "form-check-label me-2" })
+<div class="d-flex flex-wrap gap-4 mb-3">
+    <div class="form-check form-switch">
+        @Html.CheckBoxFor(m => @Model.AllowComments, new { @class = "form-check-input" })
+        @Html.LabelFor(m => @Model.AllowComments, null, new { @class = "form-check-label" })
     </div>
-    <div class="col-auto">
-        @Html.CheckBoxFor(m => @Model.IsPublic, new { @class = "form-check-input me-1" })
-        @Html.LabelFor(m => @Model.IsPublic, null, new { @class = "form-check-label me-2" })
+    <div class="form-check form-switch">
+        @Html.CheckBoxFor(m => @Model.IsPublic, new { @class = "form-check-input" })
+        @Html.LabelFor(m => @Model.IsPublic, null, new { @class = "form-check-label" })
     </div>
-    <div class="col-auto">
-        @Html.CheckBoxFor(m => @Model.Syndicated, new { @class = "form-check-input me-1" })
-        @Html.LabelFor(m => @Model.Syndicated, null, new { @class = "form-check-label me-2" })
+    <div class="form-check form-switch">
+        @Html.CheckBoxFor(m => @Model.Syndicated, new { @class = "form-check-input" })
+        @Html.LabelFor(m => @Model.Syndicated, null, new { @class = "form-check-label" })
     </div>
 </div>
 

@@ -47,25 +47,33 @@
     </div>
 </div>
 
-<div class="d-flex flex-wrap mt-0">
-    <input name="Active" checked="@Model.Active" type="checkbox" class="form-check-input me-1" @ViewBag.Clickability />
-    <label asp-for="Active" class="form-check-label me-3"></label>
+<div class="d-flex flex-wrap gap-4 mt-0">
+    <div class="form-check form-switch">
+        <input name="Active" checked="@Model.Active" type="checkbox" class="form-check-input" @ViewBag.Clickability />
+        <label asp-for="Active" class="form-check-label"></label>
+    </div>
 </div>
 
-<div class="d-flex flex-wrap">
-    <input name="NotifyOnNewPost" checked="@Model.NotifyOnNewPost" type="checkbox" class="form-check-input me-1" @ViewBag.Clickability />
-    <label asp-for="NotifyOnNewPost" class="form-check-label me-3"></label>
-
-    <input name="NotifyOnOwnComment" checked="@Model.NotifyOnOwnComment" type="checkbox" class="form-check-input me-1" @ViewBag.Clickability />
-    <label asp-for="NotifyOnOwnComment" class="form-check-label me-3"></label>
+<div class="d-flex flex-wrap gap-4">
+    <div class="form-check form-switch">
+        <input name="NotifyOnNewPost" checked="@Model.NotifyOnNewPost" type="checkbox" class="form-check-input" @ViewBag.Clickability />
+        <label asp-for="NotifyOnNewPost" class="form-check-label"></label>
+    </div>
+    <div class="form-check form-switch">
+        <input name="NotifyOnOwnComment" checked="@Model.NotifyOnOwnComment" type="checkbox" class="form-check-input" @ViewBag.Clickability />
+        <label asp-for="NotifyOnOwnComment" class="form-check-label"></label>
+    </div>
 </div>
 
-<div class="d-flex flex-wrap">
-    <input name="NotifyOnAllComment" checked="@Model.NotifyOnAllComment" type="checkbox" class="form-check-input me-1" @ViewBag.Clickability disabled readonly />
-    <label asp-for="NotifyOnAllComment" class="form-check-label me-3"></label>
-
-    <input name="Ask" checked="@Model.Ask" type="checkbox" class="form-check-input me-1" @ViewBag.Clickability disabled readonly />
-    <label asp-for="Ask" class="form-check-label me-3"></label>
+<div class="d-flex flex-wrap gap-4">
+    <div class="form-check form-switch">
+        <input name="NotifyOnAllComment" checked="@Model.NotifyOnAllComment" type="checkbox" class="form-check-input" @ViewBag.Clickability disabled readonly />
+        <label asp-for="NotifyOnAllComment" class="form-check-label"></label>
+    </div>
+    <div class="form-check form-switch">
+        <input name="Ask" checked="@Model.Ask" type="checkbox" class="form-check-input" @ViewBag.Clickability disabled readonly />
+        <label asp-for="Ask" class="form-check-label"></label>
+    </div>
 </div>
 
 <div class="d-flex flex-wrap">

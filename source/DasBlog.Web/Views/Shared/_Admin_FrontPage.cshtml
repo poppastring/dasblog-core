@@ -57,13 +57,17 @@
     </div>
 </div>
 
-<div class="d-flex flex-wrap">
-    @Html.CheckBoxFor(m => @Model.SiteConfig.EnableStartPageCaching, new { @class = "form-check-input me-1" })
-    @Html.LabelFor(m => @Model.SiteConfig.EnableStartPageCaching, null, new { @class = "form-check-label me-3" })
-
-    @Html.CheckBoxFor(m => @Model.SiteConfig.EnableProgressiveFrontPageLoading, new { @class = "form-check-input me-1" })
-    @Html.LabelFor(m => @Model.SiteConfig.EnableProgressiveFrontPageLoading, null, new { @class = "form-check-label me-3" })
-
-    @Html.CheckBoxFor(m => @Model.SiteConfig.ShowItemSummaryInAggregatedViews, new { @class = "form-check-input me-1" })
-    @Html.LabelFor(m => @Model.SiteConfig.ShowItemSummaryInAggregatedViews, null, new { @class = "form-check-label me-3" })
+<div class="d-flex flex-wrap gap-4">
+    <div class="form-check form-switch">
+        @Html.CheckBoxFor(m => @Model.SiteConfig.EnableStartPageCaching, new { @class = "form-check-input" })
+        @Html.LabelFor(m => @Model.SiteConfig.EnableStartPageCaching, null, new { @class = "form-check-label" })
+    </div>
+    <div class="form-check form-switch">
+        @Html.CheckBoxFor(m => @Model.SiteConfig.EnableProgressiveFrontPageLoading, new { @class = "form-check-input" })
+        @Html.LabelFor(m => @Model.SiteConfig.EnableProgressiveFrontPageLoading, null, new { @class = "form-check-label" })
+    </div>
+    <div class="form-check form-switch">
+        @Html.CheckBoxFor(m => @Model.SiteConfig.ShowItemSummaryInAggregatedViews, new { @class = "form-check-input" })
+        @Html.LabelFor(m => @Model.SiteConfig.ShowItemSummaryInAggregatedViews, null, new { @class = "form-check-label" })
+    </div>
 </div>

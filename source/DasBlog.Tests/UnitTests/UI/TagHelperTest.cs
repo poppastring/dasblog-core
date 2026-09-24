@@ -50,11 +50,29 @@ namespace DasBlog.Tests.UnitTests.UI
 
 		public static TheoryData<TagHelper, string, string> DasBlogPostLinkTagHelperData = new TheoryData<TagHelper, string, string>
 		{
-			{new PostEditLinkTagHelper(dasBlogSettings) {BlogPostId = "theBlogPost"}, "theBlogPost", "Edit this post"},
+			{new PostEditLinkTagHelper(dasBlogSettings) {BlogPostId = "theBlogPost"}, "theBlogPost", "<i class=\"fa-solid fa-pen-to-square me-1\" aria-hidden=\"true\"></i>Edit this post"},
 			{new PostCommentLinkTagHelper(dasBlogSettings.SiteConfiguration, dasBlogSettings) { Post = new PostViewModel { PermaLink = "some-blog-post", EntryId = "0B74C9D3-4D2C-4754-B607-F3847183221C" }}, "/some-blog-post/comments", "Comment on this post [0]" },
 			{new PostCommentLinkTagHelper(dasBlogSettings.SiteConfiguration, dasBlogSettings) { Post = new PostViewModel { PermaLink = "some-blog-post", EntryId = "0B74C9D3-4D2C-4754-B607-F3847183221C" }, LinkText = "Custom text ({0})"}, "/some-blog-post/comments", "Custom text (0)" },
 			{new PostCommentLinkTagHelper(dasBlogSettings.SiteConfiguration, dasBlogSettings) { Post = new PostViewModel { PermaLink = "some-blog-post", EntryId = "0B74C9D3-4D2C-4754-B607-F3847183221C" }, LinkText = "Link text only "}, "/some-blog-post/comments", "Link text only" }
 		};
+
+		[Fact]
+		[Trait("Category", "UnitTest")]
+		public void CommentManagementLinkTagHelper_GeneratedTagHelper_RendersAsBootstrapButton()
+		{
+			var sut = new CommentManagementLinkTagHelper(dasBlogSettings)
+			{
+				Post = new PostViewModel { EntryId = "0B74C9D3-4D2C-4754-B607-F3847183221C" }
+			};
+			var context = new TagHelperContext(new TagHelperAttributeList(), new Dictionary<object, object>(), Guid.NewGuid().ToString("N"));
+			var output = new TagHelperOutput("comment-management-link", new TagHelperAttributeList(), (_, _) =>
+				Task.FromResult<TagHelperContent>(new DefaultTagHelperContent()));
+
+			sut.Process(context, output);
+
+			Assert.Equal("btn btn-sm btn-outline-secondary dbc-comment-management-link", output.Attributes["class"].Value);
+			Assert.Equal("<i class=\"fa-regular fa-comments me-1\" aria-hidden=\"true\"></i>Manage Post Comments", output.Content.GetContent());
+		}
 
 		[Fact]
 		[Trait("Category", "UnitTest")]

@@ -21,9 +21,9 @@ namespace DasBlog.Web.Controllers
 
 		[HttpGet]
 		[Route("")]
-		public IActionResult Index()
+		public IActionResult Index(DateTime? date)
 		{
-			return EventsByDate(DateTime.Today);
+			return EventsByDate(date ?? DateTime.Today);
 		}
 
 		[HttpGet]

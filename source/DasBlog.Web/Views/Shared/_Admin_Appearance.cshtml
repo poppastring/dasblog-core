@@ -4,30 +4,39 @@
 @model DasBlogSettingsViewModel
 
 <div class="row gy-2 gx-3 align-items-md-start mb-3">
-    <div class="col-sm-2">
-        @Html.CheckBoxFor(m => @Model.SiteConfig.EnableTitlePermaLinkUnique, new { @class = "form-check-input" })
-        @Html.LabelFor(m => @Model.SiteConfig.EnableTitlePermaLinkUnique, null, new { @class = "col-check-label" })
+    <div class="col-sm-8">
+        <div class="form-check form-switch">
+            @Html.CheckBoxFor(m => @Model.SiteConfig.EnableTitlePermaLinkUnique, new { @class = "form-check-input" })
+            @Html.LabelFor(m => @Model.SiteConfig.EnableTitlePermaLinkUnique, null, new { @class = "form-check-label" })
+        </div>
+        <div class="form-text">Adds the publication date to generated post URLs, for example <code>/2026/03/24/post-title</code>.</div>
     </div>
 </div>
 
 <div class="row gy-2 gx-3 align-items-md-start mb-3">
     <div class="col-sm-4">
-        @Html.CheckBoxFor(m => @Model.SiteConfig.ShowCommentCount, new { @class = "form-check-input" })
-        @Html.LabelFor(m => @Model.SiteConfig.ShowCommentCount, null, new { @class = "col-check-label" })
+        <div class="form-check form-switch">
+            @Html.CheckBoxFor(m => @Model.SiteConfig.ShowCommentCount, new { @class = "form-check-input" })
+            @Html.LabelFor(m => @Model.SiteConfig.ShowCommentCount, null, new { @class = "form-check-label" })
+        </div>
     </div>
 </div>
 
 <div class="row gy-2 gx-3 align-items-md-start mb-3">
     <div class="col-sm-4">
-        @Html.CheckBoxFor(m => @Model.SiteConfig.UseAspxExtension, new { @class = "form-check-input" })
-        @Html.LabelFor(m => @Model.SiteConfig.UseAspxExtension, null, new { @class = "col-check-label" })
+        <div class="form-check form-switch">
+            @Html.CheckBoxFor(m => @Model.SiteConfig.UseAspxExtension, new { @class = "form-check-input" })
+            @Html.LabelFor(m => @Model.SiteConfig.UseAspxExtension, null, new { @class = "form-check-label" })
+        </div>
     </div>
 </div>
 
 <div class="row gy-2 gx-3 align-items-md-start mb-3">
     <div class="col-sm-4">
-        @Html.CheckBoxFor(m => @Model.SiteConfig.CookieConsentEnabled, new { @class = "form-check-input" })
-        @Html.LabelFor(m => @Model.SiteConfig.CookieConsentEnabled, null, new { @class = "col-check-label" })
+        <div class="form-check form-switch">
+            @Html.CheckBoxFor(m => @Model.SiteConfig.CookieConsentEnabled, new { @class = "form-check-input" })
+            @Html.LabelFor(m => @Model.SiteConfig.CookieConsentEnabled, null, new { @class = "form-check-label" })
+        </div>
     </div>
 </div>
 
