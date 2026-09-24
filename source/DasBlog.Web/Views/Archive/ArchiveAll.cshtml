@@ -42,7 +42,7 @@
                                 <div dasblog-authorized class="d-flex flex-wrap gap-2">
                                     <post-edit-link post="@entry" />
                                     <post-delete-link post="@entry" />
-                                    @if (dasBlogSettings.SiteConfiguration.EnableBlogFeatures && dasBlogSettings.SiteConfiguration.EnableComments)
+                                    @if (dasBlogSettings.SiteConfiguration.EnableBlogFeatures)
                                     {
                                         <comment-management-link post="@entry" comment-count="@entry.CommentCount" />
                                     }

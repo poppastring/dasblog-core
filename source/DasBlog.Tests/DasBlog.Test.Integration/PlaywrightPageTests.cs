@@ -357,32 +357,49 @@ namespace DasBlog.Test.Integration
 		}
 
 		[SkippableFact(typeof(PlaywrightException))]
-		public async Task ArchiveAllShowsPostManagementLinksOnlyWhenAuthenticated()
+		public async Task ArchiveAllShowsManagementLinksOnlyWhenAuthenticatedEvenWhenCommentsAreDisabled()
 		{
 			Skip.If(AreWe.InDockerOrBuildServer, "In Docker!");
-			await Page.GotoAsync(Server.RootUri + "/archive/all");
+			var siteConfig = Server.HostServices.GetRequiredService<IOptionsMonitor<SiteConfig>>();
+			var enableComments = siteConfig.CurrentValue.EnableComments;
+			var enableBlogFeatures = siteConfig.CurrentValue.EnableBlogFeatures;
 
-			Assert.StartsWith("Complete Archive - My DasBlog!", await Page.TitleAsync());
-			Assert.Equal(0, await Page.GetByRole(AriaRole.Link, new() { Name = "Edit this post" }).CountAsync());
-			Assert.Equal(0, await Page.GetByRole(AriaRole.Button, new() { Name = "Delete this post" }).CountAsync());
-			await Page.GotoAsync(Server.RootUri + "/account/login");
-			Assert.Equal(0, await Page.Locator("a.dropdown-item", new() { HasText = "Manage Posts" }).CountAsync());
+			try
+			{
+				siteConfig.CurrentValue.EnableBlogFeatures = true;
+				siteConfig.CurrentValue.EnableComments = false;
+				await Page.GotoAsync(Server.RootUri + "/archive/all");
 
-			await LoginToSite();
-			await Page.GotoAsync(Server.RootUri + "/archive/all");
+				Assert.StartsWith("Complete Archive - My DasBlog!", await Page.TitleAsync());
+				Assert.Equal(0, await Page.GetByRole(AriaRole.Link, new() { Name = "Edit this post" }).CountAsync());
+				Assert.Equal(0, await Page.GetByRole(AriaRole.Button, new() { Name = "Delete this post" }).CountAsync());
+				Assert.Equal(0, await Page.GetByRole(AriaRole.Link, new() { NameRegex = new Regex("Manage Post Comments") }).CountAsync());
+				await Page.GotoAsync(Server.RootUri + "/account/login");
+				Assert.Equal(0, await Page.Locator("a.dropdown-item", new() { HasText = "Manage Posts" }).CountAsync());
 
-			var editLinks = Page.GetByRole(AriaRole.Link, new() { Name = "Edit this post" });
-			var deleteButtons = Page.GetByRole(AriaRole.Button, new() { Name = "Delete this post" });
-			Assert.True(await editLinks.CountAsync() > 0);
-			Assert.True(await deleteButtons.CountAsync() > 0);
-			Assert.Contains("btn-outline-primary", await editLinks.First.GetAttributeAsync("class"));
-			Assert.Contains("btn-outline-danger", await deleteButtons.First.GetAttributeAsync("class"));
+				await LoginToSite();
+				await Page.GotoAsync(Server.RootUri + "/archive/all");
 
-			await Page.GotoAsync(Server.RootUri + "/admin/settings");
-			await Page.Locator("a.dropdown-toggle").ClickAsync();
-			var managePostsLink = Page.GetByRole(AriaRole.Link, new() { Name = "Manage Posts" });
-			Assert.Equal(1, await managePostsLink.CountAsync());
-			Assert.Equal("/archive/all", await managePostsLink.GetAttributeAsync("href"));
+				var editLinks = Page.GetByRole(AriaRole.Link, new() { Name = "Edit this post" });
+				var deleteButtons = Page.GetByRole(AriaRole.Button, new() { Name = "Delete this post" });
+				var commentManagementLinks = Page.GetByRole(AriaRole.Link, new() { NameRegex = new Regex("Manage Post Comments") });
+				Assert.True(await editLinks.CountAsync() > 0);
+				Assert.True(await deleteButtons.CountAsync() > 0);
+				Assert.True(await commentManagementLinks.CountAsync() > 0);
+				Assert.Contains("btn-outline-primary", await editLinks.First.GetAttributeAsync("class"));
+				Assert.Contains("btn-outline-danger", await deleteButtons.First.GetAttributeAsync("class"));
+
+				await Page.GotoAsync(Server.RootUri + "/admin/settings");
+				await Page.Locator("a.dropdown-toggle").ClickAsync();
+				var managePostsLink = Page.GetByRole(AriaRole.Link, new() { Name = "Manage Posts" });
+				Assert.Equal(1, await managePostsLink.CountAsync());
+				Assert.Equal("/archive/all", await managePostsLink.GetAttributeAsync("href"));
+			}
+			finally
+			{
+				siteConfig.CurrentValue.EnableComments = enableComments;
+				siteConfig.CurrentValue.EnableBlogFeatures = enableBlogFeatures;
+			}
 		}
 
 		[SkippableFact(typeof(PlaywrightException))]
