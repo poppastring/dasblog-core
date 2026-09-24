@@ -8,6 +8,7 @@ namespace DasBlog.Web.TagHelpers.Comments
 	public class CommentManagementLinkTagHelper : TagHelper
 	{
 		public PostViewModel Post { get; set; }
+		public int? CommentCount { get; set; }
 
 		private readonly IUrlResolver urlResolver;
 
@@ -22,6 +23,10 @@ namespace DasBlog.Web.TagHelpers.Comments
 		{
 			var url = string.Format(COMMENT_MANAGEMENT_URL, Post.EntryId);
 			var message = "Manage Post Comments";
+			if (CommentCount.HasValue)
+			{
+				message = string.Format("{0} [{1}]", message, CommentCount.Value);
+			}
 
 			output.TagName = "a";
 			output.TagMode = TagMode.StartTagAndEndTag;

@@ -22,6 +22,7 @@ namespace DasBlog.Web.Controllers
 	public class ArchiveController : DasBlogBaseController
 	{
 		private readonly IArchiveManager archiveManager;
+		private readonly ICommentManager commentManager;
 		private readonly IHttpContextAccessor httpContextAccessor;
 		private readonly IMapper mapper;
 		private readonly ILogger<ArchiveController> logger;
@@ -29,10 +30,11 @@ namespace DasBlog.Web.Controllers
 		private readonly IMemoryCache memoryCache;
 		private const string ARCHIVE = "Archive";
 
-		public ArchiveController(IArchiveManager archiveManager, IHttpContextAccessor httpContextAccessor, IMapper mapper,
+		public ArchiveController(IArchiveManager archiveManager, ICommentManager commentManager, IHttpContextAccessor httpContextAccessor, IMapper mapper,
 									ILogger<ArchiveController> logger, IDasBlogSettings settings, IMemoryCache memoryCache) : base(settings)
 		{
 			this.dasBlogSettings = settings;
+			this.commentManager = commentManager;
 			this.memoryCache = memoryCache;
 			this.archiveManager = archiveManager;
 			this.httpContextAccessor = httpContextAccessor;
@@ -102,6 +104,8 @@ namespace DasBlog.Web.Controllers
 
 				foreach (var i in entries.Select(entry => mapper.Map<PostViewModel>(entry)))
 				{
+					i.CommentCount = commentManager.GetComments(i.EntryId, true).Count;
+
 					var index = i.CreatedDateTime.Year * 100 + i.CreatedDateTime.Month;
 
 					if (alvm.MonthEntries.ContainsKey(index))

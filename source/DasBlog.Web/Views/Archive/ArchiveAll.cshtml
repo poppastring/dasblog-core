@@ -1,5 +1,7 @@
 ﻿@using DasBlog.Core.Common
+@using DasBlog.Services
 @model ArchiveListViewModel
+@inject IDasBlogSettings dasBlogSettings
 
 @{
     ViewData["Title"] = Constants.ArchiveAllPageTitle;
@@ -37,9 +39,13 @@
                         {
                             <li class="list-group-item d-flex flex-wrap align-items-center justify-content-between gap-2">
                                 <post-title-link post="@entry" css="dbc-archive-anchor event" />
-                                <div dasblog-authorized class="d-flex gap-3">
+                                <div dasblog-authorized class="d-flex flex-wrap gap-2">
                                     <post-edit-link post="@entry" />
                                     <post-delete-link post="@entry" />
+                                    @if (dasBlogSettings.SiteConfiguration.EnableBlogFeatures && dasBlogSettings.SiteConfiguration.EnableComments)
+                                    {
+                                        <comment-management-link post="@entry" comment-count="@entry.CommentCount" />
+                                    }
                                 </div>
                             </li>
                         }
