@@ -48,10 +48,10 @@
 <!-- Confirmation Modal using reusable partial -->
 <partial name="_ConfirmationModalPartial" view-data="ViewData" />
 
-@section Scripts {
+@section scripts {
     <rich-edit-scripts control-id="mytextarea" />
 
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+    <partial name="_ValidationScriptsPartial" />
 
     <script src="~/js/dasblog-ui.js"></script>
 }

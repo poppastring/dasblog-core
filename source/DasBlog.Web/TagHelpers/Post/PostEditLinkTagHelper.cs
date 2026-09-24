@@ -28,9 +28,11 @@ namespace DasBlog.Web.TagHelpers.Post
 			output.TagName = "a";
 			output.TagMode = TagMode.StartTagAndEndTag;
 			output.Attributes.SetAttribute("href", urlResolver.RelativeToRoot("admin/post/" + BlogPostId + "/edit"));
+			output.Attributes.SetAttribute("class", "btn btn-sm btn-outline-primary");
 			if (!string.IsNullOrEmpty(EditLinkText))
 			{
-				output.Content.SetHtmlContent("Edit this post");
+				output.Content.SetHtmlContent("<i class=\"fa-solid fa-pen-to-square me-1\" aria-hidden=\"true\"></i>");
+				output.Content.Append(EditLinkText);
 			}
 
 		}

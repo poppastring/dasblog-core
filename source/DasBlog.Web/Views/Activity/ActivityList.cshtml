@@ -42,7 +42,7 @@
 <hr />
 
 <div class="row">
-    <form asp-controller="Activity" asp-action="EventsByDate" method="get" class="d-flex flex-wrap align-items-center gap-2">
+    <form asp-controller="Activity" asp-action="Index" method="get" class="d-flex flex-wrap align-items-center gap-2">
 
         <div class="mb-3">
             <label for="date" class="form-label visually-hidden">Date</label>
@@ -50,15 +50,20 @@
         </div>
 
         <div class="mb-3">
-            <input type="submit" value="Go" class="btn btn-primary" />
+            <button type="submit" class="btn btn-primary">
+                <i class="fa-solid fa-calendar-day me-1" aria-hidden="true"></i>View date
+            </button>
         </div>
 
-        <span widht="1em"></span>
-        <a href="@Url.Action("EventsByDate", "Activity", new { date = ViewBag.PreviousDay })" title="Previous">&lt;</a>
-        <span widht="1em"></span>
-        <a href="@Url.Action("EventsByDate", "Activity", new { date = ViewBag.NextDay })" title="Next">&gt;</a>
-        <span widht="1em"></span>
-        <a href="@Url.Action("EventsByDate", "Activity", new { date = ViewBag.Today })" title="Today">&gt;|</a>
+        <div class="btn-group mb-3" role="group" aria-label="Activity date navigation">
+            <a class="btn btn-outline-secondary" href="@Url.Action("EventsByDate", "Activity", new { date = ViewBag.PreviousDay })" title="Previous day">
+                <i class="fa-solid fa-chevron-left me-1" aria-hidden="true"></i>Previous
+            </a>
+            <a class="btn btn-outline-secondary" href="@Url.Action("EventsByDate", "Activity", new { date = ViewBag.Today })">Today</a>
+            <a class="btn btn-outline-secondary" href="@Url.Action("EventsByDate", "Activity", new { date = ViewBag.NextDay })" title="Next day">
+                Next<i class="fa-solid fa-chevron-right ms-1" aria-hidden="true"></i>
+            </a>
+        </div>
     </form>
 </div>
 <div class="row">

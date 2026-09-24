@@ -169,8 +169,8 @@ namespace DasBlog.Web.Models.AdminViewModels
 		public string SecurityScriptSources { get; set; }
 
 
-		[DisplayName("Enable unique URls")]
-		[Description(@"Enable Title PermaLink Unique - Ensures all urls are unique by adding a date to the URL '\somepost' becomes '20191112\some - post'")]
+		[DisplayName("Include post date in URLs")]
+		[Description("Adds the publication date to generated post URLs using the format /yyyy/MM/dd/post-title.")]
 		public bool EnableTitlePermaLinkUnique { get; set; }
 
 		[DisplayName("Enable Blogger API")]

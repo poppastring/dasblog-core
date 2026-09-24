@@ -31,7 +31,7 @@
 <h3 class="dbc-settings-subsection-title">Display time</h3>
 <div class="row gy-2 gx-3 align-items-center">
     <div class="col-sm-4">
-        <div class="form-check">
+        <div class="form-check form-switch">
             @Html.CheckBoxFor(m => @Model.SiteConfig.AdjustDisplayTimeZone, new { @class = "form-check-input" })
             @Html.LabelFor(m => @Model.SiteConfig.AdjustDisplayTimeZone, null, new { @class = "form-check-label" })
         </div>

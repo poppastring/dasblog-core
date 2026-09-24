@@ -371,8 +371,12 @@ namespace DasBlog.Test.Integration
 			await LoginToSite();
 			await Page.GotoAsync(Server.RootUri + "/archive/all");
 
-			Assert.True(await Page.GetByRole(AriaRole.Link, new() { Name = "Edit this post" }).CountAsync() > 0);
-			Assert.True(await Page.GetByRole(AriaRole.Button, new() { Name = "Delete this post" }).CountAsync() > 0);
+			var editLinks = Page.GetByRole(AriaRole.Link, new() { Name = "Edit this post" });
+			var deleteButtons = Page.GetByRole(AriaRole.Button, new() { Name = "Delete this post" });
+			Assert.True(await editLinks.CountAsync() > 0);
+			Assert.True(await deleteButtons.CountAsync() > 0);
+			Assert.Contains("btn-outline-primary", await editLinks.First.GetAttributeAsync("class"));
+			Assert.Contains("btn-outline-danger", await deleteButtons.First.GetAttributeAsync("class"));
 
 			await Page.GotoAsync(Server.RootUri + "/admin/settings");
 			await Page.Locator("a.dropdown-toggle").ClickAsync();
@@ -456,6 +460,7 @@ namespace DasBlog.Test.Integration
 
 			var editpostLink = Page.GetByRole(AriaRole.Link, new() { Name = "Edit this post" });
 			await editpostLink.WaitForAsync(new() { Timeout = 5000 }); // Ensure link is visible
+			Assert.Contains("btn-outline-primary", await editpostLink.GetAttributeAsync("class"));
 
 			// Get the href attribute and navigate directly to the edit page
 			var editHref = await editpostLink.GetAttributeAsync("href");
@@ -489,7 +494,13 @@ namespace DasBlog.Test.Integration
 
 			// Click "Delete this post" to open the delete confirmation modal (element has role="button")
 			var deletepostLink = Page.GetByRole(AriaRole.Button, new() { Name = "Delete this post" });
+			Assert.Contains("btn-outline-danger", await deletepostLink.GetAttributeAsync("class"));
 			await deletepostLink.ClickAsync();
+
+			var deleteDialog = Page.GetByRole(AriaRole.Dialog);
+			await deleteDialog.WaitForAsync(new() { Timeout = 5000 });
+			await Assertions.Expect(deleteDialog).ToContainTextAsync("Are you sure you want to delete this post?");
+			await Assertions.Expect(deleteDialog).ToContainTextAsync("This action cannot be undone.");
 
 			// Click the "Delete" button in the confirmation modal
 			var deleteButton = Page.Locator(".modal.show .btn-danger");
@@ -519,6 +530,9 @@ namespace DasBlog.Test.Integration
 			var rootValue = await siteRoot.GetAttributeAsync("Value");
 
 			Assert.Contains(Server.RootUri, rootValue);
+			await Page.Locator("button[data-bs-target='#collapseAppearance']").ClickAsync();
+			await Assertions.Expect(Page.GetByText("Include post date in URLs", new() { Exact = true })).ToBeVisibleAsync();
+			await Assertions.Expect(Page.GetByText("Adds the publication date to generated post URLs", new() { Exact = false })).ToBeVisibleAsync();
 		}
 
 		[SkippableFact(typeof(PlaywrightException))]
@@ -534,6 +548,9 @@ namespace DasBlog.Test.Integration
 			var address = await emailAddress.GetAttributeAsync("Value");
 
 			Assert.Contains("myemail@myemail.com", address);
+			Assert.True(await Page.Locator(".form-check.form-switch input[name='Active']").CountAsync() == 1);
+			Assert.True(await Page.Locator(".form-check.form-switch input[name='NotifyOnNewPost']").CountAsync() == 1);
+			Assert.True(await Page.Locator(".form-check.form-switch input[name='NotifyOnOwnComment']").CountAsync() == 1);
 		}
 
 		[SkippableFact(typeof(PlaywrightException))]
@@ -545,8 +562,13 @@ namespace DasBlog.Test.Integration
 
 			await Page.GotoAsync(Server.RootUri + "/admin/log");
 
-			var forwardLink = Page.GetByRole(AriaRole.Link, new() { Name = ">|" });
-			await forwardLink.ClickAsync();
+			var selectedDate = DateTime.Today.ToString("yyyy-MM-dd");
+			var dateInput = Page.Locator("#date");
+			await dateInput.FillAsync(selectedDate);
+			await Page.GetByRole(AriaRole.Button, new() { Name = "View date" }).ClickAsync();
+
+			Assert.Equal(Server.RootUri + "/admin/log?date=" + selectedDate, Page.Url);
+			Assert.Equal(selectedDate, await dateInput.InputValueAsync());
 
 			var tablecolumns = Page.Locator(".dbc-activity-table-column");
 			Assert.True(await tablecolumns.CountAsync() > 0);

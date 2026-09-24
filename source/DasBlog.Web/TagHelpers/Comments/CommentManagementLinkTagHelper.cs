@@ -26,9 +26,10 @@ namespace DasBlog.Web.TagHelpers.Comments
 			output.TagName = "a";
 			output.TagMode = TagMode.StartTagAndEndTag;
 			output.Attributes.SetAttribute("href", urlResolver.RelativeToRoot(url));
-			output.Attributes.SetAttribute("class", "dbc-comment-management-link");
+			output.Attributes.SetAttribute("class", "btn btn-sm btn-outline-secondary dbc-comment-management-link");
 
-			output.Content.SetHtmlContent(message);
+			output.Content.SetHtmlContent("<i class=\"fa-regular fa-comments me-1\" aria-hidden=\"true\"></i>");
+			output.Content.Append(message);
 		}
 
 		public override Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
