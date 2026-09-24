@@ -1,0 +1,13 @@
+@model DasBlog.Web.ViewComponents.RelatedPostsViewModel
+
+<section class="dbc-related-posts">
+    <h4>Related posts</h4>
+    <ul class="dbc-related-posts-list">
+        @foreach (var post in Model.Posts)
+        {
+            <li class="dbc-related-post-item">
+                <a href="@post.Url">@post.Title</a>
+            </li>
+        }
+    </ul>
+</section>
