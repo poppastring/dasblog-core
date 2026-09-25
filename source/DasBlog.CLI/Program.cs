@@ -47,6 +47,7 @@ namespace DasBlog.CLI
 				.Configure<SiteConfig>(Configuration)
 				.AddSingleton<IUserDataRepo, UserDataRepo>()
 				.AddSingleton<IUserService, UserService>()
+				.AddSingleton<IAtomicFileWriter, AtomicFileWriter>()
 				.AddSingleton<IConfigFileService<SiteConfig>, SiteConfigFileService>()
 				.AddSingleton<IConfigFileService<SiteSecurityConfigData>, SiteSecurityConfigFileService>()
 				.BuildServiceProvider();
