@@ -361,5 +361,18 @@ namespace DasBlog.Tests.UnitTests.Settings
 			var hash = Core.Common.Utils.GetGravatarHash(admin.EmailAddress);
 			Assert.False(dasBlogSettings.IsAdmin(hash));
 		}
+
+        [Fact]
+        public void AddUser_SavesSecurityConfigurationThroughConfigService()
+        {
+            var dasBlogSettings = dasBlogSettingsMock.CreateSettings();
+            var user = new User { DisplayName = "new-user", EmailAddress = "new@example.com" };
+
+            dasBlogSettings.AddUser(user);
+
+            dasBlogSettingsMock.securityConfigFileServiceMock.Verify(service => service.SaveConfig(
+                It.Is<SiteSecurityConfigData>(config => config.Users.Count == 4 && config.Users.Contains(user))),
+                Times.Once);
+        }
 	}
 }
