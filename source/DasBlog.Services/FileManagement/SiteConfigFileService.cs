@@ -12,6 +12,7 @@ namespace DasBlog.Services.FileManagement.Interfaces
 {
 	public class SiteConfigFileService : IConfigFileService<SiteConfig>
 	{
+		private readonly object saveLock = new();
 		private readonly ConfigFilePathsDataOption options;
 		private readonly ILogger<SiteConfigFileService> logger;
 
@@ -23,23 +24,39 @@ namespace DasBlog.Services.FileManagement.Interfaces
 
 		public bool SaveConfig(SiteConfig config)
 		{
-
-			var ser = new XmlSerializer(typeof(SiteConfig));
-			var ns = new XmlSerializerNamespaces();
-			ns.Add("", "");
-
-			using (var writer = new StreamWriter(options.SiteConfigFilePath))
+			lock (saveLock)
 			{
+				var tempPath = $"{options.SiteConfigFilePath}.{Guid.NewGuid():N}.tmp";
+
 				try
 				{
-					ser.Serialize(writer, config, ns);
+					var serializer = new XmlSerializer(typeof(SiteConfig));
+					var namespaces = new XmlSerializerNamespaces();
+					namespaces.Add("", "");
 
+					using (var writer = new StreamWriter(tempPath))
+					{
+						serializer.Serialize(writer, config, namespaces);
+					}
+
+					if (File.Exists(options.SiteConfigFilePath))
+					{
+						File.Replace(tempPath, options.SiteConfigFilePath, destinationBackupFileName: null);
+					}
+					else
+					{
+						File.Move(tempPath, options.SiteConfigFilePath);
+					}
 					return true;
 				}
-				catch (Exception e)
+				catch (Exception exception)
 				{
-					logger.LogError(e, "Failed to save site configuration to {Path}", options.SiteConfigFilePath);
+					logger.LogError(exception, "Failed to save site configuration to {Path}", options.SiteConfigFilePath);
 					throw;
+				}
+				finally
+				{
+					File.Delete(tempPath);
 				}
 			}
 		}
