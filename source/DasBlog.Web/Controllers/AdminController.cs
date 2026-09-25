@@ -94,7 +94,10 @@ namespace DasBlog.Web.Controllers
 				return View("Settings", settings);
 			}
 
-			settings.SiteConfig.EnableComments = settings.SiteConfig.EnableBlogFeatures;
+			if (!settings.SiteConfig.EnableBlogFeatures)
+			{
+				settings.SiteConfig.EnableComments = false;
+			}
 
 			var site = mapper.Map<SiteConfig>(settings.SiteConfig);
 			var meta = mapper.Map<MetaTags>(settings.MetaConfig);

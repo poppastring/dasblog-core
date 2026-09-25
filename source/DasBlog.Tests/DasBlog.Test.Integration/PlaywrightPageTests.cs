@@ -403,6 +403,88 @@ namespace DasBlog.Test.Integration
 		}
 
 		[SkippableFact(typeof(PlaywrightException))]
+		public async Task ArchiveAllAllowsAuthenticatedUsersWhenBlogFeaturesAreDisabled()
+		{
+			Skip.If(AreWe.InDockerOrBuildServer, "In Docker!");
+
+			var siteConfig = Server.HostServices.GetRequiredService<IOptionsMonitor<SiteConfig>>();
+			var memoryCache = Server.HostServices.GetRequiredService<IMemoryCache>();
+			var originalEnableBlogFeatures = siteConfig.CurrentValue.EnableBlogFeatures;
+			var originalEnableComments = siteConfig.CurrentValue.EnableComments;
+
+			try
+			{
+				siteConfig.CurrentValue.EnableBlogFeatures = false;
+				siteConfig.CurrentValue.EnableComments = false;
+				memoryCache.Remove("CACHEKEY_ARCHIVE");
+
+				var anonymousResponse = await Page.GotoAsync(Server.RootUri + "/archive/all");
+				Assert.Equal(404, anonymousResponse?.Status);
+
+				await LoginToSite();
+				var authenticatedResponse = await Page.GotoAsync(Server.RootUri + "/archive/all");
+				Assert.Equal(200, authenticatedResponse?.Status);
+				Assert.StartsWith("Complete Archive - My DasBlog!", await Page.TitleAsync());
+				Assert.True(await Page.GetByRole(AriaRole.Link, new() { Name = "Edit this post" }).CountAsync() > 0);
+				Assert.True(await Page.GetByRole(AriaRole.Button, new() { Name = "Delete this post" }).CountAsync() > 0);
+				Assert.Equal(0, await Page.Locator(".dbc-comment-management-link").CountAsync());
+
+				// Keep blog features enabled to prove that disabled comments alone hide the management control.
+				siteConfig.CurrentValue.EnableBlogFeatures = true;
+				memoryCache.Remove("CACHEKEY_ARCHIVE");
+
+				var commentsDisabledResponse = await Page.GotoAsync(Server.RootUri + "/archive/all");
+				Assert.Equal(200, commentsDisabledResponse?.Status);
+				Assert.Equal(0, await Page.Locator(".dbc-comment-management-link").CountAsync());
+			}
+			finally
+			{
+				siteConfig.CurrentValue.EnableBlogFeatures = originalEnableBlogFeatures;
+				siteConfig.CurrentValue.EnableComments = originalEnableComments;
+				memoryCache.Remove("CACHEKEY_ARCHIVE");
+			}
+		}
+
+		[SkippableFact(typeof(PlaywrightException))]
+		public async Task AdminSettings_CommentsCanBeDisabledWhileBlogFeaturesRemainEnabled()
+		{
+			Skip.If(AreWe.InDockerOrBuildServer, "In Docker!");
+
+			var siteConfig = Server.HostServices.GetRequiredService<IOptionsMonitor<SiteConfig>>();
+			var originalEnableBlogFeatures = siteConfig.CurrentValue.EnableBlogFeatures;
+			var originalEnableComments = siteConfig.CurrentValue.EnableComments;
+
+			try
+			{
+				siteConfig.CurrentValue.EnableBlogFeatures = true;
+				siteConfig.CurrentValue.EnableComments = false;
+
+				await LoginToSite();
+				await Page.GotoAsync(Server.RootUri + "/admin/settings");
+				await Page.Locator("button[data-bs-target='#collapseComments']").ClickAsync();
+
+				var enableBlogFeatures = Page.Locator("input[id$='EnableBlogFeatures']");
+				var enableComments = Page.Locator("input[id$='EnableComments']");
+				Assert.True(await enableBlogFeatures.IsCheckedAsync());
+				Assert.False(await enableComments.IsCheckedAsync());
+				Assert.False(await enableComments.IsDisabledAsync());
+
+				await enableBlogFeatures.UncheckAsync();
+				Assert.False(await enableComments.IsCheckedAsync());
+				Assert.True(await enableComments.IsDisabledAsync());
+
+				await enableBlogFeatures.CheckAsync();
+				Assert.False(await enableComments.IsCheckedAsync());
+				Assert.False(await enableComments.IsDisabledAsync());
+			}
+			finally
+			{
+				siteConfig.CurrentValue.EnableBlogFeatures = originalEnableBlogFeatures;
+				siteConfig.CurrentValue.EnableComments = originalEnableComments;
+			}
+		}
+
+		[SkippableFact(typeof(PlaywrightException))]
 		public async Task NavigateToCategoryPageBadgeNavigation()
 		{
 			Skip.If(AreWe.InDockerOrBuildServer, "In Docker!");
