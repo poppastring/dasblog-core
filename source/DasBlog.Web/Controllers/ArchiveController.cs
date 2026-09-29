@@ -83,7 +83,7 @@ namespace DasBlog.Web.Controllers
 		}
 
 		[HttpGet("all")]
-		[RequireBlogFeatures]
+		[RequireBlogFeatures(allowAuthenticatedWhenDisabled: true)]
 		public IActionResult ArchiveAll()
 		{
 			DefaultPage(Constants.ArchiveAllPageTitle);

@@ -112,7 +112,9 @@
 
         function toggleBlogFeatures() {
             const blogFeaturesEnabled = enableBlogFeaturesCheckbox.checked;
-            enableCommentsCheckbox.checked = blogFeaturesEnabled;
+            if (!blogFeaturesEnabled) {
+                enableCommentsCheckbox.checked = false;
+            }
             enableCommentsCheckbox.disabled = !blogFeaturesEnabled;
             toggleAllFields();
         }
