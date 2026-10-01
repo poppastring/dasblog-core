@@ -33,7 +33,7 @@ cd myblog
 .\DasBlog.Web.exe
 ```
 
-Navigate to `http://localhost:5000`. The first request redirects you to `/admin/setup` to create your admin user — pick an email, display name, and a strong password, then you'll be sent to the login page.
+Navigate to `http://localhost:5000`. The first request redirects you to `/account/setup` to create your admin user — pick an email, display name, and a strong password, then you'll be sent to the login page.
 
 ## Features
 
@@ -62,14 +62,6 @@ Navigate to `http://localhost:5000`. The first request redirects you to `/admin/
 Check out the [wiki](https://github.com/poppastring/dasblog-core/wiki) for deployment guides, configuration, theme design, and architecture.
 
 Migrating from classic DasBlog? See the [migration guide](https://github.com/poppastring/dasblog-core/wiki/7.-Migrating-from-DasBlog).
-
-## Breaking changes (vNext)
-
-Google-specific analytics and captcha settings have been removed.
-
-Existing installs should migrate as follows:
-1. Remove deprecated keys from `Config/meta.config` and `Config/site.config` (`GoogleAnalyticsID`, `AnalyticsTrackingId`, `AnalyticsProvider`, `EnableCaptcha`, `RecaptchaSiteKey`, `RecaptchaSecretKey`, `RecaptchaMinimumScore`, `CaptchaSiteKey`, `CaptchaSecretKey`, `CaptchaMinimumScore`).
-2. Use built-in non-Google comment spam defenses: Akismet moderation (`EnableSpamModeration` + `AkismetAPIKey`) and/or the spam question fields (`CheesySpamQ`, `CheesySpamA`).
 
 ## Contributing
 
