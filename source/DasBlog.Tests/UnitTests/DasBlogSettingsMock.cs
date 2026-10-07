@@ -7,7 +7,7 @@ using DasBlog.Core.Security;
 using DasBlog.Services;
 using DasBlog.Services.ConfigFile;
 using DasBlog.Services.ConfigFile.Interfaces;
-using DasBlog.Services.FileManagement;
+using DasBlog.Services.FileManagement.Interfaces;
 using DasBlog.Services.Site;
 using DasBlog.Web.Settings;
 using Microsoft.AspNetCore.Hosting;
@@ -26,7 +26,7 @@ namespace DasBlog.Tests.UnitTests
 		public readonly Mock<IOptionsMonitor<MetaTags>> metaTagsMock;
 		public readonly Mock<IOptionsMonitor<OEmbedProviders>> oembedMock;
 		public readonly Mock<ISiteSecurityConfig> securityConfigMock;
-		public readonly Mock<IOptions<ConfigFilePathsDataOption>> configFilePathsMock;
+		public readonly Mock<IConfigFileService<SiteSecurityConfigData>> securityConfigFileServiceMock;
 		public readonly Mock<ITimeZoneProvider> timeZoneProviderMock;
 		public readonly SiteConfig siteConfig;
 		public readonly List<User> users;
@@ -38,7 +38,7 @@ namespace DasBlog.Tests.UnitTests
 			metaTagsMock = new Mock<IOptionsMonitor<MetaTags>>();
 			oembedMock = new Mock<IOptionsMonitor<OEmbedProviders>>();
 			securityConfigMock = new Mock<ISiteSecurityConfig>();
-			configFilePathsMock = new Mock<IOptions<ConfigFilePathsDataOption>>();
+			securityConfigFileServiceMock = new Mock<IConfigFileService<SiteSecurityConfigData>>();
 			timeZoneProviderMock = new Mock<ITimeZoneProvider>();
 
 			siteConfig = new SiteConfig
@@ -77,15 +77,14 @@ namespace DasBlog.Tests.UnitTests
 			siteConfigMock.Setup(s => s.CurrentValue).Returns(siteConfig);
 			metaTagsMock.Setup(m => m.CurrentValue).Returns(new MetaTags());
 			oembedMock.Setup(o => o.CurrentValue).Returns(new OEmbedProviders());
-			configFilePathsMock.Setup(c => c.Value).Returns(new ConfigFilePathsDataOption { SecurityConfigFilePath = "security.config" });
 			return new DasBlogSettings(
 				envMock.Object,
 				siteConfigMock.Object,
 				metaTagsMock.Object,
 				oembedMock.Object,
 				securityConfigMock.Object,
-				configFilePathsMock.Object,
-				timeZoneProviderMock.Object
+				timeZoneProviderMock.Object,
+				securityConfigFileServiceMock.Object
 			);
 		}
 	}

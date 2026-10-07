@@ -25,7 +25,8 @@ namespace DasBlog.Tests.UnitTests.Services
 			siteConfigPath = Path.Combine(tempDirectory, "site.config");
 			service = new SiteConfigFileService(
 				Options.Create(new ConfigFilePathsDataOption { SiteConfigFilePath = siteConfigPath }),
-				NullLogger<SiteConfigFileService>.Instance);
+				NullLogger<SiteConfigFileService>.Instance,
+				new AtomicFileWriter());
 		}
 
 		[Fact]

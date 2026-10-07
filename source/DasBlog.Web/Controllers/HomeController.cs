@@ -126,8 +126,8 @@ namespace DasBlog.Web.Controllers
 				var feature = HttpContext.Features.Get<IExceptionHandlerPathFeature>();
 				if (feature != null)
 				{
-					var path = feature.Path;
-					var ex = feature.Error;
+					logger.LogError(feature.Error, "Unhandled request error at {Path}; request ID {RequestId}",
+						feature.Path, Activity.Current?.Id ?? HttpContext.TraceIdentifier);
 				}
 				return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
 

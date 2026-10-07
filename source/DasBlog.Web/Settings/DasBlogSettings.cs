@@ -4,7 +4,7 @@ using DasBlog.Core.Security;
 using DasBlog.Services;
 using DasBlog.Services.ConfigFile;
 using DasBlog.Services.ConfigFile.Interfaces;
-using DasBlog.Services.FileManagement;
+using DasBlog.Services.FileManagement.Interfaces;
 using DasBlog.Services.Site;
 using Ganss.Xss;
 using Microsoft.AspNetCore.Hosting;
@@ -13,17 +13,14 @@ using newtelligence.DasBlog.Runtime;
 using NodaTime;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Net.Mail;
-using System.Xml.Serialization;
 
 namespace DasBlog.Web.Settings
 {
 	public class DasBlogSettings : IDasBlogSettings
 	{
-		private readonly string siteSecurityConfigFilePath;
-		private readonly ConfigFilePathsDataOption filePathDataOptions;
+		private readonly IConfigFileService<SiteSecurityConfigData> securityConfigFileService;
 		private readonly IOptionsMonitor<SiteConfig> siteConfigMonitor;
 		private readonly IOptionsMonitor<MetaTags> metaTagsMonitor;
 		private readonly IOptionsMonitor<OEmbedProviders> embedProvidersMonitor;
@@ -31,18 +28,16 @@ namespace DasBlog.Web.Settings
 
 		public DasBlogSettings(IWebHostEnvironment env, IOptionsMonitor<SiteConfig> siteConfig, IOptionsMonitor<MetaTags> metaTagsConfig, 
 									IOptionsMonitor<OEmbedProviders> embedProvidersConfig, 
-									ISiteSecurityConfig siteSecurityConfig, IOptions<ConfigFilePathsDataOption> optionsAccessor,
-									ITimeZoneProvider timeZoneProvider)
+									ISiteSecurityConfig siteSecurityConfig, ITimeZoneProvider timeZoneProvider,
+									IConfigFileService<SiteSecurityConfigData> securityConfigFileService)
 		{
 			WebRootDirectory = env.ContentRootPath;
 			siteConfigMonitor = siteConfig;
 			metaTagsMonitor = metaTagsConfig;
 			embedProvidersMonitor = embedProvidersConfig;
 			SecurityConfiguration = siteSecurityConfig;
-			filePathDataOptions = optionsAccessor.Value;
 			this.timeZoneProvider = timeZoneProvider;
-
-			siteSecurityConfigFilePath = filePathDataOptions.SecurityConfigFilePath;
+			this.securityConfigFileService = securityConfigFileService;
 		}
 
 		public string WebRootDirectory { get; }
@@ -172,12 +167,10 @@ namespace DasBlog.Web.Settings
 		public void AddUser(User user)
 		{
 			SecurityConfiguration.Users.Add(user);
-			var ser = new XmlSerializer(typeof(SiteSecurityConfig));
-
-			using (var writer = new StreamWriter(siteSecurityConfigFilePath))
+			securityConfigFileService.SaveConfig(new SiteSecurityConfigData
 			{
-				ser.Serialize(writer, SecurityConfiguration);
-			}
+				Users = SecurityConfiguration.Users.ToList()
+			});
 		}
 
 		public DateTimeZone GetConfiguredTimeZone()

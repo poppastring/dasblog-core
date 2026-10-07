@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
 using System.Xml.Serialization;
 using DasBlog.Services.ConfigFile;
 using DasBlog.Services.ConfigFile.Interfaces;
@@ -13,34 +10,34 @@ namespace DasBlog.Services.FileManagement
 {
 	public class MetaConfigFileService : IConfigFileService<MetaTags>
 	{
+		private readonly IAtomicFileWriter atomicFileWriter;
 		private readonly ConfigFilePathsDataOption options;
 		private readonly ILogger<MetaConfigFileService> logger;
 
-		public MetaConfigFileService(IOptions<ConfigFilePathsDataOption> optionsAccessor, ILogger<MetaConfigFileService> logger)
+		public MetaConfigFileService(IOptions<ConfigFilePathsDataOption> optionsAccessor,
+			ILogger<MetaConfigFileService> logger, IAtomicFileWriter atomicFileWriter)
 		{
 			options = optionsAccessor.Value;
 			this.logger = logger;
+			this.atomicFileWriter = atomicFileWriter;
 		}
 
 		public bool SaveConfig(MetaTags config)
 		{
-			var ser = new XmlSerializer(typeof(MetaTags));
-			var ns = new XmlSerializerNamespaces();
-			ns.Add("", "");
-
-			using (var writer = new StreamWriter(options.MetaConfigFilePath))
+			try
 			{
-				try
-				{
-					ser.Serialize(writer, config, ns);
+				var serializer = new XmlSerializer(typeof(MetaTags));
+				var namespaces = new XmlSerializerNamespaces();
+				namespaces.Add("", "");
 
-					return true;
-				}
-				catch (Exception e)
-				{
-					logger.LogError(e, "Failed to save meta tags configuration to {Path}", options.MetaConfigFilePath);
-					throw;
-				}
+				atomicFileWriter.Write(options.MetaConfigFilePath,
+					stream => serializer.Serialize(stream, config, namespaces));
+				return true;
+			}
+			catch (Exception exception)
+			{
+				logger.LogError(exception, "Failed to save meta tags configuration to {Path}", options.MetaConfigFilePath);
+				throw;
 			}
 		}
 	}
