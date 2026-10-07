@@ -15,6 +15,7 @@ namespace DasBlog.Web.Mappers
 			CreateMap<MetaTags, MetaViewModel>();
 			CreateMap<MetaViewModel, MetaTags>();
 
+			CreateMap<SiteConfig, SiteConfig>();
 			CreateMap<SiteConfig, SiteViewModel>();
 			CreateMap<SiteViewModel, SiteConfig>();
 
