@@ -548,12 +548,14 @@ namespace newtelligence.DasBlog.Runtime
 		/// <param name="month"></param>
 		/// <returns></returns>
 		public static bool OccursInMonth(Entry entry, DateTimeZone timeZone,
-										 DateTime month)
+		                                 DateTime month)
 		{
-			var entryDate = Instant.FromDateTimeUtc(DateTime.SpecifyKind(entry.CreatedUtc, DateTimeKind.Utc))
-				.InZone(timeZone).Date;
+			DateTime startOfMonth = new DateTime(month.Year, month.Month, 1, 0, 0, 0);
+			DateTime endOfMonth = new DateTime(month.Year, month.Month, 1, 0, 0, 0);
+			endOfMonth = endOfMonth.AddMonths(1);
+			endOfMonth = endOfMonth.AddSeconds(-1);
 
-			return entryDate.Year == month.Year && entryDate.Month == month.Month;
+			return (OccursBetween(entry, timeZone, startOfMonth, endOfMonth));
 		}
 
 		/// <summary>

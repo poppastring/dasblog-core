@@ -609,9 +609,12 @@ namespace newtelligence.DasBlog.Runtime
         {
             EntryCollection entries;
             Predicate<Entry> entryCriteria = null;
-            var (firstUtcDate, lastUtcDate) = DayEntry.GetUtcDateRangeForMonth(timeZone, month);
-            int maxDays = (lastUtcDate - firstUtcDate).Days + 1;
+            int daysInMonth;
 
+            // The number of days in the month is equivalent to the last day of the month.
+            daysInMonth = (new DateTime(month.Year, month.Month, 1, 0, 0, 0).AddMonths(1).AddSeconds(-1)).Day;
+
+            // the entry is only eligible if its timezone time is within start date or earlier 
             entryCriteria += EntryCollectionFilter.DefaultFilters.OccursInMonth(
                 timeZone, month);
 
@@ -620,8 +623,10 @@ namespace newtelligence.DasBlog.Runtime
                 entryCriteria += EntryCollectionFilter.DefaultFilters.IsInAcceptedLanguagesOrMultiLingual(acceptLanguages);
             }
 
+            // TODO:  In theory it should be unnecessary to specify the maxDays because there cannot be more than one
+            // DayEntry per day but it existed in previous code so .  Verify and then remove.
             entries = GetEntries(DayEntryCollectionFilter.DefaultFilters.OccursInMonth(timeZone, month),
-                entryCriteria, maxDays, int.MaxValue);
+                entryCriteria, daysInMonth, int.MaxValue);
 
             return entries;
         }
