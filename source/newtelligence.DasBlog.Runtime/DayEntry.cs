@@ -290,20 +290,29 @@ namespace newtelligence.DasBlog.Runtime
 		}
 
 		/// <summary>
-		/// Returns true if the specified DayEntry is within the same month as <c>month</c>;
+		/// Returns the UTC dates of daily containers that overlap the requested local month.
 		/// </summary>
-		/// <param name="dayEntry"></param>
 		/// <param name="timeZone"></param>
 		/// <param name="month"></param>
 		/// <returns></returns>
+		internal static (DateTime FirstUtcDate, DateTime LastUtcDate) GetUtcDateRangeForMonth(
+			DateTimeZone timeZone, DateTime month)
+		{
+			var firstLocalDate = new LocalDate(month.Year, month.Month, 1);
+			var firstInstant = firstLocalDate.AtStartOfDayInZone(timeZone).ToInstant();
+			var endInstant = firstLocalDate.PlusMonths(1).AtStartOfDayInZone(timeZone).ToInstant();
+
+			return (
+				firstInstant.ToDateTimeUtc().Date,
+				(endInstant - Duration.FromTicks(1)).ToDateTimeUtc().Date);
+		}
+
 		public static bool OccursInMonth(DayEntry dayEntry, DateTimeZone timeZone, DateTime month)
 		{
-			DateTime startOfMonth = new DateTime(month.Year, month.Month, 1, 0, 0, 0);
-			DateTime endOfMonth = new DateTime(month.Year, month.Month, 1, 0, 0, 0);
-			endOfMonth = endOfMonth.AddMonths(1);
-			endOfMonth = endOfMonth.AddSeconds(-1);
+			var (firstUtcDate, lastUtcDate) = GetUtcDateRangeForMonth(timeZone, month);
+			var containerDate = dayEntry.DateUtc.Date;
 
-			return (OccursBetween(dayEntry, timeZone, startOfMonth, endOfMonth));
+			return containerDate >= firstUtcDate && containerDate <= lastUtcDate;
 		}
 	}
 }
