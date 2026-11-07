@@ -49,8 +49,15 @@ namespace DasBlog.Managers
 			}
 
 			//All Pages
-            foreach (var e in publicEntries)
-            {
+			var pinnedHomePageId = dasBlogSettings.SiteConfiguration.PostPinnedToHomePage;
+			foreach (var e in publicEntries)
+			{
+				if (!string.IsNullOrWhiteSpace(pinnedHomePageId) &&
+					string.Equals(e.EntryId, pinnedHomePageId, StringComparison.OrdinalIgnoreCase))
+				{
+					continue;
+				}
+
 				var lastModified = GetLastModified(e);
 
 				//Start with a RARE change freq...newer posts are more likely to change more often.

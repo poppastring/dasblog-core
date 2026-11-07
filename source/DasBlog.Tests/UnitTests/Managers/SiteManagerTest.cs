@@ -56,21 +56,40 @@ namespace DasBlog.Tests.UnitTests.Managers
             return new SiteManager(settingsMock.Object, dataServiceMock.Object, loggingServiceMock.Object);
         }
 
-        [Fact]
-        public void Constructor_WithValidDependencies_ConstructsInstance()
-        {
-            var manager = CreateManager();
-            Assert.NotNull(manager);
-        }
+		[Fact]
+		public void Constructor_WithValidDependencies_ConstructsInstance()
+		{
+			var manager = CreateManager();
+			Assert.NotNull(manager);
+		}
 
-        [Fact]
-        public void GetGoogleSiteMap_ReturnsUrlSet()
-        {
-            var manager = CreateManager();
-            var result = manager.GetGoogleSiteMap();
-            Assert.NotNull(result);
+		[Fact]
+		public void GetGoogleSiteMap_ReturnsUrlSet()
+		{
+			var manager = CreateManager();
+			var result = manager.GetGoogleSiteMap();
+			Assert.NotNull(result);
 			Assert.Equal("daily", result.url[0].changefreq.ToString());
-        }
+		}
+
+		[Fact]
+		public void GetGoogleSiteMap_PinnedHomePage_ExcludesPostPermalink()
+		{
+			var pinnedEntry = new Entry
+			{
+				EntryId = "entry-1",
+				Title = "Pinned Home Page",
+				IsPublic = true,
+				CreatedUtc = new DateTime(2026, 8, 1, 12, 0, 0, DateTimeKind.Utc)
+			};
+			dataServiceMock.Setup(d => d.GetEntries(false)).Returns(new EntryCollection { pinnedEntry });
+			siteConfigMock.Object.PostPinnedToHomePage = pinnedEntry.EntryId;
+
+			var urls = CreateManager().GetGoogleSiteMap().url.Cast<Url>().Select(url => url.loc).ToList();
+
+			Assert.Contains("http://localhost/", urls);
+			Assert.DoesNotContain("http://localhost/seo-post", urls);
+		}
 
 		[Fact]
 		public void GetGoogleSiteMap_ModifiedEntry_UsesModifiedDateForRelatedUrls()
