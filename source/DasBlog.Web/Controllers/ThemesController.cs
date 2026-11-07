@@ -248,7 +248,7 @@ namespace DasBlog.Web.Controllers
 			try
 			{
 				var theme = themeManager.GetTheme(name);
-				var site = siteConfigMonitor.CurrentValue;
+				var site = mapper.Map<SiteConfig, SiteConfig>(siteConfigMonitor.CurrentValue);
 				site.Theme = theme.Name;
 
 				if (!fileSystemBinaryManager.SaveSiteConfig(site))
@@ -258,11 +258,13 @@ namespace DasBlog.Web.Controllers
 					return RedirectToAction("Index");
 				}
 
+				siteConfigMonitor.CurrentValue.Theme = theme.Name;
 				logger.LogInformation(new EventDataItem(EventCodes.Site, null, "Active theme set to '{0}'", theme.Name));
 				TempData["SuccessMessage"] = $"Active theme set to '{theme.Name}'.";
 			}
 			catch (Exception ex)
 			{
+				logger.LogError(ex, "Unable to activate theme {Theme}", name);
 				TempData["ErrorMessage"] = ex.Message;
 			}
 
