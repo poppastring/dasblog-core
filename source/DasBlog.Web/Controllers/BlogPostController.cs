@@ -722,19 +722,26 @@ namespace DasBlog.Web.Controllers
 
 		[HttpPost]
 		[Route("api/image/upload")]
-		public IActionResult UploadImage(IFormFile files)
+		public IActionResult UploadImage(IFormFile files, [FromForm] string path = null)
 		{
 			if (files == null || files.Length == 0)
 			{
 				return Json(new { success = false, message = "No file provided" });
 			}
 
+			if (!TryResolveBinaryDirectory(path, out _, out var relativePath))
+			{
+				return BadRequest(new { success = false, message = "Invalid upload directory" });
+			}
+
 			try
 			{
+				var fileName = Path.GetFileName(files.FileName.Replace('\\', '/'));
+				var targetFileName = relativePath == "/" ? fileName : $"{relativePath.Trim('/')}/{fileName}";
 				string imageUrl;
 				using (var stream = files.OpenReadStream())
 				{
-					imageUrl = binaryManager.SaveFile(stream, Path.GetFileName(files.FileName));
+					imageUrl = binaryManager.SaveFile(stream, targetFileName);
 				}
 
 				if (string.IsNullOrEmpty(imageUrl))
@@ -742,7 +749,7 @@ namespace DasBlog.Web.Controllers
 					return Json(new { success = false, message = "Failed to save file" });
 				}
 
-				return Json(new { success = true, files = new[] { imageUrl } });
+				return Json(new { success = true, files = new[] { imageUrl }, path = relativePath });
 			}
 			catch (Exception e)
 			{
@@ -751,26 +758,185 @@ namespace DasBlog.Web.Controllers
 			}
 		}
 
-		[HttpGet]
-		[Route("api/image/list")]
-		public IActionResult ListImages()
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		[Route("api/image/create-folder")]
+		public IActionResult CreateImageFolder([FromForm] string path = null, [FromForm] string name = null)
 		{
-			var imageExtensions = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
-				{ ".jpg", ".jpeg", ".png", ".gif", ".webp", ".svg" };
+			if (!IsValidImageFolderName(name))
+			{
+				return BadRequest(new { success = false, message = "Invalid folder name" });
+			}
+
+			if (!TryResolveBinaryDirectory(path, out var parentDirectory, out var relativePath))
+			{
+				return BadRequest(new { success = false, message = "Invalid folder path" });
+			}
+
+			if (relativePath != "/" && !Directory.Exists(parentDirectory))
+			{
+				return NotFound(new { success = false, message = "The selected parent directory does not exist" });
+			}
 
 			try
 			{
-				var binariesPath = pathResolver.BinariesPath;
-				if (!Directory.Exists(binariesPath))
+				var newDirectory = Path.Combine(parentDirectory, name);
+				if (Directory.Exists(newDirectory) || System.IO.File.Exists(newDirectory))
 				{
-					return Json(new { success = true, data = new { sources = Array.Empty<object>(), code = 220 } });
+					return Conflict(new { success = false, message = "A file or folder with that name already exists" });
 				}
 
-				var files = Directory.GetFiles(binariesPath)
-					.Where(f => imageExtensions.Contains(Path.GetExtension(f)))
-					.Select(f =>
+				Directory.CreateDirectory(newDirectory);
+				return Json(new { success = true, data = new { code = 220 } });
+			}
+			catch (Exception e)
+			{
+				logger.LogError(e, "Failed to create image folder");
+				return Json(new { success = false, message = $"Failed to create folder: {e.Message}" });
+			}
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		[Route("api/image/delete-folder")]
+		public IActionResult DeleteImageFolder([FromForm] string path = null, [FromForm] string name = null)
+		{
+			if (!IsValidImageFolderName(name))
+			{
+				return BadRequest(new { success = false, message = "Invalid folder name" });
+			}
+
+			if (!TryResolveBinaryDirectory($"{path}/{name}", out var directoryPath, out _))
+			{
+				return BadRequest(new { success = false, message = "Invalid folder path" });
+			}
+
+			try
+			{
+				if (!Directory.Exists(directoryPath))
+				{
+					return NotFound(new { success = false, message = "The selected folder does not exist" });
+				}
+
+				if (HasLinkedImageDirectory(directoryPath))
+				{
+					return BadRequest(new { success = false, message = "Linked directories cannot be deleted in the image browser." });
+				}
+
+				if (Directory.EnumerateFileSystemEntries(directoryPath).Any())
+				{
+					return Conflict(new { success = false, message = "The folder is not empty. Remove its contents before deleting it." });
+				}
+
+				Directory.Delete(directoryPath);
+				return Json(new { success = true, message = $"Folder deleted: {name}", data = new { code = 220 } });
+			}
+			catch (Exception e) when (e is IOException or UnauthorizedAccessException)
+			{
+				logger.LogError(e, "Failed to delete image folder");
+				return StatusCode(StatusCodes.Status500InternalServerError, new { success = false, message = "Failed to delete folder. Check the application logs for details." });
+			}
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		[Route("api/image/delete")]
+		public IActionResult DeleteImage([FromForm] string path = null, [FromForm] string name = null)
+		{
+			if (!IsValidImageFolderName(name) || !ImageExtensions.Contains(Path.GetExtension(name)))
+			{
+				return BadRequest(new { success = false, message = "Invalid image name" });
+			}
+
+			if (!TryResolveBinaryDirectory(path, out var directoryPath, out _))
+			{
+				return BadRequest(new { success = false, message = "Invalid image directory" });
+			}
+
+			try
+			{
+				var filePath = Path.Combine(directoryPath, name);
+				if (!System.IO.File.Exists(filePath))
+				{
+					return NotFound(new { success = false, message = "The selected image does not exist" });
+				}
+
+				if (HasLinkedImageDirectory(directoryPath) || (System.IO.File.GetAttributes(filePath) & FileAttributes.ReparsePoint) != 0)
+				{
+					return BadRequest(new { success = false, message = "Linked files or directories cannot be deleted in the image browser." });
+				}
+
+				System.IO.File.Delete(filePath);
+				return Json(new { success = true, message = $"Image deleted: {name}", data = new { code = 220 } });
+			}
+			catch (Exception e) when (e is IOException or UnauthorizedAccessException)
+			{
+				logger.LogError(e, "Failed to delete image");
+				return StatusCode(StatusCodes.Status500InternalServerError, new { success = false, message = "Failed to delete image. Check the application logs for details." });
+			}
+		}
+
+		private bool HasLinkedImageDirectory(string directoryPath)
+		{
+			var binaryRoot = Path.GetFullPath(pathResolver.BinariesPath);
+			for (var directory = new DirectoryInfo(directoryPath); directory != null && Path.GetRelativePath(binaryRoot, directory.FullName) != "."; directory = directory.Parent)
+			{
+				if ((directory.Attributes & FileAttributes.ReparsePoint) != 0)
+				{
+					return true;
+				}
+			}
+
+			return false;
+		}
+
+		private static readonly HashSet<string> ImageExtensions = new(StringComparer.OrdinalIgnoreCase)
+			{ ".jpg", ".jpeg", ".png", ".webp", ".gif", ".svg" };
+
+		private static bool IsValidImageFolderName(string name)
+		{
+			return !string.IsNullOrWhiteSpace(name) && name is not "." and not ".." &&
+				!name.EndsWith('.') && !name.EndsWith(' ') &&
+				!name.Contains('/') && !name.Contains('\\') && !name.Contains(':') && name.IndexOfAny(Path.GetInvalidFileNameChars()) < 0;
+		}
+
+		[HttpGet]
+		[Route("api/image/list")]
+		public IActionResult ListImages([FromQuery] string path = null)
+		{
+			if (!TryResolveBinaryDirectory(path, out var directoryPath, out var relativePath))
+			{
+				return BadRequest(new { success = false, message = "Invalid image directory" });
+			}
+
+			try
+			{
+				if (!Directory.Exists(directoryPath))
+				{
+					if (relativePath != "/")
 					{
-						var info = new FileInfo(f);
+						return NotFound(new { success = false, message = "The selected directory does not exist" });
+					}
+
+					return Json(new
+					{
+						success = true,
+						data = new
+						{
+							sources = new[]
+							{
+								new { name = "default", baseurl = Url.Content($"~/{pathResolver.BinariesUrlRelativePath}/"), path = relativePath, files = Array.Empty<object>(), folders = Array.Empty<string>() }
+							},
+							code = 220
+						}
+					});
+				}
+
+				var files = Directory.GetFiles(directoryPath)
+					.Where(file => ImageExtensions.Contains(Path.GetExtension(file)))
+					.Select(file =>
+					{
+						var info = new FileInfo(file);
 						return new
 						{
 							file = info.Name,
@@ -782,10 +948,16 @@ namespace DasBlog.Web.Controllers
 							isImage = true
 						};
 					})
-					.OrderByDescending(f => f.changed)
+					.OrderByDescending(file => file.changed)
 					.ToList();
-
-				var baseUrl = Url.Content($"~/{pathResolver.BinariesUrlRelativePath}/");
+				var folders = Directory.GetDirectories(directoryPath)
+					.Select(DirectoryName)
+					.OrderBy(folder => folder, StringComparer.OrdinalIgnoreCase)
+					.ToList();
+				if (relativePath != "/")
+				{
+					folders.Insert(0, "..");
+				}
 
 				return Json(new
 				{
@@ -797,9 +969,10 @@ namespace DasBlog.Web.Controllers
 							new
 							{
 								name = "default",
-								baseurl = baseUrl,
-								path = "",
-								files
+								baseurl = Url.Content($"~/{pathResolver.BinariesUrlRelativePath}/"),
+								path = relativePath,
+								files,
+								folders
 							}
 						},
 						code = 220
@@ -811,6 +984,36 @@ namespace DasBlog.Web.Controllers
 				logger.LogError(e, "Failed to list images");
 				return Json(new { success = false, message = $"Failed to list images: {e.Message}" });
 			}
+		}
+
+		private bool TryResolveBinaryDirectory(string path, out string directoryPath, out string relativePath)
+		{
+			directoryPath = null;
+			relativePath = null;
+
+			var segments = (path ?? string.Empty)
+				.Replace('\\', '/')
+				.Split('/', StringSplitOptions.RemoveEmptyEntries);
+			if (segments.Any(segment => !IsValidImageFolderName(segment)))
+			{
+				return false;
+			}
+
+			var binaryRoot = Path.GetFullPath(pathResolver.BinariesPath);
+			directoryPath = Path.GetFullPath(segments.Aggregate(binaryRoot, Path.Combine));
+			var pathFromRoot = Path.GetRelativePath(binaryRoot, directoryPath);
+			if (Path.IsPathRooted(pathFromRoot) || pathFromRoot == ".." || pathFromRoot.StartsWith($"..{Path.DirectorySeparatorChar}", StringComparison.Ordinal))
+			{
+				return false;
+			}
+
+			relativePath = segments.Length == 0 ? "/" : $"/{string.Join('/', segments)}/";
+			return true;
+		}
+
+		private static string DirectoryName(string directoryPath)
+		{
+			return Path.GetFileName(directoryPath.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar));
 		}
 
 		private static string FormatFileSize(long bytes)

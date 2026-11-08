@@ -37,7 +37,7 @@ Navigate to `http://localhost:5000`. The first request redirects you to `/accoun
 
 ## Features
 
-* **Browser editor** for creating and publishing posts with image uploads, categories, and scheduled publishing
+* **Browser editor** for creating and publishing posts with image uploads, browsable binary subfolders and image previews, categories, and scheduled publishing
 * **[Open Live Writer](https://openlivewriter.com/)** and MetaWeblog API support for desktop publishing
 * **[Theme management](https://github.com/poppastring/dasblog-core/wiki/4.-Designing-a-theme)** with a built-in editor for creating, customizing, and switching Razor themes
 * **Static pages** for content outside the blog timeline
@@ -46,6 +46,8 @@ Navigate to `http://localhost:5000`. The first request redirects you to `/accoun
 * **[ActivityPub](https://github.com/poppastring/dasblog-core/wiki/2.-Configure-your-blog#6-activitypub-optional)** for Fediverse discovery
 * **CDN support** for serving media from a content delivery network
 * **CLI tools** for [configuration and management](https://github.com/poppastring/dasblog-core/wiki/CLI-Reference)
+
+The image browser starts in the default binary folder every time it opens, rather than restoring the last visited subfolder. Create or open a binary subfolder before uploading to select the image destination. Image browsing, folder creation, and uploads use the current site's host, including during local debugging; the configured public blog URL still controls published image URLs. Select an image and use Remove file to delete it after confirmation, or use right-click Delete to delete it immediately; existing posts referencing it are not updated. To delete an empty folder, navigate to its parent and use the Delete button beside its name. Non-empty folders and linked files or directories cannot be deleted in the browser. Upload errors identify connection, session, and server size-limit failures.
 
 ## Install
 
