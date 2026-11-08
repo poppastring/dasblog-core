@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using AutoMapper;
 using DasBlog.Managers.Interfaces;
 using DasBlog.Services;
@@ -90,7 +91,68 @@ namespace DasBlog.Tests.UnitTests.Controllers
 			Assert.Equal(StatusCodes.Status404NotFound, controller.Response.StatusCode);
 		}
 
-		private static BlogPostController CreateController(IBlogManager blogManager)
+		[Fact]
+		public void UploadImage_Subfolder_SavesFileInSelectedDirectory()
+		{
+			var binaryManager = new Mock<IFileSystemBinaryManager>();
+			binaryManager.Setup(manager => manager.SaveFile(It.IsAny<Stream>(), "gallery/photo.png"))
+				.Returns("/content/binary/gallery/photo.png");
+			var pathResolver = new Mock<IDasBlogPathResolver>();
+			pathResolver.SetupGet(resolver => resolver.BinariesPath)
+				.Returns(Path.Combine(Path.GetTempPath(), "dasblog-binary-test"));
+			var controller = CreateController(Mock.Of<IBlogManager>(), binaryManager.Object, pathResolver.Object);
+			var image = new FormFile(new MemoryStream(new byte[] { 1 }), 0, 1, "files", "photo.png");
+
+			var result = controller.UploadImage(image, "/gallery/");
+
+			Assert.IsType<JsonResult>(result);
+			binaryManager.Verify(manager => manager.SaveFile(It.IsAny<Stream>(), "gallery/photo.png"), Times.Once);
+		}
+
+		[Fact]
+		public void UploadImage_PathOutsideBinaryDirectory_ReturnsBadRequest()
+		{
+			var binaryManager = new Mock<IFileSystemBinaryManager>();
+			var pathResolver = new Mock<IDasBlogPathResolver>();
+			pathResolver.SetupGet(resolver => resolver.BinariesPath)
+				.Returns(Path.Combine(Path.GetTempPath(), "dasblog-binary-test"));
+			var controller = CreateController(Mock.Of<IBlogManager>(), binaryManager.Object, pathResolver.Object);
+			var image = new FormFile(new MemoryStream(new byte[] { 1 }), 0, 1, "files", "photo.png");
+
+			var result = controller.UploadImage(image, "../outside");
+
+			Assert.IsType<BadRequestObjectResult>(result);
+			binaryManager.Verify(manager => manager.SaveFile(It.IsAny<Stream>(), It.IsAny<string>()), Times.Never);
+		}
+
+		[Theory]
+		[InlineData("../outside")]
+		[InlineData("nested/folder")]
+		[InlineData("folder:name")]
+		[InlineData(" ")]
+		public void CreateImageFolder_InvalidName_ReturnsBadRequest(string name)
+		{
+			var controller = CreateController(Mock.Of<IBlogManager>());
+
+			var result = controller.CreateImageFolder("/", name);
+
+			Assert.IsType<BadRequestObjectResult>(result);
+		}
+
+		[Fact]
+		public void CreateImageFolder_PathOutsideBinaryDirectory_ReturnsBadRequest()
+		{
+			var controller = CreateController(Mock.Of<IBlogManager>());
+
+			var result = controller.CreateImageFolder("../outside", "new-folder");
+
+			Assert.IsType<BadRequestObjectResult>(result);
+		}
+
+		private static BlogPostController CreateController(
+			IBlogManager blogManager,
+			IFileSystemBinaryManager binaryManager = null,
+			IDasBlogPathResolver pathResolver = null)
 		{
 			var settings = new Mock<IDasBlogSettings>();
 			var siteConfig = new Mock<ISiteConfig>();
@@ -117,6 +179,10 @@ namespace DasBlog.Tests.UnitTests.Controllers
 					Content = page.Content
 				});
 
+			var defaultPathResolver = new Mock<IDasBlogPathResolver>();
+			defaultPathResolver.SetupGet(resolver => resolver.BinariesPath)
+				.Returns(Path.Combine(Path.GetTempPath(), "dasblog-binary-test"));
+
 			return new BlogPostController(
 				blogManager,
 				Mock.Of<ICommentManager>(),
@@ -125,12 +191,12 @@ namespace DasBlog.Tests.UnitTests.Controllers
 				settings.Object,
 				mapper.Object,
 				Mock.Of<ICategoryManager>(),
-				Mock.Of<IFileSystemBinaryManager>(),
+				binaryManager ?? Mock.Of<IFileSystemBinaryManager>(),
 				Mock.Of<ILogger<BlogPostController>>(),
 				Mock.Of<IBlogPostViewModelCreator>(),
 				new MemoryCache(new MemoryCacheOptions()),
 				Mock.Of<IExternalEmbeddingHandler>(),
-				Mock.Of<IDasBlogPathResolver>());
+				pathResolver ?? defaultPathResolver.Object);
 		}
 	}
 }

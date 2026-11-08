@@ -135,6 +135,7 @@ namespace DasBlog.Web.TagHelpers.RichEdit
 						}}, false);
 					}}
 
+					var imageApiPath = new URL('{baseUrl}', window.location.href).pathname.replace(/\/$/, '') + '/api/image';
 					var editor = Jodit.make('#{tagHelper.ControlId}', {{
 						height: 500,
 						toolbarSticky: false,
@@ -153,8 +154,13 @@ namespace DasBlog.Web.TagHelpers.RichEdit
 							'undo', 'redo', 'fullsize'
 						],
 						filebrowser: {{
+							view: 'tiles',
+							saveStateInStorage: {{ storeLastOpenedFolder: false, storeView: true, storeSortBy: true }},
+							preview: true,
+							showPreviewNavigation: true,
+							showSelectButtonInPreview: true,
 							ajax: {{
-								url: '{baseUrl}/api/image/list',
+								url: imageApiPath + '/list',
 								method: 'GET',
 								withCredentials: true,
 								process: function(resp) {{
@@ -167,13 +173,28 @@ namespace DasBlog.Web.TagHelpers.RichEdit
 							getMessage: function(resp) {{
 								return resp.message || '';
 							}},
+							fileRemove: {{
+								url: imageApiPath + '/delete',
+								method: 'POST',
+								contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+								prepareData: function(data) {{
+									var form = document.getElementById('{tagHelper.ControlId}')?.closest('form');
+									var token = form?.querySelector('input[name=""__RequestVerificationToken""]')?.value;
+									if (!token) throw new Error('Security token missing. Refresh the page and try again.');
+									return {{ name: data.name, path: data.path, source: data.source, __RequestVerificationToken: token }};
+								}}
+							}},
 							uploader: {{
-								url: '{baseUrl}/api/image/upload',
+								url: imageApiPath + '/upload',
+								customUploadFunction: uploadImage,
 								format: 'json',
 								filesVariableName: function(i) {{ return 'files'; }},
 								withCredentials: true,
 								isSuccess: function(resp) {{
 									return resp.success;
+								}},
+								getMessage: function(resp) {{
+									return resp.message || 'Upload failed. Refresh the page and try again.';
 								}},
 								process: function(resp) {{
 									return {{
@@ -186,19 +207,23 @@ namespace DasBlog.Web.TagHelpers.RichEdit
 							}}
 						}},
 						uploader: {{
-							url: '{baseUrl}/api/image/upload',
+							url: imageApiPath + '/upload',
+							customUploadFunction: uploadImage,
 							format: 'json',
 							imagesExtensions: ['jpg', 'jpeg', 'png', 'gif', 'webp'],
 							filesVariableName: function(i) {{ return 'files'; }},
 							withCredentials: true,
+							prepareData: function(formData) {{
+								formData.set('path', editor.filebrowser.state.currentPath || '/');
+							}},
 							headers: {{
 								'RequestVerificationToken': document.querySelector('input[name=""__RequestVerificationToken""]')?.value || ''
 							}},
 							isSuccess: function(resp) {{
 								return resp.success;
 							}},
-							getMsg: function(resp) {{
-								return resp.message || 'Upload failed';
+							getMessage: function(resp) {{
+								return resp.message || 'Upload failed. Refresh the page and try again.';
 							}},
 							process: function(resp) {{
 								return {{
@@ -211,11 +236,91 @@ namespace DasBlog.Web.TagHelpers.RichEdit
 							defaultHandlerSuccess: function(data) {{
 								if (data.files && data.files.length) {{
 									for (var i = 0; i < data.files.length; i++) {{
-										this.s.insertHTML('<figure><img src=""' + data.files[i] + '"" alt="""" /></figure>');
+										this.j.s.insertHTML('<figure><img src=""' + data.files[i] + '"" alt="""" /></figure>');
 									}}
 								}}
 							}}
 						}}
+					}});
+
+					async function imageRequest(action, data, operation) {{
+						var form = document.getElementById('{tagHelper.ControlId}')?.closest('form');
+						var token = form?.querySelector('input[name=""__RequestVerificationToken""]')?.value;
+						if (!token) throw new Error('Security token missing. Refresh the page and try again.');
+						data.set('__RequestVerificationToken', token);
+
+						var response;
+						try {{
+							response = await fetch(imageApiPath + '/' + action, {{ method: 'POST', credentials: 'same-origin', body: data }});
+						}} catch (error) {{
+							throw new Error(operation + ' failed: unable to reach the server. Check your connection and try again.');
+						}}
+						if (response.redirected || response.status === 401 || response.status === 403) {{
+							throw new Error('Your session may have expired. Refresh the page and sign in again.');
+						}}
+						if (response.status === 413) throw new Error('The upload exceeds the server size limit. Try a smaller image.');
+						if (!(response.headers.get('content-type') || '').toLowerCase().includes('application/json')) {{
+							throw new Error(operation + ' failed (HTTP ' + response.status + '). Refresh the page and try again.');
+						}}
+						var result = await response.json();
+						if (!response.ok || !result.success) throw new Error(result.message || operation + ' failed.');
+						return result;
+					}}
+
+					async function uploadImage(data, showProgress) {{
+						showProgress(10);
+						try {{
+							return await imageRequest('upload', data, 'Image upload');
+						}} catch (error) {{
+							return {{ success: false, message: error.message }};
+						}} finally {{
+							showProgress(100);
+						}}
+					}}
+
+					var browser = editor.filebrowser;
+					browser.e.on('beforeOpen', function() {{
+						browser.state.currentPath = '';
+						browser.state.currentSource = 'default';
+						browser.state.activeElements = [];
+					}});
+					browser.e.off('addFolder.filebrowser').on('addFolder.filebrowser', function(data) {{
+						browser.prompt('Enter Directory name', 'Create directory', function(name) {{
+							imageRequest('create-folder', new URLSearchParams({{ name: name, path: data.path, source: data.source }}), 'Folder creation').then(function() {{
+								browser.status('Folder created: ' + name, true);
+								browser.e.fire('update.filebrowser');
+							}}).catch(function(error) {{ browser.status(error); }});
+						}}, 'type dir name');
+					}});
+					browser.e.off('removeFolder.filebrowser').on('removeFolder.filebrowser', function(data) {{
+						browser.confirm('Delete this empty folder?', 'Delete folder', function(yes) {{
+							if (!yes) return;
+							imageRequest('delete-folder', new URLSearchParams({{ name: data.name, path: data.path, source: data.source }}), 'Folder deletion').then(function(result) {{
+								browser.status(result.message, true);
+								browser.e.fire('update.filebrowser');
+							}}).catch(function(error) {{ browser.status(error); }});
+						}});
+					}});
+
+					browser.e.off('fileRemove.filebrowser').on('fileRemove.filebrowser', function() {{
+						var selected = browser.state.activeElements.slice();
+						if (!selected.length) return;
+						browser.confirm('Delete the selected images? Existing posts may still reference them.', 'Delete images', function(yes) {{
+							if (!yes) return;
+							(async function() {{
+								try {{
+									for (var item of selected) {{
+										var result = await imageRequest('delete', new URLSearchParams({{ name: item.file || item.name, path: item.path, source: item.sourceName }}), 'Image deletion');
+										browser.status(result.message, true);
+									}}
+								}} catch (error) {{
+									browser.status(error);
+								}} finally {{
+									browser.state.activeElements = [];
+									browser.e.fire('update.filebrowser');
+								}}
+							}})();
+						}});
 					}});
 
 					editor.e.on('filebrowser:insertImage', function(url) {{

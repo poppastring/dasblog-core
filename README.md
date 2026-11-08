@@ -37,7 +37,7 @@ Navigate to `http://localhost:5000`. The first request redirects you to `/accoun
 
 ## Features
 
-* **Browser editor** for creating and publishing posts with image uploads, categories, and scheduled publishing
+* **Browser editor** for creating and publishing posts with image uploads, browsable binary subfolders and image previews, categories, and scheduled publishing
 * **[Open Live Writer](https://openlivewriter.com/)** and MetaWeblog API support for desktop publishing
 * **[Theme management](https://github.com/poppastring/dasblog-core/wiki/4.-Designing-a-theme)** with a built-in editor for creating, customizing, and switching Razor themes
 * **Static pages** for content outside the blog timeline
@@ -46,6 +46,8 @@ Navigate to `http://localhost:5000`. The first request redirects you to `/accoun
 * **[ActivityPub](https://github.com/poppastring/dasblog-core/wiki/2.-Configure-your-blog#6-activitypub-optional)** for Fediverse discovery
 * **CDN support** for serving media from a content delivery network
 * **CLI tools** for [configuration and management](https://github.com/poppastring/dasblog-core/wiki/CLI-Reference)
+
+
 
 ## Install
 
