@@ -134,7 +134,7 @@ steps:
     command: push
     packagesToPush: '$(Build.ArtifactStagingDirectory)/nupkg/*.nupkg'
     nuGetFeedType: external
-    publishFeedCredentials: 'NuGetOrg'
+    publishFeedCredentials: 'NuGetOrg-New'
 
 - task: PublishPipelineArtifact@1
   displayName: Publish NuGet artifact
