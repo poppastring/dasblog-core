@@ -6,20 +6,6 @@
 	Layout = "../../Themes/dasblog/_Layout.cshtml";
 }
 
-<link rel="stylesheet" href="~/lib/codemirror/5.65.16/codemirror.min.css" />
-<link rel="stylesheet" href="~/lib/codemirror/5.65.16/theme/eclipse.min.css" />
-<link rel="stylesheet" href="~/lib/codemirror/5.65.16/theme/material-darker.min.css" />
-<style>
-	.CodeMirror {
-		height: auto;
-		min-height: 500px;
-		border: 1px solid #ced4da;
-		border-radius: .375rem;
-		font-family: Consolas, "Courier New", monospace;
-		font-size: 0.9rem;
-	}
-</style>
-
 <h1>
 	@Model.DisplayTitle
 	<small class="text-muted ms-2">
@@ -46,11 +32,7 @@
 	<input type="hidden" asp-for="Name" />
 
 	<div class="mb-3">
-		<textarea asp-for="Content"
-				  id="static-page-content"
-				  class="form-control font-monospace"
-				  rows="25"
-				  spellcheck="false"></textarea>
+		<rich-edit name="Content" id="static-page-content">@Model.Content</rich-edit>
 	</div>
 
 	<div class="dbc-admin-actions d-flex flex-wrap align-items-center justify-content-between gap-3 mt-4">
@@ -129,57 +111,31 @@
 }
 
 @section Scripts {
-	<script src="~/lib/codemirror/5.65.16/codemirror.min.js"></script>
-	<script src="~/lib/codemirror/5.65.16/mode/xml/xml.min.js"></script>
-	<script src="~/lib/codemirror/5.65.16/mode/javascript/javascript.min.js"></script>
-	<script src="~/lib/codemirror/5.65.16/mode/css/css.min.js"></script>
-	<script src="~/lib/codemirror/5.65.16/mode/htmlmixed/htmlmixed.min.js"></script>
+	<rich-edit-scripts control-id="static-page-content" />
 	<script>
-		(function () {
+		document.addEventListener('DOMContentLoaded', function () {
 			var textarea = document.getElementById('static-page-content');
-			if (!textarea || typeof CodeMirror === 'undefined') { return; }
-
-			function pickTheme() {
-				return document.documentElement.getAttribute('data-bs-theme') === 'dark'
-					? 'material-darker'
-					: 'eclipse';
-			}
-
-			var editor = CodeMirror.fromTextArea(textarea, {
-				mode: 'htmlmixed',
-				lineNumbers: true,
-				lineWrapping: true,
-				indentUnit: 4,
-				tabSize: 4,
-				theme: pickTheme(),
-				viewportMargin: Infinity,
-				extraKeys: {
-					'Ctrl-S': function (cm) { triggerSave(); },
-					'Cmd-S': function (cm) { triggerSave(); }
-				}
-			});
-
-			var observer = new MutationObserver(function () {
-				editor.setOption('theme', pickTheme());
-			});
-			observer.observe(document.documentElement, {
-				attributes: true,
-				attributeFilter: ['data-bs-theme']
-			});
+			var editor = textarea && textarea.jodit;
+			if (!editor) { return; }
 
 			var dirty = false;
 			var dirtyBadge = document.getElementById('dirty-indicator');
-			editor.on('change', function () {
-				if (!dirty) {
-					dirty = true;
-					if (dirtyBadge) { dirtyBadge.style.display = ''; }
-				}
+			editor.e.on('change', function () {
+				dirty = true;
+				if (dirtyBadge) { dirtyBadge.style.display = ''; }
 			});
 
 			function triggerSave() {
-				editor.save();
+				textarea.value = editor.value;
 				document.getElementById('static-page-save').click();
 			}
+
+			document.addEventListener('keydown', function (e) {
+				if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's') {
+					e.preventDefault();
+					triggerSave();
+				}
+			});
 
 			window.addEventListener('beforeunload', function (e) {
 				if (dirty) {
@@ -188,13 +144,12 @@
 				}
 			});
 
-			var form = textarea.form;
-			if (form) {
-				form.addEventListener('submit', function () {
-					editor.save();
+			if (textarea.form) {
+				textarea.form.addEventListener('submit', function () {
+					textarea.value = editor.value;
 					dirty = false;
 				});
 			}
-		})();
+		});
 	</script>
 }

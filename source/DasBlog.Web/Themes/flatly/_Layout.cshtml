@@ -20,13 +20,9 @@
     <blog-posting-schema />
     <site-identity-schema />
 
-    @* Flatly is a Bootswatch 5.3.3 Flatly swatch (https://bootswatch.com/flatly/).
-       The full Bootstrap + Flatly palette ships from ~/lib/bootswatch/5.3.3/flatly/,
-       and the small DasBlog-specific overrides come from ~/Themes/flatly/custom.css
-       loaded by _HtmlThemePartial. *@
-
-    <link rel="stylesheet" href="~/lib/bootswatch/5.3.3/flatly/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/lib/font-awesome/6.7.2/css/all.css" />
+    @* Bootswatch Flatly includes Bootstrap; load DasBlog overrides after the swatch. *@
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/5.3.3/flatly/bootstrap.min.css" integrity="sha384-Gn6TIhloBHiLpI1VM8qQG+H8QQhHXqsiUlMLS4uhr9gqQzFsOhMTo0lSTMbOrLoI" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha384-nRgPTkuX86pH8yjPJUAFuASXQSSl2/bBUiNV47vSYpKFxHJhbcrGnmlYpYJMeD7a" crossorigin="anonymous" />
 
     <partial name="_HtmlThemePartial" />
 
@@ -75,7 +71,7 @@
     </div>
 
     <script src="~/lib/jquery/3.5.1/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.3/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
 
     @RenderSection("scripts", required: false)

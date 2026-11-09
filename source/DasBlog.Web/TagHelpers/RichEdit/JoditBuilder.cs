@@ -6,8 +6,8 @@ namespace DasBlog.Web.TagHelpers.RichEdit
 	public class JoditBuilder : IRichEditBuilder
 	{
 		private readonly IUrlResolver urlResolver;
-		private const string JODIT_JS_CDN = "https://cdn.jsdelivr.net/npm/jodit@4/es2021/jodit.min.js";
-		private const string JODIT_CSS_CDN = "https://cdn.jsdelivr.net/npm/jodit@4/es2021/jodit.min.css";
+		private const string JODIT_JS_CDN = "https://cdn.jsdelivr.net/npm/jodit@4.19.10/es2021/jodit.min.js";
+		private const string JODIT_CSS_CDN = "https://cdn.jsdelivr.net/npm/jodit@4.19.10/es2021/jodit.min.css";
 
 		public JoditBuilder(IUrlResolver urlResolver)
 		{

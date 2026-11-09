@@ -227,7 +227,7 @@ namespace DasBlog.Web
 			services.AddScheduler();
 			services.AddTransient<SiteEmailReport>();
 
-			services.AddScoped<IRichEditBuilder>(SelectRichEditor)
+			services.AddScoped<IRichEditBuilder, JoditBuilder>()
 				.AddScoped<IBlogPostViewModelCreator, BlogPostViewModelCreator>();
 
 			services.AddRouting(options =>
@@ -258,20 +258,5 @@ namespace DasBlog.Web
 			return services;
 		}
 
-		private static IRichEditBuilder SelectRichEditor(IServiceProvider serviceProvider)
-		{
-			var siteConfig = serviceProvider.GetRequiredService<ISiteConfig>();
-			var urlResolver = serviceProvider.GetRequiredService<IUrlResolver>();
-			var entryEditControl = siteConfig.EntryEditControl.ToLower();
-
-			return entryEditControl switch
-			{
-				Constants.TinyMceEditor => new TinyMceBuilder(siteConfig, urlResolver),
-				Constants.NicEditEditor => new NicEditBuilder(siteConfig),
-				Constants.FroalaEditor => new FroalaBuilder(),
-				Constants.JoditEditor => new JoditBuilder(urlResolver),
-				_ => new JoditBuilder(urlResolver)
-			};
-		}
 	}
 }
