@@ -35,7 +35,6 @@ namespace DasBlog.Tests.UnitTests
 		public bool SendCommentsByEmail { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 		public bool EnableBloggerApi { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 		public bool EnableBlogFeatures { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-		public string TinyMCEApiKey { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 		public bool EnableComments { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 		public bool EnableStartPageCaching { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 		public bool EnableProgressiveFrontPageLoading { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }

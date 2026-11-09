@@ -4,20 +4,6 @@
   "libraries": [
     {
       "provider": "cdnjs",
-      "library": "twitter-bootstrap@5.3.3",
-      "destination": "wwwroot/lib/bootstrap/5.3.3/"
-    },
-    {
-      "provider": "cdnjs",
-      "library": "bootswatch@5.3.3",
-      "destination": "wwwroot/lib/bootswatch/5.3.3/",
-      "files": [
-        "darkly/bootstrap.min.css",
-        "flatly/bootstrap.min.css"
-      ]
-    },
-    {
-      "provider": "cdnjs",
       "library": "jquery@3.5.1",
       "destination": "wwwroot/lib/jquery/3.5.1/"
     },
@@ -36,11 +22,6 @@
         "additional-methods.min.js",
         "additional-methods.js"
       ]
-    },
-    {
-      "provider": "cdnjs",
-      "library": "font-awesome@6.7.2",
-      "destination": "wwwroot/lib/font-awesome/6.7.2/"
     }
   ]
 }

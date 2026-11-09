@@ -96,7 +96,6 @@ namespace DasBlog.Services.ConfigFile
         public bool ObfuscateEmail { get; set; }
         public string NotificationEMailAddress { get; set; }
         public bool SendCommentsByEmail { get; set; }
-        public string TinyMCEApiKey { get; set; }
         public bool EnableBloggerApi { get; set; }
         public bool EnableBlogFeatures { get; set; }
         public bool EnableComments { get; set; }
@@ -128,6 +127,7 @@ namespace DasBlog.Services.ConfigFile
         public bool EnableSearchHighlight { get; set; }
         public int DaysCommentsAllowed { get; set; }
         public bool EnableCommentDays { get; set; }
+        // Retained to deserialize old site.config files; the editor selection is ignored.
         public string EntryEditControl { get; set; }
         public bool LogBlockedReferrals { get; set; }
         public bool ShowCommentsWhenViewingEntry { get; set; }

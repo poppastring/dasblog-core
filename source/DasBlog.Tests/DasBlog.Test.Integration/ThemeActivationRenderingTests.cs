@@ -94,6 +94,8 @@ namespace DasBlog.Test.Integration
 					})
 					.Configure(app =>
 					{
+						app.UseDasBlogLegacyAssets();
+						app.UseDasBlogSecurityHeaders(configuration);
 						app.UseRouting();
 						app.UseAuthentication();
 						app.UseAuthorization();
@@ -106,6 +108,11 @@ namespace DasBlog.Test.Integration
 				var settings = server.Services.GetRequiredService<IDasBlogSettings>();
 				Assert.Equal(initialTheme, monitor.CurrentValue.Theme);
 				await AssertHome(client, initialTheme, summary, "baseline");
+				using (var legacyStyle = await client.GetAsync("/lib/font-awesome/6.7.2/css/all.css?v=custom-theme"))
+				{
+					Assert.Equal(HttpStatusCode.Found, legacyStyle.StatusCode);
+					Assert.Equal("https://cdn.jsdelivr.net/gh/FortAwesome/Font-Awesome@6.7.2/css/all.css?v=custom-theme", legacyStyle.Headers.Location.AbsoluteUri);
+				}
 
 				var beforeActivation = monitor.CurrentValue;
 				using (var scope = server.Services.CreateScope())
@@ -158,6 +165,22 @@ namespace DasBlog.Test.Integration
 			Assert.Contains("INTRO_MARKER", html);
 			// Actual selected theme stylesheet, not just the mutated options object.
 			Assert.Contains(theme == "dasblog" ? "/Themes/dasblog/custom.css" : $"/theme/{theme}/custom.css", html);
+			var bootstrapCss = theme == "darkly" || theme == "flatly"
+				? $"bootswatch/5.3.3/{theme}/bootstrap.min.css"
+				: "twitter-bootstrap/5.3.3/css/bootstrap.min.css";
+			Assert.Contains($"href=\"https://cdnjs.cloudflare.com/ajax/libs/{bootstrapCss}\" integrity=\"sha384-", html);
+			Assert.Contains("href=\"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css\" integrity=\"sha384-", html);
+			Assert.Contains("src=\"https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.3/js/bootstrap.bundle.min.js\" integrity=\"sha384-", html);
+			Assert.Equal(3, html.Split("crossorigin=\"anonymous\"", StringSplitOptions.None).Length - 1);
+			Assert.DoesNotContain("/lib/bootstrap/", html);
+			Assert.DoesNotContain("/lib/bootswatch/", html);
+			Assert.DoesNotContain("/lib/font-awesome/", html);
+			var policy = Assert.Single(response.Headers.GetValues("Content-Security-Policy"));
+			foreach (var directive in new[] { "style-src", "script-src", "font-src" })
+			{
+				var sources = Assert.Single(policy.Split(';', StringSplitOptions.TrimEntries), value => value.StartsWith(directive + " "));
+				Assert.Contains("https://cdnjs.cloudflare.com", sources.Split(' '));
+			}
 			if (summary) Assert.DoesNotContain("FULL_BODY_MARKER", html);
 			else Assert.Contains("FULL_BODY_MARKER", html);
 		}

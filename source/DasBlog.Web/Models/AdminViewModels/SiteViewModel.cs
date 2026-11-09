@@ -6,7 +6,7 @@ using DasBlog.Core.Common.Comments;
 
 namespace DasBlog.Web.Models.AdminViewModels
 {
-	public class SiteViewModel : IValidatableObject
+	public class SiteViewModel
 	{
 		[DisplayName("Title")]
 		[Description("Main title of the blog")]
@@ -158,14 +158,14 @@ namespace DasBlog.Web.Models.AdminViewModels
 		public string CheesySpamA { get; set; }
 
 
-		[DisplayName("Style Sources (seperate by semi colon)")]
-		[Description("")]
-		[StringLength(600, MinimumLength = 1, ErrorMessage = "{0} should be between 1 to 600 characters")]
+		[DisplayName("Additional Style Sources (separated by semicolons)")]
+		[Description("Additional origins allowed to load styles from; built-in asset sources are always included.")]
+		[StringLength(600, ErrorMessage = "{0} cannot exceed 600 characters")]
 		public string SecurityStyleSources { get; set; }
 
-		[DisplayName("Script Sources (seperate by semi colon)")]
-		[Description("")]
-		[StringLength(600, MinimumLength = 1, ErrorMessage = "{0} should be between 1 to 600 characters")]
+		[DisplayName("Additional Script Sources (separated by semicolons)")]
+		[Description("Additional origins allowed to load scripts from; built-in asset sources are always included.")]
+		[StringLength(600, ErrorMessage = "{0} cannot exceed 600 characters")]
 		public string SecurityScriptSources { get; set; }
 
 
@@ -186,16 +186,6 @@ namespace DasBlog.Web.Models.AdminViewModels
 		[Description("")]
 		[StringLength(300, MinimumLength = 1, ErrorMessage = "{0} should be between 1 to 300 characters")]
 		public string ChannelImageUrl { get; set; }
-
-		[DisplayName("Web post edit control")]
-		[Description("")]
-		[StringLength(300, MinimumLength = 1, ErrorMessage = "{0} should be between 1 to 300 characters")]
-		public string EntryEditControl { get; set; }
-		
-		[DisplayName("TinyMCE API Key")]
-		[Description("")]
-		[StringLength(300, MinimumLength = 1, ErrorMessage = "{0} should be between 1 to 300 characters")]
-		public string TinyMCEApiKey { get; set; }
 
 		[DisplayName("Content directory")]
 		[Description("")]
@@ -306,9 +296,9 @@ namespace DasBlog.Web.Models.AdminViewModels
 		[Description("Help meet some of the EU General Data Protection Regulation (GDPR) requirements")]
 		public bool CookieConsentEnabled { get; set; }
 
-		[DisplayName("Default Sources (separated by semi colon")]
-		[Description("")]
-		[StringLength(600, MinimumLength = 1, ErrorMessage = "{0} should be between 1 to 600 characters")]
+		[DisplayName("Additional Default Sources (separated by semicolons)")]
+		[Description("Additional origins for other resources, images, and fonts; built-in asset sources are always included in their directives.")]
+		[StringLength(600, ErrorMessage = "{0} cannot exceed 600 characters")]
 		public string DefaultSources { get; set; }
 
 		[DisplayName("Mastodon Server")]
@@ -359,23 +349,5 @@ namespace DasBlog.Web.Models.AdminViewModels
 		public bool HtmlTidyContent { get; set; }
 		public bool CategoryAllEntries { get; set; }
 				public string AllowedHosts { get; set; }
-
-				public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
-				{
-					var results = new List<ValidationResult>();
-
-					// Only validate TinyMCE API Key if TinyMce is selected as the entry edit control
-					if (EntryEditControl == "TinyMce")
-					{
-						if (string.IsNullOrWhiteSpace(TinyMCEApiKey))
-						{
-							results.Add(new ValidationResult(
-								"Enter a value for TinyMCE API Key or enter 'no-api-key'",
-								new[] { nameof(TinyMCEApiKey) }));
-						}
-					}
-
-					return results;
-				}
 			}
 		}

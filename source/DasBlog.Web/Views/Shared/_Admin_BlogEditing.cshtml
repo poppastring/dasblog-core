@@ -34,48 +34,17 @@
     </div>
 </div>
 
-<div class="row gy-2 gx-3 align-items-md-start mb-3">
-    <div class="col-sm-4">
-        <div class="form-floating">
-            @Html.DropDownListFor(n => n.SiteConfig.EntryEditControl,
-                new SelectList(new EntryEditControlViewModel().Init(), "Name", "Name"),
-                new { @class = "form-select col-3", id = "entryEditControl" })
-            @Html.LabelFor(m => @Model.SiteConfig.EntryEditControl, null, new { @class = "form-label", @for = "entryEditControl" })
-        </div>
-        @Html.ValidationMessageFor(m => m.SiteConfig.EntryEditControl, null, new { @class = "text-danger" })
-    </div>
-    <div class="col-sm-4">
-        <div class="form-floating">
-            @Html.TextBoxFor(m => @Model.SiteConfig.TinyMCEApiKey, null, new { @class = "form-control", id = "tinyMCEApiKey" })
-            @Html.LabelFor(m => @Model.SiteConfig.TinyMCEApiKey, null, new { @class = "form-label", @for = "tinyMCEApiKey" })
-        </div>
-        @Html.ValidationMessageFor(m => m.SiteConfig.TinyMCEApiKey, null, new { @class = "text-danger" })
-    </div>
-</div>
-
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const enableBloggerApiCheckbox = document.querySelector('[id$="EnableBloggerApi"]');
         const preferredBloggingApiDropdown = document.getElementById('preferredBloggingAPI');
-        const entryEditControlDropdown = document.getElementById('entryEditControl');
-        const tinyMCEApiKeyTextbox = document.getElementById('tinyMCEApiKey');
 
         function togglePreferredBloggingApi() {
             const isEnabled = enableBloggerApiCheckbox.checked;
             preferredBloggingApiDropdown.disabled = !isEnabled;
         }
 
-        function toggleTinyMCEApiKey() {
-            const isTinyMce = entryEditControlDropdown.value === 'TinyMce';
-            tinyMCEApiKeyTextbox.disabled = !isTinyMce;
-        }
-
-        // Initialize the state on page load
         togglePreferredBloggingApi();
-        toggleTinyMCEApiKey();
-
-        // Add event listeners
         enableBloggerApiCheckbox.addEventListener('change', togglePreferredBloggingApi);
-        entryEditControlDropdown.addEventListener('change', toggleTinyMCEApiKey);
     });
 </script>

@@ -94,8 +94,6 @@ namespace DasBlog.Services.ConfigFile.Interfaces
 
         bool SendCommentsByEmail { get; set; }
 
-        string TinyMCEApiKey { get; set; }
-        
         bool EnableBloggerApi { get; set; }
 
         bool EnableBlogFeatures { get; set; }
