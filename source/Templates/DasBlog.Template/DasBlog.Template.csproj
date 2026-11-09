@@ -1,11 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <PackageType>Template</PackageType>
-    <PackageVersion>10.6.0</PackageVersion>
+    <PackageVersion>10.7.0</PackageVersion>
     <PackageId>DasBlog.Template</PackageId>
     <Title>DasBlog Core Blog Template</Title>
     <Authors>Mark Downie</Authors>
-    <Description>A dotnet new template for creating a DasBlog Core blog. Run: dotnet new dasblog -n myblog</Description>
+    <Description>A .NET 10 dotnet new template for creating a self-hosted DasBlog Core blog, with XML-file storage and no database required. Run: dotnet new dasblog -n myblog</Description>
     <PackageTags>dotnet-new;templates;blog;dasblog;aspnet</PackageTags>
     <PackageProjectUrl>https://github.com/poppastring/dasblog-core</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
