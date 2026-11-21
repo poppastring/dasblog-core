@@ -15,6 +15,7 @@ using newtelligence.DasBlog.Runtime;
 using NodaTime;
 using DasBlog.Services.XmlRpc.MoveableType;
 using System.Linq;
+using Microsoft.AspNetCore.Http;
 
 namespace DasBlog.Tests.UnitTests.Managers
 {
@@ -69,7 +70,7 @@ namespace DasBlog.Tests.UnitTests.Managers
 		private XmlRpcManager CreateManagerWithDataService()
 		{
 			return new XmlRpcManager(settingsMock.Object, securityMock.Object, binaryManagerMock.Object,
-				dataServiceMock.Object, loggingServiceMock.Object);
+				dataServiceMock.Object, loggingServiceMock.Object, new HttpContextAccessor());
 		}
 
 		[Fact]
@@ -87,6 +88,21 @@ namespace DasBlog.Tests.UnitTests.Managers
 			var manager = CreateManagerWithDataService();
 			var result = manager.mt_publishPost("postid", "user", "pw");
 			Assert.True(result);
+		}
+
+		[Fact]
+		public void mt_publishPost_AppPasswordAccess_ReturnsTrue()
+		{
+			var user = new User { Password = "account-hash", DisplayName = "user", EmailAddress = "a@b.com" };
+			securityMock.Setup(s => s.GetUser(It.IsAny<string>())).Returns(user);
+			securityMock.Setup(s => s.VerifyHashedPassword("account-hash", "app-password")).Returns(false);
+			securityMock.Setup(s => s.VerifyAppPassword(user, "app-password", It.IsAny<string>())).Returns(true);
+
+			var manager = CreateManagerWithDataService();
+			var result = manager.mt_publishPost("postid", "user", "app-password");
+
+			Assert.True(result);
+			securityMock.Verify(s => s.VerifyAppPassword(user, "app-password", It.IsAny<string>()), Times.Once);
 		}
 
 		[Fact]

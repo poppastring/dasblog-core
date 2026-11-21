@@ -24,7 +24,7 @@ namespace DasBlog.Tests.UnitTests.Web.Services
 
 			// Use a real SiteSecurityManager so VerifyHashedPassword behaves authentically.
 			var settings = new Mock<DasBlog.Services.IDasBlogSettings>().Object;
-			var security = new DasBlog.Managers.SiteSecurityManager(settings, new PasswordHasher<object>());
+			var security = new DasBlog.Managers.SiteSecurityManager(settings, new PasswordHasher<object>(), userService.Object);
 
 			return new DefaultCredentialsCheck(userService.Object, environment.Object, security);
 		}

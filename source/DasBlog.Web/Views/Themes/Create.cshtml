@@ -6,8 +6,10 @@
     Layout = "../../Themes/dasblog/_Layout.cshtml";
 }
 
-<h1>Create Theme</h1>
-<hr />
+<div class="dbc-settings-heading mb-4">
+    <h1 class="mb-1">@ViewData["Title"]</h1>
+    <p class="text-body-secondary mb-0">Create a theme by copying an existing theme's files.</p>
+</div>
 
 @Html.ValidationSummary(false, "", new { @class = "text-danger" })
 

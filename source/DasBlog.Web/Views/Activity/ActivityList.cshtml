@@ -38,8 +38,10 @@
 
 }
 
-<h1>@ViewBag.Title</h1>
-<hr />
+<div class="dbc-settings-heading mb-4">
+    <h1 class="mb-1">@ViewBag.Title</h1>
+    <p class="text-body-secondary mb-0">Review site events and security activity by date.</p>
+</div>
 
 <div class="row">
     <form asp-controller="Activity" asp-action="Index" method="get" class="d-flex flex-wrap align-items-center gap-2">

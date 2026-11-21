@@ -46,18 +46,20 @@
     bool isSummaryFile(string path) => summaryFiles.Contains(path);
 }
 
-<h1>
-    Theme: @Model.Theme.Name
-    @if (Model.Theme.IsActive)
-    {
-        <span class="badge bg-success align-middle">Active</span>
-    }
-    @if (Model.Theme.IsDefault)
-    {
-        <span class="badge bg-secondary align-middle">Built-in (locked)</span>
-    }
-</h1>
-<hr />
+<div class="dbc-settings-heading mb-4">
+    <h1 class="mb-1">
+        Theme: @Model.Theme.Name
+        @if (Model.Theme.IsActive)
+        {
+            <span class="badge bg-success align-middle">Active</span>
+        }
+        @if (Model.Theme.IsDefault)
+        {
+            <span class="badge bg-secondary align-middle">Built-in (locked)</span>
+        }
+    </h1>
+    <p class="text-body-secondary mb-0">Review theme files and edit or preview this theme.</p>
+</div>
 
 <partial name="_SuccessAlertPartial" view-data="ViewData" />
 <partial name="_ErrorAlertPartial" view-data="ViewData" />

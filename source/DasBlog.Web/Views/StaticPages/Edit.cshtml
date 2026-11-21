@@ -6,14 +6,13 @@
 	Layout = "../../Themes/dasblog/_Layout.cshtml";
 }
 
-<h1>
-	@Model.DisplayTitle
-	<small class="text-muted ms-2">
-		Public URL: <code>@Model.PublicUrlPath</code>
-	</small>
-	<span id="dirty-indicator" class="badge bg-warning text-dark ms-2" style="display:none;" title="You have unsaved changes">Unsaved</span>
-</h1>
-<hr />
+<div class="dbc-settings-heading mb-4">
+	<h1 class="mb-1">
+		@Model.DisplayTitle
+		<span id="dirty-indicator" class="badge bg-warning text-dark ms-2" style="display:none;" title="You have unsaved changes">Unsaved</span>
+	</h1>
+	<p class="text-body-secondary mb-0">Public URL: <code>@Model.PublicUrlPath</code></p>
+</div>
 
 <partial name="_SuccessAlertPartial" view-data="ViewData" />
 <partial name="_ErrorAlertPartial" view-data="ViewData" />

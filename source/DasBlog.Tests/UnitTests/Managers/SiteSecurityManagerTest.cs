@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Security.Cryptography;
 using System.Text;
+using System.Xml.Serialization;
 using DasBlog.Managers;
+using DasBlog.Services.ConfigFile;
 using DasBlog.Services.ConfigFile.Interfaces;
+using DasBlog.Services.Users;
 using DasBlog.Core.Security;
 using DasBlog.Managers.Interfaces;
 using DasBlog.Web.Identity;
@@ -37,7 +41,9 @@ namespace DasBlog.Tests.UnitTests.Managers
 
         private SiteSecurityManager CreateManager()
         {
-            return new SiteSecurityManager(settingsMock.Object, new PasswordHasher<object>());
+            var userServiceMock = new Mock<IUserService>();
+            userServiceMock.Setup(service => service.GetAllUsers()).Returns(users);
+            return new SiteSecurityManager(settingsMock.Object, new PasswordHasher<object>(), userServiceMock.Object);
         }
 
         [Fact]
@@ -64,6 +70,106 @@ namespace DasBlog.Tests.UnitTests.Managers
             string password = "password";
             string hash = manager.HashPassword(password);
             Assert.False(manager.VerifyHashedPassword(hash, "wrongpassword"));
+        }
+
+        [Fact]
+        public void VerifyAppPassword_ValidToken_PersistsLastUsedDetails()
+        {
+            const string token = "dbapp-test-token";
+            var passwordHasher = new PasswordHasher<object>();
+            var user = users[0];
+            user.AppPasswords = new List<AppPassword>
+            {
+                new AppPassword { Id = "app-id", Name = "Open Live Writer", Hash = passwordHasher.HashPassword(null, token) }
+            };
+            var userServiceMock = new Mock<IUserService>();
+            userServiceMock.Setup(service => service.GetAllUsers()).Returns(users);
+
+            var manager = new SiteSecurityManager(settingsMock.Object, passwordHasher, userServiceMock.Object);
+            var result = manager.VerifyAppPassword(user, token, "192.0.2.1");
+
+            Assert.True(result);
+            Assert.False(string.IsNullOrEmpty(user.AppPasswords[0].LastUsed));
+            Assert.Equal("192.0.2.1", user.AppPasswords[0].LastIp);
+            userServiceMock.Verify(service => service.SaveUsers(users), Times.Once);
+        }
+
+        [Fact]
+        public void VerifyAppPassword_InvalidToken_DoesNotSaveUsage()
+        {
+            var passwordHasher = new PasswordHasher<object>();
+            var user = users[0];
+            user.AppPasswords = new List<AppPassword>
+            {
+                new AppPassword { Id = "app-id", Hash = passwordHasher.HashPassword(null, "valid-token") }
+            };
+            var userServiceMock = new Mock<IUserService>();
+            userServiceMock.Setup(service => service.GetAllUsers()).Returns(users);
+
+            var manager = new SiteSecurityManager(settingsMock.Object, passwordHasher, userServiceMock.Object);
+
+            Assert.False(manager.VerifyAppPassword(user, "invalid-token", "192.0.2.1"));
+            userServiceMock.Verify(service => service.SaveUsers(It.IsAny<List<User>>()), Times.Never);
+        }
+
+        [Fact]
+        public void AppPassword_Serialization_PreservesMetadata()
+        {
+            var configuration = new SiteSecurityConfigData
+            {
+                Users = new List<User>
+                {
+                    new User
+                    {
+                        EmailAddress = "test@example.com",
+                        AppPasswords = new List<AppPassword>
+                        {
+                            new AppPassword
+                            {
+                                Id = "app-id",
+                                Name = "Open Live Writer",
+                                Hash = "hashed-token",
+                                Created = "2026-05-26T20:00:00.0000000Z",
+                                LastUsed = "2026-05-26T20:42:00.0000000Z",
+                                LastIp = "192.0.2.1"
+                            }
+                        }
+                    }
+                }
+            };
+            var serializer = new XmlSerializer(typeof(SiteSecurityConfigData));
+            string serialized;
+            using (var writer = new StringWriter())
+            {
+                serializer.Serialize(writer, configuration);
+                serialized = writer.ToString();
+            }
+
+            SiteSecurityConfigData roundTripped;
+            using (var reader = new StringReader(serialized))
+            {
+                roundTripped = (SiteSecurityConfigData)serializer.Deserialize(reader);
+            }
+
+            var appPassword = Assert.Single(Assert.Single(roundTripped.Users).AppPasswords);
+            Assert.Equal("Open Live Writer", appPassword.Name);
+            Assert.Equal("hashed-token", appPassword.Hash);
+            Assert.Equal("2026-05-26T20:42:00.0000000Z", appPassword.LastUsed);
+            Assert.Equal("192.0.2.1", appPassword.LastIp);
+        }
+
+        [Fact]
+        public void LegacyUserXml_WithoutAppPasswords_LoadsWithNoAppPasswords()
+        {
+            const string xml = "<SiteSecurityConfig><Users><User><EmailAddress>test@example.com</EmailAddress></User></Users></SiteSecurityConfig>";
+            var serializer = new XmlSerializer(typeof(SiteSecurityConfigData));
+            SiteSecurityConfigData configuration;
+            using (var reader = new StringReader(xml))
+            {
+                configuration = (SiteSecurityConfigData)serializer.Deserialize(reader);
+            }
+
+            Assert.Empty(Assert.Single(configuration.Users).AppPasswords);
         }
 
         [Fact]

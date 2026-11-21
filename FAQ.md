@@ -45,6 +45,10 @@ Optionally, update custom themes to direct CDN links with integrity checks, usin
 Copy the matching `integrity` and `crossorigin="anonymous"` attributes from the updated built-in layouts. Custom themes already using integrity checks on local assets should use direct CDN links with `crossorigin="anonymous"`, because integrity checks on cross-origin responses require CORS. When deploying, replace the application and built-in theme files together, retain your configuration/content and custom themes, and remove the obsolete Bootstrap, Bootswatch, and Font Awesome directories from the published `wwwroot/lib` folder. No configuration migration or theme activation is needed.
 
 
+#### Q: Can I use Open Live Writer without giving it my account password?
+A: Yes. Open **Admin > Authors**, edit the author account, then use **Manage app passwords** to create a named credential. Use the displayed login name and the generated app password in Open Live Writer's existing MetaWeblog username/password fields. App passwords are stored as hashes, shown only once, and can be revoked independently. Your account password continues to work for existing clients and browser login; app passwords are single-purpose credentials for MetaWeblog clients and do not provide additional permissions beyond publishing as that author.
+
+
 #### Q: Which editor is used for posts and static pages?
 A: DasBlog uses Jodit 4.19.10 for both post and static-page editing. The editor is loaded from the pinned jsDelivr release; allow `https://cdn.jsdelivr.net` in `script-src`, `style-src`, and `font-src` if you enforce a stricter CSP outside DasBlog. Editor selection and TinyMCE API-key settings have been removed. Older `EntryEditControl` and `TinyMCEApiKey` values in `site.config` are ignored, so no manual configuration migration is needed. Image uploads, the image browser, and saving static-page content continue to use DasBlog's existing endpoints.
 

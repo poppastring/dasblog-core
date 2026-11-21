@@ -1,0 +1,102 @@
+@model DasBlog.Web.Models.AppPasswordsViewModel
+
+@{
+    ViewBag.Title = "App Passwords";
+    Layout = "../../Themes/dasblog/_Layout.cshtml";
+
+    ViewData["ModalId"] = "confirmGenerateModal";
+    ViewData["ModalTitle"] = "Generate App Password";
+    ViewData["ModalMessage"] = "Generate a new app password? It will be shown only once.";
+    ViewData["ModalConfirmText"] = "Generate password";
+    ViewData["HiddenButtonId"] = "hiddenGenerateButton";
+}
+
+<div class="dbc-settings-heading mb-4">
+    <h1 class="mb-1">@ViewData["Title"]</h1>
+    <p class="text-body-secondary mb-0">Manage credentials for @Model.AuthorName (login name: @Model.LoginName).</p>
+    <p class="text-body-secondary mt-2">Use this login name with an app password in Open Live Writer or another MetaWeblog client. Your account password continues to work and can be revoked independently.</p>
+</div>
+
+@if (Model.GeneratedPassword != null)
+{
+    <div class="alert alert-warning" role="alert">
+        <p><strong>Copy this password now. It will not be shown again.</strong></p>
+        <p class="mb-1">@ViewData["GeneratedAppPasswordName"] for login <strong>@Model.LoginName</strong></p>
+        <code>@Model.GeneratedPassword</code>
+    </div>
+}
+
+@if (TempData["SuccessMessage"] is string successMessage)
+{
+    <div class="alert alert-success" role="status">@successMessage</div>
+}
+
+<h2>Existing app passwords</h2>
+@if (Model.AppPasswords.Count == 0)
+{
+    <p>No app passwords have been created.</p>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Created (UTC)</th>
+                    <th>Last used (UTC)</th>
+                    <th>Last IP</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var appPassword in Model.AppPasswords)
+                {
+                    <tr>
+                        <td>@appPassword.Name</td>
+                        <td>@appPassword.Created</td>
+                        <td>@(string.IsNullOrEmpty(appPassword.LastUsed) ? "Never" : appPassword.LastUsed)</td>
+                        <td>@(string.IsNullOrEmpty(appPassword.LastIp) ? "—" : appPassword.LastIp)</td>
+                        <td>
+                            @{ var revokeModalId = $"confirmRevokeModal_{appPassword.Id}"; }
+                            <form asp-action="Revoke" asp-route-email="@Model.LoginName" asp-route-id="@appPassword.Id" method="post" class="d-inline">
+                                @Html.AntiForgeryToken()
+                                <button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#@revokeModalId">Revoke</button>
+                                <input type="submit" id="hiddenRevokeButton_@appPassword.Id" style="display:none;" />
+                            </form>
+                            @{
+                                ViewData["ModalId"] = revokeModalId;
+                                ViewData["ModalTitle"] = "Revoke App Password";
+                                ViewData["ModalMessage"] = $"Revoke the app password '{appPassword.Name}'? Any client using it will no longer be able to sign in.";
+                                ViewData["ModalConfirmText"] = "Revoke password";
+                                ViewData["ModalConfirmClass"] = "btn-danger";
+                                ViewData["HiddenButtonId"] = $"hiddenRevokeButton_{appPassword.Id}";
+                            }
+                            <partial name="_ConfirmationModalPartial" view-data="ViewData" />
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+
+<h2>Create an app password</h2>
+@Html.ValidationSummary(false, "", new { @class = "text-danger" })
+<form asp-action="Create" asp-route-email="@Model.LoginName" method="post" id="CreateAppPasswordForm">
+    @Html.AntiForgeryToken()
+    <div class="mb-3">
+        <label asp-for="NewPasswordName" class="form-label"></label>
+        <input asp-for="NewPasswordName" class="form-control" autocomplete="off" />
+        <span asp-validation-for="NewPasswordName" class="text-danger"></span>
+        <div class="form-text">Use a name that identifies the application or device.</div>
+    </div>
+    <div class="dbc-admin-actions d-flex flex-wrap align-items-center justify-content-between gap-3 mt-4">
+        <a asp-controller="Author" asp-action="EditAuthor" asp-route-email="@Model.LoginName" class="btn btn-outline-secondary">Back to author</a>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confirmGenerateModal">
+            <i class="fa-solid fa-key me-2" aria-hidden="true"></i>Generate password
+        </button>
+    </div>
+    <input type="submit" id="hiddenGenerateButton" style="display:none;" />
+</form>
+<partial name="_ConfirmationModalPartial" view-data="ViewData" />

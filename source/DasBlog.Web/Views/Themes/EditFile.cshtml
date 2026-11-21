@@ -41,11 +41,13 @@
     }
 </style>
 
-<h1>
-    @Model.ThemeName / <code>@Model.RelativePath</code>
-    <span id="dirty-indicator" class="badge bg-warning text-dark ms-2" style="display:none;" title="You have unsaved changes">Unsaved</span>
-</h1>
-<hr />
+<div class="dbc-settings-heading mb-4">
+    <h1 class="mb-1">
+        @Model.ThemeName / <code>@Model.RelativePath</code>
+        <span id="dirty-indicator" class="badge bg-warning text-dark ms-2" style="display:none;" title="You have unsaved changes">Unsaved</span>
+    </h1>
+    <p class="text-body-secondary mb-0">Review this theme file. Edits to writable theme files take effect immediately.</p>
+</div>
 
 @Html.ValidationSummary(false, "", new { @class = "text-danger" })
 

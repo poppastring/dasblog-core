@@ -38,6 +38,7 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.Xml.Serialization;
 
 namespace DasBlog.Core.Security
@@ -80,6 +81,10 @@ namespace DasBlog.Core.Security
 
 		[XmlElement("Password")]
 		public string Password { get; set; }
+
+		[XmlArray("AppPasswords")]
+		[XmlArrayItem("AppPassword")]
+		public List<AppPassword> AppPasswords { get; set; } = new List<AppPassword>();
 
 		public string XmlPassword { get; set; }
 

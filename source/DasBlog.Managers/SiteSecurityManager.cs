@@ -1,8 +1,10 @@
 ﻿using DasBlog.Core.Security;
 using DasBlog.Managers.Interfaces;
 using DasBlog.Services;
+using DasBlog.Services.Users;
 using Microsoft.AspNetCore.Identity;
 using System;
+using System.Globalization;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -16,11 +18,13 @@ namespace DasBlog.Managers
 
 		private readonly IDasBlogSettings dasBlogSettings;
 		private readonly IPasswordHasher<object> identityHasher;
+		private readonly IUserService userService;
 
-		public SiteSecurityManager(IDasBlogSettings dasBlogSettings, IPasswordHasher<object> identityHasher)
+		public SiteSecurityManager(IDasBlogSettings dasBlogSettings, IPasswordHasher<object> identityHasher, IUserService userService)
 		{
 			this.dasBlogSettings = dasBlogSettings;
 			this.identityHasher = identityHasher;
+			this.userService = userService ?? throw new ArgumentNullException(nameof(userService));
 		}
 
 		public string HashPassword(string password)
@@ -110,6 +114,35 @@ namespace DasBlog.Managers
 
 			var computed = algorithm.ComputeHash(Encoding.Unicode.GetBytes(providedPassword));
 			return CryptographicOperations.FixedTimeEquals(expected, computed);
+		}
+
+		public bool VerifyAppPassword(User user, string providedPassword, string lastIp)
+		{
+			if (user == null || string.IsNullOrEmpty(providedPassword))
+			{
+				return false;
+			}
+
+			var users = userService.GetAllUsers().ToList();
+			var persistedUser = users.FirstOrDefault(candidate =>
+				string.Equals(candidate.EmailAddress, user.EmailAddress, StringComparison.OrdinalIgnoreCase));
+			var persistedAppPassword = persistedUser?.AppPasswords?.FirstOrDefault(candidate =>
+				VerifyHashedPassword(candidate.Hash, providedPassword));
+			if (persistedAppPassword == null)
+			{
+				return false;
+			}
+
+			UpdateAppPasswordUsage(persistedAppPassword, lastIp);
+			userService.SaveUsers(users);
+			dasBlogSettings.SecurityConfiguration.Users = users;
+			return true;
+		}
+
+		private static void UpdateAppPasswordUsage(AppPassword appPassword, string lastIp)
+		{
+			appPassword.LastUsed = DateTime.UtcNow.ToString("O", CultureInfo.InvariantCulture);
+			appPassword.LastIp = lastIp ?? string.Empty;
 		}
 
 		public User GetUser(string userName)
