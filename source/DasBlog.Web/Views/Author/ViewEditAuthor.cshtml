@@ -14,11 +14,19 @@
     ViewData["HiddenButtonId"] = "hiddenSubmitButton";
 }
 
-<h1>@ViewData["Title"]</h1>
-<hr />
+<div class="dbc-settings-heading mb-4">
+    <h1 class="mb-1">@ViewData["Title"]</h1>
+    <p class="text-body-secondary mb-0">Manage profile details and publishing credentials for @Model.DisplayName (@Model.EmailAddress).</p>
+</div>
 
 <!-- Success Alert using reusable partial -->
 <partial name="_SuccessAlertPartial" view-data="ViewData" />
+
+<div class="mb-4">
+    <h2>App passwords</h2>
+    <p>Create and revoke credentials for Open Live Writer and other MetaWeblog clients. These credentials belong to @Model.DisplayName (@Model.EmailAddress).</p>
+    <a asp-controller="AppPasswords" asp-action="Index" asp-route-email="@Model.OriginalEmail" class="btn btn-outline-primary">Manage app passwords</a>
+</div>
 
 <form asp-action="UpdateAuthor" method="post" name="editForm" id="editForm" class="row g-3">
 

@@ -87,6 +87,12 @@ namespace DasBlog.Web.Controllers
 			}
 
 			var dasbloguser = mapper.Map<User>(authorviewmodel);
+			var existingUser = userService.GetAllUsers().FirstOrDefault(user =>
+				string.Equals(user.EmailAddress, authorviewmodel.OriginalEmail, System.StringComparison.OrdinalIgnoreCase));
+			if (existingUser != null)
+			{
+				dasbloguser.AppPasswords = existingUser.AppPasswords;
+			}
 
 			userService.AddOrReplaceUser(dasbloguser, authorviewmodel.OriginalEmail);
 			siteSecurityConfig.Users = userService.GetAllUsers().ToList();

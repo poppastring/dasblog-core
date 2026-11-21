@@ -12,8 +12,10 @@
     ViewData["HiddenButtonId"] = "hiddenCreateButton";
 }
 
-<h1>@ViewData["Title"]</h1>
-<hr />
+<div class="dbc-settings-heading mb-4">
+    <h1 class="mb-1">@ViewData["Title"]</h1>
+    <p class="text-body-secondary mb-0">Write and publish a new blog post.</p>
+</div>
 
 <!-- Success Alert using reusable partial -->
 <partial name="_SuccessAlertPartial" view-data="ViewData" />

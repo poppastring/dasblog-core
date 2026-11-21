@@ -1,4 +1,4 @@
-#region Copyright (c) 2003, newtelligence AG. All rights reserved.
+﻿#region Copyright (c) 2003, newtelligence AG. All rights reserved.
 /*
 // Copyright (c) 2003, newtelligence AG. (http://www.newtelligence.com)
 // Original BlogX Source Code: Copyright (c) 2003, Chris Anderson (http://simplegeek.com)
@@ -52,6 +52,7 @@ using MoveableType = DasBlog.Services.XmlRpc.MoveableType;
 using MetaWeblog = DasBlog.Services.XmlRpc.MetaWeblog;
 using CookComputing.XmlRpc;
 using System.Net;
+using Microsoft.AspNetCore.Http;
 
 namespace DasBlog.Managers
 {
@@ -63,15 +64,17 @@ namespace DasBlog.Managers
 		private readonly ILoggingDataService loggingDataService;
 		private readonly IDasBlogSettings dasBlogSettings;
 		private readonly IFileSystemBinaryManager binaryManager;
+		private readonly IHttpContextAccessor httpContextAccessor;
 
 		public XmlRpcManager(IDasBlogSettings dasBlogSettings, ISiteSecurityManager siteSecurityManager, IFileSystemBinaryManager binaryManager,
-			IBlogDataService dataService, ILoggingDataService loggingDataService)
+			IBlogDataService dataService, ILoggingDataService loggingDataService, IHttpContextAccessor httpContextAccessor)
 		{
 			this.dasBlogSettings = dasBlogSettings;
 			this.siteSecurityManager = siteSecurityManager;
 			this.binaryManager = binaryManager;
 			this.dataService = dataService;
 			this.loggingDataService = loggingDataService;
+			this.httpContextAccessor = httpContextAccessor;
 		}
 
 		public string Invoke(Stream requestStream)
@@ -755,7 +758,13 @@ namespace DasBlog.Managers
 				return false;
 			}
 
-			return siteSecurityManager.VerifyHashedPassword(user.Password, password);
+			if (siteSecurityManager.VerifyHashedPassword(user.Password, password))
+			{
+				return true;
+			}
+
+			var remoteIp = httpContextAccessor.HttpContext?.Connection.RemoteIpAddress?.ToString();
+			return siteSecurityManager.VerifyAppPassword(user, password, remoteIp);
 		}
 
 		private void VerifyAccess(string username, string password)

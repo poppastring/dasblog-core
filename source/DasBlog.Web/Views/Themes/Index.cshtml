@@ -7,8 +7,10 @@
     Layout = "../../Themes/dasblog/_Layout.cshtml";
 }
 
-<h1>Themes</h1>
-<hr />
+<div class="dbc-settings-heading mb-4">
+    <h1 class="mb-1">@ViewData["Title"]</h1>
+    <p class="text-body-secondary mb-0">Browse, create, and customize the themes used to present your blog.</p>
+</div>
 
 <partial name="_SuccessAlertPartial" view-data="ViewData" />
 <partial name="_ErrorAlertPartial" view-data="ViewData" />

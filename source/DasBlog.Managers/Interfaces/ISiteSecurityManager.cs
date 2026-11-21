@@ -14,6 +14,8 @@ namespace DasBlog.Managers.Interfaces
 
 		bool VerifyHashedPassword(string hashedPassword, string providedPassword);
 
+		bool VerifyAppPassword(User user, string providedPassword, string lastIp);
+
 		User GetUser(string userName);
 
 		User GetUserByDisplayName(string displayName);
