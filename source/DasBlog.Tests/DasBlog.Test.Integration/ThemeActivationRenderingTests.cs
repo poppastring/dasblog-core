@@ -185,7 +185,7 @@ namespace DasBlog.Test.Integration
 			else Assert.Contains("FULL_BODY_MARKER", html);
 		}
 
-		private static string FindSourceRoot()
+		internal static string FindSourceRoot()
 		{
 			for (var directory = new DirectoryInfo(AppContext.BaseDirectory); directory != null; directory = directory.Parent)
 			{
@@ -195,7 +195,7 @@ namespace DasBlog.Test.Integration
 			throw new DirectoryNotFoundException("The source-tree reproducer requires source/DasBlog.Web and UnitTests/TestContent.");
 		}
 
-		private static void PrepareContentRoot(string sourceRoot, string root, string theme, bool summary)
+		internal static void PrepareContentRoot(string sourceRoot, string root, string theme, bool summary)
 		{
 			var web = Path.Combine(sourceRoot, "DasBlog.Web");
 			CopyTree(Path.Combine(web, "Views"), Path.Combine(root, "Views"));
