@@ -3,12 +3,6 @@
 @{
     ViewBag.Title = "App Passwords";
     Layout = "../../Themes/dasblog/_Layout.cshtml";
-
-    ViewData["ModalId"] = "confirmGenerateModal";
-    ViewData["ModalTitle"] = "Generate App Password";
-    ViewData["ModalMessage"] = "Generate a new app password? It will be shown only once.";
-    ViewData["ModalConfirmText"] = "Generate password";
-    ViewData["HiddenButtonId"] = "hiddenGenerateButton";
 }
 
 <div class="dbc-settings-heading mb-4">
@@ -64,15 +58,12 @@ else
                                 <button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#@revokeModalId">Revoke</button>
                                 <input type="submit" id="hiddenRevokeButton_@appPassword.Id" style="display:none;" />
                             </form>
-                            @{
-                                ViewData["ModalId"] = revokeModalId;
-                                ViewData["ModalTitle"] = "Revoke App Password";
-                                ViewData["ModalMessage"] = $"Revoke the app password '{appPassword.Name}'? Any client using it will no longer be able to sign in.";
-                                ViewData["ModalConfirmText"] = "Revoke password";
-                                ViewData["ModalConfirmClass"] = "btn-danger";
-                                ViewData["HiddenButtonId"] = $"hiddenRevokeButton_{appPassword.Id}";
-                            }
-                            <partial name="_ConfirmationModalPartial" view-data="ViewData" />
+                            <confirmation-modal modal-id="@revokeModalId"
+                                                title="Revoke App Password"
+                                                message="@($"Revoke the app password '{appPassword.Name}'? Any client using it will no longer be able to sign in.")"
+                                                confirm-text="Revoke password"
+                                                confirm-class="btn-danger"
+                                                hidden-button-id="@($"hiddenRevokeButton_{appPassword.Id}")" />
                         </td>
                     </tr>
                 }
@@ -99,4 +90,8 @@ else
     </div>
     <input type="submit" id="hiddenGenerateButton" style="display:none;" />
 </form>
-<partial name="_ConfirmationModalPartial" view-data="ViewData" />
+<confirmation-modal modal-id="confirmGenerateModal"
+                    title="Generate App Password"
+                    message="Generate a new app password? It will be shown only once."
+                    confirm-text="Generate password"
+                    hidden-button-id="hiddenGenerateButton" />
