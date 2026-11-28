@@ -1,12 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using DasBlog.Core.Common.Comments;
+using DasBlog.Services.ConfigFile;
 
 namespace DasBlog.Web.Models.AdminViewModels
 {
-	public class SiteViewModel
+	public class SiteViewModel : IValidatableObject
 	{
 		[DisplayName("Title")]
 		[Description("Main title of the blog")]
@@ -238,6 +240,10 @@ namespace DasBlog.Web.Models.AdminViewModels
 		[Description("")]
 		public int SmtpPort { get; set; }
 
+		[DisplayName("Mail provider")]
+		[Description("")]
+		public MailProviderType MailProvider { get; set; }
+
 		[DisplayName("SMTP user name")]
 		[Description("")]
 		public string SmtpUserName { get; set; }
@@ -261,6 +267,49 @@ namespace DasBlog.Web.Models.AdminViewModels
 		[DisplayName("Valid HTML Tags for comments")]
 		[Description("")]
 		public ValidCommentTagsViewModel [] ValidCommentTags { get;  set; }
+
+		public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+		{
+			if (MailProvider == MailProviderType.Custom)
+			{
+				yield break;
+			}
+
+			if (!EnableSmtpAuthentication)
+			{
+				yield return new ValidationResult("SMTP authentication must remain enabled for SendGrid and Brevo.", new[] { nameof(EnableSmtpAuthentication) });
+			}
+
+			if (string.IsNullOrWhiteSpace(SmtpUserName))
+			{
+				yield return new ValidationResult("SMTP username is required for the selected mail provider.", new[] { nameof(SmtpUserName) });
+				yield break;
+			}
+
+			if (MailProvider == MailProviderType.SendGrid
+				&& !string.Equals(SmtpUserName.Trim(), "apikey", StringComparison.OrdinalIgnoreCase))
+			{
+				yield return new ValidationResult("The SendGrid SMTP username must be 'apikey'.", new[] { nameof(SmtpUserName) });
+			}
+
+			if (MailProvider == MailProviderType.Brevo)
+			{
+				var validEmail = true;
+				try
+				{
+					_ = new System.Net.Mail.MailAddress(SmtpUserName.Trim());
+				}
+				catch (FormatException)
+				{
+					validEmail = false;
+				}
+
+				if (!validEmail)
+				{
+					yield return new ValidationResult("The Brevo SMTP username must be a valid login email address.", new[] { nameof(SmtpUserName) });
+				}
+			}
+		}
 
 		public void NormalizeValidCommentTags()
 		{
