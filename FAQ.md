@@ -21,6 +21,10 @@ A: Add to an existing issue or create a [new issue via GitHub](https://github.co
 A: Please jump right in!  We love contributions and we are happy to offer advice via Issues or PRs.
 
 
+#### Q: How do I configure email notifications with SendGrid or Brevo?
+A: Open **Admin > Settings**, expand **Email Notifications**, and select **SendGrid** or **Brevo** from the **Mail provider** list. DasBlog will fill the relay server and port: SendGrid uses `smtp.sendgrid.net:587` with username `apikey` and a SendGrid API key as the password; Brevo uses `smtp-relay.brevo.com:587` with your Brevo login email as the username and a Brevo SMTP key as the password. Keep SMTP authentication enabled and configure the from email address for your verified sender identity. Existing configurations default to **Custom SMTP**, even if they already use SendGrid or Brevo; their settings remain unchanged unless you select a provider. No configuration migration is needed.
+
+
 #### Q: Does DasBlog Core  support themes?
 A: Yes. Themes are developed using Razor! More details can be found [here](https://github.com/poppastring/dasblog-core/wiki/4.-Designing-a-theme).
 

@@ -3,6 +3,7 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
+using System.Xml.Serialization;
 using DasBlog.Services.ConfigFile;
 using DasBlog.Services.FileManagement;
 using DasBlog.Services.FileManagement.Interfaces;
@@ -27,6 +28,17 @@ namespace DasBlog.Tests.UnitTests.Services
 				Options.Create(new ConfigFilePathsDataOption { SiteConfigFilePath = siteConfigPath }),
 				NullLogger<SiteConfigFileService>.Instance,
 				new AtomicFileWriter());
+		}
+
+		[Fact]
+		public void DeserializeConfig_MissingMailProviderDefaultsToCustom()
+		{
+			var serializer = new XmlSerializer(typeof(SiteConfig));
+			using var reader = new StringReader("<SiteConfig />");
+
+			var config = Assert.IsType<SiteConfig>(serializer.Deserialize(reader));
+
+			Assert.Equal(MailProviderType.Custom, config.MailProvider);
 		}
 
 		[Fact]

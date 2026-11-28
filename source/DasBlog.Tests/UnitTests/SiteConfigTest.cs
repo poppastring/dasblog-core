@@ -1,5 +1,6 @@
 ﻿using DasBlog.Core.Common.Comments;
 using DasBlog.Core.Configuration;
+using DasBlog.Services.ConfigFile;
 using DasBlog.Services.ConfigFile.Interfaces;
 using newtelligence.DasBlog.Runtime;
 using System;
@@ -63,6 +64,7 @@ namespace DasBlog.Tests.UnitTests
 		public bool ShowCommentsWhenViewingEntry { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 		public int ContentLookaheadDays { get => 2; set => throw new NotImplementedException(); }
 		public int SmtpPort { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+		public MailProviderType MailProvider { get => MailProviderType.Custom; set => throw new NotImplementedException(); }
 		public bool CommentsAllowGravatar { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 		public string CommentsGravatarNoImgPath { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 		public string CommentsGravatarSize { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }

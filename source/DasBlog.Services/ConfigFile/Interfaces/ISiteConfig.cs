@@ -159,6 +159,8 @@ namespace DasBlog.Services.ConfigFile.Interfaces
 
         int SmtpPort { get; set; }
 
+        MailProviderType MailProvider { get; set; }
+
         bool CommentsAllowGravatar { get; set; }
 
         string CommentsGravatarNoImgPath { get; set; }

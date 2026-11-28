@@ -86,6 +86,16 @@ namespace DasBlog.Web.Controllers
 		{
 			settings.SiteConfig.NormalizeValidCommentTags();
 
+			var effectiveSmtpPassword = string.IsNullOrEmpty(settings.SiteConfig.SmtpPassword)
+				? dasBlogSettings.SiteConfiguration.SmtpPassword
+				: settings.SiteConfig.SmtpPassword;
+
+			if (settings.SiteConfig.MailProvider != MailProviderType.Custom
+				&& string.IsNullOrWhiteSpace(effectiveSmtpPassword))
+			{
+				ModelState.AddModelError("SiteConfig.SmtpPassword", "An SMTP API key or password is required for the selected mail provider.");
+			}
+
 			//save settings and reload...
 			if (ModelState.ErrorCount > 0)
 			{

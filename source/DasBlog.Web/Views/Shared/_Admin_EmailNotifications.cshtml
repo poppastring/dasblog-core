@@ -5,12 +5,32 @@
 
 <h3 class="dbc-settings-subsection-title">SMTP server</h3>
 <div class="row gy-2 gx-3 align-items-md-start mb-3">
-    <div class="alert alert-info mt-2 mb-3" role="alert">
-        <i class="fa-solid fa-circle-info me-2"></i>
-        <strong>Tip:</strong> We recommend using an email relay service like <a href="https://sendgrid.com" target="_blank" rel="noopener">SendGrid</a> (free tier available). 
-        Set SMTP Server to <code>smtp.sendgrid.net</code>, port <code>587</code>, username to <code>apikey</code>, and password to your API key.
+    <div class="col-md-6">
+        <div class="form-floating">
+            <select asp-for="SiteConfig.MailProvider" class="form-select" id="mailProvider">
+                <option value="SendGrid">SendGrid</option>
+                <option value="Brevo">Brevo</option>
+                <option value="Custom">Custom SMTP</option>
+            </select>
+            <label class="form-label" for="mailProvider">Mail provider</label>
+        </div>
     </div>
+</div>
 
+<div id="sendGridHelp" class="alert alert-info mt-2 mb-3 provider-help" role="alert">
+    <i class="fa-solid fa-circle-info me-2"></i>
+    <strong>SendGrid:</strong> Use <code>smtp.sendgrid.net</code>, port <code>587</code>, username <code>apikey</code>, and a SendGrid API key as the password. SMTP authentication must remain enabled.
+</div>
+<div id="brevoHelp" class="alert alert-info mt-2 mb-3 provider-help" role="alert">
+    <i class="fa-solid fa-circle-info me-2"></i>
+    <strong>Brevo:</strong> Use <code>smtp-relay.brevo.com</code>, port <code>587</code>, your Brevo login email as the username, and a Brevo SMTP key as the password. SMTP authentication must remain enabled.
+</div>
+<div id="customHelp" class="alert alert-secondary mt-2 mb-3 provider-help" role="alert">
+    <i class="fa-solid fa-circle-info me-2"></i>
+    Enter the server, port, and authentication details supplied by your SMTP provider.
+</div>
+
+<div class="row gy-2 gx-3 align-items-md-start mb-3">
     <div class="col-md-6">
         <div class="form-floating">
             @Html.TextBoxFor(m => @Model.SiteConfig.SmtpServer, null, new { @class = "form-control", id = "smtpServer" })
@@ -30,14 +50,14 @@
 <div class="row gy-2 gx-3 align-items-md-start mb-3">
     <div class="col-md-6">
         <div class="form-floating">
-            @Html.TextBoxFor(m => @Model.SiteConfig.SmtpUserName, null, new { @class = "form-control", id = "smtpUserName" })
+            @Html.TextBoxFor(m => @Model.SiteConfig.SmtpUserName, null, new { @class = "form-control", id = "smtpUserName", autocomplete = "username" })
             @Html.LabelFor(m => @Model.SiteConfig.SmtpUserName, null, new { @class = "form-label", @for = "smtpUserName" })
         </div>
         @Html.ValidationMessageFor(m => m.SiteConfig.SmtpUserName, null, new { @class = "text-danger" })
     </div>
     <div class="col-md-6">
         <div class="form-floating">
-            @Html.PasswordFor(m => @Model.SiteConfig.SmtpPassword, new { @class = "form-control", id = "smtpPassword" })
+            @Html.PasswordFor(m => @Model.SiteConfig.SmtpPassword, new { @class = "form-control", id = "smtpPassword", autocomplete = "new-password", data_preserved_password = !string.IsNullOrEmpty(dasBlogSettings.SiteConfiguration.SmtpPassword) })
             @Html.LabelFor(m => @Model.SiteConfig.SmtpPassword, null, new { @class = "form-label", @for = "smtpPassword" })
         </div>
         @Html.ValidationMessageFor(m => m.SiteConfig.SmtpPassword, null, new { @class = "text-danger" })
@@ -78,3 +98,77 @@
         <input asp-controller="Admin" asp-action="TestEmail" type="submit" name="submit" value="Send test email" class="btn btn-outline-primary" />
     </div>
 </div>
+
+<script>
+    (function () {
+        const provider = document.getElementById('mailProvider');
+        const server = document.getElementById('smtpServer');
+        const port = document.getElementById('smtpPort');
+        const username = document.getElementById('smtpUserName');
+        const password = document.getElementById('smtpPassword');
+        const passwordIsPreserved = password.dataset.preservedPassword === 'True';
+        const fromEmail = document.getElementById('smtpFromEmail');
+        const authentication = document.querySelector('[name="SiteConfig.EnableSmtpAuthentication"]');
+        const ssl = document.querySelector('[name="SiteConfig.UseSSLForSMTP"]');
+
+        function updateProviderHelp() {
+            const relayProvider = provider.value === 'SendGrid' || provider.value === 'Brevo';
+            username.required = relayProvider;
+            username.setAttribute('aria-describedby', relayProvider ? 'smtpCredentialHint' : '');
+
+            password.required = relayProvider && !passwordIsPreserved;
+
+            document.querySelectorAll('.provider-help').forEach(function (help) {
+                help.classList.add('d-none');
+            });
+
+            const helpId = provider.value === 'SendGrid'
+                ? 'sendGridHelp'
+                : provider.value === 'Brevo'
+                    ? 'brevoHelp'
+                    : 'customHelp';
+            document.getElementById(helpId).classList.remove('d-none');
+
+            let credentialHint = document.getElementById('smtpCredentialHint');
+            if (!credentialHint) {
+                credentialHint = document.createElement('div');
+                credentialHint.id = 'smtpCredentialHint';
+                credentialHint.className = 'form-text';
+                document.querySelector('[name="SiteConfig.SmtpUserName"]').closest('.form-floating').after(credentialHint);
+            }
+            credentialHint.textContent = relayProvider
+                ? passwordIsPreserved
+                    ? 'Authentication is required. The existing API key/password is preserved unless replaced.'
+                    : 'Authentication is required. A username and API key/password are both required.'
+                : '';
+        }
+
+        provider.addEventListener('change', function () {
+            if (provider.value === 'SendGrid') {
+                server.value = 'smtp.sendgrid.net';
+                port.value = '587';
+                username.value = 'apikey';
+                authentication.checked = true;
+                ssl.checked = true;
+            } else if (provider.value === 'Brevo') {
+                server.value = 'smtp-relay.brevo.com';
+                port.value = '587';
+                if (!username.value && fromEmail.value) {
+                    username.value = fromEmail.value;
+                }
+                authentication.checked = true;
+                ssl.checked = true;
+            }
+
+            updateProviderHelp();
+        });
+
+        authentication.addEventListener('change', function () {
+            if ((provider.value === 'SendGrid' || provider.value === 'Brevo') && !authentication.checked) {
+                authentication.checked = true;
+            }
+        });
+
+        updateProviderHelp();
+    }());
+</script>

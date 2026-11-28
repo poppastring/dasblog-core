@@ -47,6 +47,13 @@ using System.Xml.Serialization;
 
 namespace DasBlog.Services.ConfigFile
 {
+	public enum MailProviderType
+	{
+		Custom = 0,
+		SendGrid = 1,
+		Brevo = 2
+	}
+
 	[Serializable]
 	[XmlType("SiteConfig")]
 	public class SiteConfig : ISiteConfig
@@ -133,6 +140,7 @@ namespace DasBlog.Services.ConfigFile
         public bool ShowCommentsWhenViewingEntry { get; set; }
         public int ContentLookaheadDays { get; set; }
         public int SmtpPort { get; set; }
+        public MailProviderType MailProvider { get; set; } = MailProviderType.Custom;
         public bool CommentsAllowGravatar { get; set; }
         public string CommentsGravatarNoImgPath { get; set; }
         public string CommentsGravatarSize { get; set; }
